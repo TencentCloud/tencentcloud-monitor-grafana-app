@@ -1,0 +1,85 @@
+{
+  "type": "datasource",
+  "name": "Tencent Cloud Monitor Datasource",
+  "id": "tencentcloud-monitor-datasource",
+  "metrics": true,
+  "annotations": true,
+  "queryOptions": {
+    "maxDataPoints": true
+  },
+  "routes": [
+    {
+      "path": "cvm",
+      "url": "https://cvm.tencentcloudapi.com",
+      "headers": [
+        {"name": "Content-Type", "content": "application/json"}
+      ]
+    },
+    {
+      "path": "fsi/cvm/shanghai",
+      "url": "https://cvm.ap-shanghai-fsi.tencentcloudapi.com",
+      "headers": [
+        {"name": "Content-Type", "content": "application/json"}
+      ]
+    },
+    {
+      "path": "fsi/cvm/shenzhen",
+      "url": "https://cvm.ap-shenzhen-fsi.tencentcloudapi.com",
+      "headers": [
+        {"name": "Content-Type", "content": "application/json"}
+      ]
+    },
+    {
+      "path": "monitor",
+      "url": "https://monitor.tencentcloudapi.com",
+      "headers": [
+        {"name": "Content-Type", "content": "application/json"}
+      ]
+    },
+    {
+      "path": "fsi/monitor/shanghai",
+      "url": "https://monitor.ap-shanghai-fsi.tencentcloudapi.com",
+      "headers": [
+        {"name": "Content-Type", "content": "application/json"}
+      ]
+    },
+    {
+      "path": "fsi/monitor/shenzhen",
+      "url": "https://monitor.ap-shenzhen-fsi.tencentcloudapi.com",
+      "headers": [
+        {"name": "Content-Type", "content": "application/json"}
+      ]
+    },
+    {
+      "path": "cdb",
+      "url": "https://cdb.tencentcloudapi.com",
+      "headers": [
+        {"name": "Content-Type", "content": "application/json"}
+      ]
+    },
+    {
+      "path": "fsi/cdb/shanghai",
+      "url": "https://cdb.ap-shanghai-fsi.tencentcloudapi.com",
+      "headers": [
+        {"name": "Content-Type", "content": "application/json"}
+      ]
+    },
+    {
+      "path": "fsi/cdb/shenzhen",
+      "url": "https://cdb.ap-shenzhen-fsi.tencentcloudapi.com",
+      "headers": [
+        {"name": "Content-Type", "content": "application/json"}
+      ]
+    }
+  ],
+  "info": {
+    "author": {
+      "name": "susiezhao, dantestao ",
+      "url": ""
+    },
+    "logos": {
+      "small": "img/tencent-cloud.svg",
+      "large": "img/tencent-cloud.svg"
+    }
+  }
+}

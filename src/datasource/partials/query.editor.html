@@ -1,0 +1,172 @@
+<query-editor-row query-ctrl="ctrl" class="generic-datasource-query-row" has-text-edit-mode="true">
+  <div class="gf-form-inline">
+    <div class="gf-form">
+      <label class="gf-form-label query-keyword width-9">Namespace</label>
+      <div class="gf-form-select-wrapper gf-form-select-wrapper--caret-indent">
+        <select class="gf-form-input min-width-12" ng-model="ctrl.target.namespace" ng-options="f as f for f in ctrl.namespaces"
+          ng-change="ctrl.onNamespaceChange()"></select>
+      </div>
+    </div>
+  </div>
+
+  <div class="gf-form-inline">
+    <div class="gf-form">
+      <label class="gf-form-label query-keyword width-9">Region</label>
+      <div class="gf-form-select-wrapper gf-form-select-wrapper--caret-indent">
+        <gf-form-dropdown model="ctrl.target[ctrl.target.service].region" allow-custom="true" lookup-text="true" get-options="ctrl.getRegions($query)"
+          on-change="ctrl.onRegionChange()" css-class="min-width-10">
+        </gf-form-dropdown>
+      </div>
+    </div>
+  </div>
+  <div class="gf-form-inline">
+    <div class="gf-form">
+      <label class="gf-form-label query-keyword width-9">MetricName</label>
+      <div class="gf-form-select-wrapper gf-form-select-wrapper--caret-indent">
+        <gf-form-dropdown model="ctrl.target[ctrl.target.service].metricName" allow-custom="true" lookup-text="true" get-options="ctrl.getMetrics($query)"
+          on-change="ctrl.onMetricChange()" css-class="min-width-10">
+        </gf-form-dropdown>
+      </div>
+    </div>
+    <div class="gf-form gf-form-label--grow" ng-if="!!ctrl.getMetriNameDesc()">
+      <label class="gf-form-label gf-form-label--grow">({{ctrl.getMetriNameDesc()}})</label>
+    </div>
+  </div>
+
+  <div class="gf-form-inline">
+    <div class="gf-form">
+      <label class="gf-form-label query-keyword width-9">Period</label>
+      <div class="gf-form-select-wrapper gf-form-select-wrapper--caret-indent">
+        <select class="gf-form-input min-width-10" ng-change="ctrl.refresh()" ng-model="ctrl.target[ctrl.target.service].period"
+          ng-options="f for f in ctrl.periodSet"></select>
+      </div>
+    </div>
+  </div>
+
+  <div ng-if="ctrl.target.service === 'cvm'">
+    <div class="gf-form-inline">
+      <div class="gf-form">
+        <label class="gf-form-label query-keyword width-9">Intance</label>
+        <div class="gf-form-select-wrapper gf-form-select-wrapper--caret-indent">
+          <select class="gf-form-input min-width-8" ng-change="ctrl.onInstanceAliasChange()" ng-model="ctrl.target.cvm.instanceAlias"
+            ng-options="f.value as f.text for f in ctrl.instanceAliasSet"></select>
+        </div>
+        <div class="gf-form-select-wrapper gf-form-select-wrapper--caret-indent">
+          <gf-form-dropdown model="ctrl.target.cvm.instance" allow-custom="true" lookup-text="true" get-options="ctrl.getInstances($query)"
+            on-change="ctrl.onInstanceChange()" css-class="min-width-10">
+          </gf-form-dropdown>
+        </div>
+      </div>
+    </div>
+
+    <div class="qcloud-sub-params" ng-if="!ctrl.isVariable('instance')">
+      <label class="gf-form-label qcloud-info-label">
+        Instances are queried by following params.
+        <a target="_blank" href="https://cloud.tencent.com/document/api/213/15728">Click here to get API doc.</a>
+      </label>
+      <div class="gf-form-inline">
+        <div class="gf-form">
+          <label class="gf-form-label width-9">Offset</label>
+          <input type="number" ng-model="ctrl.target.cvm.queries.Offset" class="gf-form-input width-10" ng-min="0" ng-change="ctrl.onInstanceQueryChange()">
+        </div>
+      </div>
+      <div class="gf-form-inline">
+        <div class="gf-form">
+          <label class="gf-form-label width-9">Limit</label>
+          <input type="number" ng-model="ctrl.target.cvm.queries.Limit" class="gf-form-input width-10" ng-min="1" ng-max="100" ng-change="ctrl.onInstanceQueryChange()">
+        </div>
+      </div>
+      <div class="gf-form-inline">
+        <div class="gf-form">
+          <label class="gf-form-label width-9">InstanceIds</label>
+          <gf-form-switch class="gf-form qcloud-switch" label-class="width-7" checked="ctrl.target.cvm.queries.instanceIdsChecked"
+            switch-class="max-width-5" on-change="ctrl.onCVMInstanceIdsChecked()"></gf-form-switch>
+        </div>
+      </div>
+      <div class="gf-form-inline qcloud-sub-params" ng-if="ctrl.target.cvm.queries.instanceIdsChecked">
+        <multi-condition type="'input'" maxCond="100" value="ctrl.target.cvm.queries.InstanceIds" on-change="ctrl.onInstanceQueryChange()">
+        </multi-condition>
+      </div>
+      <div class="gf-form-inline">
+        <div class="gf-form">
+          <label class="gf-form-label width-9">Filters</label>
+          <gf-form-switch class="gf-form qcloud-switch" label-class="width-7" checked="ctrl.target.cvm.queries.filtersChecked" switch-class="max-width-5"
+            on-change="ctrl.onCVMFiltersChecked()"></gf-form-switch>
+        </div>
+      </div>
+      <div ng-if="ctrl.target.cvm.queries.filtersChecked" class="qcloud-sub-params">
+        <div class="gf-form-inline" ng-repeat="field in ctrl.CVMFilterFieldsDescriptor">
+          <label class="gf-form-label width-12">
+            {{ field.key }}
+            <info-popover mode="right-normal">
+              {{ field.cnDescriptor }}
+              <a target="_blank" href="{{field.link}}" ng-if="field.link">**Detail.**</a>
+            </info-popover>
+          </label>
+          <multi-condition ng-if="field.type === 'dropdown'" type="'dropdown'" maxCond="5" value="ctrl.target.cvm.queries.Filters[field.key]"
+            get-options="ctrl.getCVMDropdown(field.key)" on-change="ctrl.onInstanceQueryChange()">
+          </multi-condition>
+          <multi-condition ng-if="field.type === 'inputNumber'" type="'inputNumber'" maxCond="5" value="ctrl.target.cvm.queries.Filters[field.key]"
+            maxNum="field.max" minNum="field.min" on-change="ctrl.onInstanceQueryChange()">
+          </multi-condition>
+          <multi-condition ng-if="field.type === 'input'" type="'input'" maxCond="5" value="ctrl.target.cvm.queries.Filters[field.key]"
+            on-change="ctrl.onInstanceQueryChange()">
+          </multi-condition>
+          <custom-select-dropdown ng-if="field.type === 'select'" value="ctrl.target.cvm.queries.Filters[field.key]" options="field.list"
+            multiple="true" on-change="ctrl.onInstanceQueryChange()"></custom-select-dropdown>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div ng-if="ctrl.target.service === 'cdb'">
+    <div class="gf-form-inline">
+      <div class="gf-form">
+        <label class="gf-form-label query-keyword width-9">Intance</label>
+        <div class="gf-form-select-wrapper gf-form-select-wrapper--caret-indent">
+          <select class="gf-form-input min-width-8" ng-change="ctrl.onInstanceAliasChange()" ng-model="ctrl.target.cdb.instanceAlias"
+            ng-options="f.value as f.text for f in ctrl.instanceAliasSet"></select>
+        </div>
+        <div class="gf-form-select-wrapper gf-form-select-wrapper--caret-indent">
+          <gf-form-dropdown model="ctrl.target.cdb.instance" allow-custom="true" lookup-text="true" get-options="ctrl.getInstances($query)"
+            on-change="ctrl.onInstanceChange()" css-class="min-width-10">
+          </gf-form-dropdown>
+        </div>
+      </div>
+    </div>
+
+    <div class="qcloud-sub-params" ng-if="!ctrl.isVariable('instance')">
+      <label class="gf-form-label qcloud-info-label">
+        Instances are queried by following params.
+        <a target="_blank" href="https://cloud.tencent.com/document/api/236/15872">Click here to get API doc.</a>
+      </label>
+      <div class="gf-form-inline" ng-repeat="field in ctrl.CDBFieldsDescriptor">
+        <div class="gf-form">
+          <label class="gf-form-label width-10">
+            {{ field.key }}
+            <info-popover mode="right-normal">
+              {{ field.cnDescriptor }}
+              <a target="_blank" href="{{field.link}}" ng-if="field.link">**Detail.**</a>
+            </info-popover>
+          </label>
+          <input ng-if="field.type === 'inputnumber'" style="margin-right:2px" type="number" ng-model="ctrl.target.cdb.queries[field.key]"
+            ng-change="ctrl.onInstanceQueryChange()" class="gf-form-input width-10" ng-min="field.min" ng-max="field.max">
+          <input ng-if="field.type === 'input'" style="margin-right:2px" type="text" ng-model="ctrl.target.cdb.queries[field.key]"
+            ng-change="ctrl.onInstanceQueryChange()" class="gf-form-input width-10">
+          <multi-condition ng-if="field.type === 'inputmulti'" type="'input'" value="ctrl.target.cdb.queries[field.key]" on-change="ctrl.onInstanceQueryChange()"></multi-condition>
+          <multi-condition ng-if="field.type === 'dropdown'" type="'dropdown'" value="ctrl.target.cdb.queries[field.key]" on-change="ctrl.onInstanceQueryChange()"
+            get-options="ctrl.getCDBDropdown(field.key)"></multi-condition>
+          <custom-select-dropdown ng-if="field.type === 'select'" value="ctrl.target.cdb.queries[field.key]" options="field.list" multiple="field.multiple || false"
+            on-change="ctrl.onInstanceQueryChange()"></custom-select-dropdown>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  </div>
+
+  <!-- 全局报错提示 -->
+  <div class="gf-form" ng-show="ctrl.lastQueryError">
+    <pre class="gf-form-pre alert alert-error">{{ctrl.lastQueryError}}</pre>
+  </div>
+</query-editor-row>

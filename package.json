@@ -1,0 +1,42 @@
+{
+  "name": "tencentcloud-monitor-grafana-app",
+  "private": false,
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "build": "webpack --config webpack.config.prod.js",
+    "analyze": "webpack --config webpack.config.analyze.js"
+  },
+  "author": "susiezhao, dantestao",
+  "license": "ISC",
+  "bugs": {
+    "url": ""
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.4.0",
+    "@babel/plugin-transform-runtime": "^7.4.0",
+    "@babel/polyfill": "^7.4.0",
+    "@babel/preset-env": "^7.4.2",
+    "@types/grafana": "https://git@github.com/CorpGlory/types-grafana.git",
+    "@types/lodash": "^4.14.123",
+    "@types/moment": "^2.13.0",
+    "@types/angular": "^1.6.6",
+    "clean-webpack-plugin": "^2.0.1",
+    "copy-webpack-plugin": "^5.0.2",
+    "css-loader": "^2.1.1",
+    "ng-annotate-webpack-plugin": "^0.3.0",
+    "style-loader": "^0.23.1",
+    "ts-loader": "^5.3.3",
+    "webpack": "^4.29.6",
+    "webpack-bundle-analyzer": "^3.3.2",
+    "webpack-cli": "^3.3.0"
+  },
+  "dependencies": {
+    "angular": "1.6.6",
+    "crypto-js": "^3.1.9-1",
+    "lodash": "^4.17.11",
+    "moment": "^2.24.0"
+  },
+  "homepage": ""
+}

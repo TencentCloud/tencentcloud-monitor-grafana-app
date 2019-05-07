@@ -1,0 +1,30 @@
+{
+  "type": "app",
+  "name": "Tencent Cloud Monitor",
+  "id": "tencentcloud-monitor-grafana-app",
+
+  "info": {
+    "description": "Tencent Cloud Monitor App for Grafana",
+    "author": {
+      "name": "susiezhao,dantestao"
+    },
+    "keywords": ["tencent cloud monitor for grafana"],
+    "logos": {
+      "small": "img/tencent-cloud.svg",
+      "large": "img/tencent-cloud.svg"
+    },
+    "version": "1.0.0",
+    "updated": "2019-04-10"
+  },
+
+  "includes": [
+    {"type": "dashboard", "name": "【实例】CDB 单机监控", "path": "dashboards/example_cdb_dashboard.json"},
+    {"type": "dashboard", "name": "【实例】CVM 单机监控", "path": "dashboards/example_cvm_dashboard.json"},
+    {"type": "datasource", "name": "Tencent Cloud Monitor Datasource"}
+  ],
+
+  "dependencies": {
+    "grafanaVersion": "6.x.x",
+    "plugins": []
+  }
+}
