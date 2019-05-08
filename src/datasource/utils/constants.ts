@@ -17,6 +17,7 @@ function getServiceFromNamespace(namespace) {
   return _.get(_.find(services, service => service.namespace === namespace), 'service');
 }
 
+// parse template variable query params
 function parseMetricQuery(query = '') {
   if (!query) {
     return {};
@@ -26,7 +27,7 @@ function parseMetricQuery(query = '') {
   _.forEach(queries, item => {
     const str = _.split(item, '=');
     if (_.trim(_.get(str, '0', ''))) {
-      result[_.toLower(_.trim(_.get(str, '0', '')))] = _.trim(_.get(str, '1', ''))
+      result[_.toLower(_.trim(_.get(str, '0', '')))] = _.trim(_.get(str, '1', ''));
     }
   });
   return result;
@@ -49,6 +50,7 @@ function parseVariableFormat(varname = '') {
   return { varname, varFlag };
 }
 
+// get the actual value of template variable
 function replaceVariable(templateSrv, scopedVars, field, multiple = false) {
   const { varname, varFlag } = parseVariableFormat(field);
   let replaceVar = templateSrv.replace(varname, scopedVars);
@@ -61,6 +63,7 @@ function replaceVariable(templateSrv, scopedVars, field, multiple = false) {
   return replaceVar;
 }
 
+// get dimensions for instance query param
 function getDimensions(obj) {
   if (_.isEmpty(obj)) {
     return [];
@@ -74,6 +77,7 @@ function getDimensions(obj) {
   return dimensions;
 }
 
+// parse query data result for panel
 function parseQueryResult(responses, instances) {
   const instanceList = instances;
   let result: any[] = [];

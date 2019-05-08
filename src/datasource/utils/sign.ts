@@ -33,6 +33,7 @@ const algorithm = 'TC3-HMAC-SHA256';
 
 export class Sign {
   /**
+   * Tencent Cloud API Signature v3 reference: https://cloud.tencent.com/document/api/213/30654
    * secretId: SecretId for identifying identity that is applied for on Cloud API Key.
    * A SecretId corresponds to a unique SecretKey, which is used to generate the request Signature.
    * secretKey: SecretKey is used to encrypt the signature string and verify the signature string on the server

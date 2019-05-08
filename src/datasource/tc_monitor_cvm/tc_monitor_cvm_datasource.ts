@@ -6,14 +6,14 @@ import { replaceVariable, cvmInvalidMetrics, cvmInstanceAliasList, finaceRegions
 export default class TCMonitorCVMDatasource {
   Namespace = 'QCE/CVM';
   servicesMap = {
-    // CVM API
+    // cvm api info 
     cvm: {
       service: 'cvm',
       version: '2017-03-12',
       path: '/cvm',
       host: 'cvm.tencentcloudapi.com',
     },
-    // Monitor API
+    // monitor api info
     monitor: {
       service: 'monitor',
       version: '2018-07-24',
@@ -21,8 +21,8 @@ export default class TCMonitorCVMDatasource {
       host: 'monitor.tencentcloudapi.com',
     },
   };
-  // finace path and host
-  finacePathHost = {
+  // finance path and host
+  financePathHost = {
     cvm: {
       'ap-shanghai-fsi': {
         path: '/fsi/cvm/shanghai',
@@ -58,12 +58,15 @@ export default class TCMonitorCVMDatasource {
     this.secretKey = (instanceSettings.jsonData || {}).secretKey || '';
   }
 
+  // handle template variable query
   metricFindQuery(query: object) {
+    // query region list
     const regionQuery = query['action'].match(/^DescribeRegions$/i);
     if (regionQuery) {
       return this.getRegions();
     }
 
+    // query cdb instance list
     const instancesQuery = query['action'].match(/^DescribeInstances/i) && !!query['region'];
     if (instancesQuery && this.toVariable(query['region'])) {
       return this.getInstances(this.toVariable(query['region'])).then(result => {
@@ -87,20 +90,24 @@ export default class TCMonitorCVMDatasource {
     }
   }
 
+  // get service detail info by region and service
   getServiceInfo(region, service) {
     return Object.assign({}, this.servicesMap[service] || {}, this.getHostAndPath(region, service));
   }
 
+  // get host and path for finance regions
   getHostAndPath(region, service) {
     if (_.indexOf(finaceRegions, region) === -1) {
       return {};
     }
-    return _.find( _.find(this.finacePathHost, (__, key) => key === service), (__, key) => key === region) || {};
+    return _.find( _.find(this.financePathHost, (__, key) => key === service), (__, key) => key === region) || {};
   }
 
+  // query data for panel
   query(options) {
     let allInstances: any[] = [];
     const queries = _.filter(options.targets, item => {
+      // get validated targets
       return (
         item.cvm.hide !== true &&
         !!item.namespace &&
@@ -112,6 +119,7 @@ export default class TCMonitorCVMDatasource {
       let instances = replaceVariable(this.templateSrv, options.scropedVars, target.cvm.instance, true);
       const Instances: any[] = [];
       if (_.isArray(instances)) {
+        // handle multiple instances
         _.forEach(instances, instance => {
           instance = _.isString(instance) ? JSON.parse(instance) : instance;
           allInstances.push(instance);
@@ -122,6 +130,7 @@ export default class TCMonitorCVMDatasource {
           Instances.push({ Dimensions: getDimensions(dimensionObject) });
         });
       } else {
+        // handle single instance
         instances = _.isString(instances) ? JSON.parse(instances) : instances;
         allInstances.push(instances);
         const dimensionObject = target.cvm.dimensionObject;
@@ -155,14 +164,17 @@ export default class TCMonitorCVMDatasource {
       });
   }
 
+  // get the actual value of template variable
   toVariable(metric: string) {
     return this.templateSrv.replace((metric || '').trim());
   }
 
+  // check whether field is validated or not
   isValidConfigField(field: string) {
     return field && field.length > 0;
   }
 
+  // query monitor data
   getMonitorData(params, region) {
     const serviceMap = this.getServiceInfo(region, 'monitor');
     return this.doRequest({
@@ -171,6 +183,7 @@ export default class TCMonitorCVMDatasource {
     }, serviceMap.service, { action: 'GetMonitorData', region });
   }
 
+  // get region list
   getRegions() {
     return this.doRequest({
       url: this.url + '/cvm',
@@ -185,6 +198,7 @@ export default class TCMonitorCVMDatasource {
       });
   }
 
+  // get metric list by region
   getMetrics(region = 'ap-guangzhou') {
     const serviceMap = this.getServiceInfo(region, 'monitor');
     return this.doRequest({
@@ -198,6 +212,7 @@ export default class TCMonitorCVMDatasource {
       });
   }
 
+  // get cvm instances
   getInstances(region, params = { }) {
     params = Object.assign({ Offset: 0, Limit: 100 }, params);
     const serviceMap = this.getServiceInfo(region, 'cvm');
@@ -210,6 +225,7 @@ export default class TCMonitorCVMDatasource {
       });
   }
 
+  // get zone list by region
   getZones(region) {
     const serviceMap = this.getServiceInfo(region, 'cvm');
     return this.doRequest({
@@ -225,6 +241,7 @@ export default class TCMonitorCVMDatasource {
       });
   }
 
+  // test connections of cvm and montior api
   testDatasource() {
     if (!this.isValidConfigField(this.secretId)) {
       return {
@@ -310,6 +327,7 @@ export default class TCMonitorCVMDatasource {
       });
   }
 
+  // request function for tencent cloud monitor
   doRequest(options, service, signObj: any = {}): any {
     const signParams = {
       secretId: this.secretId,
@@ -318,6 +336,7 @@ export default class TCMonitorCVMDatasource {
       ...signObj,
       ...(_.pick(this.getServiceInfo(signObj.region || '', service), ['service', 'host', 'version']) || {}),
     };
+    // get signature
     const sign = new Sign(signParams);
     options.headers = Object.assign(options.headers || {}, { ...sign.getHeader() });
     options.method = 'POST';

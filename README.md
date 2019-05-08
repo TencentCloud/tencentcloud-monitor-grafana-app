@@ -89,7 +89,7 @@
 模板变量 [Variables](https://grafana.com/docs/reference/templating/) 是 Grafana 提供的一种 Dashboard 优化特性，用于创建高度可复用和交互式 Dashboard。模板变量的一般思想是允许 Grafana 从数据源获得不同的度量，并提供一种无需修改仪表板就可以动态更改它的方法。腾讯云监控应用，目前提供了地域、云服务器实例、云数据库 MySQL 实例 等变量。已经提供的模板变量如下表所示：  
 
 变量        | 示例 | 描述 |
-------------   | -------------
+------------ | ------------  | ------------  |
 地域           |  Namesapce=QCE/CVM&Action=DescribeRegions | 参考[地域接口文档](https://cloud.tencent.com/document/api/213/15708)。`Action` 固定为 `DescribeRegions`，`Namespace` 为云产品对应的命名空间，如 `QCE/CVM` `QCE/CDB`等。地区作为变量模板，只支持单选，如设置成多选或者选中 `All`, 默认选中第一个地区值。
 云服务器实例        |   Namespace=QCE/CVM&Region=ap-beijing&Action=DescribeInstances | 参考[云服务器查询实例列表接口文档](https://cloud.tencent.com/document/api/213/15728)。`Namespace` 固定为`QCE/CVM`，`Action` 固定为`DescribeInstances`。`Region` 为地域参数，可以为特定的地域值，如`ap-beijing`；也可以为变量值，如`$region`。云服务器实例作为模板变量，同时支持单选和多选。
 云数据库 MySQL 实例  |  Namesapce=QCE/CDB&Region=ap-beijing&Action=DescribeDBInstances | 参考[云数据库MySQL查询实例列表接口文档](https://cloud.tencent.com/document/api/236/15872)。`Namespace` 固定为`QCE/CDB`，`Action` 固定为`DescribeDBInstances`。`Region` 为地域参数，可以为特定的地域值，如`ap-beijing`；也可以为变量值，如`$region`。云数据库实例作为模板变量，同时支持单选和多选。

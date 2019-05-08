@@ -6,21 +6,21 @@ import { finaceRegions, replaceVariable, getDimensions, cdbInstanceAliasList, pa
 export default class TCMonitorCDBDatasource {
   Namespace = 'QCE/CDB';
   servicesMap = {
-    // CVM API
-     cvm: {
+    // cvm api info
+    cvm: {
       service: 'cvm',
       version: '2017-03-12',
       path: '/cvm',
       host: 'cvm.tencentcloudapi.com',
     },
-    // CDB API
+    // cdb api info
     cdb: {
       service: 'cdb',
       version: '2017-03-20',
       path: '/cdb',
       host: 'cdb.tencentcloudapi.com',
     },
-    // Monitor API
+    // monitor api info
     monitor: {
       service: 'monitor',
       version: '2018-07-24',
@@ -28,8 +28,8 @@ export default class TCMonitorCDBDatasource {
       host: 'monitor.tencentcloudapi.com',
     }
   };
-  // finace path and host
-  finacePathHost = {
+  // finance path and host
+  financePathHost = {
     cvm: {
       'ap-shanghai-fsi': {
         path: '/fsi/cvm/shanghai',
@@ -75,12 +75,15 @@ export default class TCMonitorCDBDatasource {
     this.secretKey = (instanceSettings.jsonData || {}).secretKey || '';
   }
 
+  // handle template variable query
   metricFindQuery(query: object) {
+    // query region list
     const regionQuery = query['action'].match(/^DescribeRegions$/i);
     if (regionQuery) {
       return this.getRegions();
     }
 
+    // query cdb instance list
     const instancesQuery = query['action'].match(/^DescribeDBInstances/i) && !!query['region'];
     if (instancesQuery && this.toVariable(query['region'])) {
       return this.getInstances(this.toVariable(query['region'])).then(result => {
@@ -104,9 +107,11 @@ export default class TCMonitorCDBDatasource {
     }
   }
 
+  // query data for panel
   query(options) {
     let allInstances: any[] = [];
     const queries = _.filter(options.targets, item => {
+      // get validated targets
       return (
         item.cdb.hide !== true &&
         !!item.namespace &&
@@ -118,6 +123,7 @@ export default class TCMonitorCDBDatasource {
       let instances = replaceVariable(this.templateSrv, options.scropedVars, target.cdb.instance, true);
       const Instances: any[] = [];
       if (_.isArray(instances)) {
+        // handle multiple instances
         _.forEach(instances, instance => {
           instance = _.isString(instance) ? JSON.parse(instance) : instance;
           allInstances.push(instance);
@@ -128,6 +134,7 @@ export default class TCMonitorCDBDatasource {
           Instances.push({ Dimensions: getDimensions(dimensionObject) });
         });
       } else {
+        // handle single instance
         instances = _.isString(instances) ? JSON.parse(instances) : instances;
         allInstances.push(instances);
         const dimensionObject = target.cdb.dimensionObject;
@@ -161,10 +168,12 @@ export default class TCMonitorCDBDatasource {
       });
   }
 
+  // get the actual value of template variable
   toVariable(metric: string) {
     return this.templateSrv.replace((metric || '').trim());
   }
 
+  // query monitor data
   getMonitorData(params, region) {
     const serviceMap = this.getServiceInfo(region, 'monitor');
     return this.doRequest({
@@ -173,26 +182,31 @@ export default class TCMonitorCDBDatasource {
     }, serviceMap.service, { action: 'GetMonitorData', region });
   }
 
+  // get service detail info by region and service
   getServiceInfo(region, service) {
     return Object.assign({}, this.servicesMap[service] || {}, this.getHostAndPath(region, service));
   }
 
+  // get host and path for finance regions
   getHostAndPath(region, service) {
     if (_.indexOf(finaceRegions, region) === -1) {
       return {};
     }
-    return _.find( _.find(this.finacePathHost, (__, key) => key === service), (__, key) => key === region) || {};
+    return _.find(_.find(this.financePathHost, (__, key) => key === service), (__, key) => key === region) || {};
   }
 
+  // check whether field is validated or not
   isValidConfigField(field: string) {
     return field && field.length > 0;
   }
 
+  // get region list
   getRegions() {
     return this.doRequest({
       url: this.url + '/cvm',
     }, 'cvm', { action: 'DescribeRegions' })
       .then(response => {
+        // parse response
         return _.filter(
           _.map(response.RegionSet || [], item => {
             return { text: item.RegionName, value: item.Region, RegionState: item.RegionState };
@@ -202,6 +216,7 @@ export default class TCMonitorCDBDatasource {
       });
   }
 
+  // get metric list by region
   getMetrics(region = 'ap-guangzhou') {
     const serviceMap = this.getServiceInfo(region, 'monitor');
     return this.doRequest({
@@ -215,6 +230,7 @@ export default class TCMonitorCDBDatasource {
       });
   }
 
+  // get zone list by region
   getZones(region) {
     const serviceMap = this.getServiceInfo(region, 'cvm');
     return this.doRequest({
@@ -230,6 +246,7 @@ export default class TCMonitorCDBDatasource {
       });
   }
 
+  // get cdb instances
   getInstances(region, params = {}) {
     params = Object.assign({ Offset: 0, Limit: 2000 }, params);
     const serviceMap = this.getServiceInfo(region, 'cdb');
@@ -242,6 +259,7 @@ export default class TCMonitorCDBDatasource {
       });
   }
 
+  // test connections of cvm, cdb and montior api
   testDatasource() {
     if (!this.isValidConfigField(this.secretId)) {
       return {
@@ -343,6 +361,7 @@ export default class TCMonitorCDBDatasource {
       });
   }
 
+  // request function for tencent cloud monitor
   doRequest(options, service, signObj: any = {}): any {
     const signParams = {
       secretId: this.secretId,
@@ -351,6 +370,7 @@ export default class TCMonitorCDBDatasource {
       ...signObj,
       ...(_.pick(this.getServiceInfo(signObj.region || '', service), ['service', 'host', 'version']) || {}),
     };
+    // get signature 
     const sign = new Sign(signParams);
     options.headers = Object.assign(options.headers || {}, { ...sign.getHeader() });
     options.method = 'POST';

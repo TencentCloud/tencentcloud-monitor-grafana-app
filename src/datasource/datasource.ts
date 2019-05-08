@@ -25,10 +25,10 @@ export class TCMonitorDatasource {
     );
   }
 
+  // query data for panel
   query(options) {
     const promises: any[] = [];
-
-    // cvm
+    // get cvm targets and query data
     const cvmOptions = _.cloneDeep(options);
     cvmOptions.targets = _.filter(cvmOptions.targets, ['service', 'cvm']);
     if (cvmOptions.targets.length > 0) {
@@ -37,8 +37,7 @@ export class TCMonitorDatasource {
         promises.push(cvmPromise);
       }
     }
-
-    // cdb
+    // get cdb targets and query data
     const cdbOptions = _.cloneDeep(options);
     cdbOptions.targets = _.filter(cdbOptions.targets, ['service', 'cdb']);
     if (cdbOptions.targets.length > 0) {
@@ -55,7 +54,8 @@ export class TCMonitorDatasource {
       return { data: _.flatten(results) };
     });
   }
-
+ 
+  // handle template variable query
   metricFindQuery(query: string) {
     const queries = parseMetricQuery(query);
     const service = getServiceFromNamespace(queries['namespace'] || '');
@@ -79,7 +79,7 @@ export class TCMonitorDatasource {
     return Promise.resolve([]);
   }
 
-  // Common API
+  // common function
   getNamespaces() {
     const namespaces: string[] = [];
     _.forEach(services, (service) => {
@@ -90,7 +90,7 @@ export class TCMonitorDatasource {
     return namespaces;
   }
 
-  // CVM API
+  // cvm funtions
   getCVMRegions() {
     return this.tcMonitorCVMDatasource.getRegions();
   }
@@ -107,7 +107,7 @@ export class TCMonitorDatasource {
     return this.tcMonitorCVMDatasource.getZones(region);
   }
 
-  // CDB API
+  // cdb functions
   getCDBRegions() {
     return this.tcMonitorCDBDatasource.getRegions();
   }
@@ -124,7 +124,7 @@ export class TCMonitorDatasource {
     return this.tcMonitorCDBDatasource.getZones(region);
   }
 
-
+  // test datasource connection 
   testDatasource() {
     const promises: any[] = [];
     if (this.instanceSettings.jsonData.cvm === true) {
@@ -147,7 +147,7 @@ export class TCMonitorDatasource {
         if (results[i].status !== 'success') {
           status = results[i].status;
         }
-        // Add Namespace
+        // get namespaces for query controller
         if (results[i].namespace) {
           this.namespaces.push(results[i].namespace);
         }
@@ -159,7 +159,5 @@ export class TCMonitorDatasource {
         title: _.upperFirst(status),
       };
     });
-    
   }
-
 }

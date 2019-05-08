@@ -9,6 +9,7 @@ export class TCMonitorDatasourceConfigCtrl {
   constructor($scope, datasourceSrv) {
     this.datasourceSrv = datasourceSrv;
     this.current.jsonData.services = services;
+    // set all services selected
     _.forEach(this.current.jsonData.services, (service) => {
       this.current.jsonData[service.service] = true;
     });
