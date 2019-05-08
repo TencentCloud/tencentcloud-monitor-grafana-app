@@ -1,6 +1,6 @@
 ## 腾讯云监控应用插件
 
-[腾讯云监控](https://cloud.tencent.com/product/cm)为用户提供云服务器、云数据库等多个云产品的负载和性能监控指标，用户可以使用云监控控制台、云监控 API 等方式获取相关监控数据。腾讯云监控应用插件，是一款适配开源软件 Grafana 的应用插件，通过调用[腾讯云监控 API](https://cloud.tencent.com/document/product/248/30342) 的方式获取监控数据，并对数据进行自定义 Dashboard 展示。
+[腾讯云监控](https://cloud.tencent.com/product/cm) 为用户提供云服务器、云数据库等多个云产品的负载和性能监控指标，用户可以使用云监控控制台、云监控 API 等方式获取相关监控数据。腾讯云监控应用插件，是一款适配开源软件 Grafana 的应用插件，通过调用 [腾讯云监控 API](https://cloud.tencent.com/document/product/248/30342) 的方式获取监控数据，并对数据进行自定义 Dashboard 展示。
 
 ## 特点
 
@@ -12,25 +12,25 @@
 
 ## 安装
 
-腾讯云监控应用插件是运行在 Grafana 6.0 或更新的版本上，请优先安装 Grafana 环境，详情参考 [Grafana install](https://grafana.com/docs/project/building_from_source/)。
+腾讯云监控应用插件是运行在 Grafana 6.0 或更新的版本上，请优先安装 Grafana 环境，详情参考 [Grafana 安装文档](https://grafana.com/docs/project/building_from_source/)。
 
 
 ### 基于源码的插件安装
 
-1. 确保本地的 Grafana 是6.0版本或更新的版本；  
+1. 确保本地的 Grafana 是 6.0 版本或更新的版本；  
 2. 下载最新版本的腾讯云监控应用插件代码，并将解压后的代码放置在 Grafana 的插件目录，默认的插件目录是 `/var/lib/grafana/plugins`。此外，亦可放置在 `${GRAFANA_HOME}/data/plugins` 目录；
 3. 重启 Grafana 服务；
-4. 鼠标悬浮左侧导航栏的**齿轮**图标，点击 `Plugins` 选项，进入 Plugins 管理页面，如果插件列表中正常展示 `Tencent Cloud Monitor` APP 插件，表示插件安装成功；
+4. 鼠标悬浮左侧导航栏的 **齿轮** 图标，点击 `Plugins` 选项，进入 Plugins 管理页面，如果插件列表中正常展示 `Tencent Cloud Monitor` APP 插件，表示插件安装成功；
 5. 进入应用详情页面，点击 `Enable` 按钮，启用成功后，即可在 Grafana 中使用腾讯云监控应用插件。
 
 
 ## 配置数据源
 
 腾讯云监控应用插件通过调用[云监控 API](https://cloud.tencent.com/document/product/248/30342) 的方式获取各云产品的监控指标数据，通过以下步骤，配置相应云产品的数据源。    
-1. 鼠标悬浮左侧导航栏的**齿轮**图标，点击 `Data Sources` 选项，进入数据源管理页面；
-2. 点击右上角的 `Add data source` 按钮，然后点击 `Qcloud Datasource` 数据源，进入数据源配置页面；
+1. 鼠标悬浮左侧导航栏的 **齿轮** 图标，点击 `Data Sources` 选项，进入数据源管理页面；
+2. 点击右上角的 `Add data source` 按钮，然后点击 `Tencent Cloud Monitor Datasource` 数据源，进入数据源配置页面；
 3. `Name` 数据源名称，可以是任意名称；  
-4. `SecretId` 和 `SecretKey` 是调用云监控 API 必需的安全证书信息，二者可以通过腾讯云控制台[云 API 密钥页面](https://console.cloud.tencent.com/capi)获取；  
+4. `SecretId` 和 `SecretKey` 是调用云监控 API 必需的安全证书信息，二者可以通过腾讯云控制台 [云 API 密钥页面](https://console.cloud.tencent.com/capi) 获取；
 5. 选择需要获取监控数据的云产品；  
 6. 点击 `Save & Test` 按钮，测试数据源的配置信息是否正确，配置成功后，即可以在 Dashboard 中使用该数据源。  
 
@@ -113,14 +113,11 @@
 - `Refresh`  更新变量的方式，定义变量数据何时被更新。
 - `Query` 变量查询语句，详情参见上述表格的变量示例和描述。
 
-![image](https://note.youdao.com/yws/public/resource/5cf6a726a5c06fb7d24954757cf3b898/xmlnote/D68737BE8EB246DA93573C5E0E34FB1B/6983)
+变量信息填写完毕，可在页面下方预览查询得到的变量值，如果与期望值相符，点击 `Add` 按钮添加变量。添加成功后，点击右侧菜单的 `Save` 保存至 Dashboard 配置。
+
+以云服务器单机监控 Dashboard 为例，展示如何配置级联变量：地域变量、云服务器实例变量，如下图所示。
 
 #### 应用变量
-创建变量后，在Dashboard可以将其用作数据源查询的一部分。Grafana还支持不同地方的变量，比如panel和row的标题、文本面板的内容等等。
-![image](https://note.youdao.com/yws/public/resource/5cf6a726a5c06fb7d24954757cf3b898/xmlnote/E9AB6EFE6CB148E5927D7545EC0C9B08/6988)
+创建变量后，在 Dashboard 页面的左上角会展示变量选择框，可以切换变量值。变量有两种引用语法，`$varname` 和 `[[varname]]`。变量常用于 Panel 的查询语句中，以云服务器单机监控 Dashboard 为例，展示如何在查询中使用变量，如下图所示。
 
-## 更新日志
-
-### 1.0.0
-- 支持云服务器，云数据库 MySQL 的监控指标数据源，并提供相应典型仪表盘模板；
-- 支持模板变量的配置，方便创建高度可重用和交互式的仪表盘； 
+此外，变量还可以应用在 Panel 标题、Text 文本面板等。
