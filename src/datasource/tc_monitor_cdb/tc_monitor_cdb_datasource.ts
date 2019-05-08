@@ -323,7 +323,7 @@ export default class TCMonitorCDBDatasource {
             messages.push(`${_.get(monitorErr, 'Code')}: ${_.get(monitorErr, 'Message')}`);
           }
           if (cdbAuthFail) {
-            messages.push(`${_.get(cdbAuthFail, 'Code')}: ${_.get(monitorErr, 'Message')}`);
+            messages.push(`${_.get(cdbErr, 'Code')}: ${_.get(cdbErr, 'Message')}`);
           }
           const message = _.join(_.compact(_.uniq(messages)), '; ');
           return {
