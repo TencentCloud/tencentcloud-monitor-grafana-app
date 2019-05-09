@@ -77,6 +77,29 @@ function getDimensions(obj) {
   return dimensions;
 }
 
+// parse tencent cloud monitor response data to grafana panel data
+function parseDataPoint(type = 'graph', dataPoint) {
+  const timestamps = _.get(dataPoint, 'Timestamps', []);
+  const values = _.get(dataPoint, 'Values', []);
+  const result = timestamps.map((timestamp, index) => {
+    return [values[index], timestamp * 1000];
+  });
+
+  return result;
+}
+
+// check whether instance is match or not
+function isInstanceMatch(instance, dimensions) {
+  let match = true;
+  for (let i = 0; i < dimensions.length; i++) {
+    if (_.get(instance, dimensions[i].Name) !== dimensions[i].Value) {
+      match = false;
+      break;
+    }
+  }
+  return match;
+}
+
 // parse query data result for panel
 function parseQueryResult(responses, instances) {
   const instanceList = instances;
@@ -107,30 +130,6 @@ function parseQueryResult(responses, instances) {
   });
   return result;
 }
-
-
-function parseDataPoint(type = 'graph', dataPoint) {
-  const timestamps = _.get(dataPoint, 'Timestamps', []);
-  const values = _.get(dataPoint, 'Values', []);
-  const result = timestamps.map((timestamp, index) => {
-    return [values[index], timestamp * 1000];
-  });
-
-  return result;
-}
-
-function isInstanceMatch(instance, dimensions) {
-  let match = true;
-  for (let i = 0; i < dimensions.length; i++) {
-    if (_.get(instance, dimensions[i].Name) !== dimensions[i].Value) {
-      match = false;
-      break;
-    }
-  }
-  return match;
-}
-
-
 
 export {
   cvmInvalidMetrics,

@@ -176,6 +176,14 @@ export function customSelectDropdown($compile, $window, $timeout, $rootScope) {
       const linkEl = elem.find('.variable-value-link');
       const inputEl = elem.find('input');
 
+      function bodyOnClick(e) {
+        if (elem.has(e.target).length === 0) {
+          scope.$apply(() => {
+            scope.vm.commitChanges();
+          });
+        }
+      }
+
       function openDropdown() {
         inputEl.css('width', Math.max(linkEl.width(), 136) + 'px');
 
@@ -196,14 +204,6 @@ export function customSelectDropdown($compile, $window, $timeout, $rootScope) {
         inputEl.hide();
         linkEl.show();
         bodyEl.off('click', bodyOnClick);
-      }
-
-      function bodyOnClick(e) {
-        if (elem.has(e.target).length === 0) {
-          scope.$apply(() => {
-            scope.vm.commitChanges();
-          });
-        }
       }
 
       scope.$watch('vm.dropdownVisible', newValue => {
