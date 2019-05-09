@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import * as _ from 'lodash';
 import moment from 'moment';
 import { Sign } from '../utils/sign';
 import { finaceRegions, replaceVariable, getDimensions, cdbInstanceAliasList, parseQueryResult } from '../utils/constants';
@@ -105,6 +105,7 @@ export default class TCMonitorCDBDatasource {
         return instances;
       });
     }
+    return [];
   }
 
   // query data for panel
@@ -261,19 +262,11 @@ export default class TCMonitorCDBDatasource {
 
   // test connections of cvm, cdb and montior api
   testDatasource() {
-    if (!this.isValidConfigField(this.secretId)) {
+    if (!this.isValidConfigField(this.secretId) || !this.isValidConfigField(this.secretKey)) {
       return {
         service: 'cdb',
         status: 'error',
-        message: 'The SecretId field is required.',
-      };
-    }
-
-    if (!this.isValidConfigField(this.secretKey)) {
-      return {
-        service: 'cdb',
-        status: 'error',
-        message: 'The SecretKey field is required.',
+        message: 'The SecretId/SecretKey field is required.',
       };
     }
 
@@ -306,41 +299,40 @@ export default class TCMonitorCDBDatasource {
         'cdb',
         { region: 'ap-guangzhou', action: 'DescribeDBInstances' }
       )
-    ])
-      .then(responses => {
-        const cvmErr = _.get(responses, '[0].Error', {});
-        const monitorErr = _.get(responses, '[1].Error', {});
-        const cdbErr = _.get(responses, '[2].Error', {});
-        const cvmAuthFail = _.get(cvmErr, 'Code', '').indexOf('AuthFailure') !== -1;
-        const monitorAuthFail = _.get(monitorErr, 'Code', '').indexOf('AuthFailure') !== -1;
-        const cdbAuthFail = _.get(cdbErr, 'Code', '').indexOf('AuthFailure') !== -1;
-        if (cvmAuthFail || monitorAuthFail || cdbAuthFail) {
-          const messages: any[] = [];
-          if (cvmAuthFail) {
-            messages.push(`${_.get(cvmErr, 'Code')}: ${_.get(cvmErr, 'Message')}`);
-          }
-          if (monitorAuthFail) {
-            messages.push(`${_.get(monitorErr, 'Code')}: ${_.get(monitorErr, 'Message')}`);
-          }
-          if (cdbAuthFail) {
-            messages.push(`${_.get(cdbErr, 'Code')}: ${_.get(cdbErr, 'Message')}`);
-          }
-          const message = _.join(_.compact(_.uniq(messages)), '; ');
-          return {
-            service: 'cdb',
-            status: 'error',
-            message,
-          };
-        } else {
-          return {
-            namespace: this.Namespace,
-            service: 'cdb',
-            status: 'success',
-            message: 'Successfully queried the CDB service.',
-            title: 'Success',
-          };
+    ]).then(responses => {
+      const cvmErr = _.get(responses, '[0].Error', {});
+      const monitorErr = _.get(responses, '[1].Error', {});
+      const cdbErr = _.get(responses, '[2].Error', {});
+      const cvmAuthFail = _.get(cvmErr, 'Code', '').indexOf('AuthFailure') !== -1;
+      const monitorAuthFail = _.get(monitorErr, 'Code', '').indexOf('AuthFailure') !== -1;
+      const cdbAuthFail = _.get(cdbErr, 'Code', '').indexOf('AuthFailure') !== -1;
+      if (cvmAuthFail || monitorAuthFail || cdbAuthFail) {
+        const messages: any[] = [];
+        if (cvmAuthFail) {
+          messages.push(`${_.get(cvmErr, 'Code')}: ${_.get(cvmErr, 'Message')}`);
         }
-      })
+        if (monitorAuthFail) {
+          messages.push(`${_.get(monitorErr, 'Code')}: ${_.get(monitorErr, 'Message')}`);
+        }
+        if (cdbAuthFail) {
+          messages.push(`${_.get(cdbErr, 'Code')}: ${_.get(cdbErr, 'Message')}`);
+        }
+        const message = _.join(_.compact(_.uniq(messages)), '; ');
+        return {
+          service: 'cdb',
+          status: 'error',
+          message,
+        };
+      } else {
+        return {
+          namespace: this.Namespace,
+          service: 'cdb',
+          status: 'success',
+          message: 'Successfully queried the CDB service.',
+          title: 'Success',
+        };
+      }
+    })
       .catch(error => {
         let message = 'CDB service:';
         message += error.statusText ? error.statusText + '; ' : '';
@@ -362,7 +354,7 @@ export default class TCMonitorCDBDatasource {
   }
 
   // request function for tencent cloud monitor
-  doRequest(options, service, signObj: any = {}): any {
+  doRequest(options, service, signObj: any = {}):any {
     const signParams = {
       secretId: this.secretId,
       secretKey: this.secretKey,

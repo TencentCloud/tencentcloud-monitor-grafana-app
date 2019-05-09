@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import * as _ from 'lodash';
 import TCMonitorCVMDataSource from './tc_monitor_cvm/tc_monitor_cvm_datasource';
 import TCMonitorCDBDatasource from './tc_monitor_cdb/tc_monitor_cdb_datasource';
 import { services, getServiceFromNamespace, parseMetricQuery } from './utils/constants';
@@ -134,11 +134,11 @@ export class TCMonitorDatasource {
       promises.push(this.tcMonitorCDBDatasource.testDatasource());
     }
     if (promises.length === 0) {
-      return {
+      return Promise.resolve({
         status: 'error',
         message: `Nothing configured. At least one of the API's services must be configured.`,
         title: 'Error',
-      };
+      });
     }
     return Promise.all(promises).then(results => {
       let status = 'success';

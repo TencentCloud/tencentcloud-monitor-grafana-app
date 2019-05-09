@@ -34,6 +34,7 @@
 4. `SecretId` 和 `SecretKey` 是调用云监控 API 必需的安全证书信息，二者可以通过腾讯云控制台 [云 API 密钥页面](https://console.cloud.tencent.com/capi) 获取；
 5. 选择需要获取监控数据的云产品；  
 6. 点击 `Save & Test` 按钮，测试数据源的配置信息是否正确，配置成功后，即可以在 Dashboard 中使用该数据源。
+  ![Datasource Add](public/plugins/tencentcloud-monitor-grafana-app/img/datasource-choose.png)
   ![Datasource Config](public/plugins/tencentcloud-monitor-grafana-app/img/datasource-config.png)
 
 ## 创建 Dashboard

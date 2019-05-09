@@ -1,5 +1,5 @@
 import angular from 'angular';
-import _ from 'lodash';
+import * as _ from 'lodash';
 import coreModule from 'grafana/app/core/core_module';
 
 export class CustomSelectDropdownCtrl {

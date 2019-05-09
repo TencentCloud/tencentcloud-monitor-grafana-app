@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import * as _ from 'lodash';
 
 const services = [
   { service: 'cvm', label: 'CVM', namespace: 'QCE/CVM', href: 'https://cloud.tencent.com/document/api/213/15688' },

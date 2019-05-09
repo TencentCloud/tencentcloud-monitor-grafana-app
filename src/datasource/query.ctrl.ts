@@ -1,11 +1,11 @@
 import { QueryCtrl } from 'grafana/app/plugins/sdk';
-import _ from 'lodash';
+import * as _ from 'lodash';
 import './components/multi_condition';
 import './components/custom_select_dropdown';
 import './css/query_editor.css';
 import { cvmInstanceAliasList, cdbInstanceAliasList, getServiceFromNamespace, replaceVariable } from './utils/constants';
-import { CDBFieldsDescriptor, CDBFields } from '../datasource/tc_monitor_cdb/constants';
-import { CVMFilterFieldsDescriptor, CVMFilterFields } from '../datasource/tc_monitor_cvm/constants';
+import { CDBFieldsDescriptor, CDBFields } from './tc_monitor_cdb/constants';
+import { CVMFilterFieldsDescriptor, CVMFilterFields } from './tc_monitor_cvm/constants';
 
 const queriesRegions = ['zone'];
 

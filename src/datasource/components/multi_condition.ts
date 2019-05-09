@@ -1,5 +1,5 @@
 import coreModule from 'grafana/app/core/core_module';
-import _ from 'lodash';
+import * as _ from 'lodash';
 import { isDefined } from 'angular';
 
 // mutilple conditions directive for instance query params

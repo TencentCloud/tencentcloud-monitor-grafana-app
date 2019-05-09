@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import * as _ from 'lodash';
 import moment from 'moment';
 import { Sign } from '../utils/sign';
 import { replaceVariable, cvmInvalidMetrics, cvmInstanceAliasList, finaceRegions, getDimensions, parseQueryResult } from '../utils/constants';
@@ -243,19 +243,11 @@ export default class TCMonitorCVMDatasource {
 
   // test connections of cvm and montior api
   testDatasource() {
-    if (!this.isValidConfigField(this.secretId)) {
+    if (!this.isValidConfigField(this.secretId) || !this.isValidConfigField(this.secretKey)) {
       return {
         service: 'cvm',
         status: 'error',
-        message: 'The SecretId field is required.',
-      };
-    }
-
-    if (!this.isValidConfigField(this.secretKey)) {
-      return {
-        service: 'cvm',
-        status: 'error',
-        message: 'The SecretKey field is required.',
+        message: 'The SecretId/SecretKey field is required.',
       };
     }
 

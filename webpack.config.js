@@ -14,7 +14,6 @@ module.exports = {
     './module': './module.ts',
     'components/config': './components/config.ts',
     'datasource/module': './datasource/module.ts',
-    // 'panel/module': './panel/module.js',
   },
   output: {
     filename: '[name].js',
