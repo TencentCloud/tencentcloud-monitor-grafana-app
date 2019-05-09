@@ -5302,11 +5302,7 @@
     "list": [
       {
         "allValue": null,
-        "current": {
-          "selected": false,
-          "text": "东南亚地区(香港)",
-          "value": "ap-hongkong"
-        },
+        "current": {},
         "datasource": "Tencent Cloud Monitor Datasource",
         "definition": "Namespace=QCE/CDB&Action=DescribeRegions",
         "hide": 0,
@@ -5328,11 +5324,7 @@
       },
       {
         "allValue": null,
-        "current": {
-          "selected": true,
-          "text": "cdb-6jzql8mj",
-          "value": "{\"InstanceId\":\"cdb-6jzql8mj\",\"ResourceId\":\"32dcb7f4-3678-11e9-9e4a-200bc7271503\",\"RegionId\":5,\"RegionName\":\"香港\",\"Qps\":7200,\"Region\":\"ap-hongkong\",\"InitFlag\":1,\"InstanceType\":1,\"InstanceName\":\"dnspod-com-db-5.6\",\"Vip\":\"9.131.80.14\",\"Vport\":3399,\"WanStatus\":0,\"WanDomain\":\"\",\"WanPort\":0,\"Status\":1,\"CdbError\":0,\"TaskStatus\":0,\"EngineVersion\":\"5.6\",\"CreateTime\":\"2019-02-22 16:02:25\",\"DeadlineTime\":\"2019-05-22 16:02:25\",\"IsolateTime\":\"0000-00-00 00:00:00\",\"DeviceType\":\"HA\",\"Memory\":8000,\"Volume\":50,\"Cpu\":4,\"AutoRenew\":1,\"ZoneId\":300001,\"Zone\":\"ap-hongkong-1\",\"ZoneName\":\"香港一区\",\"VpcId\":1304498,\"SubnetId\":131979,\"UniqVpcId\":\"\",\"UniqSubnetId\":\"\",\"ProjectId\":0,\"PayType\":0,\"ProtectMode\":0,\"DeployMode\":0,\"SlaveInfo\":{\"First\":{\"Region\":\"ap-hongkong\",\"ZoneId\":300001,\"Zone\":\"ap-hongkong-1\",\"Vip\":\"\",\"Vport\":0},\"Second\":null},\"MasterInfo\":null,\"RoInfo\":[],\"RoGroups\":[],\"DrInfo\":[],\"BackupZoneId\":0,\"ExClusterId\":\"\",\"OfflineTime\":\"\",\"HourFeeStatus\":1,\"RoVipInfo\":null,\"PhysicalId\":\"\"}"
-        },
+        "current": {},
         "datasource": "Tencent Cloud Monitor Datasource",
         "definition": "Namespace=QCE/CDB&Region=$region&Action=DescribeDBInstances",
         "hide": 0,

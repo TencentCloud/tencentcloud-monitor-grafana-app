@@ -6,7 +6,7 @@
   "info": {
     "description": "Tencent Cloud Monitor App for Grafana",
     "author": {
-      "name": "susiezhao,dantestao"
+      "name": "Tencent Cloud"
     },
     "keywords": ["tencent cloud monitor for grafana"],
     "logos": {
