@@ -57,9 +57,14 @@
           </gf-form-dropdown>
         </div>
       </div>
+      <div class="gf-form" ng-if="!ctrl.isVariable('instance')">
+        <label class="gf-form-label width-9">Show Details</label>
+        <gf-form-switch class="gf-form qcloud-switch" label-class="width-7" checked="ctrl.target.showInstanceDetails"
+          switch-class="max-width-5"></gf-form-switch>
+      </div>
     </div>
 
-    <div class="qcloud-sub-params" ng-if="!ctrl.isVariable('instance')">
+    <div class="qcloud-sub-params" ng-if="!ctrl.isVariable('instance') && ctrl.target.showInstanceDetails">
       <label class="gf-form-label qcloud-info-label">
         Instances are queried by following params.
         <a target="_blank" href="https://cloud.tencent.com/document/api/213/15728">Click here to get API doc.</a>
@@ -133,9 +138,14 @@
           </gf-form-dropdown>
         </div>
       </div>
+      <div class="gf-form" ng-if="!ctrl.isVariable('instance')">
+          <label class="gf-form-label width-9">Show Details</label>
+          <gf-form-switch class="gf-form qcloud-switch" label-class="width-7" checked="ctrl.target.showInstanceDetails"
+            switch-class="max-width-5"></gf-form-switch>
+        </div>
     </div>
 
-    <div class="qcloud-sub-params" ng-if="!ctrl.isVariable('instance')">
+    <div class="qcloud-sub-params" ng-if="!ctrl.isVariable('instance') && ctrl.target.showInstanceDetails">
       <label class="gf-form-label qcloud-info-label">
         Instances are queried by following params.
         <a target="_blank" href="https://cloud.tencent.com/document/api/236/15872">Click here to get API doc.</a>

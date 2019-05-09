@@ -25,6 +25,7 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
     refId: string;
     namespace: string;
     service: string;
+    showInstanceDetails: boolean;
     cvm: {
       region: string;
       metricName: string;
@@ -50,6 +51,7 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
   defaults = {
     namespace: '',
     service: '',
+    showInstanceDetails: false,
     cvm: {
       region: '',
       metricName: '',

@@ -22,16 +22,6 @@
   "bugs": {
     "url": "TODO"
   },
-  "contributors": [
-    {
-      "name": "susiezhao",
-      "email": "susiezhao@tencent.com"
-    },
-    {
-      "name": "dantestao",
-      "email": "dantestao@tencent.com"
-    }
-  ],
   "devDependencies": {
     "@babel/cli": "^7.2.3",
     "@babel/core": "^7.4.0",

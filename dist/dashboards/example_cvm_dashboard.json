@@ -2,12 +2,12 @@
   "annotations": {
     "list": []
   },
-  "description": "数据来自腾讯云监控API v3",
+  "description": "腾讯云服务器单机监控模板 Dashboard",
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1557225532071,
+  "iteration": 1557371154786,
   "links": [],
   "panels": [
     {
@@ -645,7 +645,12 @@
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
-      "seriesOverrides": [],
+      "seriesOverrides": [
+        {
+          "alias": "lanOutpkg",
+          "transform": "negative-Y"
+        }
+      ],
       "stack": false,
       "steppedLine": false,
       "targets": [
@@ -865,7 +870,12 @@
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
-      "seriesOverrides": [],
+      "seriesOverrides": [
+        {
+          "alias": "WanOutpkg",
+          "transform": "negative-Y"
+        }
+      ],
       "stack": false,
       "steppedLine": false,
       "targets": [
@@ -1085,7 +1095,17 @@
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
-      "seriesOverrides": [],
+      "seriesOverrides": [
+        {
+          "alias": "lanIntraffic",
+          "color": "#3274D9"
+        },
+        {
+          "alias": "lanOuttraffic",
+          "color": "#E02F44",
+          "transform": "negative-Y"
+        }
+      ],
       "stack": false,
       "steppedLine": false,
       "targets": [
@@ -1305,7 +1325,17 @@
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
-      "seriesOverrides": [],
+      "seriesOverrides": [
+        {
+          "alias": "WanIntraffic",
+          "color": "#3274D9"
+        },
+        {
+          "alias": "WanOuttraffic",
+          "color": "#E02F44",
+          "transform": "negative-Y"
+        }
+      ],
       "stack": false,
       "steppedLine": false,
       "targets": [
@@ -1525,7 +1555,12 @@
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
-      "seriesOverrides": [],
+      "seriesOverrides": [
+        {
+          "alias": "AccOuttraffic",
+          "color": "#FFB357"
+        }
+      ],
       "stack": false,
       "steppedLine": false,
       "targets": [
@@ -1687,7 +1722,12 @@
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
-      "seriesOverrides": [],
+      "seriesOverrides": [
+        {
+          "alias": "CPUUsage",
+          "color": "#3274D9"
+        }
+      ],
       "stack": false,
       "steppedLine": false,
       "targets": [
@@ -1836,7 +1876,12 @@
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
-      "seriesOverrides": [],
+      "seriesOverrides": [
+        {
+          "alias": "CPULoadAvg",
+          "color": "#1F60C4"
+        }
+      ],
       "stack": false,
       "steppedLine": false,
       "targets": [
@@ -1985,7 +2030,16 @@
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
-      "seriesOverrides": [],
+      "seriesOverrides": [
+        {
+          "alias": "MemUsage",
+          "yaxis": 1
+        },
+        {
+          "alias": "MemUsed",
+          "yaxis": 2
+        }
+      ],
       "stack": false,
       "steppedLine": false,
       "targets": [
@@ -2030,7 +2084,7 @@
             "instanceAlias": "PublicIpAddresses",
             "metricName": "MemUsage",
             "metricUnit": "%",
-            "period": 10,
+            "period": 300,
             "queries": {
               "Filters": {
                 "host-id": [],
@@ -2058,86 +2112,7 @@
           "namespace": "QCE/CVM",
           "refId": "A",
           "service": "cvm"
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
-      "title": "内存利用率",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "percent",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
         },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": "Tencent Cloud Monitor Datasource",
-      "fill": 1,
-      "gridPos": {
-        "h": 9,
-        "w": 12,
-        "x": 12,
-        "y": 39
-      },
-      "id": 20,
-      "legend": {
-        "alignAsTable": true,
-        "avg": true,
-        "current": true,
-        "max": true,
-        "min": true,
-        "show": true,
-        "total": false,
-        "values": true
-      },
-      "lines": true,
-      "linewidth": 1,
-      "links": [],
-      "nullPointMode": "null",
-      "paceLength": 10,
-      "percentage": false,
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
         {
           "cdb": {
             "dimensionObject": null,
@@ -2179,7 +2154,7 @@
             "instanceAlias": "PublicIpAddresses",
             "metricName": "MemUsed",
             "metricUnit": "MB",
-            "period": 10,
+            "period": 300,
             "queries": {
               "Filters": {
                 "host-id": [],
@@ -2205,7 +2180,7 @@
             "region": "$region"
           },
           "namespace": "QCE/CVM",
-          "refId": "A",
+          "refId": "B",
           "service": "cvm"
         }
       ],
@@ -2213,7 +2188,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "内存使用量",
+      "title": "内存",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -2229,7 +2204,7 @@
       },
       "yaxes": [
         {
-          "format": "decmbytes",
+          "format": "percent",
           "label": null,
           "logBase": 1,
           "max": null,
@@ -2237,7 +2212,7 @@
           "show": true
         },
         {
-          "format": "short",
+          "format": "decmbytes",
           "label": null,
           "logBase": 1,
           "max": null,
@@ -2260,8 +2235,8 @@
       "gridPos": {
         "h": 9,
         "w": 12,
-        "x": 0,
-        "y": 48
+        "x": 12,
+        "y": 39
       },
       "id": 21,
       "legend": {
@@ -2283,7 +2258,12 @@
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
-      "seriesOverrides": [],
+      "seriesOverrides": [
+        {
+          "alias": "TcpCurrEstab",
+          "color": "#56A64B"
+        }
+      ],
       "stack": false,
       "steppedLine": false,
       "targets": [
@@ -2409,8 +2389,8 @@
         "allValue": null,
         "current": {
           "tags": [],
-          "text": "华南地区(广州)",
-          "value": "ap-guangzhou"
+          "text": "东南亚地区(香港)",
+          "value": "ap-hongkong"
         },
         "datasource": "Tencent Cloud Monitor Datasource",
         "definition": "Namespace=QCE/CVM&Action=DescribeRegions",
@@ -2441,7 +2421,7 @@
             "value": "ap-chongqing"
           },
           {
-            "selected": true,
+            "selected": false,
             "text": "华南地区(广州)",
             "value": "ap-guangzhou"
           },
@@ -2451,7 +2431,7 @@
             "value": "ap-guangzhou-open"
           },
           {
-            "selected": false,
+            "selected": true,
             "text": "东南亚地区(香港)",
             "value": "ap-hongkong"
           },
@@ -2530,8 +2510,9 @@
       {
         "allValue": null,
         "current": {
-          "text": "134.175.225.37",
-          "value": "{\"Placement\":{\"Zone\":\"ap-guangzhou-4\",\"HostId\":null,\"ProjectId\":0},\"InstanceId\":\"ins-fwb9q4ps\",\"InstanceState\":\"RUNNING\",\"RestrictState\":\"NORMAL\",\"InstanceType\":\"S4.MEDIUM4\",\"CPU\":2,\"Memory\":4,\"InstanceName\":\"数据安全网关 - 基础版S1 100节点【堡垒机】 -- 2019042610303373468125\",\"InstanceChargeType\":\"PREPAID\",\"SystemDisk\":{\"DiskType\":\"CLOUD_PREMIUM\",\"DiskId\":\"disk-mzaldw5e\",\"DiskSize\":50},\"DataDisks\":[{\"DiskType\":\"CLOUD_PREMIUM\",\"DiskId\":\"disk-35j5uajy\",\"DiskSize\":500}],\"PrivateIpAddresses\":[\"10.101.202.113\"],\"PublicIpAddresses\":[\"134.175.225.37\"],\"InternetAccessible\":{\"InternetMaxBandwidthOut\":8,\"InternetChargeType\":\"BANDWIDTH_PACKAGE\"},\"VirtualPrivateCloud\":{\"VpcId\":\"vpc-8409af9n\",\"SubnetId\":\"subnet-iu1aaguq\",\"AsVpcGateway\":false},\"SecurityGroupIds\":[\"sg-e6ft4egf\"],\"LoginSettings\":{\"KeyIds\":null},\"ImageId\":null,\"OsName\":\"Debian 7.4 64位\",\"RenewFlag\":\"NOTIFY_AND_MANUAL_RENEW\",\"CreatedTime\":\"2019-04-29T07:06:45Z\",\"ExpiredTime\":\"2019-05-29T07:06:45Z\",\"Tags\":[],\"DisasterRecoverGroupId\":\"\",\"CamRoleName\":\"\",\"LatestOperation\":null,\"LatestOperationState\":null,\"PhysicalPosition\":{\"PosId\":\"3D08DA27ED6D1FB97BD9CC45F629E488\",\"RackId\":\"9C7096F8CBEBF62F2774D9C9571AF8C7\",\"SwitchId\":\"6BC27DC3A6B6DCACFBC11F5CA6173597\"},\"StopChargingMode\":\"NOT_APPLICABLE\",\"_InstanceAliasValue\":\"134.175.225.37\"}"
+          "tags": [],
+          "text": "119.28.4.54",
+          "value": "{\"Placement\":{\"Zone\":\"ap-hongkong-1\",\"HostId\":null,\"ProjectId\":0},\"InstanceId\":\"ins-7pyrq4w2\",\"InstanceState\":\"RUNNING\",\"RestrictState\":\"NORMAL\",\"InstanceType\":\"S1.MEDIUM2\",\"CPU\":2,\"Memory\":2,\"InstanceName\":\"djangowang\",\"InstanceChargeType\":\"PREPAID\",\"SystemDisk\":{\"DiskType\":\"LOCAL_BASIC\",\"DiskId\":\"ldisk-5bkwuqn7\",\"DiskSize\":8},\"DataDisks\":[{\"DiskType\":\"LOCAL_BASIC\",\"DiskId\":\"ldisk-rtk53icn\",\"DiskSize\":70}],\"PrivateIpAddresses\":[\"10.145.11.10\"],\"PublicIpAddresses\":[\"119.28.4.54\"],\"InternetAccessible\":{\"InternetMaxBandwidthOut\":5,\"InternetChargeType\":\"BANDWIDTH_PACKAGE\"},\"VirtualPrivateCloud\":{\"VpcId\":null,\"SubnetId\":null,\"AsVpcGateway\":false},\"SecurityGroupIds\":[],\"LoginSettings\":{\"KeyIds\":null},\"ImageId\":\"img-7fwdvfur\",\"OsName\":\"CentOS 6.5 64位\",\"RenewFlag\":\"NOTIFY_AND_AUTO_RENEW\",\"CreatedTime\":\"2015-02-03T09:15:08Z\",\"ExpiredTime\":\"2019-06-03T09:15:15Z\",\"Tags\":[],\"DisasterRecoverGroupId\":\"\",\"CamRoleName\":null,\"LatestOperation\":\"ModifyInstanceInternetChargeType\",\"LatestOperationState\":\"SUCCESS\",\"IsolatedSource\":\"NOTISOLATED\",\"PhysicalPosition\":{\"PosId\":\"F75468715D5FFC1BA7E5BFE373690601\",\"RackId\":\"038FFE28349C94FB8B8712D4467BC393\",\"SwitchId\":\"D82530A9ACD940718136FB5168E953B7\"},\"StopChargingMode\":\"NOT_APPLICABLE\",\"_InstanceAliasValue\":\"119.28.4.54\"}"
         },
         "datasource": "Tencent Cloud Monitor Datasource",
         "definition": "Namespace=QCE/CVM&Action=DescribeInstances&Region=$region&InstanceAlias=PublicIpAddresses",
@@ -2540,15 +2521,9 @@
         "label": "外网IP",
         "multi": false,
         "name": "publicIp",
-        "options": [
-          {
-            "selected": true,
-            "text": "134.175.225.37",
-            "value": "{\"Placement\":{\"Zone\":\"ap-guangzhou-4\",\"HostId\":null,\"ProjectId\":0},\"InstanceId\":\"ins-fwb9q4ps\",\"InstanceState\":\"RUNNING\",\"RestrictState\":\"NORMAL\",\"InstanceType\":\"S4.MEDIUM4\",\"CPU\":2,\"Memory\":4,\"InstanceName\":\"数据安全网关 - 基础版S1 100节点【堡垒机】 -- 2019042610303373468125\",\"InstanceChargeType\":\"PREPAID\",\"SystemDisk\":{\"DiskType\":\"CLOUD_PREMIUM\",\"DiskId\":\"disk-mzaldw5e\",\"DiskSize\":50},\"DataDisks\":[{\"DiskType\":\"CLOUD_PREMIUM\",\"DiskId\":\"disk-35j5uajy\",\"DiskSize\":500}],\"PrivateIpAddresses\":[\"10.101.202.113\"],\"PublicIpAddresses\":[\"134.175.225.37\"],\"InternetAccessible\":{\"InternetMaxBandwidthOut\":8,\"InternetChargeType\":\"BANDWIDTH_PACKAGE\"},\"VirtualPrivateCloud\":{\"VpcId\":\"vpc-8409af9n\",\"SubnetId\":\"subnet-iu1aaguq\",\"AsVpcGateway\":false},\"SecurityGroupIds\":[\"sg-e6ft4egf\"],\"LoginSettings\":{\"KeyIds\":null},\"ImageId\":null,\"OsName\":\"Debian 7.4 64位\",\"RenewFlag\":\"NOTIFY_AND_MANUAL_RENEW\",\"CreatedTime\":\"2019-04-29T07:06:45Z\",\"ExpiredTime\":\"2019-05-29T07:06:45Z\",\"Tags\":[],\"DisasterRecoverGroupId\":\"\",\"CamRoleName\":\"\",\"LatestOperation\":null,\"LatestOperationState\":null,\"PhysicalPosition\":{\"PosId\":\"3D08DA27ED6D1FB97BD9CC45F629E488\",\"RackId\":\"9C7096F8CBEBF62F2774D9C9571AF8C7\",\"SwitchId\":\"6BC27DC3A6B6DCACFBC11F5CA6173597\"},\"StopChargingMode\":\"NOT_APPLICABLE\",\"_InstanceAliasValue\":\"134.175.225.37\"}"
-          }
-        ],
+        "options": [],
         "query": "Namespace=QCE/CVM&Action=DescribeInstances&Region=$region&InstanceAlias=PublicIpAddresses",
-        "refresh": 0,
+        "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
         "sort": 0,

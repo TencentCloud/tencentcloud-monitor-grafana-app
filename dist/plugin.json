@@ -6,7 +6,7 @@
   "info": {
     "description": "Tencent Cloud Monitor App for Grafana",
     "author": {
-      "name": "susiezhao,dantestao"
+      "name": "TODO"
     },
     "keywords": ["tencent cloud monitor for grafana"],
     "logos": {
@@ -24,7 +24,7 @@
   ],
 
   "dependencies": {
-    "grafanaVersion": "6.x.x",
+    "grafanaVersion": "6.0",
     "plugins": []
   }
 }

@@ -2,13 +2,191 @@
   "annotations": {
     "list": []
   },
+  "description": "腾讯云 Mysql 服务器单机监控模板 Dashboard",
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1557224842903,
+  "iteration": 1557371688960,
   "links": [],
   "panels": [
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": true,
+      "colors": [
+        "#299c46",
+        "#37872D",
+        "#37872D"
+      ],
+      "datasource": "Tencent Cloud Monitor Datasource",
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 9,
+        "x": 0,
+        "y": 0
+      },
+      "id": 13,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "30%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "cdb": {
+            "dimensionObject": {
+              "InstanceId": {
+                "Name": "InstanceId",
+                "Value": ""
+              },
+              "InstanceType": {
+                "Name": "InstanceType",
+                "Value": ""
+              }
+            },
+            "instance": "$db",
+            "instanceAlias": "InstanceId",
+            "metricName": "MaxConnections",
+            "metricUnit": "",
+            "period": 60,
+            "queries": {
+              "CdbErrors": {
+                "text": "",
+                "value": []
+              },
+              "EngineVersions": {
+                "text": "",
+                "value": []
+              },
+              "InitFlag": {
+                "text": "",
+                "value": []
+              },
+              "InstancTypes": {
+                "text": "",
+                "value": []
+              },
+              "InstanceIds": [],
+              "InstanceNames": [],
+              "Limit": 20,
+              "Offset": 0,
+              "OrderBy": {
+                "text": "",
+                "value": ""
+              },
+              "OrderDirection": {
+                "text": "",
+                "value": ""
+              },
+              "PayTypes": {
+                "text": "",
+                "value": []
+              },
+              "ProjectId": "",
+              "SecurityGroupId": "",
+              "Status": {
+                "text": "",
+                "value": []
+              },
+              "SubnetIds": [],
+              "TaskStatus": {
+                "text": "",
+                "value": []
+              },
+              "Vips": [],
+              "VpcIds": [],
+              "ZoneIds": []
+            },
+            "region": "$region"
+          },
+          "cvm": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "InstanceId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "Filters": {
+                "host-id": [],
+                "instance-charge-type": {},
+                "instance-id": [],
+                "instance-name": [],
+                "private-ip-address": [],
+                "project-id": [],
+                "public-ip-address": [],
+                "security-group-id": [],
+                "subnet-id": [],
+                "vpc-id": [],
+                "zone": []
+              },
+              "InstanceIds": [
+                ""
+              ],
+              "Limit": 20,
+              "Offset": 0,
+              "filtersChecked": false,
+              "instanceIdsChecked": false
+            },
+            "region": ""
+          },
+          "namespace": "QCE/CDB",
+          "refId": "A",
+          "service": "cdb"
+        }
+      ],
+      "thresholds": "",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Max Connections",
+      "type": "singlestat",
+      "valueFontSize": "150%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "current"
+    },
     {
       "cacheTimeout": null,
       "colorBackground": false,
@@ -29,9 +207,540 @@
       },
       "gridPos": {
         "h": 4,
-        "w": 3,
-        "x": 0,
+        "w": 5,
+        "x": 9,
         "y": 0
+      },
+      "id": 27,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": true
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "cdb": {
+            "dimensionObject": {
+              "InstanceId": {
+                "Name": "InstanceId",
+                "Value": ""
+              },
+              "InstanceType": {
+                "Name": "InstanceType",
+                "Value": ""
+              }
+            },
+            "instance": "$db",
+            "instanceAlias": "InstanceId",
+            "metricName": "SlowQueries",
+            "metricUnit": "count",
+            "period": 60,
+            "queries": {
+              "CdbErrors": {
+                "text": "",
+                "value": []
+              },
+              "EngineVersions": {
+                "text": "",
+                "value": []
+              },
+              "InitFlag": {
+                "text": "",
+                "value": []
+              },
+              "InstancTypes": {
+                "text": "",
+                "value": []
+              },
+              "InstanceIds": [],
+              "InstanceNames": [],
+              "Limit": 20,
+              "Offset": 0,
+              "OrderBy": {
+                "text": "",
+                "value": ""
+              },
+              "OrderDirection": {
+                "text": "",
+                "value": ""
+              },
+              "PayTypes": {
+                "text": "",
+                "value": []
+              },
+              "ProjectId": "",
+              "SecurityGroupId": "",
+              "Status": {
+                "text": "",
+                "value": []
+              },
+              "SubnetIds": [],
+              "TaskStatus": {
+                "text": "",
+                "value": []
+              },
+              "Vips": [],
+              "VpcIds": [],
+              "ZoneIds": []
+            },
+            "region": "$region"
+          },
+          "cvm": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "InstanceId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "Filters": {
+                "host-id": [],
+                "instance-charge-type": {},
+                "instance-id": [],
+                "instance-name": [],
+                "private-ip-address": [],
+                "project-id": [],
+                "public-ip-address": [],
+                "security-group-id": [],
+                "subnet-id": [],
+                "vpc-id": [],
+                "zone": []
+              },
+              "InstanceIds": [
+                ""
+              ],
+              "Limit": 20,
+              "Offset": 0,
+              "filtersChecked": false,
+              "instanceIdsChecked": false
+            },
+            "region": ""
+          },
+          "namespace": "QCE/CDB",
+          "refId": "C",
+          "service": "cdb"
+        }
+      ],
+      "thresholds": "80, 90",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Slow Queries",
+      "type": "singlestat",
+      "valueFontSize": "120%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "current"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": false,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "datasource": "Tencent Cloud Monitor Datasource",
+      "format": "percent",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": true,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 5,
+        "x": 14,
+        "y": 0
+      },
+      "id": 23,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": true
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "cdb": {
+            "dimensionObject": {
+              "InstanceId": {
+                "Name": "InstanceId",
+                "Value": ""
+              },
+              "InstanceType": {
+                "Name": "InstanceType",
+                "Value": ""
+              }
+            },
+            "instance": "$db",
+            "instanceAlias": "InstanceId",
+            "metricName": "CPUUseRate",
+            "metricUnit": "%",
+            "period": 60,
+            "queries": {
+              "CdbErrors": {
+                "text": "",
+                "value": []
+              },
+              "EngineVersions": {
+                "text": "",
+                "value": []
+              },
+              "InitFlag": {
+                "text": "",
+                "value": []
+              },
+              "InstancTypes": {
+                "text": "",
+                "value": []
+              },
+              "InstanceIds": [],
+              "InstanceNames": [],
+              "Limit": 20,
+              "Offset": 0,
+              "OrderBy": {
+                "text": "",
+                "value": ""
+              },
+              "OrderDirection": {
+                "text": "",
+                "value": ""
+              },
+              "PayTypes": {
+                "text": "",
+                "value": []
+              },
+              "ProjectId": "",
+              "SecurityGroupId": "",
+              "Status": {
+                "text": "",
+                "value": []
+              },
+              "SubnetIds": [],
+              "TaskStatus": {
+                "text": "",
+                "value": []
+              },
+              "Vips": [],
+              "VpcIds": [],
+              "ZoneIds": []
+            },
+            "region": "$region"
+          },
+          "cvm": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "InstanceId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "Filters": {
+                "host-id": [],
+                "instance-charge-type": {},
+                "instance-id": [],
+                "instance-name": [],
+                "private-ip-address": [],
+                "project-id": [],
+                "public-ip-address": [],
+                "security-group-id": [],
+                "subnet-id": [],
+                "vpc-id": [],
+                "zone": []
+              },
+              "InstanceIds": [
+                ""
+              ],
+              "Limit": 20,
+              "Offset": 0,
+              "filtersChecked": false,
+              "instanceIdsChecked": false
+            },
+            "region": ""
+          },
+          "namespace": "QCE/CDB",
+          "refId": "A",
+          "service": "cdb"
+        }
+      ],
+      "thresholds": "80,90",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "CPU Usage Rate",
+      "type": "singlestat",
+      "valueFontSize": "100%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "current"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": false,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "datasource": "Tencent Cloud Monitor Datasource",
+      "format": "percent",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": true,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 5,
+        "x": 19,
+        "y": 0
+      },
+      "id": 26,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": true
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "cdb": {
+            "dimensionObject": {
+              "InstanceId": {
+                "Name": "InstanceId",
+                "Value": ""
+              },
+              "InstanceType": {
+                "Name": "InstanceType",
+                "Value": ""
+              }
+            },
+            "instance": "$db",
+            "instanceAlias": "InstanceId",
+            "metricName": "VolumeRate",
+            "metricUnit": "%",
+            "period": 60,
+            "queries": {
+              "CdbErrors": {
+                "text": "",
+                "value": []
+              },
+              "EngineVersions": {
+                "text": "",
+                "value": []
+              },
+              "InitFlag": {
+                "text": "",
+                "value": []
+              },
+              "InstancTypes": {
+                "text": "",
+                "value": []
+              },
+              "InstanceIds": [],
+              "InstanceNames": [],
+              "Limit": 20,
+              "Offset": 0,
+              "OrderBy": {
+                "text": "",
+                "value": ""
+              },
+              "OrderDirection": {
+                "text": "",
+                "value": ""
+              },
+              "PayTypes": {
+                "text": "",
+                "value": []
+              },
+              "ProjectId": "",
+              "SecurityGroupId": "",
+              "Status": {
+                "text": "",
+                "value": []
+              },
+              "SubnetIds": [],
+              "TaskStatus": {
+                "text": "",
+                "value": []
+              },
+              "Vips": [],
+              "VpcIds": [],
+              "ZoneIds": []
+            },
+            "region": "$region"
+          },
+          "cvm": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "InstanceId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "Filters": {
+                "host-id": [],
+                "instance-charge-type": {},
+                "instance-id": [],
+                "instance-name": [],
+                "private-ip-address": [],
+                "project-id": [],
+                "public-ip-address": [],
+                "security-group-id": [],
+                "subnet-id": [],
+                "vpc-id": [],
+                "zone": []
+              },
+              "InstanceIds": [
+                ""
+              ],
+              "Limit": 20,
+              "Offset": 0,
+              "filtersChecked": false,
+              "instanceIdsChecked": false
+            },
+            "region": ""
+          },
+          "namespace": "QCE/CDB",
+          "refId": "C",
+          "service": "cdb"
+        }
+      ],
+      "thresholds": "80, 90",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Capacity Rate",
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "current"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": true,
+      "colors": [
+        "#FF780A",
+        "#FF780A",
+        "#FF780A"
+      ],
+      "datasource": "Tencent Cloud Monitor Datasource",
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 0,
+        "y": 4
       },
       "id": 19,
       "interval": null,
@@ -176,7 +885,7 @@
       "timeShift": null,
       "title": "Open Connections",
       "type": "singlestat",
-      "valueFontSize": "80%",
+      "valueFontSize": "120%",
       "valueMaps": [
         {
           "op": "=",
@@ -189,7 +898,7 @@
     {
       "cacheTimeout": null,
       "colorBackground": false,
-      "colorValue": false,
+      "colorValue": true,
       "colors": [
         "#299c46",
         "rgba(237, 129, 40, 0.89)",
@@ -205,10 +914,10 @@
         "thresholdMarkers": true
       },
       "gridPos": {
-        "h": 6,
-        "w": 3,
-        "x": 3,
-        "y": 0
+        "h": 4,
+        "w": 5,
+        "x": 4,
+        "y": 4
       },
       "id": 24,
       "interval": null,
@@ -353,538 +1062,7 @@
       "timeShift": null,
       "title": "Threads Running",
       "type": "singlestat",
-      "valueFontSize": "80%",
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "N/A",
-          "value": "null"
-        }
-      ],
-      "valueName": "current"
-    },
-    {
-      "cacheTimeout": null,
-      "colorBackground": false,
-      "colorValue": false,
-      "colors": [
-        "#299c46",
-        "rgba(237, 129, 40, 0.89)",
-        "#d44a3a"
-      ],
-      "datasource": "Tencent Cloud Monitor Datasource",
-      "format": "percent",
-      "gauge": {
-        "maxValue": 100,
-        "minValue": 0,
-        "show": true,
-        "thresholdLabels": false,
-        "thresholdMarkers": true
-      },
-      "gridPos": {
-        "h": 6,
-        "w": 3,
-        "x": 6,
-        "y": 0
-      },
-      "id": 23,
-      "interval": null,
-      "links": [],
-      "mappingType": 1,
-      "mappingTypes": [
-        {
-          "name": "value to text",
-          "value": 1
-        },
-        {
-          "name": "range to text",
-          "value": 2
-        }
-      ],
-      "maxDataPoints": 100,
-      "nullPointMode": "connected",
-      "nullText": null,
-      "postfix": "",
-      "postfixFontSize": "50%",
-      "prefix": "",
-      "prefixFontSize": "50%",
-      "rangeMaps": [
-        {
-          "from": "null",
-          "text": "N/A",
-          "to": "null"
-        }
-      ],
-      "sparkline": {
-        "fillColor": "rgba(31, 118, 189, 0.18)",
-        "full": false,
-        "lineColor": "rgb(31, 120, 193)",
-        "show": false
-      },
-      "tableColumn": "",
-      "targets": [
-        {
-          "cdb": {
-            "dimensionObject": {
-              "InstanceId": {
-                "Name": "InstanceId",
-                "Value": ""
-              },
-              "InstanceType": {
-                "Name": "InstanceType",
-                "Value": ""
-              }
-            },
-            "instance": "$db",
-            "instanceAlias": "InstanceId",
-            "metricName": "CPUUseRate",
-            "metricUnit": "%",
-            "period": 60,
-            "queries": {
-              "CdbErrors": {
-                "text": "",
-                "value": []
-              },
-              "EngineVersions": {
-                "text": "",
-                "value": []
-              },
-              "InitFlag": {
-                "text": "",
-                "value": []
-              },
-              "InstancTypes": {
-                "text": "",
-                "value": []
-              },
-              "InstanceIds": [],
-              "InstanceNames": [],
-              "Limit": 20,
-              "Offset": 0,
-              "OrderBy": {
-                "text": "",
-                "value": ""
-              },
-              "OrderDirection": {
-                "text": "",
-                "value": ""
-              },
-              "PayTypes": {
-                "text": "",
-                "value": []
-              },
-              "ProjectId": "",
-              "SecurityGroupId": "",
-              "Status": {
-                "text": "",
-                "value": []
-              },
-              "SubnetIds": [],
-              "TaskStatus": {
-                "text": "",
-                "value": []
-              },
-              "Vips": [],
-              "VpcIds": [],
-              "ZoneIds": []
-            },
-            "region": "$region"
-          },
-          "cvm": {
-            "dimensionObject": null,
-            "instance": "",
-            "instanceAlias": "InstanceId",
-            "metricName": "",
-            "metricUnit": "",
-            "queries": {
-              "Filters": {
-                "host-id": [],
-                "instance-charge-type": {},
-                "instance-id": [],
-                "instance-name": [],
-                "private-ip-address": [],
-                "project-id": [],
-                "public-ip-address": [],
-                "security-group-id": [],
-                "subnet-id": [],
-                "vpc-id": [],
-                "zone": []
-              },
-              "InstanceIds": [
-                ""
-              ],
-              "Limit": 20,
-              "Offset": 0,
-              "filtersChecked": false,
-              "instanceIdsChecked": false
-            },
-            "region": ""
-          },
-          "namespace": "QCE/CDB",
-          "refId": "A",
-          "service": "cdb"
-        }
-      ],
-      "thresholds": "80,90",
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "CPU Usage Rate",
-      "type": "singlestat",
-      "valueFontSize": "80%",
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "N/A",
-          "value": "null"
-        }
-      ],
-      "valueName": "current"
-    },
-    {
-      "cacheTimeout": null,
-      "colorBackground": false,
-      "colorValue": false,
-      "colors": [
-        "#299c46",
-        "rgba(237, 129, 40, 0.89)",
-        "#d44a3a"
-      ],
-      "datasource": "Tencent Cloud Monitor Datasource",
-      "format": "percent",
-      "gauge": {
-        "maxValue": 100,
-        "minValue": 0,
-        "show": true,
-        "thresholdLabels": false,
-        "thresholdMarkers": true
-      },
-      "gridPos": {
-        "h": 6,
-        "w": 3,
-        "x": 9,
-        "y": 0
-      },
-      "id": 26,
-      "interval": null,
-      "links": [],
-      "mappingType": 1,
-      "mappingTypes": [
-        {
-          "name": "value to text",
-          "value": 1
-        },
-        {
-          "name": "range to text",
-          "value": 2
-        }
-      ],
-      "maxDataPoints": 100,
-      "nullPointMode": "connected",
-      "nullText": null,
-      "postfix": "",
-      "postfixFontSize": "50%",
-      "prefix": "",
-      "prefixFontSize": "50%",
-      "rangeMaps": [
-        {
-          "from": "null",
-          "text": "N/A",
-          "to": "null"
-        }
-      ],
-      "sparkline": {
-        "fillColor": "rgba(31, 118, 189, 0.18)",
-        "full": false,
-        "lineColor": "rgb(31, 120, 193)",
-        "show": false
-      },
-      "tableColumn": "",
-      "targets": [
-        {
-          "cdb": {
-            "dimensionObject": {
-              "InstanceId": {
-                "Name": "InstanceId",
-                "Value": ""
-              },
-              "InstanceType": {
-                "Name": "InstanceType",
-                "Value": ""
-              }
-            },
-            "instance": "$db",
-            "instanceAlias": "InstanceId",
-            "metricName": "VolumeRate",
-            "metricUnit": "%",
-            "period": 60,
-            "queries": {
-              "CdbErrors": {
-                "text": "",
-                "value": []
-              },
-              "EngineVersions": {
-                "text": "",
-                "value": []
-              },
-              "InitFlag": {
-                "text": "",
-                "value": []
-              },
-              "InstancTypes": {
-                "text": "",
-                "value": []
-              },
-              "InstanceIds": [],
-              "InstanceNames": [],
-              "Limit": 20,
-              "Offset": 0,
-              "OrderBy": {
-                "text": "",
-                "value": ""
-              },
-              "OrderDirection": {
-                "text": "",
-                "value": ""
-              },
-              "PayTypes": {
-                "text": "",
-                "value": []
-              },
-              "ProjectId": "",
-              "SecurityGroupId": "",
-              "Status": {
-                "text": "",
-                "value": []
-              },
-              "SubnetIds": [],
-              "TaskStatus": {
-                "text": "",
-                "value": []
-              },
-              "Vips": [],
-              "VpcIds": [],
-              "ZoneIds": []
-            },
-            "region": "$region"
-          },
-          "cvm": {
-            "dimensionObject": null,
-            "instance": "",
-            "instanceAlias": "InstanceId",
-            "metricName": "",
-            "metricUnit": "",
-            "queries": {
-              "Filters": {
-                "host-id": [],
-                "instance-charge-type": {},
-                "instance-id": [],
-                "instance-name": [],
-                "private-ip-address": [],
-                "project-id": [],
-                "public-ip-address": [],
-                "security-group-id": [],
-                "subnet-id": [],
-                "vpc-id": [],
-                "zone": []
-              },
-              "InstanceIds": [
-                ""
-              ],
-              "Limit": 20,
-              "Offset": 0,
-              "filtersChecked": false,
-              "instanceIdsChecked": false
-            },
-            "region": ""
-          },
-          "namespace": "QCE/CDB",
-          "refId": "C",
-          "service": "cdb"
-        }
-      ],
-      "thresholds": "80, 90",
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "Capacity Rate",
-      "type": "singlestat",
-      "valueFontSize": "80%",
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "N/A",
-          "value": "null"
-        }
-      ],
-      "valueName": "current"
-    },
-    {
-      "cacheTimeout": null,
-      "colorBackground": false,
-      "colorValue": false,
-      "colors": [
-        "#299c46",
-        "rgba(237, 129, 40, 0.89)",
-        "#d44a3a"
-      ],
-      "datasource": "Tencent Cloud Monitor Datasource",
-      "format": "none",
-      "gauge": {
-        "maxValue": 100,
-        "minValue": 0,
-        "show": true,
-        "thresholdLabels": false,
-        "thresholdMarkers": true
-      },
-      "gridPos": {
-        "h": 6,
-        "w": 3,
-        "x": 12,
-        "y": 0
-      },
-      "id": 27,
-      "interval": null,
-      "links": [],
-      "mappingType": 1,
-      "mappingTypes": [
-        {
-          "name": "value to text",
-          "value": 1
-        },
-        {
-          "name": "range to text",
-          "value": 2
-        }
-      ],
-      "maxDataPoints": 100,
-      "nullPointMode": "connected",
-      "nullText": null,
-      "postfix": "",
-      "postfixFontSize": "50%",
-      "prefix": "",
-      "prefixFontSize": "50%",
-      "rangeMaps": [
-        {
-          "from": "null",
-          "text": "N/A",
-          "to": "null"
-        }
-      ],
-      "sparkline": {
-        "fillColor": "rgba(31, 118, 189, 0.18)",
-        "full": false,
-        "lineColor": "rgb(31, 120, 193)",
-        "show": false
-      },
-      "tableColumn": "",
-      "targets": [
-        {
-          "cdb": {
-            "dimensionObject": {
-              "InstanceId": {
-                "Name": "InstanceId",
-                "Value": ""
-              },
-              "InstanceType": {
-                "Name": "InstanceType",
-                "Value": ""
-              }
-            },
-            "instance": "$db",
-            "instanceAlias": "InstanceId",
-            "metricName": "SlowQueries",
-            "metricUnit": "count",
-            "period": 60,
-            "queries": {
-              "CdbErrors": {
-                "text": "",
-                "value": []
-              },
-              "EngineVersions": {
-                "text": "",
-                "value": []
-              },
-              "InitFlag": {
-                "text": "",
-                "value": []
-              },
-              "InstancTypes": {
-                "text": "",
-                "value": []
-              },
-              "InstanceIds": [],
-              "InstanceNames": [],
-              "Limit": 20,
-              "Offset": 0,
-              "OrderBy": {
-                "text": "",
-                "value": ""
-              },
-              "OrderDirection": {
-                "text": "",
-                "value": ""
-              },
-              "PayTypes": {
-                "text": "",
-                "value": []
-              },
-              "ProjectId": "",
-              "SecurityGroupId": "",
-              "Status": {
-                "text": "",
-                "value": []
-              },
-              "SubnetIds": [],
-              "TaskStatus": {
-                "text": "",
-                "value": []
-              },
-              "Vips": [],
-              "VpcIds": [],
-              "ZoneIds": []
-            },
-            "region": "$region"
-          },
-          "cvm": {
-            "dimensionObject": null,
-            "instance": "",
-            "instanceAlias": "InstanceId",
-            "metricName": "",
-            "metricUnit": "",
-            "queries": {
-              "Filters": {
-                "host-id": [],
-                "instance-charge-type": {},
-                "instance-id": [],
-                "instance-name": [],
-                "private-ip-address": [],
-                "project-id": [],
-                "public-ip-address": [],
-                "security-group-id": [],
-                "subnet-id": [],
-                "vpc-id": [],
-                "zone": []
-              },
-              "InstanceIds": [
-                ""
-              ],
-              "Limit": 20,
-              "Offset": 0,
-              "filtersChecked": false,
-              "instanceIdsChecked": false
-            },
-            "region": ""
-          },
-          "namespace": "QCE/CDB",
-          "refId": "C",
-          "service": "cdb"
-        }
-      ],
-      "thresholds": "80, 90",
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "Slow Queries",
-      "type": "singlestat",
-      "valueFontSize": "80%",
+      "valueFontSize": "120%",
       "valueMaps": [
         {
           "op": "=",
@@ -913,10 +1091,10 @@
         "thresholdMarkers": true
       },
       "gridPos": {
-        "h": 6,
-        "w": 3,
-        "x": 15,
-        "y": 0
+        "h": 4,
+        "w": 5,
+        "x": 9,
+        "y": 4
       },
       "id": 7,
       "interval": null,
@@ -1090,10 +1268,10 @@
         "thresholdMarkers": true
       },
       "gridPos": {
-        "h": 6,
-        "w": 3,
-        "x": 18,
-        "y": 0
+        "h": 4,
+        "w": 5,
+        "x": 14,
+        "y": 4
       },
       "id": 17,
       "interval": null,
@@ -1267,10 +1445,10 @@
         "thresholdMarkers": true
       },
       "gridPos": {
-        "h": 6,
-        "w": 3,
-        "x": 21,
-        "y": 0
+        "h": 4,
+        "w": 5,
+        "x": 19,
+        "y": 4
       },
       "id": 16,
       "interval": null,
@@ -1426,189 +1604,12 @@
       "valueName": "current"
     },
     {
-      "cacheTimeout": null,
-      "colorBackground": false,
-      "colorValue": false,
-      "colors": [
-        "#299c46",
-        "rgba(237, 129, 40, 0.89)",
-        "#d44a3a"
-      ],
-      "datasource": "Tencent Cloud Monitor Datasource",
-      "format": "none",
-      "gauge": {
-        "maxValue": 100,
-        "minValue": 0,
-        "show": false,
-        "thresholdLabels": false,
-        "thresholdMarkers": true
-      },
-      "gridPos": {
-        "h": 2,
-        "w": 3,
-        "x": 0,
-        "y": 4
-      },
-      "id": 13,
-      "interval": null,
-      "links": [],
-      "mappingType": 1,
-      "mappingTypes": [
-        {
-          "name": "value to text",
-          "value": 1
-        },
-        {
-          "name": "range to text",
-          "value": 2
-        }
-      ],
-      "maxDataPoints": 100,
-      "nullPointMode": "connected",
-      "nullText": null,
-      "postfix": "",
-      "postfixFontSize": "50%",
-      "prefix": "",
-      "prefixFontSize": "30%",
-      "rangeMaps": [
-        {
-          "from": "null",
-          "text": "N/A",
-          "to": "null"
-        }
-      ],
-      "sparkline": {
-        "fillColor": "rgba(31, 118, 189, 0.18)",
-        "full": false,
-        "lineColor": "rgb(31, 120, 193)",
-        "show": false
-      },
-      "tableColumn": "",
-      "targets": [
-        {
-          "cdb": {
-            "dimensionObject": {
-              "InstanceId": {
-                "Name": "InstanceId",
-                "Value": ""
-              },
-              "InstanceType": {
-                "Name": "InstanceType",
-                "Value": ""
-              }
-            },
-            "instance": "$db",
-            "instanceAlias": "InstanceId",
-            "metricName": "MaxConnections",
-            "metricUnit": "",
-            "period": 60,
-            "queries": {
-              "CdbErrors": {
-                "text": "",
-                "value": []
-              },
-              "EngineVersions": {
-                "text": "",
-                "value": []
-              },
-              "InitFlag": {
-                "text": "",
-                "value": []
-              },
-              "InstancTypes": {
-                "text": "",
-                "value": []
-              },
-              "InstanceIds": [],
-              "InstanceNames": [],
-              "Limit": 20,
-              "Offset": 0,
-              "OrderBy": {
-                "text": "",
-                "value": ""
-              },
-              "OrderDirection": {
-                "text": "",
-                "value": ""
-              },
-              "PayTypes": {
-                "text": "",
-                "value": []
-              },
-              "ProjectId": "",
-              "SecurityGroupId": "",
-              "Status": {
-                "text": "",
-                "value": []
-              },
-              "SubnetIds": [],
-              "TaskStatus": {
-                "text": "",
-                "value": []
-              },
-              "Vips": [],
-              "VpcIds": [],
-              "ZoneIds": []
-            },
-            "region": "$region"
-          },
-          "cvm": {
-            "dimensionObject": null,
-            "instance": "",
-            "instanceAlias": "InstanceId",
-            "metricName": "",
-            "metricUnit": "",
-            "queries": {
-              "Filters": {
-                "host-id": [],
-                "instance-charge-type": {},
-                "instance-id": [],
-                "instance-name": [],
-                "private-ip-address": [],
-                "project-id": [],
-                "public-ip-address": [],
-                "security-group-id": [],
-                "subnet-id": [],
-                "vpc-id": [],
-                "zone": []
-              },
-              "InstanceIds": [
-                ""
-              ],
-              "Limit": 20,
-              "Offset": 0,
-              "filtersChecked": false,
-              "instanceIdsChecked": false
-            },
-            "region": ""
-          },
-          "namespace": "QCE/CDB",
-          "refId": "A",
-          "service": "cdb"
-        }
-      ],
-      "thresholds": "",
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "Max Connections",
-      "type": "singlestat",
-      "valueFontSize": "50%",
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "N/A",
-          "value": "null"
-        }
-      ],
-      "valueName": "current"
-    },
-    {
       "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 6
+        "y": 8
       },
       "id": 33,
       "panels": [],
@@ -1621,12 +1622,12 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "Tencent Cloud Monitor Datasource",
-      "fill": 5,
+      "fill": 1,
       "gridPos": {
         "h": 9,
         "w": 12,
         "x": 0,
-        "y": 7
+        "y": 9
       },
       "id": 25,
       "legend": {
@@ -1640,7 +1641,7 @@
         "values": true
       },
       "lines": true,
-      "linewidth": 1,
+      "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
       "paceLength": 10,
@@ -1648,7 +1649,11 @@
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
-      "seriesOverrides": [],
+      "seriesOverrides": [
+        {
+          "alias": "CPUUseRate"
+        }
+      ],
       "stack": false,
       "steppedLine": false,
       "targets": [
@@ -1807,7 +1812,7 @@
         "h": 9,
         "w": 12,
         "x": 12,
-        "y": 7
+        "y": 9
       },
       "id": 8,
       "legend": {
@@ -1823,7 +1828,7 @@
         "values": true
       },
       "lines": true,
-      "linewidth": 1,
+      "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
       "paceLength": 10,
@@ -1834,13 +1839,10 @@
       "seriesOverrides": [
         {
           "alias": "MemoryUse",
-          "color": "#FADE2A",
-          "fill": 5,
           "yaxis": 2
         },
         {
           "alias": "MemoryUseRate",
-          "color": "#73BF69",
           "yaxis": 1
         }
       ],
@@ -2097,12 +2099,12 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "Tencent Cloud Monitor Datasource",
-      "fill": 5,
+      "fill": 4,
       "gridPos": {
         "h": 9,
         "w": 12,
         "x": 0,
-        "y": 16
+        "y": 18
       },
       "id": 5,
       "legend": {
@@ -2116,7 +2118,7 @@
         "values": true
       },
       "lines": true,
-      "linewidth": 1,
+      "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
       "paceLength": 10,
@@ -2127,10 +2129,12 @@
       "seriesOverrides": [
         {
           "alias": "BytesSent",
+          "color": "#1F60C4",
           "yaxis": 1
         },
         {
           "alias": "BytesReceived",
+          "color": "#E02F44",
           "transform": "negative-Y",
           "yaxis": 1
         }
@@ -2393,7 +2397,7 @@
         "h": 9,
         "w": 12,
         "x": 12,
-        "y": 16
+        "y": 18
       },
       "id": 9,
       "legend": {
@@ -2407,7 +2411,7 @@
         "values": true
       },
       "lines": true,
-      "linewidth": 1,
+      "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
       "paceLength": 10,
@@ -2418,10 +2422,12 @@
       "seriesOverrides": [
         {
           "alias": "VolumeRate",
+          "color": "#E0B400",
           "yaxis": 1
         },
         {
           "alias": "Capacity",
+          "color": "#3274D9",
           "fill": 5,
           "yaxis": 2
         }
@@ -2679,7 +2685,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 25
+        "y": 27
       },
       "id": 31,
       "panels": [],
@@ -2692,12 +2698,12 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "Tencent Cloud Monitor Datasource",
-      "fill": 5,
+      "fill": 1,
       "gridPos": {
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 26
+        "y": 28
       },
       "id": 15,
       "legend": {
@@ -2711,7 +2717,7 @@
         "values": true
       },
       "lines": true,
-      "linewidth": 1,
+      "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
       "paceLength": 10,
@@ -2719,7 +2725,12 @@
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
-      "seriesOverrides": [],
+      "seriesOverrides": [
+        {
+          "alias": "Queries",
+          "color": "#37872D"
+        }
+      ],
       "stack": false,
       "steppedLine": false,
       "targets": [
@@ -3086,7 +3097,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 26
+        "y": 28
       },
       "heatmap": {},
       "hideTimeOverride": false,
@@ -3233,12 +3244,12 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "Tencent Cloud Monitor Datasource",
-      "fill": 5,
+      "fill": 1,
       "gridPos": {
         "h": 9,
         "w": 12,
         "x": 0,
-        "y": 34
+        "y": 36
       },
       "id": 2,
       "legend": {
@@ -3252,7 +3263,7 @@
         "values": true
       },
       "lines": true,
-      "linewidth": 1,
+      "linewidth": 2,
       "links": [],
       "nullPointMode": "null as zero",
       "paceLength": 10,
@@ -3260,7 +3271,11 @@
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
-      "seriesOverrides": [],
+      "seriesOverrides": [
+        {
+          "alias": "ComDelete"
+        }
+      ],
       "stack": true,
       "steppedLine": false,
       "targets": [
@@ -3817,12 +3832,12 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "Tencent Cloud Monitor Datasource",
-      "fill": 5,
+      "fill": 4,
       "gridPos": {
         "h": 9,
         "w": 12,
         "x": 12,
-        "y": 34
+        "y": 36
       },
       "id": 21,
       "legend": {
@@ -3836,7 +3851,7 @@
         "values": true
       },
       "lines": true,
-      "linewidth": 1,
+      "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
       "paceLength": 10,
@@ -3844,7 +3859,11 @@
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
-      "seriesOverrides": [],
+      "seriesOverrides": [
+        {
+          "alias": "ThreadsRunning"
+        }
+      ],
       "stack": false,
       "steppedLine": false,
       "targets": [
@@ -4098,7 +4117,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 43
+        "y": 45
       },
       "id": 29,
       "panels": [],
@@ -4111,12 +4130,12 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "Tencent Cloud Monitor Datasource",
-      "fill": 5,
+      "fill": 4,
       "gridPos": {
         "h": 9,
         "w": 12,
         "x": 0,
-        "y": 44
+        "y": 46
       },
       "id": 20,
       "legend": {
@@ -4130,7 +4149,7 @@
         "values": true
       },
       "lines": true,
-      "linewidth": 1,
+      "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
       "paceLength": 10,
@@ -4507,12 +4526,12 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "Tencent Cloud Monitor Datasource",
-      "fill": 5,
+      "fill": 4,
       "gridPos": {
         "h": 9,
         "w": 12,
         "x": 12,
-        "y": 44
+        "y": 46
       },
       "id": 12,
       "legend": {
@@ -4526,7 +4545,7 @@
         "values": true
       },
       "lines": true,
-      "linewidth": 1,
+      "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
       "paceLength": 10,
@@ -4797,12 +4816,12 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "Tencent Cloud Monitor Datasource",
-      "fill": 5,
+      "fill": 4,
       "gridPos": {
         "h": 9,
         "w": 12,
         "x": 0,
-        "y": 53
+        "y": 55
       },
       "id": 11,
       "legend": {
@@ -4816,7 +4835,7 @@
         "values": true
       },
       "lines": true,
-      "linewidth": 1,
+      "linewidth": 2,
       "links": [],
       "nullPointMode": "null as zero",
       "paceLength": 10,
@@ -5284,8 +5303,9 @@
       {
         "allValue": null,
         "current": {
-          "text": "华南地区(广州)",
-          "value": "ap-guangzhou"
+          "selected": false,
+          "text": "东南亚地区(香港)",
+          "value": "ap-hongkong"
         },
         "datasource": "Tencent Cloud Monitor Datasource",
         "definition": "Namespace=QCE/CDB&Action=DescribeRegions",
@@ -5309,8 +5329,9 @@
       {
         "allValue": null,
         "current": {
-          "text": "cdb-do0pedpd",
-          "value": "{\"InstanceId\":\"cdb-do0pedpd\",\"ResourceId\":\"9151dfb4-64db-11e9-9de2-6c92bf62e90c\",\"RegionId\":1,\"RegionName\":\"广州\",\"Qps\":7200,\"Region\":\"ap-guangzhou\",\"InitFlag\":1,\"InstanceType\":1,\"InstanceName\":\"cdb227508\",\"Vip\":\"10.101.193.140\",\"Vport\":3306,\"WanStatus\":0,\"WanDomain\":\"\",\"WanPort\":0,\"Status\":1,\"CdbError\":0,\"TaskStatus\":0,\"EngineVersion\":\"5.7\",\"CreateTime\":\"2019-04-22 16:49:38\",\"DeadlineTime\":\"2019-05-22 16:49:38\",\"IsolateTime\":\"0000-00-00 00:00:00\",\"DeviceType\":\"HA\",\"Memory\":8000,\"Volume\":1000,\"Cpu\":4,\"AutoRenew\":1,\"ZoneId\":100903,\"Zone\":\"ap-guangzhou-ziyan3\",\"ZoneName\":\"广州自研三区\",\"VpcId\":987495,\"SubnetId\":720200,\"UniqVpcId\":\"vpc-8409af9n\",\"UniqSubnetId\":\"subnet-8qscufte\",\"ProjectId\":0,\"PayType\":0,\"ProtectMode\":0,\"DeployMode\":0,\"SlaveInfo\":{\"First\":{\"Region\":\"ap-guangzhou\",\"ZoneId\":100903,\"Zone\":\"ap-guangzhou-ziyan3\",\"Vip\":\"\",\"Vport\":0},\"Second\":null},\"MasterInfo\":null,\"RoInfo\":[],\"RoGroups\":[],\"DrInfo\":[],\"BackupZoneId\":0,\"ExClusterId\":\"\",\"OfflineTime\":\"\",\"HourFeeStatus\":1,\"RoVipInfo\":null,\"PhysicalId\":\"\"}"
+          "selected": true,
+          "text": "cdb-6jzql8mj",
+          "value": "{\"InstanceId\":\"cdb-6jzql8mj\",\"ResourceId\":\"32dcb7f4-3678-11e9-9e4a-200bc7271503\",\"RegionId\":5,\"RegionName\":\"香港\",\"Qps\":7200,\"Region\":\"ap-hongkong\",\"InitFlag\":1,\"InstanceType\":1,\"InstanceName\":\"dnspod-com-db-5.6\",\"Vip\":\"9.131.80.14\",\"Vport\":3399,\"WanStatus\":0,\"WanDomain\":\"\",\"WanPort\":0,\"Status\":1,\"CdbError\":0,\"TaskStatus\":0,\"EngineVersion\":\"5.6\",\"CreateTime\":\"2019-02-22 16:02:25\",\"DeadlineTime\":\"2019-05-22 16:02:25\",\"IsolateTime\":\"0000-00-00 00:00:00\",\"DeviceType\":\"HA\",\"Memory\":8000,\"Volume\":50,\"Cpu\":4,\"AutoRenew\":1,\"ZoneId\":300001,\"Zone\":\"ap-hongkong-1\",\"ZoneName\":\"香港一区\",\"VpcId\":1304498,\"SubnetId\":131979,\"UniqVpcId\":\"\",\"UniqSubnetId\":\"\",\"ProjectId\":0,\"PayType\":0,\"ProtectMode\":0,\"DeployMode\":0,\"SlaveInfo\":{\"First\":{\"Region\":\"ap-hongkong\",\"ZoneId\":300001,\"Zone\":\"ap-hongkong-1\",\"Vip\":\"\",\"Vport\":0},\"Second\":null},\"MasterInfo\":null,\"RoInfo\":[],\"RoGroups\":[],\"DrInfo\":[],\"BackupZoneId\":0,\"ExClusterId\":\"\",\"OfflineTime\":\"\",\"HourFeeStatus\":1,\"RoVipInfo\":null,\"PhysicalId\":\"\"}"
         },
         "datasource": "Tencent Cloud Monitor Datasource",
         "definition": "Namespace=QCE/CDB&Region=$region&Action=DescribeDBInstances",
