@@ -18,7 +18,7 @@
 #### 基于源码的插件安装
 
 1. 确保本地的 Grafana 是 6.0 版本或更新的版本；  
-2. 下载最新版本的腾讯云监控应用插件代码，并将解压后的代码放置在 Grafana 的插件目录，默认的插件目录是 `/var/lib/grafana/plugins`。此外，亦可放置在 `${GRAFANA_HOME}/data/plugins` 目录；
+2. 下载最新版本的腾讯云监控应用插件代码，并将解压后的代码放置在 Grafana 的 `${GRAFANA_HOME}/data/plugins` 目录；
 3. 重启 Grafana 服务；
 4. 鼠标悬浮左侧导航栏的 **齿轮** 图标，点击 `Plugins` 选项，进入 Plugins 管理页面，如果插件列表中正常展示 `Tencent Cloud Monitor` APP 插件，表示插件安装成功；
   ![Plugin APP](public/plugins/tencentcloud-monitor-grafana-app/img/plugin-app.png)
@@ -30,11 +30,11 @@
 腾讯云监控应用插件通过调用[云监控 API](https://cloud.tencent.com/document/product/248/30342) 的方式获取各云产品的监控指标数据，通过以下步骤，配置相应云产品的数据源。    
 1. 鼠标悬浮左侧导航栏的 **齿轮** 图标，点击 `Data Sources` 选项，进入数据源管理页面；
 2. 点击右上角的 `Add data source` 按钮，然后点击 `Tencent Cloud Monitor Datasource` 数据源，进入数据源配置页面；
+  ![Datasource Add](public/plugins/tencentcloud-monitor-grafana-app/img/datasource-choose.png)
 3. `Name` 数据源名称，可以是任意名称；  
 4. `SecretId` 和 `SecretKey` 是调用云监控 API 必需的安全证书信息，二者可以通过腾讯云控制台 [云 API 密钥页面](https://console.cloud.tencent.com/capi) 获取；
 5. 选择需要获取监控数据的云产品；  
 6. 点击 `Save & Test` 按钮，测试数据源的配置信息是否正确，配置成功后，即可以在 Dashboard 中使用该数据源。
-  ![Datasource Add](public/plugins/tencentcloud-monitor-grafana-app/img/datasource-choose.png)
   ![Datasource Config](public/plugins/tencentcloud-monitor-grafana-app/img/datasource-config.png)
 
 ## 创建 Dashboard
