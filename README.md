@@ -1,8 +1,8 @@
-## 腾讯云监控应用插件
+# 腾讯云监控应用插件
 
-[腾讯云监控](https://cloud.tencent.com/product/cm) 为用户提供云服务器、云数据库等多个云产品的负载和性能监控指标，用户可以使用云监控控制台、云监控 API 等方式获取相关监控数据。腾讯云监控应用插件，是一款适配开源软件 Grafana 的应用插件，通过调用 [腾讯云监控 API](https://cloud.tencent.com/document/product/248/30342) 的方式获取监控数据，并对数据进行自定义 Dashboard 展示。
+[腾讯云监控](https://cloud.tencent.com/product/cm) 为用户提供云服务器、云数据库等多个云产品的负载和性能监控指标，用户可以使用云监控控制台、云监控 API 等方式获取相关监控数据。腾讯云监控应用插件 Tencent Cloud Monitor App，是一款适配开源软件 Grafana 的应用插件，通过调用 [腾讯云监控 API](https://cloud.tencent.com/document/product/248/30342) 的方式获取监控数据，并对数据进行自定义 Dashboard 展示。
 
-## 特点
+# 特点
 
   - 支持云服务器监控指标数据源
   - 支持云数据库 MySQL 监控指标数据源
@@ -10,12 +10,12 @@
   - 更多云产品的监控指标数据源在陆续完善中
 
 
-## 安装
+# 安装
 
 腾讯云监控应用插件是运行在 Grafana 6.0 或更新的版本上，请优先安装 Grafana 环境，详情参考 [Grafana 安装文档](https://grafana.com/docs/project/building_from_source/)。
 
 
-#### 基于源码的插件安装
+## 基于源码的插件安装
 
 1. 确保本地的 Grafana 是 6.0 版本或更新的版本；  
 2. 下载最新版本的腾讯云监控应用插件代码，并将解压后的代码放置在 Grafana 的 `${GRAFANA_HOME}/data/plugins` 目录；
@@ -25,7 +25,7 @@
 5. 进入应用详情页面，点击 `Enable` 按钮，启用成功后，即可在 Grafana 中使用腾讯云监控应用插件。
 
 
-## 配置数据源
+# 配置数据源
 
 腾讯云监控应用插件通过调用[云监控 API](https://cloud.tencent.com/document/product/248/30342) 的方式获取各云产品的监控指标数据，通过以下步骤，配置相应云产品的数据源。    
 1. 鼠标悬浮左侧导航栏的 **齿轮** 图标，点击 `Data Sources` 选项，进入数据源管理页面；
@@ -37,29 +37,29 @@
 6. 点击 `Save & Test` 按钮，测试数据源的配置信息是否正确，配置成功后，即可以在 Dashboard 中使用该数据源。
   ![Datasource Config](public/plugins/tencentcloud-monitor-grafana-app/img/datasource-config.png)
 
-## 创建 Dashboard
+# 创建 Dashboard
 
 创建 Dashboard 有以下三种方式： 
 
-#### 快捷创建
+## 快捷创建
 
 鼠标悬浮左侧导航栏的 **加号** 图标，点击 `+Dashboard` 选项，即可创建一个新的 Dashboard。
 
-#### 管理页面
+## 管理页面
 
 鼠标悬浮左侧导航栏的 **田字格** 图标，点击 `Manage` 选项，进入 Dashboard 管理页面，点击 `New Dashboard` 按钮，即可创建一个新的 Dashboard。同时，在该页面可以对 Dashboard 进行各种管理操作，如新建文件夹、移动 Dashboard、导入 Dashboard 等。
 
-#### 导入模板
+## 导入模板
 
 鼠标悬浮左侧导航栏的 **齿轮** 图标，点击 `Plugins` 选项，进入 Plugins 管理页面。然后，点击 `Tencent Cloud Monitor` 应用，进入应用详情页面，切换至 `Dashboards` 选项卡，选择 Dashbboard 模板导入。
 
 ![Import Plugin Dashboard](public/plugins/tencentcloud-monitor-grafana-app/img/plugin-dashboard.png)
 
 
-## 配置 Panel 数据
+# 配置 Panel 数据
 创建 Dashboard 之后，通过配置 Panel 信息，即可获取腾讯云监控的相应监控数据。现在以简单的 Graph 为例，展示如何配置 Panel 信息。
 
-#### CVM 云服务器监控
+## CVM 云服务器监控
 
 1. 点击 **New Panel** 面板的 **Add Query** 选项，进入 Panel 配置页面。在左侧第一个 `Queries` 选项卡，通过配置选项获取腾讯云 CVM 云服务器的监控数据。
 2. `Queries to` 数据源列表，选择已配置的包含 CVM 监控服务的腾讯云监控数据源。
@@ -75,7 +75,7 @@
 
 ![CVM Panel Query](public/plugins/tencentcloud-monitor-grafana-app/img/panel-cvm-query.png)
 
-#### CDB 云数据库MySQL监控
+## CDB 云数据库MySQL监控
 
 1. 点击 **New Panel** 面板的 **Add Query** 选项，进入 Panel 配置页面。在左侧第一个 `Queries` 选项卡，通过配置选项获取腾讯云数据库 MySQL 的监控数据。
 2. `Queries to` 数据源列表，选择已配置的包含CDB监控服务的腾讯云监控数据源。
@@ -92,7 +92,7 @@
 ![CDB Panel Query](public/plugins/tencentcloud-monitor-grafana-app/img/panel-cdb-query.png)
 
 
-## 模板变量
+# 模板变量
 
 模板变量 [Variables](https://grafana.com/docs/reference/templating/) 是 Grafana 提供的一种 Dashboard 优化特性，用于创建高度可复用和交互式 Dashboard。模板变量的一般思想是允许 Grafana 从数据源获得不同的度量，并提供一种无需修改仪表板就可以动态更改它的方法。腾讯云监控应用目前提供了地域、云服务器实例、云数据库 MySQL 实例 等变量。已经提供的模板变量如下表所示：  
 
@@ -102,12 +102,12 @@
 云服务器实例         |   Namespace=QCE/CVM&Region=ap-beijing&Action=DescribeInstances&InstanceAlias=PublicIpAddresses | 参考 [云服务器查询实例列表接口文档](https://cloud.tencent.com/document/api/213/15728)。`Namespace` 固定为`QCE/CVM`，`Action` 固定为`DescribeInstances`。`Region` 为地域参数，可以为特定的地域值，如 `ap-beijing`；也可以为变量值，如 `$region`。`InstanceAlias` 为实例的展示字段，默认为 `InstanceId`，可选值为 `InstanceName`、`PublicIpAddress`、`PrivateIpAddress`。云服务器实例作为模板变量，同时支持单选和多选。
 云数据库 MySQL 实例  |  Namesapce=QCE/CDB&Region=ap-beijing&Action=DescribeDBInstances&InstanceAlias=InstanceId | 参考 [云数据库MySQL查询实例列表接口文档](https://cloud.tencent.com/document/api/236/15872)。`Namespace` 固定为`QCE/CDB`，`Action` 固定为`DescribeDBInstances`。`Region` 为地域参数，可以为特定的地域值，如 `ap-beijing`；也可以为变量值，如 `$region`。`InstanceAlias` 为实例的展示字段，默认为 `InstanceId`，可选值为 `InstanceName`、`Vip`。云数据库实例作为模板变量，同时支持单选和多选。
 
-#### 创建变量
+## 创建变量
 
 1. 进入某一 Dashboard 页面，点击右上角的 **齿轮** 图标，进入 Dashboard 设置页面；
 2. 点击左侧 **Variables** 选项，进入变量设置页面，然后点击 `+ Add variable` 按钮，进入变量编辑页面；
 
-#### 编辑变量
+## 编辑变量
 
 - `Name` 变量名，一般为英文字符串，在 Dashboard 的编辑中使用该变量名替换原特定值。
 - `Label` 变量的可见标签，用于更显式地描述变量名称。例如，`Name` 设置为 "region"，`Lable` 可设置为 "地区"。
@@ -124,7 +124,7 @@
 
 ![Variable Instance Config](public/plugins/tencentcloud-monitor-grafana-app/img/variable-instance-config.png)
 
-#### 应用变量
+## 应用变量
 创建变量后，在 Dashboard 页面的左上角会展示变量选择框，可以切换变量值。变量有两种引用语法，`$varname` 和 `[[varname]]`。变量常用于 Panel 的查询语句中，以云服务器单机监控 Dashboard 为例，展示如何在查询中使用变量，如下图所示。此外，变量还可以应用在 Panel 标题、Text 文本面板等。
 
 ![Variable Dashboard](public/plugins/tencentcloud-monitor-grafana-app/img/variable-cvm-dashboard.png)
