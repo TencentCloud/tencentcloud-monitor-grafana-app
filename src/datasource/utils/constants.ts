@@ -11,7 +11,7 @@ const cvmInvalidMetrics = ['DcCPUUsage', 'DcMemUsage'];
 
 const cvmInstanceAliasList = ['InstanceId', 'InstanceName', 'PrivateIpAddresses', 'PublicIpAddresses'];
 
-const cdbInstanceAliasList = ['InstanceId', 'InstanceName', 'Vip']
+const cdbInstanceAliasList = ['InstanceId', 'InstanceName', 'Vip'];
 
 function getServiceFromNamespace(namespace) {
   return _.get(_.find(services, service => service.namespace === namespace), 'service');
@@ -22,7 +22,7 @@ function parseMetricQuery(query = '') {
   if (!query) {
     return {};
   }
-  let result = {};
+  const result = {};
   const queries = _.split(query, '&');
   _.forEach(queries, item => {
     const str = _.split(item, '=');
@@ -33,10 +33,10 @@ function parseMetricQuery(query = '') {
   return result;
 }
 
-function parseVariableFormat(varname = '') {
+function parseVariableFormat(varname: String = '') {
   // $varname
   let varFlag = false;
-  const  regResult1= varname.match(/^\${?(\w+)}?/);
+  const regResult1 = varname.match(/^\${?(\w+)}?/);
   if (!!regResult1) {
     varFlag = true;
     varname = `\$\{${regResult1[1]}\:json\}`;
@@ -45,7 +45,7 @@ function parseVariableFormat(varname = '') {
   const regResult2 = varname.match(/^\[\[(\w+)(\:\w+)?\]\]/);
   if (!!regResult2) {
     varFlag = true;
-    varname = `\$\{${regResult2[1]}\:json\}`
+    varname = `\$\{${regResult2[1]}\:json\}`;
   }
   return { varname, varFlag };
 }
@@ -103,7 +103,7 @@ function isInstanceMatch(instance, dimensions) {
 // parse query data result for panel
 function parseQueryResult(responses, instances) {
   const instanceList = instances;
-  let result: any[] = [];
+  const result: any[] = [];
   _.forEach(responses, (response) => {
     const dataPoints = _.get(response, 'DataPoints', []);
     if (dataPoints.length === 1) {

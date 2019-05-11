@@ -102,5 +102,5 @@ const CVMFilterFieldsDescriptor = [
 export {
   CVMFilterFields,
   CVMFilterFieldsDescriptor,
-}
+};
 

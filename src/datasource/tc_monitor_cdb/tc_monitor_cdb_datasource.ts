@@ -88,7 +88,7 @@ export default class TCMonitorCDBDatasource {
     if (instancesQuery && this.toVariable(query['region'])) {
       return this.getInstances(this.toVariable(query['region'])).then(result => {
         const instanceAlias = cdbInstanceAliasList.indexOf(query['instancealias']) !== -1 ? query['instancealias'] : 'InstanceId';
-        let instances: any[] = [];
+        const instances: any[] = [];
         _.forEach(result, (item) => {
           const instanceAliasValue = _.get(item, instanceAlias);
           if (instanceAliasValue) {
@@ -110,7 +110,8 @@ export default class TCMonitorCDBDatasource {
 
   // query data for panel
   query(options) {
-    let allInstances: any[] = [];
+    console.log('tc_monitor_cdb_query:', options);
+    const allInstances: any[] = [];
     const queries = _.filter(options.targets, item => {
       // get validated targets
       return (
@@ -136,6 +137,7 @@ export default class TCMonitorCDBDatasource {
         });
       } else {
         // handle single instance
+        console.log('23454', _.isString(instances), instances, JSON.parse('{}'));
         instances = _.isString(instances) ? JSON.parse(instances) : instances;
         allInstances.push(instances);
         const dimensionObject = target.cdb.dimensionObject;
@@ -336,11 +338,11 @@ export default class TCMonitorCDBDatasource {
       .catch(error => {
         let message = 'CDB service:';
         message += error.statusText ? error.statusText + '; ' : '';
-        if (error.data && error.data.error && error.data.error.code) {
+        if (!!_.get(error, 'data.error.code', '')) {
           message += error.data.error.code + '. ' + error.data.error.message;
-        } else if (error.data && error.data.error) {
+        } else if (!!_.get(error, 'data.error', '')) {
           message += error.data.error;
-        } else if (error.data) {
+        } else if (!!_.get(error, 'data', '')) {
           message += error.data;
         } else {
           message += 'Cannot connect to CDB service.';
@@ -354,7 +356,7 @@ export default class TCMonitorCDBDatasource {
   }
 
   // request function for tencent cloud monitor
-  doRequest(options, service, signObj: any = {}):any {
+  doRequest(options, service, signObj: any = {}): any {
     const signParams = {
       secretId: this.secretId,
       secretKey: this.secretKey,
@@ -362,7 +364,7 @@ export default class TCMonitorCDBDatasource {
       ...signObj,
       ...(_.pick(this.getServiceInfo(signObj.region || '', service), ['service', 'host', 'version']) || {}),
     };
-    // get signature 
+    // get signature
     const sign = new Sign(signParams);
     options.headers = Object.assign(options.headers || {}, { ...sign.getHeader() });
     options.method = 'POST';

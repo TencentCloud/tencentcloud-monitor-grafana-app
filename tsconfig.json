@@ -1,6 +1,8 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "types": ["jest", "node"],
+    "typeRoots": ["./node_modules/@types"],
     "target": "es5",
     "module": "esnext",
     "rootDir": "./src",

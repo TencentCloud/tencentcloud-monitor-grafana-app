@@ -12,6 +12,8 @@ const queriesRegions = ['zone'];
 
 export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
   static templateUrl = 'datasource/partials/query.editor.html';
+  datasource: any;
+  panelCtrl: any;
   namespaces = [];
   regions = [];
   instanceSet: any[] = [];
@@ -46,7 +48,7 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
       instanceAlias: string;
       queries: object;
     }
-  }
+  };
 
   defaults = {
     namespace: '',
@@ -79,7 +81,7 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
       instanceAlias: 'InstanceId',
       queries: Object.assign({}, CDBFields),
     }
-  }
+  };
 
   lastQuery: string;
   lastQueryError?: string;
@@ -124,7 +126,7 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
       this.lastQuery = anySeriesFromQuery.query;
     }
   }
-  
+
   // handle query data error
   onDataError(err) {
     this.handleQueryCtrlError(err);
@@ -170,7 +172,7 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
     this.instanceSet = [];
     this.target.service = getServiceFromNamespace(this.target.namespace) || '';
     this.instanceAliasSet = this.getInstanceAliasList(this.target.service);
-    this.refresh();
+    this.panelCtrl.refresh();
   }
 
   // get region list by service
@@ -202,7 +204,7 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
         this.target[service].queries[key] = '';
       }
     });
-    this.refresh();
+    this.panelCtrl.refresh();
   }
 
   // get the actual value of template variable
@@ -232,7 +234,7 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
       .then(list => {
         this.metricSet = list;
         const index = _.findIndex(this.metricSet, item => item.MetricName === this.target[service].metricName);
-        if (index != -1) {
+        if (index !== -1) {
           // set periodSet and dimensionSet by selected metric
           this.periodSet = _.get(this.metricSet[index], 'Period', []);
           this.dimensionSet = _.get(this.metricSet[index], 'Dimensions.0.Dimensions', []);
@@ -247,7 +249,7 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
     const service = this.target.service;
     let periodSet = [];
     let dimensionSet = [];
-    let dimensionObject: any = {};
+    const dimensionObject: any = {};
     let metricUnit = '';
     const index = _.findIndex(this.metricSet, item => item.MetricName === this.target[service].metricName);
     if (index !== -1) {
@@ -263,7 +265,7 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
     this.target[service].period = periodSet.length > 0 ? periodSet[0] : undefined;
     this.target[service].dimensionObject = dimensionObject;
     this.target[service].metricUnit = metricUnit;
-    this.refresh();
+    this.panelCtrl.refresh();
   }
 
   // get instance list
@@ -278,7 +280,7 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
       .then(list => {
         this.instanceSet = list;
         const instanceAlias = this.target[service].instanceAlias;
-        let instances: any[] = [];
+        const instances: any[] = [];
         _.forEach(list, (item) => {
           const instanceAliasValue = _.get(item, instanceAlias);
           if (instanceAliasValue) {
@@ -316,7 +318,7 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
         } else if (queries.filtersChecked) {
           const Filters: any[] = [];
           _.forEach(queries.Filters, (item: any, key) => {
-            if (Filters.length > 9) return;
+            if (Filters.length > 9) { return; }
             if (_.isArray(item)) {
               item = _.compact(item);
               if (item.length > 0) {
@@ -324,7 +326,7 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
               }
             } else if (_.isObject(item)) {
               if (!_.isEmpty(_.get(item, 'value', []))) {
-                Filters.push({ Name: key, Values: _.get(item, 'value', []).slice(0, 5) })
+                Filters.push({ Name: key, Values: _.get(item, 'value', []).slice(0, 5) });
               }
             }
           });
@@ -356,7 +358,7 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
 
   // query data when instance changes
   onInstanceChange() {
-    this.refresh();
+    this.panelCtrl.refresh();
   }
 
   // reset instance and instanceSet when instance alias changes

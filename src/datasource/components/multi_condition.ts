@@ -36,7 +36,7 @@ export class MultiConditionCtrl {
     };
 
     $scope.getSelectedOptions = () => {
-      let selectedOptions = _.filter($scope.options, item => _.get($scope.value, 'value', []).indexOf(item.value) !== -1);
+      const selectedOptions = _.filter($scope.options, item => _.get($scope.value, 'value', []).indexOf(item.value) !== -1);
       return selectedOptions.length > 0 ? _.map(selectedOptions, option => `${option.text}: ${option.value}`).join('; ') : undefined;
     };
 

@@ -1,7 +1,7 @@
 import { TCMonitorDatasource } from '../datasource';
 
 describe('Tencent Cloud Monitor CDB Datasource', () => {
-  let ctx: any = {
+  const ctx: any = {
     backendSrv: {},
     templateSrv: {
       replace: jest.fn().mockImplementation(value => value)
@@ -19,8 +19,8 @@ describe('Tencent Cloud Monitor CDB Datasource', () => {
             secretId: '',
             secretKey: '',
             services: [
-              {"href":"https://cloud.tencent.com/document/api/213/15688","label":"CVM","namespace":"QCE/CVM","service":"cvm"},
-              {"href":"https://cloud.tencent.com/document/api/236/15829","label":"CDB","namespace":"QCE/CDB","service":"cdb"}
+              {"href": "https://cloud.tencent.com/document/api/213/15688","label": "CVM","namespace": "QCE/CVM","service": "cvm"},
+              {"href": "https://cloud.tencent.com/document/api/236/15829","label": "CDB","namespace": "QCE/CDB","service": "cdb"}
             ],
           },
         };
@@ -45,8 +45,8 @@ describe('Tencent Cloud Monitor CDB Datasource', () => {
             secretId: '',
             secretKey: '',
             services: [
-              {"href":"https://cloud.tencent.com/document/api/213/15688","label":"CVM","namespace":"QCE/CVM","service":"cvm"},
-              {"href":"https://cloud.tencent.com/document/api/236/15829","label":"CDB","namespace":"QCE/CDB","service":"cdb"}
+              {"href": "https://cloud.tencent.com/document/api/213/15688","label": "CVM","namespace": "QCE/CVM","service": "cvm"},
+              {"href": "https://cloud.tencent.com/document/api/236/15829","label": "CDB","namespace": "QCE/CDB","service": "cdb"}
             ],
           },
         };
@@ -73,7 +73,7 @@ describe('Tencent Cloud Monitor CDB Datasource', () => {
           }
         }
       };
-      
+
       beforeEach(() => {
         ctx.instanceSettings = {
           jsonData: {
@@ -82,11 +82,11 @@ describe('Tencent Cloud Monitor CDB Datasource', () => {
             secretId: 'xxx',
             secretKey: 'xxx',
             services: [
-              {"href":"https://cloud.tencent.com/document/api/213/15688","label":"CVM","namespace":"QCE/CVM","service":"cvm"},
-              {"href":"https://cloud.tencent.com/document/api/236/15829","label":"CDB","namespace":"QCE/CDB","service":"cdb"}
+              {"href": "https://cloud.tencent.com/document/api/213/15688","label": "CVM","namespace": "QCE/CVM","service": "cvm"},
+              {"href": "https://cloud.tencent.com/document/api/236/15829","label": "CDB","namespace": "QCE/CDB","service": "cdb"}
             ],
           },
-        }; 
+        };
         ctx.ds = new TCMonitorDatasource(ctx.instanceSettings, ctx.backendSrv, ctx.templateSrv);
       });
       it('should offer a valid secretId/secretKey', () => {
@@ -97,7 +97,7 @@ describe('Tencent Cloud Monitor CDB Datasource', () => {
             '1. AuthFailure.SecretIdNotFound: The SecretId is not found, please ensure that your SecretId is correct. \n'
           );
         });
-       
+
       });
     });
 
@@ -105,8 +105,8 @@ describe('Tencent Cloud Monitor CDB Datasource', () => {
 
   });
 
- 
-  
+
+
 
 
 });

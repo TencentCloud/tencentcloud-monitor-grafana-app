@@ -6,7 +6,7 @@ import { replaceVariable, cvmInvalidMetrics, cvmInstanceAliasList, finaceRegions
 export default class TCMonitorCVMDatasource {
   Namespace = 'QCE/CVM';
   servicesMap = {
-    // cvm api info 
+    // cvm api info
     cvm: {
       service: 'cvm',
       version: '2017-03-12',
@@ -71,7 +71,7 @@ export default class TCMonitorCVMDatasource {
     if (instancesQuery && this.toVariable(query['region'])) {
       return this.getInstances(this.toVariable(query['region'])).then(result => {
         const instanceAlias = cvmInstanceAliasList.indexOf(query['instancealias']) !== -1 ? query['instancealias'] : 'InstanceId';
-        let instances: any[] = [];
+        const instances: any[] = [];
         _.forEach(result, (item) => {
           const instanceAliasValue = _.get(item, instanceAlias);
           if (instanceAliasValue) {
@@ -105,7 +105,7 @@ export default class TCMonitorCVMDatasource {
 
   // query data for panel
   query(options) {
-    let allInstances: any[] = [];
+    const allInstances: any[] = [];
     const queries = _.filter(options.targets, item => {
       // get validated targets
       return (
@@ -208,7 +208,9 @@ export default class TCMonitorCVMDatasource {
       },
     }, serviceMap.service, { region, action: 'DescribeBaseMetrics' })
       .then(response => {
-        return _.filter(_.filter(response.MetricSet || [], item => !(item.Namespace !== this.Namespace || !item.MetricName)), item => _.indexOf(cvmInvalidMetrics, item.MetricName) == -1);
+        return _.filter(
+          _.filter(response.MetricSet || [], item => !(item.Namespace !== this.Namespace || !item.MetricName)),
+          item => _.indexOf(cvmInvalidMetrics, item.MetricName) === -1);
       });
   }
 
@@ -302,11 +304,11 @@ export default class TCMonitorCVMDatasource {
       .catch(error => {
         let message = 'CVM service:';
         message += error.statusText ? error.statusText + '; ' : '';
-        if (error.data && error.data.error && error.data.error.code) {
+        if (!!_.get(error, 'data.error.code', '')) {
           message += error.data.error.code + '. ' + error.data.error.message;
-        } else if (error.data && error.data.error) {
+        } else if (!!_.get(error, 'data.error', '')) {
           message += error.data.error;
-        } else if (error.data) {
+        } else if (!!_.get(error, 'data', '')) {
           message += error.data;
         } else {
           message += 'Cannot connect to CVM service.';

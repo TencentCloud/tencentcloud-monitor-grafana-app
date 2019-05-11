@@ -27,6 +27,7 @@ export class TCMonitorDatasource {
 
   // query data for panel
   query(options) {
+    console.log('query:', options);
     const promises: any[] = [];
     // get cvm targets and query data
     const cvmOptions = _.cloneDeep(options);
@@ -54,7 +55,7 @@ export class TCMonitorDatasource {
       return { data: _.flatten(results) };
     });
   }
- 
+
   // handle template variable query
   metricFindQuery(query: string) {
     const queries = parseMetricQuery(query);
@@ -62,7 +63,7 @@ export class TCMonitorDatasource {
     if (_.isEmpty(queries) || !queries['namespace'] || !queries['action'] || !service) {
       return Promise.resolve([]);
     }
-    switch(service) {
+    switch (service) {
       case 'cvm':
         const cvmResult = this.tcMonitorCVMDatasource.metricFindQuery(queries);
         if (cvmResult) {
@@ -124,7 +125,7 @@ export class TCMonitorDatasource {
     return this.tcMonitorCDBDatasource.getZones(region);
   }
 
-  // test datasource connection 
+  // test datasource connection
   testDatasource() {
     const promises: any[] = [];
     if (this.instanceSettings.jsonData.cvm === true) {

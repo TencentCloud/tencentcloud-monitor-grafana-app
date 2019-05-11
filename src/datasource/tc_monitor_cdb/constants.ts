@@ -85,7 +85,7 @@ const CDBFields = {
   OrderDirection: {},
   InstanceIds: [],
   InitFlag: {},
-}
+};
 
 const CDBFieldsDescriptor = [
   {
@@ -240,7 +240,7 @@ const CDBFieldsDescriptor = [
     link: 'https://cloud.tencent.com/document/api/236/15854',
     type: 'input'
   }
-]
+];
 
 export {
   InstanceTypes,
@@ -254,4 +254,4 @@ export {
   CdbErrors,
   CDBFields,
   CDBFieldsDescriptor
-}
+};
