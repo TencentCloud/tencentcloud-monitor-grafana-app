@@ -5,3 +5,4 @@ coverage/
 tmp/
 dist/test/
 dist/test-setup/
+package_lock.json
