@@ -1,11 +1,13 @@
 import { QueryCtrl } from 'grafana/app/plugins/sdk';
 import * as _ from 'lodash';
+import { cvmInstanceAliasList, cdbInstanceAliasList, GetServiceFromNamespace, replaceVariable } from './utils/constants';
+// import { CDBFieldsDescriptor, CDBFields } from './tc_monitor_cdb/constants';
+// import { CVMFilterFieldsDescriptor, CVMFilterFields } from './tc_monitor_cvm/constants';
+import { InitServiceState } from './tc_monitor';
+
 import './components/multi_condition';
 import './components/custom_select_dropdown';
 import './css/query_editor.css';
-import { cvmInstanceAliasList, cdbInstanceAliasList, getServiceFromNamespace, replaceVariable } from './utils/constants';
-import { CDBFieldsDescriptor, CDBFields } from './tc_monitor_cdb/constants';
-import { CVMFilterFieldsDescriptor, CVMFilterFields } from './tc_monitor_cvm/constants';
 
 const queriesRegions = ['zone'];
 
@@ -16,11 +18,11 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
   panelCtrl: any;
   namespaces = [];
   regions = [];
-  instanceSet: any[] = [];
-  metricSet: any[] = [];
-  periodSet: number[] = [];
-  dimensionSet: any[] = [];
-  instanceAliasSet: any[] = [];
+  instanceList: any[] = [];
+  metricList: any[] = [];
+  periodList: number[] = [];
+  dimensionList: any[] = [];
+  instanceAliasList: any[] = [];
   CDBFieldsDescriptor: any[] = [];
   CVMFilterFieldsDescriptor: any[] = [];
   target: {
@@ -28,59 +30,13 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
     namespace: string;
     service: string;
     showInstanceDetails: boolean;
-    cvm: {
-      region: string;
-      metricName: string;
-      metricUnit: string;
-      period: number;
-      dimensionObject: object;
-      instance: string;
-      instanceAlias: string;
-      queries: any;
-    },
-    cdb: {
-      region: string;
-      metricName: string;
-      metricUnit: string;
-      period: number;
-      dimensionObject: object;
-      instance: string;
-      instanceAlias: string;
-      queries: object;
-    }
   };
 
   defaults = {
     namespace: '',
     service: '',
     showInstanceDetails: false,
-    cvm: {
-      region: '',
-      metricName: '',
-      metricUnit: '',
-      period: undefined,
-      dimensionObject: null,
-      instance: '',
-      instanceAlias: 'InstanceId',
-      queries: {
-        Limit: 20,
-        Offset: 0,
-        instanceIdsChecked: false,
-        filtersChecked: false,
-        InstanceIds: [''],
-        Filters: Object.assign({}, CVMFilterFields),
-      },
-    },
-    cdb: {
-      region: '',
-      metricName: '',
-      metricUnit: '',
-      period: undefined,
-      dimensionObject: null,
-      instance: '',
-      instanceAlias: 'InstanceId',
-      queries: Object.assign({}, CDBFields),
-    }
+    ...InitServiceState,
   };
 
   lastQuery: string;
@@ -90,17 +46,22 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
   constructor($scope, $injector, private templateSrv) {
     super($scope, $injector);
     this.namespaces = this.datasource.getNamespaces();
-    _.defaultsDeep(this.target, this.defaults);
     if (this.namespaces.length > 0) {
       // set default values if datasource contains namespaces
       if (_.indexOf(this.namespaces, this.target.namespace) === -1) {
         this.target.namespace = this.namespaces[0];
       }
-      this.target.service = getServiceFromNamespace(this.target.namespace) || '';
+      this.target.service = GetServiceFromNamespace(this.target.namespace) || '';
     }
-    this.instanceAliasSet = this.getInstanceAliasList(this.target.service);
-    this.CDBFieldsDescriptor = CDBFieldsDescriptor;
-    this.CVMFilterFieldsDescriptor = CVMFilterFieldsDescriptor;
+    console.log('query:', this.namespaces);
+
+    console.log('Query Ctrl constructor:', this);
+
+
+    // _.defaultsDeep(this.target, this.defaults);
+    // this.instanceAliasList = this.getInstanceAliasList(this.target.service);
+    // this.CDBFieldsDescriptor = CDBFieldsDescriptor;
+    // this.CVMFilterFieldsDescriptor = CVMFilterFieldsDescriptor;
     this.panelCtrl.events.on('data-received', this.onDataReceived.bind(this), $scope);
   }
 
@@ -166,16 +127,31 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
     this.target[service].dimensionObject = null;
     this.target[service].instance = '';
     this.regions = [];
-    this.metricSet = [];
-    this.periodSet = [];
-    this.dimensionSet = [];
-    this.instanceSet = [];
-    this.target.service = getServiceFromNamespace(this.target.namespace) || '';
-    this.instanceAliasSet = this.getInstanceAliasList(this.target.service);
+    this.metricList = [];
+    this.periodList = [];
+    this.dimensionList = [];
+    this.instanceList = [];
+    this.target.service = GetServiceFromNamespace(this.target.namespace) || '';
+    this.instanceAliasList = this.getInstanceAliasList(this.target.service);
     this.panelCtrl.refresh();
   }
 
-  // get region list by service
+  /**
+   * get regions list
+   * output:
+   *  [
+   *    {
+   *      "Region": "ap-beijing",
+   *      "RegionName": "华北地区(北京)",
+   *      "RegionState": "AVAILABLE"
+   *    },
+   *    {
+   *      "Region": "ap-guangzhou",
+   *      "RegionName": "华南地区(广州)",
+   *      "RegionState": "AVAILABLE"
+   *    }
+   *  ]
+   */
   getRegions(query) {
     const service = this.target.service;
     if (!service || _.startsWith('$')) {
@@ -184,7 +160,7 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
     if (this.regions.length) {
       return this.regions;
     }
-    return this.datasource[`get${_.upperCase(service)}Regions`]()
+    return this.datasource.getRegions(service)
       .then(list => {
         this.regions = list;
         return list;
@@ -195,7 +171,7 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
   onRegionChange() {
     const service = this.target.service;
     this.target[service].instance = '';
-    this.instanceSet = [];
+    this.instanceList = [];
     _.forEach(this.target[service].dimensionObject, (__, key) => {
       this.target[service].dimensionObject[key] = { Name: key, Value: '' };
     });
@@ -215,29 +191,28 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
   // get metric name description
   getMetricNameDesc() {
     const service = this.target.service;
-    const index = _.findIndex(this.metricSet, item => item.MetricName === this.target[service].metricName);
-    return index !== -1 ? this.metricSet[index].Meaning.Zh : '';
+    const index = _.findIndex(this.metricList, item => item.MetricName === this.target[service].metricName);
+    return index !== -1 ? this.metricList[index].Meaning.Zh : '';
   }
 
   // get metirc list by service and region
   getMetrics(query) {
     const service = this.target.service;
-    const region = this.replace(this.target[service].region, false);
+    const region = this.replace(_.get(this.target[service], 'region', ''), false);
 
     if (!service || !region) {
       return [];
     }
-    if (this.metricSet.length) {
-      return _.map(this.metricSet, item => ({ text: item.MetricName, value: item.MetricName }));
+    if (this.metricList.length) {
+      return _.map(this.metricList, item => ({ text: item.MetricName, value: item.MetricName }));
     }
-    return this.datasource[`get${_.upperCase(service)}Metrics`](region)
+    return this.datasource.getMetrics(service, region)
       .then(list => {
-        this.metricSet = list;
-        const index = _.findIndex(this.metricSet, item => item.MetricName === this.target[service].metricName);
+        this.metricList = list;
+        const index = _.findIndex(this.metricList, item => item.MetricName === this.target[service].metricName);
         if (index !== -1) {
-          // set periodSet and dimensionSet by selected metric
-          this.periodSet = _.get(this.metricSet[index], 'Period', []);
-          this.dimensionSet = _.get(this.metricSet[index], 'Dimensions.0.Dimensions', []);
+          this.periodList = _.get(this.metricList[index], 'Period', []);
+          this.dimensionList = _.get(this.metricList[index], 'Dimensions.0.Dimensions', []);
         }
         return _.map(list, item => ({ text: item.MetricName, value: item.MetricName }));
       })
@@ -247,22 +222,22 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
   // set associated values when metirc changes
   onMetricChange() {
     const service = this.target.service;
-    let periodSet = [];
-    let dimensionSet = [];
+    let periodList = [];
+    let dimensionList = [];
     const dimensionObject: any = {};
     let metricUnit = '';
-    const index = _.findIndex(this.metricSet, item => item.MetricName === this.target[service].metricName);
+    const index = _.findIndex(this.metricList, item => item.MetricName === this.target[service].metricName);
     if (index !== -1) {
-      periodSet = _.get(this.metricSet[index], 'Period', []);
-      dimensionSet = _.get(this.metricSet[index], 'Dimensions.0.Dimensions', []);
-      metricUnit = _.get(this.metricSet[index], 'Unit', '');
+      periodList = _.get(this.metricList[index], 'Period', []);
+      dimensionList = _.get(this.metricList[index], 'Dimensions.0.Dimensions', []);
+      metricUnit = _.get(this.metricList[index], 'Unit', '');
     }
-    _.forEach(dimensionSet, item => {
+    _.forEach(dimensionList, item => {
       dimensionObject[item] = { Name: item, Value: '' };
     });
-    this.periodSet = periodSet;
-    this.dimensionSet = dimensionSet;
-    this.target[service].period = periodSet.length > 0 ? periodSet[0] : undefined;
+    this.periodList = periodList;
+    this.dimensionList = dimensionList;
+    this.target[service].period = periodList.length > 0 ? periodList[0] : undefined;
     this.target[service].dimensionObject = dimensionObject;
     this.target[service].metricUnit = metricUnit;
     this.panelCtrl.refresh();
@@ -276,9 +251,9 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
       return [];
     }
     const params = this.getInstanceQueryParams();
-    return this.datasource[`get${_.upperCase(service)}Instances`](region, params)
+    return this.datasource.getInstances(service, region, params)
       .then(list => {
-        this.instanceSet = list;
+        this.instanceList = list;
         const instanceAlias = this.target[service].instanceAlias;
         const instances: any[] = [];
         _.forEach(list, (item) => {
@@ -361,13 +336,12 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
     this.panelCtrl.refresh();
   }
 
-  // reset instance and instanceSet when instance alias changes
   onInstanceAliasChange() {
     //  only when instance is not template variable
     if (!this.isVariable('instance')) {
       const service = this.target.service;
       this.target[service].instance = '';
-      this.instanceSet = [];
+      this.instanceList = [];
     }
   }
 
@@ -378,7 +352,7 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
     if (!service || !region) {
       return [];
     }
-    return this.datasource[`get${_.upperCase(service)}Zones`](region).catch(this.handleQueryCtrlError.bind(this));
+    return this.datasource.getZones(service, region).catch(this.handleQueryCtrlError.bind(this));
   }
 
   // reset instances when instance query params change
@@ -387,7 +361,7 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
     if (!this.isVariable('instance')) {
       const service = this.target.service;
       this.target[service].instance = '';
-      this.instanceSet = [];
+      this.instanceList = [];
       _.forEach(this.target[service].dimensionObject, (__, key) => {
         this.target[service].dimensionObject[key] = { Name: key, Value: '' };
       });
@@ -397,16 +371,16 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
 
   // according to cvm instances query api, InstanceIds and Filters are mutually exclusive
   onCVMInstanceIdsChecked() {
-    if (this.target.cvm.queries.instanceIdsChecked) {
-      this.target.cvm.queries.filtersChecked = false;
-    }
+    // if (this.target.cvm.queries.instanceIdsChecked) {
+    //   this.target.cvm.queries.filtersChecked = false;
+    // }
     this.onInstanceQueryChange();
   }
 
   onCVMFiltersChecked() {
-    if (this.target.cvm.queries.filtersChecked) {
-      this.target.cvm.queries.instanceIdsChecked = false;
-    }
+    // if (this.target.cvm.queries.filtersChecked) {
+    //   this.target.cvm.queries.instanceIdsChecked = false;
+    // }
     this.onInstanceQueryChange();
   }
 

@@ -1,11 +1,71 @@
 import * as _ from 'lodash';
+import { SERVICES } from '../tc_monitor';
 
-const services = [
-  { service: 'cvm', label: 'CVM', namespace: 'QCE/CVM', href: 'https://cloud.tencent.com/document/api/213/15688' },
-  { service: 'cdb', label: 'CDB', namespace: 'QCE/CDB', href: 'https://cloud.tencent.com/document/api/236/15829' },
-];
+// the services of tencentcloud monitor api
 
-const finaceRegions = ['ap-shanghai-fsi', 'ap-shenzhen-fsi'];
+
+const FINACE_REGIONS = ['ap-shanghai-fsi', 'ap-shenzhen-fsi'];
+
+const SERVICES_API_INFO = {
+   // cvm api info
+   cvm: {
+    service: 'cvm',
+    version: '2017-03-12',
+    path: '/cvm',
+    host: 'cvm.tencentcloudapi.com',
+  },
+  // cdb api info
+  cdb: {
+    service: 'cdb',
+    version: '2017-03-20',
+    path: '/cdb',
+    host: 'cdb.tencentcloudapi.com',
+  },
+  // monitor api info
+  monitor: {
+    service: 'monitor',
+    version: '2018-07-24',
+    path: '/monitor',
+    host: 'monitor.tencentcloudapi.com',
+  }
+};
+
+const FINACE_HOST = {
+  cvm: {
+    'ap-shanghai-fsi': {
+      path: '/fsi/cvm/shanghai',
+      host: 'cvm.ap-shanghai-fsi.tencentcloudapi.com',
+    },
+    'ap-shenzhen-fsi': {
+      path: '/fsi/cvm/shenzhen',
+      host: 'cvm.ap-shenzhen-fsi.tencentcloudapi.com',
+    }
+  },
+  cdb: {
+    'ap-shanghai-fsi': {
+      path: '/fsi/cdb/shanghai',
+      host: 'cdb.ap-shanghai-fsi.tencentcloudapi.com',
+    },
+    'ap-shenzhen-fsi': {
+      path: '/fsi/cdb/shenzhen',
+      host: 'cdb.ap-shenzhen-fsi.tencentcloudapi.com',
+    }
+  },
+  monitor: {
+    'ap-shanghai-fsi': {
+      path: '/fsi/monitor/shanghai',
+      host: 'monitor.ap-shanghai-fsi.tencentcloudapi.com',
+    },
+    'ap-shenzhen-fsi': {
+      path: '/fsi/monitor/shenzhen',
+      host: 'monitor.ap-shenzhen-fsi.tencentcloudapi.com',
+    }
+  }
+};
+
+
+
+
 
 const cvmInvalidMetrics = ['DcCPUUsage', 'DcMemUsage'];
 
@@ -13,12 +73,12 @@ const cvmInstanceAliasList = ['InstanceId', 'InstanceName', 'PrivateIpAddresses'
 
 const cdbInstanceAliasList = ['InstanceId', 'InstanceName', 'Vip'];
 
-function getServiceFromNamespace(namespace) {
-  return _.get(_.find(services, service => service.namespace === namespace), 'service');
+function GetServiceFromNamespace(namespace) {
+  return _.get(_.find(SERVICES, service => service.namespace === namespace), 'service');
 }
 
 // parse template variable query params
-function parseMetricQuery(query = '') {
+function ParseMetricQuery(query = '') {
   if (!query) {
     return {};
   }
@@ -33,7 +93,8 @@ function parseMetricQuery(query = '') {
   return result;
 }
 
-function parseVariableFormat(varname: String = '') {
+function parseVariableFormat(varname: string) {
+  varname = String(varname || '');
   // $varname
   let varFlag = false;
   const regResult1 = varname.match(/^\${?(\w+)}?/);
@@ -132,13 +193,14 @@ function parseQueryResult(responses, instances) {
 }
 
 export {
+  SERVICES_API_INFO,
+  FINACE_HOST,
   cvmInvalidMetrics,
-  services,
-  finaceRegions,
+  FINACE_REGIONS,
   cvmInstanceAliasList,
   cdbInstanceAliasList,
-  getServiceFromNamespace,
-  parseMetricQuery,
+  GetServiceFromNamespace,
+  ParseMetricQuery,
   parseVariableFormat,
   replaceVariable,
   getDimensions,

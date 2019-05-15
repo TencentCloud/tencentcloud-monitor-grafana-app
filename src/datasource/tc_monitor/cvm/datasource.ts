@@ -1,73 +1,23 @@
 import * as _ from 'lodash';
 import moment from 'moment';
-import { Sign } from '../utils/sign';
-import { FINACE_REGIONS, replaceVariable, getDimensions, cdbInstanceAliasList, parseQueryResult } from '../utils/constants';
+import DatasourceInterface from '../../datasource';
+import { Sign } from '../../utils/sign';
+import { FINACE_HOST, SERVICES_API_INFO, replaceVariable, cvmInvalidMetrics, cvmInstanceAliasList, FINACE_REGIONS, getDimensions, parseQueryResult } from '../../utils/constants';
 
-export default class TCMonitorCDBDatasource {
-  Namespace = 'QCE/CDB';
-  servicesMap = {
-    // cvm api info
-    cvm: {
-      service: 'cvm',
-      version: '2017-03-12',
-      path: '/cvm',
-      host: 'cvm.tencentcloudapi.com',
-    },
-    // cdb api info
-    cdb: {
-      service: 'cdb',
-      version: '2017-03-20',
-      path: '/cdb',
-      host: 'cdb.tencentcloudapi.com',
-    },
-    // monitor api info
-    monitor: {
-      service: 'monitor',
-      version: '2018-07-24',
-      path: '/monitor',
-      host: 'monitor.tencentcloudapi.com',
-    }
-  };
+export default class CVMDatasource implements DatasourceInterface {
+  Namespace = 'QCE/CVM';
+  servicesMap = _.pick(SERVICES_API_INFO, ['cvm', 'monitor']);
   // finance path and host
-  financePathHost = {
-    cvm: {
-      'ap-shanghai-fsi': {
-        path: '/fsi/cvm/shanghai',
-        host: 'cvm.ap-shanghai-fsi.tencentcloudapi.com',
-      },
-      'ap-shenzhen-fsi': {
-        path: '/fsi/cvm/shenzhen',
-        host: 'cvm.ap-shenzhen-fsi.tencentcloudapi.com',
-      }
-    },
-    cdb: {
-      'ap-shanghai-fsi': {
-        path: '/fsi/cdb/shanghai',
-        host: 'cdb.ap-shanghai-fsi.tencentcloudapi.com',
-      },
-      'ap-shenzhen-fsi': {
-        path: '/fsi/cdb/shenzhen',
-        host: 'cdb.ap-shenzhen-fsi.tencentcloudapi.com',
-      }
-    },
-    monitor: {
-      'ap-shanghai-fsi': {
-        path: '/fsi/monitor/shanghai',
-        host: 'monitor.ap-shanghai-fsi.tencentcloudapi.com',
-      },
-      'ap-shenzhen-fsi': {
-        path: '/fsi/monitor/shenzhen',
-        host: 'monitor.ap-shenzhen-fsi.tencentcloudapi.com',
-      }
-    }
-  };
+  financePathHost = _.pick(FINACE_HOST, ['cvm', 'monitor']);
   url: string;
+  instanceSettings: any;
   backendSrv: any;
   templateSrv: any;
   secretId: string;
   secretKey: string;
   /** @ngInject */
   constructor(instanceSettings, backendSrv, templateSrv) {
+    this.instanceSettings = instanceSettings;
     this.backendSrv = backendSrv;
     this.templateSrv = templateSrv;
     this.url = instanceSettings.url;
@@ -84,10 +34,10 @@ export default class TCMonitorCDBDatasource {
     }
 
     // query cdb instance list
-    const instancesQuery = query['action'].match(/^DescribeDBInstances/i) && !!query['region'];
+    const instancesQuery = query['action'].match(/^DescribeInstances/i) && !!query['region'];
     if (instancesQuery && this.toVariable(query['region'])) {
       return this.getInstances(this.toVariable(query['region'])).then(result => {
-        const instanceAlias = cdbInstanceAliasList.indexOf(query['instancealias']) !== -1 ? query['instancealias'] : 'InstanceId';
+        const instanceAlias = cvmInstanceAliasList.indexOf(query['instancealias']) !== -1 ? query['instancealias'] : 'InstanceId';
         const instances: any[] = [];
         _.forEach(result, (item) => {
           const instanceAliasValue = _.get(item, instanceAlias);
@@ -105,31 +55,30 @@ export default class TCMonitorCDBDatasource {
         return instances;
       });
     }
-    return [];
+    return Promise.resolve([]);
   }
 
   // query data for panel
-  query(options) {
-    console.log('tc_monitor_cdb_query:', options);
+  query(options: any) {
     const allInstances: any[] = [];
     const queries = _.filter(options.targets, item => {
       // get validated targets
       return (
-        item.cdb.hide !== true &&
+        item.cvm.hide !== true &&
         !!item.namespace &&
-        !!item.cdb.metricName &&
-        !_.isEmpty(replaceVariable(this.templateSrv, options.scropedVars, item.cdb.region, false)) &&
-        !_.isEmpty(replaceVariable(this.templateSrv, options.scropedVars, item.cdb.instance, true))
+        !!item.cvm.metricName &&
+        !_.isEmpty(replaceVariable(this.templateSrv, options.scropedVars, item.cvm.region, false)) &&
+        !_.isEmpty(replaceVariable(this.templateSrv, options.scropedVars, item.cvm.instance, true))
       );
     }).map(target => {
-      let instances = replaceVariable(this.templateSrv, options.scropedVars, target.cdb.instance, true);
+      let instances = replaceVariable(this.templateSrv, options.scropedVars, target.cvm.instance, true);
       const Instances: any[] = [];
       if (_.isArray(instances)) {
         // handle multiple instances
         _.forEach(instances, instance => {
           instance = _.isString(instance) ? JSON.parse(instance) : instance;
           allInstances.push(instance);
-          const dimensionObject = target.cdb.dimensionObject;
+          const dimensionObject = target.cvm.dimensionObject;
           _.forEach(dimensionObject, (__, key) => {
             dimensionObject[key] = { Name: key, Value: instance[key] };
           });
@@ -137,23 +86,22 @@ export default class TCMonitorCDBDatasource {
         });
       } else {
         // handle single instance
-        console.log('23454', _.isString(instances), instances, JSON.parse('{}'));
         instances = _.isString(instances) ? JSON.parse(instances) : instances;
         allInstances.push(instances);
-        const dimensionObject = target.cdb.dimensionObject;
+        const dimensionObject = target.cvm.dimensionObject;
         _.forEach(dimensionObject, (__, key) => {
           dimensionObject[key] = { Name: key, Value: instances[key] };
         });
         Instances.push({ Dimensions: getDimensions(dimensionObject) });
       }
-      const region = replaceVariable(this.templateSrv, options.scropedVars, target.cdb.region, false);
+      const region = replaceVariable(this.templateSrv, options.scropedVars, target.cvm.region, false);
       const data = {
         StartTime: moment(options.range.from).format(),
         EndTime: moment(options.range.to).format(),
-        Period: target.cdb.period || 300,
+        Period: target.cvm.period || 300,
         Instances,
         Namespace: target.namespace,
-        MetricName: target.cdb.metricName,
+        MetricName: target.cvm.metricName,
       };
       return this.getMonitorData(data, region);
     });
@@ -171,9 +119,27 @@ export default class TCMonitorCDBDatasource {
       });
   }
 
+  // get service detail info by region and service
+  getServiceInfo(region, service) {
+    return Object.assign({}, this.servicesMap[service] || {}, this.getHostAndPath(region, service));
+  }
+
+  // get host and path for finance regions
+  getHostAndPath(region, service) {
+    if (_.indexOf(FINACE_REGIONS, region) === -1) {
+      return {};
+    }
+    return _.find( _.find(this.financePathHost, (__, key) => key === service), (__, key) => key === region) || {};
+  }
+
   // get the actual value of template variable
   toVariable(metric: string) {
     return this.templateSrv.replace((metric || '').trim());
+  }
+
+  // check whether field is validated or not
+  isValidConfigField(field: string) {
+    return field && field.length > 0;
   }
 
   // query monitor data
@@ -185,31 +151,12 @@ export default class TCMonitorCDBDatasource {
     }, serviceMap.service, { action: 'GetMonitorData', region });
   }
 
-  // get service detail info by region and service
-  getServiceInfo(region, service) {
-    return Object.assign({}, this.servicesMap[service] || {}, this.getHostAndPath(region, service));
-  }
-
-  // get host and path for finance regions
-  getHostAndPath(region, service) {
-    if (_.indexOf(FINACE_REGIONS, region) === -1) {
-      return {};
-    }
-    return _.find(_.find(this.financePathHost, (__, key) => key === service), (__, key) => key === region) || {};
-  }
-
-  // check whether field is validated or not
-  isValidConfigField(field: string) {
-    return field && field.length > 0;
-  }
-
   // get region list
   getRegions() {
     return this.doRequest({
       url: this.url + '/cvm',
     }, 'cvm', { action: 'DescribeRegions' })
       .then(response => {
-        // parse response
         return _.filter(
           _.map(response.RegionSet || [], item => {
             return { text: item.RegionName, value: item.Region, RegionState: item.RegionState };
@@ -229,7 +176,22 @@ export default class TCMonitorCDBDatasource {
       },
     }, serviceMap.service, { region, action: 'DescribeBaseMetrics' })
       .then(response => {
-        return _.filter(response.MetricSet || [], item => !(item.Namespace !== this.Namespace || !item.MetricName));
+        return _.filter(
+          _.filter(response.MetricSet || [], item => !(item.Namespace !== this.Namespace || !item.MetricName)),
+          item => _.indexOf(cvmInvalidMetrics, item.MetricName) === -1);
+      });
+  }
+
+  // get cvm instances
+  getInstances(region, params = { }) {
+    params = Object.assign({ Offset: 0, Limit: 100 }, params);
+    const serviceMap = this.getServiceInfo(region, 'cvm');
+    return this.doRequest({
+      url: this.url + serviceMap.path,
+      data: params,
+    }, serviceMap.service, { region, action: 'DescribeInstances' })
+      .then(response => {
+        return response.InstanceSet || [];
       });
   }
 
@@ -242,31 +204,18 @@ export default class TCMonitorCDBDatasource {
       .then(response => {
         return _.filter(
           _.map(response.ZoneSet || [], item => {
-            return { text: item.ZoneName, value: item.ZoneId, ZoneState: item.ZoneState, Zone: item.Zone };
+            return { text: item.ZoneName, value: item.Zone, ZoneState: item.ZoneState, Zone: item.Zone };
           }),
           item => item.ZoneState === 'AVAILABLE'
         );
       });
   }
 
-  // get cdb instances
-  getInstances(region, params = {}) {
-    params = Object.assign({ Offset: 0, Limit: 2000 }, params);
-    const serviceMap = this.getServiceInfo(region, 'cdb');
-    return this.doRequest({
-      url: this.url + serviceMap.path,
-      data: params,
-    }, serviceMap.service, { region, action: 'DescribeDBInstances' })
-      .then(response => {
-        return response.Items || [];
-      });
-  }
-
-  // test connections of cvm, cdb and montior api
+  // test connections of cvm and montior api
   testDatasource() {
     if (!this.isValidConfigField(this.secretId) || !this.isValidConfigField(this.secretKey)) {
       return {
-        service: 'cdb',
+        service: 'cvm',
         status: 'error',
         message: 'The SecretId/SecretKey field is required.',
       };
@@ -290,53 +239,38 @@ export default class TCMonitorCDBDatasource {
         'monitor',
         { region: 'ap-guangzhou', action: 'DescribeBaseMetrics' }
       ),
-      this.doRequest(
-        {
-          url: this.url + '/cdb',
-          data: {
-            Offset: 0,
-            Limit: 1,
-          },
-        },
-        'cdb',
-        { region: 'ap-guangzhou', action: 'DescribeDBInstances' }
-      )
-    ]).then(responses => {
-      const cvmErr = _.get(responses, '[0].Error', {});
-      const monitorErr = _.get(responses, '[1].Error', {});
-      const cdbErr = _.get(responses, '[2].Error', {});
-      const cvmAuthFail = _.get(cvmErr, 'Code', '').indexOf('AuthFailure') !== -1;
-      const monitorAuthFail = _.get(monitorErr, 'Code', '').indexOf('AuthFailure') !== -1;
-      const cdbAuthFail = _.get(cdbErr, 'Code', '').indexOf('AuthFailure') !== -1;
-      if (cvmAuthFail || monitorAuthFail || cdbAuthFail) {
-        const messages: any[] = [];
-        if (cvmAuthFail) {
-          messages.push(`${_.get(cvmErr, 'Code')}: ${_.get(cvmErr, 'Message')}`);
+    ])
+      .then(responses => {
+        const cvmErr = _.get(responses, '[0].Error', {});
+        const monitorErr = _.get(responses, '[1].Error', {});
+        const cvmAuthFail = _.get(cvmErr, 'Code', '').indexOf('AuthFailure') !== -1;
+        const monitorAuthFail = _.get(monitorErr, 'Code', '').indexOf('AuthFailure') !== -1;
+        if (cvmAuthFail || monitorAuthFail) {
+          const messages: any[] = [];
+          if (cvmAuthFail) {
+            messages.push(`${_.get(cvmErr, 'Code')}: ${_.get(cvmErr, 'Message')}`);
+          }
+          if (monitorAuthFail) {
+            messages.push(`${_.get(monitorErr, 'Code')}: ${_.get(monitorErr, 'Message')}`);
+          }
+          const message = _.join(_.compact(_.uniq(messages)), '; ');
+          return {
+            service: 'cvm',
+            status: 'error',
+            message,
+          };
+        } else {
+          return {
+            namespace: this.Namespace,
+            service: 'cvm',
+            status: 'success',
+            message: 'Successfully queried the CVM service.',
+            title: 'Success',
+          };
         }
-        if (monitorAuthFail) {
-          messages.push(`${_.get(monitorErr, 'Code')}: ${_.get(monitorErr, 'Message')}`);
-        }
-        if (cdbAuthFail) {
-          messages.push(`${_.get(cdbErr, 'Code')}: ${_.get(cdbErr, 'Message')}`);
-        }
-        const message = _.join(_.compact(_.uniq(messages)), '; ');
-        return {
-          service: 'cdb',
-          status: 'error',
-          message,
-        };
-      } else {
-        return {
-          namespace: this.Namespace,
-          service: 'cdb',
-          status: 'success',
-          message: 'Successfully queried the CDB service.',
-          title: 'Success',
-        };
-      }
-    })
+      })
       .catch(error => {
-        let message = 'CDB service:';
+        let message = 'CVM service:';
         message += error.statusText ? error.statusText + '; ' : '';
         if (!!_.get(error, 'data.error.code', '')) {
           message += error.data.error.code + '. ' + error.data.error.message;
@@ -345,10 +279,10 @@ export default class TCMonitorCDBDatasource {
         } else if (!!_.get(error, 'data', '')) {
           message += error.data;
         } else {
-          message += 'Cannot connect to CDB service.';
+          message += 'Cannot connect to CVM service.';
         }
         return {
-          service: 'CDB',
+          service: 'cvm',
           status: 'error',
           message: message,
         };
@@ -378,4 +312,3 @@ export default class TCMonitorCDBDatasource {
       });
   }
 }
-

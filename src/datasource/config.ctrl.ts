@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import { services } from './utils/constants';
+import { SERVICES } from './tc_monitor';
 
 export class TCMonitorDatasourceConfigCtrl {
   static templateUrl = 'datasource/partials/config.html';
@@ -8,7 +8,7 @@ export class TCMonitorDatasourceConfigCtrl {
   /** @ngInject */
   constructor($scope, datasourceSrv) {
     this.datasourceSrv = datasourceSrv;
-    this.current.jsonData.services = services;
+    this.current.jsonData.services = SERVICES;
     // set all services selected
     _.forEach(this.current.jsonData.services, (service) => {
       this.current.jsonData[service.service] = true;

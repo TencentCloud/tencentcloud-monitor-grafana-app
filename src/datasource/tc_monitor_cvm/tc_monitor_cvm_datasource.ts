@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 import moment from 'moment';
 import { Sign } from '../utils/sign';
-import { replaceVariable, cvmInvalidMetrics, cvmInstanceAliasList, finaceRegions, getDimensions, parseQueryResult } from '../utils/constants';
+import { replaceVariable, cvmInvalidMetrics, cvmInstanceAliasList, FINACE_REGIONS, getDimensions, parseQueryResult } from '../utils/constants';
 
 export default class TCMonitorCVMDatasource {
   Namespace = 'QCE/CVM';
@@ -97,7 +97,7 @@ export default class TCMonitorCVMDatasource {
 
   // get host and path for finance regions
   getHostAndPath(region, service) {
-    if (_.indexOf(finaceRegions, region) === -1) {
+    if (_.indexOf(FINACE_REGIONS, region) === -1) {
       return {};
     }
     return _.find( _.find(this.financePathHost, (__, key) => key === service), (__, key) => key === region) || {};

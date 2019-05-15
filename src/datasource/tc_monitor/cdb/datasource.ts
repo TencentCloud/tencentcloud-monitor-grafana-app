@@ -1,67 +1,17 @@
 import * as _ from 'lodash';
 import moment from 'moment';
-import { Sign } from '../utils/sign';
-import { FINACE_REGIONS, replaceVariable, getDimensions, cdbInstanceAliasList, parseQueryResult } from '../utils/constants';
+import DatasourceInterface from '../../datasource';
+import { Sign } from '../../utils/sign';
+import { FINACE_REGIONS, SERVICES_API_INFO, FINACE_HOST, replaceVariable, getDimensions, cdbInstanceAliasList, parseQueryResult } from '../../utils/constants';
 
-export default class TCMonitorCDBDatasource {
+
+export default class CDBDatasource implements DatasourceInterface {
   Namespace = 'QCE/CDB';
-  servicesMap = {
-    // cvm api info
-    cvm: {
-      service: 'cvm',
-      version: '2017-03-12',
-      path: '/cvm',
-      host: 'cvm.tencentcloudapi.com',
-    },
-    // cdb api info
-    cdb: {
-      service: 'cdb',
-      version: '2017-03-20',
-      path: '/cdb',
-      host: 'cdb.tencentcloudapi.com',
-    },
-    // monitor api info
-    monitor: {
-      service: 'monitor',
-      version: '2018-07-24',
-      path: '/monitor',
-      host: 'monitor.tencentcloudapi.com',
-    }
-  };
+  servicesMap = _.pick(SERVICES_API_INFO, ['cvm', 'cdb', 'monitor']);
   // finance path and host
-  financePathHost = {
-    cvm: {
-      'ap-shanghai-fsi': {
-        path: '/fsi/cvm/shanghai',
-        host: 'cvm.ap-shanghai-fsi.tencentcloudapi.com',
-      },
-      'ap-shenzhen-fsi': {
-        path: '/fsi/cvm/shenzhen',
-        host: 'cvm.ap-shenzhen-fsi.tencentcloudapi.com',
-      }
-    },
-    cdb: {
-      'ap-shanghai-fsi': {
-        path: '/fsi/cdb/shanghai',
-        host: 'cdb.ap-shanghai-fsi.tencentcloudapi.com',
-      },
-      'ap-shenzhen-fsi': {
-        path: '/fsi/cdb/shenzhen',
-        host: 'cdb.ap-shenzhen-fsi.tencentcloudapi.com',
-      }
-    },
-    monitor: {
-      'ap-shanghai-fsi': {
-        path: '/fsi/monitor/shanghai',
-        host: 'monitor.ap-shanghai-fsi.tencentcloudapi.com',
-      },
-      'ap-shenzhen-fsi': {
-        path: '/fsi/monitor/shenzhen',
-        host: 'monitor.ap-shenzhen-fsi.tencentcloudapi.com',
-      }
-    }
-  };
+  financePathHost = _.pick(FINACE_HOST, ['cvm', 'cdb', 'monitor']);
   url: string;
+  instanceSettings: any;
   backendSrv: any;
   templateSrv: any;
   secretId: string;
@@ -109,8 +59,7 @@ export default class TCMonitorCDBDatasource {
   }
 
   // query data for panel
-  query(options) {
-    console.log('tc_monitor_cdb_query:', options);
+  query(options: any) {
     const allInstances: any[] = [];
     const queries = _.filter(options.targets, item => {
       // get validated targets
@@ -137,7 +86,6 @@ export default class TCMonitorCDBDatasource {
         });
       } else {
         // handle single instance
-        console.log('23454', _.isString(instances), instances, JSON.parse('{}'));
         instances = _.isString(instances) ? JSON.parse(instances) : instances;
         allInstances.push(instances);
         const dimensionObject = target.cdb.dimensionObject;
