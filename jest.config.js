@@ -6,6 +6,7 @@ module.exports = {
     }
   },
   "moduleNameMapper": {
+    'app/core/core_module': '<rootDir>/src/datasource/__mocks__/core_module.ts',
   },
   "transformIgnorePatterns": [
     "<rootDir>/node_modules/(?!grafana-sdk-mocks)"

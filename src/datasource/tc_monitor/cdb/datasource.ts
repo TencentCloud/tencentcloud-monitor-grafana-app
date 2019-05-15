@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import moment from 'moment';
+import * as moment from 'moment';
 import DatasourceInterface from '../../datasource';
 import { Sign } from '../../utils/sign';
 import { CDBInstanceAliasList } from './query_def';
