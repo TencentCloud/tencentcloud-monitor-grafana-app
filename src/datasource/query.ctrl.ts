@@ -1,37 +1,30 @@
 import { QueryCtrl } from 'grafana/app/plugins/sdk';
 import * as _ from 'lodash';
-import { cvmInstanceAliasList, cdbInstanceAliasList, GetServiceFromNamespace, replaceVariable } from './utils/constants';
-// import { CDBFieldsDescriptor, CDBFields } from './tc_monitor_cdb/constants';
-// import { CVMFilterFieldsDescriptor, CVMFilterFields } from './tc_monitor_cvm/constants';
-import { InitServiceState } from './tc_monitor';
+
+import { GetServiceFromNamespace, ReplaceVariable } from './utils/constants';
+import { InitServiceState, InstanceAliasList, GetInstanceQueryParams } from './tc_monitor';
 
 import './components/multi_condition';
 import './components/custom_select_dropdown';
 import './css/query_editor.css';
 
-const queriesRegions = ['zone'];
-
-
 export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
   static templateUrl = 'datasource/partials/query.editor.html';
   datasource: any;
   panelCtrl: any;
-  namespaces = [];
-  regions = [];
+  namespaces: string[] = [];
+  regions: any[] = [];
   instanceList: any[] = [];
   metricList: any[] = [];
   periodList: number[] = [];
   dimensionList: any[] = [];
   instanceAliasList: any[] = [];
-  CDBFieldsDescriptor: any[] = [];
-  CVMFilterFieldsDescriptor: any[] = [];
   target: {
     refId: string;
     namespace: string;
     service: string;
     showInstanceDetails: boolean;
   };
-
   defaults = {
     namespace: '',
     service: '',
@@ -53,28 +46,17 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
       }
       this.target.service = GetServiceFromNamespace(this.target.namespace) || '';
     }
-    console.log('query:', this.namespaces);
-
-    console.log('Query Ctrl constructor:', this);
-
-
-    // _.defaultsDeep(this.target, this.defaults);
-    // this.instanceAliasList = this.getInstanceAliasList(this.target.service);
-    // this.CDBFieldsDescriptor = CDBFieldsDescriptor;
-    // this.CVMFilterFieldsDescriptor = CVMFilterFieldsDescriptor;
+    _.defaultsDeep(this.target, this.defaults);
+    this.instanceAliasList = this.getInstanceAliasList(this.target.service);
     this.panelCtrl.events.on('data-received', this.onDataReceived.bind(this), $scope);
   }
 
   // get instanaceAliasList by service
   getInstanceAliasList(service) {
-    switch (service) {
-      case 'cvm':
-        return _.map(cvmInstanceAliasList, item => ({ text: `As ${item}`, value: item }));
-      case 'cdb':
-        return _.map(cdbInstanceAliasList, item => ({ text: `As ${item}`, value: item }));
-      default:
-        return [];
+    if (!service) {
+      return [];
     }
+    return _.map(InstanceAliasList[`${_.upperCase(service)}InstanceAliasList`] || [], item => ({ text: `As ${item}`, value: item }));
   }
 
   // load data when query data received
@@ -94,45 +76,44 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
   }
 
   handleQueryCtrlError(err) {
-    if (err.query && err.query.refId && err.query.refId !== this.target.refId) {
+    if (_.get(err, 'query.refId') !== this.target.refId) {
       return;
     }
 
-    if (err.error && err.error.data && err.error.data.error && err.error.data.error.innererror) {
-      if (err.error.data.error.innererror.innererror) {
-        this.lastQueryError = err.error.data.error.innererror.innererror.message;
+    if (!!_.get(err, 'error.data.error.innererror', undefined)) {
+      if (!!_.get(err, 'error.data.error.innererror.innererror', undefined)) {
+        this.lastQueryError = _.get(err, 'error.data.error.innererror.innererror.message');
       } else {
-        this.lastQueryError = err.error.data.error.innererror.message;
+        this.lastQueryError = _.get(err, 'error.data.error.innererror.message');
       }
-    } else if (err.error && err.error.data && err.error.data.error) {
-      this.lastQueryError = err.error.data.error.message;
-    } else if (err.error && err.error.data) {
-      this.lastQueryError = err.error.data.message;
-    } else if (err.data && err.data.error) {
-      this.lastQueryError = err.data.error.message;
+    } else if (!!_.get(err, 'error.data.error', undefined)) {
+      this.lastQueryError = _.get(err, 'error.data.error.message');
+    } else if (!!_.get(err, 'error.data', undefined)) {
+      this.lastQueryError = _.get(err, 'error.data.message');
+    } else if (!!_.get(err, 'data.error', undefined)) {
+      this.lastQueryError = _.get(err, 'data.error.message');
     } else if (err.data && err.data.message) {
-      this.lastQueryError = err.data.message;
+    } else if (!!_.get(err, 'data.message', undefined)) {
+      this.lastQueryError = _.get(err, 'data.message');
     } else {
       this.lastQueryError = err;
     }
   }
 
-  // reset values when namespace changes
   onNamespaceChange() {
     const service = this.target.service;
-    this.target[service].region = '';
-    this.target[service].metricName = '';
-    this.target[service].metricUnit = '';
-    this.target[service].period = undefined;
-    this.target[service].dimensionObject = null;
-    this.target[service].instance = '';
     this.regions = [];
     this.metricList = [];
     this.periodList = [];
     this.dimensionList = [];
     this.instanceList = [];
+
+    const initState = InitServiceState[service];
+    this.target = { ...this.target, ...{ [service]: initState }};
+
     this.target.service = GetServiceFromNamespace(this.target.namespace) || '';
     this.instanceAliasList = this.getInstanceAliasList(this.target.service);
+
     this.panelCtrl.refresh();
   }
 
@@ -167,7 +148,6 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
       }).catch(this.handleQueryCtrlError.bind(this));
   }
 
-  // set associated values when region changes
   onRegionChange() {
     const service = this.target.service;
     this.target[service].instance = '';
@@ -175,17 +155,13 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
     _.forEach(this.target[service].dimensionObject, (__, key) => {
       this.target[service].dimensionObject[key] = { Name: key, Value: '' };
     });
-    _.forEach(this.target[service].queries, (__, key) => {
-      if (_.indexOf(queriesRegions, key) !== -1) {
-        this.target[service].queries[key] = '';
-      }
-    });
+    this.target[service].queries = _.cloneDeep(InitServiceState[service].queries);
     this.panelCtrl.refresh();
   }
 
   // get the actual value of template variable
   replace(variable: string, multiple: boolean) {
-    return replaceVariable(this.templateSrv, this.panelCtrl.panel.scopedVars, variable, multiple);
+    return ReplaceVariable(this.templateSrv, this.panelCtrl.panel.scopedVars, variable, multiple);
   }
 
   // get metric name description
@@ -219,7 +195,6 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
       .catch(this.handleQueryCtrlError.bind(this));
   }
 
-  // set associated values when metirc changes
   onMetricChange() {
     const service = this.target.service;
     let periodList = [];
@@ -246,11 +221,11 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
   // get instance list
   getInstances() {
     const service = this.target.service;
-    const region = this.replace(this.target[service].region, false);
+    const region = this.replace(_.get(this.target[service], 'region', ''), false);
     if (!service || !region) {
       return [];
     }
-    const params = this.getInstanceQueryParams();
+    const params = this.getInstanceQueryParams(service);
     return this.datasource.getInstances(service, region, params)
       .then(list => {
         this.instanceList = list;
@@ -275,60 +250,13 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
   }
 
   // get params for instances query function
-  getInstanceQueryParams() {
-    const service = this.target.service;
+  getInstanceQueryParams(service) {
     const queries = this.target[service].queries;
-    let params: any = {};
-    switch (service) {
-      case 'cvm':
-        // cvm instances query api: https://cloud.tencent.com/document/api/213/15728
-        params = _.pick(queries, ['Limit', 'Offset']);
-        if (queries.instanceIdsChecked) {
-          if (_.isArray(queries.InstanceIds)) {
-            const InstanceIds = _.compact(queries.InstanceIds);
-            if (_.uniq(InstanceIds).length > 0) {
-              params.InstanceIds = _.uniq(InstanceIds).slice(0, 100);
-            }
-          }
-        } else if (queries.filtersChecked) {
-          const Filters: any[] = [];
-          _.forEach(queries.Filters, (item: any, key) => {
-            if (Filters.length > 9) { return; }
-            if (_.isArray(item)) {
-              item = _.compact(item);
-              if (item.length > 0) {
-                Filters.push({ Name: key, Values: _.uniq(item).slice(0, 5) });
-              }
-            } else if (_.isObject(item)) {
-              if (!_.isEmpty(_.get(item, 'value', []))) {
-                Filters.push({ Name: key, Values: _.get(item, 'value', []).slice(0, 5) });
-              }
-            }
-          });
-          if (Filters.length > 0) {
-            params.Filters = Filters;
-          }
-        }
-        break;
-      case 'cdb':
-        // cdb instances query api: https://cloud.tencent.com/document/api/236/15872
-        _.forEach(queries, (item: any, key) => {
-          if (_.isArray(item)) {
-            item = _.compact(item);
-            if (item.length > 0) {
-              params[key] = _.uniq(item);
-            }
-          } else if (_.isObject(item)) {
-            if (!_.isEmpty(_.get(item, 'value'))) {
-              params[key] = _.get(item, 'value');
-            }
-          } else if (_.isNumber(item) || !_.isEmpty(item)) {
-            params[key] = item;
-          }
-        });
-        break;
+    if (GetInstanceQueryParams[`${_.upperCase(service)}GetInstanceQueryParams`]) {
+      return GetInstanceQueryParams[`${_.upperCase(service)}GetInstanceQueryParams`](queries);
+    } else {
+      return {};
     }
-    return params;
   }
 
   // query data when instance changes
@@ -341,18 +269,8 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
     if (!this.isVariable('instance')) {
       const service = this.target.service;
       this.target[service].instance = '';
-      this.instanceList = [];
+      this.panelCtrl.refresh();
     }
-  }
-
-  // get zone list by service
-  getZones() {
-    const service = this.target.service;
-    const region = this.replace(this.target[service].region, false);
-    if (!service || !region) {
-      return [];
-    }
-    return this.datasource.getZones(service, region).catch(this.handleQueryCtrlError.bind(this));
   }
 
   // reset instances when instance query params change
@@ -369,41 +287,6 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
     }
   }
 
-  // according to cvm instances query api, InstanceIds and Filters are mutually exclusive
-  onCVMInstanceIdsChecked() {
-    // if (this.target.cvm.queries.instanceIdsChecked) {
-    //   this.target.cvm.queries.filtersChecked = false;
-    // }
-    this.onInstanceQueryChange();
-  }
-
-  onCVMFiltersChecked() {
-    // if (this.target.cvm.queries.filtersChecked) {
-    //   this.target.cvm.queries.instanceIdsChecked = false;
-    // }
-    this.onInstanceQueryChange();
-  }
-
-  // get cvm dropdown options by filed
-  getCVMDropdown(field) {
-    switch (field) {
-      case 'zone':
-        return this.getZones();
-      default:
-        return [];
-    }
-  }
-
-  // get cdb dropdown options by filed
-  getCDBDropdown(field) {
-    switch (field) {
-      case 'ZoneIds':
-        return this.getZones();
-      default:
-        return [];
-    }
-  }
-
   // check whether value is template variable or not
   isVariable(field) {
     const service = this.target.service;
@@ -412,6 +295,10 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
       return true;
     }
     return false;
+  }
+
+  checkShowDetail(field) {
+    return !this.isVariable(field) && this.target.showInstanceDetails;
   }
 
 }

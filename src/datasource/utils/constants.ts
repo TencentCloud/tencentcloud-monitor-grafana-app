@@ -2,8 +2,6 @@ import * as _ from 'lodash';
 import { SERVICES } from '../tc_monitor';
 
 // the services of tencentcloud monitor api
-
-
 const FINACE_REGIONS = ['ap-shanghai-fsi', 'ap-shenzhen-fsi'];
 
 const SERVICES_API_INFO = {
@@ -63,16 +61,6 @@ const FINACE_HOST = {
   }
 };
 
-
-
-
-
-const cvmInvalidMetrics = ['DcCPUUsage', 'DcMemUsage'];
-
-const cvmInstanceAliasList = ['InstanceId', 'InstanceName', 'PrivateIpAddresses', 'PublicIpAddresses'];
-
-const cdbInstanceAliasList = ['InstanceId', 'InstanceName', 'Vip'];
-
 function GetServiceFromNamespace(namespace) {
   return _.get(_.find(SERVICES, service => service.namespace === namespace), 'service');
 }
@@ -93,6 +81,7 @@ function ParseMetricQuery(query = '') {
   return result;
 }
 
+// get the actual value of template variable
 function parseVariableFormat(varname: string) {
   varname = String(varname || '');
   // $varname
@@ -111,8 +100,7 @@ function parseVariableFormat(varname: string) {
   return { varname, varFlag };
 }
 
-// get the actual value of template variable
-function replaceVariable(templateSrv, scopedVars, field, multiple = false) {
+function ReplaceVariable(templateSrv, scopedVars, field, multiple = false) {
   const { varname, varFlag } = parseVariableFormat(field);
   let replaceVar = templateSrv.replace(varname, scopedVars);
   if (varFlag) {
@@ -125,7 +113,7 @@ function replaceVariable(templateSrv, scopedVars, field, multiple = false) {
 }
 
 // get dimensions for instance query param
-function getDimensions(obj) {
+function GetDimensions(obj) {
   if (_.isEmpty(obj)) {
     return [];
   }
@@ -162,7 +150,7 @@ function isInstanceMatch(instance, dimensions) {
 }
 
 // parse query data result for panel
-function parseQueryResult(responses, instances) {
+function ParseQueryResult(responses, instances) {
   const instanceList = instances;
   const result: any[] = [];
   _.forEach(responses, (response) => {
@@ -195,15 +183,11 @@ function parseQueryResult(responses, instances) {
 export {
   SERVICES_API_INFO,
   FINACE_HOST,
-  cvmInvalidMetrics,
   FINACE_REGIONS,
-  cvmInstanceAliasList,
-  cdbInstanceAliasList,
   GetServiceFromNamespace,
   ParseMetricQuery,
-  parseVariableFormat,
-  replaceVariable,
-  getDimensions,
-  parseQueryResult
+  ReplaceVariable,
+  GetDimensions,
+  ParseQueryResult
 };
 

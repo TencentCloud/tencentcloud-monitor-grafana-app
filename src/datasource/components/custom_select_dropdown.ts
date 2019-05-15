@@ -162,12 +162,47 @@ export class CustomSelectDropdownCtrl {
   }
 }
 
+const template = `
+<div class="variable-link-wrapper">
+  <a ng-click="vm.show()" class="variable-value-link min-width-10">
+    {{vm.linkText}}
+    <i class="fa fa-caret-down" style="font-size:12px;float:right;position:relative;top:4px"></i>
+  </a>
+
+  <input
+    type="text"
+    class="gf-form-input"
+    style="display: none"
+    ng-keydown="vm.keyDown($event)"
+    ng-model="vm.search.query"
+    ng-change="vm.queryChanged()"
+  ></input>
+
+  <div class="variable-value-dropdown" ng-if="vm.dropdownVisible" ng-class="{'multi': vm.multiple, 'single': !vm.multiple}">
+    <div class="variable-options-wrapper">
+      <div class="variable-options-column">
+        <a class="variable-options-column-header" ng-if="!!vm.multiple" ng-class="{'many-selected': vm.selectedValues.length > 1}"
+          bs-tooltip="'Clear selections'" data-placement="top" ng-click="vm.clearSelections()">
+          <span class="variable-option-icon"></span>
+          Selected ({{vm.selectedValues.length}})
+        </a>
+        <a class="variable-option pointer" ng-repeat="option in vm.search.options" ng-class="{'selected': option.selected, 'highlighted': $index === vm.highlightIndex}"
+          ng-click="vm.selectValue(option, $event)">
+          <span class="variable-option-icon"></span>
+          <span>{{option.text}}</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
 /** @ngInject */
 export function customSelectDropdown($compile, $window, $timeout, $rootScope) {
   return {
     restrict: 'E',
     scope: { options: '=', multiple: '=', value: '=', onChange: '&' },
-    templateUrl: 'public/plugins/tencentcloud-monitor-grafana-app/datasource/partials/custom_select_dropdown.html',
+    template: template,
     controller: 'CustomSelectDropdownCtrl',
     controllerAs: 'vm',
     bindToController: true,

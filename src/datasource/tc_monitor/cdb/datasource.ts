@@ -2,7 +2,8 @@ import * as _ from 'lodash';
 import moment from 'moment';
 import DatasourceInterface from '../../datasource';
 import { Sign } from '../../utils/sign';
-import { FINACE_REGIONS, SERVICES_API_INFO, FINACE_HOST, replaceVariable, getDimensions, cdbInstanceAliasList, parseQueryResult } from '../../utils/constants';
+import { CDBInstanceAliasList } from './query_def';
+import { FINACE_REGIONS, SERVICES_API_INFO, FINACE_HOST, ReplaceVariable, GetDimensions, ParseQueryResult } from '../../utils/constants';
 
 
 export default class CDBDatasource implements DatasourceInterface {
@@ -37,7 +38,7 @@ export default class CDBDatasource implements DatasourceInterface {
     const instancesQuery = query['action'].match(/^DescribeDBInstances/i) && !!query['region'];
     if (instancesQuery && this.toVariable(query['region'])) {
       return this.getInstances(this.toVariable(query['region'])).then(result => {
-        const instanceAlias = cdbInstanceAliasList.indexOf(query['instancealias']) !== -1 ? query['instancealias'] : 'InstanceId';
+        const instanceAlias = CDBInstanceAliasList.indexOf(query['instancealias']) !== -1 ? query['instancealias'] : 'InstanceId';
         const instances: any[] = [];
         _.forEach(result, (item) => {
           const instanceAliasValue = _.get(item, instanceAlias);
@@ -67,11 +68,11 @@ export default class CDBDatasource implements DatasourceInterface {
         item.cdb.hide !== true &&
         !!item.namespace &&
         !!item.cdb.metricName &&
-        !_.isEmpty(replaceVariable(this.templateSrv, options.scropedVars, item.cdb.region, false)) &&
-        !_.isEmpty(replaceVariable(this.templateSrv, options.scropedVars, item.cdb.instance, true))
+        !_.isEmpty(ReplaceVariable(this.templateSrv, options.scropedVars, item.cdb.region, false)) &&
+        !_.isEmpty(ReplaceVariable(this.templateSrv, options.scropedVars, item.cdb.instance, true))
       );
     }).map(target => {
-      let instances = replaceVariable(this.templateSrv, options.scropedVars, target.cdb.instance, true);
+      let instances = ReplaceVariable(this.templateSrv, options.scropedVars, target.cdb.instance, true);
       const Instances: any[] = [];
       if (_.isArray(instances)) {
         // handle multiple instances
@@ -82,7 +83,7 @@ export default class CDBDatasource implements DatasourceInterface {
           _.forEach(dimensionObject, (__, key) => {
             dimensionObject[key] = { Name: key, Value: instance[key] };
           });
-          Instances.push({ Dimensions: getDimensions(dimensionObject) });
+          Instances.push({ Dimensions: GetDimensions(dimensionObject) });
         });
       } else {
         // handle single instance
@@ -92,9 +93,9 @@ export default class CDBDatasource implements DatasourceInterface {
         _.forEach(dimensionObject, (__, key) => {
           dimensionObject[key] = { Name: key, Value: instances[key] };
         });
-        Instances.push({ Dimensions: getDimensions(dimensionObject) });
+        Instances.push({ Dimensions: GetDimensions(dimensionObject) });
       }
-      const region = replaceVariable(this.templateSrv, options.scropedVars, target.cdb.region, false);
+      const region = ReplaceVariable(this.templateSrv, options.scropedVars, target.cdb.region, false);
       const data = {
         StartTime: moment(options.range.from).format(),
         EndTime: moment(options.range.to).format(),
@@ -112,7 +113,7 @@ export default class CDBDatasource implements DatasourceInterface {
 
     return Promise.all(queries)
       .then(responses => {
-        return parseQueryResult(responses, allInstances);
+        return ParseQueryResult(responses, allInstances);
       })
       .catch(error => {
         return { data: [] };

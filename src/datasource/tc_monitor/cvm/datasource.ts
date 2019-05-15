@@ -2,7 +2,8 @@ import * as _ from 'lodash';
 import moment from 'moment';
 import DatasourceInterface from '../../datasource';
 import { Sign } from '../../utils/sign';
-import { FINACE_HOST, SERVICES_API_INFO, replaceVariable, cvmInvalidMetrics, cvmInstanceAliasList, FINACE_REGIONS, getDimensions, parseQueryResult } from '../../utils/constants';
+import { CVMInstanceAliasList, CVMInvalidMetrics } from './query_def';
+import { FINACE_HOST, SERVICES_API_INFO, ReplaceVariable, FINACE_REGIONS, GetDimensions, ParseQueryResult } from '../../utils/constants';
 
 export default class CVMDatasource implements DatasourceInterface {
   Namespace = 'QCE/CVM';
@@ -37,7 +38,7 @@ export default class CVMDatasource implements DatasourceInterface {
     const instancesQuery = query['action'].match(/^DescribeInstances/i) && !!query['region'];
     if (instancesQuery && this.toVariable(query['region'])) {
       return this.getInstances(this.toVariable(query['region'])).then(result => {
-        const instanceAlias = cvmInstanceAliasList.indexOf(query['instancealias']) !== -1 ? query['instancealias'] : 'InstanceId';
+        const instanceAlias = CVMInstanceAliasList.indexOf(query['instancealias']) !== -1 ? query['instancealias'] : 'InstanceId';
         const instances: any[] = [];
         _.forEach(result, (item) => {
           const instanceAliasValue = _.get(item, instanceAlias);
@@ -67,11 +68,11 @@ export default class CVMDatasource implements DatasourceInterface {
         item.cvm.hide !== true &&
         !!item.namespace &&
         !!item.cvm.metricName &&
-        !_.isEmpty(replaceVariable(this.templateSrv, options.scropedVars, item.cvm.region, false)) &&
-        !_.isEmpty(replaceVariable(this.templateSrv, options.scropedVars, item.cvm.instance, true))
+        !_.isEmpty(ReplaceVariable(this.templateSrv, options.scropedVars, item.cvm.region, false)) &&
+        !_.isEmpty(ReplaceVariable(this.templateSrv, options.scropedVars, item.cvm.instance, true))
       );
     }).map(target => {
-      let instances = replaceVariable(this.templateSrv, options.scropedVars, target.cvm.instance, true);
+      let instances = ReplaceVariable(this.templateSrv, options.scropedVars, target.cvm.instance, true);
       const Instances: any[] = [];
       if (_.isArray(instances)) {
         // handle multiple instances
@@ -82,7 +83,7 @@ export default class CVMDatasource implements DatasourceInterface {
           _.forEach(dimensionObject, (__, key) => {
             dimensionObject[key] = { Name: key, Value: instance[key] };
           });
-          Instances.push({ Dimensions: getDimensions(dimensionObject) });
+          Instances.push({ Dimensions: GetDimensions(dimensionObject) });
         });
       } else {
         // handle single instance
@@ -92,9 +93,9 @@ export default class CVMDatasource implements DatasourceInterface {
         _.forEach(dimensionObject, (__, key) => {
           dimensionObject[key] = { Name: key, Value: instances[key] };
         });
-        Instances.push({ Dimensions: getDimensions(dimensionObject) });
+        Instances.push({ Dimensions: GetDimensions(dimensionObject) });
       }
-      const region = replaceVariable(this.templateSrv, options.scropedVars, target.cvm.region, false);
+      const region = ReplaceVariable(this.templateSrv, options.scropedVars, target.cvm.region, false);
       const data = {
         StartTime: moment(options.range.from).format(),
         EndTime: moment(options.range.to).format(),
@@ -112,7 +113,7 @@ export default class CVMDatasource implements DatasourceInterface {
 
     return Promise.all(queries)
       .then(responses => {
-        return parseQueryResult(responses, allInstances);
+        return ParseQueryResult(responses, allInstances);
       })
       .catch(error => {
         return { data: [] };
@@ -178,7 +179,7 @@ export default class CVMDatasource implements DatasourceInterface {
       .then(response => {
         return _.filter(
           _.filter(response.MetricSet || [], item => !(item.Namespace !== this.Namespace || !item.MetricName)),
-          item => _.indexOf(cvmInvalidMetrics, item.MetricName) === -1);
+          item => _.indexOf(CVMInvalidMetrics, item.MetricName) === -1);
       });
   }
 
