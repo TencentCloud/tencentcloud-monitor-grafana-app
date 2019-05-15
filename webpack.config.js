@@ -46,7 +46,7 @@ module.exports = {
       { from: '**/*.html' },
       { from: 'dashboards/*' },
       { from: '../README.md' },
-      { from: 'datasource/img/*' },
+      { from: '**/img/*' },
     ]),
   ],
   resolve: {
