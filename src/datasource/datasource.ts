@@ -124,7 +124,6 @@ export class TCMonitorDatasource implements DatasourceInterface {
 
   // handle template variable query
   metricFindQuery(query: string) {
-    console.log('metricFindQuery:', query);
     const queries = ParseMetricQuery(query);
     const service = GetServiceFromNamespace(queries['namespace'] || '');
     if (_.isEmpty(queries) || !queries['namespace'] || !queries['action'] || !service) {
