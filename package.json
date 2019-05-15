@@ -11,7 +11,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "TODO"
+    "url": "git+https://github.com/TencentCloud/tencentcloud-monitor-grafana-app.git"
   },
   "author": "Tencent Cloud",
   "license": "Apache-2.0",
@@ -22,7 +22,7 @@
     "tslint": "tslint -c tslint.json --project tsconfig.json --fix"
   },
   "bugs": {
-    "url": "TODO"
+    "url": "https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/issues"
   },
   "devDependencies": {
     "@babel/cli": "^7.2.3",
@@ -37,6 +37,7 @@
     "@types/lodash": "^4.14.123",
     "@types/moment": "^2.13.0",
     "babel-jest": "^24.8.0",
+    "babel-loader": "^8.0.6",
     "clean-webpack-plugin": "^2.0.1",
     "copy-webpack-plugin": "^5.0.2",
     "css-loader": "^2.1.1",
@@ -47,6 +48,7 @@
     "ts-loader": "^5.3.3",
     "tslint": "^5.16.0",
     "typescript": "^3.4.5",
+    "uglifyjs-webpack-plugin": "^2.1.2",
     "webpack": "^4.29.6",
     "webpack-bundle-analyzer": "^3.3.2",
     "webpack-cli": "^3.3.0"

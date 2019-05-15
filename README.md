@@ -21,7 +21,7 @@
 2. 下载最新版本的腾讯云监控应用插件代码，并将解压后的代码放置在 Grafana 的 `${GRAFANA_HOME}/data/plugins` 目录；
 3. 重启 Grafana 服务；
 4. 鼠标悬浮左侧导航栏的 **齿轮** 图标，点击 `Plugins` 选项，进入 Plugins 管理页面，如果插件列表中正常展示 `Tencent Cloud Monitor` APP 插件，表示插件安装成功；
-  ![Plugin APP](public/plugins/tencentcloud-monitor-grafana-app/img/plugin-app.png)
+  ![Plugin APP](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/src/img/plugin-app.png?raw=true)
 5. 进入应用详情页面，点击 `Enable` 按钮，启用成功后，即可在 Grafana 中使用腾讯云监控应用插件。
 
 
@@ -30,12 +30,12 @@
 腾讯云监控应用插件通过调用[云监控 API](https://cloud.tencent.com/document/product/248/30342) 的方式获取各云产品的监控指标数据，通过以下步骤，配置相应云产品的数据源。    
 1. 鼠标悬浮左侧导航栏的 **齿轮** 图标，点击 `Data Sources` 选项，进入数据源管理页面；
 2. 点击右上角的 `Add data source` 按钮，然后点击 `Tencent Cloud Monitor Datasource` 数据源，进入数据源配置页面；
-  ![Datasource Add](public/plugins/tencentcloud-monitor-grafana-app/img/datasource-choose.png)
+  ![Datasource Add](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/src/img/datasource-choose.png?raw=true)
 3. `Name` 数据源名称，可以是任意名称；  
 4. `SecretId` 和 `SecretKey` 是调用云监控 API 必需的安全证书信息，二者可以通过腾讯云控制台 [云 API 密钥页面](https://console.cloud.tencent.com/capi) 获取；
 5. 选择需要获取监控数据的云产品；  
 6. 点击 `Save & Test` 按钮，测试数据源的配置信息是否正确，配置成功后，即可以在 Dashboard 中使用该数据源。
-  ![Datasource Config](public/plugins/tencentcloud-monitor-grafana-app/img/datasource-config.png)
+  ![Datasource Config](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/src/img/datasource-config.png?raw=true)
 
 # 创建 Dashboard
 
@@ -53,7 +53,7 @@
 
 鼠标悬浮左侧导航栏的 **齿轮** 图标，点击 `Plugins` 选项，进入 Plugins 管理页面。然后，点击 `Tencent Cloud Monitor` 应用，进入应用详情页面，切换至 `Dashboards` 选项卡，选择 Dashbboard 模板导入。
 
-![Import Plugin Dashboard](public/plugins/tencentcloud-monitor-grafana-app/img/plugin-dashboard.png)
+![Import Plugin Dashboard](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/src/img/plugin-dashboard.png?raw=true)
 
 
 # 配置 Panel 数据
@@ -73,7 +73,7 @@
        - 可实例列表的获取可参考 [云服务器查询实例列表接口文档](https://cloud.tencent.com/document/api/213/15728)。切换 `Show Details` 为 `true`，可展示实例请求参数，默认参数为`Offset = 0` 和 `Limit = 20`。如果需要变更实例查询条件，可参考接口文档，配置相应参数。
        - **注意：** 在本应用中，监控数据的单次查询为原子操作，即查询某一实例的某一指标的监控数据，故实例只能单选，如需查询多实例的监控数据，点击右上角的 `Add Query` 增加新的查询。  
 
-![CVM Panel Query](public/plugins/tencentcloud-monitor-grafana-app/img/panel-cvm-query.png)
+![CVM Panel Query](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/src/img/panel-cvm-query.png?raw=true)
 
 ## CDB 云数据库MySQL监控
 
@@ -89,7 +89,7 @@
        - 实例列表的获取可参考 [云数据库MySQL查询实例列表接口文档](https://cloud.tencent.com/document/api/236/15872)。切换 `Show Details` 为 `true`，可展示实例请求参数，默认参数为`Offset = 0` 和 `Limit = 20`。如果需要变更实例查询条件，可参考接口文档，配置相应参数。
        - **注意：** 在本应用中，监控数据的单次查询为原子操作，即查询某一实例的某一指标的监控数据，故实例只能单选，如需查询多实例的监控数据，点击右上角的 `Add Query` 增加新的查询。  
 
-![CDB Panel Query](public/plugins/tencentcloud-monitor-grafana-app/img/panel-cdb-query.png)
+![CDB Panel Query](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/src/img/panel-cdb-query.png?raw=true)
 
 
 # 模板变量
@@ -120,13 +120,13 @@
 
 以云服务器单机监控 Dashboard 为例，展示如何配置级联变量：地域变量、云服务器实例变量，如下图所示。
 
-![Variable Region Config](public/plugins/tencentcloud-monitor-grafana-app/img/variable-region-config.png)
+![Variable Region Config](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/src/img/variable-region-config.png?raw=true)
 
-![Variable Instance Config](public/plugins/tencentcloud-monitor-grafana-app/img/variable-instance-config.png)
+![Variable Instance Config](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/src/img/variable-instance-config.png?raw=true)
 
 ## 应用变量
 创建变量后，在 Dashboard 页面的左上角会展示变量选择框，可以切换变量值。变量有两种引用语法，`$varname` 和 `[[varname]]`。变量常用于 Panel 的查询语句中，以云服务器单机监控 Dashboard 为例，展示如何在查询中使用变量，如下图所示。此外，变量还可以应用在 Panel 标题、Text 文本面板等。
 
-![Variable Dashboard](public/plugins/tencentcloud-monitor-grafana-app/img/variable-cvm-dashboard.png)
+![Variable Dashboard](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/src/img/variable-cvm-dashboard.png?raw=true)
 
-![Variable Panel Query](public/plugins/tencentcloud-monitor-grafana-app/img/variable-panel-query.png)
+![Variable Panel Query](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/src/img/variable-panel-query.png?raw=true)
