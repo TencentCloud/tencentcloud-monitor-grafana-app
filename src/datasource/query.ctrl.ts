@@ -1,7 +1,7 @@
 import { QueryCtrl } from 'grafana/app/plugins/sdk';
 import * as _ from 'lodash';
 
-import { GetServiceFromNamespace, ReplaceVariable } from './utils/constants';
+import { GetServiceFromNamespace, ReplaceVariable } from './common/constants';
 import { InitServiceState, InstanceAliasList, GetInstanceQueryParams } from './tc_monitor';
 
 import './components/multi_condition';
@@ -160,7 +160,7 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
   }
 
   // get the actual value of template variable
-  replace(variable: string, multiple: boolean) {
+  getVariable(variable: string, multiple: boolean) {
     return ReplaceVariable(this.templateSrv, this.panelCtrl.panel.scopedVars, variable, multiple);
   }
 
@@ -174,7 +174,7 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
   // get metirc list by service and region
   getMetrics(query) {
     const service = this.target.service;
-    const region = this.replace(_.get(this.target[service], 'region', ''), false);
+    const region = this.getVariable(_.get(this.target[service], 'region', ''), false);
 
     if (!service || !region) {
       return [];
@@ -221,7 +221,7 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
   // get instance list
   getInstances() {
     const service = this.target.service;
-    const region = this.replace(_.get(this.target[service], 'region', ''), false);
+    const region = this.getVariable(_.get(this.target[service], 'region', ''), false);
     if (!service || !region) {
       return [];
     }

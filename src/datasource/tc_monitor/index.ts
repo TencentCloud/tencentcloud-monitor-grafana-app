@@ -5,8 +5,8 @@ import CVM_STATE, { CVMInstanceAliasList, CVMGetInstanceQueryParams } from './cv
 import CDB_STATE, { CDBInstanceAliasList, CDBGetInstanceQueryParams } from './cdb/query_def';
 
 // 导入相应产品的 Query 查询控制
-import './cvm/cvm_query';
-import './cdb/cdb_query';
+import './cvm/query';
+import './cdb/query';
 
 
 const SERVICES = [
@@ -26,7 +26,7 @@ const InitStates = {
   cdb: { ...CDB_STATE },
 };
 
-const Datasource = {
+const Datasources = {
   CVMDatasource,
   CDBDatasource,
 };
@@ -39,7 +39,7 @@ const GetInstanceQueryParams = {
 export {
   InitStates as InitServiceState,
   SERVICES,
-  Datasource,
+  Datasources,
   InstanceAliasList,
   GetInstanceQueryParams,
 };

@@ -1,16 +1,12 @@
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import DatasourceInterface from '../../datasource';
-import { Sign } from '../../utils/sign';
 import { CDBInstanceAliasList } from './query_def';
-import { FINACE_REGIONS, SERVICES_API_INFO, FINACE_HOST, ReplaceVariable, GetDimensions, ParseQueryResult } from '../../utils/constants';
+import { GetRequestParams, GetServiceAPIInfo, ReplaceVariable, GetDimensions, ParseQueryResult, VARIABLE_ALIAS } from '../../common/constants';
 
 
 export default class CDBDatasource implements DatasourceInterface {
   Namespace = 'QCE/CDB';
-  servicesMap = _.pick(SERVICES_API_INFO, ['cvm', 'cdb', 'monitor']);
-  // finance path and host
-  financePathHost = _.pick(FINACE_HOST, ['cvm', 'cdb', 'monitor']);
   url: string;
   instanceSettings: any;
   backendSrv: any;
@@ -21,6 +17,7 @@ export default class CDBDatasource implements DatasourceInterface {
   constructor(instanceSettings, backendSrv, templateSrv) {
     this.backendSrv = backendSrv;
     this.templateSrv = templateSrv;
+    this.instanceSettings = instanceSettings;
     this.url = instanceSettings.url;
     this.secretId = (instanceSettings.jsonData || {}).secretId || '';
     this.secretKey = (instanceSettings.jsonData || {}).secretKey || '';
@@ -36,9 +33,10 @@ export default class CDBDatasource implements DatasourceInterface {
 
     // query cdb instance list
     const instancesQuery = query['action'].match(/^DescribeDBInstances/i) && !!query['region'];
-    if (instancesQuery && this.toVariable(query['region'])) {
-      return this.getInstances(this.toVariable(query['region'])).then(result => {
-        const instanceAlias = CDBInstanceAliasList.indexOf(query['instancealias']) !== -1 ? query['instancealias'] : 'InstanceId';
+    const region = this.getVariable(query['region']);
+    if (instancesQuery && region) {
+      return this.getInstances(region).then(result => {
+        const instanceAlias = CDBInstanceAliasList.indexOf(query[VARIABLE_ALIAS]) !== -1 ? query[VARIABLE_ALIAS] : 'InstanceId';
         const instances: any[] = [];
         _.forEach(result, (item) => {
           const instanceAliasValue = _.get(item, instanceAlias);
@@ -110,33 +108,20 @@ export default class CDBDatasource implements DatasourceInterface {
   }
 
   // get the actual value of template variable
-  toVariable(metric: string) {
+  getVariable(metric: string) {
     return this.templateSrv.replace((metric || '').trim());
   }
 
   // query monitor data
   getMonitorData(params, region, instances) {
-    const serviceMap = this.getServiceInfo(region, 'monitor');
+    const serviceInfo = GetServiceAPIInfo(region, 'monitor');
     return this.doRequest({
-      url: this.url + serviceMap.path,
+      url: this.url + serviceInfo.path,
       data: params,
-    }, serviceMap.service, { action: 'GetMonitorData', region })
+    }, serviceInfo.service, { action: 'GetMonitorData', region })
       .then(response => {
         return ParseQueryResult(response, instances);
       });
-  }
-
-  // get service detail info by region and service
-  getServiceInfo(region, service) {
-    return Object.assign({}, this.servicesMap[service] || {}, this.getHostAndPath(region, service));
-  }
-
-  // get host and path for finance regions
-  getHostAndPath(region, service) {
-    if (_.indexOf(FINACE_REGIONS, region) === -1) {
-      return {};
-    }
-    return _.find(_.find(this.financePathHost, (__, key) => key === service), (__, key) => key === region) || {};
   }
 
   // check whether field is validated or not
@@ -150,7 +135,6 @@ export default class CDBDatasource implements DatasourceInterface {
       url: this.url + '/cvm',
     }, 'cvm', { action: 'DescribeRegions' })
       .then(response => {
-        // parse response
         return _.filter(
           _.map(response.RegionSet || [], item => {
             return { text: item.RegionName, value: item.Region, RegionState: item.RegionState };
@@ -162,13 +146,13 @@ export default class CDBDatasource implements DatasourceInterface {
 
   // get metric list by region
   getMetrics(region = 'ap-guangzhou') {
-    const serviceMap = this.getServiceInfo(region, 'monitor');
+    const serviceInfo = GetServiceAPIInfo(region, 'monitor');
     return this.doRequest({
-      url: this.url + serviceMap.path,
+      url: this.url + serviceInfo.path,
       data: {
         Namespace: this.Namespace,
       },
-    }, serviceMap.service, { region, action: 'DescribeBaseMetrics' })
+    }, serviceInfo.service, { region, action: 'DescribeBaseMetrics' })
       .then(response => {
         return _.filter(response.MetricSet || [], item => !(item.Namespace !== this.Namespace || !item.MetricName));
       });
@@ -176,10 +160,10 @@ export default class CDBDatasource implements DatasourceInterface {
 
   // get zone list by region
   getZones(region) {
-    const serviceMap = this.getServiceInfo(region, 'cvm');
+    const serviceInfo = GetServiceAPIInfo(region, 'cvm');
     return this.doRequest({
-      url: this.url + serviceMap.path,
-    }, serviceMap.service, { region, action: 'DescribeZones' })
+      url: this.url + serviceInfo.path,
+    }, serviceInfo.service, { region, action: 'DescribeZones' })
       .then(response => {
         return _.filter(
           _.map(response.ZoneSet || [], item => {
@@ -193,11 +177,11 @@ export default class CDBDatasource implements DatasourceInterface {
   // get cdb instances
   getInstances(region, params = {}) {
     params = Object.assign({ Offset: 0, Limit: 2000 }, params);
-    const serviceMap = this.getServiceInfo(region, 'cdb');
+    const serviceInfo = GetServiceAPIInfo(region, 'cdb');
     return this.doRequest({
-      url: this.url + serviceMap.path,
+      url: this.url + serviceInfo.path,
       data: params,
-    }, serviceMap.service, { region, action: 'DescribeDBInstances' })
+    }, serviceInfo.service, { region, action: 'DescribeDBInstances' })
       .then(response => {
         return response.Items || [];
       });
@@ -298,17 +282,7 @@ export default class CDBDatasource implements DatasourceInterface {
 
   // request function for tencent cloud monitor
   doRequest(options, service, signObj: any = {}): any {
-    const signParams = {
-      secretId: this.secretId,
-      secretKey: this.secretKey,
-      payload: options.data || '',
-      ...signObj,
-      ...(_.pick(this.getServiceInfo(signObj.region || '', service), ['service', 'host', 'version']) || {}),
-    };
-    // get signature
-    const sign = new Sign(signParams);
-    options.headers = Object.assign(options.headers || {}, { ...sign.getHeader() });
-    options.method = 'POST';
+    options = GetRequestParams(options, service, signObj, this.secretId, this.secretKey);
     return this.backendSrv
       .datasourceRequest(options)
       .then(response => {

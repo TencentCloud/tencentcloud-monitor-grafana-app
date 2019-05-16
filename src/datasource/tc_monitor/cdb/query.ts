@@ -96,10 +96,6 @@ const template = `
 </div>
 `;
 
-
-
-
-
 export function cdbQuery() {
   return {
     template: template,

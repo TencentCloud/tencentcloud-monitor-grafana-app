@@ -129,6 +129,19 @@ describe('Tencent Cloud Monitor CDB Datasource', () => {
   });
 
   describe('When performing query: ', () => {
+    beforeEach(() => {
+      ctx.instanceSettings = {
+        jsonData: {
+          cdb: true,
+          secretId: 'xxx',
+          secretKey: 'xxx',
+          services: [
+            { href: 'https://cloud.tencent.com/document/api/236/15829', label: 'CDB', namespace: 'QCE/CDB', service: 'cdb'}
+          ],
+        },
+      };
+      ctx.ds = new TCMonitorDatasource(ctx.instanceSettings, ctx.backendSrv, ctx.templateSrv);
+    });
     const options = {
       range: {
         from: moment().subtract(1, 'h').format(),
@@ -189,6 +202,19 @@ describe('Tencent Cloud Monitor CDB Datasource', () => {
   });
 
   describe('When performing metricFindQuery: ', () => {
+    beforeEach(() => {
+      ctx.instanceSettings = {
+        jsonData: {
+          cdb: true,
+          secretId: 'xxx',
+          secretKey: 'xxx',
+          services: [
+            { href: 'https://cloud.tencent.com/document/api/236/15829', label: 'CDB', namespace: 'QCE/CDB', service: 'cdb'}
+          ],
+        },
+      };
+      ctx.ds = new TCMonitorDatasource(ctx.instanceSettings, ctx.backendSrv, ctx.templateSrv);
+    });
     const query = 'Namespace=QCE/CDB&Action=DescribeRegions';
     const response = {
       data: {

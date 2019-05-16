@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
-import { Datasource, SERVICES } from './tc_monitor';
-import { GetServiceFromNamespace, ParseMetricQuery } from './utils/constants';
+import { Datasources, SERVICES } from './tc_monitor';
+import { GetServiceFromNamespace, ParseMetricQuery } from './common/constants';
 
 export default interface DatasourceInterface {
   instanceSettings: any;
@@ -11,8 +11,8 @@ export default interface DatasourceInterface {
   metricFindQuery(query: any);
   getRegions(service: string);
   getMetrics(service: string, region: string);
-  getZones(service: string, region: string);
   getInstances(service: string, region: string, params: any);
+  getZones?: (service: string, region: string) => any;
 }
 
 export class TCMonitorDatasource implements DatasourceInterface {
@@ -25,8 +25,8 @@ export class TCMonitorDatasource implements DatasourceInterface {
     this.instanceSettings = instanceSettings;
     this.backendSrv = backendSrv;
     this.templateSrv = templateSrv;
-    _.forEach(Datasource, (_class, key) => {
-      this[key] = new _class(instanceSettings, this.backendSrv, this.templateSrv);
+    _.forEach(Datasources, (_class, key) => {
+      this[key] = new _class(this.instanceSettings, this.backendSrv, this.templateSrv);
     });
   }
 

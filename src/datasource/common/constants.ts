@@ -1,5 +1,6 @@
 import * as _ from 'lodash';
 import { SERVICES } from '../tc_monitor';
+import Sign from './sign';
 
 // the services of tencentcloud monitor api
 const FINACE_REGIONS = ['ap-shanghai-fsi', 'ap-shenzhen-fsi'];
@@ -61,12 +62,28 @@ const FINACE_HOST = {
   }
 };
 
-function GetServiceFromNamespace(namespace) {
+// 获取对应业务的 API 接口信息
+export function GetServiceAPIInfo(region, service) {
+  return Object.assign({}, SERVICES_API_INFO[service] || {}, getHostAndPath(region, service));
+}
+
+  // get host and path for finance regions
+function getHostAndPath(region, service) {
+    if (_.indexOf(FINACE_REGIONS, region) === -1) {
+      return {};
+    }
+    return _.find(_.find(FINACE_HOST, (__, key) => key === service), (__, key) => key === region) || {};
+  }
+
+// 变量替换指定实例按照那个字段展示
+export const VARIABLE_ALIAS = 'instancealias';
+
+export function GetServiceFromNamespace(namespace) {
   return _.get(_.find(SERVICES, service => service.namespace === namespace), 'service');
 }
 
 // parse template variable query params
-function ParseMetricQuery(query = '') {
+export function ParseMetricQuery(query = '') {
   if (!query) {
     return {};
   }
@@ -100,7 +117,7 @@ function parseVariableFormat(varname: string) {
   return { varname, varFlag };
 }
 
-function ReplaceVariable(templateSrv, scopedVars, field, multiple = false) {
+export function ReplaceVariable(templateSrv, scopedVars, field, multiple = false) {
   const { varname, varFlag } = parseVariableFormat(field);
   let replaceVar = templateSrv.replace(varname, scopedVars);
   if (varFlag) {
@@ -113,7 +130,7 @@ function ReplaceVariable(templateSrv, scopedVars, field, multiple = false) {
 }
 
 // get dimensions for instance query param
-function GetDimensions(obj) {
+export function GetDimensions(obj) {
   if (_.isEmpty(obj)) {
     return [];
   }
@@ -126,8 +143,27 @@ function GetDimensions(obj) {
   return dimensions;
 }
 
+// parse query data result for panel
+export function ParseQueryResult(response, instances) {
+  const dataPoints = _.get(response, 'DataPoints', []);
+  return _.map(dataPoints, dataPoint => {
+    let instanceAliasValue = _.get(dataPoint, 'Dimensions[0].Value');
+    for (let i = 0; i < instances.length; i++) {
+      if (isInstanceMatch(instances[i], _.get(dataPoint, 'Dimensions', []))) {
+        instanceAliasValue = instances[i]._InstanceAliasValue;
+        instances.splice(i, 1);
+        break;
+      }
+    }
+    return {
+      target: `${response.MetricName} - ${instanceAliasValue}`,
+      datapoints: parseDataPoint(dataPoint),
+    };
+  });
+}
+
 // parse tencent cloud monitor response data to grafana panel data
-function parseDataPoint(type = 'graph', dataPoint) {
+function parseDataPoint(dataPoint) {
   const timestamps = _.get(dataPoint, 'Timestamps', []);
   const values = _.get(dataPoint, 'Values', []);
   const result = timestamps.map((timestamp, index) => {
@@ -149,33 +185,25 @@ function isInstanceMatch(instance, dimensions) {
   return match;
 }
 
-// parse query data result for panel
-function ParseQueryResult(response, instances) {
-  const dataPoints = _.get(response, 'DataPoints', []);
-  return _.map(dataPoints, dataPoint => {
-    let instanceAliasValue = _.get(dataPoint, 'Dimensions[0].Value');
-    for (let i = 0; i < instances.length; i++) {
-      if (isInstanceMatch(instances[i], _.get(dataPoint, 'Dimensions', []))) {
-        instanceAliasValue = instances[i]._InstanceAliasValue;
-        instances.splice(i, 1);
-        break;
-      }
-    }
-    return {
-      target: `${response.MetricName} - ${instanceAliasValue}`,
-      datapoints: parseDataPoint('graph', dataPoint),
-    };
-  });
+/**
+ * 
+ * @param options 接口请求对象 { url: string, data?: object }
+ * @param service 产品名字 'cvm'
+ * @param signObj 接口请求相关信息 { region?: string, action: string }
+ * @param secretId 
+ * @param secretKey 
+ */
+export function GetRequestParams(options, service, signObj: any = {}, secretId, secretKey) {
+  const signParams = {
+    secretId,
+    secretKey,
+    payload: options.data || '',
+    ...signObj,
+    ...(_.pick(GetServiceAPIInfo(signObj.region || '', service), ['service', 'host', 'version']) || {}),
+  };
+  const sign = new Sign(signParams);
+  options.headers = Object.assign(options.headers || {}, { ...sign.getHeader() });
+  options.method = 'POST';
+  return options;
 }
-
-export {
-  SERVICES_API_INFO,
-  FINACE_HOST,
-  FINACE_REGIONS,
-  GetServiceFromNamespace,
-  ParseMetricQuery,
-  ReplaceVariable,
-  GetDimensions,
-  ParseQueryResult
-};
 

@@ -1,12 +1,12 @@
-const { SHA256, HmacSHA256 } = require("crypto-js");
-const Hex = require('crypto-js/enc-hex');
-const moment = require('moment');
+import { SHA256, HmacSHA256 } from "crypto-js";
+import * as Hex from 'crypto-js/enc-hex';
+import * as moment from 'moment';
 
-const httpRequestMethod = 'POST';
-const canonicalUri = '/';
-const canonicalQueryString = '';
-const contentType = 'application/json';
-const algorithm = 'TC3-HMAC-SHA256';
+const HttpRequestMethod = 'POST';
+const CanonicalUri = '/';
+const CanonicalQueryString = '';
+const ContentType = 'application/json';
+const Algorithm = 'TC3-HMAC-SHA256';
 
 /**
  * The steps of TC3-HMAC-SHA256 method:
@@ -31,7 +31,7 @@ const algorithm = 'TC3-HMAC-SHA256';
 // - SignedHeaders： The header information of the signature calculation, content-type and host are the required header information
 // - Signature：Signature abstraction
 
-export class Sign {
+export default class Sign {
   /**
    * Tencent Cloud API Signature v3 reference: https://cloud.tencent.com/document/api/213/30654
    * secretId: SecretId for identifying identity that is applied for on Cloud API Key.
@@ -72,15 +72,15 @@ export class Sign {
 
   getHeader() {
     // Generate the request string
-    const canonicalHeaders = `content-type:${contentType}\nhost:${this.host}\n`;
+    const canonicalHeaders = `content-type:${ContentType}\nhost:${this.host}\n`;
     const signedHeaders = 'content-type;host';
     const hashedRequestPayload = Hex.stringify(SHA256(this.payload)).toLowerCase();
-    const canonicalRequest = `${httpRequestMethod}\n${canonicalUri}\n${canonicalQueryString}\n${canonicalHeaders}\n${signedHeaders}\n${hashedRequestPayload}`;
+    const canonicalRequest = `${HttpRequestMethod}\n${CanonicalUri}\n${CanonicalQueryString}\n${canonicalHeaders}\n${signedHeaders}\n${hashedRequestPayload}`;
 
     // Generate the original signature string
     const credentialScope = `${this.date}/${this.service}/tc3_request`;
     const hashedCanonicalRequest = Hex.stringify(SHA256(canonicalRequest)).toLowerCase();
-    const stringToSign = `${algorithm}\n${this.timestamp}\n${credentialScope}\n${hashedCanonicalRequest}`;
+    const stringToSign = `${Algorithm}\n${this.timestamp}\n${credentialScope}\n${hashedCanonicalRequest}`;
 
     // Generate the signature string
     const secretDate = HmacSHA256(this.date,`TC3${this.secretKey}`);
@@ -89,12 +89,12 @@ export class Sign {
     const signature = Hex.stringify(HmacSHA256(stringToSign,secretSigning));
 
     // Generate the authorization string
-    const authorization = `${algorithm} Credential=${this.secretId}/${credentialScope}, SignedHeaders=${signedHeaders}, Signature=${signature}`;
+    const authorization = `${Algorithm} Credential=${this.secretId}/${credentialScope}, SignedHeaders=${signedHeaders}, Signature=${signature}`;
 
     // Common Request Parameters of the header information
     const headers = {
       "Authorization": authorization,
-      "Content-Type": contentType,
+      "Content-Type": ContentType,
       "X-TC-Action": this.action,
       "X-TC-Timestamp": this.timestamp.toString(),
       "X-TC-Version": this.version,

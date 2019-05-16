@@ -129,6 +129,19 @@ describe('Tencent Cloud Monitor CVM Datasource', () => {
   });
 
   describe('When performing query: ', () => {
+    beforeEach(() => {
+      ctx.instanceSettings = {
+        jsonData: {
+          cvm: true,
+          secretId: 'xxx',
+          secretKey: 'xxx',
+          services: [
+            { href: 'https://cloud.tencent.com/document/api/213/15688', label: 'CVM', namespace: 'QCE/CVM', service: 'cvm'},
+          ],
+        },
+      };
+      ctx.ds = new TCMonitorDatasource(ctx.instanceSettings, ctx.backendSrv, ctx.templateSrv);
+    });
     const options = {
       range: {
         from: moment().subtract(1, 'h').format(),
@@ -161,7 +174,7 @@ describe('Tencent Cloud Monitor CVM Datasource', () => {
           "MetricName": "AccOuttraffic",
           "DataPoints": [
             {
-              "Dimensions": [{ "Name": "InstanceType", "Value": "1" }, { "Name": "InstanceId", "Value": "cvm-e4aj14v8" }],
+              "Dimensions": [{ "Name": "InstanceType", "Value": "1" }, { "Name": "InstanceId", "Value": "cvm123" }],
               "Timestamps": [1557577260, 1557577320, 1557577380, 1557577440, 1557577500],
               "Values": [85, 86.916, 85.666, 85.333, 85]
             }],
@@ -189,6 +202,19 @@ describe('Tencent Cloud Monitor CVM Datasource', () => {
   });
 
   describe('When performing metricFindQuery: ', () => {
+    beforeEach(() => {
+      ctx.instanceSettings = {
+        jsonData: {
+          cvm: true,
+          secretId: 'xxx',
+          secretKey: 'xxx',
+          services: [
+            { href: 'https://cloud.tencent.com/document/api/213/15688', label: 'CVM', namespace: 'QCE/CVM', service: 'cvm'},
+          ],
+        },
+      };
+      ctx.ds = new TCMonitorDatasource(ctx.instanceSettings, ctx.backendSrv, ctx.templateSrv);
+    });
     const query = 'Namespace=QCE/CVM&Action=DescribeRegions';
     const response = {
       data: {
