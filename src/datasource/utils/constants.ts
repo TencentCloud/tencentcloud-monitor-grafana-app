@@ -5,8 +5,8 @@ import { SERVICES } from '../tc_monitor';
 const FINACE_REGIONS = ['ap-shanghai-fsi', 'ap-shenzhen-fsi'];
 
 const SERVICES_API_INFO = {
-   // cvm api info
-   cvm: {
+  // cvm api info
+  cvm: {
     service: 'cvm',
     version: '2017-03-12',
     path: '/cvm',
@@ -106,7 +106,7 @@ function ReplaceVariable(templateSrv, scopedVars, field, multiple = false) {
   if (varFlag) {
     replaceVar = JSON.parse(replaceVar);
   }
-  if (!multiple && _.isArray(replaceVar))  {
+  if (!multiple && _.isArray(replaceVar)) {
     replaceVar = _.get(replaceVar, '0', '');
   }
   return replaceVar;
@@ -141,7 +141,7 @@ function parseDataPoint(type = 'graph', dataPoint) {
 function isInstanceMatch(instance, dimensions) {
   let match = true;
   for (let i = 0; i < dimensions.length; i++) {
-    if (_.get(instance, dimensions[i].Name) !== dimensions[i].Value) {
+    if (_.get(instance, dimensions[i].Name).toString() !== dimensions[i].Value.toString()) {
       match = false;
       break;
     }
@@ -150,34 +150,22 @@ function isInstanceMatch(instance, dimensions) {
 }
 
 // parse query data result for panel
-function ParseQueryResult(responses, instances) {
-  const instanceList = instances;
-  const result: any[] = [];
-  _.forEach(responses, (response) => {
-    const dataPoints = _.get(response, 'DataPoints', []);
-    if (dataPoints.length === 1) {
-      result.push({
-        target: response.MetricName,
-        datapoints: parseDataPoint('graph', dataPoints[0]),
-      });
-    } else if (dataPoints.length > 1) {
-      _.forEach(dataPoints, (dataPoint) => {
-        let instanceAliasValue = _.get(dataPoint, 'Dimensions[0].Value');
-        for (let i = 0; i < instanceList.length; i++) {
-          if (isInstanceMatch(instanceList[i], _.get(dataPoint, 'Dimensions', []))) {
-            instanceAliasValue = instanceList[i]._InstanceAliasValue;
-            instanceList.splice(i, 1);
-            break;
-          }
-        }
-        result.push({
-          target: `${response.MetricName} - ${instanceAliasValue}`,
-          datapoints: parseDataPoint('graph', dataPoint),
-        });
-      });
+function ParseQueryResult(response, instances) {
+  const dataPoints = _.get(response, 'DataPoints', []);
+  return _.map(dataPoints, dataPoint => {
+    let instanceAliasValue = _.get(dataPoint, 'Dimensions[0].Value');
+    for (let i = 0; i < instances.length; i++) {
+      if (isInstanceMatch(instances[i], _.get(dataPoint, 'Dimensions', []))) {
+        instanceAliasValue = instances[i]._InstanceAliasValue;
+        instances.splice(i, 1);
+        break;
+      }
     }
+    return {
+      target: `${response.MetricName} - ${instanceAliasValue}`,
+      datapoints: parseDataPoint('graph', dataPoint),
+    };
   });
-  return result;
 }
 
 export {

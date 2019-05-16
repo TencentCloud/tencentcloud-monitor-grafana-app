@@ -235,6 +235,7 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
           const instanceAliasValue = _.get(item, instanceAlias);
           if (instanceAliasValue) {
             if (typeof instanceAliasValue === 'string') {
+              item._InstanceAliasValue = instanceAliasValue;
               instances.push({ text: instanceAliasValue, value: JSON.stringify(item) });
             } else if (_.isArray(instanceAliasValue)) {
               _.forEach(instanceAliasValue, (subItem) => {

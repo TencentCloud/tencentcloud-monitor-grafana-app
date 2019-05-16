@@ -34,7 +34,7 @@ export default class CVMDatasource implements DatasourceInterface {
       return this.getRegions();
     }
 
-    // query cdb instance list
+    // query cvm instance list
     const instancesQuery = query['action'].match(/^DescribeInstances/i) && !!query['region'];
     if (instancesQuery && this.toVariable(query['region'])) {
       return this.getInstances(this.toVariable(query['region'])).then(result => {
@@ -44,6 +44,7 @@ export default class CVMDatasource implements DatasourceInterface {
           const instanceAliasValue = _.get(item, instanceAlias);
           if (instanceAliasValue) {
             if (typeof instanceAliasValue === 'string') {
+              item._InstanceAliasValue = instanceAliasValue;
               instances.push({ text: instanceAliasValue, value: JSON.stringify(item) });
             } else if (_.isArray(instanceAliasValue)) {
               _.forEach(instanceAliasValue, (subItem) => {
@@ -61,7 +62,6 @@ export default class CVMDatasource implements DatasourceInterface {
 
   // query data for panel
   query(options: any) {
-    const allInstances: any[] = [];
     const queries = _.filter(options.targets, item => {
       // get validated targets
       return (
@@ -73,38 +73,27 @@ export default class CVMDatasource implements DatasourceInterface {
       );
     }).map(target => {
       let instances = ReplaceVariable(this.templateSrv, options.scropedVars, target.cvm.instance, true);
-      const Instances: any[] = [];
       if (_.isArray(instances)) {
-        // handle multiple instances
-        _.forEach(instances, instance => {
-          instance = _.isString(instance) ? JSON.parse(instance) : instance;
-          allInstances.push(instance);
-          const dimensionObject = target.cvm.dimensionObject;
-          _.forEach(dimensionObject, (__, key) => {
-            dimensionObject[key] = { Name: key, Value: instance[key] };
-          });
-          Instances.push({ Dimensions: GetDimensions(dimensionObject) });
-        });
+        instances = _.map(instances, instance => _.isString(instance) ? JSON.parse(instance) : instance);
       } else {
-        // handle single instance
-        instances = _.isString(instances) ? JSON.parse(instances) : instances;
-        allInstances.push(instances);
-        const dimensionObject = target.cvm.dimensionObject;
-        _.forEach(dimensionObject, (__, key) => {
-          dimensionObject[key] = { Name: key, Value: instances[key] };
-        });
-        Instances.push({ Dimensions: GetDimensions(dimensionObject) });
+        instances = [_.isString(instances) ? JSON.parse(instances) : instances];
       }
       const region = ReplaceVariable(this.templateSrv, options.scropedVars, target.cvm.region, false);
       const data = {
         StartTime: moment(options.range.from).format(),
         EndTime: moment(options.range.to).format(),
         Period: target.cvm.period || 300,
-        Instances,
+        Instances: _.map(instances, instance => {
+          const dimensionObject = target.cvm.dimensionObject;
+          _.forEach(dimensionObject, (__, key) => {
+            dimensionObject[key] = { Name: key, Value: instance[key] };
+          });
+          return { Dimensions: GetDimensions(dimensionObject) };
+        }),
         Namespace: target.namespace,
         MetricName: target.cvm.metricName,
       };
-      return this.getMonitorData(data, region);
+      return this.getMonitorData(data, region, instances);
     });
 
     if (queries.length === 0) {
@@ -113,7 +102,7 @@ export default class CVMDatasource implements DatasourceInterface {
 
     return Promise.all(queries)
       .then(responses => {
-        return ParseQueryResult(responses, allInstances);
+        return _.flatten(responses);
       })
       .catch(error => {
         return { data: [] };
@@ -130,7 +119,7 @@ export default class CVMDatasource implements DatasourceInterface {
     if (_.indexOf(FINACE_REGIONS, region) === -1) {
       return {};
     }
-    return _.find( _.find(this.financePathHost, (__, key) => key === service), (__, key) => key === region) || {};
+    return _.find(_.find(this.financePathHost, (__, key) => key === service), (__, key) => key === region) || {};
   }
 
   // get the actual value of template variable
@@ -144,12 +133,15 @@ export default class CVMDatasource implements DatasourceInterface {
   }
 
   // query monitor data
-  getMonitorData(params, region) {
+  getMonitorData(params, region, instances) {
     const serviceMap = this.getServiceInfo(region, 'monitor');
     return this.doRequest({
       url: this.url + serviceMap.path,
       data: params,
-    }, serviceMap.service, { action: 'GetMonitorData', region });
+    }, serviceMap.service, { action: 'GetMonitorData', region })
+    .then(response => {
+      return ParseQueryResult(response, instances);
+    });
   }
 
   // get region list
@@ -184,7 +176,7 @@ export default class CVMDatasource implements DatasourceInterface {
   }
 
   // get cvm instances
-  getInstances(region, params = { }) {
+  getInstances(region, params = {}) {
     params = Object.assign({ Offset: 0, Limit: 100 }, params);
     const serviceMap = this.getServiceInfo(region, 'cvm');
     return this.doRequest({
