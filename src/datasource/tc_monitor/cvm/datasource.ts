@@ -26,15 +26,19 @@ export default class CVMDatasource implements DatasourceInterface {
     this.secretKey = (instanceSettings.jsonData || {}).secretKey || '';
   }
 
-  // handle template variable query
+  /**
+   * 获取模板变量的选择项列表，当前支持两种变量：地域、CVM 实例
+   *
+   * @param query 模板变量配置填写的 Query 参数字符串
+   */
   metricFindQuery(query: object) {
-    // query region list
+    // 查询地域列表
     const regionQuery = query['action'].match(/^DescribeRegions$/i);
     if (regionQuery) {
       return this.getRegions();
     }
 
-    // query cdb instance list
+    // 查询 CDB 实例列表
     const instancesQuery = query['action'].match(/^DescribeInstances/i) && !!query['region'];
     if (instancesQuery && this.toVariable(query['region'])) {
       return this.getInstances(this.toVariable(query['region'])).then(result => {
@@ -59,11 +63,25 @@ export default class CVMDatasource implements DatasourceInterface {
     return Promise.resolve([]);
   }
 
-  // query data for panel
+  /**
+   * 根据 Panel 的配置项，获取相应的监控数据
+   *
+   * @param options Panel 的配置参数
+   * @return 返回数据数组，示例如下
+   * [
+   *   {
+   *     "target": "AccOuttraffic - ins-123",
+   *     "datapoints": [
+   *       [861, 1450754160000],
+   *       [767, 1450754220000]
+   *     ]
+   *   }
+   * ]
+   */
   query(options: any) {
     const allInstances: any[] = [];
     const queries = _.filter(options.targets, item => {
-      // get validated targets
+      // 过滤无效的查询 target
       return (
         item.cvm.hide !== true &&
         !!item.namespace &&
@@ -72,6 +90,7 @@ export default class CVMDatasource implements DatasourceInterface {
         !_.isEmpty(ReplaceVariable(this.templateSrv, options.scropedVars, item.cvm.instance, true))
       );
     }).map(target => {
+      // 实例 instances 可能为模板变量，需先获取实际值
       let instances = ReplaceVariable(this.templateSrv, options.scropedVars, target.cvm.instance, true);
       const Instances: any[] = [];
       if (_.isArray(instances)) {
@@ -108,7 +127,7 @@ export default class CVMDatasource implements DatasourceInterface {
     });
 
     if (queries.length === 0) {
-      return { data: [] };
+      return [];
     }
 
     return Promise.all(queries)
@@ -116,43 +135,30 @@ export default class CVMDatasource implements DatasourceInterface {
         return ParseQueryResult(responses, allInstances);
       })
       .catch(error => {
-        return { data: [] };
+        return [];
       });
   }
 
-  // get service detail info by region and service
-  getServiceInfo(region, service) {
-    return Object.assign({}, this.servicesMap[service] || {}, this.getHostAndPath(region, service));
-  }
-
-  // get host and path for finance regions
-  getHostAndPath(region, service) {
-    if (_.indexOf(FINACE_REGIONS, region) === -1) {
-      return {};
-    }
-    return _.find( _.find(this.financePathHost, (__, key) => key === service), (__, key) => key === region) || {};
-  }
-
-  // get the actual value of template variable
-  toVariable(metric: string) {
+  // 获取某个变量的实际值，this.templateSrv.replace() 函数返回实际值的字符串
+  getVariable(metric: string) {
     return this.templateSrv.replace((metric || '').trim());
   }
 
-  // check whether field is validated or not
-  isValidConfigField(field: string) {
-    return field && field.length > 0;
-  }
-
-  // query monitor data
-  getMonitorData(params, region) {
-    const serviceMap = this.getServiceInfo(region, 'monitor');
+  /**
+   * 获取 CVM 的监控数据
+   *
+   * @param params 获取监控数据的请求参数
+   * @param region 地域信息
+   * @param instances 实例列表，用于对返回结果的匹配解析
+   */
+  getMonitorData(params, region, instances) {
+    const serviceInfo = GetServiceAPIInfo(region, 'monitor');
     return this.doRequest({
       url: this.url + serviceMap.path,
       data: params,
     }, serviceMap.service, { action: 'GetMonitorData', region });
   }
 
-  // get region list
   getRegions() {
     return this.doRequest({
       url: this.url + '/cvm',
@@ -167,7 +173,6 @@ export default class CVMDatasource implements DatasourceInterface {
       });
   }
 
-  // get metric list by region
   getMetrics(region = 'ap-guangzhou') {
     const serviceMap = this.getServiceInfo(region, 'monitor');
     return this.doRequest({
@@ -183,8 +188,7 @@ export default class CVMDatasource implements DatasourceInterface {
       });
   }
 
-  // get cvm instances
-  getInstances(region, params = { }) {
+  getInstances(region, params = {}) {
     params = Object.assign({ Offset: 0, Limit: 100 }, params);
     const serviceMap = this.getServiceInfo(region, 'cvm');
     return this.doRequest({
@@ -196,7 +200,6 @@ export default class CVMDatasource implements DatasourceInterface {
       });
   }
 
-  // get zone list by region
   getZones(region) {
     const serviceMap = this.getServiceInfo(region, 'cvm');
     return this.doRequest({
@@ -212,7 +215,12 @@ export default class CVMDatasource implements DatasourceInterface {
       });
   }
 
-  // test connections of cvm and montior api
+  // 检查某变量字段是否有值
+  isValidConfigField(field: string) {
+    return field && field.length > 0;
+  }
+
+  // 验证 SerectId、SerectKey 的有效性，并测试 cvm、monitor 两种 API 的连通性
   testDatasource() {
     if (!this.isValidConfigField(this.secretId) || !this.isValidConfigField(this.secretKey)) {
       return {
@@ -290,7 +298,6 @@ export default class CVMDatasource implements DatasourceInterface {
       });
   }
 
-  // request function for tencent cloud monitor
   doRequest(options, service, signObj: any = {}): any {
     const signParams = {
       secretId: this.secretId,

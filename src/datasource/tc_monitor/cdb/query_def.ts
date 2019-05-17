@@ -69,7 +69,7 @@ const CdbErrors = [
 
 const CDBFields = {
   ProjectId: '',
-  InstancTypes: {},
+  InstanceTypes: {},
   Vips: [],
   Status: {},
   Offset: 0,
@@ -129,7 +129,7 @@ const CDBFieldsDescriptor = [
     type: 'dropdown',
   },
   {
-    key: 'InstancTypes',
+    key: 'InstanceTypes',
     enDescriptor: 'Instance Type',
     cnDescriptor: '实例类型',
     link: '',

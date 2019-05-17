@@ -39,8 +39,8 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
   constructor($scope, $injector, private templateSrv) {
     super($scope, $injector);
     this.namespaces = this.datasource.getNamespaces();
+    // 当数据源的命名空间列表存在时，设置相应的默认值
     if (this.namespaces.length > 0) {
-      // set default values if datasource contains namespaces
       if (_.indexOf(this.namespaces, this.target.namespace) === -1) {
         this.target.namespace = this.namespaces[0];
       }
@@ -51,15 +51,6 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
     this.panelCtrl.events.on('data-received', this.onDataReceived.bind(this), $scope);
   }
 
-  // get instanaceAliasList by service
-  getInstanceAliasList(service) {
-    if (!service) {
-      return [];
-    }
-    return _.map(InstanceAliasList[`${_.upperCase(service)}InstanceAliasList`] || [], item => ({ text: `As ${item}`, value: item }));
-  }
-
-  // load data when query data received
   onDataReceived(dataList) {
     this.lastQueryError = undefined;
     this.lastQuery = '';
@@ -70,7 +61,6 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
     }
   }
 
-  // handle query data error
   onDataError(err) {
     this.handleQueryCtrlError(err);
   }
@@ -100,6 +90,18 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
     }
   }
 
+  /**
+   * 获取实例展示字段的选择列表
+   *
+   * @param service 监控服务名
+   */
+  getInstanceAliasList(service) {
+    if (!service) {
+      return [];
+    }
+    return _.map(InstanceAliasList[`${_.upperCase(service)}InstanceAliasList`] || [], item => ({ text: `As ${item}`, value: item }));
+  }
+
   onNamespaceChange() {
     const service = this.target.service;
     this.regions = [];
@@ -109,7 +111,7 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
     this.instanceList = [];
 
     const initState = InitServiceState[service];
-    this.target = { ...this.target, ...{ [service]: initState }};
+    this.target = { ...this.target, ...{ [service]: initState } };
 
     this.target.service = GetServiceFromNamespace(this.target.namespace) || '';
     this.instanceAliasList = this.getInstanceAliasList(this.target.service);
@@ -118,7 +120,7 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
   }
 
   /**
-   * get regions list
+   * 获取地域列表
    * output:
    *  [
    *    {
@@ -159,19 +161,22 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
     this.panelCtrl.refresh();
   }
 
-  // get the actual value of template variable
-  replace(variable: string, multiple: boolean) {
+  /**
+   * 获取模板变量的实际值
+   *
+   * @param variable 模板变量的名字
+   * @param multiple 是否允许多选，如果为 false，返回实际值数组的第一个值
+   */
+  getVariable(variable: string, multiple: boolean) {
     return ReplaceVariable(this.templateSrv, this.panelCtrl.panel.scopedVars, variable, multiple);
   }
 
-  // get metric name description
   getMetricNameDesc() {
     const service = this.target.service;
     const index = _.findIndex(this.metricList, item => item.MetricName === this.target[service].metricName);
     return index !== -1 ? this.metricList[index].Meaning.Zh : '';
   }
 
-  // get metirc list by service and region
   getMetrics(query) {
     const service = this.target.service;
     const region = this.replace(_.get(this.target[service], 'region', ''), false);
@@ -218,7 +223,6 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
     this.panelCtrl.refresh();
   }
 
-  // get instance list
   getInstances() {
     const service = this.target.service;
     const region = this.replace(_.get(this.target[service], 'region', ''), false);
@@ -232,6 +236,7 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
         const instanceAlias = this.target[service].instanceAlias;
         const instances: any[] = [];
         _.forEach(list, (item) => {
+          // 根据 instanceAlias，确定实例展示字段，并保存至 _InstanceAliasValue，用于 constants.ts 的监控数据解析函数 ParseQueryResult
           const instanceAliasValue = _.get(item, instanceAlias);
           if (instanceAliasValue) {
             if (typeof instanceAliasValue === 'string') {
@@ -249,7 +254,11 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
       .catch(this.handleQueryCtrlError.bind(this));
   }
 
-  // get params for instances query function
+  /**
+   * 获取实例请求接口的请求参数
+   *
+   * @param service 监控服务名
+   */
   getInstanceQueryParams(service) {
     const queries = this.target[service].queries;
     if (GetInstanceQueryParams[`${_.upperCase(service)}GetInstanceQueryParams`]) {
@@ -259,13 +268,8 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
     }
   }
 
-  // query data when instance changes
-  onInstanceChange() {
-    this.panelCtrl.refresh();
-  }
-
   onInstanceAliasChange() {
-    //  only when instance is not template variable
+    // 仅当 instance 字段不是模板变量时，执行以下操作
     if (!this.isVariable('instance')) {
       const service = this.target.service;
       this.target[service].instance = '';
@@ -273,9 +277,8 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
     }
   }
 
-  // reset instances when instance query params change
   onInstanceQueryChange() {
-    // only when instance is not template variable
+    // 仅当 instance 字段不是模板变量时，执行以下操作
     if (!this.isVariable('instance')) {
       const service = this.target.service;
       this.target[service].instance = '';
@@ -287,7 +290,11 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
     }
   }
 
-  // check whether value is template variable or not
+  /**
+   * 检查某个变量是否模板变量，即是否匹配 ${varnam} 或 [[varname]]
+   *
+   * @param field 变量字段名
+   */
   isVariable(field) {
     const service = this.target.service;
     const value = this.target[service][field];
@@ -300,5 +307,4 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
   checkShowDetail(field) {
     return !this.isVariable(field) && this.target.showInstanceDetails;
   }
-
 }
