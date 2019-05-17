@@ -174,9 +174,9 @@ describe('Tencent Cloud Monitor CVM Datasource', () => {
           MetricName: "AccOuttraffic",
           DataPoints: [
             {
-              Dimensions: [{ Name: "InstanceId", Value: "cvm-123" }],
-              Timestamps: [1557577260, 1557577320, 1557577380, 1557577440, 1557577500],
-              Values: [85, 86.916, 85.666, 85.333, 85]
+              "Dimensions": [{ "Name": "InstanceType", "Value": "1" }, { "Name": "InstanceId", "Value": "cvm123" }],
+              "Timestamps": [1557577260, 1557577320, 1557577380, 1557577440, 1557577500],
+              "Values": [85, 86.916, 85.666, 85.333, 85]
             }],
           RequestId: "e8f3c408-fc67-4782-84da-17c3b8ef7e16"
         }
