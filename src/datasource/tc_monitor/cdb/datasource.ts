@@ -23,15 +23,19 @@ export default class CDBDatasource implements DatasourceInterface {
     this.secretKey = (instanceSettings.jsonData || {}).secretKey || '';
   }
 
-  // handle template variable query
+  /**
+   * 获取模板变量的选择项列表，当前支持两种变量：地域、CDB 实例
+   *
+   * @param query 模板变量配置填写的 Query 参数字符串
+   */
   metricFindQuery(query: object) {
-    // query region list
+    // 查询地域列表
     const regionQuery = query['action'].match(/^DescribeRegions$/i);
     if (regionQuery) {
       return this.getRegions();
     }
 
-    // query cdb instance list
+    // 查询 CDB 实例列表
     const instancesQuery = query['action'].match(/^DescribeDBInstances/i) && !!query['region'];
     const region = this.getVariable(query['region']);
     if (instancesQuery && region) {
@@ -58,10 +62,24 @@ export default class CDBDatasource implements DatasourceInterface {
     return [];
   }
 
-  // query data for panel
+  /**
+   * 根据 Panel 的配置项，获取相应的监控数据
+   *
+   * @param options Panel 的配置参数
+   * @return 返回数据数组，示例如下
+   * [
+   *   {
+   *     "target": "BytesReceived - cdb-123",
+   *     "datapoints": [
+   *       [861, 1450754160000],
+   *       [767, 1450754220000]
+   *     ]
+   *   }
+   * ]
+   */
   query(options: any) {
     const queries = _.filter(options.targets, item => {
-      // get validated targets
+      // 过滤无效的查询 target
       return (
         item.cdb.hide !== true &&
         !!item.namespace &&
@@ -70,6 +88,7 @@ export default class CDBDatasource implements DatasourceInterface {
         !_.isEmpty(ReplaceVariable(this.templateSrv, options.scropedVars, item.cdb.instance, true))
       );
     }).map(target => {
+      // 实例 instances 可能为模板变量，需先获取实际值
       let instances = ReplaceVariable(this.templateSrv, options.scropedVars, target.cdb.instance, true);
       if (_.isArray(instances)) {
         instances = _.map(instances, instance => _.isString(instance) ? JSON.parse(instance) : instance);
@@ -95,7 +114,7 @@ export default class CDBDatasource implements DatasourceInterface {
     });
 
     if (queries.length === 0) {
-      return { data: [] };
+      return [];
     }
 
     return Promise.all(queries)
@@ -103,16 +122,22 @@ export default class CDBDatasource implements DatasourceInterface {
         return _.flatten(responses);
       })
       .catch(error => {
-        return { data: [] };
+        return [];
       });
   }
 
-  // get the actual value of template variable
+  // 获取某个变量的实际值，this.templateSrv.replace() 函数返回实际值的字符串
   getVariable(metric: string) {
     return this.templateSrv.replace((metric || '').trim());
   }
 
-  // query monitor data
+  /**
+   * 获取 CDB 的监控数据
+   *
+   * @param params 获取监控数据的请求参数
+   * @param region 地域信息
+   * @param instances 实例列表，用于对返回结果的匹配解析
+   */
   getMonitorData(params, region, instances) {
     const serviceInfo = GetServiceAPIInfo(region, 'monitor');
     return this.doRequest({
@@ -124,12 +149,6 @@ export default class CDBDatasource implements DatasourceInterface {
       });
   }
 
-  // check whether field is validated or not
-  isValidConfigField(field: string) {
-    return field && field.length > 0;
-  }
-
-  // get region list
   getRegions() {
     return this.doRequest({
       url: this.url + '/cvm',
@@ -144,7 +163,6 @@ export default class CDBDatasource implements DatasourceInterface {
       });
   }
 
-  // get metric list by region
   getMetrics(region = 'ap-guangzhou') {
     const serviceInfo = GetServiceAPIInfo(region, 'monitor');
     return this.doRequest({
@@ -158,7 +176,6 @@ export default class CDBDatasource implements DatasourceInterface {
       });
   }
 
-  // get zone list by region
   getZones(region) {
     const serviceInfo = GetServiceAPIInfo(region, 'cvm');
     return this.doRequest({
@@ -174,7 +191,6 @@ export default class CDBDatasource implements DatasourceInterface {
       });
   }
 
-  // get cdb instances
   getInstances(region, params = {}) {
     params = Object.assign({ Offset: 0, Limit: 2000 }, params);
     const serviceInfo = GetServiceAPIInfo(region, 'cdb');
@@ -187,7 +203,12 @@ export default class CDBDatasource implements DatasourceInterface {
       });
   }
 
-  // test connections of cvm, cdb and montior api
+  // 检查某变量字段是否有值
+  isValidConfigField(field: string) {
+    return field && field.length > 0;
+  }
+
+  // 验证 SerectId、SerectKey 的有效性，并测试 cvm、monitor、cdb 三种 API 的连通性
   testDatasource() {
     if (!this.isValidConfigField(this.secretId) || !this.isValidConfigField(this.secretKey)) {
       return {
@@ -280,7 +301,6 @@ export default class CDBDatasource implements DatasourceInterface {
       });
   }
 
-  // request function for tencent cloud monitor
   doRequest(options, service, signObj: any = {}): any {
     options = GetRequestParams(options, service, signObj, this.secretId, this.secretKey);
     return this.backendSrv

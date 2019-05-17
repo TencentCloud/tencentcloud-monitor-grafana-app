@@ -144,14 +144,15 @@ export function GetDimensions(obj) {
 }
 
 // parse query data result for panel
-export function ParseQueryResult(response, instances) {
+export function ParseQueryResult(response, instances: any[] = []) {
+  const instanceList = _.cloneDeep(instances);
   const dataPoints = _.get(response, 'DataPoints', []);
   return _.map(dataPoints, dataPoint => {
     let instanceAliasValue = _.get(dataPoint, 'Dimensions[0].Value');
-    for (let i = 0; i < instances.length; i++) {
-      if (isInstanceMatch(instances[i], _.get(dataPoint, 'Dimensions', []))) {
-        instanceAliasValue = instances[i]._InstanceAliasValue;
-        instances.splice(i, 1);
+    for (let i = 0; i < instanceList.length; i++) {
+      if (isInstanceMatch(instanceList[i], _.get(dataPoint, 'Dimensions', []))) {
+        instanceAliasValue = instanceList[i]._InstanceAliasValue;
+        instanceList.splice(i, 1);
         break;
       }
     }
@@ -186,12 +187,12 @@ function isInstanceMatch(instance, dimensions) {
 }
 
 /**
- * 
+ *
  * @param options 接口请求对象 { url: string, data?: object }
  * @param service 产品名字 'cvm'
  * @param signObj 接口请求相关信息 { region?: string, action: string }
- * @param secretId 
- * @param secretKey 
+ * @param secretId
+ * @param secretKey
  */
 export function GetRequestParams(options, service, signObj: any = {}, secretId, secretKey) {
   const signParams = {

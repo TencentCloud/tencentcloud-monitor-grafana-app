@@ -53,16 +53,17 @@
       </div>
       <div class="gf-form-select-wrapper gf-form-select-wrapper--caret-indent">
         <gf-form-dropdown model="ctrl.target[ctrl.target.service].instance" allow-custom="true" lookup-text="true" get-options="ctrl.getInstances($query)"
-          on-change="ctrl.onInstanceChange()" css-class="min-width-10">
+          on-change="ctrl.refresh()" css-class="min-width-10">
         </gf-form-dropdown>
       </div>
     </div>
     <div class="gf-form" ng-if="!ctrl.isVariable('instance')">
-      <label class="gf-form-label width-9">Show Details</label>
-      <gf-form-switch class="gf-form qcloud-switch" label-class="width-7" checked="ctrl.target.showInstanceDetails" switch-class="max-width-5"></gf-form-switch>
+      <label class="gf-form-label width-7">Show Details</label>
+      <gf-form-switch class="gf-form tc-switch" label-class="width-7" checked="ctrl.target.showInstanceDetails" switch-class="max-width-5"></gf-form-switch>
     </div>
   </div>
 
+  <!-- 不同产品的实例查询条件模块如下 -->
   <!-- CVM -->
   <cvm-query
     ng-if="ctrl.target.service==='cvm'"
@@ -82,10 +83,6 @@
     on-change="ctrl.onInstanceQueryChange()"
     region="ctrl.replace(ctrl.target.cdb.region)"
   ></cdb-query>
-
-
-
-  </div>
 
   <!-- Global error message -->
   <div class="gf-form" ng-show="ctrl.lastQueryError">

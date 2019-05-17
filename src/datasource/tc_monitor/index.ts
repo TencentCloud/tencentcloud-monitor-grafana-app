@@ -4,7 +4,7 @@ import CVMDatasource from './cvm/datasource';
 import CVM_STATE, { CVMInstanceAliasList, CVMGetInstanceQueryParams } from './cvm/query_def';
 import CDB_STATE, { CDBInstanceAliasList, CDBGetInstanceQueryParams } from './cdb/query_def';
 
-// 导入相应产品的 Query 查询控制
+// 导入相应产品的 Query 实例查询详情 Directive 指令
 import './cvm/query';
 import './cdb/query';
 

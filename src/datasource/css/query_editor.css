@@ -1,61 +1,61 @@
-.qcloud-sub-params {
+.tc-sub-params {
   margin-top: 4px;
   margin-left: 125px;
 }
 
-.qcloud-sub-params .gf-form-inline {
+.tc-sub-params .gf-form-inline {
   min-height: 42px;
 }
 
-.qcloud-sub-params .gf-form-inline .gf-form-label {
+.tc-sub-params .gf-form-inline .gf-form-label {
   margin-bottom: 2px;
 }
 
-.qcloud-sub-params .qcloud-info-label {
+.tc-sub-params .tc-info-label {
   margin-bottom: 6px;
 }
 
-.qcloud-sub-params .qcloud-info-label> a {
+.tc-sub-params .tc-info-label> a {
   margin-left: 10px;
 }
 
-.qcloud-switch {
+.tc-switch {
   border-left: 1px solid #262628;
   margin-bottom: 0 !important;
 }
 
-.qcloud-condition-block {
+.tc-condition-block {
   margin-right: 10px;
   display: inline-block;
 }
 
-.qcloud-condition-block .qcloud-condition-input {
+.tc-condition-block .tc-condition-input {
   border-radius: 0;
 }
 
-.qcloud-condition-block .qcloud-condition-minus {
+.tc-condition-block .tc-condition-minus {
   vertical-align: top;
   border-radius: 0 3px 3px 0;
 }
 
-.qcloud-condition-block .qcloud-condition-dropdown {
+.tc-condition-block .tc-condition-dropdown {
   display: inline-block;
 }
 
-.qcloud-condition-block> input {
+.tc-condition-block> input {
   display: inline-block;
   margin-right: 0;
 }
 
-.qcloud-condition-block> label {
+.tc-condition-block> label {
   display: inline-block;
 }
 
-.qcloud-condition-add {
+.tc-condition-add {
   display: inline-block;
   vertical-align: top;
 }
 
-.qcloud-condition-add> label {
+.tc-condition-add> label {
   border-radius: 3px;
 }

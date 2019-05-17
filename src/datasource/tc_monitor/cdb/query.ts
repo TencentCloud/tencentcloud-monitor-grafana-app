@@ -1,46 +1,45 @@
-// import * as _ from 'lodash';
 import coreModule from 'grafana/app/core/core_module';
 import { CDBFieldsDescriptor } from './query_def';
 
 
 export class CDBQueryCtrl {
- /** @ngInject */
- constructor($scope, $rootScope) {
+  /** @ngInject */
+  constructor($scope, $rootScope) {
 
-  $scope.init = () => {
-    $scope.CDBFieldsDescriptor = CDBFieldsDescriptor;
-  };
+    $scope.init = () => {
+      $scope.CDBFieldsDescriptor = CDBFieldsDescriptor;
+    };
 
-  $scope.onChecked = (srcField, dstField) => {
-    if ($scope.target.queries[srcField] === true) {
-      $scope.target.queries[dstField] = false;
-    }
-    $scope.onChange();
-  };
+    $scope.onChecked = (srcField, dstField) => {
+      if ($scope.target.queries[srcField] === true) {
+        $scope.target.queries[dstField] = false;
+      }
+      $scope.onChange();
+    };
 
-  $scope.getDropdown = (field) => {
-    switch (field) {
-      case 'ZoneIds':
-        return $scope.getZones();
-      default:
+    $scope.getDropdown = (field) => {
+      switch (field) {
+        case 'ZoneIds':
+          return $scope.getZones();
+        default:
+          return [];
+      }
+    };
+
+    $scope.getZones = () => {
+      if (!$scope.region) {
         return [];
-    }
-  };
+      }
+      return $scope.datasource.getZones('cdb', $scope.region);
+    };
 
-  $scope.getZones = () => {
-    if (!$scope.region) {
-      return [];
-    }
-    return $scope.datasource.getZones('cdb', $scope.region);
-  };
-
-  $scope.init();
- }
+    $scope.init();
+  }
 }
 
 const template = `
-<div class="qcloud-sub-params" ng-if="showDetail">
-  <label class="gf-form-label qcloud-info-label">
+<div class="tc-sub-params" ng-if="showDetail">
+  <label class="gf-form-label tc-info-label">
     Instances are queried by following params.
     <a target="_blank" href="https://cloud.tencent.com/document/api/236/15872">Click here to get API doc.</a>
   </label>
@@ -50,7 +49,7 @@ const template = `
         {{ field.key }}
         <info-popover mode="right-normal">
           {{ field.cnDescriptor }}
-          <a target="_blank" href="{{field.link}}" ng-if="field.link">**More Information.**</a>
+          <a target="_blank" href="{{field.link}}" ng-if="field.link">Click here for more information.</a>
         </info-popover>
       </label>
       <input

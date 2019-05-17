@@ -19,7 +19,7 @@ describe('Tencent Cloud Monitor CVM Datasource', () => {
             secretId: '',
             secretKey: '',
             services: [
-              { href: 'https://cloud.tencent.com/document/api/213/15688', label: 'CVM', namespace: 'QCE/CVM', service: 'cvm'},
+              { href: 'https://cloud.tencent.com/document/api/213/15688', label: 'CVM', namespace: 'QCE/CVM', service: 'cvm' },
             ],
           },
         };
@@ -43,7 +43,7 @@ describe('Tencent Cloud Monitor CVM Datasource', () => {
             secretId: '',
             secretKey: '',
             services: [
-              { href: 'https://cloud.tencent.com/document/api/213/15688', label: 'CVM', namespace: 'QCE/CVM', service: 'cvm'},
+              { href: 'https://cloud.tencent.com/document/api/213/15688', label: 'CVM', namespace: 'QCE/CVM', service: 'cvm' },
             ],
           },
         };
@@ -76,7 +76,7 @@ describe('Tencent Cloud Monitor CVM Datasource', () => {
             secretId: 'xxx',
             secretKey: 'xxx',
             services: [
-              { href: 'https://cloud.tencent.com/document/api/213/15688', label: 'CVM', namespace: 'QCE/CVM', service: 'cvm'},
+              { href: 'https://cloud.tencent.com/document/api/213/15688', label: 'CVM', namespace: 'QCE/CVM', service: 'cvm' },
             ],
           },
         };
@@ -109,7 +109,7 @@ describe('Tencent Cloud Monitor CVM Datasource', () => {
             secretId: 'xxx',
             secretKey: 'xxx',
             services: [
-              { href: 'https://cloud.tencent.com/document/api/213/15688', label: 'CVM', namespace: 'QCE/CVM', service: 'cvm'},
+              { href: 'https://cloud.tencent.com/document/api/213/15688', label: 'CVM', namespace: 'QCE/CVM', service: 'cvm' },
             ],
           },
         };
@@ -136,7 +136,7 @@ describe('Tencent Cloud Monitor CVM Datasource', () => {
           secretId: 'xxx',
           secretKey: 'xxx',
           services: [
-            { href: 'https://cloud.tencent.com/document/api/213/15688', label: 'CVM', namespace: 'QCE/CVM', service: 'cvm'},
+            { href: 'https://cloud.tencent.com/document/api/213/15688', label: 'CVM', namespace: 'QCE/CVM', service: 'cvm' },
           ],
         },
       };
@@ -158,8 +158,8 @@ describe('Tencent Cloud Monitor CVM Datasource', () => {
             period: 60,
             metricUnit: 'Bps',
             queries: {},
-            dimensionObject: { InstanceId: { Name: 'InstanceId', Value: 'cvm123' }, InstanceType: { Name: 'InstanceType', Value: 1 }},
-            instance: JSON.stringify({ InstanceId: 'cvm123', RegionName: '北京', Region: 'ap-beijing', InstanceName: 'test'}),
+            dimensionObject: { InstanceId: { Name: 'InstanceId', Value: 'cvm-123' } },
+            instance: JSON.stringify({ InstanceId: 'cvm-123', RegionName: '北京', Region: 'ap-beijing', InstanceName: 'test', _InstanceAliasValue: 'cvm-123' }),
             instanceAlias: 'InstanceId',
           }
         }
@@ -168,27 +168,27 @@ describe('Tencent Cloud Monitor CVM Datasource', () => {
     const response = {
       data: {
         Response: {
-          "StartTime": "2019-05-11 20:21:00",
-          "EndTime": "2019-05-11 21:21:00",
-          "Period": 60,
-          "MetricName": "AccOuttraffic",
-          "DataPoints": [
+          StartTime: "2019-05-11 20:21:00",
+          EndTime: "2019-05-11 21:21:00",
+          Period: 60,
+          MetricName: "AccOuttraffic",
+          DataPoints: [
             {
-              "Dimensions": [{ "Name": "InstanceType", "Value": "1" }, { "Name": "InstanceId", "Value": "cvm123" }],
-              "Timestamps": [1557577260, 1557577320, 1557577380, 1557577440, 1557577500],
-              "Values": [85, 86.916, 85.666, 85.333, 85]
+              Dimensions: [{ Name: "InstanceId", Value: "cvm-123" }],
+              Timestamps: [1557577260, 1557577320, 1557577380, 1557577440, 1557577500],
+              Values: [85, 86.916, 85.666, 85.333, 85]
             }],
-          "RequestId": "e8f3c408-fc67-4782-84da-17c3b8ef7e16"
+          RequestId: "e8f3c408-fc67-4782-84da-17c3b8ef7e16"
         }
       }
     };
     it('should return a list of datasource', () => {
       ctx.backendSrv.datasourceRequest = jest.fn().mockImplementation(value => Promise.resolve(response));
       return ctx.ds.query(options).then(results => {
-        expect(results.data[0].target).toEqual(
-          'AccOuttraffic'
+        expect(results[0].target).toEqual(
+          'AccOuttraffic - cvm-123'
         );
-        expect(results.data[0].datapoints).toEqual(
+        expect(results[0].datapoints).toEqual(
           [
             [85, 1557577260000],
             [86.916, 1557577320000],
@@ -209,7 +209,7 @@ describe('Tencent Cloud Monitor CVM Datasource', () => {
           secretId: 'xxx',
           secretKey: 'xxx',
           services: [
-            { href: 'https://cloud.tencent.com/document/api/213/15688', label: 'CVM', namespace: 'QCE/CVM', service: 'cvm'},
+            { href: 'https://cloud.tencent.com/document/api/213/15688', label: 'CVM', namespace: 'QCE/CVM', service: 'cvm' },
           ],
         },
       };
@@ -221,11 +221,12 @@ describe('Tencent Cloud Monitor CVM Datasource', () => {
         Response: {
           TotalCount: 3,
           RegionSet: [
-            {"Region": "ap-bangkok", "RegionName": "亚太地区(曼谷)", "RegionState": "AVAILABLE"},
-            {"Region": "ap-beijing", "RegionName": "华北地区(北京)", "RegionState": "AVAILABLE"},
-            {"Region": "ap-chengdu", "RegionName": "西南地区(成都)", "RegionState": "AVAILABLE"}
+            { "Region": "ap-bangkok", "RegionName": "亚太地区(曼谷)", "RegionState": "AVAILABLE" },
+            { "Region": "ap-beijing", "RegionName": "华北地区(北京)", "RegionState": "AVAILABLE" },
+            { "Region": "ap-chengdu", "RegionName": "西南地区(成都)", "RegionState": "AVAILABLE" }
           ],
-          RequestId: "a14ecd52-8ffd-44d3-b556-69492f3b67c9"}
+          RequestId: "a14ecd52-8ffd-44d3-b556-69492f3b67c9"
+        }
       }
     };
     it('should return a list of region', () => {

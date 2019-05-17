@@ -158,8 +158,8 @@ describe('Tencent Cloud Monitor CDB Datasource', () => {
             period: 60,
             metricUnit: 'Bps',
             queries: {},
-            dimensionObject: { InstanceId: { Name: 'InstanceId', Value: 'cdb123' }, InstanceType: { Name: 'InstanceType', Value: 1 }},
-            instance: JSON.stringify({ InstanceId: 'cdb123', RegionName: '北京', Region: 'ap-beijing', InstanceName: 'test'}),
+            dimensionObject: { InstanceId: { Name: 'InstanceId', Value: 'cdb-123' }, InstanceType: { Name: 'InstanceType', Value: 1 }},
+            instance: JSON.stringify({ InstanceId: 'cdb-123', InstanceType: 1, RegionName: '北京', Region: 'ap-beijing', InstanceName: 'test', _InstanceAliasValue: 'cdb-123'}),
             instanceAlias: 'InstanceId',
           }
         }
@@ -168,17 +168,17 @@ describe('Tencent Cloud Monitor CDB Datasource', () => {
     const response = {
       data: {
         Response: {
-          "StartTime": "2019-05-11 20:21:00",
-          "EndTime": "2019-05-11 21:21:00",
-          "Period": 60,
-          "MetricName": "BytesReceived",
-          "DataPoints": [
+          StartTime: "2019-05-11 20:21:00",
+          EndTime: "2019-05-11 21:21:00",
+          Period: 60,
+          MetricName: "BytesReceived",
+          DataPoints: [
             {
-              "Dimensions": [{ "Name": "InstanceType", "Value": "1" }, { "Name": "InstanceId", "Value": "cdb-e4aj14v8" }],
-              "Timestamps": [1557577260, 1557577320, 1557577380, 1557577440, 1557577500],
-              "Values": [85, 86.916, 85.666, 85.333, 85]
+              Dimensions: [{ Name: "InstanceType", Value: "1" }, { Name: "InstanceId", Value: "cdb-123" }],
+              Timestamps: [1557577260, 1557577320, 1557577380, 1557577440, 1557577500],
+              Values: [85, 86.916, 85.666, 85.333, 85]
             }],
-          "RequestId": "e8f3c408-fc67-4782-84da-17c3b8ef7e16"
+          RequestId: "e8f3c408-fc67-4782-84da-17c3b8ef7e16"
         }
       }
     };
@@ -186,7 +186,7 @@ describe('Tencent Cloud Monitor CDB Datasource', () => {
       ctx.backendSrv.datasourceRequest = jest.fn().mockImplementation(value => Promise.resolve(response));
       return ctx.ds.query(options).then(results => {
         expect(results.data[0].target).toEqual(
-          'BytesReceived'
+          'BytesReceived - cdb-e4aj14v8'
         );
         expect(results.data[0].datapoints).toEqual(
           [
