@@ -83,18 +83,18 @@ export default class CVMDatasource implements DatasourceInterface {
         item.cvm.hide !== true &&
         !!item.namespace &&
         !!item.cvm.metricName &&
-        !_.isEmpty(ReplaceVariable(this.templateSrv, options.scropedVars, item.cvm.region, false)) &&
-        !_.isEmpty(ReplaceVariable(this.templateSrv, options.scropedVars, item.cvm.instance, true))
+        !_.isEmpty(ReplaceVariable(this.templateSrv, options.scopedVars, item.cvm.region, false)) &&
+        !_.isEmpty(ReplaceVariable(this.templateSrv, options.scopedVars, item.cvm.instance, true))
       );
     }).map(target => {
       // 实例 instances 可能为模板变量，需先获取实际值
-      let instances = ReplaceVariable(this.templateSrv, options.scropedVars, target.cvm.instance, true);
+      let instances = ReplaceVariable(this.templateSrv, options.scopedVars, target.cvm.instance, true);
       if (_.isArray(instances)) {
         instances = _.map(instances, instance => _.isString(instance) ? JSON.parse(instance) : instance);
       } else {
         instances = [_.isString(instances) ? JSON.parse(instances) : instances];
       }
-      const region = ReplaceVariable(this.templateSrv, options.scropedVars, target.cvm.region, false);
+      const region = ReplaceVariable(this.templateSrv, options.scopedVars, target.cvm.region, false);
       const data = {
         StartTime: moment(options.range.from).format(),
         EndTime: moment(options.range.to).format(),

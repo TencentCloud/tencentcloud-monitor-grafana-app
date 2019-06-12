@@ -84,18 +84,18 @@ export default class CDBDatasource implements DatasourceInterface {
         item.cdb.hide !== true &&
         !!item.namespace &&
         !!item.cdb.metricName &&
-        !_.isEmpty(ReplaceVariable(this.templateSrv, options.scropedVars, item.cdb.region, false)) &&
-        !_.isEmpty(ReplaceVariable(this.templateSrv, options.scropedVars, item.cdb.instance, true))
+        !_.isEmpty(ReplaceVariable(this.templateSrv, options.scopedVars, item.cdb.region, false)) &&
+        !_.isEmpty(ReplaceVariable(this.templateSrv, options.scopedVars, item.cdb.instance, true))
       );
     }).map(target => {
       // 实例 instances 可能为模板变量，需先获取实际值
-      let instances = ReplaceVariable(this.templateSrv, options.scropedVars, target.cdb.instance, true);
+      let instances = ReplaceVariable(this.templateSrv, options.scopedVars, target.cdb.instance, true);
       if (_.isArray(instances)) {
         instances = _.map(instances, instance => _.isString(instance) ? JSON.parse(instance) : instance);
       } else {
         instances = [_.isString(instances) ? JSON.parse(instances) : instances];
       }
-      const region = ReplaceVariable(this.templateSrv, options.scropedVars, target.cdb.region, false);
+      const region = ReplaceVariable(this.templateSrv, options.scopedVars, target.cdb.region, false);
       const data = {
         StartTime: moment(options.range.from).format(),
         EndTime: moment(options.range.to).format(),
