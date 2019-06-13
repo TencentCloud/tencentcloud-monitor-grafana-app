@@ -208,3 +208,12 @@ export function GetRequestParams(options, service, signObj: any = {}, secretId, 
   return options;
 }
 
+export function SliceLength(total = 0, len = 1) {
+  const result: any[] = [];
+  const num = Math.ceil(total / len);
+  for (let i = 1; i < num; i++) {
+    result.push({ 'Offset': len * i });
+  }
+  return result;
+}
+

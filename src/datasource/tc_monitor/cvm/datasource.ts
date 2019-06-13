@@ -2,7 +2,7 @@ import * as _ from 'lodash';
 import * as moment from 'moment';
 import DatasourceInterface from '../../datasource';
 import { CVMInstanceAliasList, CVMInvalidMetrics } from './query_def';
-import { GetRequestParams, GetServiceAPIInfo, ReplaceVariable, GetDimensions, ParseQueryResult, VARIABLE_ALIAS } from '../../common/constants';
+import { GetRequestParams, GetServiceAPIInfo, ReplaceVariable, GetDimensions, ParseQueryResult, VARIABLE_ALIAS, SliceLength } from '../../common/constants';
 
 export default class CVMDatasource implements DatasourceInterface {
   Namespace = 'QCE/CVM';
@@ -38,7 +38,7 @@ export default class CVMDatasource implements DatasourceInterface {
     const instancesQuery = query['action'].match(/^DescribeInstances/i) && !!query['region'];
     const region = this.getVariable(query['region']);
     if (instancesQuery && region) {
-      return this.getInstances(region).then(result => {
+      return this.getVariableInstances(region).then(result => {
         const instanceAlias = CVMInstanceAliasList.indexOf(query[VARIABLE_ALIAS]) !== -1 ? query[VARIABLE_ALIAS] : 'InstanceId';
         const instances: any[] = [];
         _.forEach(result, (item) => {
@@ -187,6 +187,38 @@ export default class CVMDatasource implements DatasourceInterface {
       .then(response => {
         return response.InstanceSet || [];
       });
+  }
+
+  getVariableInstances(region) {
+    let result: any[] = [];
+    const params = { Offset: 0, Limit: 100 };
+    const serviceInfo = GetServiceAPIInfo(region, 'cvm');
+    return this.doRequest({
+      url: this.url + serviceInfo.path,
+      data: params,
+    }, serviceInfo.service, { region, action: 'DescribeInstances' })
+      .then(response => {
+        result = response.InstanceSet || [];
+        const total = response.TotalCount || 0;
+        if (result.length >= total) {
+          return result;
+        } else {
+          const param = SliceLength(total, 100);
+          const promises: any[] = [];
+          _.forEach(param, item => {
+            promises.push(this.getInstances(region, item));
+          });
+          return Promise.all(promises).then(responses => {
+            _.forEach(responses, item => {
+              result = _.concat(result, item);
+            });
+            return result;
+          }).catch(error => {
+            return result;
+          });
+        }
+      });
+
   }
 
   getZones(region) {

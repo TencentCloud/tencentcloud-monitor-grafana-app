@@ -2,7 +2,7 @@ import * as _ from 'lodash';
 import * as moment from 'moment';
 import DatasourceInterface from '../../datasource';
 import { CDBInstanceAliasList } from './query_def';
-import { GetRequestParams, GetServiceAPIInfo, ReplaceVariable, GetDimensions, ParseQueryResult, VARIABLE_ALIAS } from '../../common/constants';
+import { GetRequestParams, GetServiceAPIInfo, ReplaceVariable, GetDimensions, ParseQueryResult, VARIABLE_ALIAS, SliceLength } from '../../common/constants';
 
 
 export default class CDBDatasource implements DatasourceInterface {
@@ -39,7 +39,7 @@ export default class CDBDatasource implements DatasourceInterface {
     const instancesQuery = query['action'].match(/^DescribeDBInstances/i) && !!query['region'];
     const region = this.getVariable(query['region']);
     if (instancesQuery && region) {
-      return this.getInstances(region).then(result => {
+      return this.getVariableInstances(region).then(result => {
         const instanceAlias = CDBInstanceAliasList.indexOf(query[VARIABLE_ALIAS]) !== -1 ? query[VARIABLE_ALIAS] : 'InstanceId';
         const instances: any[] = [];
         _.forEach(result, (item) => {
@@ -163,6 +163,10 @@ export default class CDBDatasource implements DatasourceInterface {
       });
   }
 
+  /**
+   * 获取 CDB 的监控指标
+   * @param region  地域信息
+   */
   getMetrics(region = 'ap-guangzhou') {
     const serviceInfo = GetServiceAPIInfo(region, 'monitor');
     return this.doRequest({
@@ -176,6 +180,10 @@ export default class CDBDatasource implements DatasourceInterface {
       });
   }
 
+  /**
+   * 获取 可用区
+   * @param region 地域信息
+   */
   getZones(region) {
     const serviceInfo = GetServiceAPIInfo(region, 'cvm');
     return this.doRequest({
@@ -191,6 +199,11 @@ export default class CDBDatasource implements DatasourceInterface {
       });
   }
 
+  /**
+   * 获取 CDB 实例
+   * @param region 地域信息
+   * @param params 其他实例查询参数，详情参考 https://cloud.tencent.com/document/api/236/15872
+   */
   getInstances(region, params = {}) {
     params = Object.assign({ Offset: 0, Limit: 2000 }, params);
     const serviceInfo = GetServiceAPIInfo(region, 'cdb');
@@ -201,6 +214,42 @@ export default class CDBDatasource implements DatasourceInterface {
       .then(response => {
         return response.Items || [];
       });
+  }
+
+  /**
+   * 模板变量中获取全量的 CDB 实例列表
+   * @param region 地域信息
+   */
+  getVariableInstances(region) {
+    let result: any[] = [];
+    const params = { Offset: 0, Limit: 2000 };
+    const serviceInfo = GetServiceAPIInfo(region, 'cdb');
+    return this.doRequest({
+      url: this.url + serviceInfo.path,
+      data: params,
+    }, serviceInfo.service, { region, action: 'DescribeDBInstances' })
+      .then(response => {
+        result = response.Items || [];
+        const total = response.TotalCount || 0;
+        if (result.length >= total) {
+          return result;
+        } else {
+          const param = SliceLength(total, 2000);
+          const promises: any[] = [];
+          _.forEach(param, item => {
+            promises.push(this.getInstances(region, item));
+          });
+          return Promise.all(promises).then(responses => {
+            _.forEach(responses, item => {
+              result = _.concat(result, item);
+            });
+            return result;
+          }).catch(error => {
+            return result;
+          });
+        }
+      });
+
   }
 
   // 检查某变量字段是否有值
