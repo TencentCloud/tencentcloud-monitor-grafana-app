@@ -84,6 +84,16 @@
     region="ctrl.replace(ctrl.target.cdb.region)"
   ></cdb-query>
 
+   <!-- PCX -->
+  <pcx-query
+    ng-if="ctrl.target.service==='pcx'"
+    target="ctrl.target.pcx"
+    show-detail="ctrl.checkShowDetail('instance')"
+    datasource="ctrl.datasource"
+    on-change="ctrl.onInstanceQueryChange()"
+    region="ctrl.replace(ctrl.target.pcx.region)"
+ ></pcx-query>
+
   <!-- Global error message -->
   <div class="gf-form" ng-show="ctrl.lastQueryError">
     <pre class="gf-form-pre alert alert-error">{{ctrl.lastQueryError}}</pre>

@@ -9,7 +9,7 @@ export default interface DatasourceInterface {
   query(options: any);
   testDatasource();
   metricFindQuery(query: any);
-  getRegions(service: string);
+  getRegions?(service: string);
   getMetrics(service: string, region: string);
   getInstances(service: string, region: string, params: any);
   getZones?: (service: string, region: string) => any;
@@ -105,7 +105,8 @@ export class TCMonitorDatasource implements DatasourceInterface {
     const services = this.getSelectedServices();
     _.forEach(services, service => {
       const optionsTemp = _.cloneDeep(options);
-      optionsTemp.targets = _.filter(optionsTemp.targets, ['service', service]);
+      const targets = _.filter(optionsTemp.targets, item => item.service === service);
+      optionsTemp.targets = targets;
       if (optionsTemp.targets.length > 0) {
         const promiseTemp = this[`${_.upperCase(service)}Datasource`].query(optionsTemp);
         if (promiseTemp) {
@@ -140,7 +141,10 @@ export class TCMonitorDatasource implements DatasourceInterface {
   }
 
   getRegions(service) {
-    return this[`${_.upperCase(service)}Datasource`].getRegions();
+    if (this[`${_.upperCase(service)}Datasource`].getRegions) {
+      return this[`${_.upperCase(service)}Datasource`].getRegions();
+    }
+    return [];
   }
 
   getMetrics(service, region) {

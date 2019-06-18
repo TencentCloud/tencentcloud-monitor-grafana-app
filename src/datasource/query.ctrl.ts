@@ -21,8 +21,8 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
   instanceAliasList: any[] = [];
   target: {
     refId: string;
-    namespace: string;
     service: string;
+    namespace: string;
     showInstanceDetails: boolean;
   };
   defaults = {
@@ -49,6 +49,7 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
     _.defaultsDeep(this.target, this.defaults);
     this.instanceAliasList = this.getInstanceAliasList(this.target.service);
     this.panelCtrl.events.on('data-received', this.onDataReceived.bind(this), $scope);
+    this.panelCtrl.events.on('data-error', this.onDataError.bind(this), $scope);
   }
 
   onDataReceived(dataList) {
@@ -103,7 +104,7 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
   }
 
   onNamespaceChange() {
-    const service = this.target.service;
+    const service = GetServiceFromNamespace(this.target.namespace) || '';
     this.regions = [];
     this.metricList = [];
     this.periodList = [];
@@ -111,12 +112,11 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
     this.instanceList = [];
 
     const initState = InitServiceState[service];
-    this.target = { ...this.target, ...{ [service]: initState } };
+    this.target[service] = _.cloneDeep(initState);
+    this.target.service = service;
 
-    this.target.service = GetServiceFromNamespace(this.target.namespace) || '';
-    this.instanceAliasList = this.getInstanceAliasList(this.target.service);
-
-    this.panelCtrl.refresh();
+    this.instanceAliasList = this.getInstanceAliasList(service);
+    this.refresh();
   }
 
   /**
@@ -158,7 +158,7 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
       this.target[service].dimensionObject[key] = { Name: key, Value: '' };
     });
     this.target[service].queries = _.cloneDeep(InitServiceState[service].queries);
-    this.panelCtrl.refresh();
+    this.refresh();
   }
 
   /**
@@ -220,7 +220,7 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
     this.target[service].period = periodList.length > 0 ? periodList[0] : undefined;
     this.target[service].dimensionObject = dimensionObject;
     this.target[service].metricUnit = metricUnit;
-    this.panelCtrl.refresh();
+    this.refresh();
   }
 
   getInstances() {
@@ -274,7 +274,7 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
     if (!this.isVariable('instance')) {
       const service = this.target.service;
       this.target[service].instance = '';
-      this.panelCtrl.refresh();
+      this.refresh();
     }
   }
 
@@ -287,7 +287,7 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
       _.forEach(this.target[service].dimensionObject, (__, key) => {
         this.target[service].dimensionObject[key] = { Name: key, Value: '' };
       });
-      this.panelCtrl.refresh();
+      this.refresh();
     }
   }
 

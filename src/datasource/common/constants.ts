@@ -1,11 +1,20 @@
 import * as _ from 'lodash';
+import * as qs from 'qs';
 import { SERVICES } from '../tc_monitor';
 import Sign from './sign';
+import SignV2 from './signV2';
 
 // the services of tencentcloud monitor api
 const FINACE_REGIONS = ['ap-shanghai-fsi', 'ap-shenzhen-fsi'];
 
 const SERVICES_API_INFO = {
+  // monitor api info
+  monitor: {
+    service: 'monitor',
+    version: '2018-07-24',
+    path: '/monitor',
+    host: 'monitor.tencentcloudapi.com',
+  },
   // cvm api info
   cvm: {
     service: 'cvm',
@@ -20,12 +29,12 @@ const SERVICES_API_INFO = {
     path: '/cdb',
     host: 'cdb.tencentcloudapi.com',
   },
-  // monitor api info
-  monitor: {
-    service: 'monitor',
-    version: '2018-07-24',
-    path: '/monitor',
-    host: 'monitor.tencentcloudapi.com',
+  // pcx api info
+  pcx: {
+    service: 'pcx',
+    version: '',
+    path: '/pcx',
+    host: 'vpc.api.qcloud.com',
   }
 };
 
@@ -187,11 +196,11 @@ function isInstanceMatch(instance, dimensions) {
 }
 
 /**
- *
+ * 腾讯云 API 3.0 接口协议
  * @param options 接口请求对象 { url: string, data?: object }
  * @param service 产品名字 'cvm'
  * @param signObj 接口请求相关信息 { region?: string, action: string }
- * @param secretId
+ * @param secretId 
  * @param secretKey
  */
 export function GetRequestParams(options, service, signObj: any = {}, secretId, secretKey) {
@@ -205,6 +214,32 @@ export function GetRequestParams(options, service, signObj: any = {}, secretId, 
   const sign = new Sign(signParams);
   options.headers = Object.assign(options.headers || {}, { ...sign.getHeader() });
   options.method = 'POST';
+  return options;
+}
+
+/**
+ *  腾讯云 API 2.0 接口协议
+ * @param options 接口请求对象 { url: string, data?: object }
+ * @param service 产品名字 'cvm'
+ * @param signObj 接口请求相关信息 { region?: string, action: string }
+ * @param secretId
+ * @param secretKey
+ */
+export function GetRequestParamsV2(options: any = {}, service, signObj: any = {}, secretId, secretKey) {
+  const data = options.data || {};
+  const signParams = {
+    secretId,
+    secretKey,
+    data,
+    ...signObj,
+    ...(_.pick(GetServiceAPIInfo(signObj.region || '', service), ['host']) || {}),
+  };
+  options.method = 'POST';
+  const sign = new SignV2(signParams);
+  options.headers = Object.assign(options.headers || {}, { 'Content-Type': 'application/x-www-form-urlencoded' });
+  const { queryString, path } = sign.generateQueryString();
+  options.data = qs.stringify({...options.data, ...queryString });
+  options.url += path;
   return options;
 }
 

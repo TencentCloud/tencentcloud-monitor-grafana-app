@@ -9,6 +9,13 @@
   },
   "routes": [
     {
+      "path": "pcx",
+      "url": "https://vpc.api.qcloud.com",
+      "headers": [
+        {"name": "Content-Type", "content": "application/json"}
+      ]
+    },
+    {
       "path": "cvm",
       "url": "https://cvm.tencentcloudapi.com",
       "headers": [

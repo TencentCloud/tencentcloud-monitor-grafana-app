@@ -78,6 +78,7 @@ export default class CDBDatasource implements DatasourceInterface {
    * ]
    */
   query(options: any) {
+    console.log('cdb query options:', options);
     const queries = _.filter(options.targets, item => {
       // 过滤无效的查询 target
       return (
