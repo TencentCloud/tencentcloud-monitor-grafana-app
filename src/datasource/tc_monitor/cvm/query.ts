@@ -63,7 +63,7 @@ const template = `
   </div>
 </div>
 <div class="gf-form-inline tc-sub-params" ng-if="target.queries.instanceIdsChecked">
-  <multi-condition type="'input'" maxCond="100" value="target.queries.InstanceIds" on-change="onChange()">
+  <multi-condition type="'input'" max-cond="100" value="target.queries.InstanceIds" on-change="onChange()">
   </multi-condition>
 </div>
 <div class="gf-form-inline">
@@ -85,7 +85,7 @@ const template = `
     <multi-condition
       ng-if="field.type === 'dropdown'"
       type="'dropdown'"
-      maxCond="5"
+      max-cond="5"
       value="target.queries.Filters[field.key]"
       get-options="getDropdown(field.key)"
       on-change="onChange()"
@@ -93,7 +93,7 @@ const template = `
     <multi-condition
       ng-if="field.type === 'inputNumber'"
       type="'inputNumber'"
-      maxCond="5"
+      max-cond="5"
       value="target.queries.Filters[field.key]"
       maxNum="field.max"
       minNum="field.min"
@@ -102,7 +102,7 @@ const template = `
     <multi-condition
       ng-if="field.type === 'input'"
       type="'input'"
-      maxCond="5"
+      max-cond="5"
       value="target.queries.Filters[field.key]"
       on-change="onChange()"
     ></multi-condition>
