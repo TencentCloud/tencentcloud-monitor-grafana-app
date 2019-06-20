@@ -27,6 +27,7 @@ export class CDBQueryCtrl {
     };
 
     $scope.getZones = () => {
+      console.log('getZones:', $scope.region);
       if (!$scope.region) {
         return [];
       }
@@ -77,7 +78,7 @@ const template = `
         on-change="onChange()"
       ></multi-condition>
       <multi-condition
-        ng-if="field.type === 'dropdown'"
+        ng-if="field.type === 'dropdownmulti'"
         type="'dropdown'"
         value="target.queries[field.key]"
         on-change="onChange()"

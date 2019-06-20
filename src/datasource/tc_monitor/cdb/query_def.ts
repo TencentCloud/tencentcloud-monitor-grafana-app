@@ -126,7 +126,7 @@ const CDBFieldsDescriptor = [
     enDescriptor: 'Zone ID',
     cnDescriptor: '可用区的ID',
     link: '',
-    type: 'dropdown',
+    type: 'dropdownMulti',
   },
   {
     key: 'InstanceTypes',

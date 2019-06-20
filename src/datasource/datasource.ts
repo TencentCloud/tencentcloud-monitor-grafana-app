@@ -140,6 +140,10 @@ export class TCMonitorDatasource implements DatasourceInterface {
     return Promise.resolve([]);
   }
 
+  /**
+   * 获取地域列表
+   * @param service
+   */
   getRegions(service) {
     if (this[`${_.upperCase(service)}Datasource`].getRegions) {
       return this[`${_.upperCase(service)}Datasource`].getRegions();
@@ -147,10 +151,20 @@ export class TCMonitorDatasource implements DatasourceInterface {
     return [];
   }
 
+  /**
+   * 获取监控指标列表
+   * @param service
+   * @param region
+   */
   getMetrics(service, region) {
     return this[`${_.upperCase(service)}Datasource`].getMetrics(region);
   }
 
+  /**
+   * 获取可用区列表
+   * @param service
+   * @param region
+   */
   getZones(service, region) {
     if (this[`${_.upperCase(service)}Datasource`].getZones) {
       return this[`${_.upperCase(service)}Datasource`].getZones(region);
@@ -158,8 +172,25 @@ export class TCMonitorDatasource implements DatasourceInterface {
     return [];
   }
 
+  /**
+   * 获取实例列表
+   * @param service
+   * @param region
+   * @param params
+   */
   getInstances(service, region, params) {
     return this[`${_.upperCase(service)}Datasource`].getInstances(region, params);
+  }
+
+  /**
+   * 获取 私有网络列表
+   * @param service
+   */
+  getVpcIds(service, region) {
+    console.log('datasource:', `${_.toUpper(service)}Datasource`);
+    if (this[`${_.toUpper(service)}Datasource`].getVpcIds) {
+      return this[`${_.toUpper(service)}Datasource`].getVpcIds(region);
+    }
   }
 
   // 在 Datasource Config 配置时，验证 SerectId、SerectKey 的有效性，并测试勾选的监控服务项的对应 API 连通性

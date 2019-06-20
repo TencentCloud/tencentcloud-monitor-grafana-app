@@ -1,6 +1,7 @@
 import coreModule from 'grafana/app/core/core_module';
 import { PCXFieldsDescriptor } from './query_def';
 
+
 export class PCXQueryCtrl {
   /** @ngInject */
   constructor($scope, $rootScope) {
@@ -16,12 +17,19 @@ export class PCXQueryCtrl {
     };
 
     $scope.getDropdown = (field) => {
-      // switch (field) {
-      //   case 'zone':
-      //     return $scope.getZones();
-      //   default:
-      //     return [];
-      // }
+      switch (field) {
+        case 'vpcId':
+          return $scope.getVpcIds();
+        default:
+          return [];
+      }
+    };
+
+    $scope.getVpcIds = () => {
+      if (!$scope.region) {
+        return [];
+      }
+      return $scope.datasource.getVpcIds('pcx', $scope.region);
     };
 
 
@@ -62,6 +70,15 @@ const template = `
         ng-change="onChange()"
         class="gf-form-input width-10"
       />
+      <gf-form-dropdown
+        ng-if="field.type === 'dropdown'"
+        model="target.queries[field.key]"
+        allow-custom="true"
+        lookup-text="true"
+        get-options="getDropdown(field.key)"
+        on-change="onChange()"
+        css-class="min-width-10"
+      />
       <multi-condition
         ng-if="field.type === 'inputmulti'"
         type="'input'"
@@ -69,7 +86,7 @@ const template = `
         on-change="onChange()"
       ></multi-condition>
       <multi-condition
-        ng-if="field.type === 'dropdown'"
+        ng-if="field.type === 'dropdownmulti'"
         type="'dropdown'"
         value="target.queries[field.key]"
         on-change="onChange()"
@@ -98,7 +115,6 @@ export function pcxQuery() {
       showDetail: '=',
       region: '=',
       datasource: '=',
-      getDropdownOptions: '&',
       onChange: '&',
     },
   };

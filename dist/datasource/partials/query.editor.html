@@ -71,7 +71,7 @@
     show-detail="ctrl.checkShowDetail('instance')"
     datasource="ctrl.datasource"
     on-change="ctrl.onInstanceQueryChange()"
-    region="ctrl.replace(ctrl.target.cvm.region)"
+    region="ctrl.getVariable(ctrl.target.cvm.region)"
   ></cvm-query>
 
   <!-- CDB -->
@@ -81,7 +81,7 @@
     show-detail="ctrl.checkShowDetail('instance')"
     datasource="ctrl.datasource"
     on-change="ctrl.onInstanceQueryChange()"
-    region="ctrl.replace(ctrl.target.cdb.region)"
+    region="ctrl.getVariable(ctrl.target.cdb.region)"
   ></cdb-query>
 
    <!-- PCX -->
@@ -91,8 +91,18 @@
     show-detail="ctrl.checkShowDetail('instance')"
     datasource="ctrl.datasource"
     on-change="ctrl.onInstanceQueryChange()"
-    region="ctrl.replace(ctrl.target.pcx.region)"
+    region="ctrl.getVariable(ctrl.target.pcx.region)"
  ></pcx-query>
+
+  <!-- Nat Gateway-->
+  <nat-gateway-query
+    ng-if="ctrl.target.service==='natGateway'"
+    target="ctrl.target.natGateway"
+    show-detail="ctrl.checkShowDetail('instance')"
+    datasource="ctrl.datasource"
+    on-change="ctrl.onInstanceQueryChange()"
+    region="ctrl.getVariable(ctrl.target.natGateway.region)"
+  ></nat-gateway-query>
 
   <!-- Global error message -->
   <div class="gf-form" ng-show="ctrl.lastQueryError">

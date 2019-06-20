@@ -65,7 +65,7 @@ const PCXFieldsDescriptor = [
     enDescriptor: 'vpcId',
     cnDescriptor: '发起方私有网络 ID 值',
     link: 'https://cloud.tencent.com/document/api/215/1372',
-    type: 'input'
+    type: 'dropdown'
   },
   {
     key: 'state',

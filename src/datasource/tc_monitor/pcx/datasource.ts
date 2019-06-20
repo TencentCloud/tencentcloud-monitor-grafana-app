@@ -57,7 +57,6 @@ export default class PCXDatasource implements DatasourceInterface {
   }
 
   query(options: any) {
-    console.log('pcx query options:', options);
     const queries = _.filter(options.targets, item => {
       // 过滤无效的查询 target
       return (
@@ -119,14 +118,12 @@ export default class PCXDatasource implements DatasourceInterface {
    * @param instances 实例列表，用于对返回结果的匹配解析
    */
   getMonitorData(params, region, instances) {
-    console.log('getMonitorData:');
     const serviceInfo = GetServiceAPIInfo(region, 'monitor');
     return this.doRequest({
       url: this.url + serviceInfo.path,
       data: params,
     }, serviceInfo.service, { action: 'GetMonitorData', region })
       .then(response => {
-        console.log('response:', response);
         return ParseQueryResult(response, instances);
       });
   }
@@ -159,7 +156,6 @@ export default class PCXDatasource implements DatasourceInterface {
   }
 
   getInstances(region = 'ap-guangzhou', params = {}) {
-    console.log('getInstances:', region, params);
     params = Object.assign({ offset: 0, limit: 50 }, params);
     const serviceInfo = GetServiceAPIInfo(region, 'pcx');
     return this.doRequestV2({
@@ -167,13 +163,12 @@ export default class PCXDatasource implements DatasourceInterface {
       data: params,
     }, serviceInfo.service, { region, action: 'DescribeVpcPeeringConnections' })
       .then(response => {
-        console.log(12343, response);
         return response.data || [];
       });
   }
 
   /**
-   * 模板变量中获取全量的 CDB 实例列表
+   * 模板变量中获取全量的 PCX 实例列表
    * @param region 地域信息
    */
   getVariableInstances(region) {
@@ -194,6 +189,55 @@ export default class PCXDatasource implements DatasourceInterface {
           const promises: any[] = [];
           _.forEach(param, item => {
             promises.push(this.getInstances(region, item));
+          });
+          return Promise.all(promises).then(responses => {
+            _.forEach(responses, item => {
+              result = _.concat(result, item);
+            });
+            return result;
+          }).catch(error => {
+            return result;
+          });
+        }
+      });
+  }
+
+  getVpcId(region, params: any = {}) {
+    params = Object.assign({ Offset: 0, Limit: 20 }, params);
+    // TODO 等待腾讯云接口查问题
+    params.Offset = String(params.Offset);
+    params.Limit = String(params.Limit);
+    const serviceInfo = GetServiceAPIInfo(region, 'vpc');
+    return this.doRequest({
+      url: this.url + serviceInfo.path,
+      data: params,
+    }, serviceInfo.service, { region, action: 'DescribeVpcs' })
+      .then(response => {
+        return _.map(response.VpcSet || [], item => ({ text: item.VpcId, value: item.VpcId }));
+      });
+  }
+
+  getVpcIds(region) {
+    let result: any[] = [];
+    const params: any = { Offset: 0, Limit: 100 };
+    // TODO 等待腾讯云接口查问题
+    params.Offset = String(params.Offset);
+    params.Limit = String(params.Limit);
+    const serviceInfo = GetServiceAPIInfo(region, 'vpc');
+    return this.doRequest({
+      url: this.url + serviceInfo.path,
+      data: params,
+    }, serviceInfo.service, { region, action: 'DescribeVpcs' })
+      .then(response => {
+        result = _.map(response.VpcSet || [], item => ({ text: item.VpcId, value: item.VpcId }));
+        const total = response.TotalCount || 0;
+        if (result.length >= total) {
+          return result;
+        } else {
+          const param = SliceLength(total, 100);
+          const promises: any[] = [];
+          _.forEach(param, item => {
+            promises.push(this.getVpcId(region, item));
           });
           return Promise.all(promises).then(responses => {
             _.forEach(responses, item => {
@@ -251,14 +295,27 @@ export default class PCXDatasource implements DatasourceInterface {
         'pcx',
         { region: 'ap-guangzhou', action: 'DescribeVpcPeeringConnections' }
       ),
+      this.doRequest(
+        {
+          url: this.url + '/vpc',
+          data: {
+            Limit: 1,
+            Offset: 0,
+          },
+        },
+        'vpc',
+        { region: 'ap-guangzhou', action: 'DescribeVpcs' }
+      ),
     ]).then(responses => {
       const cvmErr = _.get(responses, '[0].Error', {});
       const monitorErr = _.get(responses, '[1].Error', {});
       const pcxErr = _.get(responses, '[2]', {});
+      const vpcErr = _.get(responses, '[3]', {});
       const cvmAuthFail = _.get(cvmErr, 'Code', '').indexOf('AuthFailure') !== -1;
       const monitorAuthFail = _.get(monitorErr, 'Code', '').indexOf('AuthFailure') !== -1;
       const pcxAuthFail = _.startsWith(_.toString(_.get(pcxErr, 'code')), '4');
-      if (cvmAuthFail || monitorAuthFail || pcxAuthFail) {
+      const vpcAuthFail = _.get(vpcErr, 'Code', '').indexOf('AuthFailure') !== -1;
+      if (cvmAuthFail || monitorAuthFail || pcxAuthFail || vpcAuthFail) {
         const messages: any[] = [];
           if (cvmAuthFail) {
             messages.push(`${_.get(cvmErr, 'Code')}: ${_.get(cvmErr, 'Message')}`);
@@ -268,6 +325,9 @@ export default class PCXDatasource implements DatasourceInterface {
           }
           if (pcxAuthFail) {
             messages.push(`${_.get(pcxErr, 'code')}: ${_.get(pcxErr, 'codeDesc')}`);
+          }
+          if (vpcAuthFail) {
+            messages.push(`${_.get(vpcErr, 'Code')}: ${_.get(vpcErr, 'Message')}`);
           }
           const message = _.join(_.compact(_.uniq(messages)), '; ');
           return {
