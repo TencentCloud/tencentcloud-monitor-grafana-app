@@ -108,7 +108,7 @@ export class TCMonitorDatasource implements DatasourceInterface {
       const targets = _.filter(optionsTemp.targets, item => item.service === service);
       optionsTemp.targets = targets;
       if (optionsTemp.targets.length > 0) {
-        const promiseTemp = this[`${_.upperCase(service)}Datasource`].query(optionsTemp);
+        const promiseTemp = this[`${_.toUpper(service)}Datasource`].query(optionsTemp);
         if (promiseTemp) {
           promises.push(promiseTemp);
         }
@@ -133,7 +133,7 @@ export class TCMonitorDatasource implements DatasourceInterface {
     if (_.isEmpty(queries) || !queries['namespace'] || !queries['action'] || !service) {
       return Promise.resolve([]);
     }
-    const result = this[`${_.upperCase(service)}Datasource`].metricFindQuery(queries);
+    const result = this[`${_.toUpper(service)}Datasource`].metricFindQuery(queries);
     if (result) {
       return result;
     }
@@ -145,8 +145,8 @@ export class TCMonitorDatasource implements DatasourceInterface {
    * @param service
    */
   getRegions(service) {
-    if (this[`${_.upperCase(service)}Datasource`].getRegions) {
-      return this[`${_.upperCase(service)}Datasource`].getRegions();
+    if (this[`${_.toUpper(service)}Datasource`].getRegions) {
+      return this[`${_.toUpper(service)}Datasource`].getRegions();
     }
     return [];
   }
@@ -157,7 +157,7 @@ export class TCMonitorDatasource implements DatasourceInterface {
    * @param region
    */
   getMetrics(service, region) {
-    return this[`${_.upperCase(service)}Datasource`].getMetrics(region);
+    return this[`${_.toUpper(service)}Datasource`].getMetrics(region);
   }
 
   /**
@@ -166,8 +166,8 @@ export class TCMonitorDatasource implements DatasourceInterface {
    * @param region
    */
   getZones(service, region) {
-    if (this[`${_.upperCase(service)}Datasource`].getZones) {
-      return this[`${_.upperCase(service)}Datasource`].getZones(region);
+    if (this[`${_.toUpper(service)}Datasource`].getZones) {
+      return this[`${_.toUpper(service)}Datasource`].getZones(region);
     }
     return [];
   }
@@ -179,7 +179,7 @@ export class TCMonitorDatasource implements DatasourceInterface {
    * @param params
    */
   getInstances(service, region, params) {
-    return this[`${_.upperCase(service)}Datasource`].getInstances(region, params);
+    return this[`${_.toUpper(service)}Datasource`].getInstances(region, params);
   }
 
   /**
@@ -198,7 +198,7 @@ export class TCMonitorDatasource implements DatasourceInterface {
     const promises: any[] = [];
     const services = this.getSelectedServices();
     _.forEach(services, service => {
-      promises.push(this[`${_.upperCase(service)}Datasource`].testDatasource());
+      promises.push(this[`${_.toUpper(service)}Datasource`].testDatasource());
     });
     if (promises.length === 0) {
       return Promise.resolve({

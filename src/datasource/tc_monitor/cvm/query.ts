@@ -45,19 +45,34 @@ const template = `
 </label>
 <div class="gf-form-inline">
   <div class="gf-form">
-    <label class="gf-form-label width-9">Offset</label>
+    <label class="gf-form-label width-14">
+      Offset
+      <info-popover mode="right-normal">
+        偏移量, 例如Offset=20&Limit=20 返回第 20 到 40 项
+      </info-popover>
+    </label>
     <input type="number" ng-model="target.queries.Offset" class="gf-form-input width-10" ng-min="0" ng-change="onChange()">
   </div>
 </div>
 <div class="gf-form-inline">
   <div class="gf-form">
-    <label class="gf-form-label width-9">Limit</label>
+    <label class="gf-form-label width-14">
+      Limit
+      <info-popover mode="right-normal">
+        单次请求返回的数量，默认为20，最大值为100
+      </info-popover>
+    </label>
     <input type="number" ng-model="target.queries.Limit" class="gf-form-input width-10" ng-min="1" ng-max="100" ng-change="onChange()">
   </div>
 </div>
 <div class="gf-form-inline">
   <div class="gf-form">
-    <label class="gf-form-label width-9">InstanceIds</label>
+    <label class="gf-form-label width-9">
+      InstanceIds
+      <info-popover mode="right-normal">
+        实例 ID，每次请求的实例的上限为100，参数不支持同时指定 InstanceIds 和 Filters
+      </info-popover>
+    </label>
     <gf-form-switch class="gf-form tc-switch" label-class="width-7" checked="target.queries.instanceIdsChecked"
       switch-class="max-width-5" on-change="onChecked('instanceIdsChecked', 'filtersChecked')"></gf-form-switch>
   </div>
@@ -68,7 +83,12 @@ const template = `
 </div>
 <div class="gf-form-inline">
   <div class="gf-form">
-    <label class="gf-form-label width-9">Filters</label>
+    <label class="gf-form-label width-9">
+      Filters
+      <info-popover mode="right-normal">
+        过滤条件，每次请求的 Filters 的上限为10，Filter.Values 的上限为5。参数不支持同时指定 InstanceIds 和 Filters
+      </info-popover>
+    </label>
     <gf-form-switch class="gf-form tc-switch" label-class="width-7" checked="target.queries.filtersChecked" switch-class="max-width-5"
       on-change="onChecked('filtersChecked','instanceIdsChecked')"></gf-form-switch>
   </div>

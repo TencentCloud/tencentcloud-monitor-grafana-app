@@ -100,7 +100,7 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
     if (!service) {
       return [];
     }
-    return _.map(InstanceAliasList[`${_.upperCase(service)}InstanceAliasList`] || [], item => ({ text: `As ${item}`, value: item }));
+    return _.map(InstanceAliasList[`${_.toUpper(service)}InstanceAliasList`] || [], item => ({ text: `As ${item}`, value: item }));
   }
 
   onNamespaceChange() {
@@ -262,8 +262,8 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
    */
   getInstanceQueryParams(service) {
     const queries = this.target[service].queries;
-    if (GetInstanceQueryParams[`${_.upperCase(service)}GetInstanceQueryParams`]) {
-      return GetInstanceQueryParams[`${_.upperCase(service)}GetInstanceQueryParams`](queries);
+    if (GetInstanceQueryParams[`${_.toUpper(service)}GetInstanceQueryParams`]) {
+      return GetInstanceQueryParams[`${_.toUpper(service)}GetInstanceQueryParams`](queries);
     } else {
       return {};
     }

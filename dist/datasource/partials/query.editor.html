@@ -94,16 +94,25 @@
     region="ctrl.getVariable(ctrl.target.pcx.region)"
  ></pcx-query>
 
+<<<<<<< HEAD
   <!-- Nat Gateway-->
+=======
+  <!-- PCX -->
+>>>>>>> 60696eb... NAT 网关产品功能开发
   <nat-gateway-query
     ng-if="ctrl.target.service==='natGateway'"
     target="ctrl.target.natGateway"
     show-detail="ctrl.checkShowDetail('instance')"
     datasource="ctrl.datasource"
     on-change="ctrl.onInstanceQueryChange()"
+<<<<<<< HEAD
     region="ctrl.getVariable(ctrl.target.natGateway.region)"
   ></nat-gateway-query>
 
+=======
+    region="ctrl.replace(ctrl.target.natGateway.region)"
+  ></nat-gateway-query>
+>>>>>>> 60696eb... NAT 网关产品功能开发
   <!-- Global error message -->
   <div class="gf-form" ng-show="ctrl.lastQueryError">
     <pre class="gf-form-pre alert alert-error">{{ctrl.lastQueryError}}</pre>

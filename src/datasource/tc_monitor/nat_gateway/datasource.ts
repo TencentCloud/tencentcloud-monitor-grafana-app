@@ -1,11 +1,11 @@
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import DatasourceInterface from '../../datasource';
-import { PCXInstanceAliasList } from './query_def';
-import { GetServiceAPIInfo, GetRequestParamsV2, GetRequestParams, ReplaceVariable, GetDimensions, ParseQueryResult, VARIABLE_ALIAS, SliceLength } from '../../common/constants';
+import { NATGATEWAYInstanceAliasList } from './query_def';
+import { GetServiceAPIInfo, GetRequestParams, ReplaceVariable, GetDimensions, ParseQueryResult, VARIABLE_ALIAS, SliceLength } from '../../common/constants';
 
-export default class PCXDatasource implements DatasourceInterface {
-  Namespace = 'QCE/PCX';
+export default class NATGATEWAYDatasource implements DatasourceInterface {
+  Namespace = 'QCE/NAT_GATEWAY';
   url: string;
   instanceSettings: any;
   backendSrv: any;
@@ -29,12 +29,12 @@ export default class PCXDatasource implements DatasourceInterface {
       return this.getRegions();
     }
 
-    // 查询 PCX 实例列表
+    // 查询 NAT_GATEWAY 实例列表
     const instancesQuery = query['action'].match(/^DescribeDBInstances/i) && !!query['region'];
     const region = this.getVariable(query['region']);
     if (instancesQuery && region) {
       return this.getVariableInstances(region).then(result => {
-        const instanceAlias = PCXInstanceAliasList.indexOf(query[VARIABLE_ALIAS]) !== -1 ? query[VARIABLE_ALIAS] : 'InstanceId';
+        const instanceAlias = NATGATEWAYInstanceAliasList.indexOf(query[VARIABLE_ALIAS]) !== -1 ? query[VARIABLE_ALIAS] : 'InstanceId';
         const instances: any[] = [];
         _.forEach(result, (item) => {
           const instanceAliasValue = _.get(item, instanceAlias);
@@ -57,37 +57,38 @@ export default class PCXDatasource implements DatasourceInterface {
   }
 
   query(options: any) {
+    console.log('nat gateway query options:', options);
     const queries = _.filter(options.targets, item => {
       // 过滤无效的查询 target
       return (
-        item.pcx.hide !== true &&
+        item.natGateway.hide !== true &&
         !!item.namespace &&
-        !!item.pcx.metricName &&
-        !_.isEmpty(ReplaceVariable(this.templateSrv, options.scopedVars, item.pcx.region, false)) &&
-        !_.isEmpty(ReplaceVariable(this.templateSrv, options.scopedVars, item.pcx.instance, true))
+        !!item.natGateway.metricName &&
+        !_.isEmpty(ReplaceVariable(this.templateSrv, options.scopedVars, item.natGateway.region, false)) &&
+        !_.isEmpty(ReplaceVariable(this.templateSrv, options.scopedVars, item.natGateway.instance, true))
       );
     }).map(target => {
       // 实例 instances 可能为模板变量，需先获取实际值
-      let instances = ReplaceVariable(this.templateSrv, options.scopedVars, target.pcx.instance, true);
+      let instances = ReplaceVariable(this.templateSrv, options.scopedVars, target.natGateway.instance, true);
       if (_.isArray(instances)) {
         instances = _.map(instances, instance => _.isString(instance) ? JSON.parse(instance) : instance);
       } else {
         instances = [_.isString(instances) ? JSON.parse(instances) : instances];
       }
-      const region = ReplaceVariable(this.templateSrv, options.scopedVars, target.pcx.region, false);
+      const region = ReplaceVariable(this.templateSrv, options.scopedVars, target.natGateway.region, false);
       const data = {
         StartTime: moment(options.range.from).format(),
         EndTime: moment(options.range.to).format(),
-        Period: target.pcx.period || 300,
+        Period: target.natGateway.period || 300,
         Instances: _.map(instances, instance => {
-          const dimensionObject = target.pcx.dimensionObject;
+          const dimensionObject = target.natGateway.dimensionObject;
           _.forEach(dimensionObject, (__, key) => {
             dimensionObject[key] = { Name: key, Value: instance[key] };
           });
           return { Dimensions: GetDimensions(dimensionObject) };
         }),
         Namespace: target.namespace,
-        MetricName: target.pcx.metricName,
+        MetricName: target.natGateway.metricName,
       };
       return this.getMonitorData(data, region, instances);
     });
@@ -111,19 +112,21 @@ export default class PCXDatasource implements DatasourceInterface {
   }
 
   /**
-   * 获取 PCX 的监控数据
+   * 获取 NAT_GATEWAY 的监控数据
    *
    * @param params 获取监控数据的请求参数
    * @param region 地域信息
    * @param instances 实例列表，用于对返回结果的匹配解析
    */
   getMonitorData(params, region, instances) {
+    console.log('getMonitorData:');
     const serviceInfo = GetServiceAPIInfo(region, 'monitor');
     return this.doRequest({
       url: this.url + serviceInfo.path,
       data: params,
     }, serviceInfo.service, { action: 'GetMonitorData', region })
       .then(response => {
+        console.log('response:', response);
         return ParseQueryResult(response, instances);
       });
   }
@@ -156,80 +159,33 @@ export default class PCXDatasource implements DatasourceInterface {
   }
 
   getInstances(region = 'ap-guangzhou', params = {}) {
-    params = Object.assign({ offset: 0, limit: 50 }, params);
-    const serviceInfo = GetServiceAPIInfo(region, 'pcx');
-    return this.doRequestV2({
+    console.log('nat gateway getInstances:', params);
+    params = Object.assign({ offset: 0, limit: 100 }, params);
+    const serviceInfo = GetServiceAPIInfo(region, 'vpc');
+    return this.doRequest({
       url: this.url + serviceInfo.path,
       data: params,
-    }, serviceInfo.service, { region, action: 'DescribeVpcPeeringConnections' })
+    }, serviceInfo.service, { region, action: 'DescribeNatGateway' })
       .then(response => {
-        return response.data || [];
+        console.log(12343, response);
+        return response.NatGatewaySet || [];
       });
   }
 
   /**
-   * 模板变量中获取全量的 PCX 实例列表
+   * 模板变量中获取全量的 NatGateway 实例列表
    * @param region 地域信息
    */
   getVariableInstances(region) {
     let result: any[] = [];
-    const params = { Offset: 0, Limit: 50 };
-    const serviceInfo = GetServiceAPIInfo(region, 'pcx');
-    return this.doRequestV2({
-      url: this.url + serviceInfo.path,
-      data: params,
-    }, serviceInfo.service, { region, action: 'DescribeVpcPeeringConnections' })
-      .then(response => {
-        result = response.data || [];
-        const total = response.totalCount || 0;
-        if (result.length >= total) {
-          return result;
-        } else {
-          const param = SliceLength(total, 50);
-          const promises: any[] = [];
-          _.forEach(param, item => {
-            promises.push(this.getInstances(region, item));
-          });
-          return Promise.all(promises).then(responses => {
-            _.forEach(responses, item => {
-              result = _.concat(result, item);
-            });
-            return result;
-          }).catch(error => {
-            return result;
-          });
-        }
-      });
-  }
-
-  getVpcId(region, params: any = {}) {
-    params = Object.assign({ Offset: 0, Limit: 20 }, params);
-    // TODO 等待腾讯云接口查问题
-    params.Offset = String(params.Offset);
-    params.Limit = String(params.Limit);
+    const params = { Offset: 0, Limit: 100 };
     const serviceInfo = GetServiceAPIInfo(region, 'vpc');
     return this.doRequest({
       url: this.url + serviceInfo.path,
       data: params,
-    }, serviceInfo.service, { region, action: 'DescribeVpcs' })
+    }, serviceInfo.service, { region, action: 'DescribeNatGateway' })
       .then(response => {
-        return _.map(response.VpcSet || [], item => ({ text: item.VpcId, value: item.VpcId }));
-      });
-  }
-
-  getVpcIds(region) {
-    let result: any[] = [];
-    const params: any = { Offset: 0, Limit: 100 };
-    // TODO 等待腾讯云接口查问题
-    params.Offset = String(params.Offset);
-    params.Limit = String(params.Limit);
-    const serviceInfo = GetServiceAPIInfo(region, 'vpc');
-    return this.doRequest({
-      url: this.url + serviceInfo.path,
-      data: params,
-    }, serviceInfo.service, { region, action: 'DescribeVpcs' })
-      .then(response => {
-        result = _.map(response.VpcSet || [], item => ({ text: item.VpcId, value: item.VpcId }));
+        result = response.NatGatewaySet || [];
         const total = response.TotalCount || 0;
         if (result.length >= total) {
           return result;
@@ -237,7 +193,7 @@ export default class PCXDatasource implements DatasourceInterface {
           const param = SliceLength(total, 100);
           const promises: any[] = [];
           _.forEach(param, item => {
-            promises.push(this.getVpcId(region, item));
+            promises.push(this.getInstances(region, item));
           });
           return Promise.all(promises).then(responses => {
             _.forEach(responses, item => {
@@ -260,7 +216,7 @@ export default class PCXDatasource implements DatasourceInterface {
   testDatasource() {
     if (!this.isValidConfigField(this.secretId) || !this.isValidConfigField(this.secretKey)) {
       return {
-        service: 'pcx',
+        service: 'natGateway',
         status: 'error',
         message: 'The SecretId/SecretKey field is required.',
       };
@@ -284,17 +240,6 @@ export default class PCXDatasource implements DatasourceInterface {
         'monitor',
         { region: 'ap-guangzhou', action: 'DescribeBaseMetrics' }
       ),
-      this.doRequestV2(
-        {
-          url: this.url + '/pcx',
-          data: {
-            limit: 1,
-            offset: 0,
-          },
-        },
-        'pcx',
-        { region: 'ap-guangzhou', action: 'DescribeVpcPeeringConnections' }
-      ),
       this.doRequest(
         {
           url: this.url + '/vpc',
@@ -304,18 +249,16 @@ export default class PCXDatasource implements DatasourceInterface {
           },
         },
         'vpc',
-        { region: 'ap-guangzhou', action: 'DescribeVpcs' }
+        { region: 'ap-guangzhou', action: 'DescribeNatGateway' }
       ),
     ]).then(responses => {
       const cvmErr = _.get(responses, '[0].Error', {});
       const monitorErr = _.get(responses, '[1].Error', {});
-      const pcxErr = _.get(responses, '[2]', {});
-      const vpcErr = _.get(responses, '[3]', {});
+      const natGatewayErr = _.get(responses, '[2].Error', {});
       const cvmAuthFail = _.get(cvmErr, 'Code', '').indexOf('AuthFailure') !== -1;
       const monitorAuthFail = _.get(monitorErr, 'Code', '').indexOf('AuthFailure') !== -1;
-      const pcxAuthFail = _.startsWith(_.toString(_.get(pcxErr, 'code')), '4');
-      const vpcAuthFail = _.get(vpcErr, 'Code', '').indexOf('AuthFailure') !== -1;
-      if (cvmAuthFail || monitorAuthFail || pcxAuthFail || vpcAuthFail) {
+      const natGatewayAuthFail = _.get(natGatewayErr, 'Code', '').indexOf('AuthFailure') !== -1;
+      if (cvmAuthFail || monitorAuthFail || natGatewayAuthFail) {
         const messages: any[] = [];
           if (cvmAuthFail) {
             messages.push(`${_.get(cvmErr, 'Code')}: ${_.get(cvmErr, 'Message')}`);
@@ -323,29 +266,26 @@ export default class PCXDatasource implements DatasourceInterface {
           if (monitorAuthFail) {
             messages.push(`${_.get(monitorErr, 'Code')}: ${_.get(monitorErr, 'Message')}`);
           }
-          if (pcxAuthFail) {
-            messages.push(`${_.get(pcxErr, 'code')}: ${_.get(pcxErr, 'codeDesc')}`);
-          }
-          if (vpcAuthFail) {
-            messages.push(`${_.get(vpcErr, 'Code')}: ${_.get(vpcErr, 'Message')}`);
+          if (natGatewayAuthFail) {
+            messages.push(`${_.get(natGatewayAuthFail, 'code')}: ${_.get(natGatewayAuthFail, 'Message')}`);
           }
           const message = _.join(_.compact(_.uniq(messages)), '; ');
           return {
-            service: 'pcx',
+            service: 'natGateway',
             status: 'error',
             message,
           };
       } else {
         return {
           namespace: this.Namespace,
-          service: 'pcx',
+          service: 'natGateway',
           status: 'success',
-          message: 'Successfully queried the PCX service.',
+          message: 'Successfully queried the NAT_GATEWAY service.',
           title: 'Success',
         };
       }
     }).catch(error => {
-      let message = 'PCX service:';
+      let message = 'NAT_GATEWAY service:';
       message += error.statusText ? error.statusText + '; ' : '';
       if (!!_.get(error, 'data.error.code', '')) {
         message += error.data.error.code + '. ' + error.data.error.message;
@@ -354,10 +294,10 @@ export default class PCXDatasource implements DatasourceInterface {
       } else if (!!_.get(error, 'data', '')) {
         message += error.data;
       } else {
-        message += 'Cannot connect to PCX service.';
+        message += 'Cannot connect to NAT_GATEWAY service.';
       }
       return {
-        service: 'pcx',
+        service: 'natGateway',
         status: 'error',
         message: message,
       };
@@ -382,21 +322,4 @@ export default class PCXDatasource implements DatasourceInterface {
       });
   }
 
-  /**
-   * 腾讯云 API 2.0 请求接口
-   * @param options
-   * @param service
-   * @param signObj
-   */
-  doRequestV2(options, service, signObj: any = {}): any {
-    options = GetRequestParamsV2(options, service, signObj, this.secretId, this.secretKey);
-    return this.backendSrv
-      .datasourceRequest(options)
-      .then(response => {
-        return _.get(response, 'data', {});
-      })
-      .catch(error => {
-        throw error;
-      });
-  }
 }

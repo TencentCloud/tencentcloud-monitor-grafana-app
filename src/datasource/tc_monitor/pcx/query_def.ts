@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 
 const PCXFields = {
-  limit: 50,
+  limit: 20,
   offset: 0,
   peeringConnectionId: '',
   peeringConnectionName: '',

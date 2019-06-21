@@ -9,10 +9,31 @@
   },
   "routes": [
     {
+      "path": "vpc",
+      "url": "https://vpc.tencentcloudapi.com",
+      "headers": [
+        {"name": "Content-Type", "content": "application/json"}
+      ]
+    },
+    {
+      "path": "fsi/vpc/shanghai",
+      "url": "https://vpc.ap-shanghai-fsi.tencentcloudapi.com",
+      "headers": [
+        {"name": "Content-Type", "content": "application/json"}
+      ]
+    },
+    {
+      "path": "fsi/vpc/shenzhen",
+      "url": "https://vpc.ap-shenzhen-fsi.tencentcloudapi.com",
+      "headers": [
+        {"name": "Content-Type", "content": "application/json"}
+      ]
+    },
+    {
       "path": "pcx",
       "url": "https://vpc.api.qcloud.com",
       "headers": [
-        {"name": "Content-Type", "content": "application/json"}
+        {"name": "Content-Type", "content": "application/x-www-form-urlencoded"}
       ]
     },
     {

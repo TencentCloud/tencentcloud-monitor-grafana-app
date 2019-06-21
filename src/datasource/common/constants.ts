@@ -35,10 +35,27 @@ const SERVICES_API_INFO = {
     version: '',
     path: '/pcx',
     host: 'vpc.api.qcloud.com',
+  },
+  // vpc api info
+  vpc: {
+    service: 'vpc',
+    version: '2017-03-12',
+    path: '/vpc',
+    host: 'vpc.tencentcloudapi.com',
   }
 };
 
 const FINACE_HOST = {
+  vpc: {
+    'ap-shanghai-fsi': {
+      path: '/fsi/vpc/shanghai',
+      host: 'vpc.ap-shanghai-fsi.tencentcloudapi.com',
+    },
+    'ap-shenzhen-fsi': {
+      path: '/fsi/vpc/shenzhen',
+      host: 'vpc.ap-shenzhen-fsi.tencentcloudapi.com',
+    }
+  },
   cvm: {
     'ap-shanghai-fsi': {
       path: '/fsi/cvm/shanghai',
