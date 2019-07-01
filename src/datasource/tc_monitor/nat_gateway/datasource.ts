@@ -57,7 +57,6 @@ export default class NATGATEWAYDatasource implements DatasourceInterface {
   }
 
   query(options: any) {
-    console.log('nat gateway query options:', options);
     const queries = _.filter(options.targets, item => {
       // 过滤无效的查询 target
       return (
@@ -83,7 +82,12 @@ export default class NATGATEWAYDatasource implements DatasourceInterface {
         Instances: _.map(instances, instance => {
           const dimensionObject = target.natGateway.dimensionObject;
           _.forEach(dimensionObject, (__, key) => {
-            dimensionObject[key] = { Name: key, Value: instance[key] };
+            //  TODO 兼容接口问题
+            if (key === 'natId') {
+              dimensionObject[key] = { Name: key, Value: instance['NatGatewayId'] };
+            } else {
+              dimensionObject[key] = { Name: key, Value: instance[key] };
+            }
           });
           return { Dimensions: GetDimensions(dimensionObject) };
         }),
@@ -119,14 +123,18 @@ export default class NATGATEWAYDatasource implements DatasourceInterface {
    * @param instances 实例列表，用于对返回结果的匹配解析
    */
   getMonitorData(params, region, instances) {
-    console.log('getMonitorData:');
     const serviceInfo = GetServiceAPIInfo(region, 'monitor');
     return this.doRequest({
       url: this.url + serviceInfo.path,
       data: params,
     }, serviceInfo.service, { action: 'GetMonitorData', region })
       .then(response => {
-        console.log('response:', response);
+        // TODO 兼容接口问题
+        instances = _.map(instances, instance => {
+          const value = _.omit(instance, 'NatGatewayId');
+          value.natId = instance['NatGatewayId'];
+          return value;
+        });
         return ParseQueryResult(response, instances);
       });
   }
@@ -158,16 +166,14 @@ export default class NATGATEWAYDatasource implements DatasourceInterface {
       });
   }
 
-  getInstances(region = 'ap-guangzhou', params = {}) {
-    console.log('nat gateway getInstances:', params);
-    params = Object.assign({ offset: 0, limit: 100 }, params);
+  getInstances(region = 'ap-guangzhou', params: any = {}) {
+    params = Object.assign({ Offset: 0, Limit: 100 }, params);
     const serviceInfo = GetServiceAPIInfo(region, 'vpc');
     return this.doRequest({
       url: this.url + serviceInfo.path,
       data: params,
-    }, serviceInfo.service, { region, action: 'DescribeNatGateway' })
+    }, serviceInfo.service, { region, action: 'DescribeNatGateways' })
       .then(response => {
-        console.log(12343, response);
         return response.NatGatewaySet || [];
       });
   }
@@ -178,12 +184,12 @@ export default class NATGATEWAYDatasource implements DatasourceInterface {
    */
   getVariableInstances(region) {
     let result: any[] = [];
-    const params = { Offset: 0, Limit: 100 };
+    const params: any = { Offset: 0, Limit: 100 };
     const serviceInfo = GetServiceAPIInfo(region, 'vpc');
     return this.doRequest({
       url: this.url + serviceInfo.path,
       data: params,
-    }, serviceInfo.service, { region, action: 'DescribeNatGateway' })
+    }, serviceInfo.service, { region, action: 'DescribeNatGateways' })
       .then(response => {
         result = response.NatGatewaySet || [];
         const total = response.TotalCount || 0;
@@ -249,7 +255,7 @@ export default class NATGATEWAYDatasource implements DatasourceInterface {
           },
         },
         'vpc',
-        { region: 'ap-guangzhou', action: 'DescribeNatGateway' }
+        { region: 'ap-guangzhou', action: 'DescribeNatGateways' }
       ),
     ]).then(responses => {
       const cvmErr = _.get(responses, '[0].Error', {});

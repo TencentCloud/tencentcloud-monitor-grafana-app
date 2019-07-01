@@ -77,7 +77,6 @@ export default class CVMDatasource implements DatasourceInterface {
    * ]
    */
   query(options: any) {
-    console.log('cvm query options:', options);
     const queries = _.filter(options.targets, item => {
       // 过滤无效的查询 target
       return (
@@ -179,7 +178,6 @@ export default class CVMDatasource implements DatasourceInterface {
   }
 
   getInstances(region, params = {}) {
-    console.log('cvm getInstances:', params);
     params = Object.assign({ Offset: 0, Limit: 100 }, params);
     const serviceInfo = GetServiceAPIInfo(region, 'cvm');
     return this.doRequest({

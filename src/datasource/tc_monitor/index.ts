@@ -19,8 +19,7 @@ const SERVICES = [
   { service: 'cvm', label: '云服务器(CVM)', namespace: 'QCE/CVM', href: 'https://cloud.tencent.com/document/api/213/15688' },
   { service: 'cdb', label: '云数据库 MySQL(CDB)', namespace: 'QCE/CDB', href: 'https://cloud.tencent.com/document/api/236/15829' },
   { service: 'pcx', label: '私有网络对等连接(PCX)', namespace: 'QCE/PCX', href: 'https://cloud.tencent.com/document/product/215/5181' },
-  // TODO
-  // { service: 'natGateway', label: '私有网络NAT网关(NAT_GATEWAY)', namespace: 'QCE/NAT_GATEWAY', href: 'http://10.198.144.46/document/product/215/32054?!preview&!document=1' }
+  { service: 'natGateway', label: '私有网络NAT网关(NAT_GATEWAY)', namespace: 'QCE/NAT_GATEWAY', href: 'http://10.198.144.46/document/product/215/32054?!preview&!document=1' }
 ];
 
 

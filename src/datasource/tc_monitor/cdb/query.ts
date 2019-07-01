@@ -27,7 +27,6 @@ export class CDBQueryCtrl {
     };
 
     $scope.getZones = () => {
-      console.log('getZones:', $scope.region);
       if (!$scope.region) {
         return [];
       }

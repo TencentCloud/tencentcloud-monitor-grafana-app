@@ -187,7 +187,6 @@ export class TCMonitorDatasource implements DatasourceInterface {
    * @param service
    */
   getVpcIds(service, region) {
-    console.log('datasource:', `${_.toUpper(service)}Datasource`);
     if (this[`${_.toUpper(service)}Datasource`].getVpcIds) {
       return this[`${_.toUpper(service)}Datasource`].getVpcIds(region);
     }
