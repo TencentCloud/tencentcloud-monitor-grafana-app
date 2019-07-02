@@ -133,9 +133,11 @@ export class TCMonitorDatasource implements DatasourceInterface {
     if (_.isEmpty(queries) || !queries['namespace'] || !queries['action'] || !service) {
       return Promise.resolve([]);
     }
-    const result = this[`${_.toUpper(service)}Datasource`].metricFindQuery(queries);
-    if (result) {
-      return result;
+    if (this[`${_.toUpper(service)}Datasource`].metricFindQuery) {
+      const result = this[`${_.toUpper(service)}Datasource`].metricFindQuery(queries);
+      if (result) {
+        return result;
+      }
     }
     return Promise.resolve([]);
   }

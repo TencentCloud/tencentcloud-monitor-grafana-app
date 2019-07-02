@@ -36,7 +36,7 @@ export default class CDBDatasource implements DatasourceInterface {
     }
 
     // 查询 CDB 实例列表
-    const instancesQuery = query['action'].match(/^DescribeDBInstances/i) && !!query['region'];
+    const instancesQuery = query['action'].match(/^DescribeInstances/i) && !!query['region'];
     const region = this.getVariable(query['region']);
     if (instancesQuery && region) {
       return this.getVariableInstances(region).then(result => {

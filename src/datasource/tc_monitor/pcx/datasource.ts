@@ -30,11 +30,11 @@ export default class PCXDatasource implements DatasourceInterface {
     }
 
     // 查询 PCX 实例列表
-    const instancesQuery = query['action'].match(/^DescribeDBInstances/i) && !!query['region'];
+    const instancesQuery = query['action'].match(/^DescribeInstances/i) && !!query['region'];
     const region = this.getVariable(query['region']);
     if (instancesQuery && region) {
       return this.getVariableInstances(region).then(result => {
-        const instanceAlias = PCXInstanceAliasList.indexOf(query[VARIABLE_ALIAS]) !== -1 ? query[VARIABLE_ALIAS] : 'InstanceId';
+        const instanceAlias = PCXInstanceAliasList.indexOf(query[VARIABLE_ALIAS]) !== -1 ? query[VARIABLE_ALIAS] : 'peeringConnectionId';
         const instances: any[] = [];
         _.forEach(result, (item) => {
           const instanceAliasValue = _.get(item, instanceAlias);
