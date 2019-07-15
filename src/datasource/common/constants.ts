@@ -42,10 +42,27 @@ const SERVICES_API_INFO = {
     version: '2017-03-12',
     path: '/vpc',
     host: 'vpc.tencentcloudapi.com',
+  },
+  // mongodb api info
+  mongodb: {
+    service: 'mongodb',
+    version: '2018-04-08',
+    path: '/mongodb',
+    host: 'mongodb.tencentcloudapi.com',
   }
 };
 
 const FINACE_HOST = {
+  mongodb: {
+    'ap-shanghai-fsi': {
+      path: '/fsi/mongodb/shanghai',
+      host: 'mongodb.ap-shanghai-fsi.tencentcloudapi.com',
+    },
+    'ap-shenzhen-fsi': {
+      path: '/fsi/mongodb/shenzhen',
+      host: 'mongodb.ap-shenzhen-fsi.tencentcloudapi.com',
+    }
+  },
   vpc: {
     'ap-shanghai-fsi': {
       path: '/fsi/vpc/shanghai',

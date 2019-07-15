@@ -46,6 +46,7 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
       }
       this.target.service = GetServiceFromNamespace(this.target.namespace) || '';
     }
+    console.log('query constructor:', this.target);
     _.defaultsDeep(this.target, this.defaults);
     this.instanceAliasList = this.getInstanceAliasList(this.target.service);
     this.panelCtrl.events.on('data-received', this.onDataReceived.bind(this), $scope);
@@ -279,6 +280,7 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
   }
 
   onInstanceQueryChange() {
+    console.log('onInstanceQueryChange:', this.target);
     // 仅当 instance 字段不是模板变量时，执行以下操作
     if (!this.isVariable('instance')) {
       const service = this.target.service;

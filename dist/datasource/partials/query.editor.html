@@ -104,6 +104,16 @@
     region="ctrl.getVariable(ctrl.target.natGateway.region)"
   ></nat-gateway-query>
 
+    <!-- MongoDB-->
+    <mongodb-query
+    ng-if="ctrl.target.service==='mongoDB'"
+    target="ctrl.target.mongoDB"
+    show-detail="ctrl.checkShowDetail('instance')"
+    datasource="ctrl.datasource"
+    on-change="ctrl.onInstanceQueryChange()"
+    region="ctrl.getVariable(ctrl.target.mongoDB.region)"
+  ></mongodb-query>
+
   <!-- Global error message -->
   <div class="gf-form" ng-show="ctrl.lastQueryError">
     <pre class="gf-form-pre alert alert-error">{{ctrl.lastQueryError}}</pre>

@@ -9,6 +9,27 @@
   },
   "routes": [
     {
+      "path": "mongodb",
+      "url": "https://mongodb.tencentcloudapi.com",
+      "headers": [
+        {"name": "Content-Type", "content": "application/json"}
+      ]
+    },
+    {
+      "path": "fsi/mongodb/shanghai",
+      "url": "https://mongodb.ap-shanghai-fsi.tencentcloudapi.com",
+      "headers": [
+        {"name": "Content-Type", "content": "application/json"}
+      ]
+    },
+    {
+      "path": "fsi/mongodb/shenzhen",
+      "url": "https://mongodb.ap-shenzhen-fsi.tencentcloudapi.com",
+      "headers": [
+        {"name": "Content-Type", "content": "application/json"}
+      ]
+    },
+    {
       "path": "vpc",
       "url": "https://vpc.tencentcloudapi.com",
       "headers": [

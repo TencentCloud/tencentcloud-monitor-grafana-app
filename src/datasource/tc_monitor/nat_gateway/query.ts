@@ -32,7 +32,7 @@ const template = `
 <div class="tc-sub-params" ng-if="showDetail">
 <label class="gf-form-label tc-info-label">
   Instances are queried by following params.
-  <a target="_blank" href="http://10.198.144.46/document/product/215/32054?!preview&!document=1">Click here to get API doc.</a>
+  <a target="_blank" href="https://cloud.tencent.com/document/api/215/36034">Click here to get API doc.</a>
 </label>
 <div class="gf-form-inline">
   <div class="gf-form">
