@@ -63,10 +63,10 @@ const MONGODBFieldsDescriptor = [
   {
     key: 'Limit',
     enDescriptor: 'Limit',
-    cnDescriptor: '单次请求返回的数量，默认为20，最大值为100',
+    cnDescriptor: '单次请求返回的数量，默认为20，最小值为1，最大值为100',
     link: '',
     type: 'inputnumber',
-    min: 0,
+    min: 1,
     max: 100,
   },
   {

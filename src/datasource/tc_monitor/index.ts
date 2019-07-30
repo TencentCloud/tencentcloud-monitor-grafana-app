@@ -25,8 +25,8 @@ const SERVICES = [
   { service: 'cdb', label: '云数据库 MySQL(CDB)', namespace: 'QCE/CDB', href: 'https://cloud.tencent.com/document/api/236/15829' },
   { service: 'pcx', label: '私有网络对等连接(PCX)', namespace: 'QCE/PCX', href: 'https://cloud.tencent.com/document/product/215/5181' },
   { service: 'natGateway', label: '私有网络NAT网关(NAT_GATEWAY)', namespace: 'QCE/NAT_GATEWAY', href: 'https://cloud.tencent.com/document/api/215/36034' },
-  { service: 'mongoDB', label: '云数据库 MongoDB(CMONGO)', namespace: 'QCE/CMONGO', href: 'https://cloud.tencent.com/document/api/240/35769' },
-  { service: 'lbPublic', label: '公网负载均衡(LB_PUBLIC)', namespace: 'QCE/LB_PUBLIC', href: 'https://cloud.tencent.com/document/api/214/30667' }
+  // { service: 'mongoDB', label: '云数据库 MongoDB(CMONGO)', namespace: 'QCE/CMONGO', href: 'https://cloud.tencent.com/document/api/240/35769' },
+  // { service: 'lbPublic', label: '公网负载均衡(LB_PUBLIC)', namespace: 'QCE/LB_PUBLIC', href: 'https://cloud.tencent.com/document/api/214/30667' }
 ];
 
 

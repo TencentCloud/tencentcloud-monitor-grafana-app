@@ -32,7 +32,7 @@ const template = `
 <div class="tc-sub-params" ng-if="showDetail">
 <label class="gf-form-label tc-info-label">
   Instances are queried by following params.
-  <a target="_blank" href="https://cloud.tencent.com/document/api/215/36034">Click here to get API doc.</a>
+  <a target="_blank" style="text-decoration:underline;color:#006eff;font-size:medium" href="https://cloud.tencent.com/document/api/215/36034">Click here to get API doc.</a>
 </label>
 <div class="gf-form-inline">
   <div class="gf-form">
@@ -50,7 +50,7 @@ const template = `
     <label class="gf-form-label width-14">
       Limit
       <info-popover mode="right-normal">
-        单次请求返回的数量，默认为20，最大值为100
+        单次请求返回的数量，默认为20，最小值为1，最大值为100
       </info-popover>
     </label>
     <input type="number" ng-model="target.queries.Limit" class="gf-form-input width-10" ng-min="1" ng-max="100" ng-change="onChange()">

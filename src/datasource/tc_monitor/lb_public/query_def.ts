@@ -34,10 +34,10 @@ const LBPUBLICFieldsDescriptor = [
   {
     key: 'Limit',
     enDescriptor: 'Limit',
-    cnDescriptor: '单次请求返回的数量，默认为20',
+    cnDescriptor: '单次请求返回的数量，默认为20，最小值为1',
     link: '',
     type: 'inputnumber',
-    min: 0,
+    min: 1,
   },
   {
     key: 'LoadBalancerIds',
@@ -151,7 +151,7 @@ const LBPublicFields = {
   LoadBalancerVips: [],
   BackendPublicIps: [],
   BackendPrivateIps: [],
-  Limit: 1000,
+  Limit: 20,
   Offset: 0,
   ProjectId: undefined,
   WithRs: {},
@@ -176,7 +176,7 @@ const LBPUBLIC_STATE = {
 function GetInstanceQueryParams(queries: any = {}) {
   const params: any = {};
   if (!_.isEmpty(queries)) {
-    params.Limit = _.get(queries, 'Limit', 1000) || 1000;
+    params.Limit = _.get(queries, 'Limit', 20) || 20;
     params.Offset = _.get(queries, 'Offset', 0) || 0;
     queries = _.omit(queries, ['Offset', 'Limit']);
     _.forEach(queries, (item: any, key) => {

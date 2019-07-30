@@ -31,7 +31,7 @@ const template = `
 <div class="tc-sub-params" ng-if="showDetail">
   <label class="gf-form-label tc-info-label">
     Instances are queried by following params.
-    <a target="_blank" href="https://cloud.tencent.com/document/api/214/30685">Click here to get API doc.</a>
+    <a target="_blank" style="text-decoration:underline;color:#006eff;font-size:medium" href="https://cloud.tencent.com/document/api/214/30685">Click here to get API doc.</a>
   </label>
   <div class="gf-form-inline" ng-repeat="field in LBPUBLICFieldsDescriptor">
     <div class="gf-form">

@@ -73,7 +73,7 @@ const CDBFields = {
   Vips: [],
   Status: {},
   Offset: 0,
-  Limit: 2000,
+  Limit: 20,
   SecurityGroupId: '',
   PayTypes: {},
   InstanceNames: [],
@@ -101,10 +101,10 @@ const CDBFieldsDescriptor = [
   {
     key: 'Limit',
     enDescriptor: 'Limit',
-    cnDescriptor: '单次请求返回的数量，默认为20，最大值为2000',
+    cnDescriptor: '单次请求返回的数量，默认为20，最小值为1，最大值为2000',
     link: '',
     type: 'inputnumber',
-    min: 0,
+    min: 1,
     max: 2000,
   },
   {
@@ -260,7 +260,7 @@ const CDBInstanceAliasList = ['InstanceId', 'InstanceName', 'Vip'];
 function GetInstanceQueryParams(queries: any = {}) {
   const params: any = {};
   if (!_.isEmpty(queries)) {
-    params.Limit = _.get(queries, 'Limit', 2000) || 2000;
+    params.Limit = _.get(queries, 'Limit', 20) || 20;
     params.Offset = _.get(queries, 'Offset', 0) || 0;
     queries = _.omit(queries, ['Offset', 'Limit']);
     _.forEach(queries, (item: any, key) => {

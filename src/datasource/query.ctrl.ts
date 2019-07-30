@@ -159,6 +159,7 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
       this.target[service].dimensionObject[key] = { Name: key, Value: '' };
     });
     this.target[service].queries = _.cloneDeep(InitServiceState[service].queries);
+    this.getInstances();
     this.refresh();
   }
 
@@ -218,7 +219,7 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
     });
     this.periodList = periodList;
     this.dimensionList = dimensionList;
-    this.target[service].period = periodList.length > 0 ? periodList[0] : undefined;
+    this.target[service].period = periodList.length > 0 ? (_.indexOf(periodList, 300) === -1 ? periodList[0] : 300): undefined;
     this.target[service].dimensionObject = dimensionObject;
     this.target[service].metricUnit = metricUnit;
     this.refresh();
@@ -280,7 +281,6 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
   }
 
   onInstanceQueryChange() {
-    console.log('onInstanceQueryChange:', this.target);
     // 仅当 instance 字段不是模板变量时，执行以下操作
     if (!this.isVariable('instance')) {
       const service = this.target.service;

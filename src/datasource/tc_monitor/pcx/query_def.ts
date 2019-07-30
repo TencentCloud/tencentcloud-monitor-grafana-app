@@ -40,10 +40,10 @@ const PCXFieldsDescriptor = [
   {
     key: 'limit',
     enDescriptor: 'limit',
-    cnDescriptor: '单次请求返回的数量，默认为20，最大值为50',
+    cnDescriptor: '单次请求返回的数量，默认为20，最小值为1，最大值为50',
     link: '',
     type: 'inputnumber',
-    min: 0,
+    min: 1,
     max: 50,
   },
   {
