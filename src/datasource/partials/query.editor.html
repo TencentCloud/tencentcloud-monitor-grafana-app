@@ -46,7 +46,7 @@
 
   <div class="gf-form-inline">
     <div class="gf-form">
-      <label class="gf-form-label query-keyword width-9">Intance</label>
+      <label class="gf-form-label query-keyword width-9">Instance</label>
       <div class="gf-form-select-wrapper gf-form-select-wrapper--caret-indent">
         <select class="gf-form-input min-width-8" ng-change="ctrl.onInstanceAliasChange()" ng-model="ctrl.target[ctrl.target.service].instanceAlias"
           ng-options="f.value as f.text for f in ctrl.instanceAliasList"></select>
@@ -60,6 +60,9 @@
     <div class="gf-form" ng-if="!ctrl.isVariable('instance')">
       <label class="gf-form-label width-7">Show Details</label>
       <gf-form-switch class="gf-form tc-switch" label-class="width-7" checked="ctrl.target.showInstanceDetails" switch-class="max-width-5"></gf-form-switch>
+    </div>
+    <div class="gf-form gf-form-label--grow">
+      <label class="gf-form-label gf-form-label--grow">(按照具体的查询条件搜索实例)</label>
     </div>
   </div>
 

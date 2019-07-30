@@ -59,7 +59,7 @@ const template = `
     <label class="gf-form-label width-14">
       Limit
       <info-popover mode="right-normal">
-        单次请求返回的数量，默认为20，最大值为100
+        单次请求返回的数量，默认为20，最小值为1，最大值为100
       </info-popover>
     </label>
     <input type="number" ng-model="target.queries.Limit" class="gf-form-input width-10" ng-min="1" ng-max="100" ng-change="onChange()">

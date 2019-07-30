@@ -109,7 +109,7 @@ const CVM_STATE = {
   instance: '',
   instanceAlias: 'InstanceId',
   queries: {
-    Limit: 20,
+    Limit: 100,
     Offset: 0,
     instanceIdsChecked: false,
     filtersChecked: false,
