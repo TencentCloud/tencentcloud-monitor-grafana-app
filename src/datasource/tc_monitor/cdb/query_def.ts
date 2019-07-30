@@ -73,7 +73,7 @@ const CDBFields = {
   Vips: [],
   Status: {},
   Offset: 0,
-  Limit: 20,
+  Limit: 2000,
   SecurityGroupId: '',
   PayTypes: {},
   InstanceNames: [],
@@ -260,7 +260,7 @@ const CDBInstanceAliasList = ['InstanceId', 'InstanceName', 'Vip'];
 function GetInstanceQueryParams(queries: any = {}) {
   const params: any = {};
   if (!_.isEmpty(queries)) {
-    params.Limit = _.get(queries, 'Limit', 20) || 20;
+    params.Limit = _.get(queries, 'Limit', 2000) || 2000;
     params.Offset = _.get(queries, 'Offset', 0) || 0;
     queries = _.omit(queries, ['Offset', 'Limit']);
     _.forEach(queries, (item: any, key) => {
@@ -270,7 +270,7 @@ function GetInstanceQueryParams(queries: any = {}) {
           params[key] = _.uniq(item);
         }
       } else if (_.isObject(item)) {
-        if (_.get(item, 'value', undefined) !== undefined) {
+        if (_.isNumber(_.get(item, 'value', undefined)) || !_.isEmpty(_.get(item, 'value', undefined))) {
           params[key] = _.get(item, 'value');
         }
       } else if (_.isNumber(item) || !_.isEmpty(item)) {

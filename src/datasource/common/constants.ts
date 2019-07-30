@@ -49,10 +49,27 @@ const SERVICES_API_INFO = {
     version: '2018-04-08',
     path: '/mongodb',
     host: 'mongodb.tencentcloudapi.com',
+  },
+  // 负载均衡 clb
+  clb: {
+    service: 'clb',
+    version: '2018-03-17',
+    path: '/clb',
+    host: 'clb.tencentcloudapi.com',
   }
 };
 
 const FINACE_HOST = {
+  clb: {
+    'ap-shanghai-fsi': {
+      path: '/fsi/clb/shanghai',
+      host: 'clb.ap-shanghai-fsi.tencentcloudapi.com',
+    },
+    'ap-shenzhen-fsi': {
+      path: '/fsi/clb/shenzhen',
+      host: 'clb.ap-shenzhen-fsi.tencentcloudapi.com',
+    }
+  },
   mongodb: {
     'ap-shanghai-fsi': {
       path: '/fsi/mongodb/shanghai',

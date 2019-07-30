@@ -121,7 +121,7 @@ const CVM_STATE = {
 function GetInstanceQueryParams(queries: any = {}) {
   const params: any = {};
   if (!_.isEmpty(queries)) {
-    params.Limit = _.get(queries, 'Limit', 20) || 20;
+    params.Limit = _.get(queries, 'Limit', 100) || 100;
     params.Offset = _.get(queries, 'Offset', 0) || 0;
     if (queries.instanceIdsChecked) {
       if (_.isArray(queries.InstanceIds)) {

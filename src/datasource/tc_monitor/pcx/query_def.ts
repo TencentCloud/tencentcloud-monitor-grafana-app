@@ -93,7 +93,7 @@ function GetInstanceQueryParams(queries: any = {}) {
           params[key] = _.uniq(item);
         }
       } else if (_.isObject(item)) {
-        if (_.get(item, 'value', undefined) !== undefined) {
+        if (_.isNumber(_.get(item, 'value', undefined)) || !_.isEmpty(_.get(item, 'value', undefined))) {
           params[key] = _.get(item, 'value');
         }
       } else if (_.isNumber(item) || !_.isEmpty(item)) {

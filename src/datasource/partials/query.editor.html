@@ -117,6 +117,16 @@
     region="ctrl.getVariable(ctrl.target.mongoDB.region)"
   ></mongodb-query>
 
+  <!-- MongoDB-->
+  <lb-public-query
+    ng-if="ctrl.target.service==='lbPublic'"
+    target="ctrl.target.lbPublic"
+    show-detail="ctrl.checkShowDetail('instance')"
+    datasource="ctrl.datasource"
+    on-change="ctrl.onInstanceQueryChange()"
+    region="ctrl.getVariable(ctrl.target.lbPublic.region)"
+  ></lb-public-query>
+
   <!-- Global error message -->
   <div class="gf-form" ng-show="ctrl.lastQueryError">
     <pre class="gf-form-pre alert alert-error">{{ctrl.lastQueryError}}</pre>
