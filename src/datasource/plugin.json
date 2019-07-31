@@ -140,6 +140,27 @@
       "headers": [
         {"name": "Content-Type", "content": "application/json"}
       ]
+    },
+    {
+      "path": "postgres",
+      "url": "https://postgres.tencentcloudapi.com",
+      "headers": [
+        {"name": "Content-Type", "content": "application/json"}
+      ]
+    },
+    {
+      "path": "fsi/postgres/shanghai",
+      "url": "https://postgres.ap-shanghai-fsi.tencentcloudapi.com",
+      "headers": [
+        {"name": "Content-Type", "content": "application/json"}
+      ]
+    },
+    {
+      "path": "fsi/postgres/shenzhen",
+      "url": "https://postgres.ap-shenzhen-fsi.tencentcloudapi.com",
+      "headers": [
+        {"name": "Content-Type", "content": "application/json"}
+      ]
     }
   ],
   "info": {

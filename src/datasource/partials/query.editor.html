@@ -107,8 +107,8 @@
     region="ctrl.getVariable(ctrl.target.natGateway.region)"
   ></nat-gateway-query>
 
-    <!-- MongoDB-->
-    <mongodb-query
+  <!-- MongoDB-->
+  <mongodb-query
     ng-if="ctrl.target.service==='mongoDB'"
     target="ctrl.target.mongoDB"
     show-detail="ctrl.checkShowDetail('instance')"
@@ -117,7 +117,7 @@
     region="ctrl.getVariable(ctrl.target.mongoDB.region)"
   ></mongodb-query>
 
-  <!-- MongoDB-->
+  <!-- LB_PUBLIC-->
   <lb-public-query
     ng-if="ctrl.target.service==='lbPublic'"
     target="ctrl.target.lbPublic"
@@ -126,6 +126,16 @@
     on-change="ctrl.onInstanceQueryChange()"
     region="ctrl.getVariable(ctrl.target.lbPublic.region)"
   ></lb-public-query>
+  
+  <!-- PostgreSQL-->
+  <postgres-query
+    ng-if="ctrl.target.service==='postgres'"
+    target="ctrl.target.postgres"
+    show-detail="ctrl.checkShowDetail('instance')"
+    datasource="ctrl.datasource"
+    on-change="ctrl.onInstanceQueryChange()"
+    region="ctrl.getVariable(ctrl.target.postgres.region)"
+  ></postgres-query>
 
   <!-- Global error message -->
   <div class="gf-form" ng-show="ctrl.lastQueryError">

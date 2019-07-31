@@ -56,7 +56,14 @@ const SERVICES_API_INFO = {
     version: '2018-03-17',
     path: '/clb',
     host: 'clb.tencentcloudapi.com',
-  }
+  },
+  // postgresql api info
+  postgres: {
+    service: 'postgres',
+    version: '2017-03-12',
+    path: '/postgres',
+    host: 'postgres.tencentcloudapi.com',
+  },
 };
 
 const FINACE_HOST = {
@@ -118,6 +125,16 @@ const FINACE_HOST = {
     'ap-shenzhen-fsi': {
       path: '/fsi/monitor/shenzhen',
       host: 'monitor.ap-shenzhen-fsi.tencentcloudapi.com',
+    }
+  },
+  postgres: {
+    'ap-shanghai-fsi': {
+      path: '/fsi/postgres/shanghai',
+      host: 'postgres.ap-shanghai-fsi.tencentcloudapi.com',
+    },
+    'ap-shenzhen-fsi': {
+      path: '/fsi/postgres/shenzhen',
+      host: 'postgres.ap-shenzhen-fsi.tencentcloudapi.com',
     }
   }
 };
@@ -251,7 +268,7 @@ function isInstanceMatch(instance, dimensions) {
  * @param options 接口请求对象 { url: string, data?: object }
  * @param service 产品名字 'cvm'
  * @param signObj 接口请求相关信息 { region?: string, action: string }
- * @param secretId 
+ * @param secretId
  * @param secretKey
  */
 export function GetRequestParams(options, service, signObj: any = {}, secretId, secretKey) {

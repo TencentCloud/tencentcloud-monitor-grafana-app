@@ -107,6 +107,7 @@
     region="ctrl.getVariable(ctrl.target.natGateway.region)"
   ></nat-gateway-query>
 
+<<<<<<< HEAD
     <!-- MongoDB-->
     <mongodb-query
     ng-if="ctrl.target.service==='mongoDB'"
@@ -126,6 +127,17 @@
     on-change="ctrl.onInstanceQueryChange()"
     region="ctrl.getVariable(ctrl.target.lbPublic.region)"
   ></lb-public-query>
+=======
+  <!-- PostgreSQL-->
+  <postgres-query
+    ng-if="ctrl.target.service==='postgres'"
+    target="ctrl.target.postgres"
+    show-detail="ctrl.checkShowDetail('instance')"
+    datasource="ctrl.datasource"
+    on-change="ctrl.onInstanceQueryChange()"
+    region="ctrl.getVariable(ctrl.target.postgres.region)"
+  ></postgres-query>
+>>>>>>> a636c65... postgresql产品开发
 
   <!-- Global error message -->
   <div class="gf-form" ng-show="ctrl.lastQueryError">
