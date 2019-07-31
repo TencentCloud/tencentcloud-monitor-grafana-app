@@ -131,9 +131,8 @@ export default class NATGATEWAYDatasource implements DatasourceInterface {
       .then(response => {
         // TODO 兼容接口问题
         instances = _.map(instances, instance => {
-          const value = _.omit(instance, 'NatGatewayId');
-          value.natId = instance['NatGatewayId'];
-          return value;
+          instance.natId = instance['NatGatewayId'];
+          return instance;
         });
         return ParseQueryResult(response, instances);
       });

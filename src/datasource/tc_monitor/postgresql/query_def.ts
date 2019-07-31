@@ -23,7 +23,7 @@ const PostgresFieldsDescriptor = [
   },
 ];
 
-const POSTGRESInstanceAliasList = ['DBInstanceId', 'DBInstanceName', 'PrivateIpAddress', 'PublicIpAddress'];
+const POSTGRESInstanceAliasList = ['DBInstanceId', 'DBInstanceName', 'PrivateIpAddresses', 'PublicIpAddresses'];
 
 const POSTGRES_STATE = {
   region: '',
@@ -32,9 +32,9 @@ const POSTGRES_STATE = {
   period: undefined,
   dimensionObject: null,
   instance: '',
-  instanceAlias: 'InstanceId',
+  instanceAlias: 'DBInstanceId',
   queries: {
-    Limit: 100,
+    Limit: 20,
     Offset: 0,
     Filters: Object.assign({}, PostgresFields),
   },

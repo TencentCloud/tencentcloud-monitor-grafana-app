@@ -103,7 +103,12 @@ export default class POSTGRESDatasource implements DatasourceInterface {
         Instances: _.map(instances, instance => {
           const dimensionObject = target.postgres.dimensionObject;
           _.forEach(dimensionObject, (__, key) => {
-            dimensionObject[key] = { Name: key, Value: instance[key] };
+            // TODO 兼容接口问题
+            if (key === 'resourceId') {
+              dimensionObject[key] = { Name: key, Value: instance['DBInstanceId'] };
+            } else {
+              dimensionObject[key] = { Name: key, Value: instance[key] };
+            }
           });
           return { Dimensions: GetDimensions(dimensionObject) };
         }),
@@ -145,6 +150,11 @@ export default class POSTGRESDatasource implements DatasourceInterface {
       data: params,
     }, serviceInfo.service, { action: 'GetMonitorData', region })
       .then(response => {
+         // TODO 兼容接口问题
+         instances = _.map(instances, instance => {
+          instance.resourceId = instance['DBInstanceId'];
+          return instance;
+        });
         return ParseQueryResult(response, instances);
       });
   }
@@ -196,8 +206,8 @@ export default class POSTGRESDatasource implements DatasourceInterface {
         return _.map(response.DBInstanceSet || [], item => {
           const privateIpAddress = _.get(_.filter(_.get(item, 'DBInstanceNetInfo', []), ['NetType', 'private']), '[0].Ip');
           const publicIpAddress = _.get(_.filter(_.get(item, 'DBInstanceNetInfo', []), ['NetType', 'public']), '[0].Ip');
-          item.PrivateIpAddress = privateIpAddress;
-          item.PublicIpAddress = publicIpAddress;
+          item.PrivateIpAddresses = privateIpAddress;
+          item.PublicIpAddresses = publicIpAddress;
           return item;
         });
       });
@@ -219,15 +229,15 @@ export default class POSTGRESDatasource implements DatasourceInterface {
         result = _.map(response.DBInstanceSet || [], item => {
           const privateIpAddress = _.get(_.filter(_.get(item, 'DBInstanceNetInfo', []), ['NetType', 'private']), '[0].Ip');
           const publicIpAddress = _.get(_.filter(_.get(item, 'DBInstanceNetInfo', []), ['NetType', 'public']), '[0].Ip');
-          item.PrivateIpAddress = privateIpAddress;
-          item.PublicIpAddress = publicIpAddress;
+          item.PrivateIpAddresses = privateIpAddress;
+          item.PublicIpAddresses = publicIpAddress;
           return item;
         });
         const total = response.TotalCount || 0;
         if (result.length >= total) {
           return result;
         } else {
-          const param = SliceLength(total, 2000);
+          const param = SliceLength(total, 100);
           const promises: any[] = [];
           _.forEach(param, item => {
             promises.push(this.getInstances(region, item));

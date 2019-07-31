@@ -31,7 +31,6 @@ const SERVICES = [
   { service: 'natGateway', label: '私有网络NAT网关(NAT_GATEWAY)', namespace: 'QCE/NAT_GATEWAY', href: 'https://cloud.tencent.com/document/api/215/36034' },
   // { service: 'mongoDB', label: '云数据库 MongoDB(CMONGO)', namespace: 'QCE/CMONGO', href: 'https://cloud.tencent.com/document/api/240/35769' },
   // { service: 'lbPublic', label: '公网负载均衡(LB_PUBLIC)', namespace: 'QCE/LB_PUBLIC', href: 'https://cloud.tencent.com/document/api/214/30667' }
-  { service: 'natGateway', label: '私有网络NAT网关(NAT_GATEWAY)', namespace: 'QCE/NAT_GATEWAY', href: 'http://10.198.144.46/document/product/215/32054?!preview&!document=1' },
   { service: 'postgres', label: '云数据库 PostgreSQL', namespace: 'QCE/POSTGRES', href: 'https://cloud.tencent.com/document/api/409/16760' },
 ];
 
