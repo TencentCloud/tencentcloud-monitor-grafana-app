@@ -47,11 +47,11 @@ export default class POSTGRESDatasource implements DatasourceInterface {
           if (instanceAliasValue) {
             if (typeof instanceAliasValue === 'string') {
               item._InstanceAliasValue = instanceAliasValue;
-              instances.push({ text: instanceAliasValue, value: JSON.stringify(item) });
+              instances.push({ text: instanceAliasValue, value: JSON.stringify(_.pick(item, _.concat(POSTGRESInstanceAliasList, ['_InstanceAliasValue']))) });
             } else if (_.isArray(instanceAliasValue)) {
               _.forEach(instanceAliasValue, (subItem) => {
                 item._InstanceAliasValue = subItem;
-                instances.push({ text: subItem, value: JSON.stringify(item) });
+                instances.push({ text: subItem, value: JSON.stringify(_.pick(item, _.concat(POSTGRESInstanceAliasList, ['_InstanceAliasValue']))) });
               });
             }
           }
@@ -96,6 +96,7 @@ export default class POSTGRESDatasource implements DatasourceInterface {
         instances = [_.isString(instances) ? JSON.parse(instances) : instances];
       }
       const region = ReplaceVariable(this.templateSrv, options.scopedVars, target.postgres.region, false);
+      console.log('query:', instances);
       const data = {
         StartTime: moment(options.range.from).format(),
         EndTime: moment(options.range.to).format(),
@@ -144,6 +145,7 @@ export default class POSTGRESDatasource implements DatasourceInterface {
    * @param instances 实例列表，用于对返回结果的匹配解析
    */
   getMonitorData(params, region, instances) {
+    console.log('getMonitorData:', params, instances);
     const serviceInfo = GetServiceAPIInfo(region, 'monitor');
     return this.doRequest({
       url: this.url + serviceInfo.path,
