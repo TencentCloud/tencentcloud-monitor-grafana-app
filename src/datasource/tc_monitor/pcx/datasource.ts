@@ -41,11 +41,11 @@ export default class PCXDatasource implements DatasourceInterface {
           if (instanceAliasValue) {
             if (typeof instanceAliasValue === 'string') {
               item._InstanceAliasValue = instanceAliasValue;
-              instances.push({ text: instanceAliasValue, value: JSON.stringify(item) });
+              instances.push({ text: instanceAliasValue, value: JSON.stringify(_.pick(item, _.concat(PCXInstanceAliasList, ['_InstanceAliasValue']))) });
             } else if (_.isArray(instanceAliasValue)) {
               _.forEach(instanceAliasValue, (subItem) => {
                 item._InstanceAliasValue = subItem;
-                instances.push({ text: subItem, value: JSON.stringify(item) });
+                instances.push({ text: subItem, value: JSON.stringify(_.pick(item, _.concat(PCXInstanceAliasList, ['_InstanceAliasValue']))) });
               });
             }
           }

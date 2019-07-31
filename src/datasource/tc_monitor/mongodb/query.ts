@@ -6,9 +6,7 @@ export class MongoDBQueryCtrl {
   /** @ngInject */
   constructor($scope, $rootScope) {
     $scope.init = () => {
-      console.log('init:');
       $scope.MONGODBFieldsDescriptor = MONGODBFieldsDescriptor;
-      console.log($scope.MONGODBFieldsDescriptor);
     };
 
     $scope.onChecked = (srcField, dstField) => {
