@@ -46,7 +46,6 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
       }
       this.target.service = GetServiceFromNamespace(this.target.namespace) || '';
     }
-    console.log('query constructor:', this.target);
     _.defaultsDeep(this.target, this.defaults);
     this.instanceAliasList = this.getInstanceAliasList(this.target.service);
     this.panelCtrl.events.on('data-received', this.onDataReceived.bind(this), $scope);
