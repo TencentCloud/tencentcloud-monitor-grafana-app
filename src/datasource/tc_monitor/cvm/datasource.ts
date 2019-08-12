@@ -2,7 +2,7 @@ import * as _ from 'lodash';
 import * as moment from 'moment';
 import DatasourceInterface from '../../datasource';
 import { CVMInstanceAliasList, CVMInvalidMetrics } from './query_def';
-import { GetRequestParams, GetServiceAPIInfo, ReplaceVariable, GetDimensions, ParseQueryResult, VARIABLE_ALIAS, SliceLength } from '../../common/constants';
+import { GetRequestParams, GetServiceAPIInfo, ReplaceVariable, GetDimensions, ParseQueryResult, VARIABLE_ALIAS, SliceLength, ParseMetricRegex } from '../../common/constants';
 
 export default class CVMDatasource implements DatasourceInterface {
   Namespace = 'QCE/CVM';
@@ -27,18 +27,19 @@ export default class CVMDatasource implements DatasourceInterface {
    *
    * @param query 模板变量配置填写的 Query 参数字符串
    */
-  metricFindQuery(query: object) {
+  metricFindQuery(query: object, regex?: string | undefined) {
     // 查询地域列表
     const regionQuery = query['action'].match(/^DescribeRegions$/i);
     if (regionQuery) {
       return this.getRegions();
     }
-
-    // 查询 CDB 实例列表
+    // 查询 CVM 实例列表
     const instancesQuery = query['action'].match(/^DescribeInstances/i) && !!query['region'];
     const region = this.getVariable(query['region']);
     if (instancesQuery && region) {
-      return this.getVariableInstances(region).then(result => {
+      const tagText = _.get(query, 'tag', '');
+      const Filters = ParseMetricRegex(!tagText ? '' : `tag:tag-key=${tagText}`);
+      return this.getVariableInstances(region, Filters.length > 0 ? { Filters } : undefined).then(result => {
         const instanceAlias = CVMInstanceAliasList.indexOf(query[VARIABLE_ALIAS]) !== -1 ? query[VARIABLE_ALIAS] : 'InstanceId';
         const instances: any[] = [];
         _.forEach(result, (item) => {
@@ -189,9 +190,9 @@ export default class CVMDatasource implements DatasourceInterface {
       });
   }
 
-  getVariableInstances(region) {
+  getVariableInstances(region, query = {}) {
     let result: any[] = [];
-    const params = { Offset: 0, Limit: 100 };
+    const params = { ...query, ...{ Offset: 0, Limit: 100 } } ;
     const serviceInfo = GetServiceAPIInfo(region, 'cvm');
     return this.doRequest({
       url: this.url + serviceInfo.path,
@@ -206,12 +207,13 @@ export default class CVMDatasource implements DatasourceInterface {
           const param = SliceLength(total, 100);
           const promises: any[] = [];
           _.forEach(param, item => {
-            promises.push(this.getInstances(region, item));
+            promises.push(this.getInstances(region, { ...item, ...query }));
           });
           return Promise.all(promises).then(responses => {
             _.forEach(responses, item => {
               result = _.concat(result, item);
             });
+            console.log('result:', result);
             return result;
           }).catch(error => {
             return result;

@@ -127,16 +127,14 @@ export class TCMonitorDatasource implements DatasourceInterface {
    *
    * @param query 模板变量配置填写的 Query 参数字符串
    */
-  metricFindQuery(query: string) {
+  metricFindQuery(query: string, options?: any) {
     const queries = ParseMetricQuery(query);
-    console.log(queries);
     const service = GetServiceFromNamespace(queries['namespace'] || '');
-    console.log('service:', service);
     if (_.isEmpty(queries) || !queries['namespace'] || !queries['action'] || !service) {
       return Promise.resolve([]);
     }
     if (this[`${_.toUpper(service)}Datasource`].metricFindQuery) {
-      const result = this[`${_.toUpper(service)}Datasource`].metricFindQuery(queries);
+      const result = this[`${_.toUpper(service)}Datasource`].metricFindQuery(queries, _.get(options, 'variable.regex', undefined));
       if (result) {
         return result;
       }

@@ -175,6 +175,31 @@ export function ParseMetricQuery(query = '') {
   return result;
 }
 
+// parse template variable regex params
+export function ParseMetricRegex(regex = '') {
+  if (!regex) {
+    return [];
+  }
+  regex = regex.replace(/：/g, ':');
+  regex = regex.replace(/，/g, ',');
+  const regexParams = ParseMetricQuery(regex);
+  const result: any[] = [];
+  _.forEach(regexParams, (value, key) => {
+    if (key === 'tag:tag-key') {
+      const valuesArr = _.split(value, ',');
+      _.forEach(valuesArr, item => {
+        const temp = _.split(item, ':');
+        if (temp.length === 2) {
+          result.push({ Name: `tag:${temp[0]}`, Values: temp.slice(1) });
+        }
+      });
+    } else {
+      result.push({ Name: key, Values: _.split(value, ',') });
+    }
+  });
+  return result;
+}
+
 // get the actual value of template variable
 function parseVariableFormat(varname: string) {
   varname = String(varname || '');
@@ -223,14 +248,12 @@ export function GetDimensions(obj) {
 // parse query data result for panel
 export function ParseQueryResult(response, instances: any[] = []) {
   const instanceList = _.cloneDeep(instances);
-  console.log('parseQueryResult:', response, instances);
   const dataPoints = _.get(response, 'DataPoints', []);
   return _.map(dataPoints, dataPoint => {
     let instanceAliasValue = _.get(dataPoint, 'Dimensions[0].Value');
     for (let i = 0; i < instanceList.length; i++) {
       if (isInstanceMatch(instanceList[i], _.get(dataPoint, 'Dimensions', []))) {
         instanceAliasValue = instanceList[i]._InstanceAliasValue;
-        console.log(1123344, instanceAliasValue);
         instanceList.splice(i, 1);
         break;
       }
