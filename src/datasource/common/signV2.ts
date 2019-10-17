@@ -1,4 +1,5 @@
 import * as dotQs from 'dot-qs';
+import * as moment from 'moment';
 import { compact, cloneDeep } from 'lodash';
 import { HmacSHA256 } from "crypto-js";
 import * as Base64 from 'crypto-js/enc-base64';
@@ -28,7 +29,7 @@ export default class SignV2 {
       Region: this.defaults.region,
       Action: this.defaults.action,
       SecretId: this.defaults.secretId,
-      Timestamp: Math.round(Date.now() / 1000),
+      Timestamp: moment().utc().unix(),
       Nonce: Math.round(Math.random() * 65535),
       SignatureMethod: 'HmacSHA256',
     }, this.defaults.data || {});

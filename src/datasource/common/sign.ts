@@ -65,7 +65,7 @@ export default class Sign {
     this.version = version;
     this.payload = typeof payload === 'string' ? payload : JSON.stringify(payload);
     this.region = region;
-    const nowDate = moment();
+    const nowDate = moment().utc();
     this.timestamp = nowDate.unix();
     this.date = nowDate.format('YYYY-MM-DD');
   }
