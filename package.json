@@ -40,6 +40,7 @@
     "clean-webpack-plugin": "^2.0.1",
     "copy-webpack-plugin": "^5.0.2",
     "css-loader": "^2.1.1",
+    "html-loader": "^0.5.5",
     "jest": "^24.8.0",
     "ng-annotate-webpack-plugin": "^0.3.0",
     "style-loader": "^0.23.1",
