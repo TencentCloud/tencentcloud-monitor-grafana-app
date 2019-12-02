@@ -69,10 +69,11 @@ module.exports = {
       },
       {
         test: /\.html$/,
-        loaders: [
+        use: [
           {
             loader: 'html-loader',
-          }
+            options: { minimize: true },
+          },
         ],
       },
       {
