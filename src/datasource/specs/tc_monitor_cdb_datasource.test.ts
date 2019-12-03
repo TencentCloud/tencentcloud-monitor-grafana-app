@@ -186,7 +186,7 @@ describe('Tencent Cloud Monitor CDB Datasource', () => {
       ctx.backendSrv.datasourceRequest = jest.fn().mockImplementation(value => Promise.resolve(response));
       return ctx.ds.query(options).then(results => {
         expect(results.data[0].target).toEqual(
-          'BytesReceived - cdb-e4aj14v8'
+          'BytesReceived - cdb-123'
         );
         expect(results.data[0].datapoints).toEqual(
           [
