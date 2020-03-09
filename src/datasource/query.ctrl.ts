@@ -210,7 +210,8 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
     const index = _.findIndex(this.metricList, item => item.MetricName === this.target[service].metricName);
     if (index !== -1) {
       periodList = _.get(this.metricList[index], 'Period', []);
-      dimensionList = _.get(this.metricList[index], 'Dimensions.0.Dimensions', []);
+      // 兼容接口问题 
+      dimensionList = _.get(this.metricList[index], 'Dimensions.0.Dimensions', 0) || _.get(this.metricList[index], 'Dimensions.Dimensions', []);
       metricUnit = _.get(this.metricList[index], 'Unit', '');
     }
     _.forEach(dimensionList, item => {

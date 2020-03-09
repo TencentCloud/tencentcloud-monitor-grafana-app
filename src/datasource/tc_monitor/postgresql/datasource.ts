@@ -104,8 +104,8 @@ export default class POSTGRESDatasource implements DatasourceInterface {
           const dimensionObject = target.postgres.dimensionObject;
           _.forEach(dimensionObject, (__, key) => {
             // TODO 兼容接口问题
-            if (key === 'resourceId') {
-              dimensionObject[key] = { Name: key, Value: instance['DBInstanceId'] };
+            if (key === 'resourceId' || key === 'uid') {
+              dimensionObject[key] = { Name: 'resourceId', Value: instance['DBInstanceId'] };
             } else {
               dimensionObject[key] = { Name: key, Value: instance[key] };
             }
