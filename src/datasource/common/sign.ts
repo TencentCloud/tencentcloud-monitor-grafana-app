@@ -23,7 +23,7 @@ const Algorithm = 'TC3-HMAC-SHA256';
 // X-TC-Region    String   Yes     Region parameter, which is used to identify the region to which the data you want to work with belongs.
 // X-TC-Timestamp Integer  Yes     The current UNIX timestamp that records the time at which the API request was initiated, for example, 1529223702. If the time difference between the timestamp and the current time is too large, a signature expiration error may occur.
 // X-TC-Version   String   Yes     API version, such as 2017-03-12
-// Authorization  String   Yes     HTTPS Authorization, such as TC3-HMAC-SHA256 Credential=AKIDEXAMPLE/Date/service/tc3_request, SignedHeaders=content-type;host, Signature=fe5f80f77d5fa3beca038a248ff027d0445342fe2855ddc963176630326f1024
+// Authorization  String   Yes     HTTPS Authorization, such as TC3-HMAC-SHA256 Credential=xxx/tc3_request, SignedHeaders=content-type;host, Signature=xxxx
 // X-TC-Token     String   No      The token used for the temporary certificate, which must be used together with a temporary key. You can obtain the temporary key and token by calling the CAM API. No token is required for a long-term key.
 // where
 // - TC3-HMAC-SHA256：Signature method；
@@ -98,7 +98,9 @@ export default class Sign {
       "X-TC-Action": this.action,
       "X-TC-Timestamp": this.timestamp.toString(),
       "X-TC-Version": this.version,
-      "X-TC-Region": this.region,
+      ...( this.region && {
+        "X-TC-Region": this.region
+      })
     };
     return headers;
 
