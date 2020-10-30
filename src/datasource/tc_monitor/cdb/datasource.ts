@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import DatasourceInterface from '../../datasource';
-import { CDBInstanceAliasList } from './query_def';
+import { CDBInstanceAliasList, CDBInvalidDemensions } from './query_def';
 import { GetRequestParams, GetServiceAPIInfo, ReplaceVariable, GetDimensions, ParseQueryResult, VARIABLE_ALIAS, SliceLength } from '../../common/constants';
 
 
@@ -47,11 +47,11 @@ export default class CDBDatasource implements DatasourceInterface {
           if (instanceAliasValue) {
             if (typeof instanceAliasValue === 'string') {
               item._InstanceAliasValue = instanceAliasValue;
-              instances.push({ text: instanceAliasValue, value: JSON.stringify(_.pick(item, _.concat(CDBInstanceAliasList, ['_InstanceAliasValue']))) });
+              instances.push({ text: instanceAliasValue, value: JSON.stringify(item) });
             } else if (_.isArray(instanceAliasValue)) {
               _.forEach(instanceAliasValue, (subItem) => {
                 item._InstanceAliasValue = subItem;
-                instances.push({ text: subItem, value: JSON.stringify(_.pick(item, _.concat(CDBInstanceAliasList, ['_InstanceAliasValue']))) });
+                instances.push({ text: subItem, value: JSON.stringify(item) });
               });
             }
           }
@@ -103,7 +103,12 @@ export default class CDBDatasource implements DatasourceInterface {
         Instances: _.map(instances, instance => {
           const dimensionObject = target.cdb.dimensionObject;
           _.forEach(dimensionObject, (__, key) => {
-            dimensionObject[key] = { Name: key, Value: instance[key] };
+            // dimensionObject[key] = { Name: key, Value: instance[key] };
+            let keyTmp = key;
+            if (_.has(CDBInvalidDemensions,key)) {
+              keyTmp = CDBInvalidDemensions[key];
+            }
+            dimensionObject[keyTmp] = { Name: keyTmp, Value: instance[keyTmp] };
           });
           return { Dimensions: GetDimensions(dimensionObject) };
         }),

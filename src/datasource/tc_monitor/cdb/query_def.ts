@@ -281,10 +281,16 @@ function GetInstanceQueryParams(queries: any = {}) {
   return params;
 }
 
+const CDBInvalidDemensions = {
+  'instanceid': 'InstanceId',
+  'insttype': 'InstanceType',
+  'region': 'Region',
+};
 export default CDB_STATE;
 
 export {
   CDBFieldsDescriptor,
   CDBInstanceAliasList,
+  CDBInvalidDemensions,
   GetInstanceQueryParams as CDBGetInstanceQueryParams,
 };
