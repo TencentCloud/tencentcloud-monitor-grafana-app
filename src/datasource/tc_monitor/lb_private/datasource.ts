@@ -3,6 +3,7 @@ import * as moment from 'moment';
 import DatasourceInterface from '../../datasource';
 import { LBPRIVATEInstanceAliasList, LBPRIVATEListenerAliasList, LBPRIVATEVALIDDIMENSIONS } from './query_def';
 import { GetServiceAPIInfo, GetRequestParams, ReplaceVariable, GetDimensions, ParseQueryResult, VARIABLE_ALIAS, SliceLength } from '../../common/constants';
+import { IdKeys } from '..';
 
 export default class LBPRIVATEDatasource implements DatasourceInterface {
   Namespace = 'QCE/LB_PRIVATE';
@@ -56,8 +57,15 @@ export default class LBPRIVATEDatasource implements DatasourceInterface {
     // 查询 clb监听器端口 列表
     const clbListenerPortQuery = query['action'].match(/^DescribeListeners/i) && !!query['instance'];
     const instance = this.getVariable(query['instance']);
-    if (clbListenerPortQuery && instance) {
-      return this.getListeners(region, instance).then(result => {
+    let instanceMap = {};
+    try {
+      instanceMap = JSON.parse(instance);
+    }catch (e) {
+      console.log(e);
+    }
+    const instanceId = instanceMap[IdKeys.lbPrivate];
+    if (clbListenerPortQuery && instanceId) {
+      return this.getListeners(region, instanceId).then(result => {
         const listenerAlias = LBPRIVATEListenerAliasList.indexOf(query[VARIABLE_ALIAS]) !== -1 ? query[VARIABLE_ALIAS] : 'ListenerId';
         const listeners: any[] = [];
         _.forEach(result, (item) => {
@@ -119,11 +127,12 @@ export default class LBPRIVATEDatasource implements DatasourceInterface {
           console.log({instanceUnionMap,listener, instance, dimensionObject});
           instanceUnionArray.push(instanceUnionMap);
           _.forEach(dimensionObject, (__, key) => {
-            let keyTmp = key;
+            // let keyTmp = key;
             if (_.has(LBPRIVATEVALIDDIMENSIONS,key)) {
-              keyTmp = LBPRIVATEVALIDDIMENSIONS[key];
+              const keyTmp = LBPRIVATEVALIDDIMENSIONS[key];
+              instanceUnionMap[key] = instanceUnionMap[keyTmp];// baseMetric的key和getMonitor不对应，写入新旧键值对
             }
-            dimensionObject[key] = { Name: key, Value: instanceUnionMap[keyTmp] };
+            dimensionObject[key] = { Name: key, Value: instanceUnionMap[key] };
           });
           return { Dimensions: GetDimensions(dimensionObject) };
         }),
