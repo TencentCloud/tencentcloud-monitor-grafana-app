@@ -185,6 +185,17 @@ export class TCMonitorDatasource implements DatasourceInterface {
   }
 
   /**
+   * 获取监听器列表
+   * @param service
+   * @param region
+   * @param params
+   */
+  getListeners(service, region, instance) {
+    if (!this[`${_.toUpper(service)}Datasource`].getListeners) { return [];}
+    return this[`${_.toUpper(service)}Datasource`].getListeners(region, instance);
+  }
+
+  /**
    * 获取 私有网络列表
    * @param service
    */
