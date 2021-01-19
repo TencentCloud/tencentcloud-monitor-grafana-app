@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-14 14:28:18
- * @LastEditTime: 2021-01-19 11:25:39
+ * @LastEditTime: 2021-01-19 15:37:09
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /tencentcloud-monitor-grafana-app/src/datasource/tc_monitor/lb_private/query_def.ts
@@ -123,7 +123,7 @@ const LBPRIVATEFieldsDescriptor = [
     enDescriptor: 'Master Zone',
     cnDescriptor: '主可用区ID',
     link: '',
-    type: 'dropdown'
+    type: 'input'
   },
   {
     key: 'WithRs',

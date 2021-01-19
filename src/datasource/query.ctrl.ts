@@ -272,7 +272,11 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
       })
       .catch(this.handleQueryCtrlError.bind(this));
   }
-
+  onInstanceChange(v) {
+    const service = this.target.service;
+    if (this.target[service].listener) {this.target[service].listener = '';}
+    this.refresh();
+  }
   getListeners() {
     const service = this.target.service;
     const region = this.getVariable(_.get(this.target[service], 'region', ''), false);
@@ -281,6 +285,7 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
       return [];
     }
     let instanceMap = {};
+    console.log({instance});
     try {
       instanceMap = JSON.parse(instance);
     } catch (e) {
@@ -307,7 +312,7 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
             }
           }
         });
-        console.log({listeners});
+        // console.log({listeners});
         return listeners;
       })
       .catch(this.handleQueryCtrlError.bind(this));

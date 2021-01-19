@@ -53,7 +53,7 @@
       </div>
       <div class="gf-form-select-wrapper gf-form-select-wrapper--caret-indent">
         <gf-form-dropdown model="ctrl.target[ctrl.target.service].instance" allow-custom="true" lookup-text="true" get-options="ctrl.getInstances($query)"
-          on-change="ctrl.refresh()" css-class="min-width-10">
+          on-change="ctrl.onInstanceChange()" css-class="min-width-10">
         </gf-form-dropdown>
       </div>
     </div>
