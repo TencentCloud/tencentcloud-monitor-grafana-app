@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-14 14:28:18
- * @LastEditTime: 2021-01-17 15:57:10
+ * @LastEditTime: 2021-01-19 11:25:39
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /tencentcloud-monitor-grafana-app/src/datasource/tc_monitor/lb_private/query_def.ts
@@ -102,7 +102,7 @@ const LBPRIVATEFieldsDescriptor = [
     enDescriptor: 'Project ID',
     cnDescriptor: '负载均衡实例所属的项目 ID',
     link: '',
-    type: 'input'
+    type: 'inputnumber'
   },
   {
     key: 'VpcId',

@@ -117,12 +117,14 @@ export default class LBPRIVATEDatasource implements DatasourceInterface {
         Period: target.lbPrivate.period || 300,
         Instances: _.map(listeners, listener => {
           const dimensionObject = target.lbPrivate.dimensionObject;
-          let instanceMap = {};
+          let instanceMap: any = {};
           try {
             instanceMap = JSON.parse(instance);
           }catch (e) {
             console.log(e);
           }
+          // _InstanceAliasValue修改为instanceId-listenerId
+          instanceMap._InstanceAliasValue += ` - ${listener.ListenerId}`;
           const instanceUnionMap = _.assign(listener, instanceMap);
           console.log({instanceUnionMap,listener, instance, dimensionObject});
           instanceUnionArray.push(instanceUnionMap);
