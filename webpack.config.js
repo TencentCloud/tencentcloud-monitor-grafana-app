@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2020-10-24 22:13:23
+ * @LastEditTime: 2020-10-29 15:47:30
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /tencentcloud-monitor-grafana-app/webpack.config.js
+ */
 const path = require('path');
 const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -19,6 +27,7 @@ module.exports = {
     filename: '[name].js',
     chunkFilename: '[name].bundle.js',
     path: path.join(__dirname, 'dist'),
+    library: 'MyLibrary',
     libraryTarget: 'amd'
   },
   externals: [
