@@ -3,6 +3,5 @@ node_modules/
 .vscode/
 coverage/
 tmp/
-dist/test/
-dist/test-setup/
+dist/
 package-lock.json
