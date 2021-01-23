@@ -15,7 +15,7 @@
 
 # 安装
 
-腾讯云监控应用插件是运行在 Grafana 6.0 或更新的版本上，请优先安装 Grafana 环境，详情参考 [Grafana 安装文档](https://grafana.com/docs/project/building_from_source/)。
+腾讯云监控应用插件是运行在 Grafana 6.0 或更新的版本上，请优先安装 Grafana 环境，详情参考 [Grafana 安装文档](https://grafana.com/docs/grafana/download/)。
 
 
 ## 基于源码的插件安装
@@ -27,6 +27,12 @@
   ![Plugin APP](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/src/image/plugin-app.png?raw=true)
 5. 进入应用详情页面，点击 `Enable` 按钮，启用成功后，即可在 Grafana 中使用腾讯云监控应用插件。
 
+## 支持 Docker
+为了更快地开发与测试，添加了docker-compose.yml文件，只需运行：
+```
+docker-compose up
+```
+然后查看(http://localhost:3000)
 
 # 配置数据源
 
