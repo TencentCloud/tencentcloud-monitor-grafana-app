@@ -1,12 +1,12 @@
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import DatasourceInterface from '../../datasource';
-import { LBPRIVATEInstanceAliasList, LBPRIVATEListenerAliasList, LBPRIVATEVALIDDIMENSIONS } from './query_def';
+import { LOADBALANCEInstanceAliasList, LOADBALANCEListenerAliasList, LOADBALANCEVALIDDIMENSIONS, LBVALIDDIMENSIONOBJECTS } from './query_def';
 import { GetServiceAPIInfo, GetRequestParams, ReplaceVariable, GetDimensions, ParseQueryResult, VARIABLE_ALIAS, SliceLength } from '../../common/constants';
 import { IdKeys } from '..';
 
-export default class LBPRIVATEDatasource implements DatasourceInterface {
-  Namespace = 'QCE/LB_PRIVATE';
+export default class LOADBALANCEDatasource implements DatasourceInterface {
+  Namespace = 'QCE/LOADBALANCE';
   url: string;
   instanceSettings: any;
   backendSrv: any;
@@ -35,7 +35,7 @@ export default class LBPRIVATEDatasource implements DatasourceInterface {
     const region = this.getVariable(query['region']);
     if (instancesQuery && region) {
       return this.getVariableInstances(region).then(result => {
-        const instanceAlias = LBPRIVATEInstanceAliasList.indexOf(query[VARIABLE_ALIAS]) !== -1 ? query[VARIABLE_ALIAS] : 'LoadBalancerId';
+        const instanceAlias = LOADBALANCEInstanceAliasList.indexOf(query[VARIABLE_ALIAS]) !== -1 ? query[VARIABLE_ALIAS] : 'LoadBalancerId';
         const instances: any[] = [];
         _.forEach(result, (item) => {
           const instanceAliasValue = _.get(item, instanceAlias);
@@ -63,10 +63,10 @@ export default class LBPRIVATEDatasource implements DatasourceInterface {
     }catch (e) {
       console.log(e);
     }
-    const instanceId = instanceMap[IdKeys.lbPrivate];
+    const instanceId = instanceMap[IdKeys.loadBalance];
     if (clbListenerPortQuery && instanceId) {
       return this.getListeners(region, instanceId).then(result => {
-        const listenerAlias = LBPRIVATEListenerAliasList.indexOf(query[VARIABLE_ALIAS]) !== -1 ? query[VARIABLE_ALIAS] : 'ListenerId';
+        const listenerAlias = LOADBALANCEListenerAliasList.indexOf(query[VARIABLE_ALIAS]) !== -1 ? query[VARIABLE_ALIAS] : 'ListenerId';
         const listeners: any[] = [];
         _.forEach(result, (item) => {
           const listenerAliasValue = _.get(item, listenerAlias);
@@ -92,19 +92,19 @@ export default class LBPRIVATEDatasource implements DatasourceInterface {
     const queries = _.filter(options.targets, item => {
       // 过滤无效的查询 target
       return (
-        item.lbPrivate.hide !== true &&
+        item.loadBalance.hide !== true &&
         !!item.namespace &&
-        !!item.lbPrivate.metricName &&
-        !_.isEmpty(ReplaceVariable(this.templateSrv, options.scopedVars, item.lbPrivate.region, false)) &&
-        !_.isEmpty(ReplaceVariable(this.templateSrv, options.scopedVars, item.lbPrivate.instance, true)) &&
-        !_.isEmpty(ReplaceVariable(this.templateSrv, options.scopedVars, item.lbPrivate.listener, true))
+        !!item.loadBalance.metricName &&
+        !_.isEmpty(ReplaceVariable(this.templateSrv, options.scopedVars, item.loadBalance.region, false)) &&
+        !_.isEmpty(ReplaceVariable(this.templateSrv, options.scopedVars, item.loadBalance.instance, true)) &&
+        !_.isEmpty(ReplaceVariable(this.templateSrv, options.scopedVars, item.loadBalance.listener, true))
       );
     }).map(target => {
-      const region = ReplaceVariable(this.templateSrv, options.scopedVars, target.lbPrivate.region, false);
+      const region = ReplaceVariable(this.templateSrv, options.scopedVars, target.loadBalance.region, false);
       // 实例 instances 可能为模板变量，需先获取实际值
-      const instance = ReplaceVariable(this.templateSrv, options.scopedVars, target.lbPrivate.instance, true);
+      const instance = ReplaceVariable(this.templateSrv, options.scopedVars, target.loadBalance.instance, true);
       // 考虑多个监听器端口查询
-      let listeners = ReplaceVariable(this.templateSrv, options.scopedVars, target.lbPrivate.listener, false);
+      let listeners = ReplaceVariable(this.templateSrv, options.scopedVars, target.loadBalance.listener, false);
       const instanceUnionArray: any = [];
       if (_.isArray(listeners)) {
         listeners = _.map(listeners, listener => _.isString(listener) ? JSON.parse(listener) : listener);
@@ -114,9 +114,12 @@ export default class LBPRIVATEDatasource implements DatasourceInterface {
       const data = {
         StartTime: moment(options.range.from).format(),
         EndTime: moment(options.range.to).format(),
-        Period: target.lbPrivate.period || 300,
+        Period: target.loadBalance.period || 300,
         Instances: _.map(listeners, listener => {
-          const dimensionObject = target.lbPrivate.dimensionObject;
+          // 七层协议指标维度采用本地config，接口字段有误
+          // const dimensionObject = target.loadBalance.dimensionObject;
+          const dimensionObject = LBVALIDDIMENSIONOBJECTS;
+          console.log({dimensionObject});
           let instanceMap: any = {};
           try {
             instanceMap = JSON.parse(instance);
@@ -130,8 +133,8 @@ export default class LBPRIVATEDatasource implements DatasourceInterface {
           instanceUnionArray.push(instanceUnionMap);
           _.forEach(dimensionObject, (__, key) => {
             // let keyTmp = key;
-            if (_.has(LBPRIVATEVALIDDIMENSIONS,key)) {
-              const keyTmp = LBPRIVATEVALIDDIMENSIONS[key];
+            if (_.has(LOADBALANCEVALIDDIMENSIONS,key)) {
+              const keyTmp = LOADBALANCEVALIDDIMENSIONS[key];
               instanceUnionMap[key] = instanceUnionMap[keyTmp];// baseMetric的key和getMonitor不对应，写入新旧键值对
             }
             dimensionObject[key] = { Name: key, Value: instanceUnionMap[key] };
@@ -139,7 +142,7 @@ export default class LBPRIVATEDatasource implements DatasourceInterface {
           return { Dimensions: GetDimensions(dimensionObject) };
         }),
         Namespace: target.namespace,
-        MetricName: target.lbPrivate.metricName,
+        MetricName: target.loadBalance.metricName,
       };
       return this.getMonitorData(data, region, instanceUnionArray);
     });
@@ -163,7 +166,7 @@ export default class LBPRIVATEDatasource implements DatasourceInterface {
   }
 
   /**
-   * 获取 LBPrivate 的监控数据
+   * 获取 loadBalance 的监控数据
    *
    * @param params 获取监控数据的请求参数
    * @param region 地域信息
@@ -234,7 +237,7 @@ export default class LBPRIVATEDatasource implements DatasourceInterface {
   }
 
   /**
-   * 模板变量中获取全量的 LBPrivate 实例列表
+   * 模板变量中获取全量的 loadBalance 实例列表
    * @param region 地域信息
    */
   getVariableInstances(region) {
@@ -277,7 +280,7 @@ export default class LBPRIVATEDatasource implements DatasourceInterface {
   testDatasource() {
     if (!this.isValidConfigField(this.secretId) || !this.isValidConfigField(this.secretKey)) {
       return {
-        service: 'lbPrivate',
+        service: 'loadBalance',
         status: 'error',
         message: 'The SecretId/SecretKey field is required.',
       };
@@ -315,11 +318,11 @@ export default class LBPRIVATEDatasource implements DatasourceInterface {
     ]).then(responses => {
       const cvmErr = _.get(responses, '[0].Error', {});
       const monitorErr = _.get(responses, '[1].Error', {});
-      const lbPrivateErr = _.get(responses, '[2]', {});
+      const loadBalanceErr = _.get(responses, '[2]', {});
       const cvmAuthFail = _.get(cvmErr, 'Code', '').indexOf('AuthFailure') !== -1;
       const monitorAuthFail = _.get(monitorErr, 'Code', '').indexOf('AuthFailure') !== -1;
-      const lbPrivateAuthFail = _.get(lbPrivateErr, 'Code', '').indexOf('AuthFailure') !== -1;
-      if (cvmAuthFail || monitorAuthFail || lbPrivateAuthFail ) {
+      const loadBalanceAuthFail = _.get(loadBalanceErr, 'Code', '').indexOf('AuthFailure') !== -1;
+      if (cvmAuthFail || monitorAuthFail || loadBalanceAuthFail ) {
         const messages: any[] = [];
           if (cvmAuthFail) {
             messages.push(`${_.get(cvmErr, 'Code')}: ${_.get(cvmErr, 'Message')}`);
@@ -327,26 +330,26 @@ export default class LBPRIVATEDatasource implements DatasourceInterface {
           if (monitorAuthFail) {
             messages.push(`${_.get(monitorErr, 'Code')}: ${_.get(monitorErr, 'Message')}`);
           }
-          if (lbPrivateAuthFail) {
-            messages.push(`${_.get(lbPrivateErr, 'code')}: ${_.get(lbPrivateErr, 'codeDesc')}`);
+          if (loadBalanceAuthFail) {
+            messages.push(`${_.get(loadBalanceErr, 'code')}: ${_.get(loadBalanceErr, 'codeDesc')}`);
           }
           const message = _.join(_.compact(_.uniq(messages)), '; ');
           return {
-            service: 'lbPrivate',
+            service: 'loadBalance',
             status: 'error',
             message,
           };
       } else {
         return {
           namespace: this.Namespace,
-          service: 'lbPrivate',
+          service: 'loadBalance',
           status: 'success',
-          message: 'Successfully queried the LBPrivate service.',
+          message: 'Successfully queried the loadBalance service.',
           title: 'Success',
         };
       }
     }).catch(error => {
-      let message = 'LBPrivate service:';
+      let message = 'loadBalance service:';
       message += error.statusText ? error.statusText + '; ' : '';
       if (!!_.get(error, 'data.error.code', '')) {
         message += error.data.error.code + '. ' + error.data.error.message;
@@ -355,10 +358,10 @@ export default class LBPRIVATEDatasource implements DatasourceInterface {
       } else if (!!_.get(error, 'data', '')) {
         message += error.data;
       } else {
-        message += 'Cannot connect to LBPrivate service.';
+        message += 'Cannot connect to loadBalance service.';
       }
       return {
-        service: 'lbPrivate',
+        service: 'loadBalance',
         status: 'error',
         message: message,
       };
