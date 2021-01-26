@@ -156,11 +156,15 @@ function GetInstanceQueryParams(queries: any = {}) {
 const CVMInstanceAliasList = ['InstanceId', 'InstanceName', 'PrivateIpAddresses', 'PublicIpAddresses'];
 
 const CVMInvalidMetrics = ['DcCPUUsage', 'DcMemUsage'];
-
+const CVMInvalidDemensions = {
+  'vm_uuid': 'InstanceId',
+  'vmUuid': 'InstanceId',
+};
 export default CVM_STATE;
 export {
   CVMFilterFieldsDescriptor,
   CVMInstanceAliasList,
   CVMInvalidMetrics,
+  CVMInvalidDemensions,
   GetInstanceQueryParams as CVMGetInstanceQueryParams,
 };
