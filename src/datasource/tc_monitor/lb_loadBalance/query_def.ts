@@ -22,7 +22,7 @@ const WithRs = [
   { text: '绑定后端服务', value: 1 },
   { text: '查询全部', value: -1 },
 ];
-const LBPRIVATEFieldsDescriptor = [
+const LOADBALANCEFieldsDescriptor = [
   {
     key: 'Offset',
     enDescriptor: 'Offset',
@@ -143,7 +143,7 @@ const LBPRIVATEFieldsDescriptor = [
   },
 ];
 
-const LBPrivateFields = {
+const LBFields = {
   LoadBalancerIds: [],
   Forward: undefined,
   LoadBalancerName: '',
@@ -162,7 +162,7 @@ const LBPrivateFields = {
   OrderType: {},
 };
 
-const LBPRIVATE_STATE = {
+const LOADBALANCE_STATE = {
   region: '',
   metricName: '',
   metricUnit: '',
@@ -172,7 +172,7 @@ const LBPRIVATE_STATE = {
   instanceAlias: 'LoadBalancerId',
   listener: '',
   listenerAlias: 'ListenerId',
-  queries: Object.assign({}, LBPrivateFields),
+  queries: Object.assign({}, LBFields),
 };
 
 function GetInstanceQueryParams(queries: any = {}) {
@@ -199,19 +199,26 @@ function GetInstanceQueryParams(queries: any = {}) {
   return params;
 }
 
-const LBPRIVATEInstanceAliasList = ['LoadBalancerId', 'LoadBalancerName', 'LoadBalancerVips'];
-const LBPRIVATEListenerAliasList = ['ListenerId', 'ListenerName', 'Port'];
-const LBPRIVATEVALIDDIMENSIONS = {
+const LOADBALANCEInstanceAliasList = ['LoadBalancerId', 'LoadBalancerName', 'LoadBalancerVips'];
+const LOADBALANCEListenerAliasList = ['ListenerId', 'ListenerName', 'Port'];
+const LOADBALANCEVALIDDIMENSIONS = {
   vip: 'LoadBalancerVips',
   vpcId: 'NumericalVpcId',
   loadBalancerPort: 'Port',
   protocol: 'Protocol'
 };
-export default LBPRIVATE_STATE;
+// dimensionObject[item] = { Name: item, Value: '' };
+const LBVALIDDIMENSIONOBJECTS = {
+  vip: { Name: 'vip', Value: ''},
+  loadBalancerPort: { Name: 'loadBalancerPort', Value: ''},
+  protocol: { Name: 'protocol', Value: ''},
+};
+export default LOADBALANCE_STATE;
 export {
-  LBPRIVATEFieldsDescriptor,
-  LBPRIVATEInstanceAliasList,
-  LBPRIVATEListenerAliasList,
-  LBPRIVATEVALIDDIMENSIONS,
-  GetInstanceQueryParams as LBPRIVATEGetInstanceQueryParams,
+  LOADBALANCEFieldsDescriptor,
+  LOADBALANCEInstanceAliasList,
+  LOADBALANCEListenerAliasList,
+  LOADBALANCEVALIDDIMENSIONS,
+  LBVALIDDIMENSIONOBJECTS,
+  GetInstanceQueryParams as LOADBALANCEGetInstanceQueryParams,
 };
