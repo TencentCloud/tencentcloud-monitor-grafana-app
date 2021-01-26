@@ -17,7 +17,7 @@
       "small": "img/tencent-cloud.svg",
       "large": "img/tencent-cloud.svg"
     },
-    "version": "1.0.0",
+    "version": "1.2.0",
     "updated": "2019-04-10",
     "screenshots": [
       { "name": "logo", "path": "img/tencent-cloud.svg" }
