@@ -1,7 +1,7 @@
 {
   "name": "tencentcloud-monitor-grafana-app",
   "private": false,
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "Tencent Cloud Monitor plugin for Grafana",
   "keywords": [
     "tencentcloud",
