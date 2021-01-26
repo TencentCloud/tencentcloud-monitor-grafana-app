@@ -6,21 +6,22 @@
 
   - 支持云服务器监控指标数据源
   - 支持云数据库 MySQL 监控指标数据源
-  - 支持云数据库  PostgreSQL  监控指标数据源
+  - 支持云数据库 PostgreSQL 监控指标数据源
   - 支持私有网络 NateGateway 监控指标数据源
   - 支持私有网络对等连接 监控指标数据源
+  - 支持负载均衡 clb-private 监控指标数据源
   - 提供了云服务器、云数据库 MySQL 的具有代表性的 Dashboard 模板
   - 更多云产品的监控指标数据源在陆续完善中
 
 
 # 安装
 
-腾讯云监控应用插件是运行在 Grafana 6.0 或更新的版本上，请优先安装 Grafana 环境，详情参考 [Grafana 安装文档](https://grafana.com/docs/grafana/download/)。
+腾讯云监控应用插件是运行在 Grafana 6.x 或更新的版本上，请优先安装 Grafana 环境，详情参考 [Grafana 安装文档](https://grafana.com/docs/grafana/download/)。
 
 
 ## 基于源码的插件安装
 
-1. 确保本地的 Grafana 是 6.0 版本或更新的版本；  
+1. 确保本地的 Grafana 是 6.x 版本上；  
 2. 下载最新版本的腾讯云监控应用插件代码，并将解压后的代码放置在 Grafana 的 `${GRAFANA_HOME}/data/plugins` 目录；
 3. 重启 Grafana 服务；
 4. 鼠标悬浮左侧导航栏的 **齿轮** 图标，点击 `Plugins` 选项，进入 Plugins 管理页面，如果插件列表中正常展示 `Tencent Cloud Monitor` APP 插件，表示插件安装成功；
@@ -82,7 +83,6 @@ docker-compose up
        - 为了适应不同用户的习惯，实例列表会以不同的字段展示，默认为 `As InstanceId`，以 **实例ID** 展示实例列表。此外，可以选择 `As InstanceName` 实例名称、`As PrivateIpAddress` 主网卡的内网IP、 `As PublicIpAddress` 主网卡的公网IP。
        - 可实例列表的获取可参考 [云服务器查询实例列表接口文档](https://cloud.tencent.com/document/api/213/15728)。切换 `Show Details` 为 `true`，可展示实例请求参数，默认参数为`Offset = 0` 和 `Limit = 20`。如果需要变更实例查询条件，可参考接口文档，配置相应参数。
        - **注意：** 在本应用中，监控数据的单次查询为原子操作，即查询某一实例的某一指标的监控数据，故实例只能单选，如需查询多实例的监控数据，点击右上角的 `Add Query` 增加新的查询。  
-
 ![CVM Panel Query](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/src/image/panel-cvm-query.png?raw=true)
 
 ## CDB 云数据库MySQL监控
@@ -114,6 +114,7 @@ docker-compose up
  云数据库 PostgreSQL 实例  |  Namespace=QCE/POSTGRES&Region=ap-beijing&Action=DescribeInstances&InstanceAlias=DBInstanceId | 参考 [云数据库PostgreSQL查询实例列表接口文档](https://cloud.tencent.com/document/api/409/16773)。`Namespace` 固定为`QCE/CDB`，`Action` 固定为`DescribeInstances`。`Region` 为地域参数，可以为特定的地域值，如 `ap-beijing`；也可以为变量值，如 `$region`。`InstanceAlias` 为实例的展示字段，默认为 `DBInstanceId`，可选值为 `DBInstanceName`, `PrivateIpAddresses`, `PublicIpAddresses`。云数据库实例作为模板变量，同时支持单选和多选。
 私有网络 NateGateway 实例  |  Namespace=QCE/NAT_GATEWAY&Region=ap-beijing&Action=DescribeInstances&InstanceAlias=NatGatewayId | 参考 [私有网络Nat网关查询实例列表接口文档](https://cloud.tencent.com/document/api/215/4088)。`Namespace` 固定为`QCE/NAT_GATEWAY`，`Action` 固定为`DescribeInstances`。`Region` 为地域参数，可以为特定的地域值，如 `ap-beijing`；也可以为变量值，如 `$region`。`InstanceAlias` 为实例的展示字段，默认为 `NatGatewayId`，可选值为 `NatGatewayName`。NateGateway 网关实例作为模板变量，同时支持单选和多选。
 私有网络对等连接实例  |  Namespace=QCE/PCX&Region=ap-beijing&Action=DescribeInstances&InstanceAlias=peeringConnectionId | 参考 [私有网络对等连接查询实例列表接口文档](https://cloud.tencent.com/document/api/215/2101)。`Namespace` 固定为`QCE/PCX`，`Action` 固定为`DescribeInstances`。`Region` 为地域参数，可以为特定的地域值，如 `ap-beijing`；也可以为变量值，如 `$region`。`InstanceAlias` 为实例的展示字段，默认为 `peeringConnectionId`，可选值为 `peeringConnectionName`。对等连接实例作为模板变量，同时支持单选和多选。
+负载均衡监听器  |  Namespace=QCE/LB_PRIVATE&Action=DescribeListeners&Region=$region&Instance=$instance&listenerAlias=ListenerId | 参考 [负载均衡监听器列表接口文档](https://cloud.tencent.com/document/product/214/30686)。`Namespace` 固定为`QCE/LB_PRIVATE`，`Action` 固定为`DescribeListeners`。`Region` 为地域参数，可以为特定的地域值，如 `ap-guangzhou`；也可以为变量值，如 `$region`。`Instance` 为实例id，可以为特定的实例，如 `lb-rbw529fz`；也可以为变量值，如 `$instance`。`listenerAlias` 为监听器的展示字段，默认为 `ListenerId`，可选值为 `ListenerName`，`Port`。同时支持单选和多选。
 
 ## 创建变量
 

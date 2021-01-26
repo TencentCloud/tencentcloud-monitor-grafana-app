@@ -19,6 +19,7 @@ module.exports = {
     filename: '[name].js',
     chunkFilename: '[name].bundle.js',
     path: path.join(__dirname, 'dist'),
+    library: 'MyLibrary',
     libraryTarget: 'amd'
   },
   externals: [

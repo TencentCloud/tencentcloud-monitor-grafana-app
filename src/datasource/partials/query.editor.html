@@ -53,7 +53,7 @@
       </div>
       <div class="gf-form-select-wrapper gf-form-select-wrapper--caret-indent">
         <gf-form-dropdown model="ctrl.target[ctrl.target.service].instance" allow-custom="true" lookup-text="true" get-options="ctrl.getInstances($query)"
-          on-change="ctrl.refresh()" css-class="min-width-10">
+          on-change="ctrl.onInstanceChange()" css-class="min-width-10">
         </gf-form-dropdown>
       </div>
     </div>
@@ -136,6 +136,30 @@
     on-change="ctrl.onInstanceQueryChange()"
     region="ctrl.getVariable(ctrl.target.postgres.region)"
   ></postgres-query>
+
+  <!-- LB_PUBLIC-->
+  <lb-private-query
+    ng-if="ctrl.target.service==='lbPrivate'"
+    target="ctrl.target.lbPrivate"
+    show-detail="ctrl.checkShowDetail('instance')"
+    datasource="ctrl.datasource"
+    on-change="ctrl.onInstanceQueryChange()"
+    region="ctrl.getVariable(ctrl.target.lbPrivate.region)"
+  ></lb-private-query>
+  <div class="gf-form-inline" ng-if="ctrl.target.service==='lbPrivate'">
+    <div class="gf-form">
+      <label class="gf-form-label query-keyword width-9">Listeners</label>
+      <div class="gf-form-select-wrapper gf-form-select-wrapper--caret-indent">
+        <select class="gf-form-input min-width-8" ng-change="ctrl.onListenerAliasChange()" ng-model="ctrl.target[ctrl.target.service].listenerAlias"
+          ng-options="f.value as f.text for f in ctrl.listenerAliasList"></select>
+      </div>
+      <div class="gf-form-select-wrapper gf-form-select-wrapper--caret-indent">
+        <gf-form-dropdown model="ctrl.target[ctrl.target.service].listener" allow-custom="true" lookup-text="true" get-options="ctrl.getListeners($query)"
+          on-change="ctrl.refresh()" css-class="min-width-10">
+        </gf-form-dropdown>
+      </div>
+    </div>
+  </div>
 
   <!-- Global error message -->
   <div class="gf-form" ng-show="ctrl.lastQueryError">

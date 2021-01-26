@@ -35,6 +35,11 @@
       "path": "dashboards/example_cvm_dashboard.json"
     },
     {
+      "type": "dashboard",
+      "name": "【实例】lbPrivate 负载均衡",
+      "path": "dashboards/example_lbPrivate_dashboard.json"
+    },
+    {
       "type": "datasource",
       "name": "Tencent Cloud Monitor Datasource"
     }

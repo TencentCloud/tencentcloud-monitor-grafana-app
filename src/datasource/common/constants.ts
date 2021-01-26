@@ -64,6 +64,13 @@ const SERVICES_API_INFO = {
     path: '/postgres',
     host: 'postgres.tencentcloudapi.com',
   },
+  // 负载均衡四层协议 lbPrivate
+  // lbPrivate: {
+  //   service: 'lbPrivate',
+  //   version: '2018-03-17',
+  //   path: '/clb',
+  //   host: 'clb.tencentcloudapi.com',
+  // },
 };
 
 const FINACE_HOST = {
