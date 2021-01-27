@@ -209,7 +209,7 @@ export default class LBPRIVATEDatasource implements DatasourceInterface {
   }
 
   getInstances(region = 'ap-guangzhou', params = {}) {
-    params = Object.assign({ Offset: 0, Limit: 20 }, params);
+    params = Object.assign({ Offset: 0, Limit: 20, LoadBalancerType: 'INTERNAL'}, params);
     const serviceInfo = GetServiceAPIInfo(region, 'clb');
     return this.doRequest({
       url: this.url + serviceInfo.path,
