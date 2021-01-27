@@ -94,7 +94,7 @@ const LBPUBLICFieldsDescriptor = [
     enDescriptor: 'Project ID',
     cnDescriptor: '负载均衡实例所属的项目 ID',
     link: '',
-    type: 'input'
+    type: 'inputnumber'
   },
   {
     key: 'VpcId',
@@ -115,7 +115,7 @@ const LBPUBLICFieldsDescriptor = [
     enDescriptor: 'Master Zone',
     cnDescriptor: '主可用区ID',
     link: '',
-    type: 'dropdown'
+    type: 'input'
   },
   {
     key: 'WithRs',
@@ -170,6 +170,8 @@ const LBPUBLIC_STATE = {
   dimensionObject: null,
   instance: '',
   instanceAlias: 'LoadBalancerId',
+  listener: '',
+  listenerAlias: 'ListenerId',
   queries: Object.assign({}, LBPublicFields),
 };
 
@@ -198,11 +200,24 @@ function GetInstanceQueryParams(queries: any = {}) {
 }
 
 const LBPUBLICInstanceAliasList = ['LoadBalancerId', 'LoadBalancerName', 'LoadBalancerVips'];
-
-
+const LBPUBLICListenerAliasList = ['ListenerId', 'ListenerName', 'Port'];
+const LBPUBLICVALIDDIMENSIONS = {
+  vip: 'LoadBalancerVips',
+  vpcId: 'NumericalVpcId',
+  loadBalancerPort: 'Port',
+  protocol: 'Protocol'
+};
+const LBPUBLICVALIDDIMENSIONOBJECTS = {
+  vip: { Name: 'vip', Value: ''},
+  loadBalancerPort: { Name: 'loadBalancerPort', Value: ''},
+  protocol: { Name: 'protocol', Value: ''},
+};
 export default LBPUBLIC_STATE;
 export {
   LBPUBLICFieldsDescriptor,
   LBPUBLICInstanceAliasList,
+  LBPUBLICListenerAliasList,
+  LBPUBLICVALIDDIMENSIONS,
+  LBPUBLICVALIDDIMENSIONOBJECTS,
   GetInstanceQueryParams as LBPUBLICGetInstanceQueryParams,
 };

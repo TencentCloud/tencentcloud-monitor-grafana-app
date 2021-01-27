@@ -126,6 +126,20 @@
     on-change="ctrl.onInstanceQueryChange()"
     region="ctrl.getVariable(ctrl.target.lbPublic.region)"
   ></lb-public-query>
+  <div class="gf-form-inline" ng-if="ctrl.target.service==='lbPublic'">
+    <div class="gf-form">
+      <label class="gf-form-label query-keyword width-9">Listeners</label>
+      <div class="gf-form-select-wrapper gf-form-select-wrapper--caret-indent">
+        <select class="gf-form-input min-width-8" ng-change="ctrl.onListenerAliasChange()" ng-model="ctrl.target[ctrl.target.service].listenerAlias"
+          ng-options="f.value as f.text for f in ctrl.listenerAliasList"></select>
+      </div>
+      <div class="gf-form-select-wrapper gf-form-select-wrapper--caret-indent">
+        <gf-form-dropdown model="ctrl.target[ctrl.target.service].listener" allow-custom="true" lookup-text="true" get-options="ctrl.getListeners($query)"
+          on-change="ctrl.refresh()" css-class="min-width-10">
+        </gf-form-dropdown>
+      </div>
+    </div>
+  </div>
   
   <!-- PostgreSQL-->
   <postgres-query
