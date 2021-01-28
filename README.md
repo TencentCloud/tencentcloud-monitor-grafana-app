@@ -116,11 +116,13 @@ docker-compose up
    - `Period` 监控统计周期，周期列表会根据 `MetricName` 选项自动获取，单击选择某一统计周期。
    - `Instance` 实例，对应输入参数的 `Instances.N` 字段，实例列表会自动获取。
        - 为了适应不同用户的习惯，实例列表会以不同的字段展示，默认为 `As LoadBalancerId`，以 **实例ID** 展示实例列表。此外，可以选择 `As LoadBalancerName` 实例名称、`As LoadBalancerVips` 网络ip。
-       - 可实例列表的获取可参考 [负载均衡实例列表接口文档](https://cloud.tencent.com/document/api/214/30685)。切换 `Show Details` 为 `true`，可展示实例请求参数，默认参数为`Offset = 0` 和 `Limit = 20`。如果需要变更实例查询条件，可参考接口文档，配置相应参数。
+       - 实例列表的获取可参考 [负载均衡实例列表接口文档](https://cloud.tencent.com/document/api/214/30685)。切换 `Show Details` 为 `true`，可展示实例请求参数，默认参数为`Offset = 0` 和 `Limit = 20`。如果需要变更实例查询条件，可参考接口文档，配置相应参数。
        - **注意：** 在本应用中，监控数据的单次查询为原子操作，即查询某一实例的某一指标的监控数据，故实例只能单选，如需查询多实例的监控数据，点击右上角的 `Add Query` 增加新的查询。  
    - `Listener` 监听器，对应输入参数的 `Listener.N` 字段，列表会自动获取。
        - 为了适应不同用户的习惯，监听器列表会以不同的字段展示，默认为 `As ListenerId`，以 **监听器ID** 展示实例列表。此外，可以选择 `As ListenerName` 监听器名称、`As Port` 端口。
-       - 可实例列表的获取可参考 [负载均衡实例列表接口文档](https://cloud.tencent.com/document/api/214/30686)。
+       - 监听器列表的获取可参考 [负载均衡监听器列表接口文档](https://cloud.tencent.com/document/api/214/30686)。
+
+![Clb Panel Query](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/src/image/panel-clb-query.png?raw=true)
 
 # 模板变量
 
