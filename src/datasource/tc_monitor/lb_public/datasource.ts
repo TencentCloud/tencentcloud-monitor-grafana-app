@@ -29,7 +29,6 @@ export default class LBPUBLICDatasource implements DatasourceInterface {
     if (regionQuery) {
       return this.getRegions();
     }
-
     // 查询 clb 实例列表
     const instancesQuery = query['action'].match(/^DescribeLoadBalancers/i) && !!query['region'];
     const region = this.getVariable(query['region']);
@@ -243,7 +242,7 @@ export default class LBPUBLICDatasource implements DatasourceInterface {
    */
   getVariableInstances(region) {
     let result: any[] = [];
-    const params = { Offset: 0, Limit: 50 };
+    const params = { Offset: 0, Limit: 50, LoadBalancerType: 'OPEN' };
     const serviceInfo = GetServiceAPIInfo(region, 'clb');
     return this.doRequest({
       url: this.url + serviceInfo.path,

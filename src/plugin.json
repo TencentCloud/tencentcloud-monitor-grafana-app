@@ -36,7 +36,7 @@
     },
     {
       "type": "dashboard",
-      "name": "【实例】clb 负载均衡",
+      "name": "【实例】CLB 负载均衡",
       "path": "dashboards/example_clb_dashboard.json"
     },
     {

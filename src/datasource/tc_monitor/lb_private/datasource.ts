@@ -239,7 +239,7 @@ export default class LBPRIVATEDatasource implements DatasourceInterface {
    */
   getVariableInstances(region) {
     let result: any[] = [];
-    const params = { Offset: 0, Limit: 50 };
+    const params = { Offset: 0, Limit: 50, LoadBalancerType: 'INTERNAL' };
     const serviceInfo = GetServiceAPIInfo(region, 'clb');
     return this.doRequest({
       url: this.url + serviceInfo.path,

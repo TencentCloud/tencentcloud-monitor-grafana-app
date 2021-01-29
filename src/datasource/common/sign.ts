@@ -98,7 +98,7 @@ export default class Sign {
       "X-TC-Action": this.action,
       "X-TC-Timestamp": this.timestamp.toString(),
       "X-TC-Version": this.version,
-      "RequestClient": "GF",
+      "X-TC-RequestClient": "GF",
       ...( this.region && {
         "X-TC-Region": this.region
       })
