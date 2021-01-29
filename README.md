@@ -21,10 +21,10 @@
 腾讯云监控应用插件是运行在 Grafana 6.x 或更新的版本上，请优先安装 Grafana 环境，详情参考 [Grafana 安装文档](https://grafana.com/docs/grafana/download/)。
 
 
-## 基于源码的插件安装
+## 插件安装方式
 
 1. 确保本地的 Grafana 是 6.x 或更新的版本上；  
-2. 下载最新版本的腾讯云监控应用插件代码，并将解压后的代码放置在 Grafana 的 `${GRAFANA_HOME}/data/plugins` 目录；
+2. 在 [Releases](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/releases) 中下载最新版本的腾讯云监控应用插件代码，（资源名为`tencentcloud-monitor-app-1.x.x.zip`），并将解压后的代码放置在 Grafana 的 `${GRAFANA_HOME}/data/plugins` 目录；
 3. 重启 Grafana 服务；
 4. 鼠标悬浮左侧导航栏的 **齿轮** 图标，点击 `Plugins` 选项，进入 Plugins 管理页面，如果插件列表中正常展示 `Tencent Cloud Monitor` APP 插件，表示插件安装成功；
   ![Plugin APP](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/src/image/plugin-app.png?raw=true)
