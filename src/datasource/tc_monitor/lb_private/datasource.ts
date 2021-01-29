@@ -1,12 +1,12 @@
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import DatasourceInterface from '../../datasource';
-import { LBPUBLICInstanceAliasList, LBPUBLICListenerAliasList, LBPUBLICVALIDDIMENSIONS, LBPUBLICVALIDDIMENSIONOBJECTS } from './query_def';
+import { LBPRIVATEInstanceAliasList, LBPRIVATEListenerAliasList, LBPRIVATEVALIDDIMENSIONS } from './query_def';
 import { GetServiceAPIInfo, GetRequestParams, ReplaceVariable, GetDimensions, ParseQueryResult, VARIABLE_ALIAS, SliceLength } from '../../common/constants';
 import { IdKeys } from '..';
 
-export default class LBPUBLICDatasource implements DatasourceInterface {
-  Namespace = 'QCE/LB_PUBLIC';
+export default class LBPRIVATEDatasource implements DatasourceInterface {
+  Namespace = 'QCE/LB_PRIVATE';
   url: string;
   instanceSettings: any;
   backendSrv: any;
@@ -29,12 +29,13 @@ export default class LBPUBLICDatasource implements DatasourceInterface {
     if (regionQuery) {
       return this.getRegions();
     }
+
     // 查询 clb 实例列表
     const instancesQuery = query['action'].match(/^DescribeLoadBalancers/i) && !!query['region'];
     const region = this.getVariable(query['region']);
     if (instancesQuery && region) {
       return this.getVariableInstances(region).then(result => {
-        const instanceAlias = LBPUBLICInstanceAliasList.indexOf(query[VARIABLE_ALIAS]) !== -1 ? query[VARIABLE_ALIAS] : 'LoadBalancerId';
+        const instanceAlias = LBPRIVATEInstanceAliasList.indexOf(query[VARIABLE_ALIAS]) !== -1 ? query[VARIABLE_ALIAS] : 'LoadBalancerId';
         const instances: any[] = [];
         _.forEach(result, (item) => {
           const instanceAliasValue = _.get(item, instanceAlias);
@@ -62,10 +63,10 @@ export default class LBPUBLICDatasource implements DatasourceInterface {
     }catch (e) {
       console.log(e);
     }
-    const instanceId = instanceMap[IdKeys.lbPublic];
+    const instanceId = instanceMap[IdKeys.lbPrivate];
     if (clbListenerPortQuery && instanceId) {
       return this.getListeners(region, instanceId).then(result => {
-        const listenerAlias = LBPUBLICListenerAliasList.indexOf(query[VARIABLE_ALIAS]) !== -1 ? query[VARIABLE_ALIAS] : 'ListenerId';
+        const listenerAlias = LBPRIVATEListenerAliasList.indexOf(query[VARIABLE_ALIAS]) !== -1 ? query[VARIABLE_ALIAS] : 'ListenerId';
         const listeners: any[] = [];
         _.forEach(result, (item) => {
           const listenerAliasValue = _.get(item, listenerAlias);
@@ -91,19 +92,19 @@ export default class LBPUBLICDatasource implements DatasourceInterface {
     const queries = _.filter(options.targets, item => {
       // 过滤无效的查询 target
       return (
-        item.lbPublic.hide !== true &&
+        item.lbPrivate.hide !== true &&
         !!item.namespace &&
-        !!item.lbPublic.metricName &&
-        !_.isEmpty(ReplaceVariable(this.templateSrv, options.scopedVars, item.lbPublic.region, false)) &&
-        !_.isEmpty(ReplaceVariable(this.templateSrv, options.scopedVars, item.lbPublic.instance, true)) &&
-        !_.isEmpty(ReplaceVariable(this.templateSrv, options.scopedVars, item.lbPublic.listener, true))
+        !!item.lbPrivate.metricName &&
+        !_.isEmpty(ReplaceVariable(this.templateSrv, options.scopedVars, item.lbPrivate.region, false)) &&
+        !_.isEmpty(ReplaceVariable(this.templateSrv, options.scopedVars, item.lbPrivate.instance, true)) &&
+        !_.isEmpty(ReplaceVariable(this.templateSrv, options.scopedVars, item.lbPrivate.listener, true))
       );
     }).map(target => {
-      const region = ReplaceVariable(this.templateSrv, options.scopedVars, target.lbPublic.region, false);
+      const region = ReplaceVariable(this.templateSrv, options.scopedVars, target.lbPrivate.region, false);
       // 实例 instances 可能为模板变量，需先获取实际值
-      const instance = ReplaceVariable(this.templateSrv, options.scopedVars, target.lbPublic.instance, true);
+      const instance = ReplaceVariable(this.templateSrv, options.scopedVars, target.lbPrivate.instance, true);
       // 考虑多个监听器端口查询
-      let listeners = ReplaceVariable(this.templateSrv, options.scopedVars, target.lbPublic.listener, false);
+      let listeners = ReplaceVariable(this.templateSrv, options.scopedVars, target.lbPrivate.listener, false);
       const instanceUnionArray: any = [];
       if (_.isArray(listeners)) {
         listeners = _.map(listeners, listener => _.isString(listener) ? JSON.parse(listener) : listener);
@@ -113,11 +114,9 @@ export default class LBPUBLICDatasource implements DatasourceInterface {
       const data = {
         StartTime: moment(options.range.from).format(),
         EndTime: moment(options.range.to).format(),
-        Period: target.lbPublic.period || 300,
+        Period: target.lbPrivate.period || 300,
         Instances: _.map(listeners, listener => {
-          // const dimensionObject = target.lbPublic.dimensionObject;
-          // 公网指标维度采用本地config，接口字段有误
-          const dimensionObject = LBPUBLICVALIDDIMENSIONOBJECTS;
+          const dimensionObject = target.lbPrivate.dimensionObject;
           let instanceMap: any = {};
           try {
             instanceMap = JSON.parse(instance);
@@ -131,8 +130,8 @@ export default class LBPUBLICDatasource implements DatasourceInterface {
           instanceUnionArray.push(instanceUnionMap);
           _.forEach(dimensionObject, (__, key) => {
             // let keyTmp = key;
-            if (_.has(LBPUBLICVALIDDIMENSIONS,key)) {
-              const keyTmp = LBPUBLICVALIDDIMENSIONS[key];
+            if (_.has(LBPRIVATEVALIDDIMENSIONS,key)) {
+              const keyTmp = LBPRIVATEVALIDDIMENSIONS[key];
               instanceUnionMap[key] = instanceUnionMap[keyTmp];// baseMetric的key和getMonitor不对应，写入新旧键值对
             }
             dimensionObject[key] = { Name: key, Value: instanceUnionMap[key] };
@@ -140,7 +139,7 @@ export default class LBPUBLICDatasource implements DatasourceInterface {
           return { Dimensions: GetDimensions(dimensionObject) };
         }),
         Namespace: target.namespace,
-        MetricName: target.lbPublic.metricName,
+        MetricName: target.lbPrivate.metricName,
       };
       return this.getMonitorData(data, region, instanceUnionArray);
     });
@@ -164,7 +163,7 @@ export default class LBPUBLICDatasource implements DatasourceInterface {
   }
 
   /**
-   * 获取 LBPublic 的监控数据
+   * 获取 LBPrivate 的监控数据
    *
    * @param params 获取监控数据的请求参数
    * @param region 地域信息
@@ -210,15 +209,13 @@ export default class LBPUBLICDatasource implements DatasourceInterface {
   }
 
   getInstances(region = 'ap-guangzhou', params = {}) {
-    params = Object.assign({ Offset: 0, Limit: 20, LoadBalancerType: 'OPEN' }, params);
+    params = Object.assign({ Offset: 0, Limit: 20, LoadBalancerType: 'INTERNAL'}, params);
     const serviceInfo = GetServiceAPIInfo(region, 'clb');
     return this.doRequest({
       url: this.url + serviceInfo.path,
       data: params,
     }, serviceInfo.service, { region, action: 'DescribeLoadBalancers' })
       .then(response => {
-        // 过滤非公网实例
-        // const publicLoadBalanceSet = response.LoadBalancerSet.filter()
         return response.LoadBalancerSet || [];
       });
   }
@@ -237,12 +234,12 @@ export default class LBPUBLICDatasource implements DatasourceInterface {
   }
 
   /**
-   * 模板变量中获取全量的 LBPublic 实例列表
+   * 模板变量中获取全量的 LBPrivate 实例列表
    * @param region 地域信息
    */
   getVariableInstances(region) {
     let result: any[] = [];
-    const params = { Offset: 0, Limit: 50, LoadBalancerType: 'OPEN' };
+    const params = { Offset: 0, Limit: 50, LoadBalancerType: 'INTERNAL' };
     const serviceInfo = GetServiceAPIInfo(region, 'clb');
     return this.doRequest({
       url: this.url + serviceInfo.path,
@@ -280,7 +277,7 @@ export default class LBPUBLICDatasource implements DatasourceInterface {
   testDatasource() {
     if (!this.isValidConfigField(this.secretId) || !this.isValidConfigField(this.secretKey)) {
       return {
-        service: 'lbPublic',
+        service: 'lbPrivate',
         status: 'error',
         message: 'The SecretId/SecretKey field is required.',
       };
@@ -318,11 +315,11 @@ export default class LBPUBLICDatasource implements DatasourceInterface {
     ]).then(responses => {
       const cvmErr = _.get(responses, '[0].Error', {});
       const monitorErr = _.get(responses, '[1].Error', {});
-      const lbPublicErr = _.get(responses, '[2]', {});
+      const lbPrivateErr = _.get(responses, '[2]', {});
       const cvmAuthFail = _.get(cvmErr, 'Code', '').indexOf('AuthFailure') !== -1;
       const monitorAuthFail = _.get(monitorErr, 'Code', '').indexOf('AuthFailure') !== -1;
-      const lbPublicAuthFail = _.get(lbPublicErr, 'Code', '').indexOf('AuthFailure') !== -1;
-      if (cvmAuthFail || monitorAuthFail || lbPublicAuthFail ) {
+      const lbPrivateAuthFail = _.get(lbPrivateErr, 'Code', '').indexOf('AuthFailure') !== -1;
+      if (cvmAuthFail || monitorAuthFail || lbPrivateAuthFail ) {
         const messages: any[] = [];
           if (cvmAuthFail) {
             messages.push(`${_.get(cvmErr, 'Code')}: ${_.get(cvmErr, 'Message')}`);
@@ -330,26 +327,26 @@ export default class LBPUBLICDatasource implements DatasourceInterface {
           if (monitorAuthFail) {
             messages.push(`${_.get(monitorErr, 'Code')}: ${_.get(monitorErr, 'Message')}`);
           }
-          if (lbPublicAuthFail) {
-            messages.push(`${_.get(lbPublicErr, 'code')}: ${_.get(lbPublicErr, 'codeDesc')}`);
+          if (lbPrivateAuthFail) {
+            messages.push(`${_.get(lbPrivateErr, 'code')}: ${_.get(lbPrivateErr, 'codeDesc')}`);
           }
           const message = _.join(_.compact(_.uniq(messages)), '; ');
           return {
-            service: 'lbPublic',
+            service: 'lbPrivate',
             status: 'error',
             message,
           };
       } else {
         return {
           namespace: this.Namespace,
-          service: 'lbPublic',
+          service: 'lbPrivate',
           status: 'success',
-          message: 'Successfully queried the LBPublic service.',
+          message: 'Successfully queried the LBPrivate service.',
           title: 'Success',
         };
       }
     }).catch(error => {
-      let message = 'LBPublic service:';
+      let message = 'LBPrivate service:';
       message += error.statusText ? error.statusText + '; ' : '';
       if (!!_.get(error, 'data.error.code', '')) {
         message += error.data.error.code + '. ' + error.data.error.message;
@@ -358,10 +355,10 @@ export default class LBPUBLICDatasource implements DatasourceInterface {
       } else if (!!_.get(error, 'data', '')) {
         message += error.data;
       } else {
-        message += 'Cannot connect to LBPublic service.';
+        message += 'Cannot connect to LBPrivate service.';
       }
       return {
-        service: 'lbPublic',
+        service: 'lbPrivate',
         status: 'error',
         message: message,
       };

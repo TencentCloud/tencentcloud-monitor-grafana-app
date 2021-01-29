@@ -22,7 +22,7 @@ const WithRs = [
   { text: '绑定后端服务', value: 1 },
   { text: '查询全部', value: -1 },
 ];
-const LBPUBLICFieldsDescriptor = [
+const LBPRIVATEFieldsDescriptor = [
   {
     key: 'Offset',
     enDescriptor: 'Offset',
@@ -143,7 +143,7 @@ const LBPUBLICFieldsDescriptor = [
   },
 ];
 
-const LBPublicFields = {
+const LBPrivateFields = {
   LoadBalancerIds: [],
   Forward: undefined,
   LoadBalancerName: '',
@@ -162,7 +162,7 @@ const LBPublicFields = {
   OrderType: {},
 };
 
-const LBPUBLIC_STATE = {
+const LBPRIVATE_STATE = {
   region: '',
   metricName: '',
   metricUnit: '',
@@ -172,7 +172,7 @@ const LBPUBLIC_STATE = {
   instanceAlias: 'LoadBalancerId',
   listener: '',
   listenerAlias: 'ListenerId',
-  queries: Object.assign({}, LBPublicFields),
+  queries: Object.assign({}, LBPrivateFields),
 };
 
 function GetInstanceQueryParams(queries: any = {}) {
@@ -199,25 +199,19 @@ function GetInstanceQueryParams(queries: any = {}) {
   return params;
 }
 
-const LBPUBLICInstanceAliasList = ['LoadBalancerId', 'LoadBalancerName', 'LoadBalancerVips'];
-const LBPUBLICListenerAliasList = ['ListenerId', 'ListenerName', 'Port'];
-const LBPUBLICVALIDDIMENSIONS = {
+const LBPRIVATEInstanceAliasList = ['LoadBalancerId', 'LoadBalancerName', 'LoadBalancerVips'];
+const LBPRIVATEListenerAliasList = ['ListenerId', 'ListenerName', 'Port'];
+const LBPRIVATEVALIDDIMENSIONS = {
   vip: 'LoadBalancerVips',
   vpcId: 'NumericalVpcId',
   loadBalancerPort: 'Port',
   protocol: 'Protocol'
 };
-const LBPUBLICVALIDDIMENSIONOBJECTS = {
-  vip: { Name: 'vip', Value: ''},
-  loadBalancerPort: { Name: 'loadBalancerPort', Value: ''},
-  protocol: { Name: 'protocol', Value: ''},
-};
-export default LBPUBLIC_STATE;
+export default LBPRIVATE_STATE;
 export {
-  LBPUBLICFieldsDescriptor,
-  LBPUBLICInstanceAliasList,
-  LBPUBLICListenerAliasList,
-  LBPUBLICVALIDDIMENSIONS,
-  LBPUBLICVALIDDIMENSIONOBJECTS,
-  GetInstanceQueryParams as LBPUBLICGetInstanceQueryParams,
+  LBPRIVATEFieldsDescriptor,
+  LBPRIVATEInstanceAliasList,
+  LBPRIVATEListenerAliasList,
+  LBPRIVATEVALIDDIMENSIONS,
+  GetInstanceQueryParams as LBPRIVATEGetInstanceQueryParams,
 };

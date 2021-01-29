@@ -17,7 +17,7 @@
       "small": "img/tencent-cloud.svg",
       "large": "img/tencent-cloud.svg"
     },
-    "version": "1.0.0",
+    "version": "1.3.1",
     "updated": "2019-04-10",
     "screenshots": [
       { "name": "logo", "path": "img/tencent-cloud.svg" }
@@ -33,6 +33,11 @@
       "type": "dashboard",
       "name": "【实例】CVM 单机监控",
       "path": "dashboards/example_cvm_dashboard.json"
+    },
+    {
+      "type": "dashboard",
+      "name": "【实例】CLB 负载均衡",
+      "path": "dashboards/example_clb_dashboard.json"
     },
     {
       "type": "datasource",
