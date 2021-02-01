@@ -6,7 +6,7 @@ import SignV2 from './signV2';
 
 // the services of tencentcloud monitor api
 const FINACE_REGIONS = ['ap-shanghai-fsi', 'ap-shenzhen-fsi'];
-
+export const pluginVersion = '1.3.1';
 const SERVICES_API_INFO = {
   // monitor api info
   monitor: {
@@ -255,14 +255,14 @@ export function GetDimensions(obj) {
 // parse query data result for panel
 export function ParseQueryResult(response, instances: any[] = []) {
   const instanceList = _.cloneDeep(instances);
-  console.log('parseQueryResult:', response, instances);
+  // console.log('parseQueryResult:', response, instances);
   const dataPoints = _.get(response, 'DataPoints', []);
   return _.map(dataPoints, dataPoint => {
     let instanceAliasValue = _.get(dataPoint, 'Dimensions[0].Value');
     for (let i = 0; i < instanceList.length; i++) {
       if (isInstanceMatch(instanceList[i], _.get(dataPoint, 'Dimensions', []))) {
         instanceAliasValue = instanceList[i]._InstanceAliasValue;
-        console.log(1123344, instanceAliasValue);
+        // console.log(1123344, instanceAliasValue);
         instanceList.splice(i, 1);
         break;
       }

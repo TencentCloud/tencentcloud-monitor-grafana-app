@@ -126,7 +126,7 @@ export default class LBPRIVATEDatasource implements DatasourceInterface {
           // _InstanceAliasValue修改为instanceId-listenerId
           instanceMap._InstanceAliasValue += ` - ${listener.ListenerId}`;
           const instanceUnionMap = _.assign(listener, instanceMap);
-          console.log({instanceUnionMap,listener, instance, dimensionObject});
+          // console.log({instanceUnionMap,listener, instance, dimensionObject});
           instanceUnionArray.push(instanceUnionMap);
           _.forEach(dimensionObject, (__, key) => {
             // let keyTmp = key;
@@ -176,7 +176,7 @@ export default class LBPRIVATEDatasource implements DatasourceInterface {
       data: params,
     }, serviceInfo.service, { action: 'GetMonitorData', region })
       .then(response => {
-        console.log({instances});
+        // console.log({instances});
         return ParseQueryResult(response, instances);
       });
   }

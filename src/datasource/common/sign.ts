@@ -1,6 +1,7 @@
 import { SHA256, HmacSHA256 } from "crypto-js";
 import * as Hex from 'crypto-js/enc-hex';
 import * as moment from 'moment';
+import { pluginVersion } from './constants';
 
 const HttpRequestMethod = 'POST';
 const CanonicalUri = '/';
@@ -90,15 +91,16 @@ export default class Sign {
 
     // Generate the authorization string
     const authorization = `${Algorithm} Credential=${this.secretId}/${credentialScope}, SignedHeaders=${signedHeaders}, Signature=${signature}`;
-
+    const grafanaVersion = (window as any) .grafanaBootData?.settings?.buildInfo?.version || '0.0.0';
     // Common Request Parameters of the header information
+    // console.log('versions', `GF_${grafanaVersion}_PL_CM_${pluginVersion}`);
     const headers = {
       "Authorization": authorization,
       "Content-Type": ContentType,
       "X-TC-Action": this.action,
       "X-TC-Timestamp": this.timestamp.toString(),
       "X-TC-Version": this.version,
-      "X-TC-RequestClient": "GF",
+      "X-TC-RequestClient": `GF_${grafanaVersion}_PL_CM_${pluginVersion}`,
       ...( this.region && {
         "X-TC-Region": this.region
       })
