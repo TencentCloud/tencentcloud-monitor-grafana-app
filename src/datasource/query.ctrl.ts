@@ -285,7 +285,7 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
       return [];
     }
     let instanceMap = {};
-    console.log({instance});
+    // console.log({instance});
     try {
       instanceMap = JSON.parse(instance);
     } catch (e) {

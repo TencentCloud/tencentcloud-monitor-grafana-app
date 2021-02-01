@@ -36,8 +36,8 @@ const SERVICES = [
   { service: 'pcx', label: '私有网络对等连接(PCX)', namespace: 'QCE/PCX', href: 'https://cloud.tencent.com/document/product/215/5181' },
   { service: 'natGateway', label: '私有网络NAT网关(NAT_GATEWAY)', namespace: 'QCE/NAT_GATEWAY', href: 'https://cloud.tencent.com/document/api/215/36034' },
   // { service: 'mongoDB', label: '云数据库 MongoDB(CMONGO)', namespace: 'QCE/CMONGO', href: 'https://cloud.tencent.com/document/api/240/35769' },
-  { service: 'lbPublic', label: '公网负载均衡(LB_PUBLIC)', namespace: 'QCE/LB_PUBLIC', href: 'https://cloud.tencent.com/document/api/214/30667' },
   { service: 'postgres', label: '云数据库 PostgreSQL', namespace: 'QCE/POSTGRES', href: 'https://cloud.tencent.com/document/api/409/16760' },
+  { service: 'lbPublic', label: '公网负载均衡(LB_PUBLIC)', namespace: 'QCE/LB_PUBLIC', href: 'https://cloud.tencent.com/document/api/214/30667' },
   { service: 'lbPrivate', label: '内网负载均衡四层协议(LB_PRIVATE)', namespace: 'QCE/LB_PRIVATE', href: 'https://cloud.tencent.com/document/api/214/30685' },
   { service: 'loadBalance', label: '七层协议监控指标(LOADBALANCE)', namespace: 'QCE/LOADBALANCE', href: 'https://cloud.tencent.com/document/product/248/51901' },
 ];

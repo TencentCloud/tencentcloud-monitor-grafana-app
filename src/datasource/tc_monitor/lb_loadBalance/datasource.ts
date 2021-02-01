@@ -119,7 +119,7 @@ export default class LOADBALANCEDatasource implements DatasourceInterface {
           // 七层协议指标维度采用本地config，接口字段有误
           // const dimensionObject = target.loadBalance.dimensionObject;
           const dimensionObject = LBVALIDDIMENSIONOBJECTS;
-          console.log({dimensionObject});
+          // console.log({dimensionObject});
           let instanceMap: any = {};
           try {
             instanceMap = JSON.parse(instance);
@@ -129,7 +129,7 @@ export default class LOADBALANCEDatasource implements DatasourceInterface {
           // _InstanceAliasValue修改为instanceId-listenerId
           instanceMap._InstanceAliasValue += ` - ${listener.ListenerId}`;
           const instanceUnionMap = _.assign(listener, instanceMap);
-          console.log({instanceUnionMap,listener, instance, dimensionObject});
+          // console.log({instanceUnionMap,listener, instance, dimensionObject});
           instanceUnionArray.push(instanceUnionMap);
           _.forEach(dimensionObject, (__, key) => {
             // let keyTmp = key;
@@ -179,7 +179,7 @@ export default class LOADBALANCEDatasource implements DatasourceInterface {
       data: params,
     }, serviceInfo.service, { action: 'GetMonitorData', region })
       .then(response => {
-        console.log({instances});
+        // console.log({instances});
         return ParseQueryResult(response, instances);
       });
   }
