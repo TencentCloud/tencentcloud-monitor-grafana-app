@@ -67,8 +67,8 @@ const template = `
         lookup-text="true"
         get-options="getDropdown(field.key)"
         on-change="onChange()"
-        css-class="min-width-10"
-      />
+        css-class="min-width-10">
+      </gf-form-dropdown>
       <multi-condition
         ng-if="field.type === 'inputmulti'"
         type="'input'"
