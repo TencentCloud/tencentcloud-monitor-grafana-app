@@ -1,168 +1,230 @@
-# 腾讯云监控应用插件
+# Tencent Cloud Monitor Grafana App
 
-[腾讯云监控](https://cloud.tencent.com/product/cm) 为用户提供云服务器、云数据库等多个云产品的负载和性能监控指标，用户可以使用云监控控制台、云监控 API 等方式获取相关监控数据。腾讯云监控应用插件 Tencent Cloud Monitor App，是一款适配开源软件 Grafana 的应用插件，通过调用 [腾讯云监控 API 3.0](https://cloud.tencent.com/document/product/248/30342) 的方式获取监控数据，并对数据进行自定义 Dashboard 展示。
+<p>
+  <a href="https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/releases">
+    <img src="https://img.shields.io/github/v/release/TencentCloud/tencentcloud-monitor-grafana-app?sort=semver&color=green" alt="GitHub release (latest SemVer)">
+  </a>
+  <a href="https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/LICENSE">
+    <img src="https://img.shields.io/github/license/TencentCloud/tencentcloud-monitor-grafana-app?color=blue" alt="License">
+  </a>
+  <a href="https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/CHANGELOG.md">
+    <img src="https://img.shields.io/badge/change-log-blue.svg" alt="Change Log">
+  </a>
+  <a href="#">
+    <img src="https://img.shields.io/github/languages/code-size/TencentCloud/tencentcloud-monitor-grafana-app" alt="GitHub code size in bytes">
+  </a>
+</p>
 
-# 特点
+English | [简体中文](./README.zh-CN.md)
 
-  - 支持云服务器监控指标数据源
-  - 支持云数据库 MySQL 监控指标数据源
-  - 支持云数据库 PostgreSQL 监控指标数据源
-  - 支持私有网络 NateGateway 监控指标数据源
-  - 支持私有网络对等连接 监控指标数据源
-  - 支持公网负载均衡(LB_PUBLIC) 数据源
-  - 支持内网负载均衡四层协议(LB_PRIVATE) 数据源
-  - 支持负七层协议监控指标(LOADBALANCE) 数据源
-  - 提供了云服务器、云数据库 MySQL 的具有代表性的 Dashboard 模板
-  - 更多云产品的监控指标数据源在陆续完善中
+# Table of Contents
+
+   * [Tencent Cloud Monitor Grafana App](#tencent-cloud-monitor-grafana-app)
+   * [Introduction](#introduction)
+   * [Installation](#installation)
+   * [Configure Datasource](#configure-datasource)
+   * [Create Dashboard](#create-dashboard)
+      * [Quick Creation](#quick-creation)
+      * [Dashboards Manage Page](#dashboards-manage-page)
+      * [Import Dashboard Templates](#import-dashboard-templates)
+   * [Configure Panel](#configure-panel)
+      * [CVM Monitoring](#cvm-monitoring)
+      * [CDB Monitoring](#cdb-monitoring)
+      * [CLB Monitoring](#clb-monitoring)
+   * [Template Variables](#template-variables)
+      * [Create Template Variable](#create-template-variable)
+      * [Edit Template Variable](#edit-template-variable)
+      * [Use Template Variable](#use-template-variable)
+   * [Local Development](#local-development)
+      * [Docker Support (Recommended)](#docker-support-recommended)
+      * [On Local Grafana](#on-local-grafana)
+   * [License](#license)
+
+# Introduction
+
+[Tencent Cloud Monitoring]((https://intl.cloud.tencent.com/)) provides users with load and performance monitoring metrics of multiple cloud products such as Cloud Virtual Machine (CVM) and Cloud Databases (CDB). Users can use cloud monitoring consoles, cloud monitoring APIs, and other methods to retrieve relevant monitoring data. Tencent Cloud Monitor Grafana App is an application plugin that adapts to the open-source software Grafana. It retrieves monitoring data by calling [Tencent Cloud Monitoring API 3.0]((https://intl.cloud.tencent.com/document/product/248/33873)), and displays the data on a custom Dashboard.
+
+- Support monitoring [CVM Monitoring Metrics](https://intl.cloud.tencent.com/document/product/248/6843);
+- Support monitoring [TencentDB for MySQL Monitoring Metrics](https://intl.cloud.tencent.com/document/product/248/11006);
+- Support monitoring [TencentDB for PostgreSQL Monitoring Metrics](https://intl.cloud.tencent.com/document/product/248/17945);
+- Support monitoring [Private Network NAT Gateway Monitoring Metrics](https://intl.cloud.tencent.com/document/product/248/10991);
+- Support monitoring [Private Network Peering Connection Monitoring Metrics](https://intl.cloud.tencent.com/document/product/248/10986);
+- Support monitoring [Cloud Load Balancer Public Network Monitoring Metrics](https://intl.cloud.tencent.com/document/product/248/10997);
+- Support monitoring [Cloud Load Balancer Private Network Layer-4 Protocol](https://intl.cloud.tencent.com/document/product/248/39529);
+- Support monitoring [Cloud Load Balancer Layer-7 Protocol](https://intl.cloud.tencent.com/document/product/248/39530);
+- Provides representative [Dashboard templates](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/tree/master/src/dashboards) for **CVM Monitoring**, **TencentDB for MySQL Monitoring** and **Cloud Load Balancer**;
+- More cloud product metrics are being improved.
+
+# Installation
+
+Prerequisites: Tencent Cloud Monitor Grafana App Plugin requires Grafana version > 6.x to run, for Grafana installation, please read [Download Grafana](https://grafana.com/grafana/download).
+
+1. Go to the [GitHub releases](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/releases) and find the latest release.
+2. Download .zip package with the plugin from release assets (asset name is tencentcloud-monitor-app-[x.x.x].zip) and unpack it into Grafana's plugins folder (`${GRAFANA_HOME}/data/plugins`), see docs [here](https://grafana.com/docs/grafana/latest/administration/configuration/#plugins) if you can't find your plugin folder.
+3. Restart Grafana server.
+4. Hover **Settings Icon** in the side menu and select `Plugins`. Successfully installed if the `Tencent Cloud Monitor` APP plugin is displayed in the plugin list.
+  ![Plugin APP](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/plugin-app.png)
+5. Click `Enable` in the plugin config page.
+
+# Configure Datasource
+Tencent Cloud Monitor Grafana App Plugin retrieves monitoring data of each cloud product metrics by calling the [Cloud Monitoring API](https://intl.cloud.tencent.com/document/product/248/33873), and configures the data source of the corresponding cloud product through the following steps.
+
+1. Hover **Settings Icon** in the side menu and select `Data Sources`.
+  ![Datasource Add](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/datasource-add.png)
+2. Click `Add data source` on the top right corner of the page and select `Tencent Cloud Monitor Datasource` data source.
+  ![Datasource Add](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/datasource-choose.png)
+3. `Name` is the data source name, default name is `Tencent Cloud Monitor Datasource`.
+4. `SecretId` and `SecretKey` are the security certificate information required to call the Cloud Monitoring API. Both can be retrieved through the Tencent Cloud console [Cloud API key page](https://console.cloud.tencent.com/cam/capi);
+5. Toggle Cloud Products to enable/disable.
+6. Click `Save & Test` button to test the connection, the data source can be used in the Dashboard after the connection is successful.
+  ![Datasource Config](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/datasource-config.png)
+
+# Create Dashboard
+
+There are three ways to create a Dashboard:
+
+## Quick Creation
+
+Hover **Plus Icon** in the side menu and select `+Dashboard`.
+
+## Dashboards Manage Page
+
+Hover **Menu Icon** in the side menu and select `Manage`. Click on the `New Dashboard` button to create a new Dashboard. At the same time, you can perform various management operations on Dashboard on this page, such as creating new folders, moving Dashboard, and importing Dashboard.
+
+## Import Dashboard Templates
+
+Hover **Settings Icon** in the side menu and select `Plugins`. Select the `Tencent Cloud Monitor` plugin, navigate to `Dashboards` tab and import dashboard templates from here.
+
+![Import Plugin Dashboard](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/plugin-dashboard.png)
+
+# Configure Panel
+After creating the Dashboard, you can get the corresponding monitoring data monitored by Tencent Cloud by configuring the Panel. Now take a simple Graph as an example to show how to configure Panel information.
+
+## CVM Monitoring
+
+1. Click `Add Query` button in a new panel, navigate to the first `Query` tab.
+2. Select Queries to `Tencent Cloud Monitor Datasource`.
+3. The input parameters are aligned with [Tencent Cloud Monitoring API documentation](https://intl.cloud.tencent.com/document/product/248/6843).
+    - The `Namespace` of CVM is `QCE/CVM`.
+    - The `Region` list will be automatically retrieved according to the `Namespace` seleciton.
+    - The `MetricName` list will be retrieved after `Namespace` and `Regoin` are selected.
+    - The `Period` list will be retrieved after `MetricName` is selected.
+    - The `Instance` corresponds to `Instance.N` in the input params.
+      - In order to adapt to the habits of different users, the instance list will be displayed in different fields, default field is `As InstanceId`. There are other options such as `As InstanceName`, `As PrivateIpAddress` and `As PublicIpAddress`.
+      - Please refer to [this documentation](https://intl.cloud.tencent.com/document/product/213/33258) of how to configure instance params. Toggle `Show Details` to see detailed instance query parameter. The default params are `Offset = 0` and `Limit = 20`.
+      - Note: In this app, a single query of monitoring data is an atomic operation, that is, to query the monitoring data of a certain metric of a certain instance, so the instance can only be single-selected. If you need to query the monitoring data of multiple instances, click on the `Add Query` button in upper right corner of the page.
+      - `Show Details` toggle button will only show when not selecting template variables.
+
+![CVM Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-cvm-query.png)
+
+## CDB Monitoring
+
+1. Click `Add Query` button in a new panel, navigate to the first `Query` tab.
+2. Select Queries to `Tencent Cloud Monitor Datasource`.
+3. The input parameters are aligned with [Tencent Cloud Monitoring API documentation](https://intl.cloud.tencent.com/document/product/248/11006).
+    - The `Namespace` of CVM is `QCE/CDB`.
+    - The `Region` list will be automatically retrieved according to the `Namespace` seleciton.
+    - The `MetricName` list will be retrieved after `Namespace` and `Regoin` are selected.
+    - The `Period` list will be retrieved after `MetricName` is selected.
+    - The `Instance` corresponds to `Instance.N` in the input params.
+      - In order to adapt to the habits of different users, the instance list will be displayed in different fields, default field is `As InstanceId`. There are other options such as `As InstanceName` and `As Vip`.
+      - Please refer to [this documentation](https://intl.cloud.tencent.com/document/product/236/15872) of how to configure instance params. Toggle `Show Details` to see detailed instance query parameter. The default params are `Offset = 0` and `Limit = 20`.
+      - Note: In this app, a single query of monitoring data is an atomic operation, that is, to query the monitoring data of a certain metric of a certain instance, so the instance can only be single-selected. If you need to query the monitoring data of multiple instances, click on the `Add Query` button in upper right corner of the page.
+      - `Show Details` toggle button will only show when not selecting template variables.
+
+![CDB Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-cdb-query.png)
+
+## CLB Monitoring
+
+1. Click `Add Query` button in a new panel, navigate to the first `Query` tab.
+2. Select Queries to `Tencent Cloud Monitor Datasource`.
+3. There are three namespaces in CLB Monitoring: Cloud Load Balancer Public Network Monitoring (Namespace=QCE/LB_PUBLIC), Cloud Load Balancer Private Network Layer-4 Protocol (Namespace=QCE/LB_PRIVATE) and Cloud Load Balancer Layer-7 Protocol (Namespace=QCE/LOADBALANCE).
+4. The input parameters are aligned with [Tencent Cloud Monitoring API documentation](https://intl.cloud.tencent.com/document/product/248/10997).
+    - The `Namespace` of CVM is `QCE/CDB`.
+    - The `Region` list will be automatically retrieved according to the `Namespace` seleciton.
+    - The `MetricName` list will be retrieved after `Namespace` and `Regoin` are selected.
+    - The `Period` list will be retrieved after `MetricName` is selected.
+    - The `Instance` corresponds to `Instance.N` in the input params.
+      - In order to adapt to the habits of different users, the instance list will be displayed in different fields, default field is `As LoadBalancerId`. There are other options such as `As LoadBalancerName` and `As LoadBalancerVips`.
+      - Please refer to [this documentation](https://intl.cloud.tencent.com/document/product/214/33830) of how to configure instance params. Toggle `Show Details` to see detailed instance query parameter. The default params are `Offset = 0` and `Limit = 20`.
+      - Note: In this app, a single query of monitoring data is an atomic operation, that is, to query the monitoring data of a certain metric of a certain instance, so the instance can only be single-selected. If you need to query the monitoring data of multiple instances, click on the `Add Query` button in upper right corner of the page.
+      - `Show Details` toggle button will only show when not selecting template variables.
+    - The `Listener` corresponds to `Listener.N` in the input params.
+      - In order to adapt to the habits of different users, the instance list will be displayed in different fields, default field is `As ListenerId`. There are other options such as `As ListenerName` and `As Port`.
+      - Please refer to [this documentation](https://intl.cloud.tencent.com/document/product/214/33831) of how to configure instance params.
+
+![Clb Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-clb-query.png)
 
 
-# 安装
+# Template Variables
+Template Variables is a Dashboard optimization feature provided by Grafana to create highly reusable and interactive Dashboards. The general idea of template variables is to allow Grafana to obtain different metrics from the data source and provide a way to dynamically change it without modifying the dashboard. Tencent Cloud Monitor Grafana App currently provides variables such as region, CVM, and TencentDB for MySQL instances. The template variables that have been provided are shown in the following table:
 
-腾讯云监控应用插件是运行在 Grafana 6.x 或更新的版本上，请优先安装 Grafana 环境，详情参考 [Grafana 安装文档](https://grafana.com/docs/grafana/download/)。
+Variable | Example | Description |
+-------- | ------- | ----------- |
+Region               |  Namespace=QCE/CVM&Action=DescribeRegions | Please refer to [Region API Documents](https://intl.cloud.tencent.com/document/product/213/15708). `Action` is fixed as `DescribeRegions`，`Namespace` is the unique namespace for each cloud products，e.g. `QCE/CVM` `QCE/CDB` etc. Region support single-selected as a template variable, The first region will be selected if multi-selected region or selected `All`.
+CVM instances         |   Namespace=QCE/CVM&Region=ap-beijing&Action=DescribeInstances&InstanceAlias=PublicIpAddresses | Please refer to [CVM Instance Documents](https://intl.cloud.tencent.com/document/product/213/33258). `Namespace` is fixed as`QCE/CVM`，`Action` is fixed as `DescribeInstances`. `Region` can be specific value such as `ap-beijing`, or a template variable, such as `$region`. `InstanceAlias`is default as `InstanceId`，can be selected as `InstanceName`、`PrivateIpAddresses`、`PublicIpAddresses`. CVM instance allow single-selected and multi-selected when using template variable. 
+TencentDB for MySQL instances  |  Namespace=QCE/CDB&Region=ap-beijing&Action=DescribeInstances&InstanceAlias=InstanceId | Please refer to [TencentDB for MySQL Instance Documents](https://intl.cloud.tencent.com/document/api/236/15872). `Namespace` is fixed as`QCE/CDB`，`Action` is fixed as`DescribeInstances`. `Region` can be specific value such as `ap-beijing`, or a template variable, such as `$region`. `InstanceAlias`is default as `InstanceId`，can be selected as `InstanceName`、`Vip`. CDB MySQL instance allow single-selected and multi-selected when using template variable. 
+ TencentDB for PostgreSQL instances  |  Namespace=QCE/POSTGRES&Region=ap-beijing&Action=DescribeInstances&InstanceAlias=DBInstanceId | Please refer to [TencentDB for PostgreSQL Instance Documents](https://intl.cloud.tencent.com/document/api/409/16773). `Namespace` is fixed as`QCE/CDB`，`Action` is fixed as`DescribeInstances`. `Region` can be specific value such as `ap-beijing`, or a template variable, such as `$region`. `InstanceAlias`is default as `DBInstanceId`，can be selected as `DBInstanceName`, `PrivateIpAddresses`, `PublicIpAddresses`. CDB PostgreSQL instance allow single-selected and multi-selected when using template variable. 
+Private Network NAT Gateway instances  |  Namespace=QCE/NAT_GATEWAY&Region=ap-beijing&Action=DescribeInstances&InstanceAlias=NatGatewayId | Please refer to [Private Network NAT Gateway Instance Documents](https://intl.cloud.tencent.com/document/api/215/34752). `Namespace` is fixed as`QCE/NAT_GATEWAY`，`Action` is fixed as`DescribeInstances`. `Region` can be specific value such as `ap-beijing`, or a template variable, such as `$region`. `InstanceAlias` is default as `NatGatewayId`，can be selected as `NatGatewayName`. Private Network Nat Gateway instance allow single-selected and multi-selected when using template variable. 
+Private Network Peering Connection instances  |  Namespace=QCE/PCX&Region=ap-beijing&Action=DescribeInstances&InstanceAlias=peeringConnectionId | Please refer to [Private Network Peering Connection Instance Documents](https://intl.cloud.tencent.com/document/product/215/2101). `Namespace` is fixed as`QCE/PCX`，`Action` is fixed as`DescribeInstances`. `Region` can be specific value such as `ap-beijing`, or a template variable, such as `$region`. `InstanceAlias`is default as `peeringConnectionId`，can be selected as `peeringConnectionName`. Peering Connection instance allow single-selected and multi-selected when using template variable (use multi listeners for Cloud Load Balance). 
+Cloud Load Balancer Private Network Layer-4 Protocol instances  |  Namespace=QCE/LB_PRIVATE&Action=DescribeInstances&Region=$region&InstanceAlias=LoadBalancerId | Please refer to [Cloud Load Balancer Instance Documents](https://intl.cloud.tencent.com/document/product/214/33830). `Namespace` can be `QCE/LB_PRIVATE`，`QCE/LB_PUBLIC`，`QCE/LOADBALANCE`，`Action` is fixed as`DescribeInstances`. `Region` can be specific value such as `ap-guangzhou`, or a template variable, such as `$region`. `InstanceAlias`is default as `LoadBalancerId`，can be selected as `LoadBalancerName`，`LoadBalancerVips`, allowing single-selected and multi-selected. 
+Cloud Load Balancer Private Network Layer-4 Protocol listeners  |  Namespace=QCE/LB_PRIVATE&Action=DescribeListeners&Region=$region&Instance=$instance&listenerAlias=ListenerId | Please refer to [Cloud Load Balancer Listener Documents](https://intl.cloud.tencent.com/document/product/214/33831). `Namespace` can be `QCE/LB_PRIVATE`，`QCE/LB_PUBLIC`，`QCE/LOADBALANCE`，`Action` is fixed as`DescribeListeners`. `Region` can be specific value such as `ap-guangzhou`, or a template variable, such as `$region`. `Instance` is an instance ID, can be specific value such as `lbl-rbw529fz`, or a template variable, such as `$instance`. `listenerAlias` is default as `ListenerId`，can be selected as `ListenerName`，`Port`, allowing single-selected and multi-selected.
 
+## Create Template Variable
 
-## 插件安装方式
+1. Hover the **Settings Icon** on the top right corner of any Dashboard Page.
+2. Click **Variables** Tab on the left bar and `Add variable`.
 
-1. 确保本地的 Grafana 是 6.x 或更新的版本上；  
-2. 在 [Releases](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/releases) 中下载最新版本的腾讯云监控应用插件代码，（资源名为`tencentcloud-monitor-app-1.x.x.zip`），并将解压后的代码放置在 Grafana 的 `${GRAFANA_HOME}/data/plugins` 目录；
-3. 重启 Grafana 服务；
-4. 鼠标悬浮左侧导航栏的 **齿轮** 图标，点击 `Plugins` 选项，进入 Plugins 管理页面，如果插件列表中正常展示 `Tencent Cloud Monitor` APP 插件，表示插件安装成功；
-  ![Plugin APP](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/src/image/plugin-app.png?raw=true)
-5. 进入应用详情页面，点击 `Enable` 按钮，启用成功后，即可在 Grafana 中使用腾讯云监控应用插件。
+## Edit Template Variable
 
-## 支持 Docker
-为了更快地开发与测试，添加了docker-compose.yml文件，只需运行：
+- `Name` is usually an English String.
+- `Label` is a custom name for the variable. (e.g. set "region" to `Name` and "地区" to `Label`).
+- `Type` is the type to query, here we can only select the `Query` option, as requesting the list from the data source.
+- `Data source` is the source you configured in Grafana Datasource Configuration.
+- `Refresh` is to define when the variable data is updated.
+- `Query` is the variable query statement, please refer to the variable example and description in the above table for details.
+
+After filling in the variable information, you can preview the query variable value at the bottom of the page. If it matches the expected value, click the `Add` button to add the variable. After successfully adding, click `Save` on the right menu to save to the Dashboard configuration.
+
+Take the cloud server stand-alone monitoring Dashboard as an example to show how to configure cascading variables: regional variables and cloud server instance variables, as shown in the figure below.
+
+![Variable Region Config](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/variable-region-config.png)
+
+![Variable Instance Config](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/variable-instance-config.png)
+
+## Use Template Variable
+After the variable is created, the variable selection box will be displayed in the upper left corner of the Dashboard page, and the variable value can be switched. There are two kinds of quoting syntax for variables, `$varname` and `[[varname]]`. Variables are often used in Panel query statements. Take cloud server stand-alone monitoring Dashboard as an example to show how to use variables in queries, as shown in the figure below. In addition, variables can also be applied to Panel titles, Text panels, etc.
+
+![Variable Dashboard](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/variable-cvm-dashboard.png)
+
+![Variable Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/variable-panel-query.png)
+
+# Local Development
+
+1. Clone this repository on your local machine
+```bash
+$ git clone https://github.com/TencentCloud/tencentcloud-monitor-grafana-app.git
 ```
-docker-compose up
+
+2. Install dependencies
+```bash
+$ npm install
 ```
-然后查看(http://localhost:3000)
 
-# 配置数据源
+3. Run the development environmnet
+```bash
+$ npm run analyze
+```
 
-腾讯云监控应用插件通过调用[云监控 API](https://cloud.tencent.com/document/product/248/30342) 的方式获取各云产品的监控指标数据，通过以下步骤，配置相应云产品的数据源。    
-1. 鼠标悬浮左侧导航栏的 **齿轮** 图标，点击 `Data Sources` 选项，进入数据源管理页面；
-  ![Datasource Add](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/src/image/datasource-add.png?raw=true)
-2. 点击右上角的 `Add data source` 按钮，然后点击 `Tencent Cloud Monitor Datasource` 数据源，进入数据源配置页面；
-  ![Datasource Add](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/src/image/datasource-choose.png?raw=true)
-3. `Name` 数据源名称，可以是任意名称，默认为 Tencent Cloud Datasource；  
-4. `SecretId` 和 `SecretKey` 是调用云监控 API 必需的安全证书信息，二者可以通过腾讯云控制台 [云 API 密钥页面](https://console.cloud.tencent.com/capi) 获取；
-5. 选择需要获取监控数据的云产品；  
-6. 点击 `Save & Test` 按钮，测试数据源的配置信息是否正确，配置成功后，即可以在 Dashboard 中使用该数据源。
-  ![Datasource Config](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/src/image/datasource-config.png?raw=true)
+## Docker Support (Recommended)
+For development and test purpose，we added [*docker-compose.yml*](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/docker-compose.yml) file，simply run:
+```bash
+$ docker-compose up
+```
+and visit (http://localhost:3000)
 
-# 创建 Dashboard
+## On Local Grafana
+Alternately, you can clone this repository into your Grafana Plugin directory and restart your local Grafana. Please ensure your local Grafana verison is greater than 6.x.
 
-创建 Dashboard 有以下三种方式： 
-
-## 快捷创建
-
-鼠标悬浮左侧导航栏的 **加号** 图标，点击 `+Dashboard` 选项，即可创建一个新的 Dashboard。
-
-## 管理页面
-
-鼠标悬浮左侧导航栏的 **田字格** 图标，点击 `Manage` 选项，进入 Dashboard 管理页面，点击 `New Dashboard` 按钮，即可创建一个新的 Dashboard。同时，在该页面可以对 Dashboard 进行各种管理操作，如新建文件夹、移动 Dashboard、导入 Dashboard 等。
-
-## 导入模板
-
-鼠标悬浮左侧导航栏的 **齿轮** 图标，点击 `Plugins` 选项，进入 Plugins 管理页面。然后，点击 `Tencent Cloud Monitor` 应用，进入应用详情页面，切换至 `Dashboards` 选项卡，选择 Dashbboard 模板导入。
-
-![Import Plugin Dashboard](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/src/image/plugin-dashboard.png?raw=true)
-
-
-# 配置 Panel 数据
-创建 Dashboard 之后，通过配置 Panel 信息，即可获取腾讯云监控的相应监控数据。现在以简单的 Graph 为例，展示如何配置 Panel 信息。
-
-## CVM 云服务器监控
-
-1. 点击 **New Panel** 面板的 **Add Query** 选项，进入 Panel 配置页面。在左侧第一个 `Queries` 选项卡，通过配置选项获取腾讯云 CVM 云服务器的监控数据。
-2. `Queries to` 数据源列表，选择已配置的包含 CVM 监控服务的腾讯云监控数据源。
-3. 配置项的内容对齐腾讯云服务器监控接口的输入参数，可参考 [云服务器监控接口文档](https://cloud.tencent.com/document/api/248/30385)，更好地理解各配置项。
-   - `Namespace` 命名空间，云服务器监控的命名空间为 `QCE/CVM`。
-   - `Region` 地域，地域列表会根据 `Namespace` 选项自动获取，单击选择某一地域。
-   - `MetricName` 指标名称，指标列表会根据 `Namespace` 和 `Region` 选项自动获取，单击选择某一指标。
-   - `Period` 监控统计周期，周期列表会根据 `MetricName` 选项自动获取，单击选择某一统计周期。
-   - `Instance` 实例，对应输入参数的 `Instances.N` 字段，实例列表会自动获取。
-       - 为了适应不同用户的习惯，实例列表会以不同的字段展示，默认为 `As InstanceId`，以 **实例ID** 展示实例列表。此外，可以选择 `As InstanceName` 实例名称、`As PrivateIpAddress` 主网卡的内网IP、 `As PublicIpAddress` 主网卡的公网IP。
-       - 可实例列表的获取可参考 [云服务器查询实例列表接口文档](https://cloud.tencent.com/document/api/213/15728)。切换 `Show Details` 为 `true`，可展示实例请求参数，默认参数为`Offset = 0` 和 `Limit = 20`。如果需要变更实例查询条件，可参考接口文档，配置相应参数。
-       - **注意：** 在本应用中，监控数据的单次查询为原子操作，即查询某一实例的某一指标的监控数据，故实例只能单选，如需查询多实例的监控数据，点击右上角的 `Add Query` 增加新的查询。  
-![CVM Panel Query](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/src/image/panel-cvm-query.png?raw=true)
-
-## CDB 云数据库MySQL监控
-
-1. 点击 **New Panel** 面板的 **Add Query** 选项，进入 Panel 配置页面。在左侧第一个 `Queries` 选项卡，通过配置选项获取腾讯云数据库 MySQL 的监控数据。
-2. `Queries to` 数据源列表，选择已配置的包含CDB监控服务的腾讯云监控数据源。
-3. 配置项的内容对齐腾讯云数据库MySQL监控接口的输入参数，可参考 [云数据库MySQL监控接口文档](https://cloud.tencent.com/document/api/248/30386)，更好地理解各配置项。
-   - `Namespace` 命名空间，云服务器监控的命名空间为 `QCE/CDB`。
-   - `Region` 地域，地域列表会根据 `Namespace` 选项自动获取，单击选择某一地域。
-   - `MetricName` 指标名称，指标列表会根据 `Namespace` 和 `Region` 选项自动获取，单击选择某一指标。
-   - `Period` 监控统计周期，周期列表会根据 `MetricName` 选项自动获取，单击选择某一统计周期。
-   - `Instance` 实例，对应输入参数的 `Instances.N` 字段，实例列表会自动获取。
-       - 为了适应不同用户的习惯，实例列表会以不同的字段展示，默认为 `As InstanceId`，以 **实例ID** 展示实例列表。此外，可以选择 `As InstanceName` 实例名称、 `As Vip` 内网IP。
-       - 实例列表的获取可参考 [云数据库MySQL查询实例列表接口文档](https://cloud.tencent.com/document/api/236/15872)。切换 `Show Details` 为 `true`，可展示实例请求参数，默认参数为`Offset = 0` 和 `Limit = 20`。如果需要变更实例查询条件，可参考接口文档，配置相应参数。
-       - **注意：** 在本应用中，监控数据的单次查询为原子操作，即查询某一实例的某一指标的监控数据，故实例只能单选，如需查询多实例的监控数据，点击右上角的 `Add Query` 增加新的查询。  
-
-![CDB Panel Query](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/src/image/panel-cdb-query.png?raw=true)
-
-
-## CLB 负载均衡监控
-
-1. 点击 **New Panel** 面板的 **Add Query** 选项，进入 Panel 配置页面。在左侧第一个 `Queries` 选项卡，通过配置选项获取腾讯云 负载均衡的监控数据。
-2. `Queries to` 数据源列表，选择已配置的包含 CLB 监控服务的腾讯云监控数据源。
-3. 负载均衡指标分三个命名空间：公网负载均衡监控指标（Namespace=QCE/LB_PUBLIC），内网负载均衡四层协议监控指标（Namespace=QCE/LB_PRIVATE）， 七层协议监控指标（Namespace=QCE/LOADBALANCE），可根据自己需要在`Namespace`选择。
-4. 配置项的内容对齐腾讯云服务器监控接口的输入参数，可参考 [负载均衡云监控接口文档](https://cloud.tencent.com/document/product/248/51898)，更好地理解各配置项。
-   - `Namespace` 命名空间，比如 `QCE/LB_PUBLIC`。
-   - `Region` 地域，地域列表会根据 `Namespace` 选项自动获取，单击选择某一地域。
-   - `MetricName` 指标名称，指标列表会根据 `Namespace` 和 `Region` 选项自动获取，单击选择某一指标。
-   - `Period` 监控统计周期，周期列表会根据 `MetricName` 选项自动获取，单击选择某一统计周期。
-   - `Instance` 实例，对应输入参数的 `Instances.N` 字段，实例列表会自动获取。
-       - 为了适应不同用户的习惯，实例列表会以不同的字段展示，默认为 `As LoadBalancerId`，以 **实例ID** 展示实例列表。此外，可以选择 `As LoadBalancerName` 实例名称、`As LoadBalancerVips` 网络ip。
-       - 实例列表的获取可参考 [负载均衡实例列表接口文档](https://cloud.tencent.com/document/api/214/30685)。切换 `Show Details` 为 `true`，可展示实例请求参数，默认参数为`Offset = 0` 和 `Limit = 20`。如果需要变更实例查询条件，可参考接口文档，配置相应参数。
-       - **注意：** 在本应用中，监控数据的单次查询为原子操作，即查询某一实例的某一指标的监控数据，故实例只能单选，如需查询多实例的监控数据，点击右上角的 `Add Query` 增加新的查询。  
-   - `Listener` 监听器，对应输入参数的 `Listener.N` 字段，列表会自动获取。
-       - 为了适应不同用户的习惯，监听器列表会以不同的字段展示，默认为 `As ListenerId`，以 **监听器ID** 展示实例列表。此外，可以选择 `As ListenerName` 监听器名称、`As Port` 端口。
-       - 监听器列表的获取可参考 [负载均衡监听器列表接口文档](https://cloud.tencent.com/document/api/214/30686)。
-
-![Clb Panel Query](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/src/image/panel-clb-query.png?raw=true)
-
-# 模板变量
-
-模板变量 [Variables](https://grafana.com/docs/reference/templating/) 是 Grafana 提供的一种 Dashboard 优化特性，用于创建高度可复用和交互式 Dashboard。模板变量的一般思想是允许 Grafana 从数据源获得不同的度量，并提供一种无需修改仪表板就可以动态更改它的方法。腾讯云监控应用目前提供了地域、云服务器实例、云数据库 MySQL 实例 等变量。已经提供的模板变量如下表所示：  
-
-变量 | 示例 | 描述 |
----- | --- | --- |
-地域               |  Namespace=QCE/CVM&Action=DescribeRegions | 参考 [地域接口文档](https://cloud.tencent.com/document/api/213/15708)。`Action` 固定为 `DescribeRegions`，`Namespace` 为云产品对应的命名空间，如 `QCE/CVM` `QCE/CDB`等。地区作为变量模板，只支持单选，如设置成多选或者选中 `All`, 默认选中第一个地区值。
-云服务器实例         |   Namespace=QCE/CVM&Region=ap-beijing&Action=DescribeInstances&InstanceAlias=PublicIpAddresses | 参考 [云服务器查询实例列表接口文档](https://cloud.tencent.com/document/api/213/15728)。`Namespace` 固定为`QCE/CVM`，`Action` 固定为`DescribeInstances`。`Region` 为地域参数，可以为特定的地域值，如 `ap-beijing`；也可以为变量值，如 `$region`。`InstanceAlias` 为实例的展示字段，默认为 `InstanceId`，可选值为 `InstanceName`、`PrivateIpAddresses`、`PublicIpAddresses`。云服务器实例作为模板变量，同时支持单选和多选。
-云数据库 MySQL 实例  |  Namespace=QCE/CDB&Region=ap-beijing&Action=DescribeInstances&InstanceAlias=InstanceId | 参考 [云数据库MySQL查询实例列表接口文档](https://cloud.tencent.com/document/api/236/15872)。`Namespace` 固定为`QCE/CDB`，`Action` 固定为`DescribeInstances`。`Region` 为地域参数，可以为特定的地域值，如 `ap-beijing`；也可以为变量值，如 `$region`。`InstanceAlias` 为实例的展示字段，默认为 `InstanceId`，可选值为 `InstanceName`、`Vip`。云数据库实例作为模板变量，同时支持单选和多选。
- 云数据库 PostgreSQL 实例  |  Namespace=QCE/POSTGRES&Region=ap-beijing&Action=DescribeInstances&InstanceAlias=DBInstanceId | 参考 [云数据库PostgreSQL查询实例列表接口文档](https://cloud.tencent.com/document/api/409/16773)。`Namespace` 固定为`QCE/CDB`，`Action` 固定为`DescribeInstances`。`Region` 为地域参数，可以为特定的地域值，如 `ap-beijing`；也可以为变量值，如 `$region`。`InstanceAlias` 为实例的展示字段，默认为 `DBInstanceId`，可选值为 `DBInstanceName`, `PrivateIpAddresses`, `PublicIpAddresses`。云数据库实例作为模板变量，同时支持单选和多选。
-私有网络 NateGateway 实例  |  Namespace=QCE/NAT_GATEWAY&Region=ap-beijing&Action=DescribeInstances&InstanceAlias=NatGatewayId | 参考 [私有网络Nat网关查询实例列表接口文档](https://cloud.tencent.com/document/api/215/4088)。`Namespace` 固定为`QCE/NAT_GATEWAY`，`Action` 固定为`DescribeInstances`。`Region` 为地域参数，可以为特定的地域值，如 `ap-beijing`；也可以为变量值，如 `$region`。`InstanceAlias` 为实例的展示字段，默认为 `NatGatewayId`，可选值为 `NatGatewayName`。NateGateway 网关实例作为模板变量，同时支持单选和多选。
-私有网络对等连接实例  |  Namespace=QCE/PCX&Region=ap-beijing&Action=DescribeInstances&InstanceAlias=peeringConnectionId | 参考 [私有网络对等连接查询实例列表接口文档](https://cloud.tencent.com/document/api/215/2101)。`Namespace` 固定为`QCE/PCX`，`Action` 固定为`DescribeInstances`。`Region` 为地域参数，可以为特定的地域值，如 `ap-beijing`；也可以为变量值，如 `$region`。`InstanceAlias` 为实例的展示字段，默认为 `peeringConnectionId`，可选值为 `peeringConnectionName`。对等连接实例作为模板变量，同时支持单选和多选（如果是负载均衡则不支持多选，可选多个监听器）。
-负载均衡监听器  |  Namespace=QCE/LB_PRIVATE&Action=DescribeListeners&Region=$region&Instance=$instance&listenerAlias=ListenerId | 参考 [负载均衡监听器列表接口文档](https://cloud.tencent.com/document/product/214/30686)。`Namespace` 可为`QCE/LB_PRIVATE`，`QCE/LB_PUBLIC`，`QCE/LOADBALANCE`，`Action` 固定为`DescribeListeners`。`Region` 为地域参数，可以为特定的地域值，如 `ap-guangzhou`；也可以为变量值，如 `$region`。`Instance` 为实例id，可以为特定的实例，如 `lb-rbw529fz`；也可以为变量值，如 `$instance`。`listenerAlias` 为监听器的展示字段，默认为 `ListenerId`，可选值为 `ListenerName`，`Port`。同时支持单选和多选。
-
-## 创建变量
-
-1. 进入某一 Dashboard 页面，点击右上角的 **齿轮** 图标，进入 Dashboard 设置页面；
-2. 点击左侧 **Variables** 选项，进入变量设置页面，然后点击 `+ Add variable` 按钮，进入变量编辑页面；
-
-## 编辑变量
-
-- `Name` 变量名，一般为英文字符串，在 Dashboard 的编辑中使用该变量名替换原特定值。
-- `Label` 变量的可见标签，用于更显式地描述变量名称。例如，`Name` 设置为 "region"，`Lable` 可设置为 "地区"。
-- `Type` 变量查询方式，此处只能选择 `Query` 方式，即通过向数据源发送请求获取变量的列表。
-- `Data source` 要获取变量列表的数据源，选择已配置的任意腾讯云监控数据源。
-- `Refresh`  更新变量的方式，定义变量数据何时被更新。
-- `Query` 变量查询语句，详情参见上述表格的变量示例和描述。
-
-变量信息填写完毕，可在页面下方预览查询得到的变量值，如果与期望值相符，点击 `Add` 按钮添加变量。添加成功后，点击右侧菜单的 `Save` 保存至 Dashboard 配置。
-
-以云服务器单机监控 Dashboard 为例，展示如何配置级联变量：地域变量、云服务器实例变量，如下图所示。
-
-![Variable Region Config](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/src/image/variable-region-config.png?raw=true)
-
-![Variable Instance Config](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/src/image/variable-instance-config.png?raw=true)
-
-## 应用变量
-创建变量后，在 Dashboard 页面的左上角会展示变量选择框，可以切换变量值。变量有两种引用语法，`$varname` 和 `[[varname]]`。变量常用于 Panel 的查询语句中，以云服务器单机监控 Dashboard 为例，展示如何在查询中使用变量，如下图所示。此外，变量还可以应用在 Panel 标题、Text 文本面板等。
-
-![Variable Dashboard](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/src/image/variable-cvm-dashboard.png?raw=true)
-
-![Variable Panel Query](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/src/image/variable-panel-query.png?raw=true)
+# License
+Tencent Cloud Monitor Grafana App is delivered under the [Apache License 2.0](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/LICENSE)
