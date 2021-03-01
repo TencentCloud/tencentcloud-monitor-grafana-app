@@ -9,6 +9,69 @@
   },
   "routes": [
     {
+      "path": "scf",
+      "url": "https://scf.tencentcloudapi.com",
+      "headers": [
+        {"name": "Content-Type", "content": "application/json"}
+      ]
+    },
+    {
+      "path": "fsi/scf/shanghai",
+      "url": "https://scf.ap-shanghai-fsi.tencentcloudapi.com",
+      "headers": [
+        {"name": "Content-Type", "content": "application/json"}
+      ]
+    },
+    {
+      "path": "fsi/scf/shenzhen",
+      "url": "https://scf.ap-shanghai-fsi.tencentcloudapi.com",
+      "headers": [
+        {"name": "Content-Type", "content": "application/json"}
+      ]
+    },
+    {
+      "path": "cfs",
+      "url": "https://cfs.tencentcloudapi.com",
+      "headers": [
+        {"name": "Content-Type", "content": "application/json"}
+      ]
+    },
+    {
+      "path": "fsi/cfs/shanghai",
+      "url": "https://cfs.ap-shanghai-fsi.tencentcloudapi.com",
+      "headers": [
+        {"name": "Content-Type", "content": "application/json"}
+      ]
+    },
+    {
+      "path": "fsi/cfs/shenzhen",
+      "url": "https://cfs.ap-shanghai-fsi.tencentcloudapi.com",
+      "headers": [
+        {"name": "Content-Type", "content": "application/json"}
+      ]
+    },
+    {
+      "path": "ckafka",
+      "url": "https://ckafka.tencentcloudapi.com",
+      "headers": [
+        {"name": "Content-Type", "content": "application/json"}
+      ]
+    },
+    {
+      "path": "fsi/ckafka/shanghai",
+      "url": "https://ckafka.ap-shanghai-fsi.tencentcloudapi.com",
+      "headers": [
+        {"name": "Content-Type", "content": "application/json"}
+      ]
+    },
+    {
+      "path": "fsi/ckafka/shenzhen",
+      "url": "https://ckafka.ap-shanghai-fsi.tencentcloudapi.com",
+      "headers": [
+        {"name": "Content-Type", "content": "application/json"}
+      ]
+    },
+    {
       "path": "clb",
       "url": "https://clb.tencentcloudapi.com",
       "headers": [
@@ -158,6 +221,20 @@
     {
       "path": "fsi/postgres/shenzhen",
       "url": "https://postgres.ap-shenzhen-fsi.tencentcloudapi.com",
+      "headers": [
+        {"name": "Content-Type", "content": "application/json"}
+      ]
+    },
+    {
+      "path": "cdn",
+      "url": "https://cdn.tencentcloudapi.com",
+      "headers": [
+        {"name": "Content-Type", "content": "application/json"}
+      ]
+    },
+    {
+      "path": "redis",
+      "url": "https://redis.tencentcloudapi.com",
       "headers": [
         {"name": "Content-Type", "content": "application/json"}
       ]

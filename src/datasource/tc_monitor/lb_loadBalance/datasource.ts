@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import DatasourceInterface from '../../datasource';
-import { LOADBALANCEInstanceAliasList, LOADBALANCEListenerAliasList, LOADBALANCEVALIDDIMENSIONS, LBVALIDDIMENSIONOBJECTS } from './query_def';
+import { LOADBALANCEInstanceAliasList, LOADBALANCEListenerAliasList, LOADBALANCEVALIDDIMENSIONS, LOADBALANCE_LISTENER_DIMENSIONOBJECTS, LOADBALANCE_INSTANCE_DIMENSIONOBJECTS } from './query_def';
 import { GetServiceAPIInfo, GetRequestParams, ReplaceVariable, GetDimensions, ParseQueryResult, VARIABLE_ALIAS, SliceLength } from '../../common/constants';
 import { IdKeys } from '..';
 
@@ -31,7 +31,7 @@ export default class LOADBALANCEDatasource implements DatasourceInterface {
     }
 
     // 查询 clb 实例列表
-    const instancesQuery = query['action'].match(/^DescribeLoadBalancers/i) && !!query['region'];
+    const instancesQuery = query['action'].match(/^DescribeInstances/i) && !!query['region'];
     const region = this.getVariable(query['region']);
     if (instancesQuery && region) {
       return this.getVariableInstances(region).then(result => {
@@ -96,33 +96,47 @@ export default class LOADBALANCEDatasource implements DatasourceInterface {
         !!item.namespace &&
         !!item.loadBalance.metricName &&
         !_.isEmpty(ReplaceVariable(this.templateSrv, options.scopedVars, item.loadBalance.region, false)) &&
-        !_.isEmpty(ReplaceVariable(this.templateSrv, options.scopedVars, item.loadBalance.instance, true)) &&
-        !_.isEmpty(ReplaceVariable(this.templateSrv, options.scopedVars, item.loadBalance.listener, true))
+        !_.isEmpty(ReplaceVariable(this.templateSrv, options.scopedVars, item.loadBalance.instance, true))
       );
     }).map(target => {
       const region = ReplaceVariable(this.templateSrv, options.scopedVars, target.loadBalance.region, false);
       // 实例 instances 可能为模板变量，需先获取实际值
-      const instance = ReplaceVariable(this.templateSrv, options.scopedVars, target.loadBalance.instance, true);
+      let instances = ReplaceVariable(this.templateSrv, options.scopedVars, target.loadBalance.instance, true);
       // 考虑多个监听器端口查询
-      let listeners = ReplaceVariable(this.templateSrv, options.scopedVars, target.loadBalance.listener, false);
+      let listeners = ReplaceVariable(this.templateSrv, options.scopedVars, target.loadBalance.listener, true);
       const instanceUnionArray: any = [];
-      if (_.isArray(listeners)) {
-        listeners = _.map(listeners, listener => _.isString(listener) ? JSON.parse(listener) : listener);
+      let instanceInRequest: any[] = [];
+      // 如果没有选择监听器或者实例为多个，按照实例维度查询,考虑实例选择复选情况；
+      if (_.isArray(instances) || _.isEmpty(listeners)) {
+        if (_.isArray(instances)) {
+          instances = _.map(instances, instance => _.isString(instance) ? JSON.parse(instance) : instance);
+        } else {
+          instances = [_.isString(instances) ? JSON.parse(instances) : instances];
+        }
+        instanceInRequest = _.map(instances, instance => {
+          const dimensionObject = LOADBALANCE_INSTANCE_DIMENSIONOBJECTS;
+          instanceUnionArray.push(instance);
+          _.forEach(dimensionObject, (__, key) => {
+            if (_.has(LOADBALANCEVALIDDIMENSIONS,key)) {
+              const keyTmp = LOADBALANCEVALIDDIMENSIONS[key];
+              instance[key] = instance[keyTmp];// baseMetric的key和getMonitor不对应，写入新旧键值对
+            }
+            dimensionObject[key] = { Name: key, Value: instance[key] };
+          });
+          return { Dimensions: GetDimensions(dimensionObject) };
+        });
       } else {
-        listeners = [_.isString(listeners) ? JSON.parse(listeners) : listeners];
-      }
-      const data = {
-        StartTime: moment(options.range.from).format(),
-        EndTime: moment(options.range.to).format(),
-        Period: target.loadBalance.period || 300,
-        Instances: _.map(listeners, listener => {
-          // 七层协议指标维度采用本地config，接口字段有误
-          // const dimensionObject = target.loadBalance.dimensionObject;
-          const dimensionObject = LBVALIDDIMENSIONOBJECTS;
-          // console.log({dimensionObject});
+        // 按照监听器维度查询；
+        if (_.isArray(listeners)) {
+          listeners = _.map(listeners, listener => _.isString(listener) ? JSON.parse(listener) : listener);
+        } else {
+          listeners = [_.isString(listeners) ? JSON.parse(listeners) : listeners];
+        }
+        instanceInRequest = _.map(listeners, listener => {
+          const dimensionObject = LOADBALANCE_LISTENER_DIMENSIONOBJECTS;
           let instanceMap: any = {};
           try {
-            instanceMap = JSON.parse(instance);
+            instanceMap = JSON.parse(instances);
           }catch (e) {
             console.log(e);
           }
@@ -140,7 +154,13 @@ export default class LOADBALANCEDatasource implements DatasourceInterface {
             dimensionObject[key] = { Name: key, Value: instanceUnionMap[key] };
           });
           return { Dimensions: GetDimensions(dimensionObject) };
-        }),
+        });
+      }
+      const data = {
+        StartTime: moment(options.range.from).format(),
+        EndTime: moment(options.range.to).format(),
+        Period: target.loadBalance.period || 300,
+        Instances: instanceInRequest,
         Namespace: target.namespace,
         MetricName: target.loadBalance.metricName,
       };

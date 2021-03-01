@@ -280,7 +280,10 @@ function GetInstanceQueryParams(queries: any = {}) {
   }
   return params;
 }
-
+function isValidMetric(metricObj: any = {}) {
+  const dimension = _.get(metricObj, 'Dimensions[0].Dimensions');
+  return dimension.length === 2 && _.indexOf(dimension, 'instanceid') !== -1 && _.indexOf(dimension, 'insttype') !== -1;
+}
 const CDBInvalidDemensions = {
   'instanceid': 'InstanceId',
   'insttype': 'InstanceType',
@@ -292,5 +295,6 @@ export {
   CDBFieldsDescriptor,
   CDBInstanceAliasList,
   CDBInvalidDemensions,
+  isValidMetric,
   GetInstanceQueryParams as CDBGetInstanceQueryParams,
 };

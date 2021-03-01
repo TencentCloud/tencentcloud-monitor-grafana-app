@@ -17,7 +17,7 @@
       "small": "img/tencent-cloud.svg",
       "large": "img/tencent-cloud.svg"
     },
-    "version": "1.3.1",
+    "version": "1.4.0",
     "updated": "2019-04-10",
     "screenshots": [
       { "name": "logo", "path": "img/tencent-cloud.svg" }
@@ -40,12 +40,52 @@
       "path": "dashboards/example_clb_dashboard.json"
     },
     {
+      "type": "dashboard",
+      "name": "【实例】内容分发网络CDN",
+      "path": "dashboards/example_cdn_dashboard.json"
+    },
+    {
+      "type": "dashboard",
+      "name": "【实例】云数据库MONGODB",
+      "path": "dashboards/example_mongodb_dashboard.json"
+    },
+    {
+      "type": "dashboard",
+      "name": "【实例】云数据库REDIS-内存版",
+      "path": "dashboards/example_redis_dashboard.json"
+    },
+    {
+      "type": "dashboard",
+      "name": "【实例】消息队列CKAFKA",
+      "path": "dashboards/example_ckafka_dashboard.json"
+    },
+    {
+      "type": "dashboard",
+      "name": "【实例】弹性公网IP LB",
+      "path": "dashboards/example_lb_dashboard.json"
+    },    {
+      "type": "dashboard",
+      "name": "【实例】文件存储CFS",
+      "path": "dashboards/example_cfs_dashboard.json"
+    },    
+    {
+      "type": "dashboard",
+      "name": "【实例】云函数SCF",
+      "path": "dashboards/example_scf_dashboard.json"
+    },
+    {
+      "type": "dashboard",
+      "name": "【实例】共享宽带包",
+      "path": "dashboards/example_bwp_dashboard.json"
+    },
+    {
       "type": "datasource",
       "name": "Tencent Cloud Monitor Datasource"
     }
   ],
   "dependencies": {
     "grafanaDependency": "6.0",
+    "grafanaVersion": "6.0",
     "plugins": []
   }
 }

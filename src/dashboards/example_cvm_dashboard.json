@@ -1,13 +1,23 @@
 {
   "annotations": {
-    "list": []
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
   },
   "description": "腾讯云服务器单机监控模板 Dashboard",
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1557371154786,
+  "iteration": 1614328361299,
   "links": [],
   "panels": [
     {
@@ -71,6 +81,29 @@
       "tableColumn": "",
       "targets": [
         {
+          "bwp": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "BandwidthPackageId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "BandwidthPackageIds": [
+                ""
+              ],
+              "Filters": {
+                "bandwidth-package-name": [],
+                "bandwidth-package_id": [],
+                "charge-type": [],
+                "network-type": []
+              },
+              "Limit": 20,
+              "Offset": 0,
+              "filtersChecked": false,
+              "instanceIdsChecked": false
+            },
+            "region": ""
+          },
           "cdb": {
             "dimensionObject": null,
             "instance": "",
@@ -84,6 +117,7 @@
               "InstancTypes": {},
               "InstanceIds": [],
               "InstanceNames": [],
+              "InstanceTypes": {},
               "Limit": 20,
               "Offset": 0,
               "OrderBy": {},
@@ -99,6 +133,67 @@
               "ZoneIds": []
             },
             "region": ""
+          },
+          "cdn": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "Domain",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "Filters": {
+                "domain": [],
+                "domainType": [],
+                "fullUrlCache": [],
+                "https": [],
+                "origin": [],
+                "originPullProtocol": [],
+                "projectId": [],
+                "resourceId": [],
+                "serviceType": [],
+                "status": [],
+                "tagKey": []
+              },
+              "Limit": 20,
+              "Offset": 0
+            },
+            "region": ""
+          },
+          "cfs": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "FileSystemId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "FileSystemId": "",
+              "Limit": 20,
+              "Offset": 0,
+              "SubnetId": "",
+              "VpcId": ""
+            },
+            "region": "",
+            "version": ""
+          },
+          "ckafka": {
+            "consumerGroup": "",
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "InstanceId",
+            "metricName": "",
+            "metricUnit": "",
+            "partition": "",
+            "queries": {
+              "InstanceId": "",
+              "Limit": 10,
+              "Offset": 0,
+              "SearchWord": "",
+              "Status": [],
+              "TagKey": ""
+            },
+            "region": "",
+            "topicId": "",
+            "topicName": ""
           },
           "cvm": {
             "dimensionObject": {
@@ -136,9 +231,283 @@
             },
             "region": "$region"
           },
+          "lb": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "AddressIp",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "AddressIds": [
+                ""
+              ],
+              "Filters": {
+                "address-id": [],
+                "address-ip": [],
+                "address-name": [],
+                "address-status ": [],
+                "instance-id ": [],
+                "is-arrears ": [],
+                "network-interface-id ": [],
+                "private-ip-address": []
+              },
+              "Limit": 20,
+              "Offset": 0
+            },
+            "region": "",
+            "version": ""
+          },
+          "lbPrivate": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "LoadBalancerId",
+            "listener": "",
+            "listenerAlias": "ListenerId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "BackendPrivateIps": [],
+              "BackendPublicIps": [],
+              "Domain": "",
+              "Limit": 20,
+              "LoadBalancerIds": [],
+              "LoadBalancerName": "",
+              "LoadBalancerVips": [],
+              "MasterZone": "",
+              "Offset": 0,
+              "OrderBy": {},
+              "OrderType": {},
+              "SecurityGroup": "",
+              "VpcId": "",
+              "WithRs": {}
+            },
+            "region": ""
+          },
+          "lbPublic": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "LoadBalancerId",
+            "listener": "",
+            "listenerAlias": "ListenerId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "BackendPrivateIps": [],
+              "BackendPublicIps": [],
+              "Domain": "",
+              "Limit": 20,
+              "LoadBalancerIds": [],
+              "LoadBalancerName": "",
+              "LoadBalancerVips": [],
+              "MasterZone": "",
+              "Offset": 0,
+              "OrderBy": {},
+              "OrderType": {},
+              "SecurityGroup": "",
+              "VpcId": "",
+              "WithRs": {}
+            },
+            "region": ""
+          },
+          "loadBalance": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "LoadBalancerId",
+            "listener": "",
+            "listenerAlias": "ListenerId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "BackendPrivateIps": [],
+              "BackendPublicIps": [],
+              "Domain": "",
+              "Limit": 20,
+              "LoadBalancerIds": [],
+              "LoadBalancerName": "",
+              "LoadBalancerVips": [],
+              "MasterZone": "",
+              "Offset": 0,
+              "OrderBy": {},
+              "OrderType": {},
+              "SecurityGroup": "",
+              "VpcId": "",
+              "WithRs": {}
+            },
+            "region": ""
+          },
+          "mongoDB": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "InstanceId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "ClusterType": {},
+              "InstanceIds": [],
+              "InstanceType": {},
+              "Limit": 20,
+              "Offset": 0,
+              "OrderBy": "",
+              "OrderByType": "",
+              "PayMode": {},
+              "Status": [],
+              "SubnetId": "",
+              "VpcId": ""
+            },
+            "region": ""
+          },
           "namespace": "QCE/CVM",
+          "natGateway": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "NatGatewayId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "Filters": {
+                "nat-gateway-id": [],
+                "nat-gateway-name": [],
+                "vpc-id": []
+              },
+              "Limit": 20,
+              "NatGatewayIds": [
+                ""
+              ],
+              "Offset": 0,
+              "filtersChecked": false,
+              "instanceIdsChecked": false
+            },
+            "region": ""
+          },
+          "ovCdn": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "Domain",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "Filters": {
+                "domain": [],
+                "domainType": [],
+                "fullUrlCache": [],
+                "https": [],
+                "origin": [],
+                "originPullProtocol": [],
+                "projectId": [],
+                "resourceId": [],
+                "serviceType": [],
+                "status": [],
+                "tagKey": []
+              },
+              "Limit": 20,
+              "Offset": 0
+            },
+            "region": ""
+          },
+          "pcx": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "peeringConnectionId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "limit": 20,
+              "offset": 0,
+              "peeringConnectionId": "",
+              "peeringConnectionName": "",
+              "vpcId": ""
+            },
+            "region": ""
+          },
+          "postgres": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "DBInstanceId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "Filters": {
+                "db-instance-id": [],
+                "db-instance-name": []
+              },
+              "Limit": 20,
+              "Offset": 0
+            },
+            "region": ""
+          },
+          "redis": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "InstanceId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "AutoRenew": null,
+              "BillingMode": "",
+              "EngineName": "",
+              "InstanceId": "",
+              "InstanceName": "",
+              "OrderBy": "",
+              "OrderType": null,
+              "ProjectIds": [],
+              "SearchKey": "",
+              "Status": [],
+              "SubnetIds": [],
+              "Type": null,
+              "TypeVersion": null,
+              "UniqSubnetIds": [],
+              "UniqVpcIds": [],
+              "VpcIds": []
+            },
+            "region": ""
+          },
+          "redisMem": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "InstanceId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "AutoRenew": null,
+              "BillingMode": "",
+              "EngineName": "",
+              "InstanceId": "",
+              "InstanceName": "",
+              "OrderBy": "",
+              "OrderType": null,
+              "ProjectIds": [],
+              "SearchKey": "",
+              "Status": [],
+              "SubnetIds": [],
+              "Type": null,
+              "TypeVersion": null,
+              "UniqSubnetIds": [],
+              "UniqVpcIds": [],
+              "VpcIds": []
+            },
+            "region": ""
+          },
           "refId": "A",
-          "service": "cvm"
+          "scf": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "FunctionName",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "Description": "",
+              "Limit": 20,
+              "Namespace": "",
+              "Offset": 0,
+              "Order": {},
+              "OrderBy": {},
+              "SearchKey": ""
+            },
+            "region": "",
+            "version": ""
+          },
+          "service": "cvm",
+          "showInstanceDetails": false
         }
       ],
       "thresholds": "40,80",
@@ -600,6 +969,7 @@
     },
     {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -618,12 +988,14 @@
       "dashes": false,
       "datasource": "Tencent Cloud Monitor Datasource",
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 8,
         "w": 12,
         "x": 0,
         "y": 5
       },
+      "hiddenSeries": false,
       "id": 6,
       "legend": {
         "alignAsTable": true,
@@ -640,6 +1012,9 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "paceLength": 10,
       "percentage": false,
       "pointradius": 2,
@@ -651,6 +1026,7 @@
           "transform": "negative-Y"
         }
       ],
+      "spaceLength": 10,
       "stack": false,
       "steppedLine": false,
       "targets": [
@@ -843,12 +1219,14 @@
       "dashes": false,
       "datasource": "Tencent Cloud Monitor Datasource",
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 8,
         "w": 12,
         "x": 12,
         "y": 5
       },
+      "hiddenSeries": false,
       "id": 14,
       "legend": {
         "alignAsTable": true,
@@ -865,6 +1243,9 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "paceLength": 10,
       "percentage": false,
       "pointradius": 2,
@@ -876,6 +1257,7 @@
           "transform": "negative-Y"
         }
       ],
+      "spaceLength": 10,
       "stack": false,
       "steppedLine": false,
       "targets": [
@@ -1068,12 +1450,14 @@
       "dashes": false,
       "datasource": "Tencent Cloud Monitor Datasource",
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 8,
         "w": 12,
         "x": 0,
         "y": 13
       },
+      "hiddenSeries": false,
       "id": 15,
       "legend": {
         "alignAsTable": true,
@@ -1090,6 +1474,9 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "paceLength": 10,
       "percentage": false,
       "pointradius": 2,
@@ -1106,6 +1493,7 @@
           "transform": "negative-Y"
         }
       ],
+      "spaceLength": 10,
       "stack": false,
       "steppedLine": false,
       "targets": [
@@ -1298,12 +1686,14 @@
       "dashes": false,
       "datasource": "Tencent Cloud Monitor Datasource",
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 8,
         "w": 12,
         "x": 12,
         "y": 13
       },
+      "hiddenSeries": false,
       "id": 16,
       "legend": {
         "alignAsTable": true,
@@ -1320,6 +1710,9 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "paceLength": 10,
       "percentage": false,
       "pointradius": 2,
@@ -1336,6 +1729,7 @@
           "transform": "negative-Y"
         }
       ],
+      "spaceLength": 10,
       "stack": false,
       "steppedLine": false,
       "targets": [
@@ -1528,12 +1922,14 @@
       "dashes": false,
       "datasource": "Tencent Cloud Monitor Datasource",
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 8,
         "w": 12,
         "x": 0,
         "y": 21
       },
+      "hiddenSeries": false,
       "id": 17,
       "legend": {
         "alignAsTable": true,
@@ -1550,6 +1946,9 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "paceLength": 10,
       "percentage": false,
       "pointradius": 2,
@@ -1561,6 +1960,7 @@
           "color": "#FFB357"
         }
       ],
+      "spaceLength": 10,
       "stack": false,
       "steppedLine": false,
       "targets": [
@@ -1678,6 +2078,7 @@
     },
     {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -1696,12 +2097,14 @@
       "dashes": false,
       "datasource": "Tencent Cloud Monitor Datasource",
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 9,
         "w": 12,
         "x": 0,
         "y": 30
       },
+      "hiddenSeries": false,
       "id": 2,
       "legend": {
         "alignAsTable": true,
@@ -1717,6 +2120,9 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "paceLength": 10,
       "percentage": false,
       "pointradius": 2,
@@ -1728,6 +2134,7 @@
           "color": "#3274D9"
         }
       ],
+      "spaceLength": 10,
       "stack": false,
       "steppedLine": false,
       "targets": [
@@ -1850,12 +2257,14 @@
       "dashes": false,
       "datasource": "Tencent Cloud Monitor Datasource",
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 9,
         "w": 12,
         "x": 12,
         "y": 30
       },
+      "hiddenSeries": false,
       "id": 19,
       "legend": {
         "alignAsTable": true,
@@ -1871,6 +2280,9 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "paceLength": 10,
       "percentage": false,
       "pointradius": 2,
@@ -1882,6 +2294,7 @@
           "color": "#1F60C4"
         }
       ],
+      "spaceLength": 10,
       "stack": false,
       "steppedLine": false,
       "targets": [
@@ -2004,12 +2417,14 @@
       "dashes": false,
       "datasource": "Tencent Cloud Monitor Datasource",
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 9,
         "w": 12,
         "x": 0,
         "y": 39
       },
+      "hiddenSeries": false,
       "id": 18,
       "legend": {
         "alignAsTable": true,
@@ -2025,6 +2440,9 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "paceLength": 10,
       "percentage": false,
       "pointradius": 2,
@@ -2040,6 +2458,7 @@
           "yaxis": 2
         }
       ],
+      "spaceLength": 10,
       "stack": false,
       "steppedLine": false,
       "targets": [
@@ -2232,12 +2651,14 @@
       "dashes": false,
       "datasource": "Tencent Cloud Monitor Datasource",
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 9,
         "w": 12,
         "x": 12,
         "y": 39
       },
+      "hiddenSeries": false,
       "id": 21,
       "legend": {
         "alignAsTable": true,
@@ -2253,6 +2674,9 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "paceLength": 10,
       "percentage": false,
       "pointradius": 2,
@@ -2264,6 +2688,7 @@
           "color": "#56A64B"
         }
       ],
+      "spaceLength": 10,
       "stack": false,
       "steppedLine": false,
       "targets": [
@@ -2380,7 +2805,7 @@
       }
     }
   ],
-  "schemaVersion": 18,
+  "schemaVersion": 22,
   "style": "dark",
   "tags": [],
   "templating": {
@@ -2392,6 +2817,7 @@
         "definition": "Namespace=QCE/CVM&Action=DescribeRegions",
         "hide": 0,
         "includeAll": false,
+        "index": -1,
         "label": "地区",
         "multi": false,
         "name": "region",
@@ -2414,6 +2840,7 @@
         "definition": "Namespace=QCE/CVM&Action=DescribeInstances&Region=$region&InstanceAlias=PublicIpAddresses",
         "hide": 0,
         "includeAll": false,
+        "index": -1,
         "label": "外网IP",
         "multi": false,
         "name": "publicIp",
@@ -2462,5 +2889,9 @@
   },
   "timezone": "",
   "title": "【实例】CVM 单机监控",
+  "uid": "DWBrOhyGz",
+  "variables": {
+    "list": []
+  },
   "version": 1
 }

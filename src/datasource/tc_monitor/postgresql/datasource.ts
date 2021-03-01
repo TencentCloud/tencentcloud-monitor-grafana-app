@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import DatasourceInterface from '../../datasource';
-import { POSTGRESInstanceAliasList } from './query_def';
+import { POSTGRESInstanceAliasList, PostgreInvalidDemensions } from './query_def';
 import { GetRequestParams, GetServiceAPIInfo, ReplaceVariable, GetDimensions, ParseQueryResult, VARIABLE_ALIAS, SliceLength } from '../../common/constants';
 
 
@@ -104,11 +104,17 @@ export default class POSTGRESDatasource implements DatasourceInterface {
           const dimensionObject = target.postgres.dimensionObject;
           _.forEach(dimensionObject, (__, key) => {
             // TODO 兼容接口问题
-            if (key === 'resourceId') {
-              dimensionObject[key] = { Name: key, Value: instance['DBInstanceId'] };
-            } else {
-              dimensionObject[key] = { Name: key, Value: instance[key] };
+            // if (key === 'resourceId') {
+            //   dimensionObject[key] = { Name: key, Value: instance['DBInstanceId'] };
+            // } else {
+            //   dimensionObject[key] = { Name: key, Value: instance[key] };
+            // }
+            let keyTmp = key;
+            if (_.has(PostgreInvalidDemensions,key)) {
+              keyTmp = PostgreInvalidDemensions[key];
+              instance[key] = instance[keyTmp];
             }
+            dimensionObject[key] = { Name: 'resourceId', Value: instance[key] };
           });
           return { Dimensions: GetDimensions(dimensionObject) };
         }),

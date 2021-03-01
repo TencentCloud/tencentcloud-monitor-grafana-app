@@ -208,7 +208,10 @@ const LOADBALANCEVALIDDIMENSIONS = {
   protocol: 'Protocol'
 };
 // dimensionObject[item] = { Name: item, Value: '' };
-const LBVALIDDIMENSIONOBJECTS = {
+const LOADBALANCE_INSTANCE_DIMENSIONOBJECTS = {
+  vip: { Name: 'vip', Value: ''},
+};
+const LOADBALANCE_LISTENER_DIMENSIONOBJECTS = {
   vip: { Name: 'vip', Value: ''},
   loadBalancerPort: { Name: 'loadBalancerPort', Value: ''},
   protocol: { Name: 'protocol', Value: ''},
@@ -219,6 +222,7 @@ export {
   LOADBALANCEInstanceAliasList,
   LOADBALANCEListenerAliasList,
   LOADBALANCEVALIDDIMENSIONS,
-  LBVALIDDIMENSIONOBJECTS,
+  LOADBALANCE_LISTENER_DIMENSIONOBJECTS,
+  LOADBALANCE_INSTANCE_DIMENSIONOBJECTS,
   GetInstanceQueryParams as LOADBALANCEGetInstanceQueryParams,
 };

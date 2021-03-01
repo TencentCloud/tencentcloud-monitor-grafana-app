@@ -207,7 +207,10 @@ const LBPUBLICVALIDDIMENSIONS = {
   loadBalancerPort: 'Port',
   protocol: 'Protocol'
 };
-const LBPUBLICVALIDDIMENSIONOBJECTS = {
+const LBPUBLIC_INSTANCE_DIMENSIONOBJECTS = {
+  vip: { Name: 'vip', Value: ''},
+};
+const LBPUBLIC_LISTENER_DIMENSIONOBJECTS = {
   vip: { Name: 'vip', Value: ''},
   loadBalancerPort: { Name: 'loadBalancerPort', Value: ''},
   protocol: { Name: 'protocol', Value: ''},
@@ -218,6 +221,7 @@ export {
   LBPUBLICInstanceAliasList,
   LBPUBLICListenerAliasList,
   LBPUBLICVALIDDIMENSIONS,
-  LBPUBLICVALIDDIMENSIONOBJECTS,
+  LBPUBLIC_INSTANCE_DIMENSIONOBJECTS,
+  LBPUBLIC_LISTENER_DIMENSIONOBJECTS,
   GetInstanceQueryParams as LBPUBLICGetInstanceQueryParams,
 };

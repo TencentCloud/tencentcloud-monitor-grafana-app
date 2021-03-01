@@ -177,9 +177,14 @@ function GetInstanceQueryParams(queries: any = {}) {
 
 const MONGODBInstanceAliasList = ['InstanceId', 'InstanceName'];
 
+const MONGODBInvalidDemensions = {
+  'target': 'InstanceId',
+};
+
 export default MONGODB_STATE;
 export {
   MONGODBFieldsDescriptor,
+  MONGODBInvalidDemensions,
   MONGODBInstanceAliasList,
   GetInstanceQueryParams as MONGODBGetInstanceQueryParams,
 };

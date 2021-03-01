@@ -155,16 +155,50 @@ function GetInstanceQueryParams(queries: any = {}) {
 
 const CVMInstanceAliasList = ['InstanceId', 'InstanceName', 'PrivateIpAddresses', 'PublicIpAddresses'];
 
-const CVMInvalidMetrics = ['DcCPUUsage', 'DcMemUsage'];
-const CVMInvalidDemensions = {
-  'vm_uuid': 'InstanceId',
-  'vmUuid': 'InstanceId',
+
+const CVMValidMetricsT = [
+  'CPUUsage',
+  'CpuLoadavg',
+  'Cpuloadavg5m',
+  'Cpuloadavg15m',
+  'BaseCpuUsage',
+  'GpuMemTotal',
+  'GpuMemUsage',
+  'GpuMemUsed',
+  'GpuPowDraw',
+  'GpuPowLimit',
+  'GpuPowUsage',
+  'GpuTemp',
+  'GpuUtil',
+  'LanOuttraffic',
+  'LanIntraffic',
+  'LanOutpkg',
+  'LanInpkg',
+  'WanOuttraffic',
+  'WanIntraffic',
+  'WanOutpkg',
+  'WanInpkg',
+  'AccOuttraffic',
+  'TcpCurrEstab',
+  'TimeOffset',
+  'MemUsed',
+  'MemUsage',
+];
+const CVMValidMetrics = _.map(CVMValidMetricsT, _.toUpper);
+// const CVMInvalidDemensions = {
+//   'vm_uuid': 'InstanceId',
+//   'vmUuid': 'InstanceId',
+// };
+// dimensionObject[item] = { Name: item, Value: '' };
+const CVM_INSTANCE_DIMENSIONOBJECTS = {
+  InstanceId: { Name: 'InstanceId', Value: ''},
 };
 export default CVM_STATE;
 export {
   CVMFilterFieldsDescriptor,
   CVMInstanceAliasList,
-  CVMInvalidMetrics,
-  CVMInvalidDemensions,
+  CVMValidMetrics,
+  CVM_INSTANCE_DIMENSIONOBJECTS,
+  // CVMInvalidDemensions,
   GetInstanceQueryParams as CVMGetInstanceQueryParams,
 };

@@ -12,7 +12,7 @@
       }
     ]
   },
-  "description": "腾讯云服务器单机监控模板 Dashboard",
+  "description": "腾讯云负载均衡监控模板 Dashboard",
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
@@ -4962,10 +4962,7 @@
     "list": [
       {
         "allValue": null,
-        "current": {
-          "text": "华南地区(广州)",
-          "value": "ap-guangzhou"
-        },
+        "current": {},
         "datasource": "Tencent Cloud Monitor Datasource",
         "definition": "Namespace=QCE/LOADBALANCE&Action=DescribeRegions",
         "error": null,
@@ -4989,12 +4986,9 @@
       },
       {
         "allValue": null,
-        "current": {
-          "text": "lb-gldsxpcw",
-          "value": "{\"LoadBalancerId\":\"lb-gldsxpcw\",\"LoadBalancerName\":\"cls-oloe0yho_alarm-domain-test-d_amp-svc\",\"Forward\":1,\"Domain\":\"\",\"LoadBalancerVips\":[\"9.223.109.185\"],\"AddressIPv6\":null,\"AddressIPVersion\":\"ipv4\",\"IPv6Mode\":null,\"LoadBalancerType\":\"INTERNAL\",\"Status\":1,\"CreateTime\":\"2021-01-29 11:36:03\",\"StatusTime\":\"2021-01-29 11:36:21\",\"ProjectId\":0,\"OpenBgp\":0,\"Snat\":false,\"Isolation\":0,\"Log\":\"\",\"AnycastZone\":\"\",\"VpcId\":\"vpc-41ynd0e9\",\"NumericalVpcId\":2659211,\"TargetRegionInfo\":{\"Region\":\"ap-guangzhou\",\"VpcId\":\"vpc-41ynd0e9\"},\"SubnetId\":\"subnet-nw1e9mes\",\"SecureGroups\":[],\"Tags\":[{\"TagKey\":\"tke-createdBy-flag\",\"TagValue\":\"yes\"},{\"TagKey\":\"tke-clusterId\",\"TagValue\":\"cls-oloe0yho\"},{\"TagKey\":\"bfd353b3-d5e8-4ee3-a842-c0c5ff39755d\",\"TagValue\":\"tke-lb-serviceId\"},{\"TagKey\":\"运营产品\",\"TagValue\":\"腾讯云云监控_2096\"},{\"TagKey\":\"负责人\",\"TagValue\":\"josephfu\"},{\"TagKey\":\"运营部门\",\"TagValue\":\"云监控产品中心_1120\"}],\"VipIsp\":\"INTERNAL\",\"MasterZone\":null,\"BackupZoneSet\":null,\"IsolatedTime\":null,\"ExpireTime\":\"2021-03-01 11:36:04\",\"ChargeType\":\"POSTPAID_BY_HOUR\",\"NetworkAttributes\":{\"InternetChargeType\":\"TRAFFIC_POSTPAID_BY_HOUR\",\"InternetMaxBandwidthOut\":0,\"BandwidthpkgSubType\":null},\"PrepaidAttributes\":null,\"ExtraInfo\":null,\"LogSetId\":\"\",\"LogTopicId\":\"\",\"LoadBalancerPassToTarget\":false,\"IsDDos\":false,\"ConfigId\":\"\",\"ExclusiveCluster\":{},\"SnatPro\":false,\"SnatIps\":[],\"IsBlock\":false,\"IsBlockTime\":\"\",\"SlaType\":\"\",\"ClusterTag\":null,\"LocalBgp\":false,\"MixIpTarget\":false,\"Zones\":null,\"NfvInfo\":\"\",\"_InstanceAliasValue\":\"lb-gldsxpcw\"}"
-        },
+        "current": {},
         "datasource": "Tencent Cloud Monitor Datasource",
-        "definition": "Namespace=QCE/LB_PRIVATE&Action= DescribeLoadBalancers&Region=$region&InstanceAlias=LoadBalancerId",
+        "definition": "Namespace=QCE/LB_PRIVATE&Action= DescribeInstances&Region=$region&InstanceAlias=LoadBalancerId",
         "error": null,
         "hide": 0,
         "includeAll": false,
@@ -5003,7 +4997,7 @@
         "multi": false,
         "name": "privateInstance",
         "options": [],
-        "query": "Namespace=QCE/LB_PRIVATE&Action= DescribeLoadBalancers&Region=$region&InstanceAlias=LoadBalancerId",
+        "query": "Namespace=QCE/LB_PRIVATE&Action= DescribeInstances&Region=$region&InstanceAlias=LoadBalancerId",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
@@ -5016,10 +5010,7 @@
       },
       {
         "allValue": null,
-        "current": {
-          "text": "lbl-pfsf8upy",
-          "value": "{\"ListenerId\":\"lbl-pfsf8upy\",\"ListenerName\":\"TKE-DEDICATED-LISTENER\",\"CreateTime\":\"2021-01-29 11:36:15\",\"Protocol\":\"TCP\",\"Port\":80,\"EndPort\":0,\"HealthCheck\":{\"HealthSwitch\":1,\"TimeOut\":2,\"IntervalTime\":5,\"HealthNum\":3,\"UnHealthNum\":3,\"CheckPort\":null,\"CheckType\":\"TCP\",\"HttpCheckDomain\":null,\"HttpCheckPath\":null,\"HttpCheckMethod\":null,\"HttpVersion\":null,\"HttpCode\":null,\"ContextType\":null,\"SendContext\":null,\"RecvContext\":null},\"Certificate\":null,\"Scheduler\":\"WRR\",\"SessionExpireTime\":0,\"SniSwitch\":0,\"Rules\":null,\"TargetType\":\"NODE\",\"TargetGroup\":null,\"KeepaliveEnable\":null,\"SessionType\":\"NORMAL\",\"Toa\":false,\"_InstanceAliasValue\":\"lbl-pfsf8upy\"}"
-        },
+        "current": {},
         "datasource": "Tencent Cloud Monitor Datasource",
         "definition": "Namespace=QCE/LB_PRIVATE&Action=DescribeListeners&Region=$region&Instance=$privateInstance&listenerAlias=ListenerId",
         "error": null,
@@ -5029,18 +5020,7 @@
         "label": "内网实例监听器",
         "multi": false,
         "name": "privateListener",
-        "options": [
-          {
-            "selected": true,
-            "text": "lbl-pfsf8upy",
-            "value": "{\"ListenerId\":\"lbl-pfsf8upy\",\"ListenerName\":\"TKE-DEDICATED-LISTENER\",\"CreateTime\":\"2021-01-29 11:36:15\",\"Protocol\":\"TCP\",\"Port\":80,\"EndPort\":0,\"HealthCheck\":{\"HealthSwitch\":1,\"TimeOut\":2,\"IntervalTime\":5,\"HealthNum\":3,\"UnHealthNum\":3,\"CheckPort\":null,\"CheckType\":\"TCP\",\"HttpCheckDomain\":null,\"HttpCheckPath\":null,\"HttpCheckMethod\":null,\"HttpVersion\":null,\"HttpCode\":null,\"ContextType\":null,\"SendContext\":null,\"RecvContext\":null},\"Certificate\":null,\"Scheduler\":\"WRR\",\"SessionExpireTime\":0,\"SniSwitch\":0,\"Rules\":null,\"TargetType\":\"NODE\",\"TargetGroup\":null,\"KeepaliveEnable\":null,\"SessionType\":\"NORMAL\",\"Toa\":false,\"_InstanceAliasValue\":\"lbl-pfsf8upy\"}"
-          },
-          {
-            "selected": false,
-            "text": "lbl-59gcaow4",
-            "value": "{\"ListenerId\":\"lbl-59gcaow4\",\"ListenerName\":\"TKE-DEDICATED-LISTENER\",\"CreateTime\":\"2021-01-29 11:36:08\",\"Protocol\":\"TCP\",\"Port\":8080,\"EndPort\":0,\"HealthCheck\":{\"HealthSwitch\":1,\"TimeOut\":2,\"IntervalTime\":5,\"HealthNum\":3,\"UnHealthNum\":3,\"CheckPort\":null,\"CheckType\":\"TCP\",\"HttpCheckDomain\":null,\"HttpCheckPath\":null,\"HttpCheckMethod\":null,\"HttpVersion\":null,\"HttpCode\":null,\"ContextType\":null,\"SendContext\":null,\"RecvContext\":null},\"Certificate\":null,\"Scheduler\":\"WRR\",\"SessionExpireTime\":0,\"SniSwitch\":0,\"Rules\":null,\"TargetType\":\"NODE\",\"TargetGroup\":null,\"KeepaliveEnable\":null,\"SessionType\":\"NORMAL\",\"Toa\":false,\"_InstanceAliasValue\":\"lbl-59gcaow4\"}"
-          }
-        ],
+        "options": [],
         "query": "Namespace=QCE/LB_PRIVATE&Action=DescribeListeners&Region=$region&Instance=$privateInstance&listenerAlias=ListenerId",
         "refresh": 0,
         "regex": "",
@@ -5054,12 +5034,9 @@
       },
       {
         "allValue": null,
-        "current": {
-          "text": "lb-c2f3tgo4",
-          "value": "{\"LoadBalancerId\":\"lb-c2f3tgo4\",\"LoadBalancerName\":\"cls-pkask1w4_app-test_amp-data-check-barad-docker\",\"Forward\":1,\"Domain\":\"\",\"LoadBalancerVips\":[\"109.244.192.223\"],\"AddressIPv6\":null,\"AddressIPVersion\":\"ipv4\",\"IPv6Mode\":null,\"LoadBalancerType\":\"OPEN\",\"Status\":1,\"CreateTime\":\"2020-08-29 22:48:34\",\"StatusTime\":\"2021-01-15 10:14:03\",\"ProjectId\":0,\"OpenBgp\":0,\"Snat\":false,\"Isolation\":0,\"Log\":\"\",\"AnycastZone\":\"\",\"VpcId\":\"vpc-gvemho5j\",\"NumericalVpcId\":1417879,\"TargetRegionInfo\":{\"Region\":\"ap-guangzhou\",\"VpcId\":\"vpc-gvemho5j\"},\"SubnetId\":\"\",\"SecureGroups\":[],\"Tags\":[{\"TagKey\":\"tke-createdBy-flag\",\"TagValue\":\"yes\"},{\"TagKey\":\"tke-clusterId\",\"TagValue\":\"cls-pkask1w4\"},{\"TagKey\":\"aff4d612-917a-4194-976b-9fc143a0ed3e\",\"TagValue\":\"tke-lb-serviceId\"},{\"TagKey\":\"运营产品\",\"TagValue\":\"腾讯云云监控_2096\"},{\"TagKey\":\"运营部门\",\"TagValue\":\"云监控产品中心_1120\"},{\"TagKey\":\"二级业务\",\"TagValue\":\"[监控中台][广州集群]_1270149\"}],\"VipIsp\":\"限速CAP\",\"MasterZone\":{\"ZoneId\":100004,\"Zone\":\"ap-guangzhou-4\",\"ZoneName\":\"ap-guangzhou-4\"},\"BackupZoneSet\":null,\"IsolatedTime\":null,\"ExpireTime\":\"2020-09-29 22:48:34\",\"ChargeType\":\"POSTPAID_BY_HOUR\",\"NetworkAttributes\":{\"InternetChargeType\":\"TRAFFIC_POSTPAID_BY_HOUR\",\"InternetMaxBandwidthOut\":10,\"BandwidthpkgSubType\":null},\"PrepaidAttributes\":null,\"ExtraInfo\":{\"ZhiTong\":false,\"TgwGroupName\":\"ziyan\"},\"LogSetId\":\"\",\"LogTopicId\":\"\",\"LoadBalancerPassToTarget\":false,\"IsDDos\":false,\"ConfigId\":\"\",\"ExclusiveCluster\":{},\"SnatPro\":false,\"SnatIps\":[],\"IsBlock\":false,\"IsBlockTime\":\"\",\"SlaType\":\"\",\"ClusterTag\":\"ziyan\",\"LocalBgp\":false,\"MixIpTarget\":false,\"Zones\":null,\"NfvInfo\":null,\"_InstanceAliasValue\":\"lb-c2f3tgo4\"}"
-        },
+        "current": {},
         "datasource": "Tencent Cloud Monitor Datasource",
-        "definition": "Namespace=QCE/LB_PUBLIC&Action= DescribeLoadBalancers&Region=$region&InstanceAlias=LoadBalancerId",
+        "definition": "Namespace=QCE/LB_PUBLIC&Action= DescribeInstances&Region=$region&InstanceAlias=LoadBalancerId",
         "error": null,
         "hide": 0,
         "includeAll": false,
@@ -5068,7 +5045,7 @@
         "multi": false,
         "name": "publicInstance",
         "options": [],
-        "query": "Namespace=QCE/LB_PUBLIC&Action= DescribeLoadBalancers&Region=$region&InstanceAlias=LoadBalancerId",
+        "query": "Namespace=QCE/LB_PUBLIC&Action= DescribeInstances&Region=$region&InstanceAlias=LoadBalancerId",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
@@ -5081,10 +5058,7 @@
       },
       {
         "allValue": null,
-        "current": {
-          "text": "lbl-kmmz1jwq",
-          "value": "{\"ListenerId\":\"lbl-kmmz1jwq\",\"ListenerName\":\"TKE-DEDICATED-LISTENER\",\"CreateTime\":\"2020-08-29 22:48:39\",\"Protocol\":\"TCP\",\"Port\":80,\"EndPort\":0,\"HealthCheck\":{\"HealthSwitch\":1,\"TimeOut\":2,\"IntervalTime\":5,\"HealthNum\":3,\"UnHealthNum\":3,\"CheckPort\":null,\"CheckType\":\"TCP\",\"HttpCheckDomain\":null,\"HttpCheckPath\":null,\"HttpCheckMethod\":null,\"HttpVersion\":null,\"HttpCode\":null,\"ContextType\":null,\"SendContext\":null,\"RecvContext\":null},\"Certificate\":null,\"Scheduler\":\"WRR\",\"SessionExpireTime\":0,\"SniSwitch\":0,\"Rules\":null,\"TargetType\":\"NODE\",\"TargetGroup\":null,\"KeepaliveEnable\":null,\"SessionType\":\"NORMAL\",\"Toa\":false,\"_InstanceAliasValue\":\"lbl-kmmz1jwq\"}"
-        },
+        "current": {},
         "datasource": "Tencent Cloud Monitor Datasource",
         "definition": "Namespace=QCE/LB_PUBLIC&Action=DescribeListeners&Region=$region&Instance=$publicInstance&listenerAlias=ListenerId",
         "error": null,
@@ -5094,13 +5068,7 @@
         "label": "公网实例监听器",
         "multi": false,
         "name": "publicListener",
-        "options": [
-          {
-            "selected": true,
-            "text": "lbl-kmmz1jwq",
-            "value": "{\"ListenerId\":\"lbl-kmmz1jwq\",\"ListenerName\":\"TKE-DEDICATED-LISTENER\",\"CreateTime\":\"2020-08-29 22:48:39\",\"Protocol\":\"TCP\",\"Port\":80,\"EndPort\":0,\"HealthCheck\":{\"HealthSwitch\":1,\"TimeOut\":2,\"IntervalTime\":5,\"HealthNum\":3,\"UnHealthNum\":3,\"CheckPort\":null,\"CheckType\":\"TCP\",\"HttpCheckDomain\":null,\"HttpCheckPath\":null,\"HttpCheckMethod\":null,\"HttpVersion\":null,\"HttpCode\":null,\"ContextType\":null,\"SendContext\":null,\"RecvContext\":null},\"Certificate\":null,\"Scheduler\":\"WRR\",\"SessionExpireTime\":0,\"SniSwitch\":0,\"Rules\":null,\"TargetType\":\"NODE\",\"TargetGroup\":null,\"KeepaliveEnable\":null,\"SessionType\":\"NORMAL\",\"Toa\":false,\"_InstanceAliasValue\":\"lbl-kmmz1jwq\"}"
-          }
-        ],
+        "options": [],
         "query": "Namespace=QCE/LB_PUBLIC&Action=DescribeListeners&Region=$region&Instance=$publicInstance&listenerAlias=ListenerId",
         "refresh": 0,
         "regex": "",
@@ -5114,12 +5082,9 @@
       },
       {
         "allValue": null,
-        "current": {
-          "text": "lb-gldsxpcw",
-          "value": "{\"LoadBalancerId\":\"lb-gldsxpcw\",\"LoadBalancerName\":\"cls-oloe0yho_alarm-domain-test-d_amp-svc\",\"Forward\":1,\"Domain\":\"\",\"LoadBalancerVips\":[\"9.223.109.185\"],\"AddressIPv6\":null,\"AddressIPVersion\":\"ipv4\",\"IPv6Mode\":null,\"LoadBalancerType\":\"INTERNAL\",\"Status\":1,\"CreateTime\":\"2021-01-29 11:36:03\",\"StatusTime\":\"2021-01-29 11:36:21\",\"ProjectId\":0,\"OpenBgp\":0,\"Snat\":false,\"Isolation\":0,\"Log\":\"\",\"AnycastZone\":\"\",\"VpcId\":\"vpc-41ynd0e9\",\"NumericalVpcId\":2659211,\"TargetRegionInfo\":{\"Region\":\"ap-guangzhou\",\"VpcId\":\"vpc-41ynd0e9\"},\"SubnetId\":\"subnet-nw1e9mes\",\"SecureGroups\":[],\"Tags\":[{\"TagKey\":\"tke-createdBy-flag\",\"TagValue\":\"yes\"},{\"TagKey\":\"tke-clusterId\",\"TagValue\":\"cls-oloe0yho\"},{\"TagKey\":\"bfd353b3-d5e8-4ee3-a842-c0c5ff39755d\",\"TagValue\":\"tke-lb-serviceId\"},{\"TagKey\":\"运营产品\",\"TagValue\":\"腾讯云云监控_2096\"},{\"TagKey\":\"负责人\",\"TagValue\":\"josephfu\"},{\"TagKey\":\"运营部门\",\"TagValue\":\"云监控产品中心_1120\"}],\"VipIsp\":\"INTERNAL\",\"MasterZone\":null,\"BackupZoneSet\":null,\"IsolatedTime\":null,\"ExpireTime\":\"2021-03-01 11:36:04\",\"ChargeType\":\"POSTPAID_BY_HOUR\",\"NetworkAttributes\":{\"InternetChargeType\":\"TRAFFIC_POSTPAID_BY_HOUR\",\"InternetMaxBandwidthOut\":0,\"BandwidthpkgSubType\":null},\"PrepaidAttributes\":null,\"ExtraInfo\":null,\"LogSetId\":\"\",\"LogTopicId\":\"\",\"LoadBalancerPassToTarget\":false,\"IsDDos\":false,\"ConfigId\":\"\",\"ExclusiveCluster\":{},\"SnatPro\":false,\"SnatIps\":[],\"IsBlock\":false,\"IsBlockTime\":\"\",\"SlaType\":\"\",\"ClusterTag\":null,\"LocalBgp\":false,\"MixIpTarget\":false,\"Zones\":null,\"NfvInfo\":\"\",\"_InstanceAliasValue\":\"lb-gldsxpcw\"}"
-        },
+        "current": {},
         "datasource": "Tencent Cloud Monitor Datasource",
-        "definition": "Namespace=QCE/LOADBALANCE&Action= DescribeLoadBalancers&Region=$region&InstanceAlias=LoadBalancerId",
+        "definition": "Namespace=QCE/LOADBALANCE&Action= DescribeInstances&Region=$region&InstanceAlias=LoadBalancerId",
         "error": null,
         "hide": 0,
         "includeAll": false,
@@ -5128,7 +5093,7 @@
         "multi": false,
         "name": "instance",
         "options": [],
-        "query": "Namespace=QCE/LOADBALANCE&Action= DescribeLoadBalancers&Region=$region&InstanceAlias=LoadBalancerId",
+        "query": "Namespace=QCE/LOADBALANCE&Action= DescribeInstances&Region=$region&InstanceAlias=LoadBalancerId",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
@@ -5141,10 +5106,7 @@
       },
       {
         "allValue": null,
-        "current": {
-          "text": "lbl-pfsf8upy",
-          "value": "{\"ListenerId\":\"lbl-pfsf8upy\",\"ListenerName\":\"TKE-DEDICATED-LISTENER\",\"CreateTime\":\"2021-01-29 11:36:15\",\"Protocol\":\"TCP\",\"Port\":80,\"EndPort\":0,\"HealthCheck\":{\"HealthSwitch\":1,\"TimeOut\":2,\"IntervalTime\":5,\"HealthNum\":3,\"UnHealthNum\":3,\"CheckPort\":null,\"CheckType\":\"TCP\",\"HttpCheckDomain\":null,\"HttpCheckPath\":null,\"HttpCheckMethod\":null,\"HttpVersion\":null,\"HttpCode\":null,\"ContextType\":null,\"SendContext\":null,\"RecvContext\":null},\"Certificate\":null,\"Scheduler\":\"WRR\",\"SessionExpireTime\":0,\"SniSwitch\":0,\"Rules\":null,\"TargetType\":\"NODE\",\"TargetGroup\":null,\"KeepaliveEnable\":null,\"SessionType\":\"NORMAL\",\"Toa\":false,\"_InstanceAliasValue\":\"lbl-pfsf8upy\"}"
-        },
+        "current": {},
         "datasource": "Tencent Cloud Monitor Datasource",
         "definition": "Namespace=QCE/LOADBALANCE&Action=DescribeListeners&Region=$region&Instance=$instance&listenerAlias=ListenerId",
         "error": null,
@@ -5154,18 +5116,7 @@
         "label": "七层协议实例监听器",
         "multi": false,
         "name": "listener",
-        "options": [
-          {
-            "selected": true,
-            "text": "lbl-pfsf8upy",
-            "value": "{\"ListenerId\":\"lbl-pfsf8upy\",\"ListenerName\":\"TKE-DEDICATED-LISTENER\",\"CreateTime\":\"2021-01-29 11:36:15\",\"Protocol\":\"TCP\",\"Port\":80,\"EndPort\":0,\"HealthCheck\":{\"HealthSwitch\":1,\"TimeOut\":2,\"IntervalTime\":5,\"HealthNum\":3,\"UnHealthNum\":3,\"CheckPort\":null,\"CheckType\":\"TCP\",\"HttpCheckDomain\":null,\"HttpCheckPath\":null,\"HttpCheckMethod\":null,\"HttpVersion\":null,\"HttpCode\":null,\"ContextType\":null,\"SendContext\":null,\"RecvContext\":null},\"Certificate\":null,\"Scheduler\":\"WRR\",\"SessionExpireTime\":0,\"SniSwitch\":0,\"Rules\":null,\"TargetType\":\"NODE\",\"TargetGroup\":null,\"KeepaliveEnable\":null,\"SessionType\":\"NORMAL\",\"Toa\":false,\"_InstanceAliasValue\":\"lbl-pfsf8upy\"}"
-          },
-          {
-            "selected": false,
-            "text": "lbl-59gcaow4",
-            "value": "{\"ListenerId\":\"lbl-59gcaow4\",\"ListenerName\":\"TKE-DEDICATED-LISTENER\",\"CreateTime\":\"2021-01-29 11:36:08\",\"Protocol\":\"TCP\",\"Port\":8080,\"EndPort\":0,\"HealthCheck\":{\"HealthSwitch\":1,\"TimeOut\":2,\"IntervalTime\":5,\"HealthNum\":3,\"UnHealthNum\":3,\"CheckPort\":null,\"CheckType\":\"TCP\",\"HttpCheckDomain\":null,\"HttpCheckPath\":null,\"HttpCheckMethod\":null,\"HttpVersion\":null,\"HttpCode\":null,\"ContextType\":null,\"SendContext\":null,\"RecvContext\":null},\"Certificate\":null,\"Scheduler\":\"WRR\",\"SessionExpireTime\":0,\"SniSwitch\":0,\"Rules\":null,\"TargetType\":\"NODE\",\"TargetGroup\":null,\"KeepaliveEnable\":null,\"SessionType\":\"NORMAL\",\"Toa\":false,\"_InstanceAliasValue\":\"lbl-59gcaow4\"}"
-          }
-        ],
+        "options": [],
         "query": "Namespace=QCE/LOADBALANCE&Action=DescribeListeners&Region=$region&Instance=$instance&listenerAlias=ListenerId",
         "refresh": 0,
         "regex": "",

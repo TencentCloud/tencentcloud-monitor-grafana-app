@@ -6,7 +6,6 @@ import SignV2 from './signV2';
 
 // the services of tencentcloud monitor api
 const FINACE_REGIONS = ['ap-shanghai-fsi', 'ap-shenzhen-fsi'];
-export const pluginVersion = '1.3.1';
 const SERVICES_API_INFO = {
   // monitor api info
   monitor: {
@@ -46,7 +45,7 @@ const SERVICES_API_INFO = {
   // mongodb api info
   mongodb: {
     service: 'mongodb',
-    version: '2018-04-08',
+    version: '2019-07-25',
     path: '/mongodb',
     host: 'mongodb.tencentcloudapi.com',
   },
@@ -64,6 +63,46 @@ const SERVICES_API_INFO = {
     path: '/postgres',
     host: 'postgres.tencentcloudapi.com',
   },
+  // cdn info
+  cdn: {
+    service: 'cdn',
+    version: '2018-06-06',
+    path: '/cdn',
+    host: 'cdn.tencentcloudapi.com',
+  },
+  // redis info
+  redis: {
+    service: 'redis',
+    version: '2018-04-12',
+    path: '/redis',
+    host: 'redis.tencentcloudapi.com',
+  },
+  scf: {
+    service: 'scf',
+    version: '2018-04-16',
+    path: '/scf',
+    host: 'scf.tencentcloudapi.com'
+  },
+  cfs: {
+    service: 'cfs',
+    version: '2019-07-19',
+    path: '/cfs',
+    host: 'cfs.tencentcloudapi.com'
+  },
+  ckafka: {
+    service: 'ckafka',
+    version: '2019-08-19',
+    path: '/ckafka',
+    host: 'ckafka.tencentcloudapi.com'
+  },
+
+  // 不单独定义lb，因为lb同样用的是vpc的配置，同上
+  // lb: {
+  //   service: 'lb',
+  //   version: '2017-03-12',
+  //   path: '/lb',
+  //   host: 'vpc.tencentcloudapi.com'
+  // }
   // 负载均衡四层协议 lbPrivate
   // lbPrivate: {
   //   service: 'lbPrivate',
@@ -74,6 +113,36 @@ const SERVICES_API_INFO = {
 };
 
 const FINACE_HOST = {
+  scf: {
+    'ap-shanghai-fsi': {
+      path: '/fsi/scf/shanghai',
+      host: 'scf.ap-shanghai-fsi.tencentcloudapi.com',
+    },
+    'ap-shenzhen-fsi': {
+      path: '/fsi/scf/shenzhen',
+      host: 'scf.ap-shenzhen-fsi.tencentcloudapi.com',
+    }
+  },
+  cfs: {
+    'ap-shanghai-fsi': {
+      path: '/fsi/cfs/shanghai',
+      host: 'cfs.ap-shanghai-fsi.tencentcloudapi.com',
+    },
+    'ap-shenzhen-fsi': {
+      path: '/fsi/cfs/shenzhen',
+      host: 'cfs.ap-shenzhen-fsi.tencentcloudapi.com',
+    }
+  },
+  ckafka: {
+    'ap-shanghai-fsi': {
+      path: '/fsi/ckafka/shanghai',
+      host: 'ckafka.ap-shanghai-fsi.tencentcloudapi.com',
+    },
+    'ap-shenzhen-fsi': {
+      path: '/fsi/ckafka/shenzhen',
+      host: 'ckafka.ap-shenzhen-fsi.tencentcloudapi.com',
+    }
+  },
   clb: {
     'ap-shanghai-fsi': {
       path: '/fsi/clb/shanghai',
@@ -255,7 +324,7 @@ export function GetDimensions(obj) {
 // parse query data result for panel
 export function ParseQueryResult(response, instances: any[] = []) {
   const instanceList = _.cloneDeep(instances);
-  // console.log('parseQueryResult:', response, instances);
+  console.log('parseQueryResult:', response, instances);
   const dataPoints = _.get(response, 'DataPoints', []);
   return _.map(dataPoints, dataPoint => {
     let instanceAliasValue = _.get(dataPoint, 'Dimensions[0].Value');
