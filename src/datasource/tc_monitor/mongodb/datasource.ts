@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import DatasourceInterface from '../../datasource';
-import { MONGODBInstanceAliasList } from './query_def';
+import { MONGODBInstanceAliasList, MONGODBInvalidDemensions } from './query_def';
 import { GetRequestParams, GetServiceAPIInfo, ReplaceVariable, GetDimensions, ParseQueryResult, VARIABLE_ALIAS, SliceLength } from '../../common/constants';
 
 export default class MONGODBDatasource implements DatasourceInterface {
@@ -102,7 +102,11 @@ export default class MONGODBDatasource implements DatasourceInterface {
         Instances: _.map(instances, instance => {
           const dimensionObject = target.mongoDB.dimensionObject;
           _.forEach(dimensionObject, (__, key) => {
-            dimensionObject[key] = { Name: key, Value: instance[key] };
+            if (_.has(MONGODBInvalidDemensions,key)) {
+              const keyTmp = MONGODBInvalidDemensions[key];
+              instance[key] = instance[keyTmp];
+            }
+            dimensionObject[key] = { Name: 'target', Value: instance[key] };
           });
           return { Dimensions: GetDimensions(dimensionObject) };
         }),

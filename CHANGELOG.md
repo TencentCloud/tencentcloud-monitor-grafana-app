@@ -1,6 +1,22 @@
 # TencentCloud Monitor Grafana App
 ---
 
+## [1.4.0] - 2021-03-01
+
+### Added
+
+- Support monitoring [TencentDB for MongoDB](https://intl.cloud.tencent.com/document/product/248/35671);
+- Support monitoring [TencentDB for Redis](https://intl.cloud.tencent.com/document/product/248/39507);
+- Support monitoring [Content Delivery Network (CDN)](https://intl.cloud.tencent.com/document/product/248/39554);
+- Support monitoring [Bandwidth Packet](https://intl.cloud.tencent.com/document/product/248/34645);
+- Support monitoring [Message Queue CKafka](https://intl.cloud.tencent.com/document/product/248/17297);
+- Support monitoring [Elastic IP](https://intl.cloud.tencent.com/document/product/248/34646);
+- Support monitoring [Cloud File Storage (CFS)](https://intl.cloud.tencent.com/document/product/248/34644);
+- Support monitoring [Serverless Cloud Function (SCF)](https://intl.cloud.tencent.com/document/product/248/34638);
+- Provides representative [Dashboard templates](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/tree/master/src/dashboards) for **TencentDB for MongoDB**, **TencentDB for Redis**, **Content Delivery Network**, **Message Queue CKafka**, **Elastic IP**, **Cloud File Storage** and **Serverless Cloud Function**;
+
+See detailed guide in [README.md](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/README.md).
+
 ## [1.3.1] - 2021-01-29
 
 ### Added

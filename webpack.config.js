@@ -2,6 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const packageinfo = require('./package.json');
 
 
 module.exports = {
@@ -49,6 +50,9 @@ module.exports = {
       { from: '../README.md' },
       { from: '**/img/*' },
     ]),
+    new webpack.DefinePlugin({
+      'process.env.TENCENT_CLOUD_MONITOR_GRAFANA_PLUGIN_VERSION': JSON.stringify(packageinfo.version),
+    }),
   ],
   resolve: {
     extensions: ['.ts', '.js', '.html', '.css']

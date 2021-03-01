@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import DatasourceInterface from '../../datasource';
-import { CDBInstanceAliasList, CDBInvalidDemensions } from './query_def';
+import { CDBInstanceAliasList, CDBInvalidDemensions, isValidMetric } from './query_def';
 import { GetRequestParams, GetServiceAPIInfo, ReplaceVariable, GetDimensions, ParseQueryResult, VARIABLE_ALIAS, SliceLength } from '../../common/constants';
 
 
@@ -181,7 +181,7 @@ export default class CDBDatasource implements DatasourceInterface {
       },
     }, serviceInfo.service, { region, action: 'DescribeBaseMetrics' })
       .then(response => {
-        return _.filter(response.MetricSet || [], item => !(item.Namespace !== this.Namespace || !item.MetricName));
+        return _.filter(response.MetricSet || [], item => !(item.Namespace !== this.Namespace || !item.MetricName) && isValidMetric(item));
       });
   }
 

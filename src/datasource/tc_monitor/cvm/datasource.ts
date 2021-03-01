@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import DatasourceInterface from '../../datasource';
-import { CVMInstanceAliasList, CVMInvalidMetrics, CVMInvalidDemensions } from './query_def';
+import { CVMInstanceAliasList, CVMValidMetrics, CVM_INSTANCE_DIMENSIONOBJECTS } from './query_def';
 import { GetRequestParams, GetServiceAPIInfo, ReplaceVariable, GetDimensions, ParseQueryResult, VARIABLE_ALIAS, SliceLength, ParseMetricRegex } from '../../common/constants';
 
 export default class CVMDatasource implements DatasourceInterface {
@@ -101,13 +101,15 @@ export default class CVMDatasource implements DatasourceInterface {
         EndTime: moment(options.range.to).format(),
         Period: target.cvm.period || 300,
         Instances: _.map(instances, instance => {
-          const dimensionObject = target.cvm.dimensionObject;
+          // const dimensionObject = target.cvm.dimensionObject;
+          const dimensionObject = CVM_INSTANCE_DIMENSIONOBJECTS;
+          console.log({dimensionObject});
           _.forEach(dimensionObject, (__, key) => {
-            let keyTmp = key;
-            if (_.has(CVMInvalidDemensions,key)) {
-              keyTmp = CVMInvalidDemensions[key];
-            }
-            dimensionObject[keyTmp] = { Name: keyTmp, Value: instance[keyTmp] };
+            // let keyTmp = key;
+            // if (_.has(CVMInvalidDemensions,key)) {
+            //   keyTmp = CVMInvalidDemensions[key];
+            // }
+            dimensionObject[key] = { Name: key, Value: instance[key] };
           });
           return { Dimensions: GetDimensions(dimensionObject) };
         }),
@@ -149,6 +151,9 @@ export default class CVMDatasource implements DatasourceInterface {
       data: params,
     }, serviceInfo.service, { action: 'GetMonitorData', region })
     .then(response => {
+      if (!response.DataPoints) {
+        response.DataPoints = params.Instances;
+      }
       return ParseQueryResult(response, instances);
     });
   }
@@ -178,7 +183,7 @@ export default class CVMDatasource implements DatasourceInterface {
       .then(response => {
         return _.filter(
           _.filter(response.MetricSet || [], item => !(item.Namespace !== this.Namespace || !item.MetricName)),
-          item => _.indexOf(CVMInvalidMetrics, item.MetricName) === -1);
+          item => _.indexOf(CVMValidMetrics, _.toUpper(item.MetricName)) !== -1);
       });
   }
 

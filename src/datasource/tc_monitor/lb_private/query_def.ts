@@ -207,11 +207,24 @@ const LBPRIVATEVALIDDIMENSIONS = {
   loadBalancerPort: 'Port',
   protocol: 'Protocol'
 };
+
+const LBPRIVATE_INSTANCE_DIMENSIONOBJECTS = {
+  vip: { Name: 'vip', Value: ''},
+  vpcId: { Name: 'vpcId', Value: ''},
+};
+const LBPRIVATE_LISTENER_DIMENSIONOBJECTS = {
+  vip: { Name: 'vip', Value: ''},
+  vpcId: { Name: 'vpcId', Value: ''},
+  loadBalancerPort: { Name: 'loadBalancerPort', Value: ''},
+  protocol: { Name: 'protocol', Value: ''},
+};
 export default LBPRIVATE_STATE;
 export {
   LBPRIVATEFieldsDescriptor,
   LBPRIVATEInstanceAliasList,
   LBPRIVATEListenerAliasList,
   LBPRIVATEVALIDDIMENSIONS,
+  LBPRIVATE_INSTANCE_DIMENSIONOBJECTS,
+  LBPRIVATE_LISTENER_DIMENSIONOBJECTS,
   GetInstanceQueryParams as LBPRIVATEGetInstanceQueryParams,
 };

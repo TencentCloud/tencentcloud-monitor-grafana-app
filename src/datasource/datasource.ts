@@ -235,4 +235,11 @@ export class TCMonitorDatasource implements DatasourceInterface {
       };
     });
   }
+
+  getServiceFn(service, fnName) {
+    return (region, params) => {
+      if (!this[`${_.toUpper(service)}Datasource`][fnName]) { return [];}
+      return this[`${_.toUpper(service)}Datasource`][fnName](region, params);
+    };
+  }
 }

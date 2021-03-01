@@ -2,7 +2,7 @@ import { QueryCtrl } from 'grafana/app/plugins/sdk';
 import * as _ from 'lodash';
 
 import { GetServiceFromNamespace, ReplaceVariable } from './common/constants';
-import { InitServiceState, InstanceAliasList, GetInstanceQueryParams, ListenerAliasList, IdKeys } from './tc_monitor';
+import { InitServiceState, InstanceAliasList, GetInstanceQueryParams, ListenerAliasList, IdKeys, DefaultDimensions } from './tc_monitor';
 
 import './components/multi_condition';
 import './components/custom_select_dropdown';
@@ -36,6 +36,8 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
 
   lastQuery: string;
   lastQueryError?: string;
+
+  isMetricsNeedUpdate: boolean;
 
   /** @ngInject */
   constructor($scope, $injector, private templateSrv) {
@@ -171,6 +173,7 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
     this.target[service].instance = '';
     this.instanceList = [];
     this.listenerList = [];
+    this.isMetricsNeedUpdate = true;
     _.forEach(this.target[service].dimensionObject, (__, key) => {
       this.target[service].dimensionObject[key] = { Name: key, Value: '' };
     });
@@ -202,12 +205,13 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
     if (!service || !region) {
       return [];
     }
-    if (this.metricList.length) {
+    if (!this.isMetricsNeedUpdate && this.metricList.length>0) {
       return _.map(this.metricList, item => ({ text: item.MetricName, value: item.MetricName }));
     }
     return this.datasource.getMetrics(service, region)
       .then(list => {
         this.metricList = list;
+        this.isMetricsNeedUpdate = false;
         const index = _.findIndex(this.metricList, item => item.MetricName === this.target[service].metricName);
         if (index !== -1) {
           this.periodList = _.get(this.metricList[index], 'Period', []);
@@ -228,6 +232,7 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
     if (index !== -1) {
       periodList = _.get(this.metricList[index], 'Period', []);
       dimensionList = _.get(this.metricList[index], 'Dimensions.0.Dimensions', []);
+      dimensionList = dimensionList.length > 0 ? dimensionList : (DefaultDimensions[service] ?? []);
       metricUnit = _.get(this.metricList[index], 'Unit', '');
     }
     _.forEach(dimensionList, item => {

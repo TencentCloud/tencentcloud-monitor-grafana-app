@@ -62,10 +62,14 @@ function GetInstanceQueryParams(queries: any = {}) {
   return params;
 }
 
+const PostgreInvalidDemensions = {
+  'uid': 'DBInstanceId',
+};
 export default POSTGRES_STATE;
 
 export {
   PostgresFieldsDescriptor,
   POSTGRESInstanceAliasList,
+  PostgreInvalidDemensions,
   GetInstanceQueryParams as POSTGRESGetInstanceQueryParams,
 };
