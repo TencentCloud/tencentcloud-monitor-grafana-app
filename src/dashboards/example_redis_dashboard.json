@@ -17,7 +17,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1614493652053,
+  "iteration": 1614737980360,
   "links": [],
   "panels": [
     {
@@ -352,7 +352,7 @@
             },
             "region": ""
           },
-          "namespace": "QCE/REDIS_MEM",
+          "namespace": "QCE/REDIS",
           "natGateway": {
             "dimensionObject": null,
             "instance": "",
@@ -432,11 +432,17 @@
             "region": ""
           },
           "redis": {
-            "dimensionObject": null,
-            "instance": "",
+            "dimensionObject": {
+              "instanceid": {
+                "Name": "instanceid",
+                "Value": ""
+              }
+            },
+            "instance": "$instance",
             "instanceAlias": "InstanceId",
-            "metricName": "",
-            "metricUnit": "",
+            "metricName": "CpuUsMin",
+            "metricUnit": "%",
+            "period": 300,
             "queries": {
               "AutoRenew": null,
               "BillingMode": "",
@@ -455,7 +461,7 @@
               "UniqVpcIds": [],
               "VpcIds": []
             },
-            "region": ""
+            "region": "$region"
           },
           "redisMem": {
             "dimensionObject": {
@@ -508,7 +514,7 @@
             "region": "",
             "version": ""
           },
-          "service": "redisMem",
+          "service": "redis",
           "showInstanceDetails": false
         }
       ],
@@ -871,7 +877,7 @@
             },
             "region": ""
           },
-          "namespace": "QCE/REDIS_MEM",
+          "namespace": "QCE/REDIS",
           "natGateway": {
             "dimensionObject": null,
             "instance": "",
@@ -951,11 +957,17 @@
             "region": ""
           },
           "redis": {
-            "dimensionObject": null,
-            "instance": "",
+            "dimensionObject": {
+              "instanceid": {
+                "Name": "instanceid",
+                "Value": ""
+              }
+            },
+            "instance": "$instance",
             "instanceAlias": "InstanceId",
-            "metricName": "",
-            "metricUnit": "",
+            "metricName": "StorageMin",
+            "metricUnit": "MB",
+            "period": 300,
             "queries": {
               "AutoRenew": null,
               "BillingMode": "",
@@ -974,7 +986,7 @@
               "UniqVpcIds": [],
               "VpcIds": []
             },
-            "region": ""
+            "region": "$region"
           },
           "redisMem": {
             "dimensionObject": {
@@ -1027,7 +1039,7 @@
             "region": "",
             "version": ""
           },
-          "service": "redisMem",
+          "service": "redis",
           "showInstanceDetails": false
         }
       ],
@@ -1411,7 +1423,7 @@
             },
             "region": ""
           },
-          "namespace": "QCE/REDIS_MEM",
+          "namespace": "QCE/REDIS",
           "natGateway": {
             "dimensionObject": null,
             "instance": "",
@@ -1491,11 +1503,17 @@
             "region": ""
           },
           "redis": {
-            "dimensionObject": null,
-            "instance": "",
+            "dimensionObject": {
+              "instanceid": {
+                "Name": "instanceid",
+                "Value": ""
+              }
+            },
+            "instance": "$instance",
             "instanceAlias": "InstanceId",
-            "metricName": "",
-            "metricUnit": "",
+            "metricName": "ConnectionsMin",
+            "metricUnit": "count",
+            "period": 300,
             "queries": {
               "AutoRenew": null,
               "BillingMode": "",
@@ -1514,7 +1532,7 @@
               "UniqVpcIds": [],
               "VpcIds": []
             },
-            "region": ""
+            "region": "$region"
           },
           "redisMem": {
             "dimensionObject": {
@@ -1567,7 +1585,7 @@
             "region": "",
             "version": ""
           },
-          "service": "redisMem",
+          "service": "redis",
           "showInstanceDetails": false
         }
       ],
@@ -1937,7 +1955,7 @@
             },
             "region": ""
           },
-          "namespace": "QCE/REDIS_MEM",
+          "namespace": "QCE/REDIS",
           "natGateway": {
             "dimensionObject": null,
             "instance": "",
@@ -2017,11 +2035,17 @@
             "region": ""
           },
           "redis": {
-            "dimensionObject": null,
-            "instance": "",
+            "dimensionObject": {
+              "instanceid": {
+                "Name": "instanceid",
+                "Value": ""
+              }
+            },
+            "instance": "$instance",
             "instanceAlias": "InstanceId",
-            "metricName": "",
-            "metricUnit": "",
+            "metricName": "ConnectionsUsMin",
+            "metricUnit": "%",
+            "period": 300,
             "queries": {
               "AutoRenew": null,
               "BillingMode": "",
@@ -2040,7 +2064,7 @@
               "UniqVpcIds": [],
               "VpcIds": []
             },
-            "region": ""
+            "region": "$region"
           },
           "redisMem": {
             "dimensionObject": {
@@ -2093,7 +2117,7 @@
             "region": "",
             "version": ""
           },
-          "service": "redisMem",
+          "service": "redis",
           "showInstanceDetails": false
         }
       ],
@@ -2463,7 +2487,7 @@
             },
             "region": ""
           },
-          "namespace": "QCE/REDIS_MEM",
+          "namespace": "QCE/REDIS",
           "natGateway": {
             "dimensionObject": null,
             "instance": "",
@@ -2543,11 +2567,17 @@
             "region": ""
           },
           "redis": {
-            "dimensionObject": null,
-            "instance": "",
+            "dimensionObject": {
+              "instanceid": {
+                "Name": "instanceid",
+                "Value": ""
+              }
+            },
+            "instance": "$instance",
             "instanceAlias": "InstanceId",
-            "metricName": "",
-            "metricUnit": "",
+            "metricName": "InFlowMin",
+            "metricUnit": "MB",
+            "period": 300,
             "queries": {
               "AutoRenew": null,
               "BillingMode": "",
@@ -2566,7 +2596,7 @@
               "UniqVpcIds": [],
               "VpcIds": []
             },
-            "region": ""
+            "region": "$region"
           },
           "redisMem": {
             "dimensionObject": {
@@ -2619,7 +2649,7 @@
             "region": "",
             "version": ""
           },
-          "service": "redisMem",
+          "service": "redis",
           "showInstanceDetails": false
         }
       ],
@@ -2989,7 +3019,7 @@
             },
             "region": ""
           },
-          "namespace": "QCE/REDIS_MEM",
+          "namespace": "QCE/REDIS",
           "natGateway": {
             "dimensionObject": null,
             "instance": "",
@@ -3069,11 +3099,17 @@
             "region": ""
           },
           "redis": {
-            "dimensionObject": null,
-            "instance": "",
+            "dimensionObject": {
+              "instanceid": {
+                "Name": "instanceid",
+                "Value": ""
+              }
+            },
+            "instance": "$instance",
             "instanceAlias": "InstanceId",
-            "metricName": "",
-            "metricUnit": "",
+            "metricName": "InFlowUsMin",
+            "metricUnit": "%",
+            "period": 300,
             "queries": {
               "AutoRenew": null,
               "BillingMode": "",
@@ -3092,7 +3128,7 @@
               "UniqVpcIds": [],
               "VpcIds": []
             },
-            "region": ""
+            "region": "$region"
           },
           "redisMem": {
             "dimensionObject": {
@@ -3145,7 +3181,7 @@
             "region": "",
             "version": ""
           },
-          "service": "redisMem",
+          "service": "redis",
           "showInstanceDetails": false
         }
       ],
@@ -3515,7 +3551,7 @@
             },
             "region": ""
           },
-          "namespace": "QCE/REDIS_MEM",
+          "namespace": "QCE/REDIS",
           "natGateway": {
             "dimensionObject": null,
             "instance": "",
@@ -3595,11 +3631,17 @@
             "region": ""
           },
           "redis": {
-            "dimensionObject": null,
-            "instance": "",
+            "dimensionObject": {
+              "instanceid": {
+                "Name": "instanceid",
+                "Value": ""
+              }
+            },
+            "instance": "$instance",
             "instanceAlias": "InstanceId",
-            "metricName": "",
-            "metricUnit": "",
+            "metricName": "OutFlowMin",
+            "metricUnit": "MB",
+            "period": 300,
             "queries": {
               "AutoRenew": null,
               "BillingMode": "",
@@ -3618,7 +3660,7 @@
               "UniqVpcIds": [],
               "VpcIds": []
             },
-            "region": ""
+            "region": "$region"
           },
           "redisMem": {
             "dimensionObject": {
@@ -3671,7 +3713,7 @@
             "region": "",
             "version": ""
           },
-          "service": "redisMem",
+          "service": "redis",
           "showInstanceDetails": false
         }
       ],
@@ -4041,7 +4083,7 @@
             },
             "region": ""
           },
-          "namespace": "QCE/REDIS_MEM",
+          "namespace": "QCE/REDIS",
           "natGateway": {
             "dimensionObject": null,
             "instance": "",
@@ -4121,11 +4163,17 @@
             "region": ""
           },
           "redis": {
-            "dimensionObject": null,
-            "instance": "",
+            "dimensionObject": {
+              "instanceid": {
+                "Name": "instanceid",
+                "Value": ""
+              }
+            },
+            "instance": "$instance",
             "instanceAlias": "InstanceId",
-            "metricName": "",
-            "metricUnit": "",
+            "metricName": "OutFlowUsMin",
+            "metricUnit": "%",
+            "period": 300,
             "queries": {
               "AutoRenew": null,
               "BillingMode": "",
@@ -4144,7 +4192,7 @@
               "UniqVpcIds": [],
               "VpcIds": []
             },
-            "region": ""
+            "region": "$region"
           },
           "redisMem": {
             "dimensionObject": {
@@ -4197,7 +4245,7 @@
             "region": "",
             "version": ""
           },
-          "service": "redisMem",
+          "service": "redis",
           "showInstanceDetails": false
         }
       ],
@@ -4580,7 +4628,7 @@
             },
             "region": ""
           },
-          "namespace": "QCE/REDIS_MEM",
+          "namespace": "QCE/REDIS",
           "natGateway": {
             "dimensionObject": null,
             "instance": "",
@@ -4660,11 +4708,17 @@
             "region": ""
           },
           "redis": {
-            "dimensionObject": null,
-            "instance": "",
+            "dimensionObject": {
+              "instanceid": {
+                "Name": "instanceid",
+                "Value": ""
+              }
+            },
+            "instance": "$instance",
             "instanceAlias": "InstanceId",
-            "metricName": "",
-            "metricUnit": "",
+            "metricName": "StatSuccessMin",
+            "metricUnit": "count",
+            "period": 300,
             "queries": {
               "AutoRenew": null,
               "BillingMode": "",
@@ -4683,7 +4737,7 @@
               "UniqVpcIds": [],
               "VpcIds": []
             },
-            "region": ""
+            "region": "$region"
           },
           "redisMem": {
             "dimensionObject": {
@@ -4736,7 +4790,7 @@
             "region": "",
             "version": ""
           },
-          "service": "redisMem",
+          "service": "redis",
           "showInstanceDetails": false
         }
       ],
@@ -4791,7 +4845,7 @@
         "allValue": null,
         "current": {},
         "datasource": "Tencent Cloud Monitor Datasource",
-        "definition": "Namespace=QCE/REDIS_MEM&Action=DescribeRegions",
+        "definition": "Namespace=QCE/REDIS&Action=DescribeRegions",
         "hide": 0,
         "includeAll": false,
         "index": -1,
@@ -4799,7 +4853,7 @@
         "multi": false,
         "name": "region",
         "options": [],
-        "query": "Namespace=QCE/REDIS_MEM&Action=DescribeRegions",
+        "query": "Namespace=QCE/REDIS&Action=DescribeRegions",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
@@ -4814,7 +4868,7 @@
         "allValue": null,
         "current": {},
         "datasource": "Tencent Cloud Monitor Datasource",
-        "definition": "Namespace=QCE/REDIS_MEM&Action=DescribeInstances&Region=$region&InstanceAlias=InstanceId",
+        "definition": "Namespace=QCE/REDIS&Action=DescribeInstances&Region=$region&InstanceAlias=InstanceId",
         "hide": 0,
         "includeAll": false,
         "index": -1,
@@ -4822,7 +4876,7 @@
         "multi": false,
         "name": "instance",
         "options": [],
-        "query": "Namespace=QCE/REDIS_MEM&Action=DescribeInstances&Region=$region&InstanceAlias=InstanceId",
+        "query": "Namespace=QCE/REDIS&Action=DescribeInstances&Region=$region&InstanceAlias=InstanceId",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
@@ -4865,10 +4919,10 @@
     ]
   },
   "timezone": "",
-  "title": "【实例】云数据库REDIS-内存版",
+  "title": "【实例】云数据库REDIS-内存版(1分钟粒度)",
   "uid": "UCGlOPyMz",
   "variables": {
     "list": []
   },
-  "version": 6
+  "version": 1
 }

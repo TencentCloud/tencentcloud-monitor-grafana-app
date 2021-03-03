@@ -242,7 +242,7 @@ function GetInstanceQueryParams(queries: any = {}) {
 
 function isValidMetric(metricObj: any = {}) {
   const dimension = _.get(metricObj, 'Dimensions[0].Dimensions');
-  return dimension.length === 1 && _.indexOf(dimension, 'clusterid') === -1;
+  return dimension.length === 1 && _.indexOf(dimension, 'instanceid') !== -1;
 }
 
 const REDISInstanceAliasList = ['InstanceId', 'InstanceName'];

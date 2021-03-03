@@ -12,7 +12,7 @@ import BWPDatasource from './bwp/datasource';
 import CDNDatasource from './cdn/datasource';
 import OVCDNDatasource from './ov_cdn/datasource';
 import REDISDatasource from './redis/datasource';
-import REDISMEMDatasource from './redis_mem/datasource';
+// import REDISMEMDatasource from './redis_mem/datasource';
 import LBDatasource from './lb/datasource';
 import CFSDatasource from './cfs/datasource';
 import CKAFKADatasource from './ckafka/datasource';
@@ -31,7 +31,7 @@ import BWP_STATE, { BWPInstanceAliasList, BWPGetInstanceQueryParams } from './bw
 import CDN_STATE, { CDNInstanceAliasList, CDNGetInstanceQueryParams } from './cdn/query_def';
 import OVCDN_STATE, { OVCDNInstanceAliasList, OVCDNGetInstanceQueryParams } from './ov_cdn/query_def';
 import REDIS_STATE, { REDISInstanceAliasList, REDISGetInstanceQueryParams } from './redis/query_def';
-import REDISMEM_STATE, { REDISMEMInstanceAliasList, REDISMEMGetInstanceQueryParams } from './redis_mem/query_def';
+// import REDISMEM_STATE, { REDISMEMInstanceAliasList, REDISMEMGetInstanceQueryParams } from './redis_mem/query_def';
 import LB_STATE, { LBInstanceAliasList, LBGetInstanceQueryParams } from './lb/query_def';
 import CFS_STATE, { CFSInstanceAliasList, CFSGetInstanceQueryParams } from './cfs/query_def';
 import CKAFKA_STATE, { CKAFKAInstanceAliasList, CKAFKAGetInstanceQueryParams } from './ckafka/query_def';
@@ -51,6 +51,9 @@ import './bwp/query';
 import './lb/query';
 import './cfs/query';
 import './ckafka/query';
+import './cdn/query';
+import './ov_cdn/query';
+import './redis/query';
 
 const SERVICES = [
   { service: 'cvm', label: '云服务器(CVM)', namespace: 'QCE/CVM', href: 'https://cloud.tencent.com/document/api/213/15688' },
@@ -66,7 +69,7 @@ const SERVICES = [
   { service: 'cdn', label: '国内域名(CDN)', namespace: 'QCE/CDN', href: 'https://cloud.tencent.com/document/product/248/50386' },
   { service: 'ovCdn', label: '国外域名(OV_CDN)', namespace: 'QCE/OV_CDN', href: 'https://cloud.tencent.com/document/product/248/50387' },
   { service: 'redis', label: 'redis(REDIS)', namespace: 'QCE/REDIS', href: 'https://cloud.tencent.com/document/product/248/45110' },
-  { service: 'redisMem', label: 'redis内存版（5s）(REDIS_MEM)', namespace: 'QCE/REDIS_MEM', href: 'https://cloud.tencent.com/document/product/248/49729' },
+  // { service: 'redisMem', label: 'redis内存版（5s）(REDIS_MEM)', namespace: 'QCE/REDIS_MEM', href: 'https://cloud.tencent.com/document/product/248/49729' },
   { service: 'scf', label: '云函数(SCF)', namespace: 'QCE/SCF_V2', href: 'https://cloud.tencent.com/document/product/248/45130' },
   { service: 'lb', label: '弹性公网IP(LB)', namespace: 'QCE/LB', href: 'https://cloud.tencent.com/document/product/248/45099' },
   { service: 'cfs', label: '文件存储(CFS)', namespace: 'QCE/CFS', href: 'https://cloud.tencent.com/document/product/248/45143' },
@@ -88,7 +91,7 @@ const InstanceAliasList = {
   CDNInstanceAliasList,
   OVCDNInstanceAliasList,
   REDISInstanceAliasList,
-  REDISMEMInstanceAliasList,
+  // REDISMEMInstanceAliasList,
   LBInstanceAliasList,
   CFSInstanceAliasList,
   CKAFKAInstanceAliasList
@@ -118,7 +121,7 @@ const InitStates = {
   cdn: { ...CDN_STATE},
   ovCdn: { ...OVCDN_STATE},
   redis: { ...REDIS_STATE},
-  redisMem: { ...REDISMEM_STATE},
+  // redisMem: { ...REDISMEM_STATE},
   scf: { ...SCF_STATE },
   lb: { ...LB_STATE },
   cfs: { ...CFS_STATE },
@@ -140,7 +143,7 @@ const Datasources = {
   CDNDatasource,
   OVCDNDatasource,
   REDISDatasource,
-  REDISMEMDatasource,
+  // REDISMEMDatasource,
   LBDatasource,
   CFSDatasource,
   CKAFKADatasource
@@ -160,7 +163,7 @@ const GetInstanceQueryParams = {
   CDNGetInstanceQueryParams,
   OVCDNGetInstanceQueryParams,
   REDISGetInstanceQueryParams,
-  REDISMEMGetInstanceQueryParams,
+  // REDISMEMGetInstanceQueryParams,
   SCFGetInstanceQueryParams,
   LBGetInstanceQueryParams,
   CFSGetInstanceQueryParams,
