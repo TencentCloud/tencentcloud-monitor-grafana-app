@@ -1,0 +1,4928 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "description": "腾讯云redis监控模板 Dashboard",
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "id": null,
+  "iteration": 1614737980360,
+  "links": [],
+  "panels": [
+    {
+      "collapsed": true,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 23,
+      "panels": [],
+      "title": "CPU&内存监控",
+      "type": "row"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "cacheTimeout": null,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "Tencent Cloud Monitor Datasource",
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 0,
+        "y": 1
+      },
+      "hiddenSeries": false,
+      "id": 10,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "bwp": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "BandwidthPackageId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "BandwidthPackageIds": [
+                ""
+              ],
+              "Filters": {
+                "bandwidth-package-name": [],
+                "bandwidth-package_id": [],
+                "charge-type": [],
+                "network-type": []
+              },
+              "Limit": 20,
+              "Offset": 0,
+              "filtersChecked": false,
+              "instanceIdsChecked": false
+            },
+            "region": ""
+          },
+          "cdb": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "InstanceId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "CdbErrors": {},
+              "EngineVersions": {},
+              "InitFlag": {},
+              "InstancTypes": {},
+              "InstanceIds": [],
+              "InstanceNames": [],
+              "InstanceTypes": {},
+              "Limit": 20,
+              "Offset": 0,
+              "OrderBy": {},
+              "OrderDirection": {},
+              "PayTypes": {},
+              "ProjectId": "",
+              "SecurityGroupId": "",
+              "Status": {},
+              "SubnetIds": [],
+              "TaskStatus": {},
+              "Vips": [],
+              "VpcIds": [],
+              "ZoneIds": []
+            },
+            "region": ""
+          },
+          "cdn": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "Domain",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "Filters": {
+                "domain": [],
+                "domainType": [],
+                "fullUrlCache": [],
+                "https": [],
+                "origin": [],
+                "originPullProtocol": [],
+                "projectId": [],
+                "resourceId": [],
+                "serviceType": [],
+                "status": [],
+                "tagKey": []
+              },
+              "Limit": 20,
+              "Offset": 0
+            },
+            "region": ""
+          },
+          "cfs": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "FileSystemId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "FileSystemId": "",
+              "Limit": 20,
+              "Offset": 0,
+              "SubnetId": "",
+              "VpcId": ""
+            },
+            "region": "",
+            "version": ""
+          },
+          "ckafka": {
+            "consumerGroup": "",
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "InstanceId",
+            "metricName": "",
+            "metricUnit": "",
+            "partition": "",
+            "queries": {
+              "InstanceId": "",
+              "Limit": 10,
+              "Offset": 0,
+              "SearchWord": "",
+              "Status": [],
+              "TagKey": ""
+            },
+            "region": "",
+            "topicId": "",
+            "topicName": ""
+          },
+          "cvm": {
+            "dimensionObject": {
+              "InstanceId": {
+                "Name": "InstanceId",
+                "Value": ""
+              }
+            },
+            "instance": "$publicIp",
+            "instanceAlias": "PublicIpAddresses",
+            "metricName": "CPUUsage",
+            "metricUnit": "%",
+            "period": 300,
+            "queries": {
+              "Filters": {
+                "host-id": [],
+                "instance-charge-type": {},
+                "instance-id": [],
+                "instance-name": [],
+                "private-ip-address": [],
+                "project-id": [],
+                "public-ip-address": [],
+                "security-group-id": [],
+                "subnet-id": [],
+                "vpc-id": [],
+                "zone": []
+              },
+              "InstanceIds": [
+                ""
+              ],
+              "Limit": 20,
+              "Offset": 0,
+              "filtersChecked": false,
+              "instanceIdsChecked": false
+            },
+            "region": "$region"
+          },
+          "lb": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "AddressIp",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "AddressIds": [
+                ""
+              ],
+              "Filters": {
+                "address-id": [],
+                "address-ip": [],
+                "address-name": [],
+                "address-status ": [],
+                "instance-id ": [],
+                "is-arrears ": [],
+                "network-interface-id ": [],
+                "private-ip-address": []
+              },
+              "Limit": 20,
+              "Offset": 0
+            },
+            "region": "",
+            "version": ""
+          },
+          "lbPrivate": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "LoadBalancerId",
+            "listener": "",
+            "listenerAlias": "ListenerId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "BackendPrivateIps": [],
+              "BackendPublicIps": [],
+              "Domain": "",
+              "Limit": 20,
+              "LoadBalancerIds": [],
+              "LoadBalancerName": "",
+              "LoadBalancerVips": [],
+              "MasterZone": "",
+              "Offset": 0,
+              "OrderBy": {},
+              "OrderType": {},
+              "SecurityGroup": "",
+              "VpcId": "",
+              "WithRs": {}
+            },
+            "region": ""
+          },
+          "lbPublic": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "LoadBalancerId",
+            "listener": "",
+            "listenerAlias": "ListenerId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "BackendPrivateIps": [],
+              "BackendPublicIps": [],
+              "Domain": "",
+              "Limit": 20,
+              "LoadBalancerIds": [],
+              "LoadBalancerName": "",
+              "LoadBalancerVips": [],
+              "MasterZone": "",
+              "Offset": 0,
+              "OrderBy": {},
+              "OrderType": {},
+              "SecurityGroup": "",
+              "VpcId": "",
+              "WithRs": {}
+            },
+            "region": ""
+          },
+          "loadBalance": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "LoadBalancerId",
+            "listener": "",
+            "listenerAlias": "ListenerId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "BackendPrivateIps": [],
+              "BackendPublicIps": [],
+              "Domain": "",
+              "Limit": 20,
+              "LoadBalancerIds": [],
+              "LoadBalancerName": "",
+              "LoadBalancerVips": [],
+              "MasterZone": "",
+              "Offset": 0,
+              "OrderBy": {},
+              "OrderType": {},
+              "SecurityGroup": "",
+              "VpcId": "",
+              "WithRs": {}
+            },
+            "region": ""
+          },
+          "mongoDB": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "InstanceId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "ClusterType": {},
+              "InstanceIds": [],
+              "InstanceType": {},
+              "Limit": 20,
+              "Offset": 0,
+              "OrderBy": "",
+              "OrderByType": "",
+              "PayMode": {},
+              "Status": [],
+              "SubnetId": "",
+              "VpcId": ""
+            },
+            "region": ""
+          },
+          "namespace": "QCE/REDIS",
+          "natGateway": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "NatGatewayId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "Filters": {
+                "nat-gateway-id": [],
+                "nat-gateway-name": [],
+                "vpc-id": []
+              },
+              "Limit": 20,
+              "NatGatewayIds": [
+                ""
+              ],
+              "Offset": 0,
+              "filtersChecked": false,
+              "instanceIdsChecked": false
+            },
+            "region": ""
+          },
+          "ovCdn": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "Domain",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "Filters": {
+                "domain": [],
+                "domainType": [],
+                "fullUrlCache": [],
+                "https": [],
+                "origin": [],
+                "originPullProtocol": [],
+                "projectId": [],
+                "resourceId": [],
+                "serviceType": [],
+                "status": [],
+                "tagKey": []
+              },
+              "Limit": 20,
+              "Offset": 0
+            },
+            "region": ""
+          },
+          "pcx": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "peeringConnectionId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "limit": 20,
+              "offset": 0,
+              "peeringConnectionId": "",
+              "peeringConnectionName": "",
+              "vpcId": ""
+            },
+            "region": ""
+          },
+          "postgres": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "DBInstanceId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "Filters": {
+                "db-instance-id": [],
+                "db-instance-name": []
+              },
+              "Limit": 20,
+              "Offset": 0
+            },
+            "region": ""
+          },
+          "redis": {
+            "dimensionObject": {
+              "instanceid": {
+                "Name": "instanceid",
+                "Value": ""
+              }
+            },
+            "instance": "$instance",
+            "instanceAlias": "InstanceId",
+            "metricName": "CpuUsMin",
+            "metricUnit": "%",
+            "period": 300,
+            "queries": {
+              "AutoRenew": null,
+              "BillingMode": "",
+              "EngineName": "",
+              "InstanceId": "",
+              "InstanceName": "",
+              "OrderBy": "",
+              "OrderType": null,
+              "ProjectIds": [],
+              "SearchKey": "",
+              "Status": [],
+              "SubnetIds": [],
+              "Type": null,
+              "TypeVersion": null,
+              "UniqSubnetIds": [],
+              "UniqVpcIds": [],
+              "VpcIds": []
+            },
+            "region": "$region"
+          },
+          "redisMem": {
+            "dimensionObject": {
+              "instanceid": {
+                "Name": "instanceid",
+                "Value": ""
+              }
+            },
+            "instance": "$instance",
+            "instanceAlias": "InstanceId",
+            "metricName": "CpuUtil",
+            "metricUnit": "%",
+            "period": 300,
+            "queries": {
+              "AutoRenew": null,
+              "BillingMode": "",
+              "EngineName": "",
+              "InstanceId": "",
+              "InstanceName": "",
+              "OrderBy": "",
+              "OrderType": null,
+              "ProjectIds": [],
+              "SearchKey": "",
+              "Status": [],
+              "SubnetIds": [],
+              "Type": null,
+              "TypeVersion": null,
+              "UniqSubnetIds": [],
+              "UniqVpcIds": [],
+              "VpcIds": []
+            },
+            "region": "$region"
+          },
+          "refId": "A",
+          "scf": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "FunctionName",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "Description": "",
+              "Limit": 20,
+              "Namespace": "",
+              "Offset": 0,
+              "Order": {},
+              "OrderBy": {},
+              "SearchKey": ""
+            },
+            "region": "",
+            "version": ""
+          },
+          "service": "redis",
+          "showInstanceDetails": false
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "【Redis内存版】平均 CPU 利用率",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "cacheTimeout": null,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "Tencent Cloud Monitor Datasource",
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 12,
+        "y": 1
+      },
+      "hiddenSeries": false,
+      "id": 24,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "bwp": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "BandwidthPackageId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "BandwidthPackageIds": [
+                ""
+              ],
+              "Filters": {
+                "bandwidth-package-name": [],
+                "bandwidth-package_id": [],
+                "charge-type": [],
+                "network-type": []
+              },
+              "Limit": 20,
+              "Offset": 0,
+              "filtersChecked": false,
+              "instanceIdsChecked": false
+            },
+            "region": ""
+          },
+          "cdb": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "InstanceId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "CdbErrors": {},
+              "EngineVersions": {},
+              "InitFlag": {},
+              "InstancTypes": {},
+              "InstanceIds": [],
+              "InstanceNames": [],
+              "InstanceTypes": {},
+              "Limit": 20,
+              "Offset": 0,
+              "OrderBy": {},
+              "OrderDirection": {},
+              "PayTypes": {},
+              "ProjectId": "",
+              "SecurityGroupId": "",
+              "Status": {},
+              "SubnetIds": [],
+              "TaskStatus": {},
+              "Vips": [],
+              "VpcIds": [],
+              "ZoneIds": []
+            },
+            "region": ""
+          },
+          "cdn": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "Domain",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "Filters": {
+                "domain": [],
+                "domainType": [],
+                "fullUrlCache": [],
+                "https": [],
+                "origin": [],
+                "originPullProtocol": [],
+                "projectId": [],
+                "resourceId": [],
+                "serviceType": [],
+                "status": [],
+                "tagKey": []
+              },
+              "Limit": 20,
+              "Offset": 0
+            },
+            "region": ""
+          },
+          "cfs": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "FileSystemId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "FileSystemId": "",
+              "Limit": 20,
+              "Offset": 0,
+              "SubnetId": "",
+              "VpcId": ""
+            },
+            "region": "",
+            "version": ""
+          },
+          "ckafka": {
+            "consumerGroup": "",
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "InstanceId",
+            "metricName": "",
+            "metricUnit": "",
+            "partition": "",
+            "queries": {
+              "InstanceId": "",
+              "Limit": 10,
+              "Offset": 0,
+              "SearchWord": "",
+              "Status": [],
+              "TagKey": ""
+            },
+            "region": "",
+            "topicId": "",
+            "topicName": ""
+          },
+          "cvm": {
+            "dimensionObject": {
+              "InstanceId": {
+                "Name": "InstanceId",
+                "Value": ""
+              }
+            },
+            "instance": "$publicIp",
+            "instanceAlias": "PublicIpAddresses",
+            "metricName": "CPUUsage",
+            "metricUnit": "%",
+            "period": 300,
+            "queries": {
+              "Filters": {
+                "host-id": [],
+                "instance-charge-type": {},
+                "instance-id": [],
+                "instance-name": [],
+                "private-ip-address": [],
+                "project-id": [],
+                "public-ip-address": [],
+                "security-group-id": [],
+                "subnet-id": [],
+                "vpc-id": [],
+                "zone": []
+              },
+              "InstanceIds": [
+                ""
+              ],
+              "Limit": 20,
+              "Offset": 0,
+              "filtersChecked": false,
+              "instanceIdsChecked": false
+            },
+            "region": "$region"
+          },
+          "lb": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "AddressIp",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "AddressIds": [
+                ""
+              ],
+              "Filters": {
+                "address-id": [],
+                "address-ip": [],
+                "address-name": [],
+                "address-status ": [],
+                "instance-id ": [],
+                "is-arrears ": [],
+                "network-interface-id ": [],
+                "private-ip-address": []
+              },
+              "Limit": 20,
+              "Offset": 0
+            },
+            "region": "",
+            "version": ""
+          },
+          "lbPrivate": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "LoadBalancerId",
+            "listener": "",
+            "listenerAlias": "ListenerId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "BackendPrivateIps": [],
+              "BackendPublicIps": [],
+              "Domain": "",
+              "Limit": 20,
+              "LoadBalancerIds": [],
+              "LoadBalancerName": "",
+              "LoadBalancerVips": [],
+              "MasterZone": "",
+              "Offset": 0,
+              "OrderBy": {},
+              "OrderType": {},
+              "SecurityGroup": "",
+              "VpcId": "",
+              "WithRs": {}
+            },
+            "region": ""
+          },
+          "lbPublic": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "LoadBalancerId",
+            "listener": "",
+            "listenerAlias": "ListenerId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "BackendPrivateIps": [],
+              "BackendPublicIps": [],
+              "Domain": "",
+              "Limit": 20,
+              "LoadBalancerIds": [],
+              "LoadBalancerName": "",
+              "LoadBalancerVips": [],
+              "MasterZone": "",
+              "Offset": 0,
+              "OrderBy": {},
+              "OrderType": {},
+              "SecurityGroup": "",
+              "VpcId": "",
+              "WithRs": {}
+            },
+            "region": ""
+          },
+          "loadBalance": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "LoadBalancerId",
+            "listener": "",
+            "listenerAlias": "ListenerId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "BackendPrivateIps": [],
+              "BackendPublicIps": [],
+              "Domain": "",
+              "Limit": 20,
+              "LoadBalancerIds": [],
+              "LoadBalancerName": "",
+              "LoadBalancerVips": [],
+              "MasterZone": "",
+              "Offset": 0,
+              "OrderBy": {},
+              "OrderType": {},
+              "SecurityGroup": "",
+              "VpcId": "",
+              "WithRs": {}
+            },
+            "region": ""
+          },
+          "mongoDB": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "InstanceId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "ClusterType": {},
+              "InstanceIds": [],
+              "InstanceType": {},
+              "Limit": 20,
+              "Offset": 0,
+              "OrderBy": "",
+              "OrderByType": "",
+              "PayMode": {},
+              "Status": [],
+              "SubnetId": "",
+              "VpcId": ""
+            },
+            "region": ""
+          },
+          "namespace": "QCE/REDIS",
+          "natGateway": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "NatGatewayId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "Filters": {
+                "nat-gateway-id": [],
+                "nat-gateway-name": [],
+                "vpc-id": []
+              },
+              "Limit": 20,
+              "NatGatewayIds": [
+                ""
+              ],
+              "Offset": 0,
+              "filtersChecked": false,
+              "instanceIdsChecked": false
+            },
+            "region": ""
+          },
+          "ovCdn": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "Domain",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "Filters": {
+                "domain": [],
+                "domainType": [],
+                "fullUrlCache": [],
+                "https": [],
+                "origin": [],
+                "originPullProtocol": [],
+                "projectId": [],
+                "resourceId": [],
+                "serviceType": [],
+                "status": [],
+                "tagKey": []
+              },
+              "Limit": 20,
+              "Offset": 0
+            },
+            "region": ""
+          },
+          "pcx": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "peeringConnectionId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "limit": 20,
+              "offset": 0,
+              "peeringConnectionId": "",
+              "peeringConnectionName": "",
+              "vpcId": ""
+            },
+            "region": ""
+          },
+          "postgres": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "DBInstanceId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "Filters": {
+                "db-instance-id": [],
+                "db-instance-name": []
+              },
+              "Limit": 20,
+              "Offset": 0
+            },
+            "region": ""
+          },
+          "redis": {
+            "dimensionObject": {
+              "instanceid": {
+                "Name": "instanceid",
+                "Value": ""
+              }
+            },
+            "instance": "$instance",
+            "instanceAlias": "InstanceId",
+            "metricName": "StorageMin",
+            "metricUnit": "MB",
+            "period": 300,
+            "queries": {
+              "AutoRenew": null,
+              "BillingMode": "",
+              "EngineName": "",
+              "InstanceId": "",
+              "InstanceName": "",
+              "OrderBy": "",
+              "OrderType": null,
+              "ProjectIds": [],
+              "SearchKey": "",
+              "Status": [],
+              "SubnetIds": [],
+              "Type": null,
+              "TypeVersion": null,
+              "UniqSubnetIds": [],
+              "UniqVpcIds": [],
+              "VpcIds": []
+            },
+            "region": "$region"
+          },
+          "redisMem": {
+            "dimensionObject": {
+              "instanceid": {
+                "Name": "instanceid",
+                "Value": ""
+              }
+            },
+            "instance": "$instance",
+            "instanceAlias": "InstanceId",
+            "metricName": "MemUsed",
+            "metricUnit": "MBytes",
+            "period": 300,
+            "queries": {
+              "AutoRenew": null,
+              "BillingMode": "",
+              "EngineName": "",
+              "InstanceId": "",
+              "InstanceName": "",
+              "OrderBy": "",
+              "OrderType": null,
+              "ProjectIds": [],
+              "SearchKey": "",
+              "Status": [],
+              "SubnetIds": [],
+              "Type": null,
+              "TypeVersion": null,
+              "UniqSubnetIds": [],
+              "UniqVpcIds": [],
+              "VpcIds": []
+            },
+            "region": "$region"
+          },
+          "refId": "A",
+          "scf": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "FunctionName",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "Description": "",
+              "Limit": 20,
+              "Namespace": "",
+              "Offset": 0,
+              "Order": {},
+              "OrderBy": {},
+              "SearchKey": ""
+            },
+            "region": "",
+            "version": ""
+          },
+          "service": "redis",
+          "showInstanceDetails": false
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "【Redis内存版】内存 利用率",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "collapsed": true,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 7
+      },
+      "id": 8,
+      "panels": [],
+      "title": "网络监控",
+      "type": "row"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "Tencent Cloud Monitor Datasource",
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 8
+      },
+      "hiddenSeries": false,
+      "id": 6,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "max": true,
+        "min": true,
+        "rightSide": false,
+        "show": true,
+        "total": true,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "paceLength": 10,
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [
+        {
+          "alias": "lanOutpkg",
+          "transform": "negative-Y"
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "bwp": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "BandwidthPackageId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "BandwidthPackageIds": [
+                ""
+              ],
+              "Filters": {
+                "bandwidth-package-name": [],
+                "bandwidth-package_id": [],
+                "charge-type": [],
+                "network-type": []
+              },
+              "Limit": 20,
+              "Offset": 0,
+              "filtersChecked": false,
+              "instanceIdsChecked": false
+            },
+            "region": ""
+          },
+          "cdb": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "InstanceId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "CdbErrors": {},
+              "EngineVersions": {},
+              "InitFlag": {},
+              "InstancTypes": {},
+              "InstanceIds": [],
+              "InstanceNames": [],
+              "InstanceTypes": {},
+              "Limit": 20,
+              "Offset": 0,
+              "OrderBy": {},
+              "OrderDirection": {},
+              "PayTypes": {},
+              "ProjectId": "",
+              "SecurityGroupId": "",
+              "Status": {},
+              "SubnetIds": [],
+              "TaskStatus": {},
+              "Vips": [],
+              "VpcIds": [],
+              "ZoneIds": []
+            },
+            "region": ""
+          },
+          "cdn": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "Domain",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "Filters": {
+                "domain": [],
+                "domainType": [],
+                "fullUrlCache": [],
+                "https": [],
+                "origin": [],
+                "originPullProtocol": [],
+                "projectId": [],
+                "resourceId": [],
+                "serviceType": [],
+                "status": [],
+                "tagKey": []
+              },
+              "Limit": 20,
+              "Offset": 0
+            },
+            "region": ""
+          },
+          "cfs": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "FileSystemId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "FileSystemId": "",
+              "Limit": 20,
+              "Offset": 0,
+              "SubnetId": "",
+              "VpcId": ""
+            },
+            "region": "",
+            "version": ""
+          },
+          "ckafka": {
+            "consumerGroup": "",
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "InstanceId",
+            "metricName": "",
+            "metricUnit": "",
+            "partition": "",
+            "queries": {
+              "InstanceId": "",
+              "Limit": 10,
+              "Offset": 0,
+              "SearchWord": "",
+              "Status": [],
+              "TagKey": ""
+            },
+            "region": "",
+            "topicId": "",
+            "topicName": ""
+          },
+          "cvm": {
+            "dimensionObject": {
+              "InstanceId": {
+                "Name": "InstanceId",
+                "Value": ""
+              }
+            },
+            "instance": "$publicIp",
+            "instanceAlias": "PublicIpAddresses",
+            "metricName": "lanInpkg",
+            "metricUnit": "count/s",
+            "period": 60,
+            "queries": {
+              "Filters": {
+                "host-id": [],
+                "instance-charge-type": {},
+                "instance-id": [],
+                "instance-name": [],
+                "private-ip-address": [],
+                "project-id": [],
+                "public-ip-address": [],
+                "security-group-id": [],
+                "subnet-id": [],
+                "vpc-id": [],
+                "zone": []
+              },
+              "InstanceIds": [
+                ""
+              ],
+              "Limit": 20,
+              "Offset": 0,
+              "filtersChecked": false,
+              "instanceIdsChecked": false
+            },
+            "region": "$region"
+          },
+          "lb": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "AddressIp",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "AddressIds": [
+                ""
+              ],
+              "Filters": {
+                "address-id": [],
+                "address-ip": [],
+                "address-name": [],
+                "address-status ": [],
+                "instance-id ": [],
+                "is-arrears ": [],
+                "network-interface-id ": [],
+                "private-ip-address": []
+              },
+              "Limit": 20,
+              "Offset": 0
+            },
+            "region": "",
+            "version": ""
+          },
+          "lbPrivate": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "LoadBalancerId",
+            "listener": "",
+            "listenerAlias": "ListenerId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "BackendPrivateIps": [],
+              "BackendPublicIps": [],
+              "Domain": "",
+              "Limit": 20,
+              "LoadBalancerIds": [],
+              "LoadBalancerName": "",
+              "LoadBalancerVips": [],
+              "MasterZone": "",
+              "Offset": 0,
+              "OrderBy": {},
+              "OrderType": {},
+              "SecurityGroup": "",
+              "VpcId": "",
+              "WithRs": {}
+            },
+            "region": ""
+          },
+          "lbPublic": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "LoadBalancerId",
+            "listener": "",
+            "listenerAlias": "ListenerId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "BackendPrivateIps": [],
+              "BackendPublicIps": [],
+              "Domain": "",
+              "Limit": 20,
+              "LoadBalancerIds": [],
+              "LoadBalancerName": "",
+              "LoadBalancerVips": [],
+              "MasterZone": "",
+              "Offset": 0,
+              "OrderBy": {},
+              "OrderType": {},
+              "SecurityGroup": "",
+              "VpcId": "",
+              "WithRs": {}
+            },
+            "region": ""
+          },
+          "loadBalance": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "LoadBalancerId",
+            "listener": "",
+            "listenerAlias": "ListenerId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "BackendPrivateIps": [],
+              "BackendPublicIps": [],
+              "Domain": "",
+              "Limit": 20,
+              "LoadBalancerIds": [],
+              "LoadBalancerName": "",
+              "LoadBalancerVips": [],
+              "MasterZone": "",
+              "Offset": 0,
+              "OrderBy": {},
+              "OrderType": {},
+              "SecurityGroup": "",
+              "VpcId": "",
+              "WithRs": {}
+            },
+            "region": ""
+          },
+          "mongoDB": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "InstanceId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "ClusterType": {},
+              "InstanceIds": [],
+              "InstanceType": {},
+              "Limit": 20,
+              "Offset": 0,
+              "OrderBy": "",
+              "OrderByType": "",
+              "PayMode": {},
+              "Status": [],
+              "SubnetId": "",
+              "VpcId": ""
+            },
+            "region": ""
+          },
+          "namespace": "QCE/REDIS",
+          "natGateway": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "NatGatewayId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "Filters": {
+                "nat-gateway-id": [],
+                "nat-gateway-name": [],
+                "vpc-id": []
+              },
+              "Limit": 20,
+              "NatGatewayIds": [
+                ""
+              ],
+              "Offset": 0,
+              "filtersChecked": false,
+              "instanceIdsChecked": false
+            },
+            "region": ""
+          },
+          "ovCdn": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "Domain",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "Filters": {
+                "domain": [],
+                "domainType": [],
+                "fullUrlCache": [],
+                "https": [],
+                "origin": [],
+                "originPullProtocol": [],
+                "projectId": [],
+                "resourceId": [],
+                "serviceType": [],
+                "status": [],
+                "tagKey": []
+              },
+              "Limit": 20,
+              "Offset": 0
+            },
+            "region": ""
+          },
+          "pcx": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "peeringConnectionId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "limit": 20,
+              "offset": 0,
+              "peeringConnectionId": "",
+              "peeringConnectionName": "",
+              "vpcId": ""
+            },
+            "region": ""
+          },
+          "postgres": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "DBInstanceId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "Filters": {
+                "db-instance-id": [],
+                "db-instance-name": []
+              },
+              "Limit": 20,
+              "Offset": 0
+            },
+            "region": ""
+          },
+          "redis": {
+            "dimensionObject": {
+              "instanceid": {
+                "Name": "instanceid",
+                "Value": ""
+              }
+            },
+            "instance": "$instance",
+            "instanceAlias": "InstanceId",
+            "metricName": "ConnectionsMin",
+            "metricUnit": "count",
+            "period": 300,
+            "queries": {
+              "AutoRenew": null,
+              "BillingMode": "",
+              "EngineName": "",
+              "InstanceId": "",
+              "InstanceName": "",
+              "OrderBy": "",
+              "OrderType": null,
+              "ProjectIds": [],
+              "SearchKey": "",
+              "Status": [],
+              "SubnetIds": [],
+              "Type": null,
+              "TypeVersion": null,
+              "UniqSubnetIds": [],
+              "UniqVpcIds": [],
+              "VpcIds": []
+            },
+            "region": "$region"
+          },
+          "redisMem": {
+            "dimensionObject": {
+              "instanceid": {
+                "Name": "instanceid",
+                "Value": ""
+              }
+            },
+            "instance": "$instance",
+            "instanceAlias": "InstanceId",
+            "metricName": "Connections",
+            "metricUnit": "Count",
+            "period": 300,
+            "queries": {
+              "AutoRenew": null,
+              "BillingMode": "",
+              "EngineName": "",
+              "InstanceId": "",
+              "InstanceName": "",
+              "OrderBy": "",
+              "OrderType": null,
+              "ProjectIds": [],
+              "SearchKey": "",
+              "Status": [],
+              "SubnetIds": [],
+              "Type": null,
+              "TypeVersion": null,
+              "UniqSubnetIds": [],
+              "UniqVpcIds": [],
+              "VpcIds": []
+            },
+            "region": "$region"
+          },
+          "refId": "A",
+          "scf": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "FunctionName",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "Description": "",
+              "Limit": 20,
+              "Namespace": "",
+              "Offset": 0,
+              "Order": {},
+              "OrderBy": {},
+              "SearchKey": ""
+            },
+            "region": "",
+            "version": ""
+          },
+          "service": "redis",
+          "showInstanceDetails": false
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "【Redis内存版】连接数量",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "pps",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "Tencent Cloud Monitor Datasource",
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 8
+      },
+      "hiddenSeries": false,
+      "id": 25,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "max": true,
+        "min": true,
+        "rightSide": false,
+        "show": true,
+        "total": true,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "paceLength": 10,
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [
+        {
+          "alias": "lanOutpkg",
+          "transform": "negative-Y"
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "bwp": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "BandwidthPackageId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "BandwidthPackageIds": [
+                ""
+              ],
+              "Filters": {
+                "bandwidth-package-name": [],
+                "bandwidth-package_id": [],
+                "charge-type": [],
+                "network-type": []
+              },
+              "Limit": 20,
+              "Offset": 0,
+              "filtersChecked": false,
+              "instanceIdsChecked": false
+            },
+            "region": ""
+          },
+          "cdb": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "InstanceId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "CdbErrors": {},
+              "EngineVersions": {},
+              "InitFlag": {},
+              "InstancTypes": {},
+              "InstanceIds": [],
+              "InstanceNames": [],
+              "InstanceTypes": {},
+              "Limit": 20,
+              "Offset": 0,
+              "OrderBy": {},
+              "OrderDirection": {},
+              "PayTypes": {},
+              "ProjectId": "",
+              "SecurityGroupId": "",
+              "Status": {},
+              "SubnetIds": [],
+              "TaskStatus": {},
+              "Vips": [],
+              "VpcIds": [],
+              "ZoneIds": []
+            },
+            "region": ""
+          },
+          "cdn": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "Domain",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "Filters": {
+                "domain": [],
+                "domainType": [],
+                "fullUrlCache": [],
+                "https": [],
+                "origin": [],
+                "originPullProtocol": [],
+                "projectId": [],
+                "resourceId": [],
+                "serviceType": [],
+                "status": [],
+                "tagKey": []
+              },
+              "Limit": 20,
+              "Offset": 0
+            },
+            "region": ""
+          },
+          "cfs": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "FileSystemId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "FileSystemId": "",
+              "Limit": 20,
+              "Offset": 0,
+              "SubnetId": "",
+              "VpcId": ""
+            },
+            "region": "",
+            "version": ""
+          },
+          "ckafka": {
+            "consumerGroup": "",
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "InstanceId",
+            "metricName": "",
+            "metricUnit": "",
+            "partition": "",
+            "queries": {
+              "InstanceId": "",
+              "Limit": 10,
+              "Offset": 0,
+              "SearchWord": "",
+              "Status": [],
+              "TagKey": ""
+            },
+            "region": "",
+            "topicId": "",
+            "topicName": ""
+          },
+          "cvm": {
+            "dimensionObject": {
+              "InstanceId": {
+                "Name": "InstanceId",
+                "Value": ""
+              }
+            },
+            "instance": "$publicIp",
+            "instanceAlias": "PublicIpAddresses",
+            "metricName": "lanInpkg",
+            "metricUnit": "count/s",
+            "period": 60,
+            "queries": {
+              "Filters": {
+                "host-id": [],
+                "instance-charge-type": {},
+                "instance-id": [],
+                "instance-name": [],
+                "private-ip-address": [],
+                "project-id": [],
+                "public-ip-address": [],
+                "security-group-id": [],
+                "subnet-id": [],
+                "vpc-id": [],
+                "zone": []
+              },
+              "InstanceIds": [
+                ""
+              ],
+              "Limit": 20,
+              "Offset": 0,
+              "filtersChecked": false,
+              "instanceIdsChecked": false
+            },
+            "region": "$region"
+          },
+          "lb": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "AddressIp",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "AddressIds": [
+                ""
+              ],
+              "Filters": {
+                "address-id": [],
+                "address-ip": [],
+                "address-name": [],
+                "address-status ": [],
+                "instance-id ": [],
+                "is-arrears ": [],
+                "network-interface-id ": [],
+                "private-ip-address": []
+              },
+              "Limit": 20,
+              "Offset": 0
+            },
+            "region": "",
+            "version": ""
+          },
+          "lbPrivate": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "LoadBalancerId",
+            "listener": "",
+            "listenerAlias": "ListenerId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "BackendPrivateIps": [],
+              "BackendPublicIps": [],
+              "Domain": "",
+              "Limit": 20,
+              "LoadBalancerIds": [],
+              "LoadBalancerName": "",
+              "LoadBalancerVips": [],
+              "MasterZone": "",
+              "Offset": 0,
+              "OrderBy": {},
+              "OrderType": {},
+              "SecurityGroup": "",
+              "VpcId": "",
+              "WithRs": {}
+            },
+            "region": ""
+          },
+          "lbPublic": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "LoadBalancerId",
+            "listener": "",
+            "listenerAlias": "ListenerId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "BackendPrivateIps": [],
+              "BackendPublicIps": [],
+              "Domain": "",
+              "Limit": 20,
+              "LoadBalancerIds": [],
+              "LoadBalancerName": "",
+              "LoadBalancerVips": [],
+              "MasterZone": "",
+              "Offset": 0,
+              "OrderBy": {},
+              "OrderType": {},
+              "SecurityGroup": "",
+              "VpcId": "",
+              "WithRs": {}
+            },
+            "region": ""
+          },
+          "loadBalance": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "LoadBalancerId",
+            "listener": "",
+            "listenerAlias": "ListenerId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "BackendPrivateIps": [],
+              "BackendPublicIps": [],
+              "Domain": "",
+              "Limit": 20,
+              "LoadBalancerIds": [],
+              "LoadBalancerName": "",
+              "LoadBalancerVips": [],
+              "MasterZone": "",
+              "Offset": 0,
+              "OrderBy": {},
+              "OrderType": {},
+              "SecurityGroup": "",
+              "VpcId": "",
+              "WithRs": {}
+            },
+            "region": ""
+          },
+          "mongoDB": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "InstanceId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "ClusterType": {},
+              "InstanceIds": [],
+              "InstanceType": {},
+              "Limit": 20,
+              "Offset": 0,
+              "OrderBy": "",
+              "OrderByType": "",
+              "PayMode": {},
+              "Status": [],
+              "SubnetId": "",
+              "VpcId": ""
+            },
+            "region": ""
+          },
+          "namespace": "QCE/REDIS",
+          "natGateway": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "NatGatewayId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "Filters": {
+                "nat-gateway-id": [],
+                "nat-gateway-name": [],
+                "vpc-id": []
+              },
+              "Limit": 20,
+              "NatGatewayIds": [
+                ""
+              ],
+              "Offset": 0,
+              "filtersChecked": false,
+              "instanceIdsChecked": false
+            },
+            "region": ""
+          },
+          "ovCdn": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "Domain",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "Filters": {
+                "domain": [],
+                "domainType": [],
+                "fullUrlCache": [],
+                "https": [],
+                "origin": [],
+                "originPullProtocol": [],
+                "projectId": [],
+                "resourceId": [],
+                "serviceType": [],
+                "status": [],
+                "tagKey": []
+              },
+              "Limit": 20,
+              "Offset": 0
+            },
+            "region": ""
+          },
+          "pcx": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "peeringConnectionId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "limit": 20,
+              "offset": 0,
+              "peeringConnectionId": "",
+              "peeringConnectionName": "",
+              "vpcId": ""
+            },
+            "region": ""
+          },
+          "postgres": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "DBInstanceId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "Filters": {
+                "db-instance-id": [],
+                "db-instance-name": []
+              },
+              "Limit": 20,
+              "Offset": 0
+            },
+            "region": ""
+          },
+          "redis": {
+            "dimensionObject": {
+              "instanceid": {
+                "Name": "instanceid",
+                "Value": ""
+              }
+            },
+            "instance": "$instance",
+            "instanceAlias": "InstanceId",
+            "metricName": "ConnectionsUsMin",
+            "metricUnit": "%",
+            "period": 300,
+            "queries": {
+              "AutoRenew": null,
+              "BillingMode": "",
+              "EngineName": "",
+              "InstanceId": "",
+              "InstanceName": "",
+              "OrderBy": "",
+              "OrderType": null,
+              "ProjectIds": [],
+              "SearchKey": "",
+              "Status": [],
+              "SubnetIds": [],
+              "Type": null,
+              "TypeVersion": null,
+              "UniqSubnetIds": [],
+              "UniqVpcIds": [],
+              "VpcIds": []
+            },
+            "region": "$region"
+          },
+          "redisMem": {
+            "dimensionObject": {
+              "instanceid": {
+                "Name": "instanceid",
+                "Value": ""
+              }
+            },
+            "instance": "$instance",
+            "instanceAlias": "InstanceId",
+            "metricName": "ConnectionsUtil",
+            "metricUnit": "%",
+            "period": 300,
+            "queries": {
+              "AutoRenew": null,
+              "BillingMode": "",
+              "EngineName": "",
+              "InstanceId": "",
+              "InstanceName": "",
+              "OrderBy": "",
+              "OrderType": null,
+              "ProjectIds": [],
+              "SearchKey": "",
+              "Status": [],
+              "SubnetIds": [],
+              "Type": null,
+              "TypeVersion": null,
+              "UniqSubnetIds": [],
+              "UniqVpcIds": [],
+              "VpcIds": []
+            },
+            "region": "$region"
+          },
+          "refId": "A",
+          "scf": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "FunctionName",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "Description": "",
+              "Limit": 20,
+              "Namespace": "",
+              "Offset": 0,
+              "Order": {},
+              "OrderBy": {},
+              "SearchKey": ""
+            },
+            "region": "",
+            "version": ""
+          },
+          "service": "redis",
+          "showInstanceDetails": false
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "【Redis内存版】连接使用率",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "pps",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "Tencent Cloud Monitor Datasource",
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 16
+      },
+      "hiddenSeries": false,
+      "id": 28,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "max": true,
+        "min": true,
+        "rightSide": false,
+        "show": true,
+        "total": true,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "paceLength": 10,
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [
+        {
+          "alias": "lanOutpkg",
+          "transform": "negative-Y"
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "bwp": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "BandwidthPackageId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "BandwidthPackageIds": [
+                ""
+              ],
+              "Filters": {
+                "bandwidth-package-name": [],
+                "bandwidth-package_id": [],
+                "charge-type": [],
+                "network-type": []
+              },
+              "Limit": 20,
+              "Offset": 0,
+              "filtersChecked": false,
+              "instanceIdsChecked": false
+            },
+            "region": ""
+          },
+          "cdb": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "InstanceId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "CdbErrors": {},
+              "EngineVersions": {},
+              "InitFlag": {},
+              "InstancTypes": {},
+              "InstanceIds": [],
+              "InstanceNames": [],
+              "InstanceTypes": {},
+              "Limit": 20,
+              "Offset": 0,
+              "OrderBy": {},
+              "OrderDirection": {},
+              "PayTypes": {},
+              "ProjectId": "",
+              "SecurityGroupId": "",
+              "Status": {},
+              "SubnetIds": [],
+              "TaskStatus": {},
+              "Vips": [],
+              "VpcIds": [],
+              "ZoneIds": []
+            },
+            "region": ""
+          },
+          "cdn": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "Domain",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "Filters": {
+                "domain": [],
+                "domainType": [],
+                "fullUrlCache": [],
+                "https": [],
+                "origin": [],
+                "originPullProtocol": [],
+                "projectId": [],
+                "resourceId": [],
+                "serviceType": [],
+                "status": [],
+                "tagKey": []
+              },
+              "Limit": 20,
+              "Offset": 0
+            },
+            "region": ""
+          },
+          "cfs": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "FileSystemId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "FileSystemId": "",
+              "Limit": 20,
+              "Offset": 0,
+              "SubnetId": "",
+              "VpcId": ""
+            },
+            "region": "",
+            "version": ""
+          },
+          "ckafka": {
+            "consumerGroup": "",
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "InstanceId",
+            "metricName": "",
+            "metricUnit": "",
+            "partition": "",
+            "queries": {
+              "InstanceId": "",
+              "Limit": 10,
+              "Offset": 0,
+              "SearchWord": "",
+              "Status": [],
+              "TagKey": ""
+            },
+            "region": "",
+            "topicId": "",
+            "topicName": ""
+          },
+          "cvm": {
+            "dimensionObject": {
+              "InstanceId": {
+                "Name": "InstanceId",
+                "Value": ""
+              }
+            },
+            "instance": "$publicIp",
+            "instanceAlias": "PublicIpAddresses",
+            "metricName": "lanInpkg",
+            "metricUnit": "count/s",
+            "period": 60,
+            "queries": {
+              "Filters": {
+                "host-id": [],
+                "instance-charge-type": {},
+                "instance-id": [],
+                "instance-name": [],
+                "private-ip-address": [],
+                "project-id": [],
+                "public-ip-address": [],
+                "security-group-id": [],
+                "subnet-id": [],
+                "vpc-id": [],
+                "zone": []
+              },
+              "InstanceIds": [
+                ""
+              ],
+              "Limit": 20,
+              "Offset": 0,
+              "filtersChecked": false,
+              "instanceIdsChecked": false
+            },
+            "region": "$region"
+          },
+          "lb": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "AddressIp",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "AddressIds": [
+                ""
+              ],
+              "Filters": {
+                "address-id": [],
+                "address-ip": [],
+                "address-name": [],
+                "address-status ": [],
+                "instance-id ": [],
+                "is-arrears ": [],
+                "network-interface-id ": [],
+                "private-ip-address": []
+              },
+              "Limit": 20,
+              "Offset": 0
+            },
+            "region": "",
+            "version": ""
+          },
+          "lbPrivate": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "LoadBalancerId",
+            "listener": "",
+            "listenerAlias": "ListenerId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "BackendPrivateIps": [],
+              "BackendPublicIps": [],
+              "Domain": "",
+              "Limit": 20,
+              "LoadBalancerIds": [],
+              "LoadBalancerName": "",
+              "LoadBalancerVips": [],
+              "MasterZone": "",
+              "Offset": 0,
+              "OrderBy": {},
+              "OrderType": {},
+              "SecurityGroup": "",
+              "VpcId": "",
+              "WithRs": {}
+            },
+            "region": ""
+          },
+          "lbPublic": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "LoadBalancerId",
+            "listener": "",
+            "listenerAlias": "ListenerId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "BackendPrivateIps": [],
+              "BackendPublicIps": [],
+              "Domain": "",
+              "Limit": 20,
+              "LoadBalancerIds": [],
+              "LoadBalancerName": "",
+              "LoadBalancerVips": [],
+              "MasterZone": "",
+              "Offset": 0,
+              "OrderBy": {},
+              "OrderType": {},
+              "SecurityGroup": "",
+              "VpcId": "",
+              "WithRs": {}
+            },
+            "region": ""
+          },
+          "loadBalance": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "LoadBalancerId",
+            "listener": "",
+            "listenerAlias": "ListenerId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "BackendPrivateIps": [],
+              "BackendPublicIps": [],
+              "Domain": "",
+              "Limit": 20,
+              "LoadBalancerIds": [],
+              "LoadBalancerName": "",
+              "LoadBalancerVips": [],
+              "MasterZone": "",
+              "Offset": 0,
+              "OrderBy": {},
+              "OrderType": {},
+              "SecurityGroup": "",
+              "VpcId": "",
+              "WithRs": {}
+            },
+            "region": ""
+          },
+          "mongoDB": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "InstanceId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "ClusterType": {},
+              "InstanceIds": [],
+              "InstanceType": {},
+              "Limit": 20,
+              "Offset": 0,
+              "OrderBy": "",
+              "OrderByType": "",
+              "PayMode": {},
+              "Status": [],
+              "SubnetId": "",
+              "VpcId": ""
+            },
+            "region": ""
+          },
+          "namespace": "QCE/REDIS",
+          "natGateway": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "NatGatewayId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "Filters": {
+                "nat-gateway-id": [],
+                "nat-gateway-name": [],
+                "vpc-id": []
+              },
+              "Limit": 20,
+              "NatGatewayIds": [
+                ""
+              ],
+              "Offset": 0,
+              "filtersChecked": false,
+              "instanceIdsChecked": false
+            },
+            "region": ""
+          },
+          "ovCdn": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "Domain",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "Filters": {
+                "domain": [],
+                "domainType": [],
+                "fullUrlCache": [],
+                "https": [],
+                "origin": [],
+                "originPullProtocol": [],
+                "projectId": [],
+                "resourceId": [],
+                "serviceType": [],
+                "status": [],
+                "tagKey": []
+              },
+              "Limit": 20,
+              "Offset": 0
+            },
+            "region": ""
+          },
+          "pcx": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "peeringConnectionId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "limit": 20,
+              "offset": 0,
+              "peeringConnectionId": "",
+              "peeringConnectionName": "",
+              "vpcId": ""
+            },
+            "region": ""
+          },
+          "postgres": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "DBInstanceId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "Filters": {
+                "db-instance-id": [],
+                "db-instance-name": []
+              },
+              "Limit": 20,
+              "Offset": 0
+            },
+            "region": ""
+          },
+          "redis": {
+            "dimensionObject": {
+              "instanceid": {
+                "Name": "instanceid",
+                "Value": ""
+              }
+            },
+            "instance": "$instance",
+            "instanceAlias": "InstanceId",
+            "metricName": "InFlowMin",
+            "metricUnit": "MB",
+            "period": 300,
+            "queries": {
+              "AutoRenew": null,
+              "BillingMode": "",
+              "EngineName": "",
+              "InstanceId": "",
+              "InstanceName": "",
+              "OrderBy": "",
+              "OrderType": null,
+              "ProjectIds": [],
+              "SearchKey": "",
+              "Status": [],
+              "SubnetIds": [],
+              "Type": null,
+              "TypeVersion": null,
+              "UniqSubnetIds": [],
+              "UniqVpcIds": [],
+              "VpcIds": []
+            },
+            "region": "$region"
+          },
+          "redisMem": {
+            "dimensionObject": {
+              "instanceid": {
+                "Name": "instanceid",
+                "Value": ""
+              }
+            },
+            "instance": "$instance",
+            "instanceAlias": "InstanceId",
+            "metricName": "InFlow",
+            "metricUnit": "MBytes/s",
+            "period": 300,
+            "queries": {
+              "AutoRenew": null,
+              "BillingMode": "",
+              "EngineName": "",
+              "InstanceId": "",
+              "InstanceName": "",
+              "OrderBy": "",
+              "OrderType": null,
+              "ProjectIds": [],
+              "SearchKey": "",
+              "Status": [],
+              "SubnetIds": [],
+              "Type": null,
+              "TypeVersion": null,
+              "UniqSubnetIds": [],
+              "UniqVpcIds": [],
+              "VpcIds": []
+            },
+            "region": "$region"
+          },
+          "refId": "A",
+          "scf": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "FunctionName",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "Description": "",
+              "Limit": 20,
+              "Namespace": "",
+              "Offset": 0,
+              "Order": {},
+              "OrderBy": {},
+              "SearchKey": ""
+            },
+            "region": "",
+            "version": ""
+          },
+          "service": "redis",
+          "showInstanceDetails": false
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "【Redis内存版】入流量",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "pps",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "Tencent Cloud Monitor Datasource",
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 16
+      },
+      "hiddenSeries": false,
+      "id": 29,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "max": true,
+        "min": true,
+        "rightSide": false,
+        "show": true,
+        "total": true,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "paceLength": 10,
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [
+        {
+          "alias": "lanOutpkg",
+          "transform": "negative-Y"
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "bwp": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "BandwidthPackageId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "BandwidthPackageIds": [
+                ""
+              ],
+              "Filters": {
+                "bandwidth-package-name": [],
+                "bandwidth-package_id": [],
+                "charge-type": [],
+                "network-type": []
+              },
+              "Limit": 20,
+              "Offset": 0,
+              "filtersChecked": false,
+              "instanceIdsChecked": false
+            },
+            "region": ""
+          },
+          "cdb": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "InstanceId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "CdbErrors": {},
+              "EngineVersions": {},
+              "InitFlag": {},
+              "InstancTypes": {},
+              "InstanceIds": [],
+              "InstanceNames": [],
+              "InstanceTypes": {},
+              "Limit": 20,
+              "Offset": 0,
+              "OrderBy": {},
+              "OrderDirection": {},
+              "PayTypes": {},
+              "ProjectId": "",
+              "SecurityGroupId": "",
+              "Status": {},
+              "SubnetIds": [],
+              "TaskStatus": {},
+              "Vips": [],
+              "VpcIds": [],
+              "ZoneIds": []
+            },
+            "region": ""
+          },
+          "cdn": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "Domain",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "Filters": {
+                "domain": [],
+                "domainType": [],
+                "fullUrlCache": [],
+                "https": [],
+                "origin": [],
+                "originPullProtocol": [],
+                "projectId": [],
+                "resourceId": [],
+                "serviceType": [],
+                "status": [],
+                "tagKey": []
+              },
+              "Limit": 20,
+              "Offset": 0
+            },
+            "region": ""
+          },
+          "cfs": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "FileSystemId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "FileSystemId": "",
+              "Limit": 20,
+              "Offset": 0,
+              "SubnetId": "",
+              "VpcId": ""
+            },
+            "region": "",
+            "version": ""
+          },
+          "ckafka": {
+            "consumerGroup": "",
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "InstanceId",
+            "metricName": "",
+            "metricUnit": "",
+            "partition": "",
+            "queries": {
+              "InstanceId": "",
+              "Limit": 10,
+              "Offset": 0,
+              "SearchWord": "",
+              "Status": [],
+              "TagKey": ""
+            },
+            "region": "",
+            "topicId": "",
+            "topicName": ""
+          },
+          "cvm": {
+            "dimensionObject": {
+              "InstanceId": {
+                "Name": "InstanceId",
+                "Value": ""
+              }
+            },
+            "instance": "$publicIp",
+            "instanceAlias": "PublicIpAddresses",
+            "metricName": "lanInpkg",
+            "metricUnit": "count/s",
+            "period": 60,
+            "queries": {
+              "Filters": {
+                "host-id": [],
+                "instance-charge-type": {},
+                "instance-id": [],
+                "instance-name": [],
+                "private-ip-address": [],
+                "project-id": [],
+                "public-ip-address": [],
+                "security-group-id": [],
+                "subnet-id": [],
+                "vpc-id": [],
+                "zone": []
+              },
+              "InstanceIds": [
+                ""
+              ],
+              "Limit": 20,
+              "Offset": 0,
+              "filtersChecked": false,
+              "instanceIdsChecked": false
+            },
+            "region": "$region"
+          },
+          "lb": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "AddressIp",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "AddressIds": [
+                ""
+              ],
+              "Filters": {
+                "address-id": [],
+                "address-ip": [],
+                "address-name": [],
+                "address-status ": [],
+                "instance-id ": [],
+                "is-arrears ": [],
+                "network-interface-id ": [],
+                "private-ip-address": []
+              },
+              "Limit": 20,
+              "Offset": 0
+            },
+            "region": "",
+            "version": ""
+          },
+          "lbPrivate": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "LoadBalancerId",
+            "listener": "",
+            "listenerAlias": "ListenerId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "BackendPrivateIps": [],
+              "BackendPublicIps": [],
+              "Domain": "",
+              "Limit": 20,
+              "LoadBalancerIds": [],
+              "LoadBalancerName": "",
+              "LoadBalancerVips": [],
+              "MasterZone": "",
+              "Offset": 0,
+              "OrderBy": {},
+              "OrderType": {},
+              "SecurityGroup": "",
+              "VpcId": "",
+              "WithRs": {}
+            },
+            "region": ""
+          },
+          "lbPublic": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "LoadBalancerId",
+            "listener": "",
+            "listenerAlias": "ListenerId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "BackendPrivateIps": [],
+              "BackendPublicIps": [],
+              "Domain": "",
+              "Limit": 20,
+              "LoadBalancerIds": [],
+              "LoadBalancerName": "",
+              "LoadBalancerVips": [],
+              "MasterZone": "",
+              "Offset": 0,
+              "OrderBy": {},
+              "OrderType": {},
+              "SecurityGroup": "",
+              "VpcId": "",
+              "WithRs": {}
+            },
+            "region": ""
+          },
+          "loadBalance": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "LoadBalancerId",
+            "listener": "",
+            "listenerAlias": "ListenerId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "BackendPrivateIps": [],
+              "BackendPublicIps": [],
+              "Domain": "",
+              "Limit": 20,
+              "LoadBalancerIds": [],
+              "LoadBalancerName": "",
+              "LoadBalancerVips": [],
+              "MasterZone": "",
+              "Offset": 0,
+              "OrderBy": {},
+              "OrderType": {},
+              "SecurityGroup": "",
+              "VpcId": "",
+              "WithRs": {}
+            },
+            "region": ""
+          },
+          "mongoDB": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "InstanceId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "ClusterType": {},
+              "InstanceIds": [],
+              "InstanceType": {},
+              "Limit": 20,
+              "Offset": 0,
+              "OrderBy": "",
+              "OrderByType": "",
+              "PayMode": {},
+              "Status": [],
+              "SubnetId": "",
+              "VpcId": ""
+            },
+            "region": ""
+          },
+          "namespace": "QCE/REDIS",
+          "natGateway": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "NatGatewayId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "Filters": {
+                "nat-gateway-id": [],
+                "nat-gateway-name": [],
+                "vpc-id": []
+              },
+              "Limit": 20,
+              "NatGatewayIds": [
+                ""
+              ],
+              "Offset": 0,
+              "filtersChecked": false,
+              "instanceIdsChecked": false
+            },
+            "region": ""
+          },
+          "ovCdn": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "Domain",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "Filters": {
+                "domain": [],
+                "domainType": [],
+                "fullUrlCache": [],
+                "https": [],
+                "origin": [],
+                "originPullProtocol": [],
+                "projectId": [],
+                "resourceId": [],
+                "serviceType": [],
+                "status": [],
+                "tagKey": []
+              },
+              "Limit": 20,
+              "Offset": 0
+            },
+            "region": ""
+          },
+          "pcx": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "peeringConnectionId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "limit": 20,
+              "offset": 0,
+              "peeringConnectionId": "",
+              "peeringConnectionName": "",
+              "vpcId": ""
+            },
+            "region": ""
+          },
+          "postgres": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "DBInstanceId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "Filters": {
+                "db-instance-id": [],
+                "db-instance-name": []
+              },
+              "Limit": 20,
+              "Offset": 0
+            },
+            "region": ""
+          },
+          "redis": {
+            "dimensionObject": {
+              "instanceid": {
+                "Name": "instanceid",
+                "Value": ""
+              }
+            },
+            "instance": "$instance",
+            "instanceAlias": "InstanceId",
+            "metricName": "InFlowUsMin",
+            "metricUnit": "%",
+            "period": 300,
+            "queries": {
+              "AutoRenew": null,
+              "BillingMode": "",
+              "EngineName": "",
+              "InstanceId": "",
+              "InstanceName": "",
+              "OrderBy": "",
+              "OrderType": null,
+              "ProjectIds": [],
+              "SearchKey": "",
+              "Status": [],
+              "SubnetIds": [],
+              "Type": null,
+              "TypeVersion": null,
+              "UniqSubnetIds": [],
+              "UniqVpcIds": [],
+              "VpcIds": []
+            },
+            "region": "$region"
+          },
+          "redisMem": {
+            "dimensionObject": {
+              "instanceid": {
+                "Name": "instanceid",
+                "Value": ""
+              }
+            },
+            "instance": "$instance",
+            "instanceAlias": "InstanceId",
+            "metricName": "InBandwidthUtil",
+            "metricUnit": "%",
+            "period": 300,
+            "queries": {
+              "AutoRenew": null,
+              "BillingMode": "",
+              "EngineName": "",
+              "InstanceId": "",
+              "InstanceName": "",
+              "OrderBy": "",
+              "OrderType": null,
+              "ProjectIds": [],
+              "SearchKey": "",
+              "Status": [],
+              "SubnetIds": [],
+              "Type": null,
+              "TypeVersion": null,
+              "UniqSubnetIds": [],
+              "UniqVpcIds": [],
+              "VpcIds": []
+            },
+            "region": "$region"
+          },
+          "refId": "A",
+          "scf": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "FunctionName",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "Description": "",
+              "Limit": 20,
+              "Namespace": "",
+              "Offset": 0,
+              "Order": {},
+              "OrderBy": {},
+              "SearchKey": ""
+            },
+            "region": "",
+            "version": ""
+          },
+          "service": "redis",
+          "showInstanceDetails": false
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "【Redis内存版】入网流量使用率",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "pps",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "Tencent Cloud Monitor Datasource",
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 24
+      },
+      "hiddenSeries": false,
+      "id": 26,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "max": true,
+        "min": true,
+        "rightSide": false,
+        "show": true,
+        "total": true,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "paceLength": 10,
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [
+        {
+          "alias": "lanOutpkg",
+          "transform": "negative-Y"
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "bwp": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "BandwidthPackageId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "BandwidthPackageIds": [
+                ""
+              ],
+              "Filters": {
+                "bandwidth-package-name": [],
+                "bandwidth-package_id": [],
+                "charge-type": [],
+                "network-type": []
+              },
+              "Limit": 20,
+              "Offset": 0,
+              "filtersChecked": false,
+              "instanceIdsChecked": false
+            },
+            "region": ""
+          },
+          "cdb": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "InstanceId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "CdbErrors": {},
+              "EngineVersions": {},
+              "InitFlag": {},
+              "InstancTypes": {},
+              "InstanceIds": [],
+              "InstanceNames": [],
+              "InstanceTypes": {},
+              "Limit": 20,
+              "Offset": 0,
+              "OrderBy": {},
+              "OrderDirection": {},
+              "PayTypes": {},
+              "ProjectId": "",
+              "SecurityGroupId": "",
+              "Status": {},
+              "SubnetIds": [],
+              "TaskStatus": {},
+              "Vips": [],
+              "VpcIds": [],
+              "ZoneIds": []
+            },
+            "region": ""
+          },
+          "cdn": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "Domain",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "Filters": {
+                "domain": [],
+                "domainType": [],
+                "fullUrlCache": [],
+                "https": [],
+                "origin": [],
+                "originPullProtocol": [],
+                "projectId": [],
+                "resourceId": [],
+                "serviceType": [],
+                "status": [],
+                "tagKey": []
+              },
+              "Limit": 20,
+              "Offset": 0
+            },
+            "region": ""
+          },
+          "cfs": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "FileSystemId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "FileSystemId": "",
+              "Limit": 20,
+              "Offset": 0,
+              "SubnetId": "",
+              "VpcId": ""
+            },
+            "region": "",
+            "version": ""
+          },
+          "ckafka": {
+            "consumerGroup": "",
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "InstanceId",
+            "metricName": "",
+            "metricUnit": "",
+            "partition": "",
+            "queries": {
+              "InstanceId": "",
+              "Limit": 10,
+              "Offset": 0,
+              "SearchWord": "",
+              "Status": [],
+              "TagKey": ""
+            },
+            "region": "",
+            "topicId": "",
+            "topicName": ""
+          },
+          "cvm": {
+            "dimensionObject": {
+              "InstanceId": {
+                "Name": "InstanceId",
+                "Value": ""
+              }
+            },
+            "instance": "$publicIp",
+            "instanceAlias": "PublicIpAddresses",
+            "metricName": "lanInpkg",
+            "metricUnit": "count/s",
+            "period": 60,
+            "queries": {
+              "Filters": {
+                "host-id": [],
+                "instance-charge-type": {},
+                "instance-id": [],
+                "instance-name": [],
+                "private-ip-address": [],
+                "project-id": [],
+                "public-ip-address": [],
+                "security-group-id": [],
+                "subnet-id": [],
+                "vpc-id": [],
+                "zone": []
+              },
+              "InstanceIds": [
+                ""
+              ],
+              "Limit": 20,
+              "Offset": 0,
+              "filtersChecked": false,
+              "instanceIdsChecked": false
+            },
+            "region": "$region"
+          },
+          "lb": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "AddressIp",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "AddressIds": [
+                ""
+              ],
+              "Filters": {
+                "address-id": [],
+                "address-ip": [],
+                "address-name": [],
+                "address-status ": [],
+                "instance-id ": [],
+                "is-arrears ": [],
+                "network-interface-id ": [],
+                "private-ip-address": []
+              },
+              "Limit": 20,
+              "Offset": 0
+            },
+            "region": "",
+            "version": ""
+          },
+          "lbPrivate": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "LoadBalancerId",
+            "listener": "",
+            "listenerAlias": "ListenerId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "BackendPrivateIps": [],
+              "BackendPublicIps": [],
+              "Domain": "",
+              "Limit": 20,
+              "LoadBalancerIds": [],
+              "LoadBalancerName": "",
+              "LoadBalancerVips": [],
+              "MasterZone": "",
+              "Offset": 0,
+              "OrderBy": {},
+              "OrderType": {},
+              "SecurityGroup": "",
+              "VpcId": "",
+              "WithRs": {}
+            },
+            "region": ""
+          },
+          "lbPublic": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "LoadBalancerId",
+            "listener": "",
+            "listenerAlias": "ListenerId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "BackendPrivateIps": [],
+              "BackendPublicIps": [],
+              "Domain": "",
+              "Limit": 20,
+              "LoadBalancerIds": [],
+              "LoadBalancerName": "",
+              "LoadBalancerVips": [],
+              "MasterZone": "",
+              "Offset": 0,
+              "OrderBy": {},
+              "OrderType": {},
+              "SecurityGroup": "",
+              "VpcId": "",
+              "WithRs": {}
+            },
+            "region": ""
+          },
+          "loadBalance": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "LoadBalancerId",
+            "listener": "",
+            "listenerAlias": "ListenerId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "BackendPrivateIps": [],
+              "BackendPublicIps": [],
+              "Domain": "",
+              "Limit": 20,
+              "LoadBalancerIds": [],
+              "LoadBalancerName": "",
+              "LoadBalancerVips": [],
+              "MasterZone": "",
+              "Offset": 0,
+              "OrderBy": {},
+              "OrderType": {},
+              "SecurityGroup": "",
+              "VpcId": "",
+              "WithRs": {}
+            },
+            "region": ""
+          },
+          "mongoDB": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "InstanceId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "ClusterType": {},
+              "InstanceIds": [],
+              "InstanceType": {},
+              "Limit": 20,
+              "Offset": 0,
+              "OrderBy": "",
+              "OrderByType": "",
+              "PayMode": {},
+              "Status": [],
+              "SubnetId": "",
+              "VpcId": ""
+            },
+            "region": ""
+          },
+          "namespace": "QCE/REDIS",
+          "natGateway": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "NatGatewayId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "Filters": {
+                "nat-gateway-id": [],
+                "nat-gateway-name": [],
+                "vpc-id": []
+              },
+              "Limit": 20,
+              "NatGatewayIds": [
+                ""
+              ],
+              "Offset": 0,
+              "filtersChecked": false,
+              "instanceIdsChecked": false
+            },
+            "region": ""
+          },
+          "ovCdn": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "Domain",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "Filters": {
+                "domain": [],
+                "domainType": [],
+                "fullUrlCache": [],
+                "https": [],
+                "origin": [],
+                "originPullProtocol": [],
+                "projectId": [],
+                "resourceId": [],
+                "serviceType": [],
+                "status": [],
+                "tagKey": []
+              },
+              "Limit": 20,
+              "Offset": 0
+            },
+            "region": ""
+          },
+          "pcx": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "peeringConnectionId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "limit": 20,
+              "offset": 0,
+              "peeringConnectionId": "",
+              "peeringConnectionName": "",
+              "vpcId": ""
+            },
+            "region": ""
+          },
+          "postgres": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "DBInstanceId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "Filters": {
+                "db-instance-id": [],
+                "db-instance-name": []
+              },
+              "Limit": 20,
+              "Offset": 0
+            },
+            "region": ""
+          },
+          "redis": {
+            "dimensionObject": {
+              "instanceid": {
+                "Name": "instanceid",
+                "Value": ""
+              }
+            },
+            "instance": "$instance",
+            "instanceAlias": "InstanceId",
+            "metricName": "OutFlowMin",
+            "metricUnit": "MB",
+            "period": 300,
+            "queries": {
+              "AutoRenew": null,
+              "BillingMode": "",
+              "EngineName": "",
+              "InstanceId": "",
+              "InstanceName": "",
+              "OrderBy": "",
+              "OrderType": null,
+              "ProjectIds": [],
+              "SearchKey": "",
+              "Status": [],
+              "SubnetIds": [],
+              "Type": null,
+              "TypeVersion": null,
+              "UniqSubnetIds": [],
+              "UniqVpcIds": [],
+              "VpcIds": []
+            },
+            "region": "$region"
+          },
+          "redisMem": {
+            "dimensionObject": {
+              "instanceid": {
+                "Name": "instanceid",
+                "Value": ""
+              }
+            },
+            "instance": "$instance",
+            "instanceAlias": "InstanceId",
+            "metricName": "OutFlow",
+            "metricUnit": "MBytes/s",
+            "period": 300,
+            "queries": {
+              "AutoRenew": null,
+              "BillingMode": "",
+              "EngineName": "",
+              "InstanceId": "",
+              "InstanceName": "",
+              "OrderBy": "",
+              "OrderType": null,
+              "ProjectIds": [],
+              "SearchKey": "",
+              "Status": [],
+              "SubnetIds": [],
+              "Type": null,
+              "TypeVersion": null,
+              "UniqSubnetIds": [],
+              "UniqVpcIds": [],
+              "VpcIds": []
+            },
+            "region": "$region"
+          },
+          "refId": "A",
+          "scf": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "FunctionName",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "Description": "",
+              "Limit": 20,
+              "Namespace": "",
+              "Offset": 0,
+              "Order": {},
+              "OrderBy": {},
+              "SearchKey": ""
+            },
+            "region": "",
+            "version": ""
+          },
+          "service": "redis",
+          "showInstanceDetails": false
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "【Redis内存版】出网流量",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "pps",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "Tencent Cloud Monitor Datasource",
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 24
+      },
+      "hiddenSeries": false,
+      "id": 27,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "max": true,
+        "min": true,
+        "rightSide": false,
+        "show": true,
+        "total": true,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "paceLength": 10,
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [
+        {
+          "alias": "lanOutpkg",
+          "transform": "negative-Y"
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "bwp": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "BandwidthPackageId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "BandwidthPackageIds": [
+                ""
+              ],
+              "Filters": {
+                "bandwidth-package-name": [],
+                "bandwidth-package_id": [],
+                "charge-type": [],
+                "network-type": []
+              },
+              "Limit": 20,
+              "Offset": 0,
+              "filtersChecked": false,
+              "instanceIdsChecked": false
+            },
+            "region": ""
+          },
+          "cdb": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "InstanceId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "CdbErrors": {},
+              "EngineVersions": {},
+              "InitFlag": {},
+              "InstancTypes": {},
+              "InstanceIds": [],
+              "InstanceNames": [],
+              "InstanceTypes": {},
+              "Limit": 20,
+              "Offset": 0,
+              "OrderBy": {},
+              "OrderDirection": {},
+              "PayTypes": {},
+              "ProjectId": "",
+              "SecurityGroupId": "",
+              "Status": {},
+              "SubnetIds": [],
+              "TaskStatus": {},
+              "Vips": [],
+              "VpcIds": [],
+              "ZoneIds": []
+            },
+            "region": ""
+          },
+          "cdn": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "Domain",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "Filters": {
+                "domain": [],
+                "domainType": [],
+                "fullUrlCache": [],
+                "https": [],
+                "origin": [],
+                "originPullProtocol": [],
+                "projectId": [],
+                "resourceId": [],
+                "serviceType": [],
+                "status": [],
+                "tagKey": []
+              },
+              "Limit": 20,
+              "Offset": 0
+            },
+            "region": ""
+          },
+          "cfs": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "FileSystemId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "FileSystemId": "",
+              "Limit": 20,
+              "Offset": 0,
+              "SubnetId": "",
+              "VpcId": ""
+            },
+            "region": "",
+            "version": ""
+          },
+          "ckafka": {
+            "consumerGroup": "",
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "InstanceId",
+            "metricName": "",
+            "metricUnit": "",
+            "partition": "",
+            "queries": {
+              "InstanceId": "",
+              "Limit": 10,
+              "Offset": 0,
+              "SearchWord": "",
+              "Status": [],
+              "TagKey": ""
+            },
+            "region": "",
+            "topicId": "",
+            "topicName": ""
+          },
+          "cvm": {
+            "dimensionObject": {
+              "InstanceId": {
+                "Name": "InstanceId",
+                "Value": ""
+              }
+            },
+            "instance": "$publicIp",
+            "instanceAlias": "PublicIpAddresses",
+            "metricName": "lanInpkg",
+            "metricUnit": "count/s",
+            "period": 60,
+            "queries": {
+              "Filters": {
+                "host-id": [],
+                "instance-charge-type": {},
+                "instance-id": [],
+                "instance-name": [],
+                "private-ip-address": [],
+                "project-id": [],
+                "public-ip-address": [],
+                "security-group-id": [],
+                "subnet-id": [],
+                "vpc-id": [],
+                "zone": []
+              },
+              "InstanceIds": [
+                ""
+              ],
+              "Limit": 20,
+              "Offset": 0,
+              "filtersChecked": false,
+              "instanceIdsChecked": false
+            },
+            "region": "$region"
+          },
+          "lb": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "AddressIp",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "AddressIds": [
+                ""
+              ],
+              "Filters": {
+                "address-id": [],
+                "address-ip": [],
+                "address-name": [],
+                "address-status ": [],
+                "instance-id ": [],
+                "is-arrears ": [],
+                "network-interface-id ": [],
+                "private-ip-address": []
+              },
+              "Limit": 20,
+              "Offset": 0
+            },
+            "region": "",
+            "version": ""
+          },
+          "lbPrivate": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "LoadBalancerId",
+            "listener": "",
+            "listenerAlias": "ListenerId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "BackendPrivateIps": [],
+              "BackendPublicIps": [],
+              "Domain": "",
+              "Limit": 20,
+              "LoadBalancerIds": [],
+              "LoadBalancerName": "",
+              "LoadBalancerVips": [],
+              "MasterZone": "",
+              "Offset": 0,
+              "OrderBy": {},
+              "OrderType": {},
+              "SecurityGroup": "",
+              "VpcId": "",
+              "WithRs": {}
+            },
+            "region": ""
+          },
+          "lbPublic": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "LoadBalancerId",
+            "listener": "",
+            "listenerAlias": "ListenerId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "BackendPrivateIps": [],
+              "BackendPublicIps": [],
+              "Domain": "",
+              "Limit": 20,
+              "LoadBalancerIds": [],
+              "LoadBalancerName": "",
+              "LoadBalancerVips": [],
+              "MasterZone": "",
+              "Offset": 0,
+              "OrderBy": {},
+              "OrderType": {},
+              "SecurityGroup": "",
+              "VpcId": "",
+              "WithRs": {}
+            },
+            "region": ""
+          },
+          "loadBalance": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "LoadBalancerId",
+            "listener": "",
+            "listenerAlias": "ListenerId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "BackendPrivateIps": [],
+              "BackendPublicIps": [],
+              "Domain": "",
+              "Limit": 20,
+              "LoadBalancerIds": [],
+              "LoadBalancerName": "",
+              "LoadBalancerVips": [],
+              "MasterZone": "",
+              "Offset": 0,
+              "OrderBy": {},
+              "OrderType": {},
+              "SecurityGroup": "",
+              "VpcId": "",
+              "WithRs": {}
+            },
+            "region": ""
+          },
+          "mongoDB": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "InstanceId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "ClusterType": {},
+              "InstanceIds": [],
+              "InstanceType": {},
+              "Limit": 20,
+              "Offset": 0,
+              "OrderBy": "",
+              "OrderByType": "",
+              "PayMode": {},
+              "Status": [],
+              "SubnetId": "",
+              "VpcId": ""
+            },
+            "region": ""
+          },
+          "namespace": "QCE/REDIS",
+          "natGateway": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "NatGatewayId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "Filters": {
+                "nat-gateway-id": [],
+                "nat-gateway-name": [],
+                "vpc-id": []
+              },
+              "Limit": 20,
+              "NatGatewayIds": [
+                ""
+              ],
+              "Offset": 0,
+              "filtersChecked": false,
+              "instanceIdsChecked": false
+            },
+            "region": ""
+          },
+          "ovCdn": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "Domain",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "Filters": {
+                "domain": [],
+                "domainType": [],
+                "fullUrlCache": [],
+                "https": [],
+                "origin": [],
+                "originPullProtocol": [],
+                "projectId": [],
+                "resourceId": [],
+                "serviceType": [],
+                "status": [],
+                "tagKey": []
+              },
+              "Limit": 20,
+              "Offset": 0
+            },
+            "region": ""
+          },
+          "pcx": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "peeringConnectionId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "limit": 20,
+              "offset": 0,
+              "peeringConnectionId": "",
+              "peeringConnectionName": "",
+              "vpcId": ""
+            },
+            "region": ""
+          },
+          "postgres": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "DBInstanceId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "Filters": {
+                "db-instance-id": [],
+                "db-instance-name": []
+              },
+              "Limit": 20,
+              "Offset": 0
+            },
+            "region": ""
+          },
+          "redis": {
+            "dimensionObject": {
+              "instanceid": {
+                "Name": "instanceid",
+                "Value": ""
+              }
+            },
+            "instance": "$instance",
+            "instanceAlias": "InstanceId",
+            "metricName": "OutFlowUsMin",
+            "metricUnit": "%",
+            "period": 300,
+            "queries": {
+              "AutoRenew": null,
+              "BillingMode": "",
+              "EngineName": "",
+              "InstanceId": "",
+              "InstanceName": "",
+              "OrderBy": "",
+              "OrderType": null,
+              "ProjectIds": [],
+              "SearchKey": "",
+              "Status": [],
+              "SubnetIds": [],
+              "Type": null,
+              "TypeVersion": null,
+              "UniqSubnetIds": [],
+              "UniqVpcIds": [],
+              "VpcIds": []
+            },
+            "region": "$region"
+          },
+          "redisMem": {
+            "dimensionObject": {
+              "instanceid": {
+                "Name": "instanceid",
+                "Value": ""
+              }
+            },
+            "instance": "$instance",
+            "instanceAlias": "InstanceId",
+            "metricName": "OutBandwidthUtil",
+            "metricUnit": "%",
+            "period": 300,
+            "queries": {
+              "AutoRenew": null,
+              "BillingMode": "",
+              "EngineName": "",
+              "InstanceId": "",
+              "InstanceName": "",
+              "OrderBy": "",
+              "OrderType": null,
+              "ProjectIds": [],
+              "SearchKey": "",
+              "Status": [],
+              "SubnetIds": [],
+              "Type": null,
+              "TypeVersion": null,
+              "UniqSubnetIds": [],
+              "UniqVpcIds": [],
+              "VpcIds": []
+            },
+            "region": "$region"
+          },
+          "refId": "A",
+          "scf": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "FunctionName",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "Description": "",
+              "Limit": 20,
+              "Namespace": "",
+              "Offset": 0,
+              "Order": {},
+              "OrderBy": {},
+              "SearchKey": ""
+            },
+            "region": "",
+            "version": ""
+          },
+          "service": "redis",
+          "showInstanceDetails": false
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "【Redis内存版】出网流量使用率",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "pps",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "collapsed": true,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 32
+      },
+      "id": 4,
+      "panels": [],
+      "title": "请求监控",
+      "type": "row"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "Tencent Cloud Monitor Datasource",
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 7,
+        "w": 24,
+        "x": 0,
+        "y": 33
+      },
+      "hiddenSeries": false,
+      "id": 2,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "max": true,
+        "min": true,
+        "show": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "paceLength": 10,
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [
+        {
+          "alias": "CPUUsage",
+          "color": "#3274D9"
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "bwp": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "BandwidthPackageId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "BandwidthPackageIds": [
+                ""
+              ],
+              "Filters": {
+                "bandwidth-package-name": [],
+                "bandwidth-package_id": [],
+                "charge-type": [],
+                "network-type": []
+              },
+              "Limit": 20,
+              "Offset": 0,
+              "filtersChecked": false,
+              "instanceIdsChecked": false
+            },
+            "region": ""
+          },
+          "cdb": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "InstanceId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "CdbErrors": {},
+              "EngineVersions": {},
+              "InitFlag": {},
+              "InstancTypes": {},
+              "InstanceIds": [],
+              "InstanceNames": [],
+              "InstanceTypes": {},
+              "Limit": 20,
+              "Offset": 0,
+              "OrderBy": {},
+              "OrderDirection": {},
+              "PayTypes": {},
+              "ProjectId": "",
+              "SecurityGroupId": "",
+              "Status": {},
+              "SubnetIds": [],
+              "TaskStatus": {},
+              "Vips": [],
+              "VpcIds": [],
+              "ZoneIds": []
+            },
+            "region": ""
+          },
+          "cdn": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "Domain",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "Filters": {
+                "domain": [],
+                "domainType": [],
+                "fullUrlCache": [],
+                "https": [],
+                "origin": [],
+                "originPullProtocol": [],
+                "projectId": [],
+                "resourceId": [],
+                "serviceType": [],
+                "status": [],
+                "tagKey": []
+              },
+              "Limit": 20,
+              "Offset": 0
+            },
+            "region": ""
+          },
+          "cfs": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "FileSystemId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "FileSystemId": "",
+              "Limit": 20,
+              "Offset": 0,
+              "SubnetId": "",
+              "VpcId": ""
+            },
+            "region": "",
+            "version": ""
+          },
+          "ckafka": {
+            "consumerGroup": "",
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "InstanceId",
+            "metricName": "",
+            "metricUnit": "",
+            "partition": "",
+            "queries": {
+              "InstanceId": "",
+              "Limit": 10,
+              "Offset": 0,
+              "SearchWord": "",
+              "Status": [],
+              "TagKey": ""
+            },
+            "region": "",
+            "topicId": "",
+            "topicName": ""
+          },
+          "cvm": {
+            "dimensionObject": {
+              "InstanceId": {
+                "Name": "InstanceId",
+                "Value": ""
+              }
+            },
+            "instance": "$publicIp",
+            "instanceAlias": "PublicIpAddresses",
+            "metricName": "CPUUsage",
+            "metricUnit": "%",
+            "period": 10,
+            "queries": {
+              "Filters": {
+                "host-id": [],
+                "instance-charge-type": {},
+                "instance-id": [],
+                "instance-name": [],
+                "private-ip-address": [],
+                "project-id": [],
+                "public-ip-address": [],
+                "security-group-id": [],
+                "subnet-id": [],
+                "vpc-id": [],
+                "zone": []
+              },
+              "InstanceIds": [
+                ""
+              ],
+              "Limit": 20,
+              "Offset": 0,
+              "filtersChecked": false,
+              "instanceIdsChecked": false
+            },
+            "region": "$region"
+          },
+          "lb": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "AddressIp",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "AddressIds": [
+                ""
+              ],
+              "Filters": {
+                "address-id": [],
+                "address-ip": [],
+                "address-name": [],
+                "address-status ": [],
+                "instance-id ": [],
+                "is-arrears ": [],
+                "network-interface-id ": [],
+                "private-ip-address": []
+              },
+              "Limit": 20,
+              "Offset": 0
+            },
+            "region": "",
+            "version": ""
+          },
+          "lbPrivate": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "LoadBalancerId",
+            "listener": "",
+            "listenerAlias": "ListenerId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "BackendPrivateIps": [],
+              "BackendPublicIps": [],
+              "Domain": "",
+              "Limit": 20,
+              "LoadBalancerIds": [],
+              "LoadBalancerName": "",
+              "LoadBalancerVips": [],
+              "MasterZone": "",
+              "Offset": 0,
+              "OrderBy": {},
+              "OrderType": {},
+              "SecurityGroup": "",
+              "VpcId": "",
+              "WithRs": {}
+            },
+            "region": ""
+          },
+          "lbPublic": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "LoadBalancerId",
+            "listener": "",
+            "listenerAlias": "ListenerId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "BackendPrivateIps": [],
+              "BackendPublicIps": [],
+              "Domain": "",
+              "Limit": 20,
+              "LoadBalancerIds": [],
+              "LoadBalancerName": "",
+              "LoadBalancerVips": [],
+              "MasterZone": "",
+              "Offset": 0,
+              "OrderBy": {},
+              "OrderType": {},
+              "SecurityGroup": "",
+              "VpcId": "",
+              "WithRs": {}
+            },
+            "region": ""
+          },
+          "loadBalance": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "LoadBalancerId",
+            "listener": "",
+            "listenerAlias": "ListenerId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "BackendPrivateIps": [],
+              "BackendPublicIps": [],
+              "Domain": "",
+              "Limit": 20,
+              "LoadBalancerIds": [],
+              "LoadBalancerName": "",
+              "LoadBalancerVips": [],
+              "MasterZone": "",
+              "Offset": 0,
+              "OrderBy": {},
+              "OrderType": {},
+              "SecurityGroup": "",
+              "VpcId": "",
+              "WithRs": {}
+            },
+            "region": ""
+          },
+          "mongoDB": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "InstanceId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "ClusterType": {},
+              "InstanceIds": [],
+              "InstanceType": {},
+              "Limit": 20,
+              "Offset": 0,
+              "OrderBy": "",
+              "OrderByType": "",
+              "PayMode": {},
+              "Status": [],
+              "SubnetId": "",
+              "VpcId": ""
+            },
+            "region": ""
+          },
+          "namespace": "QCE/REDIS",
+          "natGateway": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "NatGatewayId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "Filters": {
+                "nat-gateway-id": [],
+                "nat-gateway-name": [],
+                "vpc-id": []
+              },
+              "Limit": 20,
+              "NatGatewayIds": [
+                ""
+              ],
+              "Offset": 0,
+              "filtersChecked": false,
+              "instanceIdsChecked": false
+            },
+            "region": ""
+          },
+          "ovCdn": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "Domain",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "Filters": {
+                "domain": [],
+                "domainType": [],
+                "fullUrlCache": [],
+                "https": [],
+                "origin": [],
+                "originPullProtocol": [],
+                "projectId": [],
+                "resourceId": [],
+                "serviceType": [],
+                "status": [],
+                "tagKey": []
+              },
+              "Limit": 20,
+              "Offset": 0
+            },
+            "region": ""
+          },
+          "pcx": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "peeringConnectionId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "limit": 20,
+              "offset": 0,
+              "peeringConnectionId": "",
+              "peeringConnectionName": "",
+              "vpcId": ""
+            },
+            "region": ""
+          },
+          "postgres": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "DBInstanceId",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "Filters": {
+                "db-instance-id": [],
+                "db-instance-name": []
+              },
+              "Limit": 20,
+              "Offset": 0
+            },
+            "region": ""
+          },
+          "redis": {
+            "dimensionObject": {
+              "instanceid": {
+                "Name": "instanceid",
+                "Value": ""
+              }
+            },
+            "instance": "$instance",
+            "instanceAlias": "InstanceId",
+            "metricName": "StatSuccessMin",
+            "metricUnit": "count",
+            "period": 300,
+            "queries": {
+              "AutoRenew": null,
+              "BillingMode": "",
+              "EngineName": "",
+              "InstanceId": "",
+              "InstanceName": "",
+              "OrderBy": "",
+              "OrderType": null,
+              "ProjectIds": [],
+              "SearchKey": "",
+              "Status": [],
+              "SubnetIds": [],
+              "Type": null,
+              "TypeVersion": null,
+              "UniqSubnetIds": [],
+              "UniqVpcIds": [],
+              "VpcIds": []
+            },
+            "region": "$region"
+          },
+          "redisMem": {
+            "dimensionObject": {
+              "instanceid": {
+                "Name": "instanceid",
+                "Value": ""
+              }
+            },
+            "instance": "$instance",
+            "instanceAlias": "InstanceId",
+            "metricName": "CmdHitsRatio",
+            "metricUnit": "%",
+            "period": 300,
+            "queries": {
+              "AutoRenew": null,
+              "BillingMode": "",
+              "EngineName": "",
+              "InstanceId": "",
+              "InstanceName": "",
+              "OrderBy": "",
+              "OrderType": null,
+              "ProjectIds": [],
+              "SearchKey": "",
+              "Status": [],
+              "SubnetIds": [],
+              "Type": null,
+              "TypeVersion": null,
+              "UniqSubnetIds": [],
+              "UniqVpcIds": [],
+              "VpcIds": []
+            },
+            "region": "$region"
+          },
+          "refId": "A",
+          "scf": {
+            "dimensionObject": null,
+            "instance": "",
+            "instanceAlias": "FunctionName",
+            "metricName": "",
+            "metricUnit": "",
+            "queries": {
+              "Description": "",
+              "Limit": 20,
+              "Namespace": "",
+              "Offset": 0,
+              "Order": {},
+              "OrderBy": {},
+              "SearchKey": ""
+            },
+            "region": "",
+            "version": ""
+          },
+          "service": "redis",
+          "showInstanceDetails": false
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "读请求命中率",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "percent",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    }
+  ],
+  "schemaVersion": 22,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "Tencent Cloud Monitor Datasource",
+        "definition": "Namespace=QCE/REDIS&Action=DescribeRegions",
+        "hide": 0,
+        "includeAll": false,
+        "index": -1,
+        "label": "地区",
+        "multi": false,
+        "name": "region",
+        "options": [],
+        "query": "Namespace=QCE/REDIS&Action=DescribeRegions",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "Tencent Cloud Monitor Datasource",
+        "definition": "Namespace=QCE/REDIS&Action=DescribeInstances&Region=$region&InstanceAlias=InstanceId",
+        "hide": 0,
+        "includeAll": false,
+        "index": -1,
+        "label": "实例",
+        "multi": false,
+        "name": "instance",
+        "options": [],
+        "query": "Namespace=QCE/REDIS&Action=DescribeInstances&Region=$region&InstanceAlias=InstanceId",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      }
+    ]
+  },
+  "time": {
+    "from": "now-3h",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ],
+    "time_options": [
+      "5m",
+      "15m",
+      "1h",
+      "6h",
+      "12h",
+      "24h",
+      "2d",
+      "7d",
+      "30d"
+    ]
+  },
+  "timezone": "",
+  "title": "【实例】云数据库REDIS-内存版(1分钟粒度)",
+  "uid": "UCGlOPyMz",
+  "variables": {
+    "list": []
+  },
+  "version": 1
+}
