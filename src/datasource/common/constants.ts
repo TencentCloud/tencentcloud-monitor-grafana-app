@@ -1,3 +1,5 @@
+/* eslint-disable no-empty */
+/* eslint-disable no-useless-escape */
 import * as _ from 'lodash';
 import * as qs from 'qs';
 import { SERVICES } from '../tc_monitor';
@@ -81,19 +83,19 @@ const SERVICES_API_INFO = {
     service: 'scf',
     version: '2018-04-16',
     path: '/scf',
-    host: 'scf.tencentcloudapi.com'
+    host: 'scf.tencentcloudapi.com',
   },
   cfs: {
     service: 'cfs',
     version: '2019-07-19',
     path: '/cfs',
-    host: 'cfs.tencentcloudapi.com'
+    host: 'cfs.tencentcloudapi.com',
   },
   ckafka: {
     service: 'ckafka',
     version: '2019-08-19',
     path: '/ckafka',
-    host: 'ckafka.tencentcloudapi.com'
+    host: 'ckafka.tencentcloudapi.com',
   },
 
   // 不单独定义lb，因为lb同样用的是vpc的配置，同上
@@ -121,7 +123,7 @@ const FINACE_HOST = {
     'ap-shenzhen-fsi': {
       path: '/fsi/scf/shenzhen',
       host: 'scf.ap-shenzhen-fsi.tencentcloudapi.com',
-    }
+    },
   },
   cfs: {
     'ap-shanghai-fsi': {
@@ -131,7 +133,7 @@ const FINACE_HOST = {
     'ap-shenzhen-fsi': {
       path: '/fsi/cfs/shenzhen',
       host: 'cfs.ap-shenzhen-fsi.tencentcloudapi.com',
-    }
+    },
   },
   ckafka: {
     'ap-shanghai-fsi': {
@@ -141,7 +143,7 @@ const FINACE_HOST = {
     'ap-shenzhen-fsi': {
       path: '/fsi/ckafka/shenzhen',
       host: 'ckafka.ap-shenzhen-fsi.tencentcloudapi.com',
-    }
+    },
   },
   clb: {
     'ap-shanghai-fsi': {
@@ -151,7 +153,7 @@ const FINACE_HOST = {
     'ap-shenzhen-fsi': {
       path: '/fsi/clb/shenzhen',
       host: 'clb.ap-shenzhen-fsi.tencentcloudapi.com',
-    }
+    },
   },
   mongodb: {
     'ap-shanghai-fsi': {
@@ -161,7 +163,7 @@ const FINACE_HOST = {
     'ap-shenzhen-fsi': {
       path: '/fsi/mongodb/shenzhen',
       host: 'mongodb.ap-shenzhen-fsi.tencentcloudapi.com',
-    }
+    },
   },
   vpc: {
     'ap-shanghai-fsi': {
@@ -171,7 +173,7 @@ const FINACE_HOST = {
     'ap-shenzhen-fsi': {
       path: '/fsi/vpc/shenzhen',
       host: 'vpc.ap-shenzhen-fsi.tencentcloudapi.com',
-    }
+    },
   },
   cvm: {
     'ap-shanghai-fsi': {
@@ -181,7 +183,7 @@ const FINACE_HOST = {
     'ap-shenzhen-fsi': {
       path: '/fsi/cvm/shenzhen',
       host: 'cvm.ap-shenzhen-fsi.tencentcloudapi.com',
-    }
+    },
   },
   cdb: {
     'ap-shanghai-fsi': {
@@ -191,7 +193,7 @@ const FINACE_HOST = {
     'ap-shenzhen-fsi': {
       path: '/fsi/cdb/shenzhen',
       host: 'cdb.ap-shenzhen-fsi.tencentcloudapi.com',
-    }
+    },
   },
   monitor: {
     'ap-shanghai-fsi': {
@@ -201,7 +203,7 @@ const FINACE_HOST = {
     'ap-shenzhen-fsi': {
       path: '/fsi/monitor/shenzhen',
       host: 'monitor.ap-shenzhen-fsi.tencentcloudapi.com',
-    }
+    },
   },
   postgres: {
     'ap-shanghai-fsi': {
@@ -211,8 +213,8 @@ const FINACE_HOST = {
     'ap-shenzhen-fsi': {
       path: '/fsi/postgres/shenzhen',
       host: 'postgres.ap-shenzhen-fsi.tencentcloudapi.com',
-    }
-  }
+    },
+  },
 };
 
 // 获取对应业务的 API 接口信息
@@ -220,19 +222,27 @@ export function GetServiceAPIInfo(region, service) {
   return Object.assign({}, SERVICES_API_INFO[service] || {}, getHostAndPath(region, service));
 }
 
-  // get host and path for finance regions
+// get host and path for finance regions
 function getHostAndPath(region, service) {
-    if (_.indexOf(FINACE_REGIONS, region) === -1) {
-      return {};
-    }
-    return _.find(_.find(FINACE_HOST, (__, key) => key === service), (__, key) => key === region) || {};
+  if (_.indexOf(FINACE_REGIONS, region) === -1) {
+    return {};
   }
+  return (
+    _.find(
+      _.find(FINACE_HOST, (__, key) => key === service),
+      (__, key) => key === region,
+    ) || {}
+  );
+}
 
 // 变量替换指定实例按照那个字段展示
 export const VARIABLE_ALIAS = 'instancealias';
 
 export function GetServiceFromNamespace(namespace) {
-  return _.get(_.find(SERVICES, service => service.namespace === namespace), 'service');
+  return _.get(
+    _.find(SERVICES, service => service.namespace === namespace),
+    'service',
+  );
 }
 
 // parse template variable query params
@@ -282,13 +292,13 @@ function parseVariableFormat(varname: string) {
   // $varname
   let varFlag = false;
   const regResult1 = varname.match(/^\${?(\w+)}?/);
-  if (!!regResult1) {
+  if (regResult1) {
     varFlag = true;
     varname = `\$\{${regResult1[1]}\:json\}`;
   }
   // [[varname]]
   const regResult2 = varname.match(/^\[\[(\w+)(\:\w+)?\]\]/);
-  if (!!regResult2) {
+  if (regResult2) {
     varFlag = true;
     varname = `\$\{${regResult2[1]}\:json\}`;
   }
@@ -299,7 +309,9 @@ export function ReplaceVariable(templateSrv, scopedVars, field, multiple = false
   const { varname, varFlag } = parseVariableFormat(field);
   let replaceVar = templateSrv.replace(varname, scopedVars);
   if (varFlag) {
-    replaceVar = JSON.parse(replaceVar);
+    try {
+      replaceVar = JSON.parse(replaceVar);
+    } catch (error) {}
   }
   if (!multiple && _.isArray(replaceVar)) {
     replaceVar = _.get(replaceVar, '0', '');
@@ -324,7 +336,7 @@ export function GetDimensions(obj) {
 // parse query data result for panel
 export function ParseQueryResult(response, instances: any[] = []) {
   const instanceList = _.cloneDeep(instances);
-  console.log('parseQueryResult:', response, instances);
+  // console.log('parseQueryResult:', response, instances);
   const dataPoints = _.get(response, 'DataPoints', []);
   return _.map(dataPoints, dataPoint => {
     let instanceAliasValue = _.get(dataPoint, 'Dimensions[0].Value');
@@ -364,6 +376,18 @@ function isInstanceMatch(instance, dimensions) {
     }
   }
   return match;
+}
+
+/**
+ * 检查某个变量是否模板变量，即是否匹配 ${varnam} 或 [[varname]]
+ *
+ * @param field 变量字段名
+ */
+export function isVariable(value) {
+  if (value && (value.match(/^\${?(\w+)}?/) || value.match(/^\[\[(\w+)(\:\w+)?\]\]/))) {
+    return true;
+  }
+  return false;
 }
 
 /**
@@ -409,7 +433,7 @@ export function GetRequestParamsV2(options: any = {}, service, signObj: any = {}
   const sign = new SignV2(signParams);
   options.headers = Object.assign(options.headers || {}, { 'Content-Type': 'application/x-www-form-urlencoded' });
   const { queryString, path } = sign.generateQueryString();
-  options.data = qs.stringify({...options.data, ...queryString });
+  options.data = qs.stringify({ ...options.data, ...queryString });
   options.url += path;
   return options;
 }
@@ -418,8 +442,7 @@ export function SliceLength(total = 0, len = 1) {
   const result: any[] = [];
   const num = Math.ceil(total / len);
   for (let i = 1; i < num; i++) {
-    result.push({ 'Offset': len * i });
+    result.push({ Offset: len * i });
   }
   return result;
 }
-

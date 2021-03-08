@@ -1,16 +1,20 @@
 import coreModule from 'grafana/app/core/core_module';
 import { CKAFKAQueryDescriptor } from './query_def';
 
-const ExtraFields = [{
-  label: 'TopicId',
-  field: 'topicId',
-}, {
-  label: 'ConsumerGroup',
-  field: 'consumerGroup'
-}, {
-  label: 'Partition',
-  field: 'partition'
-}];
+const ExtraFields = [
+  {
+    label: 'TopicId',
+    field: 'topicId',
+  },
+  {
+    label: 'ConsumerGroup',
+    field: 'consumerGroup',
+  },
+  {
+    label: 'Partition',
+    field: 'partition',
+  },
+];
 
 export class CKAFKAQueryCtrl {
   /** @ngInject */
@@ -20,38 +24,51 @@ export class CKAFKAQueryCtrl {
     };
 
     $scope.getDropdown = field => {
-      switch(field) {
+      switch (field) {
         default:
           return [];
       }
-    }
+    };
 
     // 各个实例下的消费分组信息，由于不想每次都重复发请求，所以这里做了一层缓存，数据结构为{ [instanceId]: { TopicList, GroupList  } }
-    $scope.consumerGroupCacheMap = {}; 
+    $scope.consumerGroupCacheMap = {};
 
     $scope.getExtraFields = () => {
       return ExtraFields.filter(item => item.field in ($scope.dims ?? {}));
-    }
+    };
 
     $scope.getInstanceId = () => {
-      const { instance } = $scope.target;
-      if (!instance) return '';
-      return JSON.parse(instance).InstanceId;
-    }
+      let { instance } = $scope.target;
+      instance = $scope.datasource.getServiceFn('ckafka', 'getVariable')(instance);
+      if (!instance) {
+        return '';
+      }
+      try {
+        instance = JSON.parse(instance).InstanceId;
+      } catch (error) {
+        console.log();
+      }
+      return instance;
+    };
 
     $scope.onExtraFieldChange = field => {
       if (field === 'topicId') {
         const { topicId, instance } = $scope.target;
-        if (!topicId || !instance ) return;
+        if (!topicId || !instance) {
+          return;
+        }
         const InstanceId = $scope.getInstanceId();
         const data = $scope.consumerGroupCacheMap[InstanceId];
-        
-        console.log('当前的TopicName，', data.TopicList.find(topic => topic.value = topicId));
-        
-        $scope.target.topicName = data.TopicList.find(topic => topic.value = topicId)?.TopicName;
+
+        console.log(
+          '当前的TopicName，',
+          data.TopicList.find(topic => (topic.value = topicId)),
+        );
+
+        $scope.target.topicName = data.TopicList.find(topic => (topic.value = topicId))?.TopicName;
       }
       $scope.onRefresh();
-    }
+    };
 
     $scope.getExtraDropdown = async (target, field) => {
       const InstanceId = $scope.getInstanceId();
@@ -59,28 +76,28 @@ export class CKAFKAQueryCtrl {
 
       if (!data) {
         const fetcher = $scope.datasource.getServiceFn('ckafka', 'getConsumerGroups');
-        data = await fetcher(target.region, { InstanceId });
+        const region = $scope.datasource.getServiceFn('ckafka', 'getVariable')(target.region);
+        data = await fetcher(region, { InstanceId });
       }
 
       // 缓存
       $scope.consumerGroupCacheMap[InstanceId] = data;
 
       console.log(data, field, 'daata--');
-      
-      switch(field) {
+
+      switch (field) {
         case 'topicId':
           return data.TopicList;
         case 'consumerGroup':
           return data.GroupList;
         case 'partition':
-          return data.PartitionList
+          return data.PartitionList;
       }
     };
 
     $scope.init();
   }
 }
-
 
 const template = `
 <div>
@@ -160,7 +177,6 @@ const template = `
   </div>
 `;
 
-
 export function scfQuery() {
   return {
     template: template,
@@ -174,9 +190,8 @@ export function scfQuery() {
       getDropdownOptions: '&',
       onChange: '&',
       onRefresh: '&',
-      dims: '='
+      dims: '=',
     },
   };
 }
 coreModule.directive('ckafkaQuery', scfQuery);
-

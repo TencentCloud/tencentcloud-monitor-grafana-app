@@ -1,10 +1,12 @@
 import coreModule from 'grafana/app/core/core_module';
-import { LBPUBLICFieldsDescriptor } from './query_def';
-
+import _ from 'lodash';
+import { isVariable } from '../../common/constants';
+import { LBPUBLICFieldsDescriptor, LBPUBLICListenerAliasList } from './query_def';
 
 export class LBPublicQueryCtrl {
   /** @ngInject */
   constructor($scope, $rootScope) {
+    $scope.listenerAliasList = _.map(LBPUBLICListenerAliasList, item => ({ text: `As ${item}`, value: item }));
     $scope.init = () => {
       $scope.LBPUBLICFieldsDescriptor = LBPUBLICFieldsDescriptor;
     };
@@ -16,10 +18,60 @@ export class LBPublicQueryCtrl {
       $scope.onChange();
     };
 
-    $scope.getDropdown = (field) => {
+    $scope.getDropdown = field => {
       switch (field) {
         default:
           return [];
+      }
+    };
+
+    $scope.getInstanceId = () => {
+      let { instance } = $scope.target;
+      instance = $scope.datasource.getServiceFn('lbPublic', 'getVariable')(instance);
+      if (!instance) return '';
+      try {
+        return JSON.parse(instance).LoadBalancerId;
+      } catch (e) {
+        return instance;
+      }
+    };
+
+    $scope.getListeners = async () => {
+      const InstanceId = $scope.getInstanceId();
+
+      console.log(InstanceId, 'Instance');
+
+      const fetcher = $scope.datasource.getServiceFn('lbPublic', 'getListeners');
+      const region = $scope.datasource.getServiceFn('lbPublic', 'getVariable')($scope.target.region);
+      const data = await fetcher(region, InstanceId);
+
+      const listenerAlias = $scope.target.listenerAlias;
+
+      const listeners: any[] = [];
+      _.forEach(data, item => {
+        const listenerAliasValue = _.get(item, listenerAlias);
+        if (listenerAliasValue) {
+          if (['string', 'number'].includes(typeof listenerAliasValue)) {
+            item._listenerAliasValue = listenerAliasValue;
+            listeners.push({ text: listenerAliasValue, value: JSON.stringify(item) });
+          } else if (_.isArray(listenerAliasValue)) {
+            _.forEach(listenerAliasValue, subItem => {
+              item._listenerAliasValue = subItem;
+              listeners.push({ text: subItem, value: JSON.stringify(item) });
+            });
+          }
+        }
+      });
+      // console.log({listeners});
+      return listeners;
+    };
+
+    $scope.onListenerAliasChange = () => {
+      // 仅当 instance 字段不是模板变量时，执行以下操作
+      const value = $scope.target.listener;
+      if (!isVariable(value)) {
+        $scope.target.listener = '';
+        $scope.onRefresh();
       }
     };
 
@@ -91,7 +143,27 @@ const template = `
       ></custom-select-dropdown>
     </div>
   </div>
+</div>
 
+<!--Listener维度部分-->
+<div class="gf-form-inline" ng-if="target.instance">
+  <div class="gf-form">
+    <label class="gf-form-label query-keyword width-9">
+      Listeners
+      <info-popover mode="right-normal">
+        可不选择监听器，这时通过实例维度查询监控数据
+      </info-popover>
+    </label>
+    <div class="gf-form-select-wrapper gf-form-select-wrapper--caret-indent">
+      <select class="gf-form-input min-width-8" ng-change="onListenerAliasChange()" ng-model="target.listenerAlias"
+        ng-options="f.value as f.text for f in listenerAliasList"></select>
+    </div>
+    <div class="gf-form-select-wrapper gf-form-select-wrapper--caret-indent">
+      <gf-form-dropdown model="target.listener" allow-custom="true" lookup-text="true" get-options="getListeners()"
+        on-change="onRefresh()" css-class="min-width-10">
+      </gf-form-dropdown>
+    </div>
+  </div>
 </div>
 `;
 
@@ -106,10 +178,9 @@ export function lbPublicQuery() {
       region: '=',
       datasource: '=',
       onChange: '&',
+      onRefresh: '&',
     },
   };
 }
 
-
-
-coreModule.directive('lbPublicQuery', lbPublicQuery);
+coreModule.directive('clbQuery', lbPublicQuery);

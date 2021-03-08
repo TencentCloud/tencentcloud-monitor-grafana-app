@@ -1,16 +1,16 @@
 import * as _ from 'lodash';
 const CDNFilterFields = {
-  "origin": [],
-  "domain": [],
-  "resourceId": [],
-  "status": [],
-  "serviceType": [],
-  "projectId": [],
-  "domainType": [],
-  "fullUrlCache": [],
-  "https": [],
-  "originPullProtocol": [],
-  "tagKey": [],
+  origin: [],
+  domain: [],
+  resourceId: [],
+  status: [],
+  serviceType: [],
+  projectId: [],
+  domainType: [],
+  fullUrlCache: [],
+  https: [],
+  originPullProtocol: [],
+  tagKey: [],
 };
 
 const OVCDNFilterFieldsDescriptor = [
@@ -164,13 +164,17 @@ function GetInstanceQueryParams(queries: any = {}) {
 const OVCDNInstanceAliasList = ['Domain', 'ResourceId'];
 
 const OVCDNInvalidDemensions = {
-  'projectId': 'ProjectId',
-  'domain': 'Domain',
+  projectId: 'ProjectId',
+  domain: 'Domain',
+};
+const templateQueryIdMap = {
+  instance: 'Domain',
 };
 export default OVCDN_STATE;
 export {
   OVCDNFilterFieldsDescriptor,
   OVCDNInstanceAliasList,
+  templateQueryIdMap,
   OVCDNInvalidDemensions,
   GetInstanceQueryParams as OVCDNGetInstanceQueryParams,
 };

@@ -96,7 +96,6 @@ export const LBFilterDescriptor = [
       { text: '欠费', value: 'TRUE' },
     ]
   },
-   
 ];
 
 // const LBFilterFields = {
@@ -135,7 +134,7 @@ const LB_STATE = {
       "is-arrears ": [],
     },
   }
-}
+};
 
 function GetInstanceQueryParams(queries: any = {}) {
   const params: any = {};
@@ -179,6 +178,9 @@ const LBInvalidDemensions = {
   eip: 'AddressIp'
 };
 
+const templateQueryIdMap = {
+  instance: 'AddressId'
+};
 // 从monitor维度到LB实例对应字段的映射
 // export const metric2Instance = {
 //   functionName: 'FunctionName',
@@ -189,6 +191,7 @@ export default LB_STATE;
 export {
   LBInstanceAliasList,
   LBInvalidDemensions,
+  templateQueryIdMap,
   GetInstanceQueryParams as LBGetInstanceQueryParams,
 };
 

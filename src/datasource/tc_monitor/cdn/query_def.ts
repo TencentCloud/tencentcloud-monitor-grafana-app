@@ -1,16 +1,16 @@
 import * as _ from 'lodash';
 const CDNFilterFields = {
-  "origin": [],
-  "domain": [],
-  "resourceId": [],
-  "status": [],
-  "serviceType": [],
-  "projectId": [],
-  "domainType": [],
-  "fullUrlCache": [],
-  "https": [],
-  "originPullProtocol": [],
-  "tagKey": [],
+  origin: [],
+  domain: [],
+  resourceId: [],
+  status: [],
+  serviceType: [],
+  projectId: [],
+  domainType: [],
+  fullUrlCache: [],
+  https: [],
+  originPullProtocol: [],
+  tagKey: [],
 };
 
 const CDNFilterFieldsDescriptor = [
@@ -165,12 +165,16 @@ function GetInstanceQueryParams(queries: any = {}) {
 const CDNInstanceAliasList = ['Domain', 'ProjectId'];
 
 const CDNInvalidDemensions = {
-  'projectId': 'ProjectId',
-  'domain': 'Domain',
+  projectId: 'ProjectId',
+  domain: 'Domain',
+};
+const templateQueryIdMap = {
+  instance: 'Domain',
 };
 export default CDN_STATE;
 export {
   CDNFilterFieldsDescriptor,
+  templateQueryIdMap,
   CDNInstanceAliasList,
   CDNInvalidDemensions,
   GetInstanceQueryParams as CDNGetInstanceQueryParams,

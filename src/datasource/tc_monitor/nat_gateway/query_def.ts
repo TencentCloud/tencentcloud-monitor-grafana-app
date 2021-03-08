@@ -8,7 +8,6 @@ const NATGatewayFilterFields = {
   'vpc-id': [],
 };
 
-
 const NATGatewayFilterFieldsDescriptor = [
   {
     key: 'nat-gateway-id',
@@ -66,7 +65,9 @@ function GetInstanceQueryParams(queries: any = {}) {
     } else if (queries.filtersChecked) {
       const Filters: any[] = [];
       _.forEach(queries.Filters, (item: any, key) => {
-        if (Filters.length > 9) { return; }
+        if (Filters.length > 9) {
+          return;
+        }
         if (_.isArray(item)) {
           item = _.compact(item);
           if (item.length > 0) {
@@ -86,10 +87,19 @@ function GetInstanceQueryParams(queries: any = {}) {
   return params;
 }
 
+const templateQueryIdMap = {
+  instance: 'NatGatewayId',
+};
+
+const NATInvalidDemensions = {
+  natId: 'NatGatewayId',
+};
 
 export default NATGATEWAY_STATE;
 export {
   NATGatewayFilterFieldsDescriptor,
   NATGATEWAYInstanceAliasList,
+  templateQueryIdMap,
+  NATInvalidDemensions,
   GetInstanceQueryParams as NATGATEWAYGetInstanceQueryParams,
 };

@@ -25,7 +25,7 @@ export class TCMonitorDatasource implements DatasourceInterface {
     this.instanceSettings = instanceSettings;
     this.backendSrv = backendSrv;
     this.templateSrv = templateSrv;
-    _.forEach(Datasources, (_class, key) => {
+    _.forEach(Datasources, (_class: any, key) => {
       this[key] = new _class(this.instanceSettings, this.backendSrv, this.templateSrv);
     });
   }
@@ -33,7 +33,7 @@ export class TCMonitorDatasource implements DatasourceInterface {
   // 根据 Datasource Config 配置时勾选的监控服务项，获取相应的命名空间
   getNamespaces() {
     const namespaces: string[] = [];
-    _.forEach(SERVICES, (service) => {
+    _.forEach(SERVICES, service => {
       if (this.instanceSettings.jsonData[service.service] === true) {
         namespaces.push(service.namespace);
       }
@@ -43,7 +43,7 @@ export class TCMonitorDatasource implements DatasourceInterface {
 
   getSelectedServices() {
     const namespaces = this.getNamespaces();
-    return _.map(namespaces, (namespace) => {
+    return _.map(namespaces, namespace => {
       return GetServiceFromNamespace(namespace);
     });
   }
@@ -100,7 +100,7 @@ export class TCMonitorDatasource implements DatasourceInterface {
    *   ]
    * }
    */
-  query(options: any): object {
+  query(options: any): Record<string, any> {
     const promises: any[] = [];
     const services = this.getSelectedServices();
     _.forEach(services, service => {
@@ -134,7 +134,10 @@ export class TCMonitorDatasource implements DatasourceInterface {
       return Promise.resolve([]);
     }
     if (this[`${_.toUpper(service)}Datasource`].metricFindQuery) {
-      const result = this[`${_.toUpper(service)}Datasource`].metricFindQuery(queries, _.get(options, 'variable.regex', undefined));
+      const result = this[`${_.toUpper(service)}Datasource`].metricFindQuery(
+        queries,
+        _.get(options, 'variable.regex', undefined),
+      );
       if (result) {
         return result;
       }
@@ -191,7 +194,9 @@ export class TCMonitorDatasource implements DatasourceInterface {
    * @param params
    */
   getListeners(service, region, instance) {
-    if (!this[`${_.toUpper(service)}Datasource`].getListeners) { return [];}
+    if (!this[`${_.toUpper(service)}Datasource`].getListeners) {
+      return [];
+    }
     return this[`${_.toUpper(service)}Datasource`].getListeners(region, instance);
   }
 
@@ -238,7 +243,9 @@ export class TCMonitorDatasource implements DatasourceInterface {
 
   getServiceFn(service, fnName) {
     return (region, params) => {
-      if (!this[`${_.toUpper(service)}Datasource`][fnName]) { return [];}
+      if (!this[`${_.toUpper(service)}Datasource`][fnName]) {
+        return [];
+      }
       return this[`${_.toUpper(service)}Datasource`][fnName](region, params);
     };
   }

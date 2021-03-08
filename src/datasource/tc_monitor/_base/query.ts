@@ -1,38 +1,24 @@
 import coreModule from 'grafana/app/core/core_module';
-import { LOADBALANCEFieldsDescriptor } from './query_def';
+import { DetailQueryConfig } from './types';
 
-export class LOADBALANCEQueryCtrl {
+
+export class QueryCtrl {
+    static _config: DetailQueryConfig;
+
   /** @ngInject */
   constructor($scope, $rootScope) {
-    $scope.init = () => {
-      $scope.LOADBALANCEFieldsDescriptor = LOADBALANCEFieldsDescriptor;
-    };
-
-    $scope.onChecked = (srcField, dstField) => {
-      if ($scope.target.queries[srcField] === true) {
-        $scope.target.queries[dstField] = false;
-      }
-      $scope.onChange();
-    };
-
-    $scope.getDropdown = field => {
-      switch (field) {
-        default:
-          return [];
-      }
-    };
-
-    $scope.init();
+      Object.assign($scope, QueryCtrl._config);
   }
 }
 
 const template = `
+<div>
 <div class="tc-sub-params" ng-if="showDetail">
   <label class="gf-form-label tc-info-label">
-    Instances are queried by following params.
-    <a target="_blank" style="text-decoration:underline;color:#006eff;font-size:medium" href="https://cloud.tencent.com/document/api/214/30685">Click here to get API doc.</a>
+  Instances are queried by following params.
+    <a target="_blank" style="text-decoration:underline;color:#006eff;font-size:medium" href="{{instanceDocUrl}}">Click here to get API doc.</a>
   </label>
-  <div class="gf-form-inline" ng-repeat="field in LOADBALANCEFieldsDescriptor">
+  <div class="gf-form-inline" ng-repeat="field in fieldDescriptor">
     <div class="gf-form">
       <label class="gf-form-label width-14">
         {{ field.key }}
@@ -59,15 +45,6 @@ const template = `
         ng-change="onChange()"
         class="gf-form-input width-10"
       />
-      <gf-form-dropdown
-        ng-if="field.type === 'dropdown'"
-        model="target.queries[field.key]"
-        allow-custom="true"
-        lookup-text="true"
-        get-options="getDropdown(field.key)"
-        on-change="onChange()"
-        css-class="min-width-10"
-      ></gf-form-dropdown>
       <multi-condition
         ng-if="field.type === 'inputmulti'"
         type="'input'"
@@ -90,23 +67,29 @@ const template = `
       ></custom-select-dropdown>
     </div>
   </div>
-
 </div>
+  </div>
 `;
 
-export function loadBalanceQuery() {
+
+function queryDDO() {
   return {
     template: template,
-    controller: LOADBALANCEQueryCtrl,
+    controller: QueryCtrl,
     restrict: 'E',
     scope: {
       target: '=',
       showDetail: '=',
       region: '=',
       datasource: '=',
+      getDropdownOptions: '&',
       onChange: '&',
     },
   };
 }
 
-coreModule.directive('loadBalanceQuery', loadBalanceQuery);
+export default (name: string, config: DetailQueryConfig) => {
+    QueryCtrl._config = config;
+    coreModule.directive(name, queryDDO);
+}
+

@@ -1,8 +1,8 @@
 import { QueryCtrl } from 'grafana/app/plugins/sdk';
 import * as _ from 'lodash';
 
-import { GetServiceFromNamespace, ReplaceVariable } from './common/constants';
-import { InitServiceState, InstanceAliasList, GetInstanceQueryParams, ListenerAliasList, IdKeys, DefaultDimensions } from './tc_monitor';
+import { GetServiceFromNamespace, ReplaceVariable, isVariable } from './common/constants';
+import { InitServiceState, InstanceAliasList, GetInstanceQueryParams } from './tc_monitor';
 
 import './components/multi_condition';
 import './components/custom_select_dropdown';
@@ -15,12 +15,12 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
   namespaces: string[] = [];
   regions: any[] = [];
   instanceList: any[] = [];
-  listenerList: any[] = [];
+  // listenerList: any[] = [];
   metricList: any[] = [];
   periodList: number[] = [];
   dimensionList: any[] = [];
   instanceAliasList: any[] = [];
-  listenerAliasList: any[] = [];
+  // listenerAliasList: any[] = [];
   target: {
     refId: string;
     service: string;
@@ -52,7 +52,7 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
     }
     _.defaultsDeep(this.target, this.defaults);
     this.instanceAliasList = this.getInstanceAliasList(this.target.service);
-    this.listenerAliasList = this.getListenerAliasList(this.target.service);
+    // this.listenerAliasList = this.getListenerAliasList(this.target.service);
     this.panelCtrl.events.on('data-received', this.onDataReceived.bind(this), $scope);
     this.panelCtrl.events.on('data-error', this.onDataError.bind(this), $scope);
   }
@@ -76,20 +76,21 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
       return;
     }
 
-    if (!!_.get(err, 'error.data.error.innererror', undefined)) {
-      if (!!_.get(err, 'error.data.error.innererror.innererror', undefined)) {
+    if (_.get(err, 'error.data.error.innererror', undefined)) {
+      if (_.get(err, 'error.data.error.innererror.innererror', undefined)) {
         this.lastQueryError = _.get(err, 'error.data.error.innererror.innererror.message');
       } else {
         this.lastQueryError = _.get(err, 'error.data.error.innererror.message');
       }
-    } else if (!!_.get(err, 'error.data.error', undefined)) {
+    } else if (_.get(err, 'error.data.error', undefined)) {
       this.lastQueryError = _.get(err, 'error.data.error.message');
-    } else if (!!_.get(err, 'error.data', undefined)) {
+    } else if (_.get(err, 'error.data', undefined)) {
       this.lastQueryError = _.get(err, 'error.data.message');
-    } else if (!!_.get(err, 'data.error', undefined)) {
+    } else if (_.get(err, 'data.error', undefined)) {
       this.lastQueryError = _.get(err, 'data.error.message');
+      // eslint-disable-next-line no-empty
     } else if (err.data && err.data.message) {
-    } else if (!!_.get(err, 'data.message', undefined)) {
+    } else if (_.get(err, 'data.message', undefined)) {
       this.lastQueryError = _.get(err, 'data.message');
     } else {
       this.lastQueryError = err;
@@ -105,18 +106,13 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
     if (!service) {
       return [];
     }
-    return _.map(InstanceAliasList[`${_.toUpper(service)}InstanceAliasList`] || [], item => ({ text: `As ${item}`, value: item }));
+    return _.map(InstanceAliasList[`${_.toUpper(service)}InstanceAliasList`] || [], item => ({
+      text: `As ${item}`,
+      value: item,
+    }));
   }
-  /**
-   * 获取监听器选择列表
-   *
-   * @param service 监控服务名
-   */
-  getListenerAliasList(service) {
-    if (!service) {
-      return [];
-    }
-    return _.map(ListenerAliasList[`${_.toUpper(service)}ListenerAliasList`] || [], item => ({ text: `As ${item}`, value: item }));
+  getNamespaces(query) {
+    return _.map(this.namespaces.sort(), o => ({ text: o, value: o })); //TODO: 为什么对对象排序不行呢？？？？待解决
   }
   onNamespaceChange() {
     const service = GetServiceFromNamespace(this.target.namespace) || '';
@@ -125,14 +121,14 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
     this.periodList = [];
     this.dimensionList = [];
     this.instanceList = [];
-    this.listenerList = [];
+    // this.listenerList = [];
 
     const initState = InitServiceState[service];
     this.target[service] = _.cloneDeep(initState);
     this.target.service = service;
 
     this.instanceAliasList = this.getInstanceAliasList(service);
-    this.listenerAliasList = this.getListenerAliasList(service);
+    // this.listenerAliasList = this.getListenerAliasList(service);
 
     this.refresh();
   }
@@ -161,18 +157,20 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
     if (this.regions.length) {
       return this.regions;
     }
-    return this.datasource.getRegions(service)
+    return this.datasource
+      .getRegions(service)
       .then(list => {
         this.regions = list;
         return list;
-      }).catch(this.handleQueryCtrlError.bind(this));
+      })
+      .catch(this.handleQueryCtrlError.bind(this));
   }
 
   onRegionChange() {
     const service = this.target.service;
     this.target[service].instance = '';
     this.instanceList = [];
-    this.listenerList = [];
+    // this.listenerList = [];
     this.isMetricsNeedUpdate = true;
     _.forEach(this.target[service].dimensionObject, (__, key) => {
       this.target[service].dimensionObject[key] = { Name: key, Value: '' };
@@ -205,10 +203,11 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
     if (!service || !region) {
       return [];
     }
-    if (!this.isMetricsNeedUpdate && this.metricList.length>0) {
+    if (!this.isMetricsNeedUpdate && this.metricList.length > 0) {
       return _.map(this.metricList, item => ({ text: item.MetricName, value: item.MetricName }));
     }
-    return this.datasource.getMetrics(service, region)
+    return this.datasource
+      .getMetrics(service, region)
       .then(list => {
         this.metricList = list;
         this.isMetricsNeedUpdate = false;
@@ -232,7 +231,7 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
     if (index !== -1) {
       periodList = _.get(this.metricList[index], 'Period', []);
       dimensionList = _.get(this.metricList[index], 'Dimensions.0.Dimensions', []);
-      dimensionList = dimensionList.length > 0 ? dimensionList : (DefaultDimensions[service] ?? []);
+      // dimensionList = dimensionList.length > 0 ? dimensionList : (DefaultDimensions[service] ?? []);
       metricUnit = _.get(this.metricList[index], 'Unit', '');
     }
     _.forEach(dimensionList, item => {
@@ -240,7 +239,8 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
     });
     this.periodList = periodList;
     this.dimensionList = dimensionList;
-    this.target[service].period = periodList.length > 0 ? (_.indexOf(periodList, 300) === -1 ? periodList[0] : 300): undefined;
+    this.target[service].period =
+      periodList.length > 0 ? (_.indexOf(periodList, 300) === -1 ? periodList[0] : 300) : undefined;
     this.target[service].dimensionObject = dimensionObject;
     this.target[service].metricUnit = metricUnit;
     this.refresh();
@@ -253,12 +253,13 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
       return [];
     }
     const params = this.getInstanceQueryParams(service);
-    return this.datasource.getInstances(service, region, params)
+    return this.datasource
+      .getInstances(service, region, params)
       .then(list => {
         this.instanceList = list;
         const instanceAlias = this.target[service].instanceAlias;
         const instances: any[] = [];
-        _.forEach(list, (item) => {
+        _.forEach(list, item => {
           // 根据 instanceAlias，确定实例展示字段，并保存至 _InstanceAliasValue，用于 constants.ts 的监控数据解析函数 ParseQueryResult
           const instanceAliasValue = _.get(item, instanceAlias);
           if (instanceAliasValue) {
@@ -266,7 +267,7 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
               item._InstanceAliasValue = instanceAliasValue;
               instances.push({ text: instanceAliasValue, value: JSON.stringify(item) });
             } else if (_.isArray(instanceAliasValue)) {
-              _.forEach(instanceAliasValue, (subItem) => {
+              _.forEach(instanceAliasValue, subItem => {
                 item._InstanceAliasValue = subItem;
                 instances.push({ text: subItem, value: JSON.stringify(item) });
               });
@@ -279,49 +280,52 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
   }
   onInstanceChange(v) {
     const service = this.target.service;
-    if (this.target[service].listener) {this.target[service].listener = '';}
+    if (this.target[service].listener) {
+      this.target[service].listener = '';
+    }
     this.refresh();
   }
-  getListeners() {
-    const service = this.target.service;
-    const region = this.getVariable(_.get(this.target[service], 'region', ''), false);
-    const instance = this.getVariable(_.get(this.target[service], 'instance', ''), false);
-    if (!service || !region) {
-      return [];
-    }
-    let instanceMap = {};
-    // console.log({instance});
-    try {
-      instanceMap = JSON.parse(instance);
-    } catch (e) {
-      console.log(e);
-    }
-    const idKey = IdKeys[service];
-    const instanceId = _.get(instanceMap, idKey);
-    return this.datasource.getListeners(service, region, instanceId)
-      .then(list => {
-        this.listenerList = list;
-        const listenerAlias = this.target[service].listenerAlias;
-        const listeners: any[] = [];
-        _.forEach(list, (item) => {
-          const listenerAliasValue = _.get(item, listenerAlias);
-          if (listenerAliasValue) {
-            if (typeof listenerAliasValue === 'string') {
-              item._listenerAliasValue = listenerAliasValue;
-              listeners.push({ text: listenerAliasValue, value: JSON.stringify(item) });
-            } else if (_.isArray(listenerAliasValue)) {
-              _.forEach(listenerAliasValue, (subItem) => {
-                item._listenerAliasValue = subItem;
-                listeners.push({ text: subItem, value: JSON.stringify(item) });
-              });
-            }
-          }
-        });
-        // console.log({listeners});
-        return listeners;
-      })
-      .catch(this.handleQueryCtrlError.bind(this));
-  }
+
+  // getListeners() {
+  //   const service = this.target.service;
+  //   const region = this.getVariable(_.get(this.target[service], 'region', ''), false);
+  //   const instance = this.getVariable(_.get(this.target[service], 'instance', ''), false);
+  //   if (!service || !region) {
+  //     return [];
+  //   }
+  //   let instanceMap = {};
+  //   // console.log({instance});
+  //   try {
+  //     instanceMap = JSON.parse(instance);
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  //   const idKey = IdKeys[service];
+  //   const instanceId = _.get(instanceMap, idKey);
+  //   return this.datasource.getListeners(service, region, instanceId)
+  //     .then(list => {
+  //       this.listenerList = list;
+  //       const listenerAlias = this.target[service].listenerAlias;
+  //       const listeners: any[] = [];
+  //       _.forEach(list, (item) => {
+  //         const listenerAliasValue = _.get(item, listenerAlias);
+  //         if (listenerAliasValue) {
+  //           if (typeof listenerAliasValue === 'string') {
+  //             item._listenerAliasValue = listenerAliasValue;
+  //             listeners.push({ text: listenerAliasValue, value: JSON.stringify(item) });
+  //           } else if (_.isArray(listenerAliasValue)) {
+  //             _.forEach(listenerAliasValue, (subItem) => {
+  //               item._listenerAliasValue = subItem;
+  //               listeners.push({ text: subItem, value: JSON.stringify(item) });
+  //             });
+  //           }
+  //         }
+  //       });
+  //       // console.log({listeners});
+  //       return listeners;
+  //     })
+  //     .catch(this.handleQueryCtrlError.bind(this));
+  // }
   /**
    * 获取实例请求接口的请求参数
    *
@@ -345,15 +349,6 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
     }
   }
 
-  onListenerAliasChange() {
-    // 仅当 instance 字段不是模板变量时，执行以下操作
-    if (!this.isVariable('listener')) {
-      const service = this.target.service;
-      this.target[service].listener = '';
-      this.refresh();
-    }
-  }
-
   onInstanceQueryChange() {
     // 仅当 instance 字段不是模板变量时，执行以下操作
     if (!this.isVariable('instance')) {
@@ -366,21 +361,11 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
       this.refresh();
     }
   }
-
-  /**
-   * 检查某个变量是否模板变量，即是否匹配 ${varnam} 或 [[varname]]
-   *
-   * @param field 变量字段名
-   */
   isVariable(field) {
     const service = this.target.service;
     const value = this.target[service][field];
-    if (value && (value.match(/^\${?(\w+)}?/) || value.match(/^\[\[(\w+)(\:\w+)?\]\]/))) {
-      return true;
-    }
-    return false;
+    return isVariable(value);
   }
-
   checkShowDetail(field) {
     return !this.isVariable(field) && this.target.showInstanceDetails;
   }

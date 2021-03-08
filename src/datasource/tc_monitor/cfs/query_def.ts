@@ -1,42 +1,44 @@
 import * as _ from 'lodash';
 
-export const CFSQueryDescriptor = [{
-  key: 'Offset',
-  enDescriptor: 'Offset',
-  cnDescriptor: '偏移量, 例如Offset=20&Limit=20 返回第 20 到 40 项',
-  link: '',
-  type: 'inputnumber',
-  min: 0,
-},
-{
-  key: 'Limit',
-  enDescriptor: 'Limit',
-  cnDescriptor: '单次请求返回的数量，默认为20，最小值为1，最大值为2000',
-  link: '',
-  type: 'inputnumber',
-  min: 1,
-  max: 2000,
-},{
-  key: 'FileSystemId',
-  enDescriptor: 'File System Id',
-  cnDescriptor: '文件系统 ID',
-  link: '',
-  type: 'input',
-}, 
-{
-  key: 'VpcId',
-  enDescriptor: 'VpcId',
-  cnDescriptor: '私有网络（VPC） ID',
-  link: '',
-  type: 'input',
-}, 
-{
-  key: 'SubnetId',
-  enDescriptor: 'SubnetId',
-  cnDescriptor: '子网 ID',
-  link: '',
-  type: 'input',
-}, 
+export const CFSQueryDescriptor = [
+  {
+    key: 'Offset',
+    enDescriptor: 'Offset',
+    cnDescriptor: '偏移量, 例如Offset=20&Limit=20 返回第 20 到 40 项',
+    link: '',
+    type: 'inputnumber',
+    min: 0,
+  },
+  {
+    key: 'Limit',
+    enDescriptor: 'Limit',
+    cnDescriptor: '单次请求返回的数量，默认为20，最小值为1，最大值为2000',
+    link: '',
+    type: 'inputnumber',
+    min: 1,
+    max: 2000,
+  },
+  {
+    key: 'FileSystemId',
+    enDescriptor: 'File System Id',
+    cnDescriptor: '文件系统 ID',
+    link: '',
+    type: 'input',
+  },
+  {
+    key: 'VpcId',
+    enDescriptor: 'VpcId',
+    cnDescriptor: '私有网络（VPC） ID',
+    link: '',
+    type: 'input',
+  },
+  {
+    key: 'SubnetId',
+    enDescriptor: 'SubnetId',
+    cnDescriptor: '子网 ID',
+    link: '',
+    type: 'input',
+  },
 ];
 
 const CFS_STATE = {
@@ -55,7 +57,7 @@ const CFS_STATE = {
     VpcId: '',
     SubnetId: ''
   }
-}
+};
 
 function GetInstanceQueryParams(queries: any = {}) {
   const params: any = {};
@@ -89,10 +91,14 @@ const CFSInvalidDemensions = {
   // namespace: 'Namespace'
 };
 
+const templateQueryIdMap = {
+  instance: 'InstanceId'
+};
 export default CFS_STATE;
 export {
   CFSInstanceAliasList,
   CFSInvalidDemensions,
+  templateQueryIdMap,
   GetInstanceQueryParams as CFSGetInstanceQueryParams,
 };
 

@@ -1,7 +1,7 @@
 import * as dotQs from 'dot-qs';
 import * as moment from 'moment';
 import { compact, cloneDeep } from 'lodash';
-import { HmacSHA256 } from "crypto-js";
+import { HmacSHA256 } from 'crypto-js';
 import * as Base64 from 'crypto-js/enc-base64';
 
 /**
@@ -25,22 +25,25 @@ export default class SignV2 {
   }
 
   generateQueryString = () => {
-    const params: any = Object.assign({
-      Region: this.defaults.region,
-      Action: this.defaults.action,
-      SecretId: this.defaults.secretId,
-      Timestamp: moment().utc().unix(),
-      Nonce: Math.round(Math.random() * 65535),
-      SignatureMethod: 'HmacSHA256',
-    }, this.defaults.data || {});
+    const params: any = Object.assign(
+      {
+        Region: this.defaults.region,
+        Action: this.defaults.action,
+        SecretId: this.defaults.secretId,
+        Timestamp: moment().utc().unix(),
+        Nonce: Math.round(Math.random() * 65535),
+        SignatureMethod: 'HmacSHA256',
+      },
+      this.defaults.data || {},
+    );
     params.Signature = this.generateSignature(params);
     return { queryString: params, path: this.defaults.path };
-  }
+  };
 
-  generateSignature = (para) => {
+  generateSignature = para => {
     let params = cloneDeep(para);
     params = dotQs.flatten(params);
-    let keys = (Object.keys(params)).sort();
+    let keys = Object.keys(params).sort();
     keys = compact(keys);
     let queryStr = '';
     keys.forEach(key => {
@@ -48,11 +51,7 @@ export default class SignV2 {
       if (val && val[0] === '@') {
         return;
       }
-      if (
-        val === undefined ||
-        val === null ||
-        (typeof val === 'number' && isNaN(val))
-      ) {
+      if (val === undefined || val === null || (typeof val === 'number' && isNaN(val))) {
         val = '';
       }
       //把参数中的 "_" (除开开头)替换成 "."
@@ -62,8 +61,7 @@ export default class SignV2 {
     queryStr = this.defaults.method + this.defaults.host + this.defaults.path + '?' + queryStr;
     const signStr = this.sign(queryStr, this.defaults.secretKey);
     return signStr;
-  }
-
+  };
 
   /**
    * 生成签名
@@ -75,9 +73,4 @@ export default class SignV2 {
   sign = (str, secretKey) => {
     return Base64.stringify(HmacSHA256(str, secretKey));
   };
-
 }
-
-
-
-

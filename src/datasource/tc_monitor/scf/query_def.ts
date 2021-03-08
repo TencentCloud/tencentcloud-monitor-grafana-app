@@ -1,73 +1,74 @@
 import * as _ from 'lodash';
 
-export const SCFQueryDescriptor = [{
-  key: 'Offset',
-  enDescriptor: 'Offset',
-  cnDescriptor: '偏移量, 例如Offset=20&Limit=20 返回第 20 到 40 项',
-  link: '',
-  type: 'inputnumber',
-  min: 0,
-},
-{
-  key: 'Limit',
-  enDescriptor: 'Limit',
-  cnDescriptor: '单次请求返回的数量，默认为20，最小值为1，最大值为2000',
-  link: '',
-  type: 'inputnumber',
-  min: 1,
-  max: 2000,
-},
-{
-  key: 'SearchKey',
-  enDescriptor: 'SearchKey',
-  cnDescriptor: '支持FunctionName模糊匹配',
-  link: '',
-  type: 'input',
-},
-{
-  key: 'Namespace',
-  enDescriptor: 'Namespace',
-  cnDescriptor: '云函数命名空间',
-  link: '',
-  type: 'input',
-}, 
-{
-  key: 'Description',
-  enDescriptor: 'Description',
-  cnDescriptor: '函数描述，支持模糊搜索',
-  link: '',
-  type: 'input',
-},
-{
-  key: 'OrderBy',
-  enDescriptor: 'OrderBy',
-  cnDescriptor: '排序字段',
-  link: '',
-  type: 'select',
-  list: [
-    {text: 'AddTime', value:  'AddTime'},
-    {text: 'ModTime', value:  'ModTime'},
-    {text: 'FunctionName', value:  'FunctionName'},
-  ],
-},
-{
-  key: 'Order',
-  enDescriptor: 'Order Direction',
-  cnDescriptor: '排序方式',
-  link: '',
-  type: 'select',
-  list: [
-    { text: 'ASC', value: 'ASC' },
-    {text: 'DESC', value: 'DESC' }
-  ],
-}, 
-// {
-//   key: 'Filters',
-//   enDescriptor: 'Filters',
-//   cnDescriptor: '按照标签键值对进行过滤',
-//   link: '',
-//   type: 'dropdownmulti',
-// },
+export const SCFQueryDescriptor = [
+  {
+    key: 'Offset',
+    enDescriptor: 'Offset',
+    cnDescriptor: '偏移量, 例如Offset=20&Limit=20 返回第 20 到 40 项',
+    link: '',
+    type: 'inputnumber',
+    min: 0,
+  },
+  {
+    key: 'Limit',
+    enDescriptor: 'Limit',
+    cnDescriptor: '单次请求返回的数量，默认为20，最小值为1，最大值为2000',
+    link: '',
+    type: 'inputnumber',
+    min: 1,
+    max: 2000,
+  },
+  {
+    key: 'SearchKey',
+    enDescriptor: 'SearchKey',
+    cnDescriptor: '支持FunctionName模糊匹配',
+    link: '',
+    type: 'input',
+  },
+  {
+    key: 'Namespace',
+    enDescriptor: 'Namespace',
+    cnDescriptor: '云函数命名空间',
+    link: '',
+    type: 'input',
+  },
+  {
+    key: 'Description',
+    enDescriptor: 'Description',
+    cnDescriptor: '函数描述，支持模糊搜索',
+    link: '',
+    type: 'input',
+  },
+  {
+    key: 'OrderBy',
+    enDescriptor: 'OrderBy',
+    cnDescriptor: '排序字段',
+    link: '',
+    type: 'select',
+    list: [
+      { text: 'AddTime', value: 'AddTime' },
+      { text: 'ModTime', value: 'ModTime' },
+      { text: 'FunctionName', value: 'FunctionName' },
+    ],
+  },
+  {
+    key: 'Order',
+    enDescriptor: 'Order Direction',
+    cnDescriptor: '排序方式',
+    link: '',
+    type: 'select',
+    list: [
+      { text: 'ASC', value: 'ASC' },
+      { text: 'DESC', value: 'DESC' },
+    ],
+  },
+  // {
+  //   key: 'Filters',
+  //   enDescriptor: 'Filters',
+  //   cnDescriptor: '按照标签键值对进行过滤',
+  //   link: '',
+  //   type: 'dropdownmulti',
+  // },
 ];
 
 const SCF_STATE = {
@@ -88,8 +89,8 @@ const SCF_STATE = {
     Namespace: '',
     Description: '',
     // Filters:  {},
-  }
-}
+  },
+};
 
 function GetInstanceQueryParams(queries: any = {}) {
   const params: any = {};
@@ -123,10 +124,14 @@ const SCFInvalidDemensions = {
   namespace: 'Namespace',
 };
 
+const templateQueryIdMap = {
+  instance: 'FunctionId',
+};
 export default SCF_STATE;
 export {
   SCFInstanceAliasList,
   SCFInvalidDemensions,
+  templateQueryIdMap,
   GetInstanceQueryParams as SCFGetInstanceQueryParams,
 };
 

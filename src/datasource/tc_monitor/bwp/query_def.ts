@@ -10,10 +10,10 @@ const chargeTypes = [
   { text: '月95计费', value: 'PERCENT95_POSTPAID_BY_MONTH' },
 ];
 const BWPFilterFields = {
-  "bandwidth-package_id": [],
-  "bandwidth-package-name": [],
-  "network-type": [],
-  "charge-type": []
+  'bandwidth-package_id': [],
+  'bandwidth-package-name': [],
+  'network-type': [],
+  'charge-type': [],
 };
 
 const BWPFilterFieldsDescriptor = [
@@ -82,7 +82,9 @@ function GetInstanceQueryParams(queries: any = {}) {
     } else if (queries.filtersChecked) {
       const Filters: any[] = [];
       _.forEach(queries.Filters, (item: any, key) => {
-        if (Filters.length > 9) { return; }
+        if (Filters.length > 9) {
+          return;
+        }
         if (_.isArray(item)) {
           item = _.compact(item);
           if (item.length > 0) {
@@ -104,12 +106,17 @@ function GetInstanceQueryParams(queries: any = {}) {
 
 const BWPInstanceAliasList = ['BandwidthPackageId', 'BandwidthPackageName'];
 
+const templateQueryIdMap = {
+  instance: 'BandwidthPackageId',
+};
+
 const BWPInvalidDemensions = {
-  'bandwidthPackageId': 'BandwidthPackageId',
+  bandwidthPackageId: 'BandwidthPackageId',
 };
 export default BWP_STATE;
 export {
   BWPFilterFieldsDescriptor,
+  templateQueryIdMap,
   BWPInstanceAliasList,
   BWPInvalidDemensions,
   GetInstanceQueryParams as BWPGetInstanceQueryParams,

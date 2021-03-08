@@ -1,7 +1,6 @@
 import coreModule from 'grafana/app/core/core_module';
 import { PostgresFieldsDescriptor } from './query_def';
 
-
 export class PostgresQueryCtrl {
   /** @ngInject */
   constructor($scope, $rootScope) {
@@ -11,7 +10,6 @@ export class PostgresQueryCtrl {
 
     $scope.init();
   }
-
 }
 
 const template = `
@@ -42,65 +40,49 @@ const template = `
     <input type="number" ng-model="target.queries.Limit" class="gf-form-input width-10" ng-min="1" ng-max="100" ng-change="onChange()">
   </div>
 </div>
-<div class="gf-form-inline">
-  <div class="gf-form">
-    <label class="gf-form-label width-9">
-      Filters
-      <info-popover mode="right-normal">
-        过滤条件
-      </info-popover>
-    </label>
-  </div>
-</div>
-<div class="tc-sub-params">
-  <div class="gf-form-inline" ng-repeat="field in PostgresFieldsDescriptor">
-    <label class="gf-form-label width-14">
-      {{ field.key }}
-      <info-popover mode="right-normal">
-        {{ field.cnDescriptor }}
-        <a target="_blank" href="{{field.link}}" ng-if="field.link">Click here for more information.</a>
-      </info-popover>
-    </label>
-    <multi-condition
-      ng-if="field.type === 'dropdownmulti'"
-      type="'dropdown'"
-      max-cond="5"
-      value="target.queries.Filters[field.key]"
-      get-options="getDropdown(field.key)"
-      on-change="onChange()"
-    ></multi-condition>
-    <multi-condition
-      ng-if="field.type === 'inputNumbermulti'"
-      type="'inputNumber'"
-      max-cond="5"
-      value="target.queries.Filters[field.key]"
-      maxNum="field.max"
-      minNum="field.min"
-      on-change="onChange()"
-    ></multi-condition>
-    <multi-condition
-      ng-if="field.type === 'inputmulti'"
-      type="'input'"
-      max-cond="5"
-      value="target.queries.Filters[field.key]"
-      on-change="onChange()"
-    ></multi-condition>
-    <custom-select-dropdown
-      ng-if="field.type === 'select'"
-      value="target.queries.Filters[field.key]"
-      options="field.list"
-      multiple="true"
-      on-change="onChange()"
-    ></custom-select-dropdown>
-  </div>
+<div class="gf-form-inline" ng-repeat="field in PostgresFieldsDescriptor">
+  <label class="gf-form-label width-14">
+    {{ field.key }}
+    <info-popover mode="right-normal">
+      {{ field.cnDescriptor }}
+      <a target="_blank" href="{{field.link}}" ng-if="field.link">Click here for more information.</a>
+    </info-popover>
+  </label>
+  <multi-condition
+    ng-if="field.type === 'dropdownmulti'"
+    type="'dropdown'"
+    max-cond="5"
+    value="target.queries.Filters[field.key]"
+    get-options="getDropdown(field.key)"
+    on-change="onChange()"
+  ></multi-condition>
+  <multi-condition
+    ng-if="field.type === 'inputNumbermulti'"
+    type="'inputNumber'"
+    max-cond="5"
+    value="target.queries.Filters[field.key]"
+    maxNum="field.max"
+    minNum="field.min"
+    on-change="onChange()"
+  ></multi-condition>
+  <multi-condition
+    ng-if="field.type === 'inputmulti'"
+    type="'input'"
+    max-cond="5"
+    value="target.queries.Filters[field.key]"
+    on-change="onChange()"
+  ></multi-condition>
+  <custom-select-dropdown
+    ng-if="field.type === 'select'"
+    value="target.queries.Filters[field.key]"
+    options="field.list"
+    multiple="true"
+    on-change="onChange()"
+  ></custom-select-dropdown>
 </div>
 
 </div>
 `;
-
-
-
-
 
 export function postgresQuery() {
   return {
@@ -117,7 +99,4 @@ export function postgresQuery() {
   };
 }
 
-
-
 coreModule.directive('postgresQuery', postgresQuery);
-

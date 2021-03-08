@@ -1,11 +1,10 @@
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import DatasourceInterface from '../../datasource';
-import { PCXInstanceAliasList, templateQueryIdMap } from './query_def';
+import { SCFInstanceAliasList, SCFInvalidDemensions, templateQueryIdMap } from './query_def';
 import {
-  GetServiceAPIInfo,
-  GetRequestParamsV2,
   GetRequestParams,
+  GetServiceAPIInfo,
   ReplaceVariable,
   GetDimensions,
   ParseQueryResult,
@@ -14,8 +13,8 @@ import {
   isVariable,
 } from '../../common/constants';
 
-export default class PCXDatasource implements DatasourceInterface {
-  Namespace = 'QCE/PCX';
+export default class SCFDatasource implements DatasourceInterface {
+  Namespace = 'QCE/SCF_V2';
   url: string;
   instanceSettings: any;
   backendSrv: any;
@@ -33,21 +32,27 @@ export default class PCXDatasource implements DatasourceInterface {
     this.secretKey = (instanceSettings.jsonData || {}).secretKey || '';
   }
 
-  metricFindQuery(query: Record<string, any>) {
+  /**
+   * 获取模板变量的选择项列表，当前支持两种变量：地域、SCF实例
+   *
+   * @param query 模板变量配置填写的 Query 参数字符串
+   */
+  metricFindQuery(query: { action: string; namespace: string; region?: string }, regex?: string) {
     // 查询地域列表
     const regionQuery = query['action'].match(/^DescribeRegions$/i);
     if (regionQuery) {
       return this.getRegions();
     }
-
-    // 查询 PCX 实例列表
+    // 查询 SCF实例列表
     const instancesQuery = query['action'].match(/^DescribeInstances/i) && !!query['region'];
     const region = this.getVariable(query['region']);
     if (instancesQuery && region) {
+      // const tagText = _.get(query, 'tag', '');
+      // const Filters = ParseMetricRegex(!tagText ? '' : `tag:tag-key=${tagText}`);
       return this.getVariableInstances(region).then(result => {
         this.allInstanceMap = _.cloneDeep(result); // 混存全量实例map
         const instanceAlias =
-          PCXInstanceAliasList.indexOf(query[VARIABLE_ALIAS]) !== -1 ? query[VARIABLE_ALIAS] : 'peeringConnectionId';
+          SCFInstanceAliasList.indexOf(query[VARIABLE_ALIAS]) !== -1 ? query[VARIABLE_ALIAS] : 'FunctionName';
         const instances: any[] = [];
         _.forEach(result, item => {
           const instanceAliasValue = _.get(item, instanceAlias);
@@ -69,19 +74,34 @@ export default class PCXDatasource implements DatasourceInterface {
     return Promise.resolve([]);
   }
 
+  /**
+   * 根据 Panel 的配置项，获取相应的监控数据
+   *
+   * @param options Panel 的配置参数
+   * @return 返回数据数组，示例如下
+   * [
+   *   {
+   *     "target": "AccOuttraffic - ins-123",
+   *     "datapoints": [
+   *       [861, 1450754160000],
+   *       [767, 1450754220000]
+   *     ]
+   *   }
+   * ]
+   */
   query(options: any) {
     const queries = _.filter(options.targets, item => {
       // 过滤无效的查询 target
       return (
-        item.pcx.hide !== true &&
+        item.scf.hide !== true &&
         !!item.namespace &&
-        !!item.pcx.metricName &&
-        !_.isEmpty(ReplaceVariable(this.templateSrv, options.scopedVars, item.pcx.region, false)) &&
-        !_.isEmpty(ReplaceVariable(this.templateSrv, options.scopedVars, item.pcx.instance, true))
+        !!item.scf.metricName &&
+        !_.isEmpty(ReplaceVariable(this.templateSrv, options.scopedVars, item.scf.region, false)) &&
+        !_.isEmpty(ReplaceVariable(this.templateSrv, options.scopedVars, item.scf.instance, true))
       );
     }).map(target => {
       // 实例 instances 可能为模板变量，需先判断
-      let instances = target.pcx.instance;
+      let instances = target.scf.instance;
       if (isVariable(instances)) {
         let templateInsValues = ReplaceVariable(this.templateSrv, options.scopedVars, instances, true);
         if (!_.isArray(templateInsValues)) {
@@ -97,20 +117,27 @@ export default class PCXDatasource implements DatasourceInterface {
           instances = [_.isString(instances) ? JSON.parse(instances) : instances];
         }
       }
-      const region = ReplaceVariable(this.templateSrv, options.scopedVars, target.pcx.region, false);
+      const region = ReplaceVariable(this.templateSrv, options.scopedVars, target.scf.region, false);
       const data = {
         StartTime: moment(options.range.from).format(),
         EndTime: moment(options.range.to).format(),
-        Period: target.pcx.period || 300,
+        Period: target.scf.period || 300,
         Instances: _.map(instances, instance => {
-          const dimensionObject = target.pcx.dimensionObject;
+          const dimensionObject = target.scf.dimensionObject;
           _.forEach(dimensionObject, (__, key) => {
-            dimensionObject[key] = { Name: key, Value: instance[key] };
+            let keyTmp = key;
+            if (_.has(SCFInvalidDemensions, key)) {
+              keyTmp = SCFInvalidDemensions[key];
+            }
+            dimensionObject[key] = { Name: key, Value: instance[keyTmp] ?? target.scf[keyTmp] }; // 从实例中取，如果取不到，则从界面模型上取
+
+            // 设置instance
+            instance[key] = instance[keyTmp] ?? target.scf[keyTmp];
           });
           return { Dimensions: GetDimensions(dimensionObject) };
         }),
         Namespace: target.namespace,
-        MetricName: target.pcx.metricName,
+        MetricName: target.scf.metricName,
       };
       return this.getMonitorData(data, region, instances);
     });
@@ -129,12 +156,12 @@ export default class PCXDatasource implements DatasourceInterface {
   }
 
   // 获取某个变量的实际值，this.templateSrv.replace() 函数返回实际值的字符串
-  getVariable(metric: string) {
+  getVariable(metric?: string) {
     return this.templateSrv.replace((metric || '').trim());
   }
 
   /**
-   * 获取 PCX 的监控数据
+   * 获取 CVM 的监控数据
    *
    * @param params 获取监控数据的请求参数
    * @param region 地域信息
@@ -171,6 +198,20 @@ export default class PCXDatasource implements DatasourceInterface {
     });
   }
 
+  getVersions(region, params) {
+    const serviceInfo = GetServiceAPIInfo(region, 'scf');
+    return this.doRequest(
+      {
+        url: this.url + serviceInfo.path,
+        data: params,
+      },
+      serviceInfo.service,
+      { region, action: 'ListVersionByFunction' },
+    ).then(response => {
+      return response.Versions.map(({ Version }) => ({ text: Version, value: Version }));
+    });
+  }
+
   getMetrics(region = 'ap-guangzhou') {
     const serviceInfo = GetServiceAPIInfo(region, 'monitor');
     return this.doRequest(
@@ -183,99 +224,48 @@ export default class PCXDatasource implements DatasourceInterface {
       serviceInfo.service,
       { region, action: 'DescribeBaseMetrics' },
     ).then(response => {
-      return _.filter(response.MetricSet || [], item => !(item.Namespace !== this.Namespace || !item.MetricName));
+      return _.filter(
+        _.filter(
+          response.MetricSet || [],
+          item =>
+            !(item.Namespace !== this.Namespace || !item.MetricName) &&
+            /* hack：这里多加了筛选条件，是因为后端数据不准确，坑啊！ 只拿取包含functionName的指标*/
+            item.Dimensions?.[0]?.Dimensions?.includes('functionName') &&
+            item.Dimensions?.[0]?.Dimensions?.includes('namespace') &&
+            !item.MetricName.startsWith('Name'),
+        ),
+      );
     });
   }
 
-  getInstances(region = 'ap-guangzhou', params = {}) {
-    params = Object.assign({ offset: 0, limit: 50 }, params);
-    const serviceInfo = GetServiceAPIInfo(region, 'pcx');
-    return this.doRequestV2(
-      {
-        url: this.url + serviceInfo.path,
-        data: params,
-      },
-      serviceInfo.service,
-      { region, action: 'DescribeVpcPeeringConnections' },
-    ).then(response => {
-      return response.data || [];
-    });
-  }
-
-  /**
-   * 模板变量中获取全量的 PCX 实例列表
-   * @param region 地域信息
-   */
-  getVariableInstances(region) {
-    let result: any[] = [];
-    const params = { Offset: 0, Limit: 50 };
-    const serviceInfo = GetServiceAPIInfo(region, 'pcx');
-    return this.doRequestV2(
-      {
-        url: this.url + serviceInfo.path,
-        data: params,
-      },
-      serviceInfo.service,
-      { region, action: 'DescribeVpcPeeringConnections' },
-    ).then(response => {
-      result = response.data || [];
-      const total = response.totalCount || 0;
-      if (result.length >= total) {
-        return result;
-      } else {
-        const param = SliceLength(total, 50);
-        const promises: any[] = [];
-        _.forEach(param, item => {
-          promises.push(this.getInstances(region, item));
-        });
-        return Promise.all(promises)
-          .then(responses => {
-            _.forEach(responses, item => {
-              result = _.concat(result, item);
-            });
-            return result;
-          })
-          .catch(error => {
-            return result;
-          });
-      }
-    });
-  }
-
-  getVpcId(region, params: any = {}) {
-    params = Object.assign({ Offset: 0, Limit: 20 }, params);
-    // TODO 等待腾讯云接口查问题
-    params.Offset = String(params.Offset);
-    params.Limit = String(params.Limit);
-    const serviceInfo = GetServiceAPIInfo(region, 'vpc');
+  getInstances(region, params = {}) {
+    params = Object.assign({ Offset: 0, Limit: 100 }, params);
+    const serviceInfo = GetServiceAPIInfo(region, 'scf');
     return this.doRequest(
       {
         url: this.url + serviceInfo.path,
         data: params,
       },
       serviceInfo.service,
-      { region, action: 'DescribeVpcs' },
+      { region, action: 'ListFunctions' },
     ).then(response => {
-      return _.map(response.VpcSet || [], item => ({ text: item.VpcId, value: item.VpcId }));
+      return response.Functions || [];
     });
   }
 
-  getVpcIds(region) {
+  getVariableInstances(region, query = {}) {
     let result: any[] = [];
-    const params: any = { Offset: 0, Limit: 100 };
-    // TODO 等待腾讯云接口查问题
-    params.Offset = String(params.Offset);
-    params.Limit = String(params.Limit);
-    const serviceInfo = GetServiceAPIInfo(region, 'vpc');
+    const params = { ...query, ...{ Offset: 0, Limit: 100 } };
+    const serviceInfo = GetServiceAPIInfo(region, 'scf');
     return this.doRequest(
       {
         url: this.url + serviceInfo.path,
         data: params,
       },
       serviceInfo.service,
-      { region, action: 'DescribeVpcs' },
+      { region, action: 'ListFunctions' },
     ).then(response => {
-      result = _.map(response.VpcSet || [], item => ({ text: item.VpcId, value: item.VpcId }));
+      result = response.Functions || [];
       const total = response.TotalCount || 0;
       if (result.length >= total) {
         return result;
@@ -283,19 +273,38 @@ export default class PCXDatasource implements DatasourceInterface {
         const param = SliceLength(total, 100);
         const promises: any[] = [];
         _.forEach(param, item => {
-          promises.push(this.getVpcId(region, item));
+          promises.push(this.getInstances(region, { ...item, ...query }));
         });
         return Promise.all(promises)
           .then(responses => {
             _.forEach(responses, item => {
               result = _.concat(result, item);
             });
+            console.log('result:', result);
             return result;
           })
           .catch(error => {
             return result;
           });
       }
+    });
+  }
+
+  getZones(region) {
+    const serviceInfo = GetServiceAPIInfo(region, 'cvm');
+    return this.doRequest(
+      {
+        url: this.url + serviceInfo.path,
+      },
+      serviceInfo.service,
+      { region, action: 'DescribeZones' },
+    ).then(response => {
+      return _.filter(
+        _.map(response.ZoneSet || [], item => {
+          return { text: item.ZoneName, value: item.Zone, ZoneState: item.ZoneState, Zone: item.Zone };
+        }),
+        item => item.ZoneState === 'AVAILABLE',
+      );
     });
   }
 
@@ -307,7 +316,7 @@ export default class PCXDatasource implements DatasourceInterface {
   testDatasource() {
     if (!this.isValidConfigField(this.secretId) || !this.isValidConfigField(this.secretKey)) {
       return {
-        service: 'pcx',
+        service: 'scf',
         status: 'error',
         message: 'The SecretId/SecretKey field is required.',
       };
@@ -331,39 +340,26 @@ export default class PCXDatasource implements DatasourceInterface {
         'monitor',
         { region: 'ap-guangzhou', action: 'DescribeBaseMetrics' },
       ),
-      this.doRequestV2(
-        {
-          url: this.url + '/pcx',
-          data: {
-            limit: 1,
-            offset: 0,
-          },
-        },
-        'pcx',
-        { region: 'ap-guangzhou', action: 'DescribeVpcPeeringConnections' },
-      ),
       this.doRequest(
         {
-          url: this.url + '/vpc',
+          url: this.url + '/scf',
           data: {
-            Limit: 1,
             Offset: 0,
+            Limit: 1,
           },
         },
-        'vpc',
-        { region: 'ap-guangzhou', action: 'DescribeVpcs' },
+        'scf',
+        { region: 'ap-guangzhou', action: 'ListFunctions' },
       ),
     ])
       .then(responses => {
         const cvmErr = _.get(responses, '[0].Error', {});
         const monitorErr = _.get(responses, '[1].Error', {});
-        const pcxErr = _.get(responses, '[2]', {});
-        const vpcErr = _.get(responses, '[3]', {});
+        const scfErr = _.get(responses, '[2].Error', {});
         const cvmAuthFail = _.get(cvmErr, 'Code', '').indexOf('AuthFailure') !== -1;
         const monitorAuthFail = _.get(monitorErr, 'Code', '').indexOf('AuthFailure') !== -1;
-        const pcxAuthFail = _.startsWith(_.toString(_.get(pcxErr, 'code')), '4');
-        const vpcAuthFail = _.get(vpcErr, 'Code', '').indexOf('AuthFailure') !== -1;
-        if (cvmAuthFail || monitorAuthFail || pcxAuthFail || vpcAuthFail) {
+        const scfAuthFail = _.get(scfErr, 'Code', '').indexOf('AuthFailure') !== -1;
+        if (cvmAuthFail || monitorAuthFail || scfAuthFail) {
           const messages: any[] = [];
           if (cvmAuthFail) {
             messages.push(`${_.get(cvmErr, 'Code')}: ${_.get(cvmErr, 'Message')}`);
@@ -371,30 +367,27 @@ export default class PCXDatasource implements DatasourceInterface {
           if (monitorAuthFail) {
             messages.push(`${_.get(monitorErr, 'Code')}: ${_.get(monitorErr, 'Message')}`);
           }
-          if (pcxAuthFail) {
-            messages.push(`${_.get(pcxErr, 'code')}: ${_.get(pcxErr, 'codeDesc')}`);
-          }
-          if (vpcAuthFail) {
-            messages.push(`${_.get(vpcErr, 'Code')}: ${_.get(vpcErr, 'Message')}`);
+          if (scfAuthFail) {
+            messages.push(`${_.get(scfErr, 'Code')}: ${_.get(scfErr, 'Message')}`);
           }
           const message = _.join(_.compact(_.uniq(messages)), '; ');
           return {
-            service: 'pcx',
+            service: 'scf',
             status: 'error',
             message,
           };
         } else {
           return {
             namespace: this.Namespace,
-            service: 'pcx',
+            service: 'scf',
             status: 'success',
-            message: 'Successfully queried the PCX service.',
+            message: 'Successfully queried the SCF service.',
             title: 'Success',
           };
         }
       })
       .catch(error => {
-        let message = 'PCX service:';
+        let message = 'SCF service:';
         message += error.statusText ? error.statusText + '; ' : '';
         if (_.get(error, 'data.error.code', '')) {
           message += error.data.error.code + '. ' + error.data.error.message;
@@ -403,46 +396,22 @@ export default class PCXDatasource implements DatasourceInterface {
         } else if (_.get(error, 'data', '')) {
           message += error.data;
         } else {
-          message += 'Cannot connect to PCX service.';
+          message += 'Cannot connect to SCF service.';
         }
         return {
-          service: 'pcx',
+          service: 'SCF',
           status: 'error',
           message: message,
         };
       });
   }
 
-  /**
-   * 腾讯云 API 3.0 请求接口
-   * @param options
-   * @param service
-   * @param signObj
-   */
   doRequest(options, service, signObj: any = {}): any {
     options = GetRequestParams(options, service, signObj, this.secretId, this.secretKey);
     return this.backendSrv
       .datasourceRequest(options)
       .then(response => {
         return _.get(response, 'data.Response', {});
-      })
-      .catch(error => {
-        throw error;
-      });
-  }
-
-  /**
-   * 腾讯云 API 2.0 请求接口
-   * @param options
-   * @param service
-   * @param signObj
-   */
-  doRequestV2(options, service, signObj: any = {}): any {
-    options = GetRequestParamsV2(options, service, signObj, this.secretId, this.secretKey);
-    return this.backendSrv
-      .datasourceRequest(options)
-      .then(response => {
-        return _.get(response, 'data', {});
       })
       .catch(error => {
         throw error;

@@ -1,7 +1,6 @@
 import coreModule from 'grafana/app/core/core_module';
 import { LBPRIVATEFieldsDescriptor } from './query_def';
 
-
 export class LBPrivateQueryCtrl {
   /** @ngInject */
   constructor($scope, $rootScope) {
@@ -16,7 +15,7 @@ export class LBPrivateQueryCtrl {
       $scope.onChange();
     };
 
-    $scope.getDropdown = (field) => {
+    $scope.getDropdown = field => {
       switch (field) {
         default:
           return [];
@@ -67,8 +66,8 @@ const template = `
         lookup-text="true"
         get-options="getDropdown(field.key)"
         on-change="onChange()"
-        css-class="min-width-10">
-      </gf-form-dropdown>
+        css-class="min-width-10"
+      ></gf-form-dropdown>
       <multi-condition
         ng-if="field.type === 'inputmulti'"
         type="'input'"
@@ -109,7 +108,5 @@ export function lbPrivateQuery() {
     },
   };
 }
-
-
 
 coreModule.directive('lbPrivateQuery', lbPrivateQuery);

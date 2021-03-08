@@ -1,7 +1,7 @@
 {
   "name": "tencentcloud-monitor-grafana-app",
   "private": false,
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "Tencent Cloud Monitor plugin for Grafana",
   "keywords": [
     "tencentcloud",
@@ -18,8 +18,7 @@
   "scripts": {
     "build": "webpack --config webpack.config.prod.js",
     "analyze": "webpack --config webpack.config.analyze.js",
-    "test": "jest --config jest.config.js",
-    "tslint": "tslint -c tslint.json --project tsconfig.json --fix"
+    "test": "jest --config jest.config.js"
   },
   "bugs": {
     "url": "https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/issues"
@@ -35,19 +34,24 @@
     "@types/grafana": "https://git@github.com/CorpGlory/types-grafana.git",
     "@types/jest": "^24.0.12",
     "@types/lodash": "^4.14.123",
+    "@typescript-eslint/eslint-plugin": "^4.16.1",
+    "@typescript-eslint/parser": "^4.16.1",
     "babel-jest": "^24.8.0",
     "babel-loader": "^8.0.6",
     "clean-webpack-plugin": "^2.0.1",
     "copy-webpack-plugin": "^5.0.2",
     "css-loader": "^2.1.1",
+    "eslint": "^7.21.0",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-prettier": "^3.3.1",
     "html-loader": "^2.1.0",
     "jest": "^24.8.0",
     "ng-annotate-webpack-plugin": "^0.3.0",
+    "prettier": "^2.2.1",
     "style-loader": "^0.23.1",
     "ts-jest": "^24.0.2",
     "ts-loader": "^5.3.3",
-    "tslint": "^5.16.0",
-    "typescript": "^3.4.5",
+    "typescript": "^4.2.3",
     "uglifyjs-webpack-plugin": "^2.1.2",
     "webpack": "^4.29.6",
     "webpack-bundle-analyzer": "^3.3.2",

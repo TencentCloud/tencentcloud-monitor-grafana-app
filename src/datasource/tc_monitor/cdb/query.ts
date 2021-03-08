@@ -1,11 +1,9 @@
 import coreModule from 'grafana/app/core/core_module';
 import { CDBFieldsDescriptor } from './query_def';
 
-
 export class CDBQueryCtrl {
   /** @ngInject */
   constructor($scope, $rootScope) {
-
     $scope.init = () => {
       $scope.CDBFieldsDescriptor = CDBFieldsDescriptor;
     };
@@ -17,7 +15,7 @@ export class CDBQueryCtrl {
       $scope.onChange();
     };
 
-    $scope.getDropdown = (field) => {
+    $scope.getDropdown = field => {
       switch (field) {
         case 'ZoneIds':
           return $scope.getZones();
@@ -107,12 +105,8 @@ export function cdbQuery() {
       datasource: '=',
       getDropdownOptions: '&',
       onChange: '&',
-
     },
   };
 }
 
-
-
 coreModule.directive('cdbQuery', cdbQuery);
-
