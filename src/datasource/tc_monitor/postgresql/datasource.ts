@@ -1,9 +1,17 @@
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import DatasourceInterface from '../../datasource';
-import { POSTGRESInstanceAliasList, PostgreInvalidDemensions } from './query_def';
-import { GetRequestParams, GetServiceAPIInfo, ReplaceVariable, GetDimensions, ParseQueryResult, VARIABLE_ALIAS, SliceLength } from '../../common/constants';
-
+import { POSTGRESInstanceAliasList, PostgreInvalidDemensions, templateQueryIdMap } from './query_def';
+import {
+  GetRequestParams,
+  GetServiceAPIInfo,
+  ReplaceVariable,
+  GetDimensions,
+  ParseQueryResult,
+  VARIABLE_ALIAS,
+  SliceLength,
+  isVariable,
+} from '../../common/constants';
 
 export default class POSTGRESDatasource implements DatasourceInterface {
   Namespace = 'QCE/POSTGRES';
@@ -13,6 +21,7 @@ export default class POSTGRESDatasource implements DatasourceInterface {
   templateSrv: any;
   secretId: string;
   secretKey: string;
+  allInstanceMap: any[] = [];
   /** @ngInject */
   constructor(instanceSettings, backendSrv, templateSrv) {
     this.backendSrv = backendSrv;
@@ -28,7 +37,7 @@ export default class POSTGRESDatasource implements DatasourceInterface {
    *
    * @param query 模板变量配置填写的 Query 参数字符串
    */
-  metricFindQuery(query: object) {
+  metricFindQuery(query: Record<string, any>) {
     // 查询地域列表
     const regionQuery = query['action'].match(/^DescribeRegions$/i);
     if (regionQuery) {
@@ -40,18 +49,20 @@ export default class POSTGRESDatasource implements DatasourceInterface {
     const region = this.getVariable(query['region']);
     if (instancesQuery && region) {
       return this.getVariableInstances(region).then(result => {
-        const instanceAlias = POSTGRESInstanceAliasList.indexOf(query[VARIABLE_ALIAS]) !== -1 ? query[VARIABLE_ALIAS] : 'DBInstanceId';
+        this.allInstanceMap = _.cloneDeep(result); // 混存全量实例map
+        const instanceAlias =
+          POSTGRESInstanceAliasList.indexOf(query[VARIABLE_ALIAS]) !== -1 ? query[VARIABLE_ALIAS] : 'DBInstanceId';
         const instances: any[] = [];
-        _.forEach(result, (item) => {
+        _.forEach(result, item => {
           const instanceAliasValue = _.get(item, instanceAlias);
           if (instanceAliasValue) {
             if (typeof instanceAliasValue === 'string') {
               item._InstanceAliasValue = instanceAliasValue;
-              instances.push({ text: instanceAliasValue, value: JSON.stringify(_.pick(item, _.concat(POSTGRESInstanceAliasList, ['_InstanceAliasValue']))) });
+              instances.push({ text: instanceAliasValue, value: item[templateQueryIdMap.instance] });
             } else if (_.isArray(instanceAliasValue)) {
-              _.forEach(instanceAliasValue, (subItem) => {
+              _.forEach(instanceAliasValue, subItem => {
                 item._InstanceAliasValue = subItem;
-                instances.push({ text: subItem, value: JSON.stringify(_.pick(item, _.concat(POSTGRESInstanceAliasList, ['_InstanceAliasValue']))) });
+                instances.push({ text: subItem, value: item[templateQueryIdMap.instance] });
               });
             }
           }
@@ -59,7 +70,7 @@ export default class POSTGRESDatasource implements DatasourceInterface {
         return instances;
       });
     }
-    return [];
+    return Promise.resolve([]);
   }
 
   /**
@@ -88,12 +99,22 @@ export default class POSTGRESDatasource implements DatasourceInterface {
         !_.isEmpty(ReplaceVariable(this.templateSrv, options.scopedVars, item.postgres.instance, true))
       );
     }).map(target => {
-      // 实例 instances 可能为模板变量，需先获取实际值
-      let instances = ReplaceVariable(this.templateSrv, options.scopedVars, target.postgres.instance, true);
-      if (_.isArray(instances)) {
-        instances = _.map(instances, instance => _.isString(instance) ? JSON.parse(instance) : instance);
+      // 实例 instances 可能为模板变量，需先判断
+      let instances = target.postgres.instance;
+      if (isVariable(instances)) {
+        let templateInsValues = ReplaceVariable(this.templateSrv, options.scopedVars, instances, true);
+        if (!_.isArray(templateInsValues)) {
+          templateInsValues = [templateInsValues];
+        }
+        instances = _.map(templateInsValues, instanceId =>
+          _.find(this.allInstanceMap, o => o[templateQueryIdMap.instance] === instanceId),
+        );
       } else {
-        instances = [_.isString(instances) ? JSON.parse(instances) : instances];
+        if (_.isArray(instances)) {
+          instances = _.map(instances, instance => (_.isString(instance) ? JSON.parse(instance) : instance));
+        } else {
+          instances = [_.isString(instances) ? JSON.parse(instances) : instances];
+        }
       }
       const region = ReplaceVariable(this.templateSrv, options.scopedVars, target.postgres.region, false);
       const data = {
@@ -110,7 +131,7 @@ export default class POSTGRESDatasource implements DatasourceInterface {
             //   dimensionObject[key] = { Name: key, Value: instance[key] };
             // }
             let keyTmp = key;
-            if (_.has(PostgreInvalidDemensions,key)) {
+            if (_.has(PostgreInvalidDemensions, key)) {
               keyTmp = PostgreInvalidDemensions[key];
               instance[key] = instance[keyTmp];
             }
@@ -151,32 +172,38 @@ export default class POSTGRESDatasource implements DatasourceInterface {
    */
   getMonitorData(params, region, instances) {
     const serviceInfo = GetServiceAPIInfo(region, 'monitor');
-    return this.doRequest({
-      url: this.url + serviceInfo.path,
-      data: params,
-    }, serviceInfo.service, { action: 'GetMonitorData', region })
-      .then(response => {
-         // TODO 兼容接口问题
-         instances = _.map(instances, instance => {
-          instance.resourceId = instance['DBInstanceId'];
-          return instance;
-        });
-        return ParseQueryResult(response, instances);
+    return this.doRequest(
+      {
+        url: this.url + serviceInfo.path,
+        data: params,
+      },
+      serviceInfo.service,
+      { action: 'GetMonitorData', region },
+    ).then(response => {
+      // TODO 兼容接口问题
+      instances = _.map(instances, instance => {
+        instance.resourceId = instance['DBInstanceId'];
+        return instance;
       });
+      return ParseQueryResult(response, instances);
+    });
   }
 
   getRegions() {
-    return this.doRequest({
-      url: this.url + '/cvm',
-    }, 'cvm', { action: 'DescribeRegions' })
-      .then(response => {
-        return _.filter(
-          _.map(response.RegionSet || [], item => {
-            return { text: item.RegionName, value: item.Region, RegionState: item.RegionState };
-          }),
-          item => item.RegionState === 'AVAILABLE'
-        );
-      });
+    return this.doRequest(
+      {
+        url: this.url + '/cvm',
+      },
+      'cvm',
+      { action: 'DescribeRegions' },
+    ).then(response => {
+      return _.filter(
+        _.map(response.RegionSet || [], item => {
+          return { text: item.RegionName, value: item.Region, RegionState: item.RegionState };
+        }),
+        item => item.RegionState === 'AVAILABLE',
+      );
+    });
   }
 
   /**
@@ -185,15 +212,18 @@ export default class POSTGRESDatasource implements DatasourceInterface {
    */
   getMetrics(region = 'ap-guangzhou') {
     const serviceInfo = GetServiceAPIInfo(region, 'monitor');
-    return this.doRequest({
-      url: this.url + serviceInfo.path,
-      data: {
-        Namespace: this.Namespace,
+    return this.doRequest(
+      {
+        url: this.url + serviceInfo.path,
+        data: {
+          Namespace: this.Namespace,
+        },
       },
-    }, serviceInfo.service, { region, action: 'DescribeBaseMetrics' })
-      .then(response => {
-        return _.filter(response.MetricSet || [], item => !(item.Namespace !== this.Namespace || !item.MetricName));
-      });
+      serviceInfo.service,
+      { region, action: 'DescribeBaseMetrics' },
+    ).then(response => {
+      return _.filter(response.MetricSet || [], item => !(item.Namespace !== this.Namespace || !item.MetricName));
+    });
   }
 
   /**
@@ -204,19 +234,25 @@ export default class POSTGRESDatasource implements DatasourceInterface {
   getInstances(region, params = {}) {
     params = Object.assign({ Offset: 0, Limit: 100 }, params);
     const serviceInfo = GetServiceAPIInfo(region, 'postgres');
-    return this.doRequest({
-      url: this.url + serviceInfo.path,
-      data: params,
-    }, serviceInfo.service, { region, action: 'DescribeDBInstances' })
-      .then(response => {
-        return _.map(response.DBInstanceSet || [], item => {
-          const privateIpAddress = _.get(_.filter(_.get(item, 'DBInstanceNetInfo', []), ['NetType', 'private']), '[0].Ip');
-          const publicIpAddress = _.get(_.filter(_.get(item, 'DBInstanceNetInfo', []), ['NetType', 'public']), '[0].Ip');
-          item.PrivateIpAddresses = privateIpAddress;
-          item.PublicIpAddresses = publicIpAddress;
-          return item;
-        });
+    return this.doRequest(
+      {
+        url: this.url + serviceInfo.path,
+        data: params,
+      },
+      serviceInfo.service,
+      { region, action: 'DescribeDBInstances' },
+    ).then(response => {
+      return _.map(response.DBInstanceSet || [], item => {
+        const privateIpAddress = _.get(
+          _.filter(_.get(item, 'DBInstanceNetInfo', []), ['NetType', 'private']),
+          '[0].Ip',
+        );
+        const publicIpAddress = _.get(_.filter(_.get(item, 'DBInstanceNetInfo', []), ['NetType', 'public']), '[0].Ip');
+        item.PrivateIpAddresses = privateIpAddress;
+        item.PublicIpAddresses = publicIpAddress;
+        return item;
       });
+    });
   }
 
   /**
@@ -227,38 +263,45 @@ export default class POSTGRESDatasource implements DatasourceInterface {
     let result: any[] = [];
     const params = { Offset: 0, Limit: 100 };
     const serviceInfo = GetServiceAPIInfo(region, 'postgres');
-    return this.doRequest({
-      url: this.url + serviceInfo.path,
-      data: params,
-    }, serviceInfo.service, { region, action: 'DescribeDBInstances' })
-      .then(response => {
-        result = _.map(response.DBInstanceSet || [], item => {
-          const privateIpAddress = _.get(_.filter(_.get(item, 'DBInstanceNetInfo', []), ['NetType', 'private']), '[0].Ip');
-          const publicIpAddress = _.get(_.filter(_.get(item, 'DBInstanceNetInfo', []), ['NetType', 'public']), '[0].Ip');
-          item.PrivateIpAddresses = privateIpAddress;
-          item.PublicIpAddresses = publicIpAddress;
-          return item;
+    return this.doRequest(
+      {
+        url: this.url + serviceInfo.path,
+        data: params,
+      },
+      serviceInfo.service,
+      { region, action: 'DescribeDBInstances' },
+    ).then(response => {
+      result = _.map(response.DBInstanceSet || [], item => {
+        const privateIpAddress = _.get(
+          _.filter(_.get(item, 'DBInstanceNetInfo', []), ['NetType', 'private']),
+          '[0].Ip',
+        );
+        const publicIpAddress = _.get(_.filter(_.get(item, 'DBInstanceNetInfo', []), ['NetType', 'public']), '[0].Ip');
+        item.PrivateIpAddresses = privateIpAddress;
+        item.PublicIpAddresses = publicIpAddress;
+        return item;
+      });
+      const total = response.TotalCount || 0;
+      if (result.length >= total) {
+        return result;
+      } else {
+        const param = SliceLength(total, 100);
+        const promises: any[] = [];
+        _.forEach(param, item => {
+          promises.push(this.getInstances(region, item));
         });
-        const total = response.TotalCount || 0;
-        if (result.length >= total) {
-          return result;
-        } else {
-          const param = SliceLength(total, 100);
-          const promises: any[] = [];
-          _.forEach(param, item => {
-            promises.push(this.getInstances(region, item));
-          });
-          return Promise.all(promises).then(responses => {
+        return Promise.all(promises)
+          .then(responses => {
             _.forEach(responses, item => {
               result = _.concat(result, item);
             });
             return result;
-          }).catch(error => {
+          })
+          .catch(error => {
             return result;
           });
-        }
-      });
-
+      }
+    });
   }
 
   // 检查某变量字段是否有值
@@ -282,7 +325,7 @@ export default class POSTGRESDatasource implements DatasourceInterface {
           url: this.url + '/cvm',
         },
         'cvm',
-        { action: 'DescribeRegions' }
+        { action: 'DescribeRegions' },
       ),
       this.doRequest(
         {
@@ -292,7 +335,7 @@ export default class POSTGRESDatasource implements DatasourceInterface {
           },
         },
         'monitor',
-        { region: 'ap-guangzhou', action: 'DescribeBaseMetrics' }
+        { region: 'ap-guangzhou', action: 'DescribeBaseMetrics' },
       ),
       this.doRequest(
         {
@@ -303,50 +346,51 @@ export default class POSTGRESDatasource implements DatasourceInterface {
           },
         },
         'postgres',
-        { region: 'ap-guangzhou', action: 'DescribeDBInstances' }
-      )
-    ]).then(responses => {
-      const cvmErr = _.get(responses, '[0].Error', {});
-      const monitorErr = _.get(responses, '[1].Error', {});
-      const postgresErr = _.get(responses, '[2].Error', {});
-      const cvmAuthFail = _.get(cvmErr, 'Code', '').indexOf('AuthFailure') !== -1;
-      const monitorAuthFail = _.get(monitorErr, 'Code', '').indexOf('AuthFailure') !== -1;
-      const postgresAuthFail = _.get(postgresErr, 'Code', '').indexOf('AuthFailure') !== -1;
-      if (cvmAuthFail || monitorAuthFail || postgresAuthFail) {
-        const messages: any[] = [];
-        if (cvmAuthFail) {
-          messages.push(`${_.get(cvmErr, 'Code')}: ${_.get(cvmErr, 'Message')}`);
+        { region: 'ap-guangzhou', action: 'DescribeDBInstances' },
+      ),
+    ])
+      .then(responses => {
+        const cvmErr = _.get(responses, '[0].Error', {});
+        const monitorErr = _.get(responses, '[1].Error', {});
+        const postgresErr = _.get(responses, '[2].Error', {});
+        const cvmAuthFail = _.get(cvmErr, 'Code', '').indexOf('AuthFailure') !== -1;
+        const monitorAuthFail = _.get(monitorErr, 'Code', '').indexOf('AuthFailure') !== -1;
+        const postgresAuthFail = _.get(postgresErr, 'Code', '').indexOf('AuthFailure') !== -1;
+        if (cvmAuthFail || monitorAuthFail || postgresAuthFail) {
+          const messages: any[] = [];
+          if (cvmAuthFail) {
+            messages.push(`${_.get(cvmErr, 'Code')}: ${_.get(cvmErr, 'Message')}`);
+          }
+          if (monitorAuthFail) {
+            messages.push(`${_.get(monitorErr, 'Code')}: ${_.get(monitorErr, 'Message')}`);
+          }
+          if (postgresAuthFail) {
+            messages.push(`${_.get(postgresErr, 'Code')}: ${_.get(postgresErr, 'Message')}`);
+          }
+          const message = _.join(_.compact(_.uniq(messages)), '; ');
+          return {
+            service: 'POSTGRESQL',
+            status: 'error',
+            message,
+          };
+        } else {
+          return {
+            namespace: this.Namespace,
+            service: 'POSTGRESQL',
+            status: 'success',
+            message: 'Successfully queried the POSTGRESQL service.',
+            title: 'Success',
+          };
         }
-        if (monitorAuthFail) {
-          messages.push(`${_.get(monitorErr, 'Code')}: ${_.get(monitorErr, 'Message')}`);
-        }
-        if (postgresAuthFail) {
-          messages.push(`${_.get(postgresErr, 'Code')}: ${_.get(postgresErr, 'Message')}`);
-        }
-        const message = _.join(_.compact(_.uniq(messages)), '; ');
-        return {
-          service: 'POSTGRESQL',
-          status: 'error',
-          message,
-        };
-      } else {
-        return {
-          namespace: this.Namespace,
-          service: 'POSTGRESQL',
-          status: 'success',
-          message: 'Successfully queried the POSTGRESQL service.',
-          title: 'Success',
-        };
-      }
-    })
+      })
       .catch(error => {
         let message = 'POSTGRESQL service:';
         message += error.statusText ? error.statusText + '; ' : '';
-        if (!!_.get(error, 'data.error.code', '')) {
+        if (_.get(error, 'data.error.code', '')) {
           message += error.data.error.code + '. ' + error.data.error.message;
-        } else if (!!_.get(error, 'data.error', '')) {
+        } else if (_.get(error, 'data.error', '')) {
           message += error.data.error;
-        } else if (!!_.get(error, 'data', '')) {
+        } else if (_.get(error, 'data', '')) {
           message += error.data;
         } else {
           message += 'Cannot connect to POSTGRESQL service.';
@@ -371,4 +415,3 @@ export default class POSTGRESDatasource implements DatasourceInterface {
       });
   }
 }
-

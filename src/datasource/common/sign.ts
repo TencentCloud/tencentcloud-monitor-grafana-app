@@ -1,4 +1,4 @@
-import { SHA256, HmacSHA256 } from "crypto-js";
+import { SHA256, HmacSHA256 } from 'crypto-js';
 import * as Hex from 'crypto-js/enc-hex';
 import * as moment from 'moment';
 
@@ -15,7 +15,6 @@ const Algorithm = 'TC3-HMAC-SHA256';
  * 3、Generate the signature string
  * 4、Generate the authorization string
  */
-
 
 // The signature method is TC3-HMAC-SHA256, the common parameters of the header information are used for user identification and API authenticationand:
 // Parameter      Type    Required   Description
@@ -50,7 +49,7 @@ export default class Sign {
   action: string;
   host: string;
   version: string;
-  payload: object | string;
+  payload: Record<string, any> | string;
   region: string;
   timestamp: number;
   date: string;
@@ -83,29 +82,27 @@ export default class Sign {
     const stringToSign = `${Algorithm}\n${this.timestamp}\n${credentialScope}\n${hashedCanonicalRequest}`;
 
     // Generate the signature string
-    const secretDate = HmacSHA256(this.date,`TC3${this.secretKey}`);
+    const secretDate = HmacSHA256(this.date, `TC3${this.secretKey}`);
     const secretService = HmacSHA256(this.service, secretDate);
     const secretSigning = HmacSHA256('tc3_request', secretService);
-    const signature = Hex.stringify(HmacSHA256(stringToSign,secretSigning));
+    const signature = Hex.stringify(HmacSHA256(stringToSign, secretSigning));
 
     // Generate the authorization string
     const authorization = `${Algorithm} Credential=${this.secretId}/${credentialScope}, SignedHeaders=${signedHeaders}, Signature=${signature}`;
-    const grafanaVersion = (window as any) .grafanaBootData?.settings?.buildInfo?.version || '0.0.0';
+    const grafanaVersion = (window as any).grafanaBootData?.settings?.buildInfo?.version || '0.0.0';
     // Common Request Parameters of the header information
     // console.log('versions', `GF_${grafanaVersion}_PL_CM_${process.env.TENCENT_CLOUD_MONITOR_GRAFANA_PLUGIN_VERSION}`);
     const headers = {
-      "Authorization": authorization,
-      "Content-Type": ContentType,
-      "X-TC-Action": this.action,
-      "X-TC-Timestamp": this.timestamp.toString(),
-      "X-TC-Version": this.version,
-      "X-TC-RequestClient": `GF_${grafanaVersion}_PL_CM_${process.env.TENCENT_CLOUD_MONITOR_GRAFANA_PLUGIN_VERSION}`,
-      ...( this.region && {
-        "X-TC-Region": this.region
-      })
+      Authorization: authorization,
+      'Content-Type': ContentType,
+      'X-TC-Action': this.action,
+      'X-TC-Timestamp': this.timestamp.toString(),
+      'X-TC-Version': this.version,
+      'X-TC-RequestClient': `GF_${grafanaVersion}_PL_CM_${process.env.TENCENT_CLOUD_MONITOR_GRAFANA_PLUGIN_VERSION}`,
+      ...(this.region && {
+        'X-TC-Region': this.region,
+      }),
     };
     return headers;
-
   }
 }
-

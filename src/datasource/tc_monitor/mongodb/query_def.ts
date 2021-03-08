@@ -34,7 +34,7 @@ const OrderBy = [
 
 const OrderByType = [
   { text: '升序', value: 'ASC' },
-  { text: '降序', value: 'DESC' }
+  { text: '降序', value: 'DESC' },
 ];
 
 const MongoDBFields = {
@@ -163,7 +163,8 @@ function GetInstanceQueryParams(queries: any = {}) {
         if (item.length > 0) {
           params[key] = _.uniq(item);
         }
-      } else if (_.isObject(item)) {   // select 单选
+      } else if (_.isObject(item)) {
+        // select 单选
         if (_.isNumber(_.get(item, 'value', undefined)) || !_.isEmpty(_.get(item, 'value', undefined))) {
           params[key] = _.get(item, 'value');
         }
@@ -178,13 +179,17 @@ function GetInstanceQueryParams(queries: any = {}) {
 const MONGODBInstanceAliasList = ['InstanceId', 'InstanceName'];
 
 const MONGODBInvalidDemensions = {
-  'target': 'InstanceId',
+  target: 'InstanceId',
 };
 
+const templateQueryIdMap = {
+  instance: 'InstanceId',
+};
 export default MONGODB_STATE;
 export {
   MONGODBFieldsDescriptor,
   MONGODBInvalidDemensions,
   MONGODBInstanceAliasList,
+  templateQueryIdMap,
   GetInstanceQueryParams as MONGODBGetInstanceQueryParams,
 };

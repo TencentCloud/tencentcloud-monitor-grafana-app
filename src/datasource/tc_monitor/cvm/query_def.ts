@@ -7,16 +7,16 @@ const instanceChargeTypes = [
 
 const CVMFilterFields = {
   zone: [],
-  "project-id": [],
-  "host-id": [],
-  "vpc-id": [],
-  "subnet-id": [],
-  "instance-id": [],
-  "security-group-id": [],
-  "instance-name": [],
-  "instance-charge-type": {},
-  "private-ip-address": [],
-  "public-ip-address": [],
+  'project-id': [],
+  'host-id': [],
+  'vpc-id': [],
+  'subnet-id': [],
+  'instance-id': [],
+  'security-group-id': [],
+  'instance-name': [],
+  'instance-charge-type': {},
+  'private-ip-address': [],
+  'public-ip-address': [],
 };
 
 const CVMFilterFieldsDescriptor = [
@@ -133,7 +133,9 @@ function GetInstanceQueryParams(queries: any = {}) {
     } else if (queries.filtersChecked) {
       const Filters: any[] = [];
       _.forEach(queries.Filters, (item: any, key) => {
-        if (Filters.length > 9) { return; }
+        if (Filters.length > 9) {
+          return;
+        }
         if (_.isArray(item)) {
           item = _.compact(item);
           if (item.length > 0) {
@@ -154,7 +156,6 @@ function GetInstanceQueryParams(queries: any = {}) {
 }
 
 const CVMInstanceAliasList = ['InstanceId', 'InstanceName', 'PrivateIpAddresses', 'PublicIpAddresses'];
-
 
 const CVMValidMetricsT = [
   'CPUUsage',
@@ -184,21 +185,32 @@ const CVMValidMetricsT = [
   'MemUsed',
   'MemUsage',
 ];
-const CVMValidMetrics = _.map(CVMValidMetricsT, _.toUpper);
 // const CVMInvalidDemensions = {
 //   'vm_uuid': 'InstanceId',
 //   'vmUuid': 'InstanceId',
 // };
-// dimensionObject[item] = { Name: item, Value: '' };
-const CVM_INSTANCE_DIMENSIONOBJECTS = {
-  InstanceId: { Name: 'InstanceId', Value: ''},
+
+const templateQueryIdMap = {
+  instance: 'InstanceId',
 };
+function isValidMetric(metric) {
+  const CVMValidMetrics = _.map(CVMValidMetricsT, _.toUpper);
+  return _.indexOf(CVMValidMetrics, _.toUpper(metric.MetricName)) !== -1;
+}
+function modifyDimensons(metricItem) {
+  const metricTmp = _.cloneDeep(metricItem);
+  metricTmp.Dimensions.forEach(item => {
+    item.Dimensions = ['InstanceId'];
+  });
+  return metricTmp;
+}
 export default CVM_STATE;
 export {
   CVMFilterFieldsDescriptor,
   CVMInstanceAliasList,
-  CVMValidMetrics,
-  CVM_INSTANCE_DIMENSIONOBJECTS,
+  isValidMetric,
+  modifyDimensons,
+  templateQueryIdMap,
   // CVMInvalidDemensions,
   GetInstanceQueryParams as CVMGetInstanceQueryParams,
 };

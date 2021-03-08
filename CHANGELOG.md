@@ -1,6 +1,38 @@
 # TencentCloud Monitor Grafana App
 ---
 
+## [1.4.2] - 2021-03-08
+
+### Added
+
+- Add URL for instance Template Variable value, more readable URL for users.
+- Add `display` param in query for customizing dropdown list values. For example: `Namespace=QCE/REDIS&Action=DescribeInstances&Region=$region&display=${InstanceId}-${InstanceName}`.  
+**Note: if `display` and `InstanceAlias` appear at the same time, the dropdown list will only show values of `display`.**
+- Allow search when selecting namespaces.
+
+### Fixed
+
+- Some known errors.
+
+See detailed guide in [README.md](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/README.md).
+
+
+---
+
+## [1.4.1] - 2021-03-03
+
+### Fixed
+
+- Fix Redis dashboard
+
+### Removed
+
+- Remove (QCE/REDIS_MEM) namespace
+
+See detailed guide in [README.md](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/README.md).
+
+---
+
 ## [1.4.0] - 2021-03-01
 
 ### Added
@@ -16,6 +48,8 @@
 - Provides representative [Dashboard templates](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/tree/master/src/dashboards) for **TencentDB for MongoDB**, **TencentDB for Redis**, **Content Delivery Network**, **Message Queue CKafka**, **Elastic IP**, **Cloud File Storage** and **Serverless Cloud Function**;
 
 See detailed guide in [README.md](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/README.md).
+
+---
 
 ## [1.3.1] - 2021-01-29
 

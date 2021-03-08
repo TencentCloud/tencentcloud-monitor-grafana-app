@@ -1,9 +1,9 @@
-import { TCMonitorDatasource } from  './datasource';
+import { TCMonitorDatasource } from './datasource';
 import { TCMonitorDatasourceQueryCtrl } from './query.ctrl';
 import { TCMonitorDatasourceConfigCtrl } from './config.ctrl';
 
 export {
-  TCMonitorDatasource  as Datasource,
+  TCMonitorDatasource as Datasource,
   TCMonitorDatasourceConfigCtrl as ConfigCtrl,
   TCMonitorDatasourceQueryCtrl as QueryCtrl,
 };

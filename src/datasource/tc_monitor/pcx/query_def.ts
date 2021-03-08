@@ -21,11 +21,11 @@ const PCX_STATE = {
 };
 
 const StateTypes = [
-  { text: '申请中',    value: 0 },
-  { text: '连接成功',  value: 1 },
-  { text: '已过期',    value: 2 },
+  { text: '申请中', value: 0 },
+  { text: '连接成功', value: 1 },
+  { text: '已过期', value: 2 },
   { text: '对端已拒绝', value: 3 },
-  { text: '对端已删除', value: 4 }
+  { text: '对端已删除', value: 4 },
 ];
 
 const PCXFieldsDescriptor = [
@@ -51,21 +51,21 @@ const PCXFieldsDescriptor = [
     enDescriptor: 'PeeringConnection Id',
     cnDescriptor: '私有网络对等连接 ID',
     link: '',
-    type: 'input'
+    type: 'input',
   },
   {
     key: 'peeringConnectionName',
     enDescriptor: 'PeeringConnection Name',
     cnDescriptor: '对等连接名称',
     link: '',
-    type: 'input'
+    type: 'input',
   },
   {
     key: 'vpcId',
     enDescriptor: 'vpcId',
     cnDescriptor: '发起方私有网络 ID 值',
     link: 'https://cloud.tencent.com/document/api/215/1372',
-    type: 'dropdown'
+    type: 'dropdown',
   },
   {
     key: 'state',
@@ -77,9 +77,11 @@ const PCXFieldsDescriptor = [
   },
 ];
 
-
 const PCXInstanceAliasList = ['peeringConnectionId', 'peeringConnectionName'];
 
+const templateQueryIdMap = {
+  instance: 'peeringConnectionId',
+};
 function GetInstanceQueryParams(queries: any = {}) {
   const params: any = {};
   if (!_.isEmpty(queries)) {
@@ -109,5 +111,6 @@ export default PCX_STATE;
 export {
   PCXInstanceAliasList,
   PCXFieldsDescriptor,
+  templateQueryIdMap,
   GetInstanceQueryParams as PCXGetInstanceQueryParams,
 };

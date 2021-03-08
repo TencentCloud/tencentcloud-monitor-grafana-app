@@ -1,7 +1,6 @@
 import coreModule from 'grafana/app/core/core_module';
 import { RedisMemFieldsDescriptor } from './query_def';
 
-
 export class RedisMemQueryCtrl {
   /** @ngInject */
   constructor($scope, $rootScope) {
@@ -16,7 +15,7 @@ export class RedisMemQueryCtrl {
       $scope.onChange();
     };
 
-    $scope.getDropdown = (field) => {
+    $scope.getDropdown = field => {
       switch (field) {
         default:
           return [];
@@ -68,7 +67,7 @@ const template = `
         get-options="getDropdown(field.key)"
         on-change="onChange()"
         css-class="min-width-10"
-      />
+      ></gf-form-dropdown>
       <multi-condition
         ng-if="field.type === 'inputmulti'"
         type="'input'"
@@ -109,7 +108,5 @@ export function redisMemQuery() {
     },
   };
 }
-
-
 
 coreModule.directive('redisMemQuery', redisMemQuery);

@@ -1,7 +1,6 @@
 import coreModule from 'grafana/app/core/core_module';
 import { CDNFilterFieldsDescriptor } from './query_def';
 
-
 export class CDNQueryCtrl {
   /** @ngInject */
   constructor($scope, $rootScope) {
@@ -34,7 +33,6 @@ export class CDNQueryCtrl {
 
     $scope.init();
   }
-
 }
 
 const template = `
@@ -101,10 +99,6 @@ const template = `
 </div>
 `;
 
-
-
-
-
 export function cdnQuery() {
   return {
     template: template,
@@ -121,7 +115,4 @@ export function cdnQuery() {
   };
 }
 
-
-
 coreModule.directive('cdnQuery', cdnQuery);
-

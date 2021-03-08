@@ -1,7 +1,6 @@
 import coreModule from 'grafana/app/core/core_module';
 import { SCFQueryDescriptor } from './query_def';
 
-
 export class SCFQueryCtrl {
   /** @ngInject */
   constructor($scope, $rootScope) {
@@ -9,21 +8,38 @@ export class SCFQueryCtrl {
       $scope.SCFQueryDescriptor = SCFQueryDescriptor;
     };
 
+    $scope.getInstanceId = () => {
+      let { instance } = $scope.target;
+      instance = $scope.datasource.getServiceFn('scf', 'getVariable')(instance);
+      if (!instance) {
+        return '';
+      }
+      try {
+        instance = JSON.parse(instance).FunctionName;
+      } catch (error) {
+        console.log();
+      }
+      return instance;
+    };
+
     $scope.getVersions = async target => {
       // console.log(2222);
-      
+
       // return [{ text: 1, value: 1 }];
       // console.log(target, 'target');
-      const { instance, region } = target;
-      const fetcher = $scope.datasource.getServiceFn('scf', 'getVersions');
-      if (!instance || !region) return [];
+      // let { instance, region } = target;
+      const FunctionName = $scope.getInstanceId();
+      const region = $scope.datasource.getServiceFn('scf', 'getVariable')(target.region);
+      if (!FunctionName || !region) return [];
 
-      return fetcher(region, { FunctionName: JSON.parse(instance).FunctionName }).then(res => {
+      const fetcher = $scope.datasource.getServiceFn('scf', 'getVersions');
+
+      return fetcher(region, { FunctionName }).then(res => {
         console.log(res, 'res');
-        
+
         return res;
       });
-    }
+    };
     // $scope.onChecked = (srcField, dstField) => {
     //   if ($scope.target.queries[srcField] === true) {
     //     $scope.target.queries[dstField] = false;
@@ -49,9 +65,7 @@ export class SCFQueryCtrl {
 
     $scope.init();
   }
-
 }
-
 
 const template = `
 <div>
@@ -127,7 +141,6 @@ const template = `
   </div>
 `;
 
-
 export function scfQuery() {
   return {
     template: template,
@@ -140,9 +153,8 @@ export function scfQuery() {
       datasource: '=',
       getDropdownOptions: '&',
       onChange: '&',
-      onRefresh: '&'
+      onRefresh: '&',
     },
   };
 }
 coreModule.directive('scfQuery', scfQuery);
-

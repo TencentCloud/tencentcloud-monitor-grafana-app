@@ -42,24 +42,24 @@ const EngineVersions = [
   { text: '5.1', value: '5.1' },
   { text: '5.5', value: '5.5' },
   { text: '5.6', value: '5.6' },
-  { text: '5.7', value: '5.7' }
+  { text: '5.7', value: '5.7' },
 ];
 
 const OrderBy = [
   { text: 'InstanceId', value: 'InstanceId' },
   { text: 'InstanceName', value: 'InstanceName' },
   { text: 'CreateTime', value: 'CreateTime' },
-  { text: 'DeadlineTime', value: 'DeadlineTime' }
+  { text: 'DeadlineTime', value: 'DeadlineTime' },
 ];
 
 const OrderDirection = [
   { text: 'ASC', value: 'ASC' },
-  {text: 'DESC', value: 'DESC' }
+  { text: 'DESC', value: 'DESC' },
 ];
 
 const InitFlag = [
   { text: '未初始化', value: 0 },
-  { text: '初始化', value: 1}
+  { text: '初始化', value: 1 },
 ];
 
 const CdbErrors = [
@@ -112,14 +112,14 @@ const CDBFieldsDescriptor = [
     enDescriptor: 'Instance Name',
     cnDescriptor: '实例名称',
     link: '',
-    type: 'inputmulti'
+    type: 'inputmulti',
   },
   {
     key: 'InstanceIds',
     enDescriptor: 'Instance ID',
     cnDescriptor: '实例ID',
     link: '',
-    type: 'inputmulti'
+    type: 'inputmulti',
   },
   {
     key: 'ZoneIds',
@@ -212,36 +212,36 @@ const CDBFieldsDescriptor = [
     enDescriptor: 'Vip',
     cnDescriptor: '实例内网IP地址',
     link: '',
-    type: 'inputmulti'
+    type: 'inputmulti',
   },
   {
     key: 'VpcIds',
     enDescriptor: 'Vpc ID',
     cnDescriptor: '私有网络ID',
     link: 'https://cloud.tencent.com/document/api/215/15778',
-    type: 'inputmulti'
+    type: 'inputmulti',
   },
   {
     key: 'SubnetIds',
     enDescriptor: 'Subnet ID',
     cnDescriptor: '子网ID',
     link: 'https://cloud.tencent.com/document/api/215/15784',
-    type: 'inputmulti'
+    type: 'inputmulti',
   },
   {
     key: 'ProjectId',
     enDescriptor: 'Project ID',
     cnDescriptor: '项目ID',
     link: 'https://cloud.tencent.com/document/product/378/4400',
-    type: 'input'
+    type: 'input',
   },
   {
     key: 'SecurityGroupId',
     enDescriptor: 'Security Group ID',
     cnDescriptor: '安全组ID',
     link: 'https://cloud.tencent.com/document/api/236/15854',
-    type: 'input'
-  }
+    type: 'input',
+  },
 ];
 
 const CDB_STATE = {
@@ -284,17 +284,29 @@ function isValidMetric(metricObj: any = {}) {
   const dimension = _.get(metricObj, 'Dimensions[0].Dimensions');
   return dimension.length === 2 && _.indexOf(dimension, 'instanceid') !== -1 && _.indexOf(dimension, 'insttype') !== -1;
 }
+function modifyDimensons(metricItem: any) {
+  const metricTmp = _.cloneDeep(metricItem);
+  metricTmp.Dimensions.forEach(item => {
+    item.Dimensions = item.Dimensions.map(i => CDBInvalidDemensions[i]);
+  });
+  return metricTmp;
+}
 const CDBInvalidDemensions = {
-  'instanceid': 'InstanceId',
-  'insttype': 'InstanceType',
-  'region': 'Region',
+  instanceid: 'InstanceId',
+  insttype: 'InstanceType',
+  region: 'Region',
+};
+const templateQueryIdMap = {
+  instance: 'InstanceId',
 };
 export default CDB_STATE;
 
 export {
   CDBFieldsDescriptor,
   CDBInstanceAliasList,
+  templateQueryIdMap,
   CDBInvalidDemensions,
   isValidMetric,
+  modifyDimensons,
   GetInstanceQueryParams as CDBGetInstanceQueryParams,
 };

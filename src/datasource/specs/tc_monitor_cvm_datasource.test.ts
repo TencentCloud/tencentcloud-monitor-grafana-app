@@ -154,12 +154,12 @@ describe('Tencent Cloud Monitor CVM Datasource', () => {
           service: 'cvm',
           cvm: {
             region: 'ap-beijing',
-            metricName: 'BytesReceived',
-            period: 60,
-            metricUnit: 'Bps',
+            metricName: 'AccOuttraffic',
+            period: 10,
+            metricUnit: 'MB',
             queries: {},
-            dimensionObject: { InstanceId: { Name: 'InstanceId', Value: 'cvm-123' } },
-            instance: JSON.stringify({ InstanceId: 'cvm-123', RegionName: '北京', Region: 'ap-beijing', InstanceName: 'test', _InstanceAliasValue: 'cvm-123' }),
+            dimensionObject: { InstanceId: { Name: 'InstanceId', Value: 'cvm-123' }, InstanceType: { Name: 'InstanceType', Value: 1 }},
+            instance: JSON.stringify({ InstanceId: 'cvm-123', InstanceType: 1, RegionName: '北京', Region: 'ap-beijing', InstanceName: 'test', _InstanceAliasValue: 'cvm-123' }),
             instanceAlias: 'InstanceId',
           }
         }
@@ -170,11 +170,11 @@ describe('Tencent Cloud Monitor CVM Datasource', () => {
         Response: {
           StartTime: "2019-05-11 20:21:00",
           EndTime: "2019-05-11 21:21:00",
-          Period: 60,
+          Period: 10,
           MetricName: "AccOuttraffic",
           DataPoints: [
             {
-              "Dimensions": [{ "Name": "InstanceType", "Value": "1" }, { "Name": "InstanceId", "Value": "cvm123" }],
+              "Dimensions": [{ "Name": "InstanceType", "Value": "1" }, { "Name": "InstanceId", "Value": "cvm-123" }],
               "Timestamps": [1557577260, 1557577320, 1557577380, 1557577440, 1557577500],
               "Values": [85, 86.916, 85.666, 85.333, 85]
             }],
@@ -185,10 +185,10 @@ describe('Tencent Cloud Monitor CVM Datasource', () => {
     it('should return a list of datasource', () => {
       ctx.backendSrv.datasourceRequest = jest.fn().mockImplementation(value => Promise.resolve(response));
       return ctx.ds.query(options).then(results => {
-        expect(results[0].target).toEqual(
+        expect(results.data[0].target).toEqual(
           'AccOuttraffic - cvm-123'
         );
-        expect(results[0].datapoints).toEqual(
+        expect(results.data[0].datapoints).toEqual(
           [
             [85, 1557577260000],
             [86.916, 1557577320000],

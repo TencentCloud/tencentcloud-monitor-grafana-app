@@ -34,7 +34,7 @@ const OrderBy = [
 
 const OrderType = [
   { text: '升序', value: 0 },
-  { text: '降序', value: 1 }
+  { text: '降序', value: 1 },
 ];
 const Type = [
   { text: 'Redis老集群版', value: 1 },
@@ -45,7 +45,7 @@ const Type = [
   { text: 'Redis 4.0主从版', value: 6 },
   { text: 'Redis 4.0集群版', value: 7 },
   { text: 'Redis5.0主从版', value: 8 },
-  { text: 'Redis5.0集群版', value: 9 }
+  { text: 'Redis5.0集群版', value: 9 },
 ];
 
 const RedisFields = {
@@ -64,7 +64,7 @@ const RedisFields = {
   EngineName: '',
   AutoRenew: null,
   BillingMode: '',
-  Type: null
+  Type: null,
 };
 
 const RedisFieldsDescriptor = [
@@ -112,21 +112,21 @@ const RedisFieldsDescriptor = [
     enDescriptor: 'VpcIds',
     cnDescriptor: '私有网络ID数组，数组下标从0开始，如果不传则默认选择基础网络，如：47525',
     link: '',
-    type: 'inputMulti',
+    type: 'inputmulti',
   },
   {
     key: 'SubnetIds',
     enDescriptor: 'SubnetIds',
     cnDescriptor: '子网ID数组，数组下标从0开始，如：56854',
     link: '',
-    type: 'inputMulti',
+    type: 'inputmulti',
   },
   {
     key: 'ProjectIds',
     enDescriptor: 'ProjectIds',
     cnDescriptor: '项目ID 组成的数组',
     link: '',
-    type: 'inputMulti',
+    type: 'inputmulti',
   },
   {
     key: 'SearchKey',
@@ -147,14 +147,14 @@ const RedisFieldsDescriptor = [
     enDescriptor: 'UniqVpcIds',
     cnDescriptor: '私有网络ID数组，数组下标从0开始，如果不传则默认选择基础网络，如：vpc-sad23jfdfk',
     link: '',
-    type: 'inputMulti',
+    type: 'inputmulti',
   },
   {
     key: 'UniqSubnetIds',
     enDescriptor: 'UniqSubnetIds',
     cnDescriptor: '子网ID数组，数组下标从0开始，如：subnet-fdj24n34j2',
     link: '',
-    type: 'inputMulti',
+    type: 'inputmulti',
   },
   {
     key: 'Status',
@@ -193,7 +193,7 @@ const RedisFieldsDescriptor = [
     cnDescriptor: '计费模式：postpaid-按量计费；prepaid-包年包月',
     link: '',
     type: 'select',
-    list: BillingMode
+    list: BillingMode,
   },
   {
     key: 'Type',
@@ -201,7 +201,7 @@ const RedisFieldsDescriptor = [
     cnDescriptor: '实例类型',
     link: '',
     type: 'select',
-    list: Type
+    list: Type,
   },
 ];
 
@@ -228,7 +228,8 @@ function GetInstanceQueryParams(queries: any = {}) {
         if (item.length > 0) {
           params[key] = _.uniq(item);
         }
-      } else if (_.isObject(item)) {   // select 单选
+      } else if (_.isObject(item)) {
+        // select 单选
         if (_.isNumber(_.get(item, 'value', undefined)) || !_.isEmpty(_.get(item, 'value', undefined))) {
           params[key] = _.get(item, 'value');
         }
@@ -248,14 +249,18 @@ function isValidMetric(metricObj: any = {}) {
 const REDISInstanceAliasList = ['InstanceId', 'InstanceName'];
 
 const RedisInvalidDemensions = {
-  'redis_uuid': 'InstanceId',
-  'instanceid': 'InstanceId',
+  redis_uuid: 'InstanceId',
+  instanceid: 'InstanceId',
 };
 
+const templateQueryIdMap = {
+  instance: 'InstanceId',
+};
 export default REDIS_STATE;
 export {
   RedisFieldsDescriptor,
   RedisInvalidDemensions,
+  templateQueryIdMap,
   REDISInstanceAliasList,
   isValidMetric,
   GetInstanceQueryParams as REDISGetInstanceQueryParams,

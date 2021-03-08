@@ -1,8 +1,8 @@
 import * as _ from 'lodash';
 
 const PostgresFields = {
-  "db-instance-id": [],
-  "db-instance-name": [],
+  'db-instance-id': [],
+  'db-instance-name': [],
 };
 
 const PostgresFieldsDescriptor = [
@@ -11,7 +11,7 @@ const PostgresFieldsDescriptor = [
     enDescriptor: 'DB Instance ID',
     cnDescriptor: 'DB 实例ID',
     link: '',
-    type: 'input',
+    type: 'inputmulti',
     min: 0,
   },
   {
@@ -19,7 +19,7 @@ const PostgresFieldsDescriptor = [
     enDescriptor: 'DB Instance Name',
     cnDescriptor: 'DB 实例名称',
     link: '',
-    type: 'input',
+    type: 'inputmulti',
   },
 ];
 
@@ -63,13 +63,17 @@ function GetInstanceQueryParams(queries: any = {}) {
 }
 
 const PostgreInvalidDemensions = {
-  'uid': 'DBInstanceId',
+  uid: 'DBInstanceId',
+};
+const templateQueryIdMap = {
+  instance: 'DBInstanceId',
 };
 export default POSTGRES_STATE;
 
 export {
   PostgresFieldsDescriptor,
   POSTGRESInstanceAliasList,
+  templateQueryIdMap,
   PostgreInvalidDemensions,
   GetInstanceQueryParams as POSTGRESGetInstanceQueryParams,
 };

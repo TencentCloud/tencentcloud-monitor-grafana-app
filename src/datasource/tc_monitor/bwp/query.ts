@@ -1,7 +1,6 @@
 import coreModule from 'grafana/app/core/core_module';
 import { BWPFilterFieldsDescriptor } from './query_def';
 
-
 export class BWPQueryCtrl {
   /** @ngInject */
   constructor($scope, $rootScope) {
@@ -16,7 +15,7 @@ export class BWPQueryCtrl {
       $scope.onChange();
     };
 
-    $scope.getDropdown = (field) => {
+    $scope.getDropdown = field => {
       switch (field) {
         case 'zone':
           return $scope.getZones();
@@ -34,7 +33,6 @@ export class BWPQueryCtrl {
 
     $scope.init();
   }
-
 }
 
 const template = `
@@ -139,10 +137,6 @@ const template = `
 </div>
 `;
 
-
-
-
-
 export function bwpQuery() {
   return {
     template: template,
@@ -159,7 +153,4 @@ export function bwpQuery() {
   };
 }
 
-
-
 coreModule.directive('bwpQuery', bwpQuery);
-

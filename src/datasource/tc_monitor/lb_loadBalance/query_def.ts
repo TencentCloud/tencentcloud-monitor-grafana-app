@@ -14,7 +14,7 @@ const OrderBy = [
 
 const OrderType = [
   { text: '升序', value: 0 },
-  { text: '降序', value: 1 }
+  { text: '降序', value: 1 },
 ];
 
 const WithRs = [
@@ -44,14 +44,14 @@ const LOADBALANCEFieldsDescriptor = [
     enDescriptor: 'LoadBalancer ID',
     cnDescriptor: '实例ID',
     link: '',
-    type: 'inputmulti'
+    type: 'inputmulti',
   },
   {
     key: 'LoadBalancerName',
     enDescriptor: 'LoadBalancer Name',
     cnDescriptor: '实例名称',
     link: '',
-    type: 'input'
+    type: 'input',
   },
   {
     key: 'Forward',
@@ -66,56 +66,56 @@ const LOADBALANCEFieldsDescriptor = [
     enDescriptor: 'Domain',
     cnDescriptor: '域名，腾讯云为负载均衡实例分配的域名，本参数仅对传统型公网负载均衡才有意义',
     link: '',
-    type: 'input'
+    type: 'input',
   },
   {
     key: 'LoadBalancerVips',
     enDescriptor: 'LoadBalancer Vips',
     cnDescriptor: '负载均衡实例的 VIP 地址',
     link: '',
-    type: 'inputmulti'
+    type: 'inputmulti',
   },
   {
     key: 'BackendPrivateIps',
     enDescriptor: 'BackendPrivate Ips',
     cnDescriptor: '负载均衡绑定的后端服务的内网 IP',
     link: '',
-    type: 'inputmulti'
+    type: 'inputmulti',
   },
   {
     key: 'BackendPublicIps',
     enDescriptor: 'BackendPublic Ips',
     cnDescriptor: '负载均衡绑定的后端服务的外网 IP',
     link: '',
-    type: 'inputmulti'
+    type: 'inputmulti',
   },
   {
     key: 'ProjectId',
     enDescriptor: 'Project ID',
     cnDescriptor: '负载均衡实例所属的项目 ID',
     link: '',
-    type: 'inputnumber'
+    type: 'inputnumber',
   },
   {
     key: 'VpcId',
     enDescriptor: 'Vpc ID',
     cnDescriptor: '负载均衡实例所属私有网络',
     link: '',
-    type: 'input'
+    type: 'input',
   },
   {
     key: 'SecurityGroup',
     enDescriptor: 'Security Group',
     cnDescriptor: '安全组ID',
     link: '',
-    type: 'input'
+    type: 'input',
   },
   {
     key: 'MasterZone',
     enDescriptor: 'Master Zone',
     cnDescriptor: '主可用区ID',
     link: '',
-    type: 'input'
+    type: 'input',
   },
   {
     key: 'WithRs',
@@ -205,16 +205,20 @@ const LOADBALANCEVALIDDIMENSIONS = {
   vip: 'LoadBalancerVips',
   vpcId: 'NumericalVpcId',
   loadBalancerPort: 'Port',
-  protocol: 'Protocol'
+  protocol: 'Protocol',
 };
 // dimensionObject[item] = { Name: item, Value: '' };
 const LOADBALANCE_INSTANCE_DIMENSIONOBJECTS = {
-  vip: { Name: 'vip', Value: ''},
+  vip: { Name: 'vip', Value: '' },
 };
 const LOADBALANCE_LISTENER_DIMENSIONOBJECTS = {
-  vip: { Name: 'vip', Value: ''},
-  loadBalancerPort: { Name: 'loadBalancerPort', Value: ''},
-  protocol: { Name: 'protocol', Value: ''},
+  vip: { Name: 'vip', Value: '' },
+  loadBalancerPort: { Name: 'loadBalancerPort', Value: '' },
+  protocol: { Name: 'protocol', Value: '' },
+};
+const templateQueryIdMap = {
+  instance: 'LoadBalancerId',
+  listener: 'ListenerId',
 };
 export default LOADBALANCE_STATE;
 export {
@@ -222,6 +226,7 @@ export {
   LOADBALANCEInstanceAliasList,
   LOADBALANCEListenerAliasList,
   LOADBALANCEVALIDDIMENSIONS,
+  templateQueryIdMap,
   LOADBALANCE_LISTENER_DIMENSIONOBJECTS,
   LOADBALANCE_INSTANCE_DIMENSIONOBJECTS,
   GetInstanceQueryParams as LOADBALANCEGetInstanceQueryParams,

@@ -1,9 +1,24 @@
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import DatasourceInterface from '../../datasource';
-import { LBPUBLICInstanceAliasList, LBPUBLICListenerAliasList, LBPUBLICVALIDDIMENSIONS, LBPUBLIC_INSTANCE_DIMENSIONOBJECTS, LBPUBLIC_LISTENER_DIMENSIONOBJECTS  } from './query_def';
-import { GetServiceAPIInfo, GetRequestParams, ReplaceVariable, GetDimensions, ParseQueryResult, VARIABLE_ALIAS, SliceLength } from '../../common/constants';
-import { IdKeys } from '..';
+import {
+  LBPUBLICInstanceAliasList,
+  LBPUBLICListenerAliasList,
+  LBPUBLICVALIDDIMENSIONS,
+  LBPUBLIC_INSTANCE_DIMENSIONOBJECTS,
+  LBPUBLIC_LISTENER_DIMENSIONOBJECTS,
+  templateQueryIdMap,
+} from './query_def';
+import {
+  GetServiceAPIInfo,
+  GetRequestParams,
+  ReplaceVariable,
+  GetDimensions,
+  ParseQueryResult,
+  VARIABLE_ALIAS,
+  SliceLength,
+  isVariable,
+} from '../../common/constants';
 
 export default class LBPUBLICDatasource implements DatasourceInterface {
   Namespace = 'QCE/LB_PUBLIC';
@@ -13,6 +28,8 @@ export default class LBPUBLICDatasource implements DatasourceInterface {
   templateSrv: any;
   secretId: string;
   secretKey: string;
+  allInstanceMap: any[] = [];
+  allListenerMap: any[] = [];
   /** @ngInject */
   constructor(instanceSettings, backendSrv, templateSrv) {
     this.instanceSettings = instanceSettings;
@@ -23,7 +40,7 @@ export default class LBPUBLICDatasource implements DatasourceInterface {
     this.secretKey = (instanceSettings.jsonData || {}).secretKey || '';
   }
 
-  metricFindQuery(query: object) {
+  metricFindQuery(query: Record<string, any>) {
     // 查询地域列表
     const regionQuery = query['action'].match(/^DescribeRegions$/i);
     if (regionQuery) {
@@ -34,18 +51,20 @@ export default class LBPUBLICDatasource implements DatasourceInterface {
     const region = this.getVariable(query['region']);
     if (instancesQuery && region) {
       return this.getVariableInstances(region).then(result => {
-        const instanceAlias = LBPUBLICInstanceAliasList.indexOf(query[VARIABLE_ALIAS]) !== -1 ? query[VARIABLE_ALIAS] : 'LoadBalancerId';
+        this.allInstanceMap = result; // 混存全量实例map
+        const instanceAlias =
+          LBPUBLICInstanceAliasList.indexOf(query[VARIABLE_ALIAS]) !== -1 ? query[VARIABLE_ALIAS] : 'LoadBalancerId';
         const instances: any[] = [];
-        _.forEach(result, (item) => {
+        _.forEach(result, item => {
           const instanceAliasValue = _.get(item, instanceAlias);
           if (instanceAliasValue) {
             if (typeof instanceAliasValue === 'string') {
               item._InstanceAliasValue = instanceAliasValue;
-              instances.push({ text: instanceAliasValue, value: JSON.stringify(item) });
+              instances.push({ text: instanceAliasValue, value: item[templateQueryIdMap.instance] });
             } else if (_.isArray(instanceAliasValue)) {
-              _.forEach(instanceAliasValue, (subItem) => {
+              _.forEach(instanceAliasValue, subItem => {
                 item._InstanceAliasValue = subItem;
-                instances.push({ text: subItem, value: JSON.stringify(item) });
+                instances.push({ text: subItem, value: item[templateQueryIdMap.instance] });
               });
             }
           }
@@ -56,27 +75,24 @@ export default class LBPUBLICDatasource implements DatasourceInterface {
     // 查询 clb监听器端口 列表
     const clbListenerPortQuery = query['action'].match(/^DescribeListeners/i) && !!query['instance'];
     const instance = this.getVariable(query['instance']);
-    let instanceMap = {};
-    try {
-      instanceMap = JSON.parse(instance);
-    }catch (e) {
-      console.log(e);
-    }
-    const instanceId = instanceMap[IdKeys.lbPublic];
+    const instanceMap = _.find(this.allInstanceMap, o => o[templateQueryIdMap.instance] === instance);
+    const instanceId = instanceMap?.LoadBalancerId;
     if (clbListenerPortQuery && instanceId) {
       return this.getListeners(region, instanceId).then(result => {
-        const listenerAlias = LBPUBLICListenerAliasList.indexOf(query[VARIABLE_ALIAS]) !== -1 ? query[VARIABLE_ALIAS] : 'ListenerId';
+        this.allListenerMap = result;
+        const listenerAlias =
+          LBPUBLICListenerAliasList.indexOf(query[VARIABLE_ALIAS]) !== -1 ? query[VARIABLE_ALIAS] : 'ListenerId';
         const listeners: any[] = [];
-        _.forEach(result, (item) => {
+        _.forEach(result, item => {
           const listenerAliasValue = _.get(item, listenerAlias);
           if (listenerAliasValue) {
             if (typeof listenerAliasValue === 'string') {
               item._InstanceAliasValue = listenerAliasValue;
-              listeners.push({ text: listenerAliasValue, value: JSON.stringify(item) });
+              listeners.push({ text: listenerAliasValue, value: item[templateQueryIdMap.listener] });
             } else if (_.isArray(listenerAliasValue)) {
-              _.forEach(listenerAliasValue, (subItem) => {
+              _.forEach(listenerAliasValue, subItem => {
                 item._InstanceAliasValue = subItem;
-                listeners.push({ text: subItem, value: JSON.stringify(item) });
+                listeners.push({ text: subItem, value: item[templateQueryIdMap.listener] });
               });
             }
           }
@@ -84,7 +100,7 @@ export default class LBPUBLICDatasource implements DatasourceInterface {
         return listeners;
       });
     }
-    return [];
+    return Promise.resolve([]);
   }
 
   query(options: any) {
@@ -99,56 +115,73 @@ export default class LBPUBLICDatasource implements DatasourceInterface {
       );
     }).map(target => {
       const region = ReplaceVariable(this.templateSrv, options.scopedVars, target.lbPublic.region, false);
-      // 实例 instances 可能为模板变量，需先获取实际值
-      let instances = ReplaceVariable(this.templateSrv, options.scopedVars, target.lbPublic.instance, true);
-      // 考虑多个监听器端口查询
-      let listeners = ReplaceVariable(this.templateSrv, options.scopedVars, target.lbPublic.listener, true);
-      let instanceInRequest: any[] = [];
-      const instanceUnionArray: any = [];
-      // 如果没有选择监听器或者实例为多个，按照实例维度查询,考虑实例选择复选情况；
-      if (_.isArray(instances) || _.isEmpty(listeners)) {
+      // 实例 instances 可能为模板变量，需先判断
+      let instances = target.lbPublic.instance;
+      if (isVariable(instances)) {
+        let templateInsValues = ReplaceVariable(this.templateSrv, options.scopedVars, instances, true);
+        if (!_.isArray(templateInsValues)) {
+          templateInsValues = [templateInsValues];
+        }
+        instances = _.map(templateInsValues, instanceId =>
+          _.find(this.allInstanceMap, o => o[templateQueryIdMap.instance] === instanceId),
+        );
+      } else {
         if (_.isArray(instances)) {
-          instances = _.map(instances, instance => _.isString(instance) ? JSON.parse(instance) : instance);
+          instances = _.map(instances, instance => (_.isString(instance) ? JSON.parse(instance) : instance));
         } else {
           instances = [_.isString(instances) ? JSON.parse(instances) : instances];
         }
+      }
+      console.log({ instances });
+      // 考虑多个监听器端口查询 可能为模板变量，需先判断
+      let listeners = target.lbPublic.listener;
+      if (isVariable(listeners)) {
+        let templateInsValues = ReplaceVariable(this.templateSrv, options.scopedVars, listeners, true);
+        if (!_.isArray(templateInsValues)) {
+          templateInsValues = [templateInsValues];
+        }
+        listeners = _.map(templateInsValues, listenerId =>
+          _.find(this.allListenerMap, o => o[templateQueryIdMap.listener] === listenerId),
+        );
+      } else {
+        // 按照监听器维度查询；
+        if (_.isArray(listeners)) {
+          listeners = _.map(listeners, listener => (_.isString(listener) ? JSON.parse(listener) : listener));
+        } else {
+          listeners = [_.isString(listeners) ? JSON.parse(listeners) : listeners];
+        }
+      }
+      console.log({ listeners });
+      let instanceInRequest: any[] = [];
+      const instanceUnionArray: any = [];
+      // 如果没有选择监听器或者实例为多个，按照实例维度查询,考虑实例选择复选情况；
+      if (instances.length > 1 || _.isEmpty(listeners)) {
         instanceInRequest = _.map(instances, instance => {
           const dimensionObject = LBPUBLIC_INSTANCE_DIMENSIONOBJECTS;
           instanceUnionArray.push(instance);
           _.forEach(dimensionObject, (__, key) => {
-            if (_.has(LBPUBLICVALIDDIMENSIONS,key)) {
+            if (_.has(LBPUBLICVALIDDIMENSIONS, key)) {
               const keyTmp = LBPUBLICVALIDDIMENSIONS[key];
-              instance[key] = instance[keyTmp];// baseMetric的key和getMonitor不对应，写入新旧键值对
+              instance[key] = instance[keyTmp]; // baseMetric的key和getMonitor不对应，写入新旧键值对
             }
             dimensionObject[key] = { Name: key, Value: instance[key] };
           });
           return { Dimensions: GetDimensions(dimensionObject) };
         });
       } else {
-        // 按照监听器维度查询；
-        if (_.isArray(listeners)) {
-          listeners = _.map(listeners, listener => _.isString(listener) ? JSON.parse(listener) : listener);
-        } else {
-          listeners = [_.isString(listeners) ? JSON.parse(listeners) : listeners];
-        }
         instanceInRequest = _.map(listeners, listener => {
           const dimensionObject = LBPUBLIC_LISTENER_DIMENSIONOBJECTS;
-          let instanceMap: any = {};
-          try {
-            instanceMap = JSON.parse(instances);
-          }catch (e) {
-            console.log(e);
-          }
-          // _InstanceAliasValue修改为instanceId-listenerId
-          instanceMap._InstanceAliasValue += ` - ${listener.ListenerId}`;
-          const instanceUnionMap = _.assign(listener, instanceMap);
+
+          const instance = _.cloneDeep(instances[0]);
+          instance._InstanceAliasValue += ` - ${listener.ListenerId}`;
+          const instanceUnionMap = _.assign(listener, instance);
           // console.log({instanceUnionMap,listener, instance, dimensionObject});
           instanceUnionArray.push(instanceUnionMap);
           _.forEach(dimensionObject, (__, key) => {
             // let keyTmp = key;
-            if (_.has(LBPUBLICVALIDDIMENSIONS,key)) {
+            if (_.has(LBPUBLICVALIDDIMENSIONS, key)) {
               const keyTmp = LBPUBLICVALIDDIMENSIONS[key];
-              instanceUnionMap[key] = instanceUnionMap[keyTmp];// baseMetric的key和getMonitor不对应，写入新旧键值对
+              instanceUnionMap[key] = instanceUnionMap[keyTmp]; // baseMetric的key和getMonitor不对应，写入新旧键值对
             }
             dimensionObject[key] = { Name: key, Value: instanceUnionMap[key] };
           });
@@ -193,68 +226,89 @@ export default class LBPUBLICDatasource implements DatasourceInterface {
    */
   getMonitorData(params, region, instances) {
     const serviceInfo = GetServiceAPIInfo(region, 'monitor');
-    return this.doRequest({
-      url: this.url + serviceInfo.path,
-      data: params,
-    }, serviceInfo.service, { action: 'GetMonitorData', region })
-      .then(response => {
-        // console.log({instances});
-        return ParseQueryResult(response, instances);
-      });
+    return this.doRequest(
+      {
+        url: this.url + serviceInfo.path,
+        data: params,
+      },
+      serviceInfo.service,
+      { action: 'GetMonitorData', region },
+    ).then(response => {
+      // console.log({instances});
+      return ParseQueryResult(response, instances);
+    });
   }
 
   getRegions() {
-    return this.doRequest({
-      url: this.url + '/cvm',
-    }, 'cvm', { action: 'DescribeRegions' })
-      .then(response => {
-        return _.filter(
-          _.map(response.RegionSet || [], item => {
-            return { text: item.RegionName, value: item.Region, RegionState: item.RegionState };
-          }),
-          item => item.RegionState === 'AVAILABLE'
-        );
-      });
+    return this.doRequest(
+      {
+        url: this.url + '/cvm',
+      },
+      'cvm',
+      { action: 'DescribeRegions' },
+    ).then(response => {
+      return _.filter(
+        _.map(response.RegionSet || [], item => {
+          return { text: item.RegionName, value: item.Region, RegionState: item.RegionState };
+        }),
+        item => item.RegionState === 'AVAILABLE',
+      );
+    });
   }
 
   getMetrics(region = 'ap-guangzhou') {
     const serviceInfo = GetServiceAPIInfo(region, 'monitor');
-    return this.doRequest({
-      url: this.url + serviceInfo.path,
-      data: {
-        Namespace: this.Namespace,
+    return this.doRequest(
+      {
+        url: this.url + serviceInfo.path,
+        data: {
+          Namespace: this.Namespace,
+        },
       },
-    }, serviceInfo.service, { region, action: 'DescribeBaseMetrics' })
-      .then(response => {
-        return _.filter(response.MetricSet || [], item => item.Namespace === this.Namespace && item.MetricName && _.get(item, 'Dimensions[0].Dimensions', []).length>0);
-      });
+      serviceInfo.service,
+      { region, action: 'DescribeBaseMetrics' },
+    ).then(response => {
+      return _.filter(
+        response.MetricSet || [],
+        item =>
+          item.Namespace === this.Namespace &&
+          item.MetricName &&
+          _.get(item, 'Dimensions[0].Dimensions', []).length > 0,
+      );
+    });
   }
 
   getInstances(region = 'ap-guangzhou', params = {}) {
     params = Object.assign({ Offset: 0, Limit: 20, LoadBalancerType: 'OPEN' }, params);
     const serviceInfo = GetServiceAPIInfo(region, 'clb');
-    return this.doRequest({
-      url: this.url + serviceInfo.path,
-      data: params,
-    }, serviceInfo.service, { region, action: 'DescribeLoadBalancers' })
-      .then(response => {
-        // 过滤非公网实例
-        // const publicLoadBalanceSet = response.LoadBalancerSet.filter()
-        return response.LoadBalancerSet || [];
-      });
+    return this.doRequest(
+      {
+        url: this.url + serviceInfo.path,
+        data: params,
+      },
+      serviceInfo.service,
+      { region, action: 'DescribeLoadBalancers' },
+    ).then(response => {
+      // 过滤非公网实例
+      // const publicLoadBalanceSet = response.LoadBalancerSet.filter()
+      return response.LoadBalancerSet || [];
+    });
   }
 
   getListeners(region, lbInstanceId) {
     const serviceInfo = GetServiceAPIInfo(region, 'clb');
-    return this.doRequest({
-      url: this.url + serviceInfo.path,
-      data: {
-        LoadBalancerId: lbInstanceId
+    return this.doRequest(
+      {
+        url: this.url + serviceInfo.path,
+        data: {
+          LoadBalancerId: lbInstanceId,
+        },
       },
-    }, serviceInfo.service, { region, action: 'DescribeListeners' })
-      .then(response => {
-        return response.Listeners || [];
-      });
+      serviceInfo.service,
+      { region, action: 'DescribeListeners' },
+    ).then(response => {
+      return response.Listeners || [];
+    });
   }
 
   /**
@@ -265,33 +319,37 @@ export default class LBPUBLICDatasource implements DatasourceInterface {
     let result: any[] = [];
     const params = { Offset: 0, Limit: 50, LoadBalancerType: 'OPEN' };
     const serviceInfo = GetServiceAPIInfo(region, 'clb');
-    return this.doRequest({
-      url: this.url + serviceInfo.path,
-      data: params,
-    }, serviceInfo.service, { region, action: 'DescribeLoadBalancers' })
-      .then(response => {
-        result = response.LoadBalancerSet || [];
-        const total = response.totalCount || 0;
-        if (result.length >= total) {
-          return result;
-        } else {
-          const param = SliceLength(total, 50);
-          const promises: any[] = [];
-          _.forEach(param, item => {
-            promises.push(this.getInstances(region, item));
-          });
-          return Promise.all(promises).then(responses => {
+    return this.doRequest(
+      {
+        url: this.url + serviceInfo.path,
+        data: params,
+      },
+      serviceInfo.service,
+      { region, action: 'DescribeLoadBalancers' },
+    ).then(response => {
+      result = response.LoadBalancerSet || [];
+      const total = response.totalCount || 0;
+      if (result.length >= total) {
+        return result;
+      } else {
+        const param = SliceLength(total, 50);
+        const promises: any[] = [];
+        _.forEach(param, item => {
+          promises.push(this.getInstances(region, item));
+        });
+        return Promise.all(promises)
+          .then(responses => {
             _.forEach(responses, item => {
               result = _.concat(result, item);
             });
             return result;
-          }).catch(error => {
+          })
+          .catch(error => {
             return result;
           });
-        }
-      });
+      }
+    });
   }
-
 
   // 检查某变量字段是否有值
   isValidConfigField(field: string) {
@@ -313,7 +371,7 @@ export default class LBPUBLICDatasource implements DatasourceInterface {
           url: this.url + '/cvm',
         },
         'cvm',
-        { action: 'DescribeRegions' }
+        { action: 'DescribeRegions' },
       ),
       this.doRequest(
         {
@@ -323,7 +381,7 @@ export default class LBPUBLICDatasource implements DatasourceInterface {
           },
         },
         'monitor',
-        { region: 'ap-guangzhou', action: 'DescribeBaseMetrics' }
+        { region: 'ap-guangzhou', action: 'DescribeBaseMetrics' },
       ),
       this.doRequest(
         {
@@ -334,17 +392,18 @@ export default class LBPUBLICDatasource implements DatasourceInterface {
           },
         },
         'clb',
-        { region: 'ap-guangzhou', action: 'DescribeLoadBalancers' }
+        { region: 'ap-guangzhou', action: 'DescribeLoadBalancers' },
       ),
-    ]).then(responses => {
-      const cvmErr = _.get(responses, '[0].Error', {});
-      const monitorErr = _.get(responses, '[1].Error', {});
-      const lbPublicErr = _.get(responses, '[2]', {});
-      const cvmAuthFail = _.get(cvmErr, 'Code', '').indexOf('AuthFailure') !== -1;
-      const monitorAuthFail = _.get(monitorErr, 'Code', '').indexOf('AuthFailure') !== -1;
-      const lbPublicAuthFail = _.get(lbPublicErr, 'Code', '').indexOf('AuthFailure') !== -1;
-      if (cvmAuthFail || monitorAuthFail || lbPublicAuthFail ) {
-        const messages: any[] = [];
+    ])
+      .then(responses => {
+        const cvmErr = _.get(responses, '[0].Error', {});
+        const monitorErr = _.get(responses, '[1].Error', {});
+        const lbPublicErr = _.get(responses, '[2]', {});
+        const cvmAuthFail = _.get(cvmErr, 'Code', '').indexOf('AuthFailure') !== -1;
+        const monitorAuthFail = _.get(monitorErr, 'Code', '').indexOf('AuthFailure') !== -1;
+        const lbPublicAuthFail = _.get(lbPublicErr, 'Code', '').indexOf('AuthFailure') !== -1;
+        if (cvmAuthFail || monitorAuthFail || lbPublicAuthFail) {
+          const messages: any[] = [];
           if (cvmAuthFail) {
             messages.push(`${_.get(cvmErr, 'Code')}: ${_.get(cvmErr, 'Message')}`);
           }
@@ -360,33 +419,34 @@ export default class LBPUBLICDatasource implements DatasourceInterface {
             status: 'error',
             message,
           };
-      } else {
+        } else {
+          return {
+            namespace: this.Namespace,
+            service: 'lbPublic',
+            status: 'success',
+            message: 'Successfully queried the LBPublic service.',
+            title: 'Success',
+          };
+        }
+      })
+      .catch(error => {
+        let message = 'LBPublic service:';
+        message += error.statusText ? error.statusText + '; ' : '';
+        if (_.get(error, 'data.error.code', '')) {
+          message += error.data.error.code + '. ' + error.data.error.message;
+        } else if (_.get(error, 'data.error', '')) {
+          message += error.data.error;
+        } else if (_.get(error, 'data', '')) {
+          message += error.data;
+        } else {
+          message += 'Cannot connect to LBPublic service.';
+        }
         return {
-          namespace: this.Namespace,
           service: 'lbPublic',
-          status: 'success',
-          message: 'Successfully queried the LBPublic service.',
-          title: 'Success',
+          status: 'error',
+          message: message,
         };
-      }
-    }).catch(error => {
-      let message = 'LBPublic service:';
-      message += error.statusText ? error.statusText + '; ' : '';
-      if (!!_.get(error, 'data.error.code', '')) {
-        message += error.data.error.code + '. ' + error.data.error.message;
-      } else if (!!_.get(error, 'data.error', '')) {
-        message += error.data.error;
-      } else if (!!_.get(error, 'data', '')) {
-        message += error.data;
-      } else {
-        message += 'Cannot connect to LBPublic service.';
-      }
-      return {
-        service: 'lbPublic',
-        status: 'error',
-        message: message,
-      };
-    });
+      });
   }
 
   /**

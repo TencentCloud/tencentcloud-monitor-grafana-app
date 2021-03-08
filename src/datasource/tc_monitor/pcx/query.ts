@@ -1,7 +1,6 @@
 import coreModule from 'grafana/app/core/core_module';
 import { PCXFieldsDescriptor } from './query_def';
 
-
 export class PCXQueryCtrl {
   /** @ngInject */
   constructor($scope, $rootScope) {
@@ -16,7 +15,7 @@ export class PCXQueryCtrl {
       $scope.onChange();
     };
 
-    $scope.getDropdown = (field) => {
+    $scope.getDropdown = field => {
       switch (field) {
         case 'vpcId':
           return $scope.getVpcIds();
@@ -118,7 +117,5 @@ export function pcxQuery() {
     },
   };
 }
-
-
 
 coreModule.directive('pcxQuery', pcxQuery);

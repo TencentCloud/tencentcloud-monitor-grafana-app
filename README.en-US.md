@@ -308,7 +308,11 @@ After creating the Dashboard, you can get the corresponding monitoring data moni
 ![scf Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-scf-query.png)
 
 # Template Variables
-Template Variables is a Dashboard optimization feature provided by Grafana to create highly reusable and interactive Dashboards. The general idea of template variables is to allow Grafana to obtain different metrics from the data source and provide a way to dynamically change it without modifying the dashboard. Tencent Cloud Monitor Grafana App currently provides variables such as region, CVM, and TencentDB for MySQL instances. The template variables that have been provided are shown in the following table:
+Template Variables is a Dashboard optimization feature provided by Grafana to create highly reusable and interactive Dashboards. The general idea of template variables is to allow Grafana to obtain different metrics from the data source and provide a way to dynamically change it without modifying the dashboard. Tencent Cloud Monitor Grafana App currently provides variables such as region, CVM, and TencentDB for MySQL instances.
+
+Notes: All Instance Queries allow customizing dropdown list values by `display` param, for example: `Namespace=QCE/REDIS&Action=DescribeInstances&Region=$region&display=${InstanceId}-${InstanceName}`. If `display` and `InstanceAlias` appear at the same time, the dropdown list will only show values of `display`.
+
+The template variables that have been provided are shown in the following table:
 
 Variable | Example | Description |
 -------- | ------- | ----------- |

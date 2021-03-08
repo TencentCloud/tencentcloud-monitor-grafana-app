@@ -1,8 +1,17 @@
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import DatasourceInterface from '../../datasource';
-import { REDISMEMInstanceAliasList, RedisMemInvalidDemensions, isValidMetric } from './query_def';
-import { GetRequestParams, GetServiceAPIInfo, ReplaceVariable, GetDimensions, ParseQueryResult, VARIABLE_ALIAS, SliceLength } from '../../common/constants';
+import { REDISMEMInstanceAliasList, RedisMemInvalidDemensions, isValidMetric, templateQueryIdMap } from './query_def';
+import {
+  GetRequestParams,
+  GetServiceAPIInfo,
+  ReplaceVariable,
+  GetDimensions,
+  ParseQueryResult,
+  VARIABLE_ALIAS,
+  SliceLength,
+  isVariable,
+} from '../../common/constants';
 
 export default class REDISMEMDatasource implements DatasourceInterface {
   Namespace = 'QCE/REDIS_MEM';
@@ -12,6 +21,7 @@ export default class REDISMEMDatasource implements DatasourceInterface {
   templateSrv: any;
   secretId: string;
   secretKey: string;
+  allInstanceMap: any[] = [];
   /** @ngInject */
   constructor(instanceSettings, backendSrv, templateSrv) {
     this.instanceSettings = instanceSettings;
@@ -27,7 +37,7 @@ export default class REDISMEMDatasource implements DatasourceInterface {
    *
    * @param query 模板变量配置填写的 Query 参数字符串
    */
-  metricFindQuery(query: object) {
+  metricFindQuery(query: Record<string, any>) {
     // 查询地域列表
     const regionQuery = query['action'].match(/^DescribeRegions$/i);
     if (regionQuery) {
@@ -39,18 +49,20 @@ export default class REDISMEMDatasource implements DatasourceInterface {
     const region = this.getVariable(query['region']);
     if (instancesQuery && region) {
       return this.getVariableInstances(region).then(result => {
-        const instanceAlias = REDISMEMInstanceAliasList.indexOf(query[VARIABLE_ALIAS]) !== -1 ? query[VARIABLE_ALIAS] : 'InstanceId';
+        this.allInstanceMap = _.cloneDeep(result); // 混存全量实例map
+        const instanceAlias =
+          REDISMEMInstanceAliasList.indexOf(query[VARIABLE_ALIAS]) !== -1 ? query[VARIABLE_ALIAS] : 'InstanceId';
         const instances: any[] = [];
-        _.forEach(result, (item) => {
+        _.forEach(result, item => {
           const instanceAliasValue = _.get(item, instanceAlias);
           if (instanceAliasValue) {
             if (typeof instanceAliasValue === 'string') {
               item._InstanceAliasValue = instanceAliasValue;
-              instances.push({ text: instanceAliasValue, value: JSON.stringify(_.pick(item, _.concat(REDISMEMInstanceAliasList, ['_InstanceAliasValue']))) });
+              instances.push({ text: instanceAliasValue, value: item[templateQueryIdMap.instance] });
             } else if (_.isArray(instanceAliasValue)) {
-              _.forEach(instanceAliasValue, (subItem) => {
+              _.forEach(instanceAliasValue, subItem => {
                 item._InstanceAliasValue = subItem;
-                instances.push({ text: subItem, value: JSON.stringify(_.pick(item, _.concat(REDISMEMInstanceAliasList, ['_InstanceAliasValue']))) });
+                instances.push({ text: subItem, value: item[templateQueryIdMap.instance] });
               });
             }
           }
@@ -87,12 +99,22 @@ export default class REDISMEMDatasource implements DatasourceInterface {
         !_.isEmpty(ReplaceVariable(this.templateSrv, options.scopedVars, item.redisMem.instance, true))
       );
     }).map(target => {
-      // 实例 instances 可能为模板变量，需先获取实际值
-      let instances = ReplaceVariable(this.templateSrv, options.scopedVars, target.redisMem.instance, true);
-      if (_.isArray(instances)) {
-        instances = _.map(instances, instance => _.isString(instance) ? JSON.parse(instance) : instance);
+      // 实例 instances 可能为模板变量，需先判断
+      let instances = target.redisMem.instance;
+      if (isVariable(instances)) {
+        let templateInsValues = ReplaceVariable(this.templateSrv, options.scopedVars, instances, true);
+        if (!_.isArray(templateInsValues)) {
+          templateInsValues = [templateInsValues];
+        }
+        instances = _.map(templateInsValues, instanceId =>
+          _.find(this.allInstanceMap, o => o[templateQueryIdMap.instance] === instanceId),
+        );
       } else {
-        instances = [_.isString(instances) ? JSON.parse(instances) : instances];
+        if (_.isArray(instances)) {
+          instances = _.map(instances, instance => (_.isString(instance) ? JSON.parse(instance) : instance));
+        } else {
+          instances = [_.isString(instances) ? JSON.parse(instances) : instances];
+        }
       }
       const region = ReplaceVariable(this.templateSrv, options.scopedVars, target.redisMem.region, false);
       const data = {
@@ -102,7 +124,7 @@ export default class REDISMEMDatasource implements DatasourceInterface {
         Instances: _.map(instances, instance => {
           const dimensionObject = target.redisMem.dimensionObject;
           _.forEach(dimensionObject, (__, key) => {
-            if (_.has(RedisMemInvalidDemensions,key)) {
+            if (_.has(RedisMemInvalidDemensions, key)) {
               const keyTmp = RedisMemInvalidDemensions[key];
               instance[key] = instance[keyTmp];
             }
@@ -143,84 +165,103 @@ export default class REDISMEMDatasource implements DatasourceInterface {
    */
   getMonitorData(params, region, instances) {
     const serviceInfo = GetServiceAPIInfo(region, 'monitor');
-    return this.doRequest({
-      url: this.url + serviceInfo.path,
-      data: params,
-    }, serviceInfo.service, { action: 'GetMonitorData', region })
-    .then(response => {
+    return this.doRequest(
+      {
+        url: this.url + serviceInfo.path,
+        data: params,
+      },
+      serviceInfo.service,
+      { action: 'GetMonitorData', region },
+    ).then(response => {
       return ParseQueryResult(response, instances);
     });
   }
 
   getRegions() {
-    return this.doRequest({
-      url: this.url + '/cvm',
-    }, 'cvm', { action: 'DescribeRegions' })
-      .then(response => {
-        return _.filter(
-          _.map(response.RegionSet || [], item => {
-            return { text: item.RegionName, value: item.Region, RegionState: item.RegionState };
-          }),
-          item => item.RegionState === 'AVAILABLE'
-        );
-      });
+    return this.doRequest(
+      {
+        url: this.url + '/cvm',
+      },
+      'cvm',
+      { action: 'DescribeRegions' },
+    ).then(response => {
+      return _.filter(
+        _.map(response.RegionSet || [], item => {
+          return { text: item.RegionName, value: item.Region, RegionState: item.RegionState };
+        }),
+        item => item.RegionState === 'AVAILABLE',
+      );
+    });
   }
 
   getMetrics(region = 'ap-guangzhou') {
     const serviceInfo = GetServiceAPIInfo(region, 'monitor');
-    return this.doRequest({
-      url: this.url + serviceInfo.path,
-      data: {
-        Namespace: this.Namespace,
+    return this.doRequest(
+      {
+        url: this.url + serviceInfo.path,
+        data: {
+          Namespace: this.Namespace,
+        },
       },
-    }, serviceInfo.service, { region, action: 'DescribeBaseMetrics' })
-      .then(response => {
-        return _.filter(response.MetricSet || [], item => !(item.Namespace !== this.Namespace || !item.MetricName) && isValidMetric(item) );
-      });
+      serviceInfo.service,
+      { region, action: 'DescribeBaseMetrics' },
+    ).then(response => {
+      return _.filter(
+        response.MetricSet || [],
+        item => !(item.Namespace !== this.Namespace || !item.MetricName) && isValidMetric(item),
+      );
+    });
   }
 
   getInstances(region, params = {}) {
     params = Object.assign({ Offset: 0, Limit: 100 }, params);
     const serviceInfo = GetServiceAPIInfo(region, 'redis');
-    return this.doRequest({
-      url: this.url + serviceInfo.path,
-      data: params,
-    }, serviceInfo.service, { region, action: 'DescribeInstances' })
-      .then(response => {
-        return response.InstanceSet || [];
-      });
+    return this.doRequest(
+      {
+        url: this.url + serviceInfo.path,
+        data: params,
+      },
+      serviceInfo.service,
+      { region, action: 'DescribeInstances' },
+    ).then(response => {
+      return response.InstanceSet || [];
+    });
   }
 
   getVariableInstances(region) {
     let result: any[] = [];
     const params = { Offset: 0, Limit: 100 };
     const serviceInfo = GetServiceAPIInfo(region, 'redis');
-    return this.doRequest({
-      url: this.url + serviceInfo.path,
-      data: params,
-    }, serviceInfo.service, { region, action: 'DescribeInstances' })
-      .then(response => {
-        result = response.InstanceSet || [];
-        const total = response.TotalCount || 0;
-        if (result.length >= total) {
-          return result;
-        } else {
-          const param = SliceLength(total, 100);
-          const promises: any[] = [];
-          _.forEach(param, item => {
-            promises.push(this.getInstances(region, item));
-          });
-          return Promise.all(promises).then(responses => {
+    return this.doRequest(
+      {
+        url: this.url + serviceInfo.path,
+        data: params,
+      },
+      serviceInfo.service,
+      { region, action: 'DescribeInstances' },
+    ).then(response => {
+      result = response.InstanceSet || [];
+      const total = response.TotalCount || 0;
+      if (result.length >= total) {
+        return result;
+      } else {
+        const param = SliceLength(total, 100);
+        const promises: any[] = [];
+        _.forEach(param, item => {
+          promises.push(this.getInstances(region, item));
+        });
+        return Promise.all(promises)
+          .then(responses => {
             _.forEach(responses, item => {
               result = _.concat(result, item);
             });
             return result;
-          }).catch(error => {
+          })
+          .catch(error => {
             return result;
           });
-        }
-      });
-
+      }
+    });
   }
 
   // 检查某变量字段是否有值
@@ -244,7 +285,7 @@ export default class REDISMEMDatasource implements DatasourceInterface {
           url: this.url + '/cvm',
         },
         'cvm',
-        { action: 'DescribeRegions' }
+        { action: 'DescribeRegions' },
       ),
       this.doRequest(
         {
@@ -254,7 +295,7 @@ export default class REDISMEMDatasource implements DatasourceInterface {
           },
         },
         'monitor',
-        { region: 'ap-guangzhou', action: 'DescribeBaseMetrics' }
+        { region: 'ap-guangzhou', action: 'DescribeBaseMetrics' },
       ),
       this.doRequest(
         {
@@ -265,7 +306,7 @@ export default class REDISMEMDatasource implements DatasourceInterface {
           },
         },
         'redis',
-        { region: 'ap-guangzhou', action: 'DescribeInstances' }
+        { region: 'ap-guangzhou', action: 'DescribeInstances' },
       ),
     ])
       .then(responses => {
@@ -305,11 +346,11 @@ export default class REDISMEMDatasource implements DatasourceInterface {
       .catch(error => {
         let message = 'Redis service:';
         message += error.statusText ? error.statusText + '; ' : '';
-        if (!!_.get(error, 'data.error.code', '')) {
+        if (_.get(error, 'data.error.code', '')) {
           message += error.data.error.code + '. ' + error.data.error.message;
-        } else if (!!_.get(error, 'data.error', '')) {
+        } else if (_.get(error, 'data.error', '')) {
           message += error.data.error;
-        } else if (!!_.get(error, 'data', '')) {
+        } else if (_.get(error, 'data', '')) {
           message += error.data;
         } else {
           message += 'Cannot connect to Redis service.';

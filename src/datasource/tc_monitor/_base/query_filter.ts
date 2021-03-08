@@ -1,25 +1,18 @@
 import coreModule from 'grafana/app/core/core_module';
-import { NATGatewayFilterFieldsDescriptor } from './query_def';
+import { DetailQueryConfig } from './types';
 
-export class NatGatewayQueryCtrl {
+class SPQueryCtrl {
+  static _config: DetailQueryConfig;
+
   /** @ngInject */
   constructor($scope, $rootScope) {
-    $scope.init = () => {
-      $scope.NATGatewayFilterFieldsDescriptor = NATGatewayFilterFieldsDescriptor;
-    };
+    Object.assign($scope, SPQueryCtrl._config);
 
     $scope.onChecked = (srcField, dstField) => {
       if ($scope.target.queries[srcField] === true) {
         $scope.target.queries[dstField] = false;
       }
       $scope.onChange();
-    };
-
-    $scope.getDropdown = field => {
-      switch (field) {
-        default:
-          return [];
-      }
     };
 
     $scope.init();
@@ -30,7 +23,7 @@ const template = `
 <div class="tc-sub-params" ng-if="showDetail">
 <label class="gf-form-label tc-info-label">
   Instances are queried by following params.
-  <a target="_blank" style="text-decoration:underline;color:#006eff;font-size:medium" href="https://cloud.tencent.com/document/api/215/36034">Click here to get API doc.</a>
+  <a target="_blank" style="text-decoration:underline;color:#006eff;font-size:medium" href="{{instanceDocUrl}}">Click here to get API doc.</a>
 </label>
 <div class="gf-form-inline">
   <div class="gf-form">
@@ -56,10 +49,10 @@ const template = `
 </div>
 <div class="gf-form-inline">
   <div class="gf-form">
-    <label class="gf-form-label width-10">
-      NatGatewayIds
+    <label class="gf-form-label width-9">
+      InstanceIds
       <info-popover mode="right-normal">
-        NAT网关统一 ID，参数不支持同时指定 NatGatewayIds 和 Filters
+        实例 ID，每次请求的实例的上限为100，参数不支持同时指定 InstanceIds 和 Filters
       </info-popover>
     </label>
     <gf-form-switch class="gf-form tc-switch" label-class="width-7" checked="target.queries.instanceIdsChecked"
@@ -67,15 +60,15 @@ const template = `
   </div>
 </div>
 <div class="gf-form-inline tc-sub-params" ng-if="target.queries.instanceIdsChecked">
-  <multi-condition type="'input'" value="target.queries.NatGatewayIds" on-change="onChange()">
+  <multi-condition type="'input'" max-cond="100" value="target.queries.InstanceIds" on-change="onChange()">
   </multi-condition>
 </div>
 <div class="gf-form-inline">
   <div class="gf-form">
-    <label class="gf-form-label width-10">
+    <label class="gf-form-label width-9">
       Filters
       <info-popover mode="right-normal">
-        过滤条件，参数不支持同时指定NatGatewayIds和Filters
+        过滤条件，每次请求的 Filters 的上限为10，Filter.Values 的上限为5。参数不支持同时指定 InstanceIds 和 Filters
       </info-popover>
     </label>
     <gf-form-switch class="gf-form tc-switch" label-class="width-7" checked="target.queries.filtersChecked" switch-class="max-width-5"
@@ -83,7 +76,7 @@ const template = `
   </div>
 </div>
 <div ng-if="target.queries.filtersChecked" class="tc-sub-params">
-  <div class="gf-form-inline" ng-repeat="field in NATGatewayFilterFieldsDescriptor">
+  <div class="gf-form-inline" ng-repeat="field in CVMFilterFieldsDescriptor">
     <label class="gf-form-label width-14">
       {{ field.key }}
       <info-popover mode="right-normal">
@@ -94,6 +87,7 @@ const template = `
     <multi-condition
       ng-if="field.type === 'dropdownmulti'"
       type="'dropdown'"
+      max-cond="5"
       value="target.queries.Filters[field.key]"
       get-options="getDropdown(field.key)"
       on-change="onChange()"
@@ -101,6 +95,7 @@ const template = `
     <multi-condition
       ng-if="field.type === 'inputNumbermulti'"
       type="'inputNumber'"
+      max-cond="5"
       value="target.queries.Filters[field.key]"
       maxNum="field.max"
       minNum="field.min"
@@ -109,6 +104,7 @@ const template = `
     <multi-condition
       ng-if="field.type === 'inputmulti'"
       type="'input'"
+      max-cond="5"
       value="target.queries.Filters[field.key]"
       on-change="onChange()"
     ></multi-condition>
@@ -121,14 +117,13 @@ const template = `
     ></custom-select-dropdown>
   </div>
 </div>
-
 </div>
 `;
 
-export function natGatewayQuery() {
+export function queryDDO() {
   return {
     template: template,
-    controller: NatGatewayQueryCtrl,
+    controller: SPQueryCtrl,
     restrict: 'E',
     scope: {
       target: '=',
@@ -141,4 +136,7 @@ export function natGatewayQuery() {
   };
 }
 
-coreModule.directive('natGatewayQuery', natGatewayQuery);
+export default (name: string, config: DetailQueryConfig) => {
+  SPQueryCtrl._config = config;
+  coreModule.directive(name, queryDDO);
+};
