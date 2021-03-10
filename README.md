@@ -1,4 +1,5 @@
-# 腾讯云监控应用插件
+# 腾讯云监控插件@Grafana
+
 
 <p>
   <a href="https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/releases">
@@ -15,39 +16,47 @@
   </a>
 </p>
 
-简体中文 | [English](./README.en-US.md)
 
+![Plugin APP](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/plugin-app.png?raw=true)
+
+简体中文 | [English](./README.en-US.md)
 
 # 目录
 
-   * [腾讯云监控应用插件](#腾讯云监控应用插件)
-   * [简介](#简介)
-   * [插件安装方式](#插件安装方式)
-   * [配置数据源](#配置数据源)
-   * [创建 Dashboard](#创建-dashboard)
-      * [快捷创建](#快捷创建)
-      * [管理页面](#管理页面)
-      * [导入模板](#导入模板)
-   * [配置 Panel 数据](#配置-panel-数据)
-      * [CVM 云服务器监控](#cvm-云服务器监控)
-      * [CDB 云数据库MySQL监控](#cdb-云数据库mysql监控)
-      * [CLB 负载均衡监控](#clb-负载均衡监控)
-      * [MonogoDB 云数据库](#monogodb-云数据库)
-      * [Redis 云数据库](#redis-云数据库)
-      * [CDN 内容分发式网络](#cdn-内容分发式网络)
-      * [BWP 带宽包](#bwp-带宽包)
-      * [CKAFKA 消息队列](#ckafka-消息队列)
-      * [LB 弹性公网IP](#lb-弹性公网ip)
-      * [CFS 文件存储](#cfs-文件存储)
-      * [SCF 云函数](#scf-云函数)
-   * [模板变量](#模板变量)
-      * [创建变量](#创建变量)
-      * [编辑变量](#编辑变量)
-      * [应用变量](#应用变量)
-   * [本地开发](#本地开发)
-      * [Docker 支持 (推荐)](#docker-支持-推荐)
-      * [在本地 Grafana上运行](#在本地-grafana上运行)
-   * [许可证](#许可证)
+  * [腾讯云监控插件@Grafana](#腾讯云监控插件grafana)
+  * [简介](#简介)
+  * [安装与更新](#安装与更新)
+    * [使用 tc-monitor-cli](#使用-tc-monitor-cli)
+      * [安装](#安装)
+      * [更新](#更新)
+      * [回滚](#回滚)
+    * [使用 zip 解压至插件目录](#使用-zip-解压至插件目录)
+  * [配置数据源](#配置数据源)
+  * [创建 Dashboard](#创建-dashboard)
+    * [快捷创建](#快捷创建)
+    * [管理页面](#管理页面)
+    * [导入模板](#导入模板)
+  * [配置 Panel 数据](#配置-panel-数据)
+    * [CVM 云服务器监控](#cvm-云服务器监控)
+    * [CDB 云数据库MySQL监控](#cdb-云数据库mysql监控)
+    * [CLB 负载均衡监控](#clb-负载均衡监控)
+    * [MonogoDB 云数据库](#monogodb-云数据库)
+    * [Redis 云数据库](#redis-云数据库)
+    * [CDN 内容分发式网络](#cdn-内容分发式网络)
+    * [BWP 带宽包](#bwp-带宽包)
+    * [CKAFKA 消息队列](#ckafka-消息队列)
+    * [LB 弹性公网IP](#lb-弹性公网ip)
+    * [CFS 文件存储](#cfs-文件存储)
+    * [SCF 云函数](#scf-云函数)
+  * [模板变量](#模板变量)
+    * [创建变量](#创建变量)
+    * [编辑变量](#编辑变量)
+    * [应用变量](#应用变量)
+  * [本地开发](#本地开发)
+    * [Docker 支持 (推荐)](#docker-支持-推荐)
+    * [在本地 Grafana上运行](#在本地-grafana上运行)
+  * [许可证](#许可证)
+  * [联系我们](#联系我们)
 
 # 简介
 
@@ -72,16 +81,36 @@
 - 提供了云服务器、云数据库 MySQL、负载均衡 等具有代表性的 [Dashboard 模板](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/tree/master/src/dashboards)
 - 更多云产品的监控指标数据源在陆续完善中
 
-# 插件安装方式
+# 安装与更新
 
-前置条件：腾讯云监控应用插件是运行在 Grafana 6.x 或更新的版本上，请优先安装 Grafana 环境，详情参考 [Grafana 安装文档](https://grafana.com/grafana/download)。
+此插件有多种安装方式，请选择下面任意一种方式安装。
 
-1. 确保本地的 Grafana 是 6.x 或更新的版本上；  
-2. 在 [GitHub Releases](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/releases) 中下载最新版本的腾讯云监控应用插件代码，（资源名为`tencentcloud-monitor-app-[x.x.x].zip`），并将解压后的代码放置在 Grafana 的插件目录下 (`${GRAFANA_HOME}/data/plugins`), 点击[这里](https://grafana.com/docs/grafana/latest/administration/configuration/#plugins)查看关于插件目录的更多文档；
-3. 重启 Grafana 服务；
-4. 鼠标悬浮左侧导航栏的 **齿轮** 图标，点击 `Plugins` 选项，进入 Plugins 管理页面，如果插件列表中正常展示 `Tencent Cloud Monitor` APP 插件，表示插件安装成功；
-  ![Plugin APP](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/plugin-app.png?raw=true)
-5. 进入应用详情页面，点击 `Enable` 按钮，启用成功后，即可在 Grafana 中使用腾讯云监控应用插件。
+> 前置条件：腾讯云监控应用插件是运行在 Grafana 6.x 或更新的版本上，请优先安装 Grafana 环境，详情参考 [Grafana 安装文档](https://grafana.com/grafana/download)。
+
+
+## 使用 tc-monitor-cli
+
+tc-monitor-cli 是基于 [grafana-cli](http://docs.grafana.org/plugins/installation/#installing-plugins-manually) 进行封装的脚本，使用方式如下：
+
+### 安装
+
+1. 在命令行中运行 `./bin/tc-monitor-cli install ${version (optional)}` 后重启 Grafana 服务；如需指定版本安装则在后面加上版本号，如：`./bin/tc-monitor-cli install 1.4.1`，所有版本号可在 [GitHub Releases](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/releases) 中查看。
+2. 鼠标悬浮左侧导航栏的 **齿轮** 图标，点击 `Plugins` 选项，进入 Plugins 管理页面，如果插件列表中正常展示 `Tencent Cloud Monitor` APP 插件，表示插件安装成功；
+3. 进入应用详情页面，点击 `Enable` 按钮，启用成功后，即可在 Grafana 中使用腾讯云监控应用插件。
+
+### 更新
+
+在更新前脚本会将当前版本进行备份，在命令行中运行 `./bin/tc-monitor-cli upgrade` 后重启 Grafana 服务；
+
+### 回滚
+
+如需回滚至更新之前的版本，可以在命令行中运行 `./bin/tc-monitor-cli rollback` 后重启 Grafana 服务；
+
+## 使用 zip 解压至插件目录
+1. 在 [GitHub Releases](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/releases) 中下载最新版本的腾讯云监控应用插件代码，（资源名为`tencentcloud-monitor-app-[x.x.x].zip`），并将解压后的代码放置在 Grafana 的插件目录下，默认为 `${GRAFANA_HOME}/data/plugins`，用户可在 `${GRAFANA_HOME}/conf/default.ini` 或者 `${GRAFANA_HOME}/conf/custom.ini` 中配置插件的目录。文件 plugins = 指定插件目录下。 点击[这里](https://grafana.com/docs/grafana/latest/administration/configuration/#plugins)查看关于插件目录的更多文档；
+2. 重启 Grafana 服务；
+3. 鼠标悬浮左侧导航栏的 **齿轮** 图标，点击 `Plugins` 选项，进入 Plugins 管理页面，如果插件列表中正常展示 `Tencent Cloud Monitor` APP 插件，表示插件安装成功；
+4. 进入应用详情页面，点击 `Enable` 按钮，启用成功后，即可在 Grafana 中使用腾讯云监控应用插件。
 
 # 配置数据源
 
@@ -399,3 +428,9 @@ $ docker-compose up
 
 # 许可证
 腾讯云监控应用插件在 [Apache License 2.0](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/LICENSE) 许可证下提供。
+
+# 联系我们
+
+若在使用过程中遇到任何问题，您可以在此[创建 issue](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/issues/new/choose)，或者扫码添加 云监控插件@Grafana 使用交流QQ群（861359693），我们将竭诚为您服务！
+
+![QQ-QRCode](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/QQ-QRCode.png)

@@ -1,6 +1,16 @@
 # TencentCloud Monitor Grafana App
 ---
 
+## [1.4.3] - 2021-03-10
+
+### Added
+
+- [`tc-monitor-cli`](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/bin/tc-monitor-cli) for plugin's installation, upgrade and rollback.
+
+See detailed guide in [README.md](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/README.md).
+
+---
+
 ## [1.4.2] - 2021-03-08
 
 ### Added
