@@ -1,5 +1,6 @@
 # Tencent Cloud Monitor Grafana App
 
+
 <p>
   <a href="https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/releases">
     <img src="https://img.shields.io/github/v/release/TencentCloud/tencentcloud-monitor-grafana-app?sort=semver&color=green" alt="GitHub release (latest SemVer)">
@@ -15,38 +16,47 @@
   </a>
 </p>
 
+
+![Plugin APP](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/plugin-app.png?raw=true)
+
 English | [简体中文](./README.md)
 
 # Table of Contents
 
-   * [Tencent Cloud Monitor Grafana App](#tencent-cloud-monitor-grafana-app)
-   * [Introduction](#introduction)
-   * [Installation](#installation)
-   * [Configure Datasource](#configure-datasource)
-   * [Create Dashboard](#create-dashboard)
-      * [Quick Creation](#quick-creation)
-      * [Dashboards Manage Page](#dashboards-manage-page)
-      * [Import Dashboard Templates](#import-dashboard-templates)
-   * [Configure Panel](#configure-panel)
-      * [CVM Monitoring](#cvm-monitoring)
-      * [CDB Monitoring](#cdb-monitoring)
-      * [CLB Monitoring](#clb-monitoring)
-      * [TencentDB for MongoDB](#tencentdb-for-mongodb)
-      * [TencentDB for Redis](#tencentdb-for-redis)
-      * [Content Delivery Network (CDN)](#content-delivery-network-cdn)
-      * [Bandwidth Packet](#bandwidth-packet)
-      * [Message Queue CKafka](#message-queue-ckafka)
-      * [Elastic IP](#elastic-ip)
-      * [Cloud File Storage (CFS)](#cloud-file-storage-cfs)
-      * [Serverless Cloud Function (SCF)](#serverless-cloud-function-scf)
-   * [Template Variables](#template-variables)
-      * [Create Template Variable](#create-template-variable)
-      * [Edit Template Variable](#edit-template-variable)
-      * [Use Template Variable](#use-template-variable)
-   * [Local Development](#local-development)
-      * [Docker Support (Recommended)](#docker-support-recommended)
-      * [On Local Grafana](#on-local-grafana)
-   * [License](#license)
+  * [Tencent Cloud Monitor Grafana App](#tencent-cloud-monitor-grafana-app)
+  * [Introduction](#introduction)
+  * [Get Started](#get-started)
+    * [Use tc-monitor-cli](#use-tc-monitor-cli)
+      * [Install](#install)
+      * [Upgrade](#upgrade)
+      * [Rollback](#rollback)
+    * [Copy zip files into the plugin directory](#copy-zip-files-into-the-plugin-directory)
+  * [Configure Datasource](#configure-datasource)
+  * [Create Dashboard](#create-dashboard)
+    * [Quick Creation](#quick-creation)
+    * [Dashboards Manage Page](#dashboards-manage-page)
+    * [Import Dashboard Templates](#import-dashboard-templates)
+  * [Configure Panel](#configure-panel)
+    * [CVM Monitoring](#cvm-monitoring)
+    * [CDB Monitoring](#cdb-monitoring)
+    * [CLB Monitoring](#clb-monitoring)
+    * [TencentDB for MongoDB](#tencentdb-for-mongodb)
+    * [TencentDB for Redis](#tencentdb-for-redis)
+    * [Content Delivery Network (CDN)](#content-delivery-network-cdn)
+    * [Bandwidth Packet](#bandwidth-packet)
+    * [Message Queue CKafka](#message-queue-ckafka)
+    * [Elastic IP](#elastic-ip)
+    * [Cloud File Storage (CFS)](#cloud-file-storage-cfs)
+    * [Serverless Cloud Function (SCF)](#serverless-cloud-function-scf)
+  * [Template Variables](#template-variables)
+    * [Create Template Variable](#create-template-variable)
+    * [Edit Template Variable](#edit-template-variable)
+    * [Use Template Variable](#use-template-variable)
+  * [Local Development](#local-development)
+    * [Docker Support (Recommended)](#docker-support-recommended)
+    * [On Local Grafana](#on-local-grafana)
+  * [License](#license)
+  * [Contact Us](#contact-us)
 
 # Introduction
 
@@ -71,9 +81,31 @@ English | [简体中文](./README.md)
 - Provides representative [Dashboard templates](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/tree/master/src/dashboards) for **CVM Monitoring**, **TencentDB for MySQL Monitoring** and **Cloud Load Balancer** etc.
 - More cloud product metrics are being improved.
 
-# Installation
+# Get Started
 
-Prerequisites: Tencent Cloud Monitor Grafana App Plugin requires Grafana version > 6.x to run, for Grafana installation, please read [Download Grafana](https://grafana.com/grafana/download).
+There are multiple ways to install tencentcloud-monitor-grafana-app, please choose one of the methods below.
+
+> Prerequisites: Tencent Cloud Monitor Grafana App Plugin requires Grafana version > 6.x to run, for Grafana installation, please read [Download Grafana](https://grafana.com/grafana/download).
+
+## Use tc-monitor-cli
+
+tc-monitor-cli 是基于 [grafana-cli](http://docs.grafana.org/plugins/installation/#installing-plugins-manually) 进行封装的脚本，使用方式如下：
+
+### Install
+
+1. Run `./bin/tc-monitor-cli install ${version (optional)}` in the command line and restart the Grafana Server. If specified version needed, add `${version}` after the command, e.g. `./bin/tc-monitor-cli install 1.4.1` for version 1.4.1, All versions can be seen here in [GitHub Releases](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/releases).
+2. Hover **Settings Icon** in the side menu and select `Plugins`. Successfully installed if the `Tencent Cloud Monitor` APP plugin is displayed in the plugin list.
+3. Click `Enable` in the plugin config page.
+
+### Upgrade
+
+The Shell script will backup before running the upgrade procedure, run `./bin/tc-monitor-cli upgrade` in the command line and restart the Grafana Server.
+
+### Rollback
+
+If you don't like the latest version of the plugin and wish to rollback to the previous verison before updation, please run `./bin/tc-monitor-cli rollback` in the command line and restart the Grafana Server.
+
+## Copy zip files into the plugin directory
 
 1. Go to the [GitHub releases](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/releases) and find the latest release.
 2. Download .zip package with the plugin from release assets (asset name is tencentcloud-monitor-app-[x.x.x].zip) and unpack it into Grafana's plugins folder (`${GRAFANA_HOME}/data/plugins`), see docs [here](https://grafana.com/docs/grafana/latest/administration/configuration/#plugins) if you can't find your plugin folder.
@@ -391,3 +423,9 @@ Alternately, you can clone this repository into your Grafana Plugin directory an
 
 # License
 Tencent Cloud Monitor Grafana App is delivered under the [Apache License 2.0](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/LICENSE)
+
+# Contact Us
+
+If you have any questions using this app, you are welcome to [create an issue](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/issues/new/choose) or to scan the QR code below to add QQ group chat (861359693):
+
+![QQ-QRCode](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/QQ-QRCode.png)
