@@ -89,21 +89,65 @@ There are multiple ways to install tencentcloud-monitor-grafana-app, please choo
 
 ## Use tc-monitor-cli
 
-tc-monitor-cli 是基于 [grafana-cli](http://docs.grafana.org/plugins/installation/#installing-plugins-manually) 进行封装的脚本，使用方式如下：
+[tc-monitor-cli](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/bin/tc-monitor-cli) is a script encapsulated based on [grafana-cli](http://docs.grafana.org/plugins/installation/#installing-plugins-manually) and is used as follows:
 
 ### Install
 
-1. Run `./bin/tc-monitor-cli install ${version (optional)}` in the command line and restart the Grafana Server. If specified version needed, add `${version}` after the command, e.g. `./bin/tc-monitor-cli install 1.4.1` for version 1.4.1, All versions can be seen here in [GitHub Releases](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/releases).
-2. Hover **Settings Icon** in the side menu and select `Plugins`. Successfully installed if the `Tencent Cloud Monitor` APP plugin is displayed in the plugin list.
-3. Click `Enable` in the plugin config page.
+You may either download and run the [script](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/bin/tc-monitor-cli) manually, or use the following cURL or Wget command:
+
+```bash
+$ curl -o- https://raw.githubusercontent.com/TencentCloud/tencentcloud-monitor-grafana-app/master/bin/tc-monitor-cli | bash -s install
+```
+
+```bash
+$ wget -qO- https://raw.githubusercontent.com/TencentCloud/tencentcloud-monitor-grafana-app/master/bin/tc-monitor-cli | bash -s install
+```
+Running either of the above commands downloads a script and install the latest version of the plugin. If specific version needed for installation, you just have to add the version after the command, for example version `1.4.0`:
+
+```bash
+$ curl -o- https://raw.githubusercontent.com/TencentCloud/tencentcloud-monitor-grafana-app/master/bin/tc-monitor-cli | bash -s install 1.4.0
+```
+All versions can be seen here in [GitHub Releases](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/releases).
+
+After the installation, you need to restart the Grafana Server. Then, hover **Settings Icon** in the side menu and select `Plugins`. Successfully installed if the `Tencent Cloud Monitor` APP plugin is displayed in the plugin list. Click `Enable` in the plugin config page.
 
 ### Upgrade
 
-The Shell script will backup before running the upgrade procedure, run `./bin/tc-monitor-cli upgrade` in the command line and restart the Grafana Server.
+The Shell script will backup before running the upgrade procedure. You can run any of the following commands to update the plugin to the latest version:
+
+```bash
+$ curl -o- https://raw.githubusercontent.com/TencentCloud/tencentcloud-monitor-grafana-app/master/bin/tc-monitor-cli | bash -s upgrade
+```
+
+```bash
+$ wget -qO- https://raw.githubusercontent.com/TencentCloud/tencentcloud-monitor-grafana-app/master/bin/tc-monitor-cli | bash -s upgrade
+```
+
+Restart Grafana after the upgrade.
 
 ### Rollback
 
-If you don't like the latest version of the plugin and wish to rollback to the previous verison before updation, please run `./bin/tc-monitor-cli rollback` in the command line and restart the Grafana Server.
+If you don't like the latest version of the plugin and wish to rollback to the previous verison before updation, you can run any of the following commands to rollback the plugin to the most recent version:
+
+```bash
+$ curl -o- https://raw.githubusercontent.com/TencentCloud/tencentcloud-monitor-grafana-app/master/bin/tc-monitor-cli | bash -s rollback
+```
+
+```bash
+$ wget -qO- https://raw.githubusercontent.com/TencentCloud/tencentcloud-monitor-grafana-app/master/bin/tc-monitor-cli | bash -s rollback
+```
+
+### More Options
+
+You can read more options by running help command below:
+
+```bash
+$ curl -o- https://raw.githubusercontent.com/TencentCloud/tencentcloud-monitor-grafana-app/master/bin/tc-monitor-cli | bash -s -- --help
+```
+
+```bash
+$ wget -qO- https://raw.githubusercontent.com/TencentCloud/tencentcloud-monitor-grafana-app/master/bin/tc-monitor-cli | bash -s -- --help
+```
 
 ## Copy zip files into the plugin directory
 

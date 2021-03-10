@@ -90,21 +90,65 @@
 
 ## 使用 tc-monitor-cli
 
-tc-monitor-cli 是基于 [grafana-cli](http://docs.grafana.org/plugins/installation/#installing-plugins-manually) 进行封装的脚本，使用方式如下：
+[tc-monitor-cli](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/bin/tc-monitor-cli) 是基于 [grafana-cli](http://docs.grafana.org/plugins/installation/#installing-plugins-manually) 进行封装的脚本，使用方式如下：
 
 ### 安装
 
-1. 在命令行中运行 `./bin/tc-monitor-cli install ${version (optional)}` 后重启 Grafana 服务；如需指定版本安装则在后面加上版本号，如：`./bin/tc-monitor-cli install 1.4.1`，所有版本号可在 [GitHub Releases](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/releases) 中查看。
-2. 鼠标悬浮左侧导航栏的 **齿轮** 图标，点击 `Plugins` 选项，进入 Plugins 管理页面，如果插件列表中正常展示 `Tencent Cloud Monitor` APP 插件，表示插件安装成功；
-3. 进入应用详情页面，点击 `Enable` 按钮，启用成功后，即可在 Grafana 中使用腾讯云监控应用插件。
+您可以手动下载并运行[此脚本](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/bin/tc-monitor-cli)，也可以使用以下 cURL 或 Wget 命令进行安装：
+
+```bash
+$ curl -o- https://raw.githubusercontent.com/TencentCloud/tencentcloud-monitor-grafana-app/master/bin/tc-monitor-cli | bash -s install
+```
+
+```bash
+$ wget -qO- https://raw.githubusercontent.com/TencentCloud/tencentcloud-monitor-grafana-app/master/bin/tc-monitor-cli | bash -s install
+```
+运行以上任一命令将下载一个脚本并安装最新版本的插件。如需安装指定版本的插件，只需在命令最后加上版本号即可，如需安装 1.4.0 版本可运行：
+
+```bash
+$ curl -o- https://raw.githubusercontent.com/TencentCloud/tencentcloud-monitor-grafana-app/master/bin/tc-monitor-cli | bash -s install 1.4.0
+```
+所有版本号可在 [GitHub Releases](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/releases) 中查看。
+
+安装后需重启并打开 Grafana，鼠标悬浮左侧导航栏的 **齿轮** 图标，点击 `Plugins` 选项，进入 Plugins 管理页面，如果插件列表中正常展示 `Tencent Cloud Monitor` APP 插件，表示插件安装成功。您可以进入应用详情页面，点击 `Enable` 按钮，启用此插件。
 
 ### 更新
 
-在更新前脚本会将当前版本进行备份，在命令行中运行 `./bin/tc-monitor-cli upgrade` 后重启 Grafana 服务；
+在更新前脚本会将当前版本进行备份，您可运行以下任一命令更新插件至最新版本：
+
+```bash
+$ curl -o- https://raw.githubusercontent.com/TencentCloud/tencentcloud-monitor-grafana-app/master/bin/tc-monitor-cli | bash -s upgrade
+```
+
+```bash
+$ wget -qO- https://raw.githubusercontent.com/TencentCloud/tencentcloud-monitor-grafana-app/master/bin/tc-monitor-cli | bash -s upgrade
+```
+
+更新后重启 Grafana 即可。
 
 ### 回滚
 
-如需回滚至更新之前的版本，可以在命令行中运行 `./bin/tc-monitor-cli rollback` 后重启 Grafana 服务；
+如需回滚至更新之前的版本，可运行以下任一命令回滚插件至最近一次的版本：
+
+```bash
+$ curl -o- https://raw.githubusercontent.com/TencentCloud/tencentcloud-monitor-grafana-app/master/bin/tc-monitor-cli | bash -s rollback
+```
+
+```bash
+$ wget -qO- https://raw.githubusercontent.com/TencentCloud/tencentcloud-monitor-grafana-app/master/bin/tc-monitor-cli | bash -s rollback
+```
+
+### 更多选项
+
+更多参数可运行如下命令查看 help：
+
+```bash
+$ curl -o- https://raw.githubusercontent.com/TencentCloud/tencentcloud-monitor-grafana-app/master/bin/tc-monitor-cli | bash -s -- --help
+```
+
+```bash
+$ wget -qO- https://raw.githubusercontent.com/TencentCloud/tencentcloud-monitor-grafana-app/master/bin/tc-monitor-cli | bash -s -- --help
+```
 
 ## 使用 zip 解压至插件目录
 1. 在 [GitHub Releases](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/releases) 中下载最新版本的腾讯云监控应用插件代码，（资源名为`tencentcloud-monitor-app-[x.x.x].zip`），并将解压后的代码放置在 Grafana 的插件目录下，默认为 `${GRAFANA_HOME}/data/plugins`，用户可在 `${GRAFANA_HOME}/conf/default.ini` 或者 `${GRAFANA_HOME}/conf/custom.ini` 中配置插件的目录。文件 plugins = 指定插件目录下。 点击[这里](https://grafana.com/docs/grafana/latest/administration/configuration/#plugins)查看关于插件目录的更多文档；
