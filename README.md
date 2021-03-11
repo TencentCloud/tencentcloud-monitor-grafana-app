@@ -141,6 +141,16 @@ $ wget -qO- https://raw.githubusercontent.com/TencentCloud/tencentcloud-monitor-
 
 ### 更多选项
 
+如果修改过 Grafana 插件的目录，可使用 `--pluginsDir` 参数传递，如：
+
+```bash
+$ curl -o- https://raw.githubusercontent.com/TencentCloud/tencentcloud-monitor-grafana-app/master/bin/tc-monitor-cli | bash -s -- --pluginsDir /your/grafana/data/plugins
+```
+
+```bash
+$ wget -qO- https://raw.githubusercontent.com/TencentCloud/tencentcloud-monitor-grafana-app/master/bin/tc-monitor-cli | bash -s -- --pluginsDir /your/grafana/data/plugins
+```
+
 更多参数可运行如下命令查看 help：
 
 ```bash
@@ -478,4 +488,4 @@ $ docker-compose up
 
 若在使用过程中遇到任何问题，您可以在此[创建 issue](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/issues/new/choose)，或者扫码添加 云监控插件@Grafana 使用交流QQ群（861359693），我们将竭诚为您服务！
 
-![QQ-QRCode](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/QQ-QRCode.png)
+<img src="https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/QQ-QRCode.png" alt="QQ-QRCode" width="300">

@@ -140,6 +140,16 @@ $ wget -qO- https://raw.githubusercontent.com/TencentCloud/tencentcloud-monitor-
 
 ### More Options
 
+If you modified your Grafana plugins directory to another folder, you can use the `--pluginsDir` param, for example:
+
+```bash
+$ curl -o- https://raw.githubusercontent.com/TencentCloud/tencentcloud-monitor-grafana-app/master/bin/tc-monitor-cli | bash -s -- --pluginsDir /your/grafana/data/plugins
+```
+
+```bash
+$ wget -qO- https://raw.githubusercontent.com/TencentCloud/tencentcloud-monitor-grafana-app/master/bin/tc-monitor-cli | bash -s -- --pluginsDir /your/grafana/data/plugins
+```
+
 You can read more options by running help command below:
 
 ```bash
@@ -473,4 +483,4 @@ Tencent Cloud Monitor Grafana App is delivered under the [Apache License 2.0](ht
 
 If you have any questions using this app, you are welcome to [create an issue](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/issues/new/choose) or to scan the QR code below to add QQ group chat (861359693):
 
-![QQ-QRCode](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/QQ-QRCode.png)
+<img src="https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/QQ-QRCode.png" alt="QQ-QRCode" width="300">
