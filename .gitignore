@@ -1,6 +1,18 @@
+# Operating System files
 .DS_Store
+
+# Dependency directories
 node_modules/
+
+# Optional npm cache directory
+.npm
+
+# personal IDE config files
 .vscode/
+.idea/
+
+# test coverage
 coverage/
-tmp/
+
+# lock files
 package-lock.json

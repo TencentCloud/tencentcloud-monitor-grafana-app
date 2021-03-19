@@ -10,7 +10,7 @@ conf.plugins.push(new NgAnnotatePlugin());
 conf.plugins.push(
   new UglifyJSPlugin({
     sourceMap: true,
-  })
+  }),
 );
 conf.plugins.push(new webpackBundleAnalyzer.BundleAnalyzerPlugin());
 
