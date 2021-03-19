@@ -9,7 +9,7 @@ conf.plugins.push(new NgAnnotatePlugin());
 conf.plugins.push(
   new UglifyJSPlugin({
     sourceMap: true,
-  })
+  }),
 );
 
 module.exports = conf;
