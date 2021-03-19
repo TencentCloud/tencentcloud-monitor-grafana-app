@@ -1,7 +1,8 @@
-# Tencent Cloud Monitor Grafana App
+<p align="center">
+  <a href="https://github.com/TencentCloud/tencentcloud-monitor-grafana-app"><img src="https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/plugin-app.png?raw=true" /></a>
+</p>
 
-
-<p>
+<p align="center">
   <a href="https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/releases">
     <img src="https://img.shields.io/github/v/release/TencentCloud/tencentcloud-monitor-grafana-app?sort=semver&color=green" alt="GitHub release (latest SemVer)">
   </a>
@@ -14,16 +15,21 @@
   <a href="#">
     <img src="https://img.shields.io/github/languages/code-size/TencentCloud/tencentcloud-monitor-grafana-app" alt="GitHub code size in bytes">
   </a>
+  <a href="https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/pulls">
+    <img alt="PRs Welcome" src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg">
+  </a>
 </p>
 
+<h1 align="center">Tencent Cloud Monitor Grafana App</h1>
 
-![Plugin APP](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/plugin-app.png?raw=true)
-
-English | [简体中文](./README.md)
+<p align="center">
+  English
+  |
+  <a href="./README.md">简体中文</a>
+</p>
 
 # Table of Contents
 
-  * [Tencent Cloud Monitor Grafana App](#tencent-cloud-monitor-grafana-app)
   * [Introduction](#introduction)
   * [Get Started](#get-started)
     * [Use tc-monitor-cli](#use-tc-monitor-cli)
@@ -56,8 +62,10 @@ English | [简体中文](./README.md)
   * [Local Development](#local-development)
     * [Docker Support (Recommended)](#docker-support-recommended)
     * [On Local Grafana](#on-local-grafana)
-  * [License](#license)
   * [Contact Us](#contact-us)
+  * [Contributors ✨](#contributors)
+  * [Contribution Guide](#contribution-guide)
+  * [License](#license)
 
 # Introduction
 
@@ -401,24 +409,24 @@ Notes: All Instance Queries allow customizing dropdown list values by `display` 
 
 The template variables that have been provided are shown in the following table:
 
-Variable | Example | Description |
--------- | ------- | ----------- |
-Region               |  Namespace=QCE/CVM&Action=DescribeRegions | Please refer to [Region API Documents](https://intl.cloud.tencent.com/document/product/213/15708). `Action` is fixed as `DescribeRegions`, `Namespace` is the unique namespace for each cloud products, e.g. `QCE/CVM` `QCE/CDB` etc. Region support single-selected as a template variable, The first region will be selected if multi-selected region or selected `All`.
-CVM instances         |   Namespace=QCE/CVM&Region=ap-beijing&Action=DescribeInstances&InstanceAlias=PublicIpAddresses | Please refer to [CVM Instance Documents](https://intl.cloud.tencent.com/document/product/213/33258). `Namespace` is fixed as`QCE/CVM`, `Action` is fixed as `DescribeInstances`. `Region` can be specific value such as `ap-beijing`, or a template variable, such as `$region`. `InstanceAlias`is default as `InstanceId`, can be selected as `InstanceName`、`PrivateIpAddresses`、`PublicIpAddresses`. CVM instance allow single-selected and multi-selected when using template variable. 
-TencentDB for MySQL instances  |  Namespace=QCE/CDB&Region=ap-beijing&Action=DescribeInstances&InstanceAlias=InstanceId | Please refer to [TencentDB for MySQL Instance Documents](https://intl.cloud.tencent.com/document/api/236/15872). `Namespace` is fixed as`QCE/CDB`, `Action` is fixed as`DescribeInstances`. `Region` can be specific value such as `ap-beijing`, or a template variable, such as `$region`. `InstanceAlias`is default as `InstanceId`, can be selected as `InstanceName`、`Vip`. CDB MySQL instance allow single-selected and multi-selected when using template variable. 
- TencentDB for PostgreSQL instances  |  Namespace=QCE/POSTGRES&Region=ap-beijing&Action=DescribeInstances&InstanceAlias=DBInstanceId | Please refer to [TencentDB for PostgreSQL Instance Documents](https://intl.cloud.tencent.com/document/api/409/16773). `Namespace` is fixed as`QCE/CDB`, `Action` is fixed as`DescribeInstances`. `Region` can be specific value such as `ap-beijing`, or a template variable, such as `$region`. `InstanceAlias`is default as `DBInstanceId`, can be selected as `DBInstanceName`, `PrivateIpAddresses`, `PublicIpAddresses`. CDB PostgreSQL instance allow single-selected and multi-selected when using template variable. 
-Private Network NAT Gateway instances  |  Namespace=QCE/NAT_GATEWAY&Region=ap-beijing&Action=DescribeInstances&InstanceAlias=NatGatewayId | Please refer to [Private Network NAT Gateway Instance Documents](https://intl.cloud.tencent.com/document/api/215/34752). `Namespace` is fixed as`QCE/NAT_GATEWAY`, `Action` is fixed as`DescribeInstances`. `Region` can be specific value such as `ap-beijing`, or a template variable, such as `$region`. `InstanceAlias` is default as `NatGatewayId`, can be selected as `NatGatewayName`. Private Network Nat Gateway instance allow single-selected and multi-selected when using template variable. 
-Private Network Peering Connection instances  |  Namespace=QCE/PCX&Region=ap-beijing&Action=DescribeInstances&InstanceAlias=peeringConnectionId | Please refer to [Private Network Peering Connection Instance Documents](https://intl.cloud.tencent.com/document/product/215/2101). `Namespace` is fixed as`QCE/PCX`, `Action` is fixed as`DescribeInstances`. `Region` can be specific value such as `ap-beijing`, or a template variable, such as `$region`. `InstanceAlias`is default as `peeringConnectionId`, can be selected as `peeringConnectionName`. Peering Connection instance allow single-selected and multi-selected when using template variable (use multi listeners for Cloud Load Balance). 
-Cloud Load Balancer Private Network Layer-4 Protocol instances  |  Namespace=QCE/LB_PRIVATE&Action=DescribeInstances&Region=$region&InstanceAlias=LoadBalancerId | Please refer to [Cloud Load Balancer Instance Documents](https://intl.cloud.tencent.com/document/product/214/33830). `Namespace` can be `QCE/LB_PRIVATE`, `QCE/LB_PUBLIC`, `QCE/LOADBALANCE`, `Action` is fixed as`DescribeInstances`. `Region` can be specific value such as `ap-guangzhou`, or a template variable, such as `$region`. `InstanceAlias`is default as `LoadBalancerId`, can be selected as `LoadBalancerName`, `LoadBalancerVips`, allowing single-selected and multi-selected. 
-Cloud Load Balancer Private Network Layer-4 Protocol listeners  |  Namespace=QCE/LB_PRIVATE&Action=DescribeListeners&Region=$region&Instance=$instance&listenerAlias=ListenerId | Please refer to [Cloud Load Balancer Listener Documents](https://intl.cloud.tencent.com/document/product/214/33831). `Namespace` can be `QCE/LB_PRIVATE`, `QCE/LB_PUBLIC`, `QCE/LOADBALANCE`, `Action` is fixed as`DescribeListeners`. `Region` can be specific value such as `ap-guangzhou`, or a template variable, such as `$region`. `Instance` is an instance ID, can be specific value such as `lbl-rbw529fz`, or a template variable, such as `$instance`. `listenerAlias` is default as `ListenerId`, can be selected as `ListenerName`, `Port`, allowing single-selected and multi-selected.
-TencentDB for MongoDB  |  Namespace=QCE/CMONGO&Region=$region&Action=DescribeDBInstances | Please refer to [TencentDB for MongoDB Instance Documents](https://intl.cloud.tencent.com/document/api/240/34702). `Namespace` is fixed as `QCE/CMONGO`, `Action` is fixed as `DescribeDBInstances`. `Region` can be specific value such as `ap-beijing`, or a template variable, such as `$region`. `InstanceAlias`is default as `InstanceId`, can be selected as `InstanceName`. CMONGO instance allow single-selected and multi-selected when using template variable.
-TencentDB for Redis  |  Namespace=QCE/REDIS&Region=$region&Action=DescribeInstances | Please refer to [TencentDB for Redis Instance Documents](https://intl.cloud.tencent.com/document/api/213/33258). `Namespace` is fixed as `QCE/REDIS`, `Action` is fixed as `DescribeInstances`. `Region` can be specific value such as `ap-beijing`, or a template variable, such as `$region`. `InstanceAlias`is default as `InstanceId`, can be selected as `InstanceName`. REDIS instance allow single-selected and multi-selected when using template variable. 
-Content Delivery Network (CDN)  |  Namespace=QCE/CDN&Region=$region&Action=DescribeDomains | Please refer to [CDN Instance Documents](https://intl.cloud.tencent.com/document/api/228/34020). `Namespace` is fixed as `QCE/CDN`, `Action` is fixed as `DescribeDomains`. `Region` can be specific value such as `ap-beijing`, or a template variable, such as `$region`. `InstanceAlias`is default as `Domain`, can be selected as `Domain`, `ProjectId`. CDN instance allow single-selected and multi-selected when using template variable.
-Bandwidth Packet  |   Namespace=QCE/BWP&Region=$region&Action=DescribeBandwidthPackages | Please refer to [BWP Instance Documents](https://intl.cloud.tencent.com/document/api/215/36919). `Namespace` is fixed as `QCE/BWP`, `Action` is fixed as `DescribeBandwidthPackages`. `Region` can be specific value such as `ap-beijing`, or a template variable, such as `$region`. `InstanceAlias`is default as `BandwidthPackageId`, can be selected as `BandwidthPackageId`, `BandwidthPackageName`. BWP instance allow single-selected and multi-selected when using template variable.
-Message Queue CKafka  |  Namespace=QCE/CKAFKA&Region=$region&Action=DescribeInstances | Please refer to [Message Queue CKafka Instance Documents](https://intl.cloud.tencent.com/document/api/597/35357). `Namespace` is fixed as `QCE/CKAFKA`, `Action` is fixed as `DescribeInstances`. `Region` can be specific value such as `ap-beijing`, or a template variable, such as `$region`.  `InstanceAlias`is default as `InstanceId`, can be selected as `InstanceName`. CKAFKA instance allow single-selected and multi-selected when using template variable.
-Elastic IP  |  Namespace=QCE/LB&Region=$region&Action=DescribeAddresses | Please refer to [Instance Documents](https://intl.cloud.tencent.com/document/api/215/16702). `Namespace` is fixed as `QCE/LB`, `Action` is fixed as `DescribeAddresses`. `Region` can be specific value such as `ap-beijing`, or a template variable, such as `$region`.  `InstanceAlias`is default as `AddressId`, can be selected as `AddressId`, `AddressName`, `AddressIp`. EIP instance allow single-selected and multi-selected when using template variable.
-Cloud File Storage  |  Namespace=QCE/CFS&Region=$region&Action=DescribeCfsFileSystems | Please refer to [Instance Documents](https://intl.cloud.tencent.com/document/api/582/34514). `Namespace` is fixed as `QCE/CFS`, `Action` is fixed as `DescribeCfsFileSystems`. `Region` can be specific value such as `ap-beijing`, or a template variable, such as `$region`.  `InstanceAlias`is default as `FileSystemId`, can be selected as `FileSystemId`, `FsName`. CFS instance allow single-selected and multi-selected when using template variable.
-Serverless Cloud Function  |  Namespace=QCE/SCF_V2&Region=$region&Action=ListFunctions | Please refer to [Instance Documents](https://intl.cloud.tencent.com/document/api/583/18582). `Namespace` is fixed as `QCE/SCF_V2`, `Action` is fixed as `ListFunctions`. `Region` can be specific value such as `ap-beijing`, or a template variable, such as `$region`.  `InstanceAlias`is default as `FunctionId`, can be selected as `FunctionId`, `FunctionName`. SCF instance allow single-selected and multi-selected when using template variable.
+Variable | Description | Example |
+-------- | ----------- | ------- |
+Region                                                          | Please refer to [Region API Documents](https://intl.cloud.tencent.com/document/product/213/15708). `Action` is fixed as `DescribeRegions`, `Namespace` is the unique namespace for each cloud products, e.g. `QCE/CVM` `QCE/CDB` etc. Region support single-selected as a template variable, The first region will be selected if multi-selected region or selected `All`. |  Namespace=QCE/CVM&Action=DescribeRegions
+CVM instances                                                   | Please refer to [CVM Instance Documents](https://intl.cloud.tencent.com/document/product/213/33258). `Namespace` is fixed as`QCE/CVM`, `Action` is fixed as `DescribeInstances`. `Region` can be specific value such as `ap-beijing`, or a template variable, such as `$region`. `InstanceAlias`is default as `InstanceId`, can be selected as `InstanceName`、`PrivateIpAddresses`、`PublicIpAddresses`. CVM instance allow single-selected and multi-selected when using template variable.  |   Namespace=QCE/CVM&Region=ap-beijing&Action=DescribeInstances&InstanceAlias=PublicIpAddresses
+TencentDB for MySQL instances                                   | Please refer to [TencentDB for MySQL Instance Documents](https://intl.cloud.tencent.com/document/api/236/15872). `Namespace` is fixed as`QCE/CDB`, `Action` is fixed as`DescribeInstances`. `Region` can be specific value such as `ap-beijing`, or a template variable, such as `$region`. `InstanceAlias`is default as `InstanceId`, can be selected as `InstanceName`、`Vip`. CDB MySQL instance allow single-selected and multi-selected when using template variable.  |  Namespace=QCE/CDB&Region=ap-beijing&Action=DescribeInstances&InstanceAlias=InstanceId
+ TencentDB for PostgreSQL instances                             | Please refer to [TencentDB for PostgreSQL Instance Documents](https://intl.cloud.tencent.com/document/api/409/16773). `Namespace` is fixed as`QCE/CDB`, `Action` is fixed as`DescribeInstances`. `Region` can be specific value such as `ap-beijing`, or a template variable, such as `$region`. `InstanceAlias`is default as `DBInstanceId`, can be selected as `DBInstanceName`, `PrivateIpAddresses`, `PublicIpAddresses`. CDB PostgreSQL instance allow single-selected and multi-selected when using template variable.  |  Namespace=QCE/POSTGRES&Region=ap-beijing&Action=DescribeInstances&InstanceAlias=DBInstanceId
+Private Network NAT Gateway instances                           | Please refer to [Private Network NAT Gateway Instance Documents](https://intl.cloud.tencent.com/document/api/215/34752). `Namespace` is fixed as`QCE/NAT_GATEWAY`, `Action` is fixed as`DescribeInstances`. `Region` can be specific value such as `ap-beijing`, or a template variable, such as `$region`. `InstanceAlias` is default as `NatGatewayId`, can be selected as `NatGatewayName`. Private Network Nat Gateway instance allow single-selected and multi-selected when using template variable.  |  Namespace=QCE/NAT_GATEWAY&Region=ap-beijing&Action=DescribeInstances&InstanceAlias=NatGatewayId
+Private Network Peering Connection instances                    | Please refer to [Private Network Peering Connection Instance Documents](https://intl.cloud.tencent.com/document/product/215/2101). `Namespace` is fixed as`QCE/PCX`, `Action` is fixed as`DescribeInstances`. `Region` can be specific value such as `ap-beijing`, or a template variable, such as `$region`. `InstanceAlias`is default as `peeringConnectionId`, can be selected as `peeringConnectionName`. Peering Connection instance allow single-selected and multi-selected when using template variable (use multi listeners for Cloud Load Balance).  |  Namespace=QCE/PCX&Region=ap-beijing&Action=DescribeInstances&InstanceAlias=peeringConnectionId
+Cloud Load Balancer Private Network Layer-4 Protocol instances  | Please refer to [Cloud Load Balancer Instance Documents](https://intl.cloud.tencent.com/document/product/214/33830). `Namespace` can be `QCE/LB_PRIVATE`, `QCE/LB_PUBLIC`, `QCE/LOADBALANCE`, `Action` is fixed as`DescribeInstances`. `Region` can be specific value such as `ap-guangzhou`, or a template variable, such as `$region`. `InstanceAlias`is default as `LoadBalancerId`, can be selected as `LoadBalancerName`, `LoadBalancerVips`, allowing single-selected and multi-selected.  |  Namespace=QCE/LB_PRIVATE&Action=DescribeInstances&Region=$region&InstanceAlias=LoadBalancerId
+Cloud Load Balancer Private Network Layer-4 Protocol listeners  | Please refer to [Cloud Load Balancer Listener Documents](https://intl.cloud.tencent.com/document/product/214/33831). `Namespace` can be `QCE/LB_PRIVATE`, `QCE/LB_PUBLIC`, `QCE/LOADBALANCE`, `Action` is fixed as`DescribeListeners`. `Region` can be specific value such as `ap-guangzhou`, or a template variable, such as `$region`. `Instance` is an instance ID, can be specific value such as `lbl-rbw529fz`, or a template variable, such as `$instance`. `listenerAlias` is default as `ListenerId`, can be selected as `ListenerName`, `Port`, allowing single-selected and multi-selected. |  Namespace=QCE/LB_PRIVATE&Action=DescribeListeners&Region=$region&Instance=$instance&listenerAlias=ListenerId
+TencentDB for MongoDB                                           | Please refer to [TencentDB for MongoDB Instance Documents](https://intl.cloud.tencent.com/document/api/240/34702). `Namespace` is fixed as `QCE/CMONGO`, `Action` is fixed as `DescribeDBInstances`. `Region` can be specific value such as `ap-beijing`, or a template variable, such as `$region`. `InstanceAlias`is default as `InstanceId`, can be selected as `InstanceName`. CMONGO instance allow single-selected and multi-selected when using template variable. |  Namespace=QCE/CMONGO&Region=$region&Action=DescribeDBInstances
+TencentDB for Redis                                             | Please refer to [TencentDB for Redis Instance Documents](https://intl.cloud.tencent.com/document/api/213/33258). `Namespace` is fixed as `QCE/REDIS`, `Action` is fixed as `DescribeInstances`. `Region` can be specific value such as `ap-beijing`, or a template variable, such as `$region`. `InstanceAlias`is default as `InstanceId`, can be selected as `InstanceName`. REDIS instance allow single-selected and multi-selected when using template variable.  |  Namespace=QCE/REDIS&Region=$region&Action=DescribeInstances
+Content Delivery Network (CDN)                                  | Please refer to [CDN Instance Documents](https://intl.cloud.tencent.com/document/api/228/34020). `Namespace` is fixed as `QCE/CDN`, `Action` is fixed as `DescribeDomains`. `Region` can be specific value such as `ap-beijing`, or a template variable, such as `$region`. `InstanceAlias`is default as `Domain`, can be selected as `Domain`, `ProjectId`. CDN instance allow single-selected and multi-selected when using template variable. |  Namespace=QCE/CDN&Region=$region&Action=DescribeDomains
+Bandwidth Packet                                                | Please refer to [BWP Instance Documents](https://intl.cloud.tencent.com/document/api/215/36919). `Namespace` is fixed as `QCE/BWP`, `Action` is fixed as `DescribeBandwidthPackages`. `Region` can be specific value such as `ap-beijing`, or a template variable, such as `$region`. `InstanceAlias`is default as `BandwidthPackageId`, can be selected as `BandwidthPackageId`, `BandwidthPackageName`. BWP instance allow single-selected and multi-selected when using template variable. |   Namespace=QCE/BWP&Region=$region&Action=DescribeBandwidthPackages
+Message Queue CKafka                                            | Please refer to [Message Queue CKafka Instance Documents](https://intl.cloud.tencent.com/document/api/597/35357). `Namespace` is fixed as `QCE/CKAFKA`, `Action` is fixed as `DescribeInstances`. `Region` can be specific value such as `ap-beijing`, or a template variable, such as `$region`.  `InstanceAlias`is default as `InstanceId`, can be selected as `InstanceName`. CKAFKA instance allow single-selected and multi-selected when using template variable. |  Namespace=QCE/CKAFKA&Region=$region&Action=DescribeInstances
+Elastic IP                                                      | Please refer to [Instance Documents](https://intl.cloud.tencent.com/document/api/215/16702). `Namespace` is fixed as `QCE/LB`, `Action` is fixed as `DescribeAddresses`. `Region` can be specific value such as `ap-beijing`, or a template variable, such as `$region`.  `InstanceAlias`is default as `AddressId`, can be selected as `AddressId`, `AddressName`, `AddressIp`. EIP instance allow single-selected and multi-selected when using template variable. |  Namespace=QCE/LB&Region=$region&Action=DescribeAddresses
+Cloud File Storage                                              | Please refer to [Instance Documents](https://intl.cloud.tencent.com/document/api/582/34514). `Namespace` is fixed as `QCE/CFS`, `Action` is fixed as `DescribeCfsFileSystems`. `Region` can be specific value such as `ap-beijing`, or a template variable, such as `$region`.  `InstanceAlias`is default as `FileSystemId`, can be selected as `FileSystemId`, `FsName`. CFS instance allow single-selected and multi-selected when using template variable. |  Namespace=QCE/CFS&Region=$region&Action=DescribeCfsFileSystems
+Serverless Cloud Function                                       | Please refer to [Instance Documents](https://intl.cloud.tencent.com/document/api/583/18582). `Namespace` is fixed as `QCE/SCF_V2`, `Action` is fixed as `ListFunctions`. `Region` can be specific value such as `ap-beijing`, or a template variable, such as `$region`.  `InstanceAlias`is default as `FunctionId`, can be selected as `FunctionId`, `FunctionName`. SCF instance allow single-selected and multi-selected when using template variable. |  Namespace=QCE/SCF_V2&Region=$region&Action=ListFunctions
 
 ## Create Template Variable
 
@@ -476,11 +484,63 @@ and visit (http://localhost:3000)
 ## On Local Grafana
 Alternately, you can clone this repository into your Grafana Plugin directory and restart your local Grafana. Please ensure your local Grafana verison is greater than 6.x.
 
-# License
-Tencent Cloud Monitor Grafana App is delivered under the [Apache License 2.0](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/LICENSE)
-
 # Contact Us
 
-If you have any questions using this app, you are welcome to [create an issue](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/issues/new/choose) or to scan the QR code below to add QQ group chat (861359693):
+If you have any questions using this app, you are welcome to [create an issue](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/issues/new/choose) or to scan the QR code below to add QQ group chat:
 
-<img src="https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/QQ-QRCode.png" alt="QQ-QRCode" width="300">
+<table>
+  <tr>
+    <td>
+      QQ Group (861359693)
+      <br>
+      <img src="https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/QQ-QRCode.png" width="150px;" alt=""/>
+    </td>
+  </tr>
+</table>
+
+# Contributors ✨
+
+Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+
+[![All Contributors](https://img.shields.io/badge/all_contributors-5-orange.svg?style=flat-square)](#contributors)
+
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/leonlysu"><img src="https://avatars.githubusercontent.com/u/12195736?v=4?s=70" width="70px;" alt=""/><br /><sub><b>heriky</b></sub></a><br /><a href="#" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/jamesxwang"><img src="https://avatars.githubusercontent.com/u/36892657?v=4?s=70" width="70px;" alt=""/><br /><sub><b>jamesxwang</b></sub></a><br /><a href="https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/commits?author=jamesxwang" title="Code">💻</a> <a href="#" title="Documentation	">📖</a></td>
+    <td align="center"><a href="https://github.com/leonlysu"><img src="https://avatars.githubusercontent.com/u/73583724?v=4?s=70" width="70px;" alt=""/><br /><sub><b>leonlysu</b></sub></a><br /><a href="https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/commits?author=leonlysu" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/susiezhao"><img src="https://avatars.githubusercontent.com/u/13827192?v=4?s=70" width="70px;" alt=""/><br /><sub><b>susiezhao</b></sub></a><br /><a href="https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/commits?author=susiezhao" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/taoran34"><img src="https://avatars.githubusercontent.com/u/9361046?v=4?s=70" width="70px;" alt=""/><br /><sub><b>taoran34</b></sub></a><br /><a href="#" title="Code">💻</a></td>
+  </tr>
+</table>
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
+
+# Contribution Guide
+
+Welcome everyone to participate in the development of Tencent Cloud Monitoring Grafana App and contribute!
+
+You can choose the following contribution methods:
+
+- [Contribute Dashboard Templates](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/tree/master/src/dashboards)
+- [Contribute your amazing code and create a Pull Request](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/pulls)
+- [Report bug(s) and create an Issue](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/issues/new/choose)
+
+We will add you into [our contributor list](#contributors)
+
+Read more in the [Contribution Guide](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/CONTRIBUTING.en-US.md) document.
+
+# License
+Tencent Cloud Monitor Grafana App is delivered under the [Apache License 2.0](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/LICENSE)
