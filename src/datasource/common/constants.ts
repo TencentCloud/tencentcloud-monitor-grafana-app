@@ -446,3 +446,5 @@ export function SliceLength(total = 0, len = 1) {
   }
   return result;
 }
+
+export const FilterKeys = ['Namespace', 'Offset', 'Limit', 'SearchKey', 'Description', 'OrderBy', 'Order'];

@@ -5,6 +5,8 @@ export type MetricQuery = Partial<{
     region: string;
     instancealias: string;
     display: string;
+    filterkey: 'Namespace' | 'Offset' | 'Limit' | 'SearchKey' | 'Description' | 'OrderBy' | 'Order';
+    filtervalue: string;
 }>;
 
 export type DetailQueryConfig = {
