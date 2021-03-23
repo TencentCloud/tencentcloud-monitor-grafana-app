@@ -1,6 +1,21 @@
 # TencentCloud Monitor Grafana App
 ---
 
+## [1.4.4] - 2021-03-23
+
+## Added
+
+- Contributors and Contribution guide in README (#33).
+
+## Fixed
+
+- Allow using variables to get instance data in SCF monitoring (#32) (#37).
+- Some minor fix.
+
+See detailed guide in [README.md](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/README.md).
+
+---
+
 ## [1.4.3] - 2021-03-10
 
 ### Added
