@@ -188,14 +188,14 @@ $ grafana-cli plugins --help
 
 腾讯云监控应用插件通过调用[云监控 API](https://cloud.tencent.com/document/product/248/30342) 的方式获取各云产品的监控指标数据，通过以下步骤，配置相应云产品的数据源。    
 1. 鼠标悬浮左侧导航栏的 **齿轮** 图标，点击 `Data Sources` 选项，进入数据源管理页面；
-  ![Datasource Add](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/datasource-add.png?raw=true)
+  ![Datasource Add](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/datasource-add@v2.png?raw=true)
 2. 点击右上角的 `Add data source` 按钮，然后点击 `Tencent Cloud Monitoring` 数据源，进入数据源配置页面；
-  ![Datasource Add](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/datasource-choose.png?raw=true)
+  ![Datasource Add](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/datasource-choose@v2.png?raw=true)
 3. `Name` 数据源名称，可以是任意名称，默认为 `Tencent Cloud Monitoring`；  
 4. `SecretId` 和 `SecretKey` 是调用云监控 API 必需的安全证书信息，二者可以通过腾讯云控制台 [云 API 密钥页面](https://console.cloud.tencent.com/cam/capi) 获取；
 5. 选择需要获取监控数据的云产品；  
 6. 点击 `Save & Test` 按钮，测试数据源的配置信息是否正确，配置成功后，即可以在 Dashboard 中使用该数据源。
-  ![Datasource Config](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/datasource-config.png?raw=true)
+  ![Datasource Config](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/datasource-config@v2.png?raw=true)
 
 # <a id="create-dashboard"></a> 创建 Dashboard
 
@@ -213,7 +213,7 @@ $ grafana-cli plugins --help
 
 鼠标悬浮左侧导航栏的 **齿轮** 图标，点击 `Plugins` 选项，进入 Plugins 管理页面。然后，点击 `Tencent Cloud Monitor` 应用，进入应用详情页面，切换至 `Dashboards` 选项卡，选择 Dashbboard 模板导入。
 
-![Import Plugin Dashboard](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/plugin-dashboard.png?raw=true)
+![Import Plugin Dashboard](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/plugin-dashboard@v2.png?raw=true)
 
 
 # <a id="configure-panel"></a> 配置 Panel 数据
@@ -234,7 +234,7 @@ $ grafana-cli plugins --help
       - **注意：** 在本应用中，监控数据的单次查询为原子操作，即查询某一实例的某一指标的监控数据，故实例只能单选，如需查询多实例的监控数据，点击右上角的 `Add Query` 增加新的查询。
       - `Show Details` 按钮仅在选择非模板变量时显示。
 
-![CVM Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-cvm-query.png)
+![CVM Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-cvm-query@v2.png)
 
 ## <a id="cdb-monitoring"></a> CDB 云数据库 MySQL
 
@@ -251,7 +251,7 @@ $ grafana-cli plugins --help
       - **注意：** 在本应用中，监控数据的单次查询为原子操作，即查询某一实例的某一指标的监控数据，故实例只能单选，如需查询多实例的监控数据，点击右上角的 `Add Query` 增加新的查询。  
       - `Show Details` 按钮仅在选择非模板变量时显示。
 
-![CDB Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-cdb-query.png)
+![CDB Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-cdb-query@v2.png)
 
 ## <a id="postgresql-monitoring"></a> 云数据库 PostgreSql
 
@@ -268,7 +268,7 @@ $ grafana-cli plugins --help
       - **注意：** 在本应用中，监控数据的单次查询为原子操作，即查询某一实例的某一指标的监控数据，故实例只能单选，如需查询多实例的监控数据，点击右上角的 `Add Query` 增加新的查询。  
       - `Show Details` 按钮仅在选择非模板变量时显示。
 
-![PostgreSql Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-postgre-query.png)
+![PostgreSql Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-postgre-query@v2.png)
 
 ## <a id="tencentdb-for-mongodb"></a> 云数据库 MonogoDB
 
@@ -285,7 +285,7 @@ $ grafana-cli plugins --help
       - **注意：** 在本应用中，监控数据的单次查询为原子操作，即查询某一实例的某一指标的监控数据，故实例只能单选，如需查询多实例的监控数据，点击右上角的 `Add Query` 增加新的查询。  
       - `Show Details` 按钮仅在选择非模板变量时显示。
 
-![mongodb Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-mongodb-query.png)
+![mongodb Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-mongodb-query@v2.png)
 
 ## <a id="tencentdb-for-redis"></a> 云数据库 Redis
 
@@ -303,7 +303,7 @@ $ grafana-cli plugins --help
       - **注意：** 在本应用中，监控数据的单次查询为原子操作，即查询某一实例的某一指标的监控数据，故实例只能单选，如需查询多实例的监控数据，点击右上角的 `Add Query` 增加新的查询。  
       - `Show Details` 按钮仅在选择非模板变量时显示。
 
-![redis Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-redis-query.png)
+![redis Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-redis-query@v2.png)
 
 ## <a id="cynosdbmysql-monitoring"></a> 云数据库 CYNOSDB_MYSQL
 
@@ -320,7 +320,7 @@ $ grafana-cli plugins --help
       - **注意：** 在本应用中，监控数据的单次查询为原子操作，即查询某一实例的某一指标的监控数据，故实例只能单选，如需查询多实例的监控数据，点击右上角的 `Add Query` 增加新的查询。  
       - `Show Details` 按钮仅在选择非模板变量时显示。
 
-  ![cynosdbMysql Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-cynosdbMysql-query.png)
+  ![cynosdbMysql Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-cynosdbMysql-query@v2.png)
     
 
 ## <a id="tcaplusdb-monitoring"></a> 云数据库 TcaplusDB
@@ -338,7 +338,7 @@ $ grafana-cli plugins --help
     - **注意：** 在本应用中，监控数据的单次查询为原子操作，即查询某一实例的某一指标的监控数据，故实例只能单选，如需查询多实例的监控数据，点击右上角的 `Add Query` 增加新的查询。  
     - `Show Details` 按钮仅在选择非模板变量时显示。
 
-![tcaplus Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-tcaplus-query.png)
+![tcaplus Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-tcaplus-query@v2.png)
 
 ## <a id="sqlserver-monitoring"></a> 云数据库 SQL Server
 
@@ -355,7 +355,7 @@ $ grafana-cli plugins --help
     - **注意：** 在本应用中，监控数据的单次查询为原子操作，即查询某一实例的某一指标的监控数据，故实例只能单选，如需查询多实例的监控数据，点击右上角的 `Add Query` 增加新的查询。  
     - `Show Details` 按钮仅在选择非模板变量时显示。
 
-![sqlserver Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-sqlserver-query.png)
+![sqlserver Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-sqlserver-query@v2.png)
 
 ## <a id="content-delivery-network-cdn"></a> CDN 内容分发式网络
 
@@ -388,7 +388,7 @@ $ grafana-cli plugins --help
       - **注意：** 在本应用中，监控数据的单次查询为原子操作，即查询某一实例的某一指标的监控数据，故实例只能单选，如需查询多实例的监控数据，点击右上角的 `Add Query` 增加新的查询。  
       - `Show Details` 按钮仅在选择非模板变量时显示。
 
-![BWP Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-bwp-query.png)
+![BWP Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-bwp-query@v2.png)
 
 ## <a id="message-queue-ckafka"></a> CKAFKA 消息队列
 
@@ -405,7 +405,7 @@ $ grafana-cli plugins --help
       - **注意：** 在本应用中，监控数据的单次查询为原子操作，即查询某一实例的某一指标的监控数据，故实例只能单选，如需查询多实例的监控数据，点击右上角的 `Add Query` 增加新的查询。  
       - `Show Details` 按钮仅在选择非模板变量时显示。
 
-![ckafka Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-ckafka-query.png)
+![ckafka Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-ckafka-query@v2.png)
 
 ## <a id="clb-monitoring"></a> CLB 负载均衡
 
@@ -426,7 +426,7 @@ $ grafana-cli plugins --help
       - 为了适应不同用户的习惯，监听器列表会以不同的字段展示，默认为 `As ListenerId`，以 **监听器ID** 展示实例列表。此外，可以选择 `As ListenerName` 监听器名称、`As Port` 端口。
       - 监听器列表的获取可参考 [负载均衡监听器列表接口文档](https://cloud.tencent.com/document/api/214/30686)。
 
-![Clb Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-clb-query.png)
+![Clb Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-clb-query@v2.png)
 
 ## <a id="elastic-ip"></a> LB 弹性公网IP
 
@@ -443,7 +443,7 @@ $ grafana-cli plugins --help
       - **注意：** 在本应用中，监控数据的单次查询为原子操作，即查询某一实例的某一指标的监控数据，故实例只能单选，如需查询多实例的监控数据，点击右上角的 `Add Query` 增加新的查询。  
       - `Show Details` 按钮仅在选择非模板变量时显示。
 
-![eip Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-eip-query.png)
+![eip Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-eip-query@v2.png)
 
 ## <a id="cloud-file-storage-cfs"></a> CFS 文件存储
 
@@ -460,7 +460,7 @@ $ grafana-cli plugins --help
       - **注意：** 在本应用中，监控数据的单次查询为原子操作，即查询某一实例的某一指标的监控数据，故实例只能单选，如需查询多实例的监控数据，点击右上角的 `Add Query` 增加新的查询。  
       - `Show Details` 按钮仅在选择非模板变量时显示。
 
-![cfs Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-cfs-query.png)
+![cfs Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-cfs-query@v2.png)
 
 ## <a id="serverless-cloud-function-scf"></a> SCF 云函数
 
@@ -477,7 +477,7 @@ $ grafana-cli plugins --help
       - **注意：** 在本应用中，监控数据的单次查询为原子操作，即查询某一实例的某一指标的监控数据，故实例只能单选，如需查询多实例的监控数据，点击右上角的 `Add Query` 增加新的查询。  
       - `Show Details` 按钮仅在选择非模板变量时显示。
 
-![scf Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-scf-query.png)
+![scf Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-scf-query@v2.png)
 
 ## <a id="dedicated-tunnel-monitoring-dcx"></a> DCX 专线接入-专用通道
 
@@ -494,7 +494,7 @@ $ grafana-cli plugins --help
    - **注意：** 在本应用中，监控数据的单次查询为原子操作，即查询某一实例的某一指标的监控数据，故实例只能单选，如需查询多实例的监控数据，点击右上角的 `Add Query` 增加新的查询。  
    - `Show Details` 按钮仅在选择非模板变量时显示。
 
-![dcx Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-dcx-query.png)
+![dcx Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-dcx-query@v2.png)
     
 
 ## <a id="direct-connection"></a> DC 专线接入-物理专线
@@ -512,7 +512,7 @@ $ grafana-cli plugins --help
     - **注意：** 在本应用中，监控数据的单次查询为原子操作，即查询某一实例的某一指标的监控数据，故实例只能单选，如需查询多实例的监控数据，点击右上角的 `Add Query` 增加新的查询。  
     - `Show Details` 按钮仅在选择非模板变量时显示。
 
-![dc Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-dc-query.png)
+![dc Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-dc-query@v2.png)
 
 ## <a id="vpn-gateway"></a> VPNGW 私有网络-VPN 网关
 
@@ -529,7 +529,7 @@ $ grafana-cli plugins --help
     - **注意：** 在本应用中，监控数据的单次查询为原子操作，即查询某一实例的某一指标的监控数据，故实例只能单选，如需查询多实例的监控数据，点击右上角的 `Add Query` 增加新的查询。  
     - `Show Details` 按钮仅在选择非模板变量时显示。
 
-![vpngw Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-vpngw-query.png)
+![vpngw Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-vpngw-query@v2.png)
     
 
 ## <a id="direct-connect-gateway"></a> DCG 私有网络-专线网关
@@ -547,7 +547,7 @@ $ grafana-cli plugins --help
     - **注意：** 在本应用中，监控数据的单次查询为原子操作，即查询某一实例的某一指标的监控数据，故实例只能单选，如需查询多实例的监控数据，点击右上角的 `Add Query` 增加新的查询。  
     - `Show Details` 按钮仅在选择非模板变量时显示。
 
-![dcg Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-dcg-query.png)
+![dcg Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-dcg-query@v2.png)
     
 
 ## <a id="cdn-province"></a> CDNPROVINCE 省份域名
@@ -566,7 +566,7 @@ $ grafana-cli plugins --help
       - `Show Details` 按钮仅在选择非模板变量时显示。
     - `Isp` 运营商列表。
     - `Province` 可选省份列表。
-![cdnProvince Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-cdnProvince-query.png)
+![cdnProvince Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-cdnProvince-query@v2.png)
     
 
 ## <a id="api-gateway"></a> APIGATEWAY API 网关
@@ -584,7 +584,7 @@ $ grafana-cli plugins --help
       - **注意：** 在本应用中，监控数据的单次查询为原子操作，即查询某一实例的某一指标的监控数据，故实例只能单选，如需查询多实例的监控数据，点击右上角的 `Add Query` 增加新的查询。  
       - `Show Details` 按钮仅在选择非模板变量时显示。
     - `EnvironmentName` 环境名称，会根据上面Instance内容获取。
-![apigateway Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-apigateway-query.png)
+![apigateway Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-apigateway-query@v2.png)
     
 
 ## <a id="cloud-block-storage"></a> CBS 云硬盘
@@ -602,7 +602,7 @@ $ grafana-cli plugins --help
     - **注意：** 在本应用中，监控数据的单次查询为原子操作，即查询某一实例的某一指标的监控数据，故实例只能单选，如需查询多实例的监控数据，点击右上角的 `Add Query` 增加新的查询。  
     - `Show Details` 按钮仅在选择非模板变量时显示。
 
-![cbs Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-cbs-query.png)
+![cbs Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-cbs-query@v2.png)
     
 
 ## <a id="elasticsearch"></a> CES Elasticsearch指标
@@ -620,7 +620,7 @@ $ grafana-cli plugins --help
     - **注意：** 在本应用中，监控数据的单次查询为原子操作，即查询某一实例的某一指标的监控数据，故实例只能单选，如需查询多实例的监控数据，点击右上角的 `Add Query` 增加新的查询。  
     - `Show Details` 按钮仅在选择非模板变量时显示。
 
-![ces Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-ces-query.png)
+![ces Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-ces-query@v2.png)
     
 
 ## <a id="cmq-queue-service"></a> CMQ 消息队列服务监控
@@ -638,7 +638,7 @@ $ grafana-cli plugins --help
     - **注意：** 在本应用中，监控数据的单次查询为原子操作，即查询某一实例的某一指标的监控数据，故实例只能单选，如需查询多实例的监控数据，点击右上角的 `Add Query` 增加新的查询。  
     - `Show Details` 按钮仅在选择非模板变量时显示。
 
-![cmq Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-cmq-query.png)
+![cmq Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-cmq-query@v2.png)
     
 
 ## <a id="cmq-topic-subscription"></a> CMQTOPIC 消息队列主题订阅监控
@@ -656,7 +656,7 @@ $ grafana-cli plugins --help
     - **注意：** 在本应用中，监控数据的单次查询为原子操作，即查询某一实例的某一指标的监控数据，故实例只能单选，如需查询多实例的监控数据，点击右上角的 `Add Query` 增加新的查询。  
     - `Show Details` 按钮仅在选择非模板变量时显示。
 
-![cmqTopic Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-cmqTopic-query.png)
+![cmqTopic Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-cmqTopic-query@v2.png)
 
 # <a id="template-variables"></a> 模板变量
 
