@@ -4725,7 +4725,7 @@
                 "Value": ""
               }
             },
-            "instance": "{\"EnabledTime\":\"2021-04-22 16:03:23\",\"AccessPointId\":\"ap-cn-shenzhen-ns-A\",\"DirectConnectId\":\"dc-3bcv6rab\",\"ChargeState\":\"NORMAL\",\"State\":\"AVAILABLE\",\"ExpiredTime\":null,\"Location\":\"广东省,深圳市,南山区测试流程，不实际连线，请现场直接过单\",\"TagSet\":[],\"CreatedTime\":\"2021-03-23 16:03:23\",\"FaultReportContactNumber\":\"18675530485\",\"SignLaw\":true,\"TencentAddress\":\"192.168.1.2/24\",\"CustomerName\":\"vintzhang\",\"Vlan\":1,\"DirectConnectName\":\"测试新物理专线调试流程-不实际连线\",\"FaultReportContactPerson\":\"vintzhang\",\"ChargeType\":\"NON_RECURRING_CHARGE\",\"IdcCity\":\"广东省,深圳市,南山区测试流程，不实际连线，请现场直接过单\",\"CustomerContactNumber\":\"18675530485\",\"PortType\":\"1000Base-T\",\"LineOperator\":\"ChinaTelecom\",\"CircuitCode\":\"测试，现场直接过单\",\"CustomerAddress\":\"192.168.1.1/24\",\"CustomerContactMail\":\"443123203@qq.com\",\"AccessPointType\":\"QCPL\",\"Bandwidth\":1000,\"StartTime\":\"2021-03-23 18:12:05\",\"RedundantDirectConnectId\":\"\",\"_InstanceAliasValue\":\"dc-3bcv6rab\"}",
+            "instance": "$dcInstance",
             "instanceAlias": "DirectConnectId",
             "metricName": "InBandwidth",
             "metricUnit": "bit/s",
@@ -4735,7 +4735,7 @@
               "Limit": 20,
               "Offset": 0
             },
-            "region": "ap-guangzhou"
+            "region": "$region"
           },
           "dcdb": {
             "dimensionObject": null,
