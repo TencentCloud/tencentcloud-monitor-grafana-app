@@ -1,7 +1,5 @@
-/* eslint-disable no-empty */
-/* eslint-disable no-useless-escape */
-import * as _ from 'lodash';
-import * as qs from 'qs';
+import _ from 'lodash';
+import qs from 'qs';
 import { SERVICES } from '../tc_monitor';
 import Sign from './sign';
 import SignV2 from './signV2';
@@ -97,7 +95,107 @@ const SERVICES_API_INFO = {
     path: '/ckafka',
     host: 'ckafka.tencentcloudapi.com',
   },
-
+  // 专线接入实例列表
+  dc: {
+    service: 'dc',
+    version: '2018-04-10',
+    path: '/dc',
+    host: 'dc.tencentcloudapi.com',
+  },
+  // cynosdb实例列表
+  cynosdb: {
+    service: 'cynosdb',
+    version: '2019-01-07',
+    path: '/cynosdb',
+    host: 'cynosdb.tencentcloudapi.com',
+  },
+  // sqlserver实例列表
+  sqlserver: {
+    service: 'sqlserver',
+    version: '2018-03-28',
+    path: '/sqlserver',
+    host: 'sqlserver.tencentcloudapi.com',
+  },
+  // bm实例列表
+  bm: {
+    service: 'bm',
+    version: '2018-04-23',
+    path: '/bm',
+    host: 'bm.tencentcloudapi.com',
+  },
+  bmeip: {
+    service: 'bmeip',
+    version: '2018-06-25',
+    path: '/bmeip',
+    host: 'bmeip.tencentcloudapi.com',
+  },
+  bmvpc: {
+    service: 'bmvpc',
+    version: '2018-06-25',
+    path: '/bmvpc',
+    host: 'bmvpc.tencentcloudapi.com',
+  },
+  bmlb: {
+    service: 'bmlb',
+    version: '2018-06-25',
+    path: '/bmlb',
+    host: 'bmlb.tencentcloudapi.com',
+  },
+  // ES集群实例
+  es: {
+    service: 'es',
+    version: '2018-04-16',
+    path: '/es',
+    host: 'es.tencentcloudapi.com',
+  },
+  // MapReduce
+  emr: {
+    service: 'emr',
+    version: '2019-01-03',
+    path: '/emr',
+    host: 'emr.tencentcloudapi.com',
+  },
+  // CMQ消息队列
+  cmq: {
+    service: 'cmq',
+    version: '2019-03-04',
+    path: '/cmq',
+    host: 'cmq.tencentcloudapi.com',
+  },
+  cbs: {
+    service: 'cbs',
+    version: '2017-03-12',
+    path: '/cbs',
+    host: 'cbs.tencentcloudapi.com',
+  },
+  // tcaplus实例
+  tcaplusdb: {
+    service: 'tcaplusdb',
+    version: '2019-08-23',
+    path: '/tcaplusdb',
+    host: 'tcaplusdb.tencentcloudapi.com',
+  },
+  // tcaplus实例
+  dcdb: {
+    service: 'dcdb',
+    version: '2018-04-11',
+    path: '/dcdb',
+    host: 'dcdb.tencentcloudapi.com',
+  },
+  // apigateway实例
+  apigateway: {
+    service: 'apigateway',
+    version: '2018-08-08',
+    path: '/apigateway',
+    host: 'apigateway.tencentcloudapi.com',
+  },
+  // apigateway实例
+  tdmq: {
+    service: 'tdmq',
+    version: '2020-02-17',
+    path: '/tdmq',
+    host: 'tdmq.tencentcloudapi.com',
+  },
   // 不单独定义lb，因为lb同样用的是vpc的配置，同上
   // lb: {
   //   service: 'lb',
@@ -215,11 +313,31 @@ const FINACE_HOST = {
       host: 'postgres.ap-shenzhen-fsi.tencentcloudapi.com',
     },
   },
+  emr: {
+    'ap-shanghai-fsi': {
+      path: '/fsi/emr/shanghai',
+      host: 'emr.ap-shanghai-fsi.tencentcloudapi.com',
+    },
+    'ap-shenzhen-fsi': {
+      path: '/fsi/emr/shenzhen',
+      host: 'emr.ap-shenzhen-fsi.tencentcloudapi.com',
+    },
+  },
+  cmq: {
+    'ap-shanghai-fsi': {
+      path: '/fsi/cmq/shanghai',
+      host: 'cmq.ap-shanghai-fsi.tencentcloudapi.com',
+    },
+    'ap-shenzhen-fsi': {
+      path: '/fsi/cmq/shenzhen',
+      host: 'cmq.ap-shenzhen-fsi.tencentcloudapi.com',
+    },
+  },
 };
 
 // 获取对应业务的 API 接口信息
 export function GetServiceAPIInfo(region, service) {
-  return Object.assign({}, SERVICES_API_INFO[service] || {}, getHostAndPath(region, service));
+  return { ...(SERVICES_API_INFO[service] || {}), ...getHostAndPath(region, service) };
 }
 
 // get host and path for finance regions
@@ -230,7 +348,7 @@ function getHostAndPath(region, service) {
   return (
     _.find(
       _.find(FINACE_HOST, (__, key) => key === service),
-      (__, key) => key === region,
+      (__, key) => key === region
     ) || {}
   );
 }
@@ -240,8 +358,8 @@ export const VARIABLE_ALIAS = 'instancealias';
 
 export function GetServiceFromNamespace(namespace) {
   return _.get(
-    _.find(SERVICES, service => service.namespace === namespace),
-    'service',
+    _.find(SERVICES, (service) => service.namespace === namespace),
+    'service'
   );
 }
 
@@ -252,7 +370,7 @@ export function ParseMetricQuery(query = '') {
   }
   const result = {};
   const queries = _.split(query, '&');
-  _.forEach(queries, item => {
+  _.forEach(queries, (item) => {
     const str = _.split(item, '=');
     if (_.trim(_.get(str, '0', ''))) {
       result[_.toLower(_.trim(_.get(str, '0', '')))] = _.trim(_.get(str, '1', ''));
@@ -273,7 +391,7 @@ export function ParseMetricRegex(regex = '') {
   _.forEach(regexParams, (value, key) => {
     if (key === 'tag:tag-key') {
       const valuesArr = _.split(value, ',');
-      _.forEach(valuesArr, item => {
+      _.forEach(valuesArr, (item) => {
         const temp = _.split(item, ':');
         if (temp.length === 2) {
           result.push({ Name: `tag:${temp[0]}`, Values: temp.slice(1) });
@@ -325,8 +443,8 @@ export function GetDimensions(obj) {
     return [];
   }
   const dimensions: any[] = [];
-  _.forEach(obj, item => {
-    if (item.Value) {
+  _.forEach(obj, (item) => {
+    if (item.Value !== null && item.Value !== undefined && item.Value !== '') {
       dimensions.push({ Name: item.Name, Value: typeof item.Value === 'string' ? item.Value : `${item.Value}` });
     }
   });
@@ -338,7 +456,7 @@ export function ParseQueryResult(response, instances: any[] = []) {
   const instanceList = _.cloneDeep(instances);
   // console.log('parseQueryResult:', response, instances);
   const dataPoints = _.get(response, 'DataPoints', []);
-  return _.map(dataPoints, dataPoint => {
+  return _.map(dataPoints, (dataPoint) => {
     let instanceAliasValue = _.get(dataPoint, 'Dimensions[0].Value');
     for (let i = 0; i < instanceList.length; i++) {
       if (isInstanceMatch(instanceList[i], _.get(dataPoint, 'Dimensions', []))) {
@@ -369,6 +487,7 @@ function parseDataPoint(dataPoint) {
 // check whether instance is match or not
 function isInstanceMatch(instance, dimensions) {
   let match = true;
+  // eslint-disable-next-line @typescript-eslint/prefer-for-of
   for (let i = 0; i < dimensions.length; i++) {
     if (_.get(instance, dimensions[i].Name).toString() !== dimensions[i].Value.toString()) {
       match = false;

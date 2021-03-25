@@ -1,4 +1,4 @@
-import * as _ from 'lodash';
+import _ from 'lodash';
 import { FilterKeys, GetServiceAPIInfo, SliceLength } from '../../common/constants';
 import { BaseDatasource } from '../_base/datasource';
 import { MetricQuery } from '../_base/types';
@@ -30,11 +30,11 @@ export default class SCFDatasource extends BaseDatasource {
   async getMetrics(region = 'ap-guangzhou') {
     const rawSet = await super.getMetrics(region);
     return rawSet.filter(
-      item =>
-        /* hack：这里多加了筛选条件，是因为后端数据不准确，坑啊！ 只拿取包含functionName的指标*/
+      (item) =>
+        /* hack：这里多加了筛选条件，是因为后端数据不准确，坑啊！ 只拿取包含functionName的指标 */
         item.Dimensions?.[0]?.Dimensions?.includes('functionName') &&
         item.Dimensions?.[0]?.Dimensions?.includes('namespace') &&
-        !item.MetricName.startsWith('Name'),
+        !item.MetricName.startsWith('Name')
     );
   }
 
@@ -46,8 +46,8 @@ export default class SCFDatasource extends BaseDatasource {
         data: params,
       },
       serviceInfo.service,
-      { region, action: 'ListVersionByFunction' },
-    ).then(response => {
+      { region, action: 'ListVersionByFunction' }
+    ).then((response) => {
       return response.Versions.map(({ Version }) => ({ text: Version, value: Version }));
     });
   }
@@ -81,7 +81,7 @@ export default class SCFDatasource extends BaseDatasource {
       this.instanceListCache = result;
 
       instancealias = this.InstanceAliasList.includes(instancealias) ? instancealias : this.templateQueryIdMap.instance;
-      return result.flatMap(item => {
+      return result.flatMap((item) => {
         item._InstanceAliasValue = item[instancealias]; // FIXME:
         if (!item[instancealias]) return [];
         return [
@@ -92,14 +92,13 @@ export default class SCFDatasource extends BaseDatasource {
         ];
       });
     }
-
     // 在instance实例的基础上查询其他数据
     let instance = this.getVariable(query['instance']);
     if (region && action && instance) {
       try {
         // instance = JSON.parse(instance);
         instance =
-          _.cloneDeep(this.instanceListCache.find(item => item[this.templateQueryIdMap.instance] === instance)) ?? {};
+          _.cloneDeep(this.instanceListCache.find((item) => item[this.templateQueryIdMap.instance] === instance)) ?? {};
         // eslint-disable-next-line no-empty
       } catch (error) {}
       return this.fetchMetricData(action, region, instance, query);
@@ -121,8 +120,8 @@ export default class SCFDatasource extends BaseDatasource {
         data: params,
       },
       serviceInfo.service,
-      { region, action },
-    ).then(response => {
+      { region, action }
+    ).then((response) => {
       result = _.get(response, field) ?? _.get(response, `Result.${field}`) ?? [];
       const total = response.TotalCount || 0;
       if (result.length >= total) {
@@ -130,17 +129,17 @@ export default class SCFDatasource extends BaseDatasource {
       } else {
         const param = SliceLength(total, 100);
         const promises: any[] = [];
-        _.forEach(param, item => {
+        _.forEach(param, (item) => {
           promises.push(this.getInstances(region, { ...item, ...query }));
         });
         return Promise.all(promises)
-          .then(responses => {
-            _.forEach(responses, item => {
+          .then((responses) => {
+            _.forEach(responses, (item) => {
               result = _.concat(result, item);
             });
             return result;
           })
-          .catch(error => {
+          .catch((error) => {
             return result;
           });
       }

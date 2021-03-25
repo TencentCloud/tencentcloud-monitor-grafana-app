@@ -40,7 +40,7 @@
       "cacheTimeout": null,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -575,7 +575,7 @@
       "cacheTimeout": null,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -1110,7 +1110,7 @@
       "cacheTimeout": null,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -1659,7 +1659,7 @@
       "cacheTimeout": null,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -2194,7 +2194,7 @@
       "cacheTimeout": null,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -2729,7 +2729,7 @@
       "cacheTimeout": null,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -3264,7 +3264,7 @@
       "cacheTimeout": null,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -3799,7 +3799,7 @@
       "cacheTimeout": null,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -4334,7 +4334,7 @@
       "cacheTimeout": null,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -4869,7 +4869,7 @@
       "cacheTimeout": null,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -5404,7 +5404,7 @@
       "cacheTimeout": null,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -5939,7 +5939,7 @@
       "cacheTimeout": null,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -6488,7 +6488,7 @@
       "cacheTimeout": null,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -7023,7 +7023,7 @@
       "cacheTimeout": null,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -7558,7 +7558,7 @@
       "cacheTimeout": null,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -8107,7 +8107,7 @@
       "cacheTimeout": null,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -8642,7 +8642,7 @@
       "cacheTimeout": null,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -9191,7 +9191,7 @@
       "cacheTimeout": null,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -9729,7 +9729,7 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": "Tencent Cloud Monitor Datasource",
+        "datasource": "Tencent Cloud Monitoring",
         "definition": "Namespace=QCE/CMONGO&Action=DescribeRegions",
         "hide": 0,
         "includeAll": false,
@@ -9752,7 +9752,7 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": "Tencent Cloud Monitor Datasource",
+        "datasource": "Tencent Cloud Monitoring",
         "definition": "Namespace=QCE/CMONGO&Action=DescribeInstances&Region=$region&InstanceAlias=InstanceId",
         "hide": 0,
         "includeAll": false,
@@ -9804,7 +9804,7 @@
     ]
   },
   "timezone": "",
-  "title": "【实例】云数据库MONGODB",
+  "title": "【预设】云数据库MONGODB",
   "uid": "UCGlOPyTz",
   "variables": {
     "list": []

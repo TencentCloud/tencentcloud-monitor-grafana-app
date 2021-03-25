@@ -25,7 +25,7 @@
         "bars": false,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "Tencent Cloud Monitoring",
         "fieldConfig": {
           "defaults": {
             "custom": {}
@@ -546,7 +546,7 @@
         "bars": false,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "Tencent Cloud Monitoring",
         "fieldConfig": {
           "defaults": {
             "custom": {}
@@ -1067,7 +1067,7 @@
         "bars": false,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "Tencent Cloud Monitoring",
         "fieldConfig": {
           "defaults": {
             "custom": {}
@@ -1588,7 +1588,7 @@
         "bars": false,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "Tencent Cloud Monitoring",
         "fieldConfig": {
           "defaults": {
             "custom": {}
@@ -2109,7 +2109,7 @@
         "bars": false,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "Tencent Cloud Monitoring",
         "fieldConfig": {
           "defaults": {
             "custom": {}
@@ -2634,7 +2634,7 @@
         {
           "allValue": null,
           "current": {},
-          "datasource": "Tencent Cloud Monitor Datasource",
+          "datasource": "Tencent Cloud Monitoring",
           "definition": "Namespace=QCE/LB&Action=DescribeRegions",
           "error": null,
           "hide": 0,
@@ -2657,7 +2657,7 @@
         {
           "allValue": null,
           "current": {},
-          "datasource": "Tencent Cloud Monitor Datasource",
+          "datasource": "Tencent Cloud Monitoring",
           "definition": "Namespace=QCE/LB&Region=$region&Action=DescribeInstances",
           "error": null,
           "hide": 0,
@@ -2685,7 +2685,7 @@
     },
     "timepicker": {},
     "timezone": "",
-    "title": "【实例】LB弹性公网IP",
+    "title": "【预设】LB弹性公网IP",
     "uid": "6F_2GysMk",
     "version": 11
   }

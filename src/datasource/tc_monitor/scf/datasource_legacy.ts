@@ -1,5 +1,5 @@
-import * as _ from 'lodash';
-import * as moment from 'moment';
+import _ from 'lodash';
+import moment from 'moment';
 import DatasourceInterface from '../../datasource';
 import { SCFInstanceAliasList, SCFInvalidDemensions, templateQueryIdMap } from './query_def';
 import {
@@ -49,19 +49,19 @@ export default class SCFDatasource implements DatasourceInterface {
     if (instancesQuery && region) {
       // const tagText = _.get(query, 'tag', '');
       // const Filters = ParseMetricRegex(!tagText ? '' : `tag:tag-key=${tagText}`);
-      return this.getVariableInstances(region).then(result => {
+      return this.getVariableInstances(region).then((result) => {
         this.allInstanceMap = _.cloneDeep(result); // 混存全量实例map
         const instanceAlias =
           SCFInstanceAliasList.indexOf(query[VARIABLE_ALIAS]) !== -1 ? query[VARIABLE_ALIAS] : 'FunctionName';
         const instances: any[] = [];
-        _.forEach(result, item => {
+        _.forEach(result, (item) => {
           const instanceAliasValue = _.get(item, instanceAlias);
           if (instanceAliasValue) {
             if (typeof instanceAliasValue === 'string') {
               item._InstanceAliasValue = instanceAliasValue;
               instances.push({ text: instanceAliasValue, value: item[templateQueryIdMap.instance] });
             } else if (_.isArray(instanceAliasValue)) {
-              _.forEach(instanceAliasValue, subItem => {
+              _.forEach(instanceAliasValue, (subItem) => {
                 item._InstanceAliasValue = subItem;
                 instances.push({ text: subItem, value: item[templateQueryIdMap.instance] });
               });
@@ -90,7 +90,7 @@ export default class SCFDatasource implements DatasourceInterface {
    * ]
    */
   query(options: any) {
-    const queries = _.filter(options.targets, item => {
+    const queries = _.filter(options.targets, (item) => {
       // 过滤无效的查询 target
       return (
         item.scf.hide !== true &&
@@ -99,7 +99,7 @@ export default class SCFDatasource implements DatasourceInterface {
         !_.isEmpty(ReplaceVariable(this.templateSrv, options.scopedVars, item.scf.region, false)) &&
         !_.isEmpty(ReplaceVariable(this.templateSrv, options.scopedVars, item.scf.instance, true))
       );
-    }).map(target => {
+    }).map((target) => {
       // 实例 instances 可能为模板变量，需先判断
       let instances = target.scf.instance;
       if (isVariable(instances)) {
@@ -107,12 +107,12 @@ export default class SCFDatasource implements DatasourceInterface {
         if (!_.isArray(templateInsValues)) {
           templateInsValues = [templateInsValues];
         }
-        instances = _.map(templateInsValues, instanceId =>
-          _.find(this.allInstanceMap, o => o[templateQueryIdMap.instance] === instanceId),
+        instances = _.map(templateInsValues, (instanceId) =>
+          _.find(this.allInstanceMap, (o) => o[templateQueryIdMap.instance] === instanceId)
         );
       } else {
         if (_.isArray(instances)) {
-          instances = _.map(instances, instance => (_.isString(instance) ? JSON.parse(instance) : instance));
+          instances = _.map(instances, (instance) => (_.isString(instance) ? JSON.parse(instance) : instance));
         } else {
           instances = [_.isString(instances) ? JSON.parse(instances) : instances];
         }
@@ -122,7 +122,7 @@ export default class SCFDatasource implements DatasourceInterface {
         StartTime: moment(options.range.from).format(),
         EndTime: moment(options.range.to).format(),
         Period: target.scf.period || 300,
-        Instances: _.map(instances, instance => {
+        Instances: _.map(instances, (instance) => {
           const dimensionObject = target.scf.dimensionObject;
           _.forEach(dimensionObject, (__, key) => {
             let keyTmp = key;
@@ -147,10 +147,10 @@ export default class SCFDatasource implements DatasourceInterface {
     }
 
     return Promise.all(queries)
-      .then(responses => {
+      .then((responses) => {
         return _.flatten(responses);
       })
-      .catch(error => {
+      .catch((error) => {
         return [];
       });
   }
@@ -175,8 +175,8 @@ export default class SCFDatasource implements DatasourceInterface {
         data: params,
       },
       serviceInfo.service,
-      { action: 'GetMonitorData', region },
-    ).then(response => {
+      { action: 'GetMonitorData', region }
+    ).then((response) => {
       return ParseQueryResult(response, instances);
     });
   }
@@ -187,13 +187,13 @@ export default class SCFDatasource implements DatasourceInterface {
         url: this.url + '/cvm',
       },
       'cvm',
-      { action: 'DescribeRegions' },
-    ).then(response => {
+      { action: 'DescribeRegions' }
+    ).then((response) => {
       return _.filter(
-        _.map(response.RegionSet || [], item => {
+        _.map(response.RegionSet || [], (item) => {
           return { text: item.RegionName, value: item.Region, RegionState: item.RegionState };
         }),
-        item => item.RegionState === 'AVAILABLE',
+        (item) => item.RegionState === 'AVAILABLE'
       );
     });
   }
@@ -206,8 +206,8 @@ export default class SCFDatasource implements DatasourceInterface {
         data: params,
       },
       serviceInfo.service,
-      { region, action: 'ListVersionByFunction' },
-    ).then(response => {
+      { region, action: 'ListVersionByFunction' }
+    ).then((response) => {
       return response.Versions.map(({ Version }) => ({ text: Version, value: Version }));
     });
   }
@@ -222,24 +222,24 @@ export default class SCFDatasource implements DatasourceInterface {
         },
       },
       serviceInfo.service,
-      { region, action: 'DescribeBaseMetrics' },
-    ).then(response => {
+      { region, action: 'DescribeBaseMetrics' }
+    ).then((response) => {
       return _.filter(
         _.filter(
           response.MetricSet || [],
-          item =>
+          (item) =>
             !(item.Namespace !== this.Namespace || !item.MetricName) &&
-            /* hack：这里多加了筛选条件，是因为后端数据不准确，坑啊！ 只拿取包含functionName的指标*/
+            /* hack：这里多加了筛选条件，是因为后端数据不准确，坑啊！ 只拿取包含functionName的指标 */
             item.Dimensions?.[0]?.Dimensions?.includes('functionName') &&
             item.Dimensions?.[0]?.Dimensions?.includes('namespace') &&
-            !item.MetricName.startsWith('Name'),
-        ),
+            !item.MetricName.startsWith('Name')
+        )
       );
     });
   }
 
   getInstances(region, params = {}) {
-    params = Object.assign({ Offset: 0, Limit: 100 }, params);
+    params = { Offset: 0, Limit: 100, ...params };
     const serviceInfo = GetServiceAPIInfo(region, 'scf');
     return this.doRequest(
       {
@@ -247,8 +247,8 @@ export default class SCFDatasource implements DatasourceInterface {
         data: params,
       },
       serviceInfo.service,
-      { region, action: 'ListFunctions' },
-    ).then(response => {
+      { region, action: 'ListFunctions' }
+    ).then((response) => {
       return response.Functions || [];
     });
   }
@@ -263,8 +263,8 @@ export default class SCFDatasource implements DatasourceInterface {
         data: params,
       },
       serviceInfo.service,
-      { region, action: 'ListFunctions' },
-    ).then(response => {
+      { region, action: 'ListFunctions' }
+    ).then((response) => {
       result = response.Functions || [];
       const total = response.TotalCount || 0;
       if (result.length >= total) {
@@ -272,18 +272,18 @@ export default class SCFDatasource implements DatasourceInterface {
       } else {
         const param = SliceLength(total, 100);
         const promises: any[] = [];
-        _.forEach(param, item => {
+        _.forEach(param, (item) => {
           promises.push(this.getInstances(region, { ...item, ...query }));
         });
         return Promise.all(promises)
-          .then(responses => {
-            _.forEach(responses, item => {
+          .then((responses) => {
+            _.forEach(responses, (item) => {
               result = _.concat(result, item);
             });
             console.log('result:', result);
             return result;
           })
-          .catch(error => {
+          .catch((error) => {
             return result;
           });
       }
@@ -297,13 +297,13 @@ export default class SCFDatasource implements DatasourceInterface {
         url: this.url + serviceInfo.path,
       },
       serviceInfo.service,
-      { region, action: 'DescribeZones' },
-    ).then(response => {
+      { region, action: 'DescribeZones' }
+    ).then((response) => {
       return _.filter(
-        _.map(response.ZoneSet || [], item => {
+        _.map(response.ZoneSet || [], (item) => {
           return { text: item.ZoneName, value: item.Zone, ZoneState: item.ZoneState, Zone: item.Zone };
         }),
-        item => item.ZoneState === 'AVAILABLE',
+        (item) => item.ZoneState === 'AVAILABLE'
       );
     });
   }
@@ -328,7 +328,7 @@ export default class SCFDatasource implements DatasourceInterface {
           url: this.url + '/cvm',
         },
         'cvm',
-        { action: 'DescribeRegions' },
+        { action: 'DescribeRegions' }
       ),
       this.doRequest(
         {
@@ -338,7 +338,7 @@ export default class SCFDatasource implements DatasourceInterface {
           },
         },
         'monitor',
-        { region: 'ap-guangzhou', action: 'DescribeBaseMetrics' },
+        { region: 'ap-guangzhou', action: 'DescribeBaseMetrics' }
       ),
       this.doRequest(
         {
@@ -349,10 +349,10 @@ export default class SCFDatasource implements DatasourceInterface {
           },
         },
         'scf',
-        { region: 'ap-guangzhou', action: 'ListFunctions' },
+        { region: 'ap-guangzhou', action: 'ListFunctions' }
       ),
     ])
-      .then(responses => {
+      .then((responses) => {
         const cvmErr = _.get(responses, '[0].Error', {});
         const monitorErr = _.get(responses, '[1].Error', {});
         const scfErr = _.get(responses, '[2].Error', {});
@@ -386,7 +386,7 @@ export default class SCFDatasource implements DatasourceInterface {
           };
         }
       })
-      .catch(error => {
+      .catch((error) => {
         let message = 'SCF service:';
         message += error.statusText ? error.statusText + '; ' : '';
         if (_.get(error, 'data.error.code', '')) {
@@ -410,10 +410,10 @@ export default class SCFDatasource implements DatasourceInterface {
     options = GetRequestParams(options, service, signObj, this.secretId, this.secretKey);
     return this.backendSrv
       .datasourceRequest(options)
-      .then(response => {
+      .then((response) => {
         return _.get(response, 'data.Response', {});
       })
-      .catch(error => {
+      .catch((error) => {
         throw error;
       });
   }

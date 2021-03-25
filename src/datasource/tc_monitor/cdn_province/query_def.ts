@@ -1,39 +1,82 @@
-import * as _ from 'lodash';
-const CDNFilterFields = {
-  "origin": [],
-  "domain": [],
-  "resourceId": [],
-  "status": [],
-  "serviceType": [],
-  "projectId": [],
-  "domainType": [],
-  "fullUrlCache": [],
-  "https": [],
-  "originPullProtocol": [],
-  "tagKey": [],
+// 产品目录名字和service名字匹配即 lb_private(目录名) => lbPrivate(service)
+import { FildDescriptorType } from '../_base/types';
+import { instanceQueryParamsBaseParse } from '../../common/utils';
+
+const namespace = 'QCE/CDN_LOG_DATA';
+
+// 组件名称。这里名字要和index.ts中的SERVICES对应，后面会根据SERVICES中service字段拼接这个query组件名称
+const queryEditorName = 'cdnProvinceQuery';
+
+const CDNPROVINCEInvalidDemensions = {
+  domain: 'Domain',
+  // isp: 'Isp',
+  projectid: 'ProjectId',
+  province: 'district',
+  appid: 'AppId',
 };
 
-const CDNFilterFieldsDescriptor = [
+// 需和文件名对应
+const CDNPROVINCEInstanceAliasList = ['Domain', 'ProjectId'];
+
+const templateQueryIdMap = {
+  instance: 'Domain',
+};
+
+// select类型需要注意是{},multi后缀是[],dropdown是''
+const CDNPROVINCEFilterFields = {
+  Limit: 20,
+  Offset: 0,
+  origin: [],
+  domain: [],
+  resourceId: [],
+  status: {},
+  serviceType: {},
+  projectId: [],
+  domainType: {},
+  fullUrlCache: {},
+  https: {},
+  originPullProtocol: {},
+  tagKey: [],
+};
+
+const CDNPROVINCEFilterFieldsDescriptor: FildDescriptorType = [
+  {
+    key: 'Offset',
+    enDescriptor: 'Offset',
+    cnDescriptor: '偏移量, 例如Offset=20&Limit=20 返回第 20 到 40 项',
+    link: '',
+    type: 'inputNumber',
+    min: 0,
+  },
+  {
+    key: 'Limit',
+    enDescriptor: 'Limit',
+    cnDescriptor: '单次请求返回的数量，默认为20，最小值为1，最大值为100',
+    link: '',
+    type: 'inputNumber',
+    min: 1,
+    max: 100,
+  },
   {
     key: 'origin',
     enDescriptor: 'origin',
     cnDescriptor: '主源站',
     link: '',
-    type: 'inputmulti',
+    type: 'inputMulti',
   },
   {
     key: 'domain',
     enDescriptor: 'domain',
     cnDescriptor: '域名',
     link: '',
-    type: 'inputmulti',
+    type: 'inputMulti',
   },
   {
     key: 'resourceId',
     enDescriptor: 'resourceId',
     cnDescriptor: '域名id',
     link: '',
-    type: 'inputmulti',
+    type: 'inputMulti',
   },
   {
     key: 'status',
@@ -64,7 +107,7 @@ const CDNFilterFieldsDescriptor = [
     enDescriptor: 'projectId',
     cnDescriptor: '项目ID',
     link: '',
-    type: 'inputNumbermulti',
+    type: 'inputNumberMulti',
   },
   {
     key: 'domainType',
@@ -117,11 +160,11 @@ const CDNFilterFieldsDescriptor = [
     enDescriptor: 'tagKey',
     cnDescriptor: '标签键',
     link: '',
-    type: 'inputmulti',
+    type: 'inputMulti',
   },
 ];
 
-const CDN_STATE = {
+const CDNPROVINCE_STATE = {
   region: '',
   metricName: '',
   metricUnit: '',
@@ -129,49 +172,42 @@ const CDN_STATE = {
   dimensionObject: null,
   instance: '',
   instanceAlias: 'Domain',
-  queries: {
-    Limit: 20,
-    Offset: 0,
-    Filters: Object.assign({}, CDNFilterFields),
-  },
+  // Isp Province分别在两个接口，单独保存在state
+  isp: '',
+  district: '',
+  queries: CDNPROVINCEFilterFields,
 };
 
 function GetInstanceQueryParams(queries: any = {}) {
-  const params: any = {};
-  if (!_.isEmpty(queries)) {
-    params.Limit = _.get(queries, 'Limit', 20) || 20;
-    params.Offset = _.get(queries, 'Offset', 0) || 0;
-    const Filters: any[] = [];
-    _.forEach(queries.Filters, (item: any, key) => {
-      console.log('item', item, queries);
-      if (_.isArray(item)) {
-        item = _.compact(item);
-        if (item.length > 0) {
-          Filters.push({ Name: key, Value: _.uniq(item).slice(0, 5) });
-        }
-      } else if (_.isObject(item)) {
-        if (!_.isEmpty(_.get(item, 'value', []))) {
-          Filters.push({ Name: key, Value: _.get(item, 'value', []).slice(0, 5) });
-        }
-      }
-    });
-    if (Filters.length > 0) {
-      params.Filters = Filters;
-    }
-  }
-  return params;
+  return instanceQueryParamsBaseParse(queries, true);
 }
-
-const CDNInstanceAliasList = ['Domain', 'ResourceId'];
-
-const CDNInvalidDemensions = {
-  'projectId': 'ProjectId',
-  'domain': 'Domain',
-};
-export default CDN_STATE;
+// const regionSupported = [
+//   { text: '华北地区(北京)', value: 'ap-beijing' },
+//   { text: '西南地区(成都)', value: 'ap-chengdu' },
+//   { text: '西南地区(重庆)', value: 'ap-chongqing' },
+//   { text: '华南地区(广州)', value: 'ap-guangzhou' },
+//   { text: '港澳台地区(中国香港)', value: 'ap-hongkong' },
+//   { text: '亚太南部(孟买)', value: 'ap-mumbai' },
+//   { text: '华东地区(南京)', value: 'ap-nanjing' },
+//   { text: '华东地区(上海)', value: 'ap-shanghai' },
+//   { text: '华东地区(上海金融)', value: 'ap-shanghai-fsi' },
+//   { text: '华南地区(深圳金融)', value: 'ap-shenzhen-fsi' },
+//   { text: '亚太东南(新加坡)', value: 'ap-singapore' },
+//   { text: '亚太东北(东京)', value: 'ap-tokyo' },
+//   { text: '欧洲地区(法兰克福)', value: 'eu-frankfurt' },
+//   { text: '美国东部(弗吉尼亚)', value: 'na-ashburn' },
+//   { text: '美国西部(硅谷)', value: 'na-siliconvalley' },
+//   { text: '北美地区(多伦多)', value: 'na-toronto' },
+// ];
+export default CDNPROVINCE_STATE;
 export {
-  CDNFilterFieldsDescriptor,
-  CDNInstanceAliasList,
-  CDNInvalidDemensions,
-  GetInstanceQueryParams as CDNGetInstanceQueryParams,
+  CDNPROVINCEFilterFieldsDescriptor,
+  templateQueryIdMap,
+  CDNPROVINCEInstanceAliasList,
+  CDNPROVINCEInvalidDemensions,
+  namespace,
+  queryEditorName,
+  // regionSupported,
+  // 对应产品的service的全大写拼接GetInstanceQueryParams
+  GetInstanceQueryParams as CDNPROVINCEGetInstanceQueryParams,
 };

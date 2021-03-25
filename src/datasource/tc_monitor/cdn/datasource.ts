@@ -1,4 +1,4 @@
-import * as _ from 'lodash';
+import _ from 'lodash';
 import { CDNInstanceAliasList, CDNInvalidDemensions } from './query_def';
 import { BaseDatasource } from '../_base/datasource';
 

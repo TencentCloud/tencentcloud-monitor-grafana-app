@@ -1,5 +1,3 @@
 import { MonitorAppConfigCtrl } from './components/config';
 
-export {
-  MonitorAppConfigCtrl as ConfigCtrl,
-};
+export { MonitorAppConfigCtrl as ConfigCtrl };

@@ -1,9 +1,10 @@
 import _ from 'lodash';
+import { SERVICES } from '../tc_monitor';
 
 /* 从分页数据获取全量数据 */
 const PageSize = 50;
 function getFieldsValue(value, fields) {
-  return fields.map(item => _.get(value, item, _.get(value, `Result.${item}`, [])));
+  return fields.map((item) => _.get(value, item, _.get(value, `Result.${item}`, [])));
 }
 
 export async function fetchAllFactory(fetcher: (args: any) => Promise<any>, _params: any, field: string | string[]) {
@@ -17,7 +18,7 @@ export async function fetchAllFactory(fetcher: (args: any) => Promise<any>, _par
 
   // rs.TotalCount = rs.TotalCount ?? rs.Result.TotalCount ?? [];
   // const { TotalCount } = rs;
-  const TotalCount = rs.TotalCount ?? rs.Result?.TotalCount ?? 0;
+  const TotalCount = rs.TotalCount ?? rs.Result?.TotalCount ?? rs.TotalCnt ?? rs.Result?.TotalCnt ?? 0;
   const firstLists = getFieldsValue(rs, fields);
 
   if (TotalCount === 0 || firstLists[0].length === TotalCount) {
@@ -34,7 +35,7 @@ export async function fetchAllFactory(fetcher: (args: any) => Promise<any>, _par
   });
 
   // 合并
-  const resultList = await Promise.all(pmList); //[ {a: [], b[] }, { a: [], b:[] }]
+  const resultList = await Promise.all(pmList); // [ {a: [], b[] }, { a: [], b:[] }]
 
   return resultList.reduce((acc, cur) => {
     const lists = getFieldsValue(cur, fields);
@@ -42,4 +43,58 @@ export async function fetchAllFactory(fetcher: (args: any) => Promise<any>, _par
     acc.forEach((list, index) => list.push(...lists[index]));
     return acc;
   }, firstLists);
+}
+
+/**
+ * 实例列表接口入参处理
+ *
+ * @param queries 表单键入内容
+ * @param isFilter 是否需要设置为Filters格式
+ */
+export function instanceQueryParamsBaseParse(queries: any, isFilter: boolean) {
+  const params: any = {};
+  if (!_.isEmpty(queries)) {
+    params.Limit = _.get(queries, 'Limit', 20) || 20;
+    params.Offset = _.get(queries, 'Offset', 0) || 0;
+    queries = _.omit(queries, ['Offset', 'Limit']);
+    const Filters: any[] = [];
+    _.forEach(queries, (item: any, key) => {
+      if (_.isArray(item)) {
+        item = _.compact(item);
+        if (item.length > 0) {
+          if (isFilter) {
+            Filters.push({ Name: key, Values: _.uniq(item).slice(0, 5) });
+          } else {
+            params[key] = _.uniq(item);
+          }
+        }
+      } else if (_.isObject(item)) {
+        if (_.isNumber(_.get(item, 'value', undefined)) || !_.isEmpty(_.get(item, 'value', undefined))) {
+          if (isFilter) {
+            Filters.push({ Name: key, Values: _.get(item, 'value', []).slice(0, 5) });
+          } else {
+            params[key] = _.get(item, 'value');
+          }
+        }
+      } else if (item !== null && item !== undefined && item !== '') {
+        if (isFilter) {
+          Filters.push({ Name: key, Values: item });
+        } else {
+          params[key] = item;
+        }
+      }
+    });
+    if (isFilter && Filters.length > 0) {
+      params.Filters = Filters;
+      return params;
+    }
+  }
+  return params;
+}
+
+export function getNamesapceFromService(serviceName: string) {
+  return _.get(
+    _.find(SERVICES, (service) => service.service === serviceName),
+    'namespace'
+  );
 }

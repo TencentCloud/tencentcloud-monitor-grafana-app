@@ -1,4 +1,4 @@
-import * as _ from 'lodash';
+import _ from 'lodash';
 const BillingMode = [
   { text: '按量计费', value: 'postpaid' },
   { text: '包年包月', value: 'prepaid' },
@@ -213,7 +213,7 @@ const REDISMEM_STATE = {
   dimensionObject: null,
   instance: '',
   instanceAlias: 'InstanceId',
-  queries: Object.assign({}, RedisFields),
+  queries: { ...RedisFields },
 };
 
 function GetInstanceQueryParams(queries: any = {}) {

@@ -3,8 +3,13 @@
     <div class="gf-form">
       <label class="gf-form-label query-keyword width-9">Namespace</label>
       <div class="gf-form-select-wrapper gf-form-select-wrapper--caret-indent">
-        <gf-form-dropdown model="ctrl.target.namespace" lookup-text="true" get-options="ctrl.getNamespaces($query)"
-          on-change="ctrl.onNamespaceChange()" css-class="min-width-10">
+        <gf-form-dropdown
+          model="ctrl.target.namespace"
+          lookup-text="true"
+          get-options="ctrl.getNamespaces($query)"
+          on-change="ctrl.onNamespaceChange()"
+          css-class="min-width-10"
+        >
         </gf-form-dropdown>
       </div>
     </div>
@@ -14,8 +19,14 @@
     <div class="gf-form">
       <label class="gf-form-label query-keyword width-9">Region</label>
       <div class="gf-form-select-wrapper gf-form-select-wrapper--caret-indent">
-        <gf-form-dropdown model="ctrl.target[ctrl.target.service].region" allow-custom="true" lookup-text="true" get-options="ctrl.getRegions($query)"
-          on-change="ctrl.onRegionChange()" css-class="min-width-10">
+        <gf-form-dropdown
+          model="ctrl.target[ctrl.target.service].region"
+          allow-custom="true"
+          lookup-text="true"
+          get-options="ctrl.getRegions($query)"
+          on-change="ctrl.onRegionChange()"
+          css-class="min-width-10"
+        >
         </gf-form-dropdown>
       </div>
     </div>
@@ -25,8 +36,14 @@
     <div class="gf-form">
       <label class="gf-form-label query-keyword width-9">MetricName</label>
       <div class="gf-form-select-wrapper gf-form-select-wrapper--caret-indent">
-        <gf-form-dropdown model="ctrl.target[ctrl.target.service].metricName" allow-custom="true" lookup-text="true" get-options="ctrl.getMetrics($query)"
-          on-change="ctrl.onMetricChange()" css-class="min-width-10">
+        <gf-form-dropdown
+          model="ctrl.target[ctrl.target.service].metricName"
+          allow-custom="true"
+          lookup-text="true"
+          get-options="ctrl.getMetrics($query)"
+          on-change="ctrl.onMetricChange()"
+          css-class="min-width-10"
+        >
         </gf-form-dropdown>
       </div>
     </div>
@@ -35,280 +52,56 @@
     </div>
   </div>
 
-  <div class="gf-form-inline">
+  <div class="gf-form-inline" style="align-items: center">
     <div class="gf-form">
       <label class="gf-form-label query-keyword width-9">Period</label>
       <div class="gf-form-select-wrapper gf-form-select-wrapper--caret-indent">
-        <select class="gf-form-input min-width-10" ng-change="ctrl.refresh()" ng-model="ctrl.target[ctrl.target.service].period"
-          ng-options="f for f in ctrl.periodList"></select>
+        <select
+          class="gf-form-input min-width-10"
+          ng-change="ctrl.refresh()"
+          ng-model="ctrl.target[ctrl.target.service].period"
+          ng-options="f for f in ctrl.sortedPeriodList"
+        ></select>
       </div>
     </div>
+    <span style="margin-left: 8px">(时间单位：秒)</span>
   </div>
 
   <div class="gf-form-inline">
     <div class="gf-form">
       <label class="gf-form-label query-keyword width-9">Instance</label>
       <div class="gf-form-select-wrapper gf-form-select-wrapper--caret-indent">
-        <select class="gf-form-input min-width-8" ng-change="ctrl.onInstanceAliasChange()" ng-model="ctrl.target[ctrl.target.service].instanceAlias"
-          ng-options="f.value as f.text for f in ctrl.instanceAliasList"></select>
+        <select
+          class="gf-form-input min-width-8"
+          ng-change="ctrl.onInstanceAliasChange()"
+          ng-model="ctrl.target[ctrl.target.service].instanceAlias"
+          ng-options="f.value as f.text for f in ctrl.instanceAliasList"
+        ></select>
       </div>
       <div class="gf-form-select-wrapper gf-form-select-wrapper--caret-indent">
-        <gf-form-dropdown model="ctrl.target[ctrl.target.service].instance" allow-custom="true" lookup-text="true" get-options="ctrl.getInstances($query)"
-          on-change="ctrl.onInstanceChange()" css-class="min-width-10">
+        <gf-form-dropdown
+          model="ctrl.target[ctrl.target.service].instance"
+          allow-custom="true"
+          lookup-text="true"
+          get-options="ctrl.getInstances($query)"
+          on-change="ctrl.onInstanceChange()"
+          css-class="min-width-10"
+        >
         </gf-form-dropdown>
       </div>
     </div>
     <div class="gf-form" ng-if="!ctrl.isVariable('instance')">
       <label class="gf-form-label width-7">Show Details</label>
-      <gf-form-switch class="gf-form tc-switch" label-class="width-7" checked="ctrl.target.showInstanceDetails" switch-class="max-width-5"></gf-form-switch>
+      <gf-form-switch
+        class="gf-form tc-switch"
+        label-class="width-7"
+        checked="ctrl.target.showInstanceDetails"
+        switch-class="max-width-5"
+      ></gf-form-switch>
     </div>
     <div class="gf-form gf-form-label--grow">
+      <!-- this is explain how much items will display to user -->
       <label class="gf-form-label gf-form-label--grow">(按照具体的查询条件搜索实例，默认拉取前 20 条实例)</label>
     </div>
-  </div>
-
-  <!-- 不同产品的实例查询条件模块如下 -->
-  <!-- CVM -->
-  <cvm-query
-    ng-if="ctrl.target.service==='cvm'"
-    target="ctrl.target.cvm"
-    show-detail="ctrl.checkShowDetail('instance')"
-    datasource="ctrl.datasource"
-    on-change="ctrl.onInstanceQueryChange()"
-    region="ctrl.getVariable(ctrl.target.cvm.region)"
-  ></cvm-query>
-
-  <!-- CDB -->
-  <cdb-query
-    ng-if="ctrl.target.service==='cdb'"
-    target="ctrl.target.cdb"
-    show-detail="ctrl.checkShowDetail('instance')"
-    datasource="ctrl.datasource"
-    on-change="ctrl.onInstanceQueryChange()"
-    region="ctrl.getVariable(ctrl.target.cdb.region)"
-  ></cdb-query>
-
-   <!-- PCX -->
-  <pcx-query
-    ng-if="ctrl.target.service==='pcx'"
-    target="ctrl.target.pcx"
-    show-detail="ctrl.checkShowDetail('instance')"
-    datasource="ctrl.datasource"
-    on-change="ctrl.onInstanceQueryChange()"
-    region="ctrl.getVariable(ctrl.target.pcx.region)"
- ></pcx-query>
-
-  <!-- Nat Gateway-->
-  <nat-gateway-query
-    ng-if="ctrl.target.service==='natGateway'"
-    target="ctrl.target.natGateway"
-    show-detail="ctrl.checkShowDetail('instance')"
-    datasource="ctrl.datasource"
-    on-change="ctrl.onInstanceQueryChange()"
-    region="ctrl.getVariable(ctrl.target.natGateway.region)"
-  ></nat-gateway-query>
-
-  <!-- MongoDB-->
-  <mongodb-query
-    ng-if="ctrl.target.service==='mongoDB'"
-    target="ctrl.target.mongoDB"
-    show-detail="ctrl.checkShowDetail('instance')"
-    datasource="ctrl.datasource"
-    on-change="ctrl.onInstanceQueryChange()"
-    region="ctrl.getVariable(ctrl.target.mongoDB.region)"
-  ></mongodb-query>
-
-  <!-- PostgreSQL-->
-  <postgres-query
-    ng-if="ctrl.target.service==='postgres'"
-    target="ctrl.target.postgres"
-    show-detail="ctrl.checkShowDetail('instance')"
-    datasource="ctrl.datasource"
-    on-change="ctrl.onInstanceQueryChange()"
-    region="ctrl.getVariable(ctrl.target.postgres.region)"
-  ></postgres-query>
-
-  <!-- LB_PUBLIC-->
-  <clb-query
-    ng-if="ctrl.target.service==='lbPublic'"
-    target="ctrl.target.lbPublic"
-    show-detail="ctrl.checkShowDetail('instance')"
-    datasource="ctrl.datasource"
-    on-change="ctrl.onInstanceQueryChange()"
-    region="ctrl.getVariable(ctrl.target.lbPublic.region)"
-    on-refresh="ctrl.refresh()"
-  ></clb-query>
-
-
-  <!-- LB_Private-->
-  <clb-query
-    ng-if="ctrl.target.service==='lbPrivate'"
-    target="ctrl.target.lbPrivate"
-    show-detail="ctrl.checkShowDetail('instance')"
-    datasource="ctrl.datasource"
-    on-change="ctrl.onInstanceQueryChange()"
-    region="ctrl.getVariable(ctrl.target.lbPrivate.region)"
-    on-refresh="ctrl.refresh()"
-  ></clb-query>
-  <!-- <lb-private-query
-    ng-if="ctrl.target.service==='lbPrivate'"
-    target="ctrl.target.lbPrivate"
-    show-detail="ctrl.checkShowDetail('instance')"
-    datasource="ctrl.datasource"
-    on-change="ctrl.onInstanceQueryChange()"
-    region="ctrl.getVariable(ctrl.target.lbPrivate.region)"
-  ></lb-private-query> -->
-  <!-- <div class="gf-form-inline" ng-if="ctrl.target.service==='lbPrivate'">
-    <div class="gf-form">
-      <label class="gf-form-label query-keyword width-9">
-        Listeners
-        <info-popover mode="right-normal">
-          可不选择监听器，这时通过实例维度查询监控数据
-        </info-popover>
-      </label>
-      <div class="gf-form-select-wrapper gf-form-select-wrapper--caret-indent">
-        <select class="gf-form-input min-width-8" ng-change="ctrl.onListenerAliasChange()" ng-model="ctrl.target[ctrl.target.service].listenerAlias"
-          ng-options="f.value as f.text for f in ctrl.listenerAliasList"></select>
-      </div>
-      <div class="gf-form-select-wrapper gf-form-select-wrapper--caret-indent">
-        <gf-form-dropdown model="ctrl.target[ctrl.target.service].listener" allow-custom="true" lookup-text="true" get-options="ctrl.getListeners($query)"
-          on-change="ctrl.refresh()" css-class="min-width-10">
-        </gf-form-dropdown>
-      </div>
-    </div>
-  </div> -->
-
-  <!-- LoadBalance-->
-  <clb-query
-    ng-if="ctrl.target.service==='loadBalance'"
-    target="ctrl.target.loadBalance"
-    show-detail="ctrl.checkShowDetail('instance')"
-    datasource="ctrl.datasource"
-    on-change="ctrl.onInstanceQueryChange()"
-    region="ctrl.getVariable(ctrl.target.loadBalance.region)"
-    on-refresh="ctrl.refresh()"
-  ></clb-query>
-  <!-- <lb-private-query
-    ng-if="ctrl.target.service==='loadBalance'"
-    target="ctrl.target.loadBalance"
-    show-detail="ctrl.checkShowDetail('instance')"
-    datasource="ctrl.datasource"
-    on-change="ctrl.onInstanceQueryChange()"
-    region="ctrl.getVariable(ctrl.target.loadBalance.region)"
-  ></lb-private-query> -->
-  <!-- <div class="gf-form-inline" ng-if="ctrl.target.service==='loadBalance'">
-    <div class="gf-form">
-      <label class="gf-form-label query-keyword width-9">
-        Listeners
-        <info-popover mode="right-normal">
-          可不选择监听器，这时通过实例维度查询监控数据
-        </info-popover>
-      </label>
-      <div class="gf-form-select-wrapper gf-form-select-wrapper--caret-indent">
-        <select class="gf-form-input min-width-8" ng-change="ctrl.onListenerAliasChange()" ng-model="ctrl.target[ctrl.target.service].listenerAlias"
-          ng-options="f.value as f.text for f in ctrl.listenerAliasList"></select>
-      </div>
-      <div class="gf-form-select-wrapper gf-form-select-wrapper--caret-indent">
-        <gf-form-dropdown model="ctrl.target[ctrl.target.service].listener" allow-custom="true" lookup-text="true" get-options="ctrl.getListeners($query)"
-          on-change="ctrl.refresh()" css-class="min-width-10">
-        </gf-form-dropdown>
-      </div>
-    </div>
-  </div> -->
-
-
-  <!-- bwp-->
-  <bwp-query
-    ng-if="ctrl.target.service==='bwp'"
-    target="ctrl.target.bwp"
-    show-detail="ctrl.checkShowDetail('instance')"
-    datasource="ctrl.datasource"
-    on-change="ctrl.onInstanceQueryChange()"
-    region="ctrl.getVariable(ctrl.target.bwp.region)"
-  ></bwp-query>
-
-
-  <!-- cdn-->
-  <cdn-query
-    ng-if="ctrl.target.service==='cdn'"
-    target="ctrl.target.cdn"
-    show-detail="ctrl.checkShowDetail('instance')"
-    datasource="ctrl.datasource"
-    on-change="ctrl.onInstanceQueryChange()"
-    region="ctrl.getVariable(ctrl.target.cdn.region)"
-  ></cdn-query>
-
-  <!-- ovcdn-->
-  <ov-cdn-query
-    ng-if="ctrl.target.service==='ovCdn'"
-    target="ctrl.target.ovCdn"
-    show-detail="ctrl.checkShowDetail('instance')"
-    datasource="ctrl.datasource"
-    on-change="ctrl.onInstanceQueryChange()"
-    region="ctrl.getVariable(ctrl.target.ovCdn.region)"
-  ></ov-cdn-query>
-
-  <!-- redis-->
-  <redis-query
-    ng-if="ctrl.target.service==='redis'"
-    target="ctrl.target.redis"
-    show-detail="ctrl.checkShowDetail('instance')"
-    datasource="ctrl.datasource"
-    on-change="ctrl.onInstanceQueryChange()"
-    region="ctrl.getVariable(ctrl.target.redis.region)"
-  ></redis-query>
-
-  <!-- redisMem-->
-  <redis-mem-query
-    ng-if="ctrl.target.service==='redisMem'"
-    target="ctrl.target.redisMem"
-    show-detail="ctrl.checkShowDetail('instance')"
-    datasource="ctrl.datasource"
-    on-change="ctrl.onInstanceQueryChange()"
-    region="ctrl.getVariable(ctrl.target.redisMem.region)"
-  ></redis-mem-query>
-   <!-- SCF-->
-   <scf-query
-    ng-if="ctrl.target.service==='scf'"
-    target="ctrl.target.scf"
-    show-detail="ctrl.checkShowDetail('instance')"
-    datasource="ctrl.datasource"
-    on-change="ctrl.onInstanceQueryChange()"
-    on-refresh="ctrl.refresh()"
-    region="ctrl.getVariable(ctrl.target.scf.region)"
-  ></scf-query>
-
-  <lb-query
-    ng-if="ctrl.target.service==='lb'"
-    target="ctrl.target.lb"
-    show-detail="ctrl.checkShowDetail('instance')"
-    datasource="ctrl.datasource"
-    on-change="ctrl.onInstanceQueryChange()"
-    region="ctrl.getVariable(ctrl.target.lb.region)"
-  ></lb-query>
-
-  <cfs-query
-    ng-if="ctrl.target.service==='cfs'"
-    target="ctrl.target.cfs"
-    show-detail="ctrl.checkShowDetail('instance')"
-    datasource="ctrl.datasource"
-    on-change="ctrl.onInstanceQueryChange()"
-    region="ctrl.getVariable(ctrl.target.cfs.region)"
-  ></cfs-query>
-
-  <ckafka-query
-    ng-if="ctrl.target.service==='ckafka'"
-    target="ctrl.target.ckafka"
-    show-detail="ctrl.checkShowDetail('instance')"
-    datasource="ctrl.datasource"
-    on-change="ctrl.onInstanceQueryChange()"
-    on-refresh="ctrl.refresh()"
-    dims="ctrl.target.ckafka.dimensionObject"
-    region="ctrl.getVariable(ctrl.target.ckafka.region)"
-  ></ckafka-query>
-
-  <!-- Global error message -->
-  <div class="gf-form" ng-show="ctrl.lastQueryError">
-    <pre class="gf-form-pre alert alert-error">{{ctrl.lastQueryError}}</pre>
   </div>
 </query-editor-row>

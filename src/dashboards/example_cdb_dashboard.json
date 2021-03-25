@@ -19,7 +19,7 @@
         "#37872D",
         "#37872D"
       ],
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -196,7 +196,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -373,7 +373,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "format": "percent",
       "gauge": {
         "maxValue": 100,
@@ -550,7 +550,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "format": "percent",
       "gauge": {
         "maxValue": 100,
@@ -727,7 +727,7 @@
         "#FF780A",
         "#FF780A"
       ],
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -904,7 +904,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -1081,7 +1081,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#299c46"
       ],
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "format": "percent",
       "gauge": {
         "maxValue": 100,
@@ -1258,7 +1258,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#299c46"
       ],
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "format": "percent",
       "gauge": {
         "maxValue": 100,
@@ -1435,7 +1435,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#299c46"
       ],
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "format": "percent",
       "gauge": {
         "maxValue": 100,
@@ -1621,7 +1621,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "fill": 1,
       "gridPos": {
         "h": 9,
@@ -1805,7 +1805,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "decimals": null,
       "fill": 1,
       "gridPos": {
@@ -2098,7 +2098,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "fill": 4,
       "gridPos": {
         "h": 9,
@@ -2391,7 +2391,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "fill": 1,
       "gridPos": {
         "h": 9,
@@ -2697,7 +2697,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "fill": 1,
       "gridPos": {
         "h": 8,
@@ -3092,7 +3092,7 @@
         "mode": "spectrum"
       },
       "dataFormat": "tsbuckets",
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "gridPos": {
         "h": 8,
         "w": 12,
@@ -3243,7 +3243,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "fill": 1,
       "gridPos": {
         "h": 9,
@@ -3831,7 +3831,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "fill": 4,
       "gridPos": {
         "h": 9,
@@ -4129,7 +4129,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "fill": 4,
       "gridPos": {
         "h": 9,
@@ -4525,7 +4525,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "fill": 4,
       "gridPos": {
         "h": 9,
@@ -4815,7 +4815,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "fill": 4,
       "gridPos": {
         "h": 9,
@@ -5303,7 +5303,7 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": "Tencent Cloud Monitor Datasource",
+        "datasource": "Tencent Cloud Monitoring",
         "definition": "Namespace=QCE/CDB&Action=DescribeRegions",
         "hide": 0,
         "includeAll": false,
@@ -5325,7 +5325,7 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": "Tencent Cloud Monitor Datasource",
+        "datasource": "Tencent Cloud Monitoring",
         "definition": "Namespace=QCE/CDB&Region=$region&Action=DescribeInstances",
         "hide": 0,
         "includeAll": false,
@@ -5376,6 +5376,6 @@
     ]
   },
   "timezone": "",
-  "title": "【实例】CDB 单机监控",
+  "title": "【预设】CDB 单机监控",
   "version": 1
 }

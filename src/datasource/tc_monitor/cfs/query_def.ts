@@ -1,4 +1,4 @@
-import * as _ from 'lodash';
+import _ from 'lodash';
 
 export const CFSQueryDescriptor = [
   {
@@ -12,11 +12,11 @@ export const CFSQueryDescriptor = [
   {
     key: 'Limit',
     enDescriptor: 'Limit',
-    cnDescriptor: '单次请求返回的数量，默认为20，最小值为1，最大值为2000',
+    cnDescriptor: '单次请求返回的数量，默认为20，最小值为1，最大值为100',
     link: '',
     type: 'inputnumber',
     min: 1,
-    max: 2000,
+    max: 100,
   },
   {
     key: 'FileSystemId',
@@ -55,8 +55,8 @@ const CFS_STATE = {
     Limit: 20,
     FileSystemId: '',
     VpcId: '',
-    SubnetId: ''
-  }
+    SubnetId: '',
+  },
 };
 
 function GetInstanceQueryParams(queries: any = {}) {
@@ -92,7 +92,7 @@ const CFSInvalidDemensions = {
 };
 
 const templateQueryIdMap = {
-  instance: 'InstanceId'
+  instance: 'InstanceId',
 };
 export default CFS_STATE;
 export {

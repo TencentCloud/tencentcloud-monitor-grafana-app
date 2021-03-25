@@ -39,7 +39,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "fieldConfig": {
         "defaults": {
           "custom": {}
@@ -387,7 +387,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "fieldConfig": {
         "defaults": {
           "custom": {}
@@ -735,7 +735,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "fieldConfig": {
         "defaults": {
           "custom": {}
@@ -1083,7 +1083,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "fieldConfig": {
         "defaults": {
           "custom": {}
@@ -1445,7 +1445,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "fieldConfig": {
         "defaults": {
           "custom": {}
@@ -1786,7 +1786,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "fieldConfig": {
         "defaults": {
           "custom": {}
@@ -2127,7 +2127,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "fieldConfig": {
         "defaults": {
           "custom": {}
@@ -2468,7 +2468,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "fieldConfig": {
         "defaults": {
           "custom": {}
@@ -2824,7 +2824,7 @@
       "cacheTimeout": null,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "fieldConfig": {
         "defaults": {
           "custom": {}
@@ -3180,7 +3180,7 @@
       "cacheTimeout": null,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "fieldConfig": {
         "defaults": {
           "custom": {}
@@ -3536,7 +3536,7 @@
       "cacheTimeout": null,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "fieldConfig": {
         "defaults": {
           "custom": {}
@@ -3892,7 +3892,7 @@
       "cacheTimeout": null,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "fieldConfig": {
         "defaults": {
           "custom": {}
@@ -4248,7 +4248,7 @@
       "cacheTimeout": null,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "fieldConfig": {
         "defaults": {
           "custom": {}
@@ -4604,7 +4604,7 @@
       "cacheTimeout": null,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "fieldConfig": {
         "defaults": {
           "custom": {}
@@ -4963,7 +4963,7 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": "Tencent Cloud Monitor Datasource",
+        "datasource": "Tencent Cloud Monitoring",
         "definition": "Namespace=QCE/LOADBALANCE&Action=DescribeRegions",
         "error": null,
         "hide": 0,
@@ -4987,7 +4987,7 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": "Tencent Cloud Monitor Datasource",
+        "datasource": "Tencent Cloud Monitoring",
         "definition": "Namespace=QCE/LB_PRIVATE&Action= DescribeInstances&Region=$region&InstanceAlias=LoadBalancerId",
         "error": null,
         "hide": 0,
@@ -5011,7 +5011,7 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": "Tencent Cloud Monitor Datasource",
+        "datasource": "Tencent Cloud Monitoring",
         "definition": "Namespace=QCE/LB_PRIVATE&Action=DescribeListeners&Region=$region&Instance=$privateInstance&listenerAlias=ListenerId",
         "error": null,
         "hide": 0,
@@ -5035,7 +5035,7 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": "Tencent Cloud Monitor Datasource",
+        "datasource": "Tencent Cloud Monitoring",
         "definition": "Namespace=QCE/LB_PUBLIC&Action= DescribeInstances&Region=$region&InstanceAlias=LoadBalancerId",
         "error": null,
         "hide": 0,
@@ -5059,7 +5059,7 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": "Tencent Cloud Monitor Datasource",
+        "datasource": "Tencent Cloud Monitoring",
         "definition": "Namespace=QCE/LB_PUBLIC&Action=DescribeListeners&Region=$region&Instance=$publicInstance&listenerAlias=ListenerId",
         "error": null,
         "hide": 0,
@@ -5083,7 +5083,7 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": "Tencent Cloud Monitor Datasource",
+        "datasource": "Tencent Cloud Monitoring",
         "definition": "Namespace=QCE/LOADBALANCE&Action= DescribeInstances&Region=$region&InstanceAlias=LoadBalancerId",
         "error": null,
         "hide": 0,
@@ -5107,7 +5107,7 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": "Tencent Cloud Monitor Datasource",
+        "datasource": "Tencent Cloud Monitoring",
         "definition": "Namespace=QCE/LOADBALANCE&Action=DescribeListeners&Region=$region&Instance=$instance&listenerAlias=ListenerId",
         "error": null,
         "hide": 0,
@@ -5160,7 +5160,7 @@
     ]
   },
   "timezone": "",
-  "title": "【实例】CLB 负载均衡",
+  "title": "【预设】CLB 负载均衡",
   "uid": "73fqa4LMk",
   "variables": {
     "list": []

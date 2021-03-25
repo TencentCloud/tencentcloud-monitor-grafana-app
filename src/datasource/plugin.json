@@ -1,6 +1,6 @@
 {
   "type": "datasource",
-  "name": "Tencent Cloud Monitor Datasource",
+  "name": "Tencent Cloud Monitoring",
   "id": "tencentcloud-monitor-datasource",
   "metrics": true,
   "annotations": true,
@@ -8,6 +8,48 @@
     "maxDataPoints": true
   },
   "routes": [
+    {
+      "path": "cmq",
+      "url": "https://cmq.tencentcloudapi.com",
+      "headers": [
+        {"name": "Content-Type", "content": "application/json"}
+      ]
+    },
+    {
+      "path": "fsi/cmq/shanghai",
+      "url": "https://cmq.ap-shanghai-fsi.tencentcloudapi.com",
+      "headers": [
+        {"name": "Content-Type", "content": "application/json"}
+      ]
+    },
+    {
+      "path": "fsi/cmq/shenzhen",
+      "url": "https://cmq.ap-shenzhen-fsi.tencentcloudapi.com",
+      "headers": [
+        {"name": "Content-Type", "content": "application/json"}
+      ]
+    },
+    {
+      "path": "emr",
+      "url": "https://emr.tencentcloudapi.com",
+      "headers": [
+        {"name": "Content-Type", "content": "application/json"}
+      ]
+    },
+    {
+      "path": "fsi/emr/shanghai",
+      "url": "https://emr.ap-shanghai-fsi.tencentcloudapi.com",
+      "headers": [
+        {"name": "Content-Type", "content": "application/json"}
+      ]
+    },
+    {
+      "path": "fsi/emr/shenzhen",
+      "url": "https://emr.ap-shenzhen-fsi.tencentcloudapi.com",
+      "headers": [
+        {"name": "Content-Type", "content": "application/json"}
+      ]
+    },
     {
       "path": "scf",
       "url": "https://scf.tencentcloudapi.com",
@@ -24,7 +66,7 @@
     },
     {
       "path": "fsi/scf/shenzhen",
-      "url": "https://scf.ap-shanghai-fsi.tencentcloudapi.com",
+      "url": "https://scf.ap-shenzhen-fsi.tencentcloudapi.com",
       "headers": [
         {"name": "Content-Type", "content": "application/json"}
       ]
@@ -45,7 +87,7 @@
     },
     {
       "path": "fsi/cfs/shenzhen",
-      "url": "https://cfs.ap-shanghai-fsi.tencentcloudapi.com",
+      "url": "https://cfs.ap-shenzhen-fsi.tencentcloudapi.com",
       "headers": [
         {"name": "Content-Type", "content": "application/json"}
       ]
@@ -66,7 +108,7 @@
     },
     {
       "path": "fsi/ckafka/shenzhen",
-      "url": "https://ckafka.ap-shanghai-fsi.tencentcloudapi.com",
+      "url": "https://ckafka.ap-shenzhen-fsi.tencentcloudapi.com",
       "headers": [
         {"name": "Content-Type", "content": "application/json"}
       ]
@@ -87,7 +129,7 @@
     },
     {
       "path": "fsi/clb/shenzhen",
-      "url": "https://clb.ap-shanghai-fsi.tencentcloudapi.com",
+      "url": "https://clb.ap-shenzhen-fsi.tencentcloudapi.com",
       "headers": [
         {"name": "Content-Type", "content": "application/json"}
       ]
@@ -238,7 +280,99 @@
       "headers": [
         {"name": "Content-Type", "content": "application/json"}
       ]
+    },
+    {
+      "path": "dc",
+      "url": "https://dc.tencentcloudapi.com",
+      "headers": [
+        {"name": "Content-Type", "content": "application/json"}
+      ]
+    },
+    {
+      "path": "cynosdb",
+      "url": "https://cynosdb.tencentcloudapi.com",
+      "headers": [
+        {"name": "Content-Type", "content": "application/json"}
+      ]
+    },
+    {
+      "path": "sqlserver",
+      "url": "https://sqlserver.tencentcloudapi.com",
+      "headers": [
+        {"name": "Content-Type", "content": "application/json"}
+      ]
+    },
+    {
+      "path": "bm",
+      "url": "https://bm.tencentcloudapi.com",
+      "headers": [
+        {"name": "Content-Type", "content": "application/json"}
+      ]
+    },
+    {
+      "path": "bmeip",
+      "url": "https://bmeip.tencentcloudapi.com",
+      "headers": [
+        {"name": "Content-Type", "content": "application/json"}
+      ]
+    },
+    {
+      "path": "bmvpc",
+      "url": "https://bmvpc.tencentcloudapi.com",
+      "headers": [
+        {"name": "Content-Type", "content": "application/json"}
+      ]
+    },
+    {
+      "path": "bmlb",
+      "url": "https://bmlb.tencentcloudapi.com",
+      "headers": [
+        {"name": "Content-Type", "content": "application/json"}
+      ]
+    },
+    {
+      "path": "es",
+      "url": "https://es.tencentcloudapi.com",
+      "headers": [
+        {"name": "Content-Type", "content": "application/json"}
+      ]
+    },
+    {
+      "path": "cbs",
+      "url": "https://cbs.tencentcloudapi.com",
+      "headers": [
+        {"name": "Content-Type", "content": "application/json"}
+      ]
+    },
+    {
+      "path": "tcaplusdb",
+      "url": "https://tcaplusdb.tencentcloudapi.com",
+      "headers": [
+        {"name": "Content-Type", "content": "application/json"}
+      ]
+    },
+    {
+      "path": "dcdb",
+      "url": "https://dcdb.tencentcloudapi.com",
+      "headers": [
+        {"name": "Content-Type", "content": "application/json"}
+      ]
+    },
+    {
+      "path": "apigateway",
+      "url": "https://apigateway.tencentcloudapi.com",
+      "headers": [
+        {"name": "Content-Type", "content": "application/json"}
+      ]
+    },
+    {
+      "path": "tdmq",
+      "url": "https://tdmq.tencentcloudapi.com",
+      "headers": [
+        {"name": "Content-Type", "content": "application/json"}
+      ]
     }
+
   ],
   "info": {
     "author": {
@@ -247,6 +381,7 @@
     "logos": {
       "small": "img/tencent-cloud.svg",
       "large": "img/tencent-cloud.svg"
-    }
+    },
+    "description": "Data source for Tencent Cloud monitoring service"
   }
 }

@@ -7,85 +7,103 @@
     "author": {
       "name": "Tencent Cloud"
     },
-    "keywords": [
-      "tencentcloud",
-      "tencentcloudmonitor",
-      "grafana",
-      "plugins"
-    ],
+    "keywords": ["tencentcloud", "tencentcloudmonitor", "grafana", "plugins"],
     "logos": {
       "small": "img/tencent-cloud.svg",
       "large": "img/tencent-cloud.svg"
     },
-    "version": "1.4.4",
+    "version": "1.5.0",
     "updated": "2021-03-23",
     "links": [
-      {"name": "GitHub", "url": "https://github.com/TencentCloud/tencentcloud-monitor-grafana-app"},
-      {"name": "Docs", "url": "https://cloud.tencent.com/document/product/248/48529"},
-      {"name": "License", "url": "https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/LICENSE"}
+      { "name": "GitHub", "url": "https://github.com/TencentCloud/tencentcloud-monitor-grafana-app" },
+      { "name": "Docs", "url": "https://cloud.tencent.com/document/product/248/48529" },
+      {
+        "name": "License",
+        "url": "https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/LICENSE"
+      }
     ],
     "screenshots": [
-      { "name": "logo", "path": "img/tencent-cloud.svg" }
+      { "name": "logo", "path": "img/tencent-cloud.svg" },
+      { "name": "config datasource", "path":"image/datasource-config.png"},
+      { "name": "query example", "path":"variable-panel-query.png"},
+      { "name": "cvm example", "path":"variable-cvm-dashboard.png"},
+      { "name": "template variable example", "path":"variable-region-config.png"}
     ]
   },
   "includes": [
     {
       "type": "dashboard",
-      "name": "【实例】CDB 单机监控",
+      "name": "【预设】CDB 单机监控",
       "path": "dashboards/example_cdb_dashboard.json"
     },
     {
       "type": "dashboard",
-      "name": "【实例】CVM 单机监控",
+      "name": "【预设】CVM 单机监控",
       "path": "dashboards/example_cvm_dashboard.json"
     },
     {
       "type": "dashboard",
-      "name": "【实例】CLB 负载均衡",
+      "name": "【预设】CLB 负载均衡",
       "path": "dashboards/example_clb_dashboard.json"
     },
     {
       "type": "dashboard",
-      "name": "【实例】内容分发网络CDN",
+      "name": "【预设】内容分发网络CDN",
       "path": "dashboards/example_cdn_dashboard.json"
     },
     {
       "type": "dashboard",
-      "name": "【实例】云数据库MONGODB",
+      "name": "【预设】云数据库MONGODB",
       "path": "dashboards/example_mongodb_dashboard.json"
     },
     {
       "type": "dashboard",
-      "name": "【实例】云数据库REDIS-内存版",
+      "name": "【预设】云数据库REDIS-内存版",
       "path": "dashboards/example_redis_dashboard.json"
     },
     {
       "type": "dashboard",
-      "name": "【实例】消息队列CKAFKA",
+      "name": "【预设】消息队列CKAFKA",
       "path": "dashboards/example_ckafka_dashboard.json"
     },
     {
       "type": "dashboard",
-      "name": "【实例】弹性公网IP LB",
+      "name": "【预设】弹性公网IP LB",
       "path": "dashboards/example_lb_dashboard.json"
-    },    {
-      "type": "dashboard",
-      "name": "【实例】文件存储CFS",
-      "path": "dashboards/example_cfs_dashboard.json"
-    },    
+    },
     {
       "type": "dashboard",
-      "name": "【实例】云函数SCF",
+      "name": "【预设】文件存储CFS",
+      "path": "dashboards/example_cfs_dashboard.json"
+    },
+    {
+      "type": "dashboard",
+      "name": "【预设】云函数SCF",
       "path": "dashboards/example_scf_dashboard.json"
     },
     {
       "type": "dashboard",
-      "name": "【实例】共享宽带包",
+      "name": "【预设】共享宽带包",
       "path": "dashboards/example_bwp_dashboard.json"
     },
     {
+      "type": "dashboard",
+      "name": "【预设】云硬盘",
+      "path": "dashboards/example_cbs_dashboard.json"
+    },
+    {
+      "type": "dashboard",
+      "name": "【预设】消息队列CMQ",
+      "path": "dashboards/example_cmq_dashboard.json"
+    },
+    {
+      "type": "dashboard",
+      "name": "【预设】专线接入",
+      "path": "dashboards/example_dcx_dashboard.json"
+    },
+    {
       "type": "datasource",
-      "name": "Tencent Cloud Monitor Datasource"
+      "name": "Tencent Cloud Monitoring"
     }
   ],
   "dependencies": {

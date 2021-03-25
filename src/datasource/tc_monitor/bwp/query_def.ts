@@ -1,4 +1,4 @@
-import * as _ from 'lodash';
+import _ from 'lodash';
 const networkTypes = [
   { text: 'BGP', value: 'BGP' },
   { text: 'SINGLEISP', value: 'SINGLEISP' },
@@ -63,7 +63,7 @@ const BWP_STATE = {
     instanceIdsChecked: false,
     filtersChecked: false,
     BandwidthPackageIds: [''],
-    Filters: Object.assign({}, BWPFilterFields),
+    Filters: { ...BWPFilterFields },
   },
 };
 

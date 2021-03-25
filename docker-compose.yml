@@ -1,11 +1,16 @@
 ---
-
-version: "3"
+version: '3'
 
 services:
   grafana-7:
     image: grafana/grafana:7.3.6
     ports:
-      - "3000:3000"
+      - '3000:3000'
     volumes:
       - ./:/var/lib/grafana/plugins/tencentcloud-monitor-app
+  # grafana-6:
+  #   image: grafana/grafana:6.0.0
+  #   ports:
+  #     - "3001:3000"
+  #   volumes:
+  #     - ./:/var/lib/grafana/plugins/tencentcloud-monitor-app

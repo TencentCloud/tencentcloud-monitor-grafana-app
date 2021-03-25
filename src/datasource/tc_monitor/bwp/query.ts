@@ -15,7 +15,7 @@ export class BWPQueryCtrl {
       $scope.onChange();
     };
 
-    $scope.getDropdown = field => {
+    $scope.getDropdown = (field) => {
       switch (field) {
         case 'zone':
           return $scope.getZones();

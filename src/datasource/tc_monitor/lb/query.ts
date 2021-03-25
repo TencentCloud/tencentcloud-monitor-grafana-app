@@ -1,7 +1,6 @@
 import coreModule from 'grafana/app/core/core_module';
 import { LBFilterDescriptor } from './query_def';
 
-
 export class LBQueryCtrl {
   /** @ngInject */
   constructor($scope, $rootScope) {
@@ -35,7 +34,6 @@ export class LBQueryCtrl {
 
     $scope.init();
   }
-
 }
 
 const template = `
@@ -143,10 +141,6 @@ const template = `
 </div>
 `;
 
-
-
-
-
 export function lbQuery() {
   return {
     template: template,
@@ -163,7 +157,4 @@ export function lbQuery() {
   };
 }
 
-
-
 coreModule.directive('lbQuery', lbQuery);
-

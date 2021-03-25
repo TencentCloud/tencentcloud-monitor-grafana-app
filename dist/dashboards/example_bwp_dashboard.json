@@ -25,7 +25,7 @@
         "bars": false,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "Tencent Cloud Monitoring",
         "fieldConfig": {
           "defaults": {
             "custom": {}
@@ -542,7 +542,7 @@
         "bars": false,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "Tencent Cloud Monitoring",
         "fieldConfig": {
           "defaults": {
             "custom": {}
@@ -1059,7 +1059,7 @@
         "bars": false,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "Tencent Cloud Monitoring",
         "fieldConfig": {
           "defaults": {
             "custom": {}
@@ -1576,7 +1576,7 @@
         "bars": false,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "Tencent Cloud Monitoring",
         "fieldConfig": {
           "defaults": {
             "custom": {}
@@ -2097,7 +2097,7 @@
         {
           "allValue": null,
           "current": {},
-          "datasource": "Tencent Cloud Monitor Datasource",
+          "datasource": "Tencent Cloud Monitoring",
           "definition": "Namespace=QCE/BWP&Action=DescribeRegions",
           "error": null,
           "hide": 0,
@@ -2120,7 +2120,7 @@
         {
           "allValue": null,
           "current": {},
-          "datasource": "Tencent Cloud Monitor Datasource",
+          "datasource": "Tencent Cloud Monitoring",
           "definition": "Namespace=QCE/BWP&Region=$region&Action=DescribeInstances",
           "error": null,
           "hide": 0,
@@ -2148,7 +2148,7 @@
     },
     "timepicker": {},
     "timezone": "",
-    "title": "【实例】共享宽带包BWP",
+    "title": "【预设】共享宽带包BWP",
     "uid": "JlfY7QyMk",
     "version": 5
   }

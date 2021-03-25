@@ -15,7 +15,7 @@ export class PCXQueryCtrl {
       $scope.onChange();
     };
 
-    $scope.getDropdown = field => {
+    $scope.getDropdown = (field) => {
       switch (field) {
         case 'vpcId':
           return $scope.getVpcIds();

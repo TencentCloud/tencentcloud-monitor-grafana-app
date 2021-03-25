@@ -1,4 +1,4 @@
-import * as _ from 'lodash';
+import _ from 'lodash';
 const CDNFilterFields = {
   origin: [],
   domain: [],
@@ -132,7 +132,7 @@ const OVCDN_STATE = {
   queries: {
     Limit: 20,
     Offset: 0,
-    Filters: Object.assign({}, CDNFilterFields),
+    Filters: { ...CDNFilterFields },
   },
 };
 

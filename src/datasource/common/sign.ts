@@ -1,6 +1,6 @@
 import { SHA256, HmacSHA256 } from 'crypto-js';
 import * as Hex from 'crypto-js/enc-hex';
-import * as moment from 'moment';
+import moment from 'moment';
 
 const HttpRequestMethod = 'POST';
 const CanonicalUri = '/';

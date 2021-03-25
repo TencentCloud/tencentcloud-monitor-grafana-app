@@ -1,36 +1,38 @@
 {
-  "parser": "@typescript-eslint/parser",
+  "extends": ["alloy", "alloy/react", "alloy/typescript", "plugin:react-hooks/recommended"],
   "parserOptions": {
-    "ecmaVersion": 6,
+    "ecmaVersion": 2020,
     "sourceType": "module",
     "ecmaFeatures": {
       "jsx": true
     }
   },
-  "extends": [
-      "eslint:recommended",
-      "plugin:prettier/recommended",
-      "plugin:@typescript-eslint/recommended"
-  ],
-  "plugins": [
-      "@typescript-eslint"
-  ],
+  "settings": {
+    "react": {
+      "pragma": "React",
+      "version": "detect"
+    }
+  },
   "env": {
     "browser": true,
-    "amd": true,
-    "node": true
+    "es6": true,
+    "amd": true
   },
+  "globals": {
+    "seajs": false,
+    "process": false,
+    "JSX": true
+  },
+  "plugins": [],
   "rules": {
-    "prettier/prettier": "error",
-    "@typescript-eslint/no-namespace": "off",
     "@typescript-eslint/explicit-member-accessibility": "off",
-    "@typescript-eslint/no-var-requires": "off",
-    "@typescript-eslint/no-empty-function": "off",
-    "@typescript-eslint/explicit-module-boundary-types": "off",
-    "@typescript-eslint/explicit-function-return-type": "off",
-    "@typescript-eslint/no-explicit-any": "off",
-    "import/prefer-default-export": "off",
-    "no-empty-interface": "off",
-    "prefer-destructuring":"off"
+    "@typescript-eslint/no-this-alias": "off",
+    "@typescript-eslint/no-useless-constructor": "off",
+    "@typescript-eslint/no-unused-expressions": "off",
+    "@typescript-eslint/no-require-imports": "off",
+    "max-params": "off",
+    "max-nested-callbacks": "off",
+    "complexity": "off",
+    "no-param-reassign": "off"
   }
 }

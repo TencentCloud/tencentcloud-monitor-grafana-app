@@ -29,7 +29,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "format": "percent",
       "gauge": {
         "maxValue": 100,
@@ -534,7 +534,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "format": "percent",
       "gauge": {
         "maxValue": 100,
@@ -682,7 +682,7 @@
         "#FF9830",
         "#d44a3a"
       ],
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -830,7 +830,7 @@
         "#FF9830",
         "#d44a3a"
       ],
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -986,7 +986,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -1217,7 +1217,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -1448,7 +1448,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -1684,7 +1684,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -1920,7 +1920,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -2095,7 +2095,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -2255,7 +2255,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -2415,7 +2415,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -2649,7 +2649,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -2813,7 +2813,7 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": "Tencent Cloud Monitor Datasource",
+        "datasource": "Tencent Cloud Monitoring",
         "definition": "Namespace=QCE/CVM&Action=DescribeRegions",
         "hide": 0,
         "includeAll": false,
@@ -2836,7 +2836,7 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": "Tencent Cloud Monitor Datasource",
+        "datasource": "Tencent Cloud Monitoring",
         "definition": "Namespace=QCE/CVM&Action=DescribeInstances&Region=$region&InstanceAlias=PublicIpAddresses",
         "hide": 0,
         "includeAll": false,
@@ -2888,7 +2888,7 @@
     ]
   },
   "timezone": "",
-  "title": "【实例】CVM 单机监控",
+  "title": "【预设】CVM 单机监控",
   "uid": "DWBrOhyGz",
   "variables": {
     "list": []

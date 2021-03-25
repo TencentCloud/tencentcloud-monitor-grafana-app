@@ -1,4 +1,4 @@
-import * as _ from 'lodash';
+import _ from 'lodash';
 import { OVCDNInstanceAliasList, OVCDNInvalidDemensions } from './query_def';
 import { BaseDatasource } from '../_base/datasource';
 

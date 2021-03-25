@@ -22,7 +22,7 @@ export class SCFQueryCtrl {
       return instance;
     };
 
-    $scope.getVersions = async target => {
+    $scope.getVersions = async (target) => {
       // console.log(2222);
 
       // return [{ text: 1, value: 1 }];
@@ -34,7 +34,7 @@ export class SCFQueryCtrl {
 
       const fetcher = $scope.datasource.getServiceFn('scf', 'getVersions');
 
-      return fetcher(region, { FunctionName }).then(res => {
+      return fetcher(region, { FunctionName }).then((res) => {
         console.log(res, 'res');
 
         return res;

@@ -15,7 +15,7 @@ export class CDBQueryCtrl {
       $scope.onChange();
     };
 
-    $scope.getDropdown = field => {
+    $scope.getDropdown = (field) => {
       switch (field) {
         case 'ZoneIds':
           return $scope.getZones();

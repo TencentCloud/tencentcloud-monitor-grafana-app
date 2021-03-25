@@ -1,4 +1,4 @@
-import * as _ from 'lodash';
+import _ from 'lodash';
 import { BaseDatasource } from '../_base/datasource';
 import { CFSInstanceAliasList, CFSInvalidDemensions } from './query_def';
 

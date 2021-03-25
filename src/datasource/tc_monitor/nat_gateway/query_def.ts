@@ -1,4 +1,4 @@
-import * as _ from 'lodash';
+import _ from 'lodash';
 
 const NATGATEWAYInstanceAliasList = ['NatGatewayId', 'NatGatewayName'];
 
@@ -46,7 +46,7 @@ const NATGATEWAY_STATE = {
     instanceIdsChecked: false,
     filtersChecked: false,
     NatGatewayIds: [''],
-    Filters: Object.assign({}, NATGatewayFilterFields),
+    Filters: { ...NATGatewayFilterFields },
   },
 };
 

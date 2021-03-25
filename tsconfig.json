@@ -20,6 +20,7 @@
     "noImplicitAny": false,
     "noUnusedLocals": true,
     "strictNullChecks": true,
-    "moduleResolution": "node",
+    "moduleResolution": "node"
   },
+  "include": ["src/**/*"]
 }
