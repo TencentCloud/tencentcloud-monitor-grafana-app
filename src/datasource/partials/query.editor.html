@@ -15,7 +15,7 @@
     </div>
   </div>
 
-  <div class="gf-form-inline">
+  <div class="gf-form-inline" ng-if="!ctrl.hideRegion">
     <div class="gf-form">
       <label class="gf-form-label query-keyword width-9">Region</label>
       <div class="gf-form-select-wrapper gf-form-select-wrapper--caret-indent">
@@ -26,6 +26,7 @@
           get-options="ctrl.getRegions($query)"
           on-change="ctrl.onRegionChange()"
           css-class="min-width-10"
+          disabled
         >
         </gf-form-dropdown>
       </div>

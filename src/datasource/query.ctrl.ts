@@ -2,7 +2,7 @@ import { QueryCtrl } from 'grafana/app/plugins/sdk';
 import _ from 'lodash';
 
 import { GetServiceFromNamespace, ReplaceVariable, isVariable } from './common/constants';
-import { InitServiceState, InstanceAliasList, GetInstanceQueryParams } from './tc_monitor';
+import { InitServiceState, InstanceAliasList, GetInstanceQueryParams, SERVICES } from './tc_monitor';
 
 import './components/multi_condition';
 import './components/custom_select_dropdown';
@@ -39,7 +39,7 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
   lastQueryError?: string;
 
   isMetricsNeedUpdate: boolean;
-
+  hideRegion: boolean;
   /** @ngInject */
   // eslint-disable-next-line @typescript-eslint/no-parameter-properties
   constructor($scope, $injector, private templateSrv) {
@@ -52,6 +52,7 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
       }
       this.target.service = GetServiceFromNamespace(this.target.namespace) || '';
     }
+    this.hideRegion = !!SERVICES.find((o) => o.service === this.target.service)?.hideRegion;
     _.defaultsDeep(this.target, this.defaults);
     this.instanceAliasList = this.getInstanceAliasList(this.target.service);
     // this.listenerAliasList = this.getListenerAliasList(this.target.service);
@@ -122,6 +123,7 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
   }
   onNamespaceChange() {
     const service = GetServiceFromNamespace(this.target.namespace) || '';
+    this.hideRegion = !!SERVICES.find((o) => o.service === service)?.hideRegion;
     this.regions = [];
     this.metricList = [];
     this.periodList = [];
