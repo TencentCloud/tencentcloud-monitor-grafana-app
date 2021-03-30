@@ -62,7 +62,6 @@ function GetInstanceQueryParams(queries: any = {}) {
 // 向实例里面塞dimensions对应的值，dimension中的key对应到实例中的key
 export const InvalidDemensions = {
   topicId: 'TopicId',
-  subscriptionId: 'SubscriptionId',
 };
 
 // 因为cmq那边，以TopciName为主键

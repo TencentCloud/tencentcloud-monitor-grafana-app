@@ -4,6 +4,7 @@ import {
   namespace,
   templateQueryIdMap,
   regionSupported,
+  modifyDimensons,
 } from './query_def';
 import { BaseDatasource } from '../_base/datasource';
 import { GetServiceAPIInfo } from '../../common/constants';
@@ -24,6 +25,10 @@ export default class DCDatasource extends BaseDatasource {
     super(instanceSettings, backendSrv, templateSrv);
   }
 
+  async getMetrics(region = 'ap-guangzhou') {
+    const rawSet = await super.getMetrics(region);
+    return _.compact(rawSet.map((item) => modifyDimensons(item)));
+  }
   getRegions() {
     return Promise.resolve(regionSupported);
   }
