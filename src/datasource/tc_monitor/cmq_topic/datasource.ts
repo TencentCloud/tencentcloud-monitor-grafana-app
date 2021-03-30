@@ -67,7 +67,7 @@ export default class CmqTopicDatasource extends BaseDatasource {
       'SubscriptionSet'
     );
 
-    return rs.map((item) => ({ text: item.SubscriptionName, value: item.SubscriptionId }));
+    return rs[0].map((item) => ({ text: item.SubscriptionId, value: item.SubscriptionId }));
   }
 
   async fetchMetricData(action: string, region: string, instance: any) {

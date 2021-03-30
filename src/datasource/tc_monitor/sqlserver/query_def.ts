@@ -1,6 +1,7 @@
 // 产品目录名字和service名字匹配即 lb_private(目录名) => lbPrivate(service)
 import { DetailQueryConfig, FildDescriptorType } from '../_base/types';
 import { instanceQueryParamsBaseParse } from '../../common/utils';
+import _ from 'lodash';
 
 const namespace = 'QCE/SQLSERVER';
 
@@ -176,6 +177,13 @@ const SQLSERVER_STATE = {
   queries: SQLSERVERNETFilterFields,
 };
 
+function modifyDimensons(metricItem) {
+  const metricTmp = _.cloneDeep(metricItem);
+  metricTmp.Dimensions.forEach((item) => {
+    item.Dimensions = ['resourceId'];
+  });
+  return metricTmp;
+}
 function GetInstanceQueryParams(queries: any = {}) {
   return instanceQueryParamsBaseParse(queries, false);
 }
@@ -189,6 +197,7 @@ export {
   queryEditorName,
   queryEditorConfig,
   regionSupported,
+  modifyDimensons,
   // 对应产品的service的全大写拼接InstanceQueryParams
   GetInstanceQueryParams as SQLSERVERGetInstanceQueryParams,
 };

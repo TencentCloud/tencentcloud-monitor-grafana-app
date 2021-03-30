@@ -122,7 +122,7 @@ const CDNFilterFieldsDescriptor = [
 ];
 
 const CDN_STATE = {
-  region: '',
+  region: 'ap-guangzhou',
   metricName: '',
   metricUnit: '',
   period: undefined,

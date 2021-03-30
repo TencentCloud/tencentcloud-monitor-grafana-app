@@ -133,7 +133,7 @@ const template = `
       <div class="gf-form">
         <label class="gf-form-label query-keyword width-9">{{extra.label}}</label>
         <div class="gf-form-select-wrapper gf-form-select-wrapper--caret-indent">
-          <gf-form-dropdown model="target[extra.field]" allow-custom="false" get-options="getExtraDropdown(target, extra.field)"
+          <gf-form-dropdown model="target[extra.field]" allow-custom="true" get-options="getExtraDropdown(target, extra.field)"
             on-change="onExtraFieldChange(extra.field)" css-class="min-width-10">
           </gf-form-dropdown>
         </div>

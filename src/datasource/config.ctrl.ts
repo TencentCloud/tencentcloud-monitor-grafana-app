@@ -15,7 +15,7 @@ export class TCMonitorDatasourceConfigCtrl {
   get filteredList() {
     const rawList = this.current.jsonData.services ?? [];
     return rawList
-      .filter((item) => item.label.includes(this.filterKey))
+      .filter((item) => item.label.toLowerCase().includes(this.filterKey.toLowerCase()))
       .map((item) => {
         item.filteredLabel = this.getFitleredLabel(item.label);
         return item;
@@ -43,7 +43,7 @@ export class TCMonitorDatasourceConfigCtrl {
 
   getFitleredLabel(label: string) {
     if (!this.filterKey) return label;
-    return label.replace(new RegExp(`(${this.filterKey})`, 'g'), '<span class="filtered-color">$1</span>');
+    return label.replace(new RegExp(`(${this.filterKey})`, 'ig'), '<span class="filtered-color">$1</span>');
   }
 
   checkSecretId(target: string) {
