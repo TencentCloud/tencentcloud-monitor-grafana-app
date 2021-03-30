@@ -29,7 +29,6 @@ export default class CYNOSDBMYSQLDatasource extends BaseDatasource {
     return rawSet.map((item) => modifyDimensons(item));
   }
   getRegions() {
-    console.log({ regionSupported });
     return Promise.resolve(regionSupported);
   }
 }

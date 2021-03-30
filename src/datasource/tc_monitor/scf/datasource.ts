@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { FilterKeys, GetServiceAPIInfo, SliceLength } from '../../common/constants';
 import { BaseDatasource } from '../_base/datasource';
 import { MetricQuery } from '../_base/types';
-import { SCFInstanceAliasList, SCFInvalidDemensions } from './query_def';
+import { SCFInstanceAliasList, SCFInvalidDemensions, regionSupported } from './query_def';
 
 export default class SCFDatasource extends BaseDatasource {
   InstanceKey: string;
@@ -25,6 +25,10 @@ export default class SCFDatasource extends BaseDatasource {
       action: 'ListFunctions',
       responseField: 'Functions',
     };
+  }
+
+  getRegions() {
+    return Promise.resolve(regionSupported);
   }
 
   async getMetrics(region = 'ap-guangzhou') {
