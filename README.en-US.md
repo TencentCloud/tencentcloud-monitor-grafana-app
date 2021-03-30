@@ -1,44 +1,22 @@
-<p align="center">
-  <a href="https://github.com/TencentCloud/tencentcloud-monitor-grafana-app"><img src="https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/plugin-app.png?raw=true" /></a>
-</p>
+[![Tencent Cloud Monitor Grafana App](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/plugin-app.png?raw=true)](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app)
 
-<p align="center">
-  <a href="https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/releases">
-    <img src="https://img.shields.io/github/v/release/TencentCloud/tencentcloud-monitor-grafana-app?sort=semver&color=green" alt="GitHub release (latest SemVer)">
-  </a>
-  <a href="https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/LICENSE">
-    <img src="https://img.shields.io/github/license/TencentCloud/tencentcloud-monitor-grafana-app?color=blue" alt="License">
-  </a>
-  <a href="https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/CHANGELOG.md">
-    <img src="https://img.shields.io/badge/change-log-blue.svg" alt="Change Log">
-  </a>
-  <a href="#">
-    <img src="https://img.shields.io/github/languages/code-size/TencentCloud/tencentcloud-monitor-grafana-app" alt="GitHub code size in bytes">
-  </a>
-  <a href="https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/pulls">
-    <img alt="PRs Welcome" src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg">
-  </a>
-  <a href="https://grafana.com/grafana/plugins/tencentcloud-monitor-app">
-    <img alt="Marketplace" src="https://img.shields.io/badge/dynamic/json?logo=grafana&color=F47A20&label=marketplace&prefix=v&query=%24.items%5B%3F%28%40.slug%20%3D%3D%20%22tencentcloud-monitor-app%22%29%5D.version&url=https%3A%2F%2Fgrafana.com%2Fapi%2Fplugins">
-  </a>
-  <a href="https://grafana.com/grafana/plugins/tencentcloud-monitor-app">
-    <img alt="Downloads" src="https://img.shields.io/badge/dynamic/json?logo=grafana&color=F47A20&label=downloads&query=%24.items%5B%3F%28%40.slug%20%3D%3D%20%22tencentcloud-monitor-app%22%29%5D.downloads&url=https%3A%2F%2Fgrafana.com%2Fapi%2Fplugins">
-  </a>
-</p>
+[![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/TencentCloud/tencentcloud-monitor-grafana-app?sort=semver&color=green)](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/releases)
+[![License](https://img.shields.io/github/license/TencentCloud/tencentcloud-monitor-grafana-app?color=blue)](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/LICENSE)
+[![Change Log](https://img.shields.io/badge/change-log-blue.svg)](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/CHANGELOG.md)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/TencentCloud/tencentcloud-monitor-grafana-app)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/pulls)
+[![Marketplace](https://img.shields.io/badge/dynamic/json?logo=grafana&color=F47A20&label=marketplace&prefix=v&query=%24.items%5B%3F%28%40.slug%20%3D%3D%20%22tencentcloud-monitor-app%22%29%5D.version&url=https%3A%2F%2Fgrafana.com%2Fapi%2Fplugins)](https://grafana.com/grafana/plugins/tencentcloud-monitor-app)
+[![Downloads](https://img.shields.io/badge/dynamic/json?logo=grafana&color=F47A20&label=downloads&query=%24.items%5B%3F%28%40.slug%20%3D%3D%20%22tencentcloud-monitor-app%22%29%5D.downloads&url=https%3A%2F%2Fgrafana.com%2Fapi%2Fplugins)](https://grafana.com/grafana/plugins/tencentcloud-monitor-app)
 
-<h1 align="center">Tencent Cloud Monitor Grafana App</h1>
+# Tencent Cloud Monitor Grafana App
 
-<p align="center">
-  English
-  |
-  <a href="https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/README.md">简体中文</a>
-</p>
+English | [简体中文](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/README.md)
 
 # Table of Contents
 
   * [Introduction](#introduction)
   * [Get Started](#get-started)
-    * [Installation](#install)
+    * [Installation](#installation)
       * [Use Grafana CLI](#use-grafana-cli)
       * [From GitHub Releases](#from-github-releases)
       * [From Source Code](#from-source-code)
@@ -755,15 +733,9 @@ Alternately, you can clone this repository into your Grafana Plugin directory an
 
 If you have any questions using this app, you are welcome to [create an issue](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/issues/new/choose) or to scan the QR code below to add QQ group chat:
 
-<table>
-  <tr>
-    <td>
-      QQ Group (861359693)
-      <br>
-      <img src="https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/QQ-QRCode.png" width="150px;" alt=""/>
-    </td>
-  </tr>
-</table>
+| QQ Group (861359693) |
+| ----------- |
+| ![QQ Group](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/QQ-QRCode@v2.png) |
 
 # Contributors ✨
 
