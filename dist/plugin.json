@@ -13,7 +13,7 @@
       "large": "img/tencent-cloud.svg"
     },
     "version": "1.5.0",
-    "updated": "2021-03-23",
+    "updated": "2021-04-02",
     "links": [
       { "name": "GitHub", "url": "https://github.com/TencentCloud/tencentcloud-monitor-grafana-app" },
       { "name": "Docs", "url": "https://cloud.tencent.com/document/product/248/48529" },
@@ -24,10 +24,10 @@
     ],
     "screenshots": [
       { "name": "logo", "path": "img/tencent-cloud.svg" },
-      { "name": "config datasource", "path":"image/datasource-config@v2.png"},
-      { "name": "query example", "path":"image/variable-panel-query.png"},
-      { "name": "cvm example", "path":"image/variable-cvm-dashboard.png"},
-      { "name": "template variable example", "path":"image/variable-region-config.png"}
+      { "name": "config datasource", "path": "image/datasource-config@v2.png" },
+      { "name": "query example", "path": "image/variable-panel-query.png" },
+      { "name": "cvm example", "path": "image/variable-cvm-dashboard.png" },
+      { "name": "template variable example", "path": "image/variable-region-config.png" }
     ]
   },
   "includes": [
@@ -85,11 +85,6 @@
       "type": "dashboard",
       "name": "【预设】共享宽带包",
       "path": "dashboards/example_bwp_dashboard.json"
-    },
-    {
-      "type": "dashboard",
-      "name": "【预设】云硬盘",
-      "path": "dashboards/example_cbs_dashboard.json"
     },
     {
       "type": "dashboard",

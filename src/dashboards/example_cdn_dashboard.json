@@ -115,7 +115,7 @@
               "Limit": 20,
               "Offset": 0
             },
-            "region": "$region"
+            "region": "ap-guangzhou"
           }
         }
       ],
@@ -240,7 +240,7 @@
               "Limit": 20,
               "Offset": 0
             },
-            "region": "$region"
+            "region": "ap-guangzhou"
           }
         }
       ],
@@ -365,7 +365,7 @@
               "Limit": 20,
               "Offset": 0
             },
-            "region": "$region"
+            "region": "ap-guangzhou"
           }
         }
       ],
@@ -490,7 +490,7 @@
               "Limit": 20,
               "Offset": 0
             },
-            "region": "$region"
+            "region": "ap-guangzhou"
           }
         }
       ],
@@ -630,7 +630,7 @@
               "Limit": 20,
               "Offset": 0
             },
-            "region": "$region"
+            "region": "ap-guangzhou"
           }
         }
       ],
@@ -755,7 +755,7 @@
               "Limit": 20,
               "Offset": 0
             },
-            "region": "$region"
+            "region": "ap-guangzhou"
           }
         }
       ],
@@ -880,7 +880,7 @@
               "Limit": 20,
               "Offset": 0
             },
-            "region": "$region"
+            "region": "ap-guangzhou"
           }
         }
       ],
@@ -1005,7 +1005,7 @@
               "Limit": 20,
               "Offset": 0
             },
-            "region": "$region"
+            "region": "ap-guangzhou"
           }
         }
       ],
@@ -1060,30 +1060,7 @@
         "allValue": null,
         "current": {},
         "datasource": "Tencent Cloud Monitoring",
-        "definition": "Namespace=QCE/CDN&Action=DescribeRegions",
-        "hide": 0,
-        "includeAll": false,
-        "index": -1,
-        "label": "地区",
-        "multi": false,
-        "name": "region",
-        "options": [],
-        "query": "Namespace=QCE/CDN&Action=DescribeRegions",
-        "refresh": 1,
-        "regex": "",
-        "skipUrlSync": false,
-        "sort": 0,
-        "tagValuesQuery": "",
-        "tags": [],
-        "tagsQuery": "",
-        "type": "query",
-        "useTags": false
-      },
-      {
-        "allValue": null,
-        "current": {},
-        "datasource": "Tencent Cloud Monitoring",
-        "definition": "Namespace=QCE/CDN&Action=DescribeInstances&Region=$region&InstanceAlias=InstanceId",
+        "definition": "Namespace=QCE/CDN&Action=DescribeInstances&InstanceAlias=InstanceId",
         "hide": 0,
         "includeAll": false,
         "index": -1,
@@ -1091,7 +1068,7 @@
         "multi": false,
         "name": "instance",
         "options": [],
-        "query": "Namespace=QCE/CDN&Action=DescribeInstances&Region=$region&InstanceAlias=InstanceId",
+        "query": "Namespace=QCE/CDN&Action=DescribeInstances&InstanceAlias=InstanceId",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
@@ -1106,7 +1083,7 @@
         "allValue": null,
         "current": {},
         "datasource": "Tencent Cloud Monitoring",
-        "definition": "Namespace=QCE/OV_CDN&Action=DescribeInstances&Region=$region&InstanceAlias=InstanceId",
+        "definition": "Namespace=QCE/OV_CDN&Action=DescribeInstances&InstanceAlias=InstanceId",
         "hide": 0,
         "includeAll": false,
         "index": -1,
@@ -1114,7 +1091,7 @@
         "multi": false,
         "name": "ov_instance",
         "options": [],
-        "query": "Namespace=QCE/OV_CDN&Action=DescribeInstances&Region=$region&InstanceAlias=InstanceId",
+        "query": "Namespace=QCE/OV_CDN&Action=DescribeInstances&InstanceAlias=InstanceId",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,

@@ -1,13 +1,9 @@
 # TencentCloud Monitor Grafana App
 ---
 
-## [1.5.0] - 2021-03-25
+## [1.5.0] - 2021-04-02
 
-### 1.5.0 Feature highlights
-
-We are officially on [Grafana Plugins](https://grafana.com/grafana/plugins/tencentcloud-monitor-app)!
-
-Except supporting cloud products in previous versions, we have added the following cloud products in this version:
+### Added
 
 - Support monitoring [Dedicated Tunnel](https://intl.cloud.tencent.com/document/product/248/10995);
 - Support monitoring [Direct Connection](https://intl.cloud.tencent.com/document/product/248/10994);
@@ -22,22 +18,14 @@ Except supporting cloud products in previous versions, we have added the followi
 - Support monitoring [Elasticsearch](https://intl.cloud.tencent.com/document/product/248/34642);
 - Support monitoring [CMQ Queue Service](https://intl.cloud.tencent.com/document/product/248/34643);
 - Support monitoring [CMQ Topic Subscription](https://intl.cloud.tencent.com/document/product/248/11013);
-
-### Added
-
-- Signing the plugin from Grafana.com.
 - User guide while enabling the plugin.
 - Searching function when configuring the data source.
 
 ### Fixed
 
-- Some known issues.
-
-### Installation
-
-```bash
-$ grafana-cli plugins install tencentcloud-monitor-app
-```
+- Preset dashboard templates. (#47)
+- Remove `$region` in CDN monitoring.
+- Other known issues.
 
 See detailed guide in [README.md](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/README.md).
 
@@ -62,7 +50,7 @@ See detailed guide in [README.md](https://github.com/TencentCloud/tencentcloud-m
 
 ### Added
 
-- [`tc-monitor-cli`](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/bin/tc-monitor-cli) for plugin's installation, upgrade and rollback.
+- [`tc-monitor-cli`](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/release/1.4.3/bin/tc-monitor-cli) for plugin's installation, upgrade and rollback.
 
 See detailed guide in [README.md](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/README.md).
 
