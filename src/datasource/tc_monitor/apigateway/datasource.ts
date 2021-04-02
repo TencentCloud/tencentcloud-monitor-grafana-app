@@ -60,7 +60,7 @@ export default class DCDatasource extends BaseDatasource {
     });
   }
   async fetchMetricData(action: string, region: string, instance: any) {
-    console.log({ action, region, instance });
+    // console.log({ action, region, instance });
     if (action === 'DescribeServiceEnvironmentList') {
       const rs = await this.getEnvironmentNameList({ region, instanceId: instance[this.templateQueryIdMap.instance] });
       return rs;

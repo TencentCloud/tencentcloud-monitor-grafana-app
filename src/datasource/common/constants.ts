@@ -3,6 +3,7 @@ import qs from 'qs';
 import { SERVICES } from '../tc_monitor';
 import Sign from './sign';
 import SignV2 from './signV2';
+import { toDataQueryResponse } from '@grafana/runtime';
 
 // the services of tencentcloud monitor api
 const FINACE_REGIONS = ['ap-shanghai-fsi', 'ap-shenzhen-fsi'];
@@ -517,16 +518,18 @@ export function isVariable(value) {
  * @param secretId
  * @param secretKey
  */
-export function GetRequestParams(options, service, signObj: any = {}, secretId, secretKey) {
+export async function GetRequestParams(options, service, signObj: any = {}, secretId, datasourceId, backendSrv) {
   const signParams = {
     secretId,
-    secretKey,
     payload: options.data || '',
     ...signObj,
     ...(_.pick(GetServiceAPIInfo(signObj.region || '', service), ['service', 'host', 'version']) || {}),
+    backendSrv,
+    datasourceId,
   };
   const sign = new Sign(signParams);
-  options.headers = Object.assign(options.headers || {}, { ...sign.getHeader() });
+  const headerSigned = await sign.getHeader();
+  options.headers = Object.assign(options.headers || {}, { ...headerSigned });
   options.method = 'POST';
   return options;
 }
@@ -539,19 +542,27 @@ export function GetRequestParams(options, service, signObj: any = {}, secretId, 
  * @param secretId
  * @param secretKey
  */
-export function GetRequestParamsV2(options: any = {}, service, signObj: any = {}, secretId, secretKey) {
+export async function GetRequestParamsV2(
+  options: any = {},
+  service,
+  signObj: any = {},
+  secretId,
+  datasourceId,
+  backendSrv
+) {
   const data = options.data || {};
   const signParams = {
     secretId,
-    secretKey,
     data,
     ...signObj,
-    ...(_.pick(GetServiceAPIInfo(signObj.region || '', service), ['host']) || {}),
+    ...(_.pick(GetServiceAPIInfo(signObj.region || '', service), ['host', 'version']) || {}),
+    backendSrv,
+    datasourceId,
   };
   options.method = 'POST';
   const sign = new SignV2(signParams);
   options.headers = Object.assign(options.headers || {}, { 'Content-Type': 'application/x-www-form-urlencoded' });
-  const { queryString, path } = sign.generateQueryString();
+  const { queryString, path } = await sign.generateQueryString();
   options.data = qs.stringify({ ...options.data, ...queryString });
   options.url += path;
   return options;
@@ -567,3 +578,10 @@ export function SliceLength(total = 0, len = 1) {
 }
 
 export const FilterKeys = ['Namespace', 'Offset', 'Limit', 'SearchKey', 'Description', 'OrderBy', 'Order'];
+
+export function parseDataFromBackendPlugin(res) {
+  const { data } = toDataQueryResponse(res);
+  return {
+    authorization: _.get(data, '[0].meta.custom', ''),
+  };
+}
