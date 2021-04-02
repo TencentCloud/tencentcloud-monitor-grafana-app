@@ -26,37 +26,37 @@ export default class CKFKADatasource extends BaseDatasource {
 
     // 从分页数据，获取全量数据
     const rs = await fetchAllFactory(
-      data => {
+      (data) => {
         return this.doRequest(
           {
             url: this.url + serviceInfo.path,
             data,
           },
           serviceInfo.service,
-          { region, action: 'DescribeConsumerGroup' },
+          { region, action: 'DescribeConsumerGroup' }
         );
       },
       params,
-      ['GroupListForMonitor', 'TopicListForMonitor', 'PartitionListForMonitor'],
+      ['GroupListForMonitor', 'TopicListForMonitor', 'PartitionListForMonitor']
     );
 
     let [GroupList, TopicList, PartitionList] = rs;
 
-    TopicList = _.uniqBy(TopicList, item => (item as any).TopicId);
-    GroupList = _.uniqBy(GroupList, item => (item as any).GroupName);
-    PartitionList = _.uniqBy(PartitionList, item => (item as any).Partition);
+    TopicList = _.uniqBy(TopicList, (item) => (item as any).TopicId);
+    GroupList = _.uniqBy(GroupList, (item) => (item as any).GroupName);
+    PartitionList = _.uniqBy(PartitionList, (item) => (item as any).Partition);
 
     return {
-      TopicList: TopicList.map(topic => ({
+      TopicList: TopicList.map((topic) => ({
         text: topic.TopicId,
-        value: topic.TopicId,
+        value: topic.TopicId, // 为了获取多维度的值，这里完全可以使用JSON.stringify()将整个对象放进去
         TopicName: topic.TopicName,
       })),
-      GroupList: GroupList.map(group => ({
+      GroupList: GroupList.map((group) => ({
         text: group.GroupName,
         value: group.GroupName,
       })),
-      PartitionList: PartitionList.map(par => ({
+      PartitionList: PartitionList.map((par) => ({
         text: par.Partition,
         value: par.Partition,
       })),

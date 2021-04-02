@@ -6,7 +6,7 @@ import { LBPUBLICFieldsDescriptor, LBPUBLICListenerAliasList } from './query_def
 export class LBPublicQueryCtrl {
   /** @ngInject */
   constructor($scope, $rootScope) {
-    $scope.listenerAliasList = _.map(LBPUBLICListenerAliasList, item => ({ text: `As ${item}`, value: item }));
+    $scope.listenerAliasList = _.map(LBPUBLICListenerAliasList, (item) => ({ text: `As ${item}`, value: item }));
     $scope.init = () => {
       $scope.LBPUBLICFieldsDescriptor = LBPUBLICFieldsDescriptor;
     };
@@ -18,7 +18,7 @@ export class LBPublicQueryCtrl {
       $scope.onChange();
     };
 
-    $scope.getDropdown = field => {
+    $scope.getDropdown = (field) => {
       switch (field) {
         default:
           return [];
@@ -48,14 +48,14 @@ export class LBPublicQueryCtrl {
       const listenerAlias = $scope.target.listenerAlias;
 
       const listeners: any[] = [];
-      _.forEach(data, item => {
+      _.forEach(data, (item) => {
         const listenerAliasValue = _.get(item, listenerAlias);
         if (listenerAliasValue) {
           if (['string', 'number'].includes(typeof listenerAliasValue)) {
             item._listenerAliasValue = listenerAliasValue;
             listeners.push({ text: listenerAliasValue, value: JSON.stringify(item) });
           } else if (_.isArray(listenerAliasValue)) {
-            _.forEach(listenerAliasValue, subItem => {
+            _.forEach(listenerAliasValue, (subItem) => {
               item._listenerAliasValue = subItem;
               listeners.push({ text: subItem, value: JSON.stringify(item) });
             });

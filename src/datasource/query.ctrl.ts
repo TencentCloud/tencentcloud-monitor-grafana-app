@@ -1,15 +1,16 @@
 import { QueryCtrl } from 'grafana/app/plugins/sdk';
-import * as _ from 'lodash';
+import _ from 'lodash';
 
 import { GetServiceFromNamespace, ReplaceVariable, isVariable } from './common/constants';
-import { InitServiceState, InstanceAliasList, GetInstanceQueryParams } from './tc_monitor';
+import { InitServiceState, InstanceAliasList, GetInstanceQueryParams, SERVICES } from './tc_monitor';
 
 import './components/multi_condition';
 import './components/custom_select_dropdown';
 import './css/query_editor.css';
-
+import { editorHtml } from './partials/queryEditorTemplate';
 export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
-  static templateUrl = 'datasource/partials/query.editor.html';
+  // static templateUrl = 'datasource/partials/query.editor.html';
+  static template = editorHtml;
   datasource: any;
   panelCtrl: any;
   namespaces: string[] = [];
@@ -38,8 +39,9 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
   lastQueryError?: string;
 
   isMetricsNeedUpdate: boolean;
-
+  hideRegion: boolean;
   /** @ngInject */
+  // eslint-disable-next-line @typescript-eslint/no-parameter-properties
   constructor($scope, $injector, private templateSrv) {
     super($scope, $injector);
     this.namespaces = this.datasource.getNamespaces();
@@ -50,11 +52,16 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
       }
       this.target.service = GetServiceFromNamespace(this.target.namespace) || '';
     }
+    this.hideRegion = !!SERVICES.find((o) => o.service === this.target.service)?.hideRegion;
     _.defaultsDeep(this.target, this.defaults);
     this.instanceAliasList = this.getInstanceAliasList(this.target.service);
     // this.listenerAliasList = this.getListenerAliasList(this.target.service);
     this.panelCtrl.events.on('data-received', this.onDataReceived.bind(this), $scope);
     this.panelCtrl.events.on('data-error', this.onDataError.bind(this), $scope);
+  }
+
+  get sortedPeriodList() {
+    return this.periodList.sort((a, b) => a - b);
   }
 
   onDataReceived(dataList) {
@@ -89,7 +96,7 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
     } else if (_.get(err, 'data.error', undefined)) {
       this.lastQueryError = _.get(err, 'data.error.message');
       // eslint-disable-next-line no-empty
-    } else if (err.data && err.data.message) {
+    } else if (err.data?.message) {
     } else if (_.get(err, 'data.message', undefined)) {
       this.lastQueryError = _.get(err, 'data.message');
     } else {
@@ -106,16 +113,17 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
     if (!service) {
       return [];
     }
-    return _.map(InstanceAliasList[`${_.toUpper(service)}InstanceAliasList`] || [], item => ({
+    return _.map(InstanceAliasList[`${_.toUpper(service)}InstanceAliasList`] || [], (item) => ({
       text: `As ${item}`,
       value: item,
     }));
   }
   getNamespaces(query) {
-    return _.map(this.namespaces.sort(), o => ({ text: o, value: o })); //TODO: 为什么对对象排序不行呢？？？？待解决
+    return _.map(this.namespaces.sort(), (o) => ({ text: o, value: o })); // TODO: 为什么对对象排序不行呢？？？？待解决
   }
   onNamespaceChange() {
     const service = GetServiceFromNamespace(this.target.namespace) || '';
+    this.hideRegion = !!SERVICES.find((o) => o.service === service)?.hideRegion;
     this.regions = [];
     this.metricList = [];
     this.periodList = [];
@@ -159,7 +167,7 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
     }
     return this.datasource
       .getRegions(service)
-      .then(list => {
+      .then((list) => {
         this.regions = list;
         return list;
       })
@@ -192,7 +200,7 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
 
   getMetricNameDesc() {
     const service = this.target.service;
-    const index = _.findIndex(this.metricList, item => item.MetricName === this.target[service].metricName);
+    const index = _.findIndex(this.metricList, (item) => item.MetricName === this.target[service].metricName);
     return index !== -1 ? this.metricList[index].Meaning.Zh : '';
   }
 
@@ -204,19 +212,19 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
       return [];
     }
     if (!this.isMetricsNeedUpdate && this.metricList.length > 0) {
-      return _.map(this.metricList, item => ({ text: item.MetricName, value: item.MetricName }));
+      return _.map(this.metricList, (item) => ({ text: item.MetricName, value: item.MetricName }));
     }
     return this.datasource
       .getMetrics(service, region)
-      .then(list => {
+      .then((list) => {
         this.metricList = list;
         this.isMetricsNeedUpdate = false;
-        const index = _.findIndex(this.metricList, item => item.MetricName === this.target[service].metricName);
+        const index = _.findIndex(this.metricList, (item) => item.MetricName === this.target[service].metricName);
         if (index !== -1) {
           this.periodList = _.get(this.metricList[index], 'Period', []);
           this.dimensionList = _.get(this.metricList[index], 'Dimensions.0.Dimensions', []);
         }
-        return _.map(list, item => ({ text: item.MetricName, value: item.MetricName }));
+        return _.map(list, (item) => ({ text: item.MetricName, value: item.MetricName }));
       })
       .catch(this.handleQueryCtrlError.bind(this));
   }
@@ -227,14 +235,14 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
     let dimensionList = [];
     const dimensionObject: any = {};
     let metricUnit = '';
-    const index = _.findIndex(this.metricList, item => item.MetricName === this.target[service].metricName);
+    const index = _.findIndex(this.metricList, (item) => item.MetricName === this.target[service].metricName);
     if (index !== -1) {
       periodList = _.get(this.metricList[index], 'Period', []);
       dimensionList = _.get(this.metricList[index], 'Dimensions.0.Dimensions', []);
       // dimensionList = dimensionList.length > 0 ? dimensionList : (DefaultDimensions[service] ?? []);
       metricUnit = _.get(this.metricList[index], 'Unit', '');
     }
-    _.forEach(dimensionList, item => {
+    _.forEach(dimensionList, (item) => {
       dimensionObject[item] = { Name: item, Value: '' };
     });
     this.periodList = periodList;
@@ -255,11 +263,11 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
     const params = this.getInstanceQueryParams(service);
     return this.datasource
       .getInstances(service, region, params)
-      .then(list => {
+      .then((list) => {
         this.instanceList = list;
         const instanceAlias = this.target[service].instanceAlias;
         const instances: any[] = [];
-        _.forEach(list, item => {
+        _.forEach(list, (item) => {
           // 根据 instanceAlias，确定实例展示字段，并保存至 _InstanceAliasValue，用于 constants.ts 的监控数据解析函数 ParseQueryResult
           const instanceAliasValue = _.get(item, instanceAlias);
           if (instanceAliasValue) {
@@ -267,7 +275,7 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
               item._InstanceAliasValue = instanceAliasValue;
               instances.push({ text: instanceAliasValue, value: JSON.stringify(item) });
             } else if (_.isArray(instanceAliasValue)) {
-              _.forEach(instanceAliasValue, subItem => {
+              _.forEach(instanceAliasValue, (subItem) => {
                 item._InstanceAliasValue = subItem;
                 instances.push({ text: subItem, value: JSON.stringify(item) });
               });

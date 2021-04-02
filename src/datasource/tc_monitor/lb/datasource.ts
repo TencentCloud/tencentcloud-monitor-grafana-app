@@ -1,4 +1,4 @@
-import * as _ from 'lodash';
+import _ from 'lodash';
 import { BaseDatasource } from '../_base/datasource';
 import { LBInstanceAliasList, LBInvalidDemensions } from './query_def';
 
@@ -27,9 +27,20 @@ export default class SCFDatasource extends BaseDatasource {
 
   async getMetrics(region = 'ap-guangzhou') {
     const rawSet = await super.getMetrics(region);
-    return rawSet.filter(item =>
-      /* hack：这里多加了筛选条件，是因为后端数据不准确，坑啊！ 只拿取包含eip的指标*/
-      item.Dimensions?.[0]?.Dimensions?.includes('eip'),
+    return rawSet.filter((item) =>
+      /* hack：这里多加了筛选条件，是因为后端数据不准确，坑啊！ 只拿取包含eip的指标 */
+      item.Dimensions?.[0]?.Dimensions?.includes('eip')
     );
+  }
+
+  async getInstances(region, params = {}) {
+    const rawSet = await super.getInstances(region, params);
+    /* hack：这里多加了筛选条件，是因为后端数据不准确，坑啊！ 只拿取包含eip的指标 */
+    return rawSet.filter((item) => item.AddressType === 'EIP');
+  }
+
+  async getVariableInstances(region, query = {}) {
+    const rawSet = await super.getVariableInstances(region, query);
+    return rawSet.filter((item) => item.AddressType === 'EIP');
   }
 }

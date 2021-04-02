@@ -1,4 +1,4 @@
-import * as _ from 'lodash';
+import _ from 'lodash';
 
 const InstanceTypes = [
   { text: '主实例', value: 1 },
@@ -101,11 +101,11 @@ const CDBFieldsDescriptor = [
   {
     key: 'Limit',
     enDescriptor: 'Limit',
-    cnDescriptor: '单次请求返回的数量，默认为20，最小值为1，最大值为2000',
+    cnDescriptor: '单次请求返回的数量，默认为20，最小值为1，最大值为100',
     link: '',
     type: 'inputnumber',
     min: 1,
-    max: 2000,
+    max: 100,
   },
   {
     key: 'InstanceNames',
@@ -252,7 +252,7 @@ const CDB_STATE = {
   dimensionObject: null,
   instance: '',
   instanceAlias: 'InstanceId',
-  queries: Object.assign({}, CDBFields),
+  queries: { ...CDBFields },
 };
 
 const CDBInstanceAliasList = ['InstanceId', 'InstanceName', 'Vip'];
@@ -286,8 +286,8 @@ function isValidMetric(metricObj: any = {}) {
 }
 function modifyDimensons(metricItem: any) {
   const metricTmp = _.cloneDeep(metricItem);
-  metricTmp.Dimensions.forEach(item => {
-    item.Dimensions = item.Dimensions.map(i => CDBInvalidDemensions[i]);
+  metricTmp.Dimensions.forEach((item) => {
+    item.Dimensions = item.Dimensions.map((i) => CDBInvalidDemensions[i]);
   });
   return metricTmp;
 }

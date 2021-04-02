@@ -1,6 +1,6 @@
-import * as _ from 'lodash';
+import _ from 'lodash';
 import { BaseDatasource } from '../_base/datasource';
-import { CFSInstanceAliasList, CFSInvalidDemensions } from './query_def';
+import { CFSInstanceAliasList, CFSInvalidDemensions, regionSupported } from './query_def';
 
 export default class CFSDatasource extends BaseDatasource {
   InstanceKey: string;
@@ -23,5 +23,8 @@ export default class CFSDatasource extends BaseDatasource {
       action: 'DescribeCfsFileSystems',
       responseField: 'FileSystems',
     };
+  }
+  getRegions() {
+    return Promise.resolve(regionSupported);
   }
 }

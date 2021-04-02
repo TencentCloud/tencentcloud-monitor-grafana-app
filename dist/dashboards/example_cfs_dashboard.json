@@ -1,3755 +1,956 @@
 {
-    "annotations": {
-      "list": [
-        {
-          "builtIn": 1,
-          "datasource": "-- Grafana --",
-          "enable": true,
-          "hide": true,
-          "iconColor": "rgba(0, 211, 255, 1)",
-          "name": "Annotations & Alerts",
-          "type": "dashboard"
-        }
-      ]
-    },
-    "description": "腾讯云CFS文件存储监控模板 Dashboard",
-    "editable": true,
-    "gnetId": null,
-    "graphTooltip": 0,
-    "id": null,
-    "iteration": 1614524805919,
-    "links": [],
-    "panels": [
+  "annotations": {
+    "list": [
       {
-        "collapsed": false,
-        "datasource": null,
-        "gridPos": {
-          "h": 1,
-          "w": 24,
-          "x": 0,
-          "y": 0
-        },
-        "id": 22,
-        "panels": [],
-        "title": "文件系统",
-        "type": "row"
-      },
-      {
-        "aliasColors": {},
-        "bars": false,
-        "dashLength": 10,
-        "dashes": false,
-        "datasource": null,
-        "fieldConfig": {
-          "defaults": {
-            "custom": {}
-          },
-          "overrides": []
-        },
-        "fill": 1,
-        "fillGradient": 0,
-        "gridPos": {
-          "h": 8,
-          "w": 12,
-          "x": 0,
-          "y": 1
-        },
-        "hiddenSeries": false,
-        "id": 20,
-        "legend": {
-          "avg": false,
-          "current": false,
-          "max": false,
-          "min": false,
-          "show": true,
-          "total": false,
-          "values": false
-        },
-        "lines": true,
-        "linewidth": 1,
-        "nullPointMode": "null",
-        "options": {
-          "alertThreshold": true
-        },
-        "percentage": false,
-        "pluginVersion": "7.3.6",
-        "pointradius": 2,
-        "points": false,
-        "renderer": "flot",
-        "seriesOverrides": [],
-        "spaceLength": 10,
-        "stack": false,
-        "steppedLine": false,
-        "targets": [
-          {
-            "bwp": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "BandwidthPackageId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "BandwidthPackageIds": [
-                  ""
-                ],
-                "Filters": {
-                  "bandwidth-package-name": [],
-                  "bandwidth-package_id": [],
-                  "charge-type": [],
-                  "network-type": []
-                },
-                "Limit": 20,
-                "Offset": 0,
-                "filtersChecked": false,
-                "instanceIdsChecked": false
-              },
-              "region": ""
-            },
-            "cdb": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "InstanceId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "CdbErrors": {},
-                "EngineVersions": {},
-                "InitFlag": {},
-                "InstanceIds": [],
-                "InstanceNames": [],
-                "InstanceTypes": {},
-                "Limit": 20,
-                "Offset": 0,
-                "OrderBy": {},
-                "OrderDirection": {},
-                "PayTypes": {},
-                "ProjectId": "",
-                "SecurityGroupId": "",
-                "Status": {},
-                "SubnetIds": [],
-                "TaskStatus": {},
-                "Vips": [],
-                "VpcIds": [],
-                "ZoneIds": []
-              },
-              "region": ""
-            },
-            "cdn": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "Domain",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "Filters": {
-                  "domain": [],
-                  "domainType": [],
-                  "fullUrlCache": [],
-                  "https": [],
-                  "origin": [],
-                  "originPullProtocol": [],
-                  "projectId": [],
-                  "resourceId": [],
-                  "serviceType": [],
-                  "status": [],
-                  "tagKey": []
-                },
-                "Limit": 20,
-                "Offset": 0
-              },
-              "region": ""
-            },
-            "cfs": {
-              "dimensionObject": {
-                "FileSystemId": {
-                  "Name": "FileSystemId",
-                  "Value": ""
-                }
-              },
-              "instance": "$instance",
-              "instanceAlias": "FileSystemId",
-              "metricName": "DataWriteIoCount",
-              "metricUnit": "count",
-              "period": 300,
-              "queries": {
-                "FileSystemId": "",
-                "Limit": 20,
-                "Offset": 0,
-                "SubnetId": "",
-                "VpcId": ""
-              },
-              "region": "$region",
-              "version": ""
-            },
-            "ckafka": {
-              "consumerGroup": "",
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "InstanceId",
-              "metricName": "",
-              "metricUnit": "",
-              "partition": "",
-              "queries": {
-                "InstanceId": "",
-                "Limit": 10,
-                "Offset": 0,
-                "SearchWord": "",
-                "Status": [],
-                "TagKey": ""
-              },
-              "region": "",
-              "topicId": "",
-              "topicName": ""
-            },
-            "cvm": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "InstanceId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "Filters": {
-                  "host-id": [],
-                  "instance-charge-type": {},
-                  "instance-id": [],
-                  "instance-name": [],
-                  "private-ip-address": [],
-                  "project-id": [],
-                  "public-ip-address": [],
-                  "security-group-id": [],
-                  "subnet-id": [],
-                  "vpc-id": [],
-                  "zone": []
-                },
-                "InstanceIds": [
-                  ""
-                ],
-                "Limit": 20,
-                "Offset": 0,
-                "filtersChecked": false,
-                "instanceIdsChecked": false
-              },
-              "region": ""
-            },
-            "lb": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "AddressId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "AddressIds": [
-                  ""
-                ],
-                "Filters": {
-                  "address-id": [],
-                  "address-ip": [],
-                  "address-name": [],
-                  "address-status ": [],
-                  "instance-id ": [],
-                  "is-arrears ": [],
-                  "network-interface-id ": [],
-                  "private-ip-address": []
-                },
-                "Limit": 20,
-                "Offset": 0
-              },
-              "region": "",
-              "version": ""
-            },
-            "lbPrivate": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "LoadBalancerId",
-              "listener": "",
-              "listenerAlias": "ListenerId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "BackendPrivateIps": [],
-                "BackendPublicIps": [],
-                "Domain": "",
-                "Limit": 20,
-                "LoadBalancerIds": [],
-                "LoadBalancerName": "",
-                "LoadBalancerVips": [],
-                "MasterZone": "",
-                "Offset": 0,
-                "OrderBy": {},
-                "OrderType": {},
-                "SecurityGroup": "",
-                "VpcId": "",
-                "WithRs": {}
-              },
-              "region": ""
-            },
-            "lbPublic": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "LoadBalancerId",
-              "listener": "",
-              "listenerAlias": "ListenerId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "BackendPrivateIps": [],
-                "BackendPublicIps": [],
-                "Domain": "",
-                "Limit": 20,
-                "LoadBalancerIds": [],
-                "LoadBalancerName": "",
-                "LoadBalancerVips": [],
-                "MasterZone": "",
-                "Offset": 0,
-                "OrderBy": {},
-                "OrderType": {},
-                "SecurityGroup": "",
-                "VpcId": "",
-                "WithRs": {}
-              },
-              "region": ""
-            },
-            "loadBalance": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "LoadBalancerId",
-              "listener": "",
-              "listenerAlias": "ListenerId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "BackendPrivateIps": [],
-                "BackendPublicIps": [],
-                "Domain": "",
-                "Limit": 20,
-                "LoadBalancerIds": [],
-                "LoadBalancerName": "",
-                "LoadBalancerVips": [],
-                "MasterZone": "",
-                "Offset": 0,
-                "OrderBy": {},
-                "OrderType": {},
-                "SecurityGroup": "",
-                "VpcId": "",
-                "WithRs": {}
-              },
-              "region": ""
-            },
-            "mongoDB": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "InstanceId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "ClusterType": {},
-                "InstanceIds": [],
-                "InstanceType": {},
-                "Limit": 20,
-                "Offset": 0,
-                "OrderBy": "",
-                "OrderByType": "",
-                "PayMode": {},
-                "Status": [],
-                "SubnetId": "",
-                "VpcId": ""
-              },
-              "region": ""
-            },
-            "namespace": "QCE/CFS",
-            "natGateway": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "NatGatewayId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "Filters": {
-                  "nat-gateway-id": [],
-                  "nat-gateway-name": [],
-                  "vpc-id": []
-                },
-                "Limit": 20,
-                "NatGatewayIds": [
-                  ""
-                ],
-                "Offset": 0,
-                "filtersChecked": false,
-                "instanceIdsChecked": false
-              },
-              "region": ""
-            },
-            "ovCdn": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "Domain",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "Filters": {
-                  "domain": [],
-                  "domainType": [],
-                  "fullUrlCache": [],
-                  "https": [],
-                  "origin": [],
-                  "originPullProtocol": [],
-                  "projectId": [],
-                  "resourceId": [],
-                  "serviceType": [],
-                  "status": [],
-                  "tagKey": []
-                },
-                "Limit": 20,
-                "Offset": 0
-              },
-              "region": ""
-            },
-            "pcx": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "peeringConnectionId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "limit": 20,
-                "offset": 0,
-                "peeringConnectionId": "",
-                "peeringConnectionName": "",
-                "vpcId": ""
-              },
-              "region": ""
-            },
-            "postgres": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "DBInstanceId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "Filters": {
-                  "db-instance-id": [],
-                  "db-instance-name": []
-                },
-                "Limit": 20,
-                "Offset": 0
-              },
-              "region": ""
-            },
-            "redis": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "InstanceId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "AutoRenew": null,
-                "BillingMode": "",
-                "EngineName": "",
-                "InstanceId": "",
-                "InstanceName": "",
-                "OrderBy": "",
-                "OrderType": null,
-                "ProjectIds": [],
-                "SearchKey": "",
-                "Status": [],
-                "SubnetIds": [],
-                "Type": null,
-                "TypeVersion": null,
-                "UniqSubnetIds": [],
-                "UniqVpcIds": [],
-                "VpcIds": []
-              },
-              "region": ""
-            },
-            "redisMem": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "InstanceId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "AutoRenew": null,
-                "BillingMode": "",
-                "EngineName": "",
-                "InstanceId": "",
-                "InstanceName": "",
-                "OrderBy": "",
-                "OrderType": null,
-                "ProjectIds": [],
-                "SearchKey": "",
-                "Status": [],
-                "SubnetIds": [],
-                "Type": null,
-                "TypeVersion": null,
-                "UniqSubnetIds": [],
-                "UniqVpcIds": [],
-                "VpcIds": []
-              },
-              "region": ""
-            },
-            "refId": "A",
-            "scf": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "FunctionName",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "Description": "",
-                "Limit": 20,
-                "Namespace": "",
-                "Offset": 0,
-                "Order": {},
-                "OrderBy": {},
-                "SearchKey": ""
-              },
-              "region": "",
-              "version": ""
-            },
-            "service": "cfs",
-            "showInstanceDetails": false
-          }
-        ],
-        "thresholds": [],
-        "timeFrom": null,
-        "timeRegions": [],
-        "timeShift": null,
-        "title": "每秒写文件系统的次数",
-        "tooltip": {
-          "shared": true,
-          "sort": 0,
-          "value_type": "individual"
-        },
-        "type": "graph",
-        "xaxis": {
-          "buckets": null,
-          "mode": "time",
-          "name": null,
-          "show": true,
-          "values": []
-        },
-        "yaxes": [
-          {
-            "format": "short",
-            "label": null,
-            "logBase": 1,
-            "max": null,
-            "min": null,
-            "show": true
-          },
-          {
-            "format": "short",
-            "label": null,
-            "logBase": 1,
-            "max": null,
-            "min": null,
-            "show": true
-          }
-        ],
-        "yaxis": {
-          "align": false,
-          "alignLevel": null
-        }
-      },
-      {
-        "aliasColors": {},
-        "bars": false,
-        "dashLength": 10,
-        "dashes": false,
-        "datasource": null,
-        "fieldConfig": {
-          "defaults": {
-            "custom": {}
-          },
-          "overrides": []
-        },
-        "fill": 1,
-        "fillGradient": 0,
-        "gridPos": {
-          "h": 8,
-          "w": 12,
-          "x": 12,
-          "y": 1
-        },
-        "hiddenSeries": false,
-        "id": 18,
-        "legend": {
-          "avg": false,
-          "current": false,
-          "max": false,
-          "min": false,
-          "show": true,
-          "total": false,
-          "values": false
-        },
-        "lines": true,
-        "linewidth": 1,
-        "nullPointMode": "null",
-        "options": {
-          "alertThreshold": true
-        },
-        "percentage": false,
-        "pluginVersion": "7.3.6",
-        "pointradius": 2,
-        "points": false,
-        "renderer": "flot",
-        "seriesOverrides": [],
-        "spaceLength": 10,
-        "stack": false,
-        "steppedLine": false,
-        "targets": [
-          {
-            "bwp": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "BandwidthPackageId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "BandwidthPackageIds": [
-                  ""
-                ],
-                "Filters": {
-                  "bandwidth-package-name": [],
-                  "bandwidth-package_id": [],
-                  "charge-type": [],
-                  "network-type": []
-                },
-                "Limit": 20,
-                "Offset": 0,
-                "filtersChecked": false,
-                "instanceIdsChecked": false
-              },
-              "region": ""
-            },
-            "cdb": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "InstanceId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "CdbErrors": {},
-                "EngineVersions": {},
-                "InitFlag": {},
-                "InstanceIds": [],
-                "InstanceNames": [],
-                "InstanceTypes": {},
-                "Limit": 20,
-                "Offset": 0,
-                "OrderBy": {},
-                "OrderDirection": {},
-                "PayTypes": {},
-                "ProjectId": "",
-                "SecurityGroupId": "",
-                "Status": {},
-                "SubnetIds": [],
-                "TaskStatus": {},
-                "Vips": [],
-                "VpcIds": [],
-                "ZoneIds": []
-              },
-              "region": ""
-            },
-            "cdn": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "Domain",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "Filters": {
-                  "domain": [],
-                  "domainType": [],
-                  "fullUrlCache": [],
-                  "https": [],
-                  "origin": [],
-                  "originPullProtocol": [],
-                  "projectId": [],
-                  "resourceId": [],
-                  "serviceType": [],
-                  "status": [],
-                  "tagKey": []
-                },
-                "Limit": 20,
-                "Offset": 0
-              },
-              "region": ""
-            },
-            "cfs": {
-              "dimensionObject": {
-                "FileSystemId": {
-                  "Name": "FileSystemId",
-                  "Value": ""
-                }
-              },
-              "instance": "$instance",
-              "instanceAlias": "FileSystemId",
-              "metricName": "DataReadIoCount",
-              "metricUnit": "count",
-              "period": 300,
-              "queries": {
-                "FileSystemId": "",
-                "Limit": 20,
-                "Offset": 0,
-                "SubnetId": "",
-                "VpcId": ""
-              },
-              "region": "$region",
-              "version": ""
-            },
-            "ckafka": {
-              "consumerGroup": "",
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "InstanceId",
-              "metricName": "",
-              "metricUnit": "",
-              "partition": "",
-              "queries": {
-                "InstanceId": "",
-                "Limit": 10,
-                "Offset": 0,
-                "SearchWord": "",
-                "Status": [],
-                "TagKey": ""
-              },
-              "region": "",
-              "topicId": "",
-              "topicName": ""
-            },
-            "cvm": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "InstanceId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "Filters": {
-                  "host-id": [],
-                  "instance-charge-type": {},
-                  "instance-id": [],
-                  "instance-name": [],
-                  "private-ip-address": [],
-                  "project-id": [],
-                  "public-ip-address": [],
-                  "security-group-id": [],
-                  "subnet-id": [],
-                  "vpc-id": [],
-                  "zone": []
-                },
-                "InstanceIds": [
-                  ""
-                ],
-                "Limit": 20,
-                "Offset": 0,
-                "filtersChecked": false,
-                "instanceIdsChecked": false
-              },
-              "region": ""
-            },
-            "lb": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "AddressId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "AddressIds": [
-                  ""
-                ],
-                "Filters": {
-                  "address-id": [],
-                  "address-ip": [],
-                  "address-name": [],
-                  "address-status ": [],
-                  "instance-id ": [],
-                  "is-arrears ": [],
-                  "network-interface-id ": [],
-                  "private-ip-address": []
-                },
-                "Limit": 20,
-                "Offset": 0
-              },
-              "region": "",
-              "version": ""
-            },
-            "lbPrivate": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "LoadBalancerId",
-              "listener": "",
-              "listenerAlias": "ListenerId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "BackendPrivateIps": [],
-                "BackendPublicIps": [],
-                "Domain": "",
-                "Limit": 20,
-                "LoadBalancerIds": [],
-                "LoadBalancerName": "",
-                "LoadBalancerVips": [],
-                "MasterZone": "",
-                "Offset": 0,
-                "OrderBy": {},
-                "OrderType": {},
-                "SecurityGroup": "",
-                "VpcId": "",
-                "WithRs": {}
-              },
-              "region": ""
-            },
-            "lbPublic": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "LoadBalancerId",
-              "listener": "",
-              "listenerAlias": "ListenerId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "BackendPrivateIps": [],
-                "BackendPublicIps": [],
-                "Domain": "",
-                "Limit": 20,
-                "LoadBalancerIds": [],
-                "LoadBalancerName": "",
-                "LoadBalancerVips": [],
-                "MasterZone": "",
-                "Offset": 0,
-                "OrderBy": {},
-                "OrderType": {},
-                "SecurityGroup": "",
-                "VpcId": "",
-                "WithRs": {}
-              },
-              "region": ""
-            },
-            "loadBalance": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "LoadBalancerId",
-              "listener": "",
-              "listenerAlias": "ListenerId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "BackendPrivateIps": [],
-                "BackendPublicIps": [],
-                "Domain": "",
-                "Limit": 20,
-                "LoadBalancerIds": [],
-                "LoadBalancerName": "",
-                "LoadBalancerVips": [],
-                "MasterZone": "",
-                "Offset": 0,
-                "OrderBy": {},
-                "OrderType": {},
-                "SecurityGroup": "",
-                "VpcId": "",
-                "WithRs": {}
-              },
-              "region": ""
-            },
-            "mongoDB": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "InstanceId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "ClusterType": {},
-                "InstanceIds": [],
-                "InstanceType": {},
-                "Limit": 20,
-                "Offset": 0,
-                "OrderBy": "",
-                "OrderByType": "",
-                "PayMode": {},
-                "Status": [],
-                "SubnetId": "",
-                "VpcId": ""
-              },
-              "region": ""
-            },
-            "namespace": "QCE/CFS",
-            "natGateway": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "NatGatewayId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "Filters": {
-                  "nat-gateway-id": [],
-                  "nat-gateway-name": [],
-                  "vpc-id": []
-                },
-                "Limit": 20,
-                "NatGatewayIds": [
-                  ""
-                ],
-                "Offset": 0,
-                "filtersChecked": false,
-                "instanceIdsChecked": false
-              },
-              "region": ""
-            },
-            "ovCdn": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "Domain",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "Filters": {
-                  "domain": [],
-                  "domainType": [],
-                  "fullUrlCache": [],
-                  "https": [],
-                  "origin": [],
-                  "originPullProtocol": [],
-                  "projectId": [],
-                  "resourceId": [],
-                  "serviceType": [],
-                  "status": [],
-                  "tagKey": []
-                },
-                "Limit": 20,
-                "Offset": 0
-              },
-              "region": ""
-            },
-            "pcx": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "peeringConnectionId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "limit": 20,
-                "offset": 0,
-                "peeringConnectionId": "",
-                "peeringConnectionName": "",
-                "vpcId": ""
-              },
-              "region": ""
-            },
-            "postgres": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "DBInstanceId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "Filters": {
-                  "db-instance-id": [],
-                  "db-instance-name": []
-                },
-                "Limit": 20,
-                "Offset": 0
-              },
-              "region": ""
-            },
-            "redis": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "InstanceId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "AutoRenew": null,
-                "BillingMode": "",
-                "EngineName": "",
-                "InstanceId": "",
-                "InstanceName": "",
-                "OrderBy": "",
-                "OrderType": null,
-                "ProjectIds": [],
-                "SearchKey": "",
-                "Status": [],
-                "SubnetIds": [],
-                "Type": null,
-                "TypeVersion": null,
-                "UniqSubnetIds": [],
-                "UniqVpcIds": [],
-                "VpcIds": []
-              },
-              "region": ""
-            },
-            "redisMem": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "InstanceId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "AutoRenew": null,
-                "BillingMode": "",
-                "EngineName": "",
-                "InstanceId": "",
-                "InstanceName": "",
-                "OrderBy": "",
-                "OrderType": null,
-                "ProjectIds": [],
-                "SearchKey": "",
-                "Status": [],
-                "SubnetIds": [],
-                "Type": null,
-                "TypeVersion": null,
-                "UniqSubnetIds": [],
-                "UniqVpcIds": [],
-                "VpcIds": []
-              },
-              "region": ""
-            },
-            "refId": "A",
-            "scf": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "FunctionName",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "Description": "",
-                "Limit": 20,
-                "Namespace": "",
-                "Offset": 0,
-                "Order": {},
-                "OrderBy": {},
-                "SearchKey": ""
-              },
-              "region": "",
-              "version": ""
-            },
-            "service": "cfs",
-            "showInstanceDetails": false
-          }
-        ],
-        "thresholds": [],
-        "timeFrom": null,
-        "timeRegions": [],
-        "timeShift": null,
-        "title": "每秒读文件系统的次数",
-        "tooltip": {
-          "shared": true,
-          "sort": 0,
-          "value_type": "individual"
-        },
-        "type": "graph",
-        "xaxis": {
-          "buckets": null,
-          "mode": "time",
-          "name": null,
-          "show": true,
-          "values": []
-        },
-        "yaxes": [
-          {
-            "format": "short",
-            "label": null,
-            "logBase": 1,
-            "max": null,
-            "min": null,
-            "show": true
-          },
-          {
-            "format": "short",
-            "label": null,
-            "logBase": 1,
-            "max": null,
-            "min": null,
-            "show": true
-          }
-        ],
-        "yaxis": {
-          "align": false,
-          "alignLevel": null
-        }
-      },
-      {
-        "datasource": null,
-        "gridPos": {
-          "h": 1,
-          "w": 24,
-          "x": 0,
-          "y": 9
-        },
-        "id": 16,
-        "title": "带宽类",
-        "type": "row"
-      },
-      {
-        "aliasColors": {},
-        "bars": false,
-        "dashLength": 10,
-        "dashes": false,
-        "datasource": null,
-        "fieldConfig": {
-          "defaults": {
-            "custom": {}
-          },
-          "overrides": []
-        },
-        "fill": 1,
-        "fillGradient": 0,
-        "gridPos": {
-          "h": 9,
-          "w": 12,
-          "x": 0,
-          "y": 10
-        },
-        "hiddenSeries": false,
-        "id": 4,
-        "legend": {
-          "avg": false,
-          "current": false,
-          "max": false,
-          "min": false,
-          "show": true,
-          "total": false,
-          "values": false
-        },
-        "lines": true,
-        "linewidth": 1,
-        "nullPointMode": "null",
-        "options": {
-          "alertThreshold": true
-        },
-        "percentage": false,
-        "pluginVersion": "7.3.6",
-        "pointradius": 2,
-        "points": false,
-        "renderer": "flot",
-        "seriesOverrides": [],
-        "spaceLength": 10,
-        "stack": false,
-        "steppedLine": false,
-        "targets": [
-          {
-            "bwp": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "BandwidthPackageId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "BandwidthPackageIds": [
-                  ""
-                ],
-                "Filters": {
-                  "bandwidth-package-name": [],
-                  "bandwidth-package_id": [],
-                  "charge-type": [],
-                  "network-type": []
-                },
-                "Limit": 20,
-                "Offset": 0,
-                "filtersChecked": false,
-                "instanceIdsChecked": false
-              },
-              "region": ""
-            },
-            "cdb": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "InstanceId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "CdbErrors": {},
-                "EngineVersions": {},
-                "InitFlag": {},
-                "InstanceIds": [],
-                "InstanceNames": [],
-                "InstanceTypes": {},
-                "Limit": 20,
-                "Offset": 0,
-                "OrderBy": {},
-                "OrderDirection": {},
-                "PayTypes": {},
-                "ProjectId": "",
-                "SecurityGroupId": "",
-                "Status": {},
-                "SubnetIds": [],
-                "TaskStatus": {},
-                "Vips": [],
-                "VpcIds": [],
-                "ZoneIds": []
-              },
-              "region": ""
-            },
-            "cdn": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "Domain",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "Filters": {
-                  "domain": [],
-                  "domainType": [],
-                  "fullUrlCache": [],
-                  "https": [],
-                  "origin": [],
-                  "originPullProtocol": [],
-                  "projectId": [],
-                  "resourceId": [],
-                  "serviceType": [],
-                  "status": [],
-                  "tagKey": []
-                },
-                "Limit": 20,
-                "Offset": 0
-              },
-              "region": ""
-            },
-            "cfs": {
-              "dimensionObject": {
-                "FileSystemId": {
-                  "Name": "FileSystemId",
-                  "Value": ""
-                }
-              },
-              "instance": "$instance",
-              "instanceAlias": "FileSystemId",
-              "metricName": "DataWriteIoBytes",
-              "metricUnit": "KB/s",
-              "period": 300,
-              "queries": {
-                "FileSystemId": "",
-                "Limit": 20,
-                "Offset": 0,
-                "SubnetId": "",
-                "VpcId": ""
-              },
-              "region": "$region",
-              "version": ""
-            },
-            "ckafka": {
-              "consumerGroup": "",
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "InstanceId",
-              "metricName": "",
-              "metricUnit": "",
-              "partition": "",
-              "queries": {
-                "InstanceId": "",
-                "Limit": 10,
-                "Offset": 0,
-                "SearchWord": "",
-                "Status": [],
-                "TagKey": ""
-              },
-              "region": "",
-              "topicId": "",
-              "topicName": ""
-            },
-            "cvm": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "InstanceId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "Filters": {
-                  "host-id": [],
-                  "instance-charge-type": {},
-                  "instance-id": [],
-                  "instance-name": [],
-                  "private-ip-address": [],
-                  "project-id": [],
-                  "public-ip-address": [],
-                  "security-group-id": [],
-                  "subnet-id": [],
-                  "vpc-id": [],
-                  "zone": []
-                },
-                "InstanceIds": [
-                  ""
-                ],
-                "Limit": 20,
-                "Offset": 0,
-                "filtersChecked": false,
-                "instanceIdsChecked": false
-              },
-              "region": ""
-            },
-            "lb": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "AddressId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "AddressIds": [
-                  ""
-                ],
-                "Filters": {
-                  "address-id": [],
-                  "address-ip": [],
-                  "address-name": [],
-                  "address-status ": [],
-                  "instance-id ": [],
-                  "is-arrears ": [],
-                  "network-interface-id ": [],
-                  "private-ip-address": []
-                },
-                "Limit": 20,
-                "Offset": 0
-              },
-              "region": "",
-              "version": ""
-            },
-            "lbPrivate": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "LoadBalancerId",
-              "listener": "",
-              "listenerAlias": "ListenerId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "BackendPrivateIps": [],
-                "BackendPublicIps": [],
-                "Domain": "",
-                "Limit": 20,
-                "LoadBalancerIds": [],
-                "LoadBalancerName": "",
-                "LoadBalancerVips": [],
-                "MasterZone": "",
-                "Offset": 0,
-                "OrderBy": {},
-                "OrderType": {},
-                "SecurityGroup": "",
-                "VpcId": "",
-                "WithRs": {}
-              },
-              "region": ""
-            },
-            "lbPublic": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "LoadBalancerId",
-              "listener": "",
-              "listenerAlias": "ListenerId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "BackendPrivateIps": [],
-                "BackendPublicIps": [],
-                "Domain": "",
-                "Limit": 20,
-                "LoadBalancerIds": [],
-                "LoadBalancerName": "",
-                "LoadBalancerVips": [],
-                "MasterZone": "",
-                "Offset": 0,
-                "OrderBy": {},
-                "OrderType": {},
-                "SecurityGroup": "",
-                "VpcId": "",
-                "WithRs": {}
-              },
-              "region": ""
-            },
-            "loadBalance": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "LoadBalancerId",
-              "listener": "",
-              "listenerAlias": "ListenerId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "BackendPrivateIps": [],
-                "BackendPublicIps": [],
-                "Domain": "",
-                "Limit": 20,
-                "LoadBalancerIds": [],
-                "LoadBalancerName": "",
-                "LoadBalancerVips": [],
-                "MasterZone": "",
-                "Offset": 0,
-                "OrderBy": {},
-                "OrderType": {},
-                "SecurityGroup": "",
-                "VpcId": "",
-                "WithRs": {}
-              },
-              "region": ""
-            },
-            "mongoDB": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "InstanceId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "ClusterType": {},
-                "InstanceIds": [],
-                "InstanceType": {},
-                "Limit": 20,
-                "Offset": 0,
-                "OrderBy": "",
-                "OrderByType": "",
-                "PayMode": {},
-                "Status": [],
-                "SubnetId": "",
-                "VpcId": ""
-              },
-              "region": ""
-            },
-            "namespace": "QCE/CFS",
-            "natGateway": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "NatGatewayId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "Filters": {
-                  "nat-gateway-id": [],
-                  "nat-gateway-name": [],
-                  "vpc-id": []
-                },
-                "Limit": 20,
-                "NatGatewayIds": [
-                  ""
-                ],
-                "Offset": 0,
-                "filtersChecked": false,
-                "instanceIdsChecked": false
-              },
-              "region": ""
-            },
-            "ovCdn": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "Domain",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "Filters": {
-                  "domain": [],
-                  "domainType": [],
-                  "fullUrlCache": [],
-                  "https": [],
-                  "origin": [],
-                  "originPullProtocol": [],
-                  "projectId": [],
-                  "resourceId": [],
-                  "serviceType": [],
-                  "status": [],
-                  "tagKey": []
-                },
-                "Limit": 20,
-                "Offset": 0
-              },
-              "region": ""
-            },
-            "pcx": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "peeringConnectionId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "limit": 20,
-                "offset": 0,
-                "peeringConnectionId": "",
-                "peeringConnectionName": "",
-                "vpcId": ""
-              },
-              "region": ""
-            },
-            "postgres": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "DBInstanceId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "Filters": {
-                  "db-instance-id": [],
-                  "db-instance-name": []
-                },
-                "Limit": 20,
-                "Offset": 0
-              },
-              "region": ""
-            },
-            "redis": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "InstanceId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "AutoRenew": null,
-                "BillingMode": "",
-                "EngineName": "",
-                "InstanceId": "",
-                "InstanceName": "",
-                "OrderBy": "",
-                "OrderType": null,
-                "ProjectIds": [],
-                "SearchKey": "",
-                "Status": [],
-                "SubnetIds": [],
-                "Type": null,
-                "TypeVersion": null,
-                "UniqSubnetIds": [],
-                "UniqVpcIds": [],
-                "VpcIds": []
-              },
-              "region": ""
-            },
-            "redisMem": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "InstanceId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "AutoRenew": null,
-                "BillingMode": "",
-                "EngineName": "",
-                "InstanceId": "",
-                "InstanceName": "",
-                "OrderBy": "",
-                "OrderType": null,
-                "ProjectIds": [],
-                "SearchKey": "",
-                "Status": [],
-                "SubnetIds": [],
-                "Type": null,
-                "TypeVersion": null,
-                "UniqSubnetIds": [],
-                "UniqVpcIds": [],
-                "VpcIds": []
-              },
-              "region": ""
-            },
-            "refId": "A",
-            "scf": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "FunctionName",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "Description": "",
-                "Limit": 20,
-                "Namespace": "",
-                "Offset": 0,
-                "Order": {},
-                "OrderBy": {},
-                "SearchKey": ""
-              },
-              "region": "",
-              "version": ""
-            },
-            "service": "cfs",
-            "showInstanceDetails": false
-          }
-        ],
-        "thresholds": [],
-        "timeFrom": null,
-        "timeRegions": [],
-        "timeShift": null,
-        "title": "写入带宽",
-        "tooltip": {
-          "shared": true,
-          "sort": 0,
-          "value_type": "individual"
-        },
-        "type": "graph",
-        "xaxis": {
-          "buckets": null,
-          "mode": "time",
-          "name": null,
-          "show": true,
-          "values": []
-        },
-        "yaxes": [
-          {
-            "format": "short",
-            "label": null,
-            "logBase": 1,
-            "max": null,
-            "min": null,
-            "show": true
-          },
-          {
-            "format": "short",
-            "label": null,
-            "logBase": 1,
-            "max": null,
-            "min": null,
-            "show": true
-          }
-        ],
-        "yaxis": {
-          "align": false,
-          "alignLevel": null
-        }
-      },
-      {
-        "aliasColors": {},
-        "bars": false,
-        "dashLength": 10,
-        "dashes": false,
-        "datasource": null,
-        "fieldConfig": {
-          "defaults": {
-            "custom": {}
-          },
-          "overrides": []
-        },
-        "fill": 1,
-        "fillGradient": 0,
-        "gridPos": {
-          "h": 9,
-          "w": 12,
-          "x": 12,
-          "y": 10
-        },
-        "hiddenSeries": false,
-        "id": 2,
-        "legend": {
-          "avg": false,
-          "current": false,
-          "max": false,
-          "min": false,
-          "show": true,
-          "total": false,
-          "values": false
-        },
-        "lines": true,
-        "linewidth": 1,
-        "nullPointMode": "null",
-        "options": {
-          "alertThreshold": true
-        },
-        "percentage": false,
-        "pluginVersion": "7.3.6",
-        "pointradius": 2,
-        "points": false,
-        "renderer": "flot",
-        "seriesOverrides": [],
-        "spaceLength": 10,
-        "stack": false,
-        "steppedLine": false,
-        "targets": [
-          {
-            "bwp": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "BandwidthPackageId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "BandwidthPackageIds": [
-                  ""
-                ],
-                "Filters": {
-                  "bandwidth-package-name": [],
-                  "bandwidth-package_id": [],
-                  "charge-type": [],
-                  "network-type": []
-                },
-                "Limit": 20,
-                "Offset": 0,
-                "filtersChecked": false,
-                "instanceIdsChecked": false
-              },
-              "region": ""
-            },
-            "cdb": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "InstanceId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "CdbErrors": {},
-                "EngineVersions": {},
-                "InitFlag": {},
-                "InstanceIds": [],
-                "InstanceNames": [],
-                "InstanceTypes": {},
-                "Limit": 20,
-                "Offset": 0,
-                "OrderBy": {},
-                "OrderDirection": {},
-                "PayTypes": {},
-                "ProjectId": "",
-                "SecurityGroupId": "",
-                "Status": {},
-                "SubnetIds": [],
-                "TaskStatus": {},
-                "Vips": [],
-                "VpcIds": [],
-                "ZoneIds": []
-              },
-              "region": ""
-            },
-            "cdn": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "Domain",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "Filters": {
-                  "domain": [],
-                  "domainType": [],
-                  "fullUrlCache": [],
-                  "https": [],
-                  "origin": [],
-                  "originPullProtocol": [],
-                  "projectId": [],
-                  "resourceId": [],
-                  "serviceType": [],
-                  "status": [],
-                  "tagKey": []
-                },
-                "Limit": 20,
-                "Offset": 0
-              },
-              "region": ""
-            },
-            "cfs": {
-              "dimensionObject": {
-                "FileSystemId": {
-                  "Name": "FileSystemId",
-                  "Value": ""
-                }
-              },
-              "instance": "$instance",
-              "instanceAlias": "FileSystemId",
-              "metricName": "DataReadIoBytes",
-              "metricUnit": "KB/s",
-              "period": 300,
-              "queries": {
-                "FileSystemId": "",
-                "Limit": 20,
-                "Offset": 0,
-                "SubnetId": "",
-                "VpcId": ""
-              },
-              "region": "$region",
-              "version": ""
-            },
-            "ckafka": {
-              "consumerGroup": "",
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "InstanceId",
-              "metricName": "",
-              "metricUnit": "",
-              "partition": "",
-              "queries": {
-                "InstanceId": "",
-                "Limit": 10,
-                "Offset": 0,
-                "SearchWord": "",
-                "Status": [],
-                "TagKey": ""
-              },
-              "region": "",
-              "topicId": "",
-              "topicName": ""
-            },
-            "cvm": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "InstanceId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "Filters": {
-                  "host-id": [],
-                  "instance-charge-type": {},
-                  "instance-id": [],
-                  "instance-name": [],
-                  "private-ip-address": [],
-                  "project-id": [],
-                  "public-ip-address": [],
-                  "security-group-id": [],
-                  "subnet-id": [],
-                  "vpc-id": [],
-                  "zone": []
-                },
-                "InstanceIds": [
-                  ""
-                ],
-                "Limit": 20,
-                "Offset": 0,
-                "filtersChecked": false,
-                "instanceIdsChecked": false
-              },
-              "region": ""
-            },
-            "lb": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "AddressIp",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "AddressIds": [
-                  ""
-                ],
-                "Filters": {
-                  "address-id": [],
-                  "address-ip": [],
-                  "address-name": [],
-                  "address-status ": [],
-                  "instance-id ": [],
-                  "is-arrears ": [],
-                  "network-interface-id ": [],
-                  "private-ip-address": []
-                },
-                "Limit": 20,
-                "Offset": 0
-              },
-              "region": "",
-              "version": ""
-            },
-            "lbPrivate": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "LoadBalancerId",
-              "listener": "",
-              "listenerAlias": "ListenerId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "BackendPrivateIps": [],
-                "BackendPublicIps": [],
-                "Domain": "",
-                "Limit": 20,
-                "LoadBalancerIds": [],
-                "LoadBalancerName": "",
-                "LoadBalancerVips": [],
-                "MasterZone": "",
-                "Offset": 0,
-                "OrderBy": {},
-                "OrderType": {},
-                "SecurityGroup": "",
-                "VpcId": "",
-                "WithRs": {}
-              },
-              "region": ""
-            },
-            "lbPublic": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "LoadBalancerId",
-              "listener": "",
-              "listenerAlias": "ListenerId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "BackendPrivateIps": [],
-                "BackendPublicIps": [],
-                "Domain": "",
-                "Limit": 20,
-                "LoadBalancerIds": [],
-                "LoadBalancerName": "",
-                "LoadBalancerVips": [],
-                "MasterZone": "",
-                "Offset": 0,
-                "OrderBy": {},
-                "OrderType": {},
-                "SecurityGroup": "",
-                "VpcId": "",
-                "WithRs": {}
-              },
-              "region": ""
-            },
-            "loadBalance": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "LoadBalancerId",
-              "listener": "",
-              "listenerAlias": "ListenerId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "BackendPrivateIps": [],
-                "BackendPublicIps": [],
-                "Domain": "",
-                "Limit": 20,
-                "LoadBalancerIds": [],
-                "LoadBalancerName": "",
-                "LoadBalancerVips": [],
-                "MasterZone": "",
-                "Offset": 0,
-                "OrderBy": {},
-                "OrderType": {},
-                "SecurityGroup": "",
-                "VpcId": "",
-                "WithRs": {}
-              },
-              "region": ""
-            },
-            "mongoDB": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "InstanceId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "ClusterType": {},
-                "InstanceIds": [],
-                "InstanceType": {},
-                "Limit": 20,
-                "Offset": 0,
-                "OrderBy": "",
-                "OrderByType": "",
-                "PayMode": {},
-                "Status": [],
-                "SubnetId": "",
-                "VpcId": ""
-              },
-              "region": ""
-            },
-            "namespace": "QCE/CFS",
-            "natGateway": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "NatGatewayId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "Filters": {
-                  "nat-gateway-id": [],
-                  "nat-gateway-name": [],
-                  "vpc-id": []
-                },
-                "Limit": 20,
-                "NatGatewayIds": [
-                  ""
-                ],
-                "Offset": 0,
-                "filtersChecked": false,
-                "instanceIdsChecked": false
-              },
-              "region": ""
-            },
-            "ovCdn": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "Domain",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "Filters": {
-                  "domain": [],
-                  "domainType": [],
-                  "fullUrlCache": [],
-                  "https": [],
-                  "origin": [],
-                  "originPullProtocol": [],
-                  "projectId": [],
-                  "resourceId": [],
-                  "serviceType": [],
-                  "status": [],
-                  "tagKey": []
-                },
-                "Limit": 20,
-                "Offset": 0
-              },
-              "region": ""
-            },
-            "pcx": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "peeringConnectionId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "limit": 20,
-                "offset": 0,
-                "peeringConnectionId": "",
-                "peeringConnectionName": "",
-                "vpcId": ""
-              },
-              "region": ""
-            },
-            "postgres": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "DBInstanceId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "Filters": {
-                  "db-instance-id": [],
-                  "db-instance-name": []
-                },
-                "Limit": 20,
-                "Offset": 0
-              },
-              "region": ""
-            },
-            "redis": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "InstanceId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "AutoRenew": null,
-                "BillingMode": "",
-                "EngineName": "",
-                "InstanceId": "",
-                "InstanceName": "",
-                "OrderBy": "",
-                "OrderType": null,
-                "ProjectIds": [],
-                "SearchKey": "",
-                "Status": [],
-                "SubnetIds": [],
-                "Type": null,
-                "TypeVersion": null,
-                "UniqSubnetIds": [],
-                "UniqVpcIds": [],
-                "VpcIds": []
-              },
-              "region": ""
-            },
-            "redisMem": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "InstanceId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "AutoRenew": null,
-                "BillingMode": "",
-                "EngineName": "",
-                "InstanceId": "",
-                "InstanceName": "",
-                "OrderBy": "",
-                "OrderType": null,
-                "ProjectIds": [],
-                "SearchKey": "",
-                "Status": [],
-                "SubnetIds": [],
-                "Type": null,
-                "TypeVersion": null,
-                "UniqSubnetIds": [],
-                "UniqVpcIds": [],
-                "VpcIds": []
-              },
-              "region": ""
-            },
-            "refId": "A",
-            "scf": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "FunctionName",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "Description": "",
-                "Limit": 20,
-                "Namespace": "",
-                "Offset": 0,
-                "Order": {},
-                "OrderBy": {},
-                "SearchKey": ""
-              },
-              "region": "",
-              "version": ""
-            },
-            "service": "cfs",
-            "showInstanceDetails": false
-          }
-        ],
-        "thresholds": [],
-        "timeFrom": null,
-        "timeRegions": [],
-        "timeShift": null,
-        "title": "读取带宽",
-        "tooltip": {
-          "shared": true,
-          "sort": 0,
-          "value_type": "individual"
-        },
-        "type": "graph",
-        "xaxis": {
-          "buckets": null,
-          "mode": "time",
-          "name": null,
-          "show": true,
-          "values": []
-        },
-        "yaxes": [
-          {
-            "format": "short",
-            "label": null,
-            "logBase": 1,
-            "max": null,
-            "min": null,
-            "show": true
-          },
-          {
-            "format": "short",
-            "label": null,
-            "logBase": 1,
-            "max": null,
-            "min": null,
-            "show": true
-          }
-        ],
-        "yaxis": {
-          "align": false,
-          "alignLevel": null
-        }
-      },
-      {
-        "datasource": null,
-        "gridPos": {
-          "h": 1,
-          "w": 24,
-          "x": 0,
-          "y": 19
-        },
-        "id": 14,
-        "title": "存储类",
-        "type": "row"
-      },
-      {
-        "aliasColors": {},
-        "bars": false,
-        "dashLength": 10,
-        "dashes": false,
-        "datasource": null,
-        "fieldConfig": {
-          "defaults": {
-            "custom": {}
-          },
-          "overrides": []
-        },
-        "fill": 1,
-        "fillGradient": 0,
-        "gridPos": {
-          "h": 9,
-          "w": 24,
-          "x": 0,
-          "y": 20
-        },
-        "hiddenSeries": false,
-        "id": 6,
-        "legend": {
-          "avg": false,
-          "current": false,
-          "max": false,
-          "min": false,
-          "show": true,
-          "total": false,
-          "values": false
-        },
-        "lines": true,
-        "linewidth": 1,
-        "nullPointMode": "null",
-        "options": {
-          "alertThreshold": true
-        },
-        "percentage": false,
-        "pluginVersion": "7.3.6",
-        "pointradius": 2,
-        "points": false,
-        "renderer": "flot",
-        "seriesOverrides": [],
-        "spaceLength": 10,
-        "stack": false,
-        "steppedLine": false,
-        "targets": [
-          {
-            "bwp": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "BandwidthPackageId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "BandwidthPackageIds": [
-                  ""
-                ],
-                "Filters": {
-                  "bandwidth-package-name": [],
-                  "bandwidth-package_id": [],
-                  "charge-type": [],
-                  "network-type": []
-                },
-                "Limit": 20,
-                "Offset": 0,
-                "filtersChecked": false,
-                "instanceIdsChecked": false
-              },
-              "region": ""
-            },
-            "cdb": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "InstanceId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "CdbErrors": {},
-                "EngineVersions": {},
-                "InitFlag": {},
-                "InstanceIds": [],
-                "InstanceNames": [],
-                "InstanceTypes": {},
-                "Limit": 20,
-                "Offset": 0,
-                "OrderBy": {},
-                "OrderDirection": {},
-                "PayTypes": {},
-                "ProjectId": "",
-                "SecurityGroupId": "",
-                "Status": {},
-                "SubnetIds": [],
-                "TaskStatus": {},
-                "Vips": [],
-                "VpcIds": [],
-                "ZoneIds": []
-              },
-              "region": ""
-            },
-            "cdn": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "Domain",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "Filters": {
-                  "domain": [],
-                  "domainType": [],
-                  "fullUrlCache": [],
-                  "https": [],
-                  "origin": [],
-                  "originPullProtocol": [],
-                  "projectId": [],
-                  "resourceId": [],
-                  "serviceType": [],
-                  "status": [],
-                  "tagKey": []
-                },
-                "Limit": 20,
-                "Offset": 0
-              },
-              "region": ""
-            },
-            "cfs": {
-              "dimensionObject": {
-                "FileSystemId": {
-                  "Name": "FileSystemId",
-                  "Value": ""
-                }
-              },
-              "instance": "$instance",
-              "instanceAlias": "FileSystemId",
-              "metricName": "Storage",
-              "metricUnit": "GB",
-              "period": 300,
-              "queries": {
-                "FileSystemId": "",
-                "Limit": 20,
-                "Offset": 0,
-                "SubnetId": "",
-                "VpcId": ""
-              },
-              "region": "$region",
-              "version": ""
-            },
-            "ckafka": {
-              "consumerGroup": "",
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "InstanceId",
-              "metricName": "",
-              "metricUnit": "",
-              "partition": "",
-              "queries": {
-                "InstanceId": "",
-                "Limit": 10,
-                "Offset": 0,
-                "SearchWord": "",
-                "Status": [],
-                "TagKey": ""
-              },
-              "region": "",
-              "topicId": "",
-              "topicName": ""
-            },
-            "cvm": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "InstanceId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "Filters": {
-                  "host-id": [],
-                  "instance-charge-type": {},
-                  "instance-id": [],
-                  "instance-name": [],
-                  "private-ip-address": [],
-                  "project-id": [],
-                  "public-ip-address": [],
-                  "security-group-id": [],
-                  "subnet-id": [],
-                  "vpc-id": [],
-                  "zone": []
-                },
-                "InstanceIds": [
-                  ""
-                ],
-                "Limit": 20,
-                "Offset": 0,
-                "filtersChecked": false,
-                "instanceIdsChecked": false
-              },
-              "region": ""
-            },
-            "lb": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "AddressId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "AddressIds": [
-                  ""
-                ],
-                "Filters": {
-                  "address-id": [],
-                  "address-ip": [],
-                  "address-name": [],
-                  "address-status ": [],
-                  "instance-id ": [],
-                  "is-arrears ": [],
-                  "network-interface-id ": [],
-                  "private-ip-address": []
-                },
-                "Limit": 20,
-                "Offset": 0
-              },
-              "region": "",
-              "version": ""
-            },
-            "lbPrivate": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "LoadBalancerId",
-              "listener": "",
-              "listenerAlias": "ListenerId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "BackendPrivateIps": [],
-                "BackendPublicIps": [],
-                "Domain": "",
-                "Limit": 20,
-                "LoadBalancerIds": [],
-                "LoadBalancerName": "",
-                "LoadBalancerVips": [],
-                "MasterZone": "",
-                "Offset": 0,
-                "OrderBy": {},
-                "OrderType": {},
-                "SecurityGroup": "",
-                "VpcId": "",
-                "WithRs": {}
-              },
-              "region": ""
-            },
-            "lbPublic": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "LoadBalancerId",
-              "listener": "",
-              "listenerAlias": "ListenerId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "BackendPrivateIps": [],
-                "BackendPublicIps": [],
-                "Domain": "",
-                "Limit": 20,
-                "LoadBalancerIds": [],
-                "LoadBalancerName": "",
-                "LoadBalancerVips": [],
-                "MasterZone": "",
-                "Offset": 0,
-                "OrderBy": {},
-                "OrderType": {},
-                "SecurityGroup": "",
-                "VpcId": "",
-                "WithRs": {}
-              },
-              "region": ""
-            },
-            "loadBalance": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "LoadBalancerId",
-              "listener": "",
-              "listenerAlias": "ListenerId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "BackendPrivateIps": [],
-                "BackendPublicIps": [],
-                "Domain": "",
-                "Limit": 20,
-                "LoadBalancerIds": [],
-                "LoadBalancerName": "",
-                "LoadBalancerVips": [],
-                "MasterZone": "",
-                "Offset": 0,
-                "OrderBy": {},
-                "OrderType": {},
-                "SecurityGroup": "",
-                "VpcId": "",
-                "WithRs": {}
-              },
-              "region": ""
-            },
-            "mongoDB": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "InstanceId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "ClusterType": {},
-                "InstanceIds": [],
-                "InstanceType": {},
-                "Limit": 20,
-                "Offset": 0,
-                "OrderBy": "",
-                "OrderByType": "",
-                "PayMode": {},
-                "Status": [],
-                "SubnetId": "",
-                "VpcId": ""
-              },
-              "region": ""
-            },
-            "namespace": "QCE/CFS",
-            "natGateway": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "NatGatewayId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "Filters": {
-                  "nat-gateway-id": [],
-                  "nat-gateway-name": [],
-                  "vpc-id": []
-                },
-                "Limit": 20,
-                "NatGatewayIds": [
-                  ""
-                ],
-                "Offset": 0,
-                "filtersChecked": false,
-                "instanceIdsChecked": false
-              },
-              "region": ""
-            },
-            "ovCdn": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "Domain",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "Filters": {
-                  "domain": [],
-                  "domainType": [],
-                  "fullUrlCache": [],
-                  "https": [],
-                  "origin": [],
-                  "originPullProtocol": [],
-                  "projectId": [],
-                  "resourceId": [],
-                  "serviceType": [],
-                  "status": [],
-                  "tagKey": []
-                },
-                "Limit": 20,
-                "Offset": 0
-              },
-              "region": ""
-            },
-            "pcx": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "peeringConnectionId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "limit": 20,
-                "offset": 0,
-                "peeringConnectionId": "",
-                "peeringConnectionName": "",
-                "vpcId": ""
-              },
-              "region": ""
-            },
-            "postgres": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "DBInstanceId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "Filters": {
-                  "db-instance-id": [],
-                  "db-instance-name": []
-                },
-                "Limit": 20,
-                "Offset": 0
-              },
-              "region": ""
-            },
-            "redis": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "InstanceId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "AutoRenew": null,
-                "BillingMode": "",
-                "EngineName": "",
-                "InstanceId": "",
-                "InstanceName": "",
-                "OrderBy": "",
-                "OrderType": null,
-                "ProjectIds": [],
-                "SearchKey": "",
-                "Status": [],
-                "SubnetIds": [],
-                "Type": null,
-                "TypeVersion": null,
-                "UniqSubnetIds": [],
-                "UniqVpcIds": [],
-                "VpcIds": []
-              },
-              "region": ""
-            },
-            "redisMem": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "InstanceId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "AutoRenew": null,
-                "BillingMode": "",
-                "EngineName": "",
-                "InstanceId": "",
-                "InstanceName": "",
-                "OrderBy": "",
-                "OrderType": null,
-                "ProjectIds": [],
-                "SearchKey": "",
-                "Status": [],
-                "SubnetIds": [],
-                "Type": null,
-                "TypeVersion": null,
-                "UniqSubnetIds": [],
-                "UniqVpcIds": [],
-                "VpcIds": []
-              },
-              "region": ""
-            },
-            "refId": "A",
-            "scf": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "FunctionName",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "Description": "",
-                "Limit": 20,
-                "Namespace": "",
-                "Offset": 0,
-                "Order": {},
-                "OrderBy": {},
-                "SearchKey": ""
-              },
-              "region": "",
-              "version": ""
-            },
-            "service": "cfs",
-            "showInstanceDetails": false
-          }
-        ],
-        "thresholds": [],
-        "timeFrom": null,
-        "timeRegions": [],
-        "timeShift": null,
-        "title": "文件系统存储量",
-        "tooltip": {
-          "shared": true,
-          "sort": 0,
-          "value_type": "individual"
-        },
-        "type": "graph",
-        "xaxis": {
-          "buckets": null,
-          "mode": "time",
-          "name": null,
-          "show": true,
-          "values": []
-        },
-        "yaxes": [
-          {
-            "format": "short",
-            "label": null,
-            "logBase": 1,
-            "max": null,
-            "min": null,
-            "show": true
-          },
-          {
-            "format": "short",
-            "label": null,
-            "logBase": 1,
-            "max": null,
-            "min": null,
-            "show": true
-          }
-        ],
-        "yaxis": {
-          "align": false,
-          "alignLevel": null
-        }
-      },
-      {
-        "datasource": null,
-        "gridPos": {
-          "h": 1,
-          "w": 24,
-          "x": 0,
-          "y": 29
-        },
-        "id": 12,
-        "title": "延时",
-        "type": "row"
-      },
-      {
-        "aliasColors": {},
-        "bars": false,
-        "dashLength": 10,
-        "dashes": false,
-        "datasource": null,
-        "fieldConfig": {
-          "defaults": {
-            "custom": {}
-          },
-          "overrides": []
-        },
-        "fill": 1,
-        "fillGradient": 0,
-        "gridPos": {
-          "h": 8,
-          "w": 12,
-          "x": 0,
-          "y": 30
-        },
-        "hiddenSeries": false,
-        "id": 10,
-        "legend": {
-          "avg": false,
-          "current": false,
-          "max": false,
-          "min": false,
-          "show": true,
-          "total": false,
-          "values": false
-        },
-        "lines": true,
-        "linewidth": 1,
-        "nullPointMode": "null",
-        "options": {
-          "alertThreshold": true
-        },
-        "percentage": false,
-        "pluginVersion": "7.3.6",
-        "pointradius": 2,
-        "points": false,
-        "renderer": "flot",
-        "seriesOverrides": [],
-        "spaceLength": 10,
-        "stack": false,
-        "steppedLine": false,
-        "targets": [
-          {
-            "bwp": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "BandwidthPackageId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "BandwidthPackageIds": [
-                  ""
-                ],
-                "Filters": {
-                  "bandwidth-package-name": [],
-                  "bandwidth-package_id": [],
-                  "charge-type": [],
-                  "network-type": []
-                },
-                "Limit": 20,
-                "Offset": 0,
-                "filtersChecked": false,
-                "instanceIdsChecked": false
-              },
-              "region": ""
-            },
-            "cdb": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "InstanceId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "CdbErrors": {},
-                "EngineVersions": {},
-                "InitFlag": {},
-                "InstanceIds": [],
-                "InstanceNames": [],
-                "InstanceTypes": {},
-                "Limit": 20,
-                "Offset": 0,
-                "OrderBy": {},
-                "OrderDirection": {},
-                "PayTypes": {},
-                "ProjectId": "",
-                "SecurityGroupId": "",
-                "Status": {},
-                "SubnetIds": [],
-                "TaskStatus": {},
-                "Vips": [],
-                "VpcIds": [],
-                "ZoneIds": []
-              },
-              "region": ""
-            },
-            "cdn": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "Domain",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "Filters": {
-                  "domain": [],
-                  "domainType": [],
-                  "fullUrlCache": [],
-                  "https": [],
-                  "origin": [],
-                  "originPullProtocol": [],
-                  "projectId": [],
-                  "resourceId": [],
-                  "serviceType": [],
-                  "status": [],
-                  "tagKey": []
-                },
-                "Limit": 20,
-                "Offset": 0
-              },
-              "region": ""
-            },
-            "cfs": {
-              "dimensionObject": {
-                "FileSystemId": {
-                  "Name": "FileSystemId",
-                  "Value": ""
-                }
-              },
-              "instance": "$instance",
-              "instanceAlias": "FileSystemId",
-              "metricName": "DataWriteIoLatency",
-              "metricUnit": "ms",
-              "period": 300,
-              "queries": {
-                "FileSystemId": "",
-                "Limit": 20,
-                "Offset": 0,
-                "SubnetId": "",
-                "VpcId": ""
-              },
-              "region": "$region",
-              "version": ""
-            },
-            "ckafka": {
-              "consumerGroup": "",
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "InstanceId",
-              "metricName": "",
-              "metricUnit": "",
-              "partition": "",
-              "queries": {
-                "InstanceId": "",
-                "Limit": 10,
-                "Offset": 0,
-                "SearchWord": "",
-                "Status": [],
-                "TagKey": ""
-              },
-              "region": "",
-              "topicId": "",
-              "topicName": ""
-            },
-            "cvm": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "InstanceId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "Filters": {
-                  "host-id": [],
-                  "instance-charge-type": {},
-                  "instance-id": [],
-                  "instance-name": [],
-                  "private-ip-address": [],
-                  "project-id": [],
-                  "public-ip-address": [],
-                  "security-group-id": [],
-                  "subnet-id": [],
-                  "vpc-id": [],
-                  "zone": []
-                },
-                "InstanceIds": [
-                  ""
-                ],
-                "Limit": 20,
-                "Offset": 0,
-                "filtersChecked": false,
-                "instanceIdsChecked": false
-              },
-              "region": ""
-            },
-            "lb": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "AddressId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "AddressIds": [
-                  ""
-                ],
-                "Filters": {
-                  "address-id": [],
-                  "address-ip": [],
-                  "address-name": [],
-                  "address-status ": [],
-                  "instance-id ": [],
-                  "is-arrears ": [],
-                  "network-interface-id ": [],
-                  "private-ip-address": []
-                },
-                "Limit": 20,
-                "Offset": 0
-              },
-              "region": "",
-              "version": ""
-            },
-            "lbPrivate": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "LoadBalancerId",
-              "listener": "",
-              "listenerAlias": "ListenerId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "BackendPrivateIps": [],
-                "BackendPublicIps": [],
-                "Domain": "",
-                "Limit": 20,
-                "LoadBalancerIds": [],
-                "LoadBalancerName": "",
-                "LoadBalancerVips": [],
-                "MasterZone": "",
-                "Offset": 0,
-                "OrderBy": {},
-                "OrderType": {},
-                "SecurityGroup": "",
-                "VpcId": "",
-                "WithRs": {}
-              },
-              "region": ""
-            },
-            "lbPublic": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "LoadBalancerId",
-              "listener": "",
-              "listenerAlias": "ListenerId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "BackendPrivateIps": [],
-                "BackendPublicIps": [],
-                "Domain": "",
-                "Limit": 20,
-                "LoadBalancerIds": [],
-                "LoadBalancerName": "",
-                "LoadBalancerVips": [],
-                "MasterZone": "",
-                "Offset": 0,
-                "OrderBy": {},
-                "OrderType": {},
-                "SecurityGroup": "",
-                "VpcId": "",
-                "WithRs": {}
-              },
-              "region": ""
-            },
-            "loadBalance": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "LoadBalancerId",
-              "listener": "",
-              "listenerAlias": "ListenerId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "BackendPrivateIps": [],
-                "BackendPublicIps": [],
-                "Domain": "",
-                "Limit": 20,
-                "LoadBalancerIds": [],
-                "LoadBalancerName": "",
-                "LoadBalancerVips": [],
-                "MasterZone": "",
-                "Offset": 0,
-                "OrderBy": {},
-                "OrderType": {},
-                "SecurityGroup": "",
-                "VpcId": "",
-                "WithRs": {}
-              },
-              "region": ""
-            },
-            "mongoDB": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "InstanceId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "ClusterType": {},
-                "InstanceIds": [],
-                "InstanceType": {},
-                "Limit": 20,
-                "Offset": 0,
-                "OrderBy": "",
-                "OrderByType": "",
-                "PayMode": {},
-                "Status": [],
-                "SubnetId": "",
-                "VpcId": ""
-              },
-              "region": ""
-            },
-            "namespace": "QCE/CFS",
-            "natGateway": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "NatGatewayId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "Filters": {
-                  "nat-gateway-id": [],
-                  "nat-gateway-name": [],
-                  "vpc-id": []
-                },
-                "Limit": 20,
-                "NatGatewayIds": [
-                  ""
-                ],
-                "Offset": 0,
-                "filtersChecked": false,
-                "instanceIdsChecked": false
-              },
-              "region": ""
-            },
-            "ovCdn": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "Domain",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "Filters": {
-                  "domain": [],
-                  "domainType": [],
-                  "fullUrlCache": [],
-                  "https": [],
-                  "origin": [],
-                  "originPullProtocol": [],
-                  "projectId": [],
-                  "resourceId": [],
-                  "serviceType": [],
-                  "status": [],
-                  "tagKey": []
-                },
-                "Limit": 20,
-                "Offset": 0
-              },
-              "region": ""
-            },
-            "pcx": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "peeringConnectionId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "limit": 20,
-                "offset": 0,
-                "peeringConnectionId": "",
-                "peeringConnectionName": "",
-                "vpcId": ""
-              },
-              "region": ""
-            },
-            "postgres": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "DBInstanceId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "Filters": {
-                  "db-instance-id": [],
-                  "db-instance-name": []
-                },
-                "Limit": 20,
-                "Offset": 0
-              },
-              "region": ""
-            },
-            "redis": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "InstanceId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "AutoRenew": null,
-                "BillingMode": "",
-                "EngineName": "",
-                "InstanceId": "",
-                "InstanceName": "",
-                "OrderBy": "",
-                "OrderType": null,
-                "ProjectIds": [],
-                "SearchKey": "",
-                "Status": [],
-                "SubnetIds": [],
-                "Type": null,
-                "TypeVersion": null,
-                "UniqSubnetIds": [],
-                "UniqVpcIds": [],
-                "VpcIds": []
-              },
-              "region": ""
-            },
-            "redisMem": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "InstanceId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "AutoRenew": null,
-                "BillingMode": "",
-                "EngineName": "",
-                "InstanceId": "",
-                "InstanceName": "",
-                "OrderBy": "",
-                "OrderType": null,
-                "ProjectIds": [],
-                "SearchKey": "",
-                "Status": [],
-                "SubnetIds": [],
-                "Type": null,
-                "TypeVersion": null,
-                "UniqSubnetIds": [],
-                "UniqVpcIds": [],
-                "VpcIds": []
-              },
-              "region": ""
-            },
-            "refId": "A",
-            "scf": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "FunctionName",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "Description": "",
-                "Limit": 20,
-                "Namespace": "",
-                "Offset": 0,
-                "Order": {},
-                "OrderBy": {},
-                "SearchKey": ""
-              },
-              "region": "",
-              "version": ""
-            },
-            "service": "cfs",
-            "showInstanceDetails": false
-          }
-        ],
-        "thresholds": [],
-        "timeFrom": null,
-        "timeRegions": [],
-        "timeShift": null,
-        "title": "写入延迟",
-        "tooltip": {
-          "shared": true,
-          "sort": 0,
-          "value_type": "individual"
-        },
-        "type": "graph",
-        "xaxis": {
-          "buckets": null,
-          "mode": "time",
-          "name": null,
-          "show": true,
-          "values": []
-        },
-        "yaxes": [
-          {
-            "format": "short",
-            "label": null,
-            "logBase": 1,
-            "max": null,
-            "min": null,
-            "show": true
-          },
-          {
-            "format": "short",
-            "label": null,
-            "logBase": 1,
-            "max": null,
-            "min": null,
-            "show": true
-          }
-        ],
-        "yaxis": {
-          "align": false,
-          "alignLevel": null
-        }
-      },
-      {
-        "aliasColors": {},
-        "bars": false,
-        "dashLength": 10,
-        "dashes": false,
-        "datasource": null,
-        "fieldConfig": {
-          "defaults": {
-            "custom": {}
-          },
-          "overrides": []
-        },
-        "fill": 1,
-        "fillGradient": 0,
-        "gridPos": {
-          "h": 8,
-          "w": 12,
-          "x": 12,
-          "y": 30
-        },
-        "hiddenSeries": false,
-        "id": 8,
-        "legend": {
-          "avg": false,
-          "current": false,
-          "max": false,
-          "min": false,
-          "show": true,
-          "total": false,
-          "values": false
-        },
-        "lines": true,
-        "linewidth": 1,
-        "nullPointMode": "null",
-        "options": {
-          "alertThreshold": true
-        },
-        "percentage": false,
-        "pluginVersion": "7.3.6",
-        "pointradius": 2,
-        "points": false,
-        "renderer": "flot",
-        "seriesOverrides": [],
-        "spaceLength": 10,
-        "stack": false,
-        "steppedLine": false,
-        "targets": [
-          {
-            "bwp": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "BandwidthPackageId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "BandwidthPackageIds": [
-                  ""
-                ],
-                "Filters": {
-                  "bandwidth-package-name": [],
-                  "bandwidth-package_id": [],
-                  "charge-type": [],
-                  "network-type": []
-                },
-                "Limit": 20,
-                "Offset": 0,
-                "filtersChecked": false,
-                "instanceIdsChecked": false
-              },
-              "region": ""
-            },
-            "cdb": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "InstanceId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "CdbErrors": {},
-                "EngineVersions": {},
-                "InitFlag": {},
-                "InstanceIds": [],
-                "InstanceNames": [],
-                "InstanceTypes": {},
-                "Limit": 20,
-                "Offset": 0,
-                "OrderBy": {},
-                "OrderDirection": {},
-                "PayTypes": {},
-                "ProjectId": "",
-                "SecurityGroupId": "",
-                "Status": {},
-                "SubnetIds": [],
-                "TaskStatus": {},
-                "Vips": [],
-                "VpcIds": [],
-                "ZoneIds": []
-              },
-              "region": ""
-            },
-            "cdn": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "Domain",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "Filters": {
-                  "domain": [],
-                  "domainType": [],
-                  "fullUrlCache": [],
-                  "https": [],
-                  "origin": [],
-                  "originPullProtocol": [],
-                  "projectId": [],
-                  "resourceId": [],
-                  "serviceType": [],
-                  "status": [],
-                  "tagKey": []
-                },
-                "Limit": 20,
-                "Offset": 0
-              },
-              "region": ""
-            },
-            "cfs": {
-              "dimensionObject": {
-                "FileSystemId": {
-                  "Name": "FileSystemId",
-                  "Value": ""
-                }
-              },
-              "instance": "$instance",
-              "instanceAlias": "FileSystemId",
-              "metricName": "DataReadIoLatency",
-              "metricUnit": "ms",
-              "period": 300,
-              "queries": {
-                "FileSystemId": "",
-                "Limit": 20,
-                "Offset": 0,
-                "SubnetId": "",
-                "VpcId": ""
-              },
-              "region": "$region",
-              "version": ""
-            },
-            "ckafka": {
-              "consumerGroup": "",
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "InstanceId",
-              "metricName": "",
-              "metricUnit": "",
-              "partition": "",
-              "queries": {
-                "InstanceId": "",
-                "Limit": 10,
-                "Offset": 0,
-                "SearchWord": "",
-                "Status": [],
-                "TagKey": ""
-              },
-              "region": "",
-              "topicId": "",
-              "topicName": ""
-            },
-            "cvm": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "InstanceId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "Filters": {
-                  "host-id": [],
-                  "instance-charge-type": {},
-                  "instance-id": [],
-                  "instance-name": [],
-                  "private-ip-address": [],
-                  "project-id": [],
-                  "public-ip-address": [],
-                  "security-group-id": [],
-                  "subnet-id": [],
-                  "vpc-id": [],
-                  "zone": []
-                },
-                "InstanceIds": [
-                  ""
-                ],
-                "Limit": 20,
-                "Offset": 0,
-                "filtersChecked": false,
-                "instanceIdsChecked": false
-              },
-              "region": ""
-            },
-            "lb": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "AddressId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "AddressIds": [
-                  ""
-                ],
-                "Filters": {
-                  "address-id": [],
-                  "address-ip": [],
-                  "address-name": [],
-                  "address-status ": [],
-                  "instance-id ": [],
-                  "is-arrears ": [],
-                  "network-interface-id ": [],
-                  "private-ip-address": []
-                },
-                "Limit": 20,
-                "Offset": 0
-              },
-              "region": "",
-              "version": ""
-            },
-            "lbPrivate": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "LoadBalancerId",
-              "listener": "",
-              "listenerAlias": "ListenerId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "BackendPrivateIps": [],
-                "BackendPublicIps": [],
-                "Domain": "",
-                "Limit": 20,
-                "LoadBalancerIds": [],
-                "LoadBalancerName": "",
-                "LoadBalancerVips": [],
-                "MasterZone": "",
-                "Offset": 0,
-                "OrderBy": {},
-                "OrderType": {},
-                "SecurityGroup": "",
-                "VpcId": "",
-                "WithRs": {}
-              },
-              "region": ""
-            },
-            "lbPublic": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "LoadBalancerId",
-              "listener": "",
-              "listenerAlias": "ListenerId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "BackendPrivateIps": [],
-                "BackendPublicIps": [],
-                "Domain": "",
-                "Limit": 20,
-                "LoadBalancerIds": [],
-                "LoadBalancerName": "",
-                "LoadBalancerVips": [],
-                "MasterZone": "",
-                "Offset": 0,
-                "OrderBy": {},
-                "OrderType": {},
-                "SecurityGroup": "",
-                "VpcId": "",
-                "WithRs": {}
-              },
-              "region": ""
-            },
-            "loadBalance": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "LoadBalancerId",
-              "listener": "",
-              "listenerAlias": "ListenerId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "BackendPrivateIps": [],
-                "BackendPublicIps": [],
-                "Domain": "",
-                "Limit": 20,
-                "LoadBalancerIds": [],
-                "LoadBalancerName": "",
-                "LoadBalancerVips": [],
-                "MasterZone": "",
-                "Offset": 0,
-                "OrderBy": {},
-                "OrderType": {},
-                "SecurityGroup": "",
-                "VpcId": "",
-                "WithRs": {}
-              },
-              "region": ""
-            },
-            "mongoDB": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "InstanceId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "ClusterType": {},
-                "InstanceIds": [],
-                "InstanceType": {},
-                "Limit": 20,
-                "Offset": 0,
-                "OrderBy": "",
-                "OrderByType": "",
-                "PayMode": {},
-                "Status": [],
-                "SubnetId": "",
-                "VpcId": ""
-              },
-              "region": ""
-            },
-            "namespace": "QCE/CFS",
-            "natGateway": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "NatGatewayId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "Filters": {
-                  "nat-gateway-id": [],
-                  "nat-gateway-name": [],
-                  "vpc-id": []
-                },
-                "Limit": 20,
-                "NatGatewayIds": [
-                  ""
-                ],
-                "Offset": 0,
-                "filtersChecked": false,
-                "instanceIdsChecked": false
-              },
-              "region": ""
-            },
-            "ovCdn": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "Domain",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "Filters": {
-                  "domain": [],
-                  "domainType": [],
-                  "fullUrlCache": [],
-                  "https": [],
-                  "origin": [],
-                  "originPullProtocol": [],
-                  "projectId": [],
-                  "resourceId": [],
-                  "serviceType": [],
-                  "status": [],
-                  "tagKey": []
-                },
-                "Limit": 20,
-                "Offset": 0
-              },
-              "region": ""
-            },
-            "pcx": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "peeringConnectionId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "limit": 20,
-                "offset": 0,
-                "peeringConnectionId": "",
-                "peeringConnectionName": "",
-                "vpcId": ""
-              },
-              "region": ""
-            },
-            "postgres": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "DBInstanceId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "Filters": {
-                  "db-instance-id": [],
-                  "db-instance-name": []
-                },
-                "Limit": 20,
-                "Offset": 0
-              },
-              "region": ""
-            },
-            "redis": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "InstanceId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "AutoRenew": null,
-                "BillingMode": "",
-                "EngineName": "",
-                "InstanceId": "",
-                "InstanceName": "",
-                "OrderBy": "",
-                "OrderType": null,
-                "ProjectIds": [],
-                "SearchKey": "",
-                "Status": [],
-                "SubnetIds": [],
-                "Type": null,
-                "TypeVersion": null,
-                "UniqSubnetIds": [],
-                "UniqVpcIds": [],
-                "VpcIds": []
-              },
-              "region": ""
-            },
-            "redisMem": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "InstanceId",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "AutoRenew": null,
-                "BillingMode": "",
-                "EngineName": "",
-                "InstanceId": "",
-                "InstanceName": "",
-                "OrderBy": "",
-                "OrderType": null,
-                "ProjectIds": [],
-                "SearchKey": "",
-                "Status": [],
-                "SubnetIds": [],
-                "Type": null,
-                "TypeVersion": null,
-                "UniqSubnetIds": [],
-                "UniqVpcIds": [],
-                "VpcIds": []
-              },
-              "region": ""
-            },
-            "refId": "A",
-            "scf": {
-              "dimensionObject": null,
-              "instance": "",
-              "instanceAlias": "FunctionName",
-              "metricName": "",
-              "metricUnit": "",
-              "queries": {
-                "Description": "",
-                "Limit": 20,
-                "Namespace": "",
-                "Offset": 0,
-                "Order": {},
-                "OrderBy": {},
-                "SearchKey": ""
-              },
-              "region": "",
-              "version": ""
-            },
-            "service": "cfs",
-            "showInstanceDetails": false
-          }
-        ],
-        "thresholds": [],
-        "timeFrom": null,
-        "timeRegions": [],
-        "timeShift": null,
-        "title": "读取延时",
-        "tooltip": {
-          "shared": true,
-          "sort": 0,
-          "value_type": "individual"
-        },
-        "type": "graph",
-        "xaxis": {
-          "buckets": null,
-          "mode": "time",
-          "name": null,
-          "show": true,
-          "values": []
-        },
-        "yaxes": [
-          {
-            "format": "short",
-            "label": null,
-            "logBase": 1,
-            "max": null,
-            "min": null,
-            "show": true
-          },
-          {
-            "format": "short",
-            "label": null,
-            "logBase": 1,
-            "max": null,
-            "min": null,
-            "show": true
-          }
-        ],
-        "yaxis": {
-          "align": false,
-          "alignLevel": null
-        }
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
       }
-    ],
-    "schemaVersion": 26,
-    "style": "dark",
-    "tags": [],
-    "templating": {
-      "list": [
+    ]
+  },
+  "description": "腾讯云CFS文件存储监控模板 Dashboard",
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "id": null,
+  "iteration": 1617098128576,
+  "links": [],
+  "panels": [
+    {
+      "collapsed": false,
+      "datasource": "Tencent Cloud Monitoring",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 22,
+      "panels": [],
+      "title": "文件系统",
+      "type": "row"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "Tencent Cloud Monitoring",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 1
+      },
+      "hiddenSeries": false,
+      "id": 20,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.3.6",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
         {
-          "allValue": null,
-          "current": {},
-          "datasource": "Tencent Cloud Monitor Datasource",
-          "definition": "Namespace=QCE/CVM&Action=DescribeRegions",
-          "error": null,
-          "hide": 0,
-          "includeAll": false,
-          "label": "地域",
-          "multi": false,
-          "name": "region",
-          "options": [],
-          "query": "Namespace=QCE/CVM&Action=DescribeRegions",
-          "refresh": 1,
-          "regex": "",
-          "skipUrlSync": false,
-          "sort": 0,
-          "tagValuesQuery": "",
-          "tags": [],
-          "tagsQuery": "",
-          "type": "query",
-          "useTags": false
+          "namespace": "QCE/CFS",
+          "refId": "A",
+          "service": "cfs",
+          "showInstanceDetails": false,
+          "cfs": {
+            "dimensionObject": {
+              "FileSystemId": {
+                "Name": "FileSystemId",
+                "Value": ""
+              }
+            },
+            "instance": "$instance",
+            "instanceAlias": "FileSystemId",
+            "metricName": "DataWriteIoCount",
+            "metricUnit": "count",
+            "period": 300,
+            "queries": {
+              "FileSystemId": "",
+              "Limit": 20,
+              "Offset": 0,
+              "SubnetId": "",
+              "VpcId": ""
+            },
+            "region": "$region",
+            "version": ""
+          }
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "每秒写文件系统的次数",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
         },
         {
-          "allValue": null,
-          "current": {},
-          "datasource": "Tencent Cloud Monitor Datasource",
-          "definition": "Namespace=QCE/CFS&Region=$region&Action=DescribeInstances",
-          "error": null,
-          "hide": 0,
-          "includeAll": false,
-          "label": "实例",
-          "multi": false,
-          "name": "instance",
-          "options": [],
-          "query": "Namespace=QCE/CFS&Region=$region&Action=DescribeInstances",
-          "refresh": 1,
-          "regex": "",
-          "skipUrlSync": false,
-          "sort": 0,
-          "tagValuesQuery": "",
-          "tags": [],
-          "tagsQuery": "",
-          "type": "query",
-          "useTags": false
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
         }
-      ]
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
     },
-    "time": {
-      "from": "now-6h",
-      "to": "now"
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "Tencent Cloud Monitoring",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 1
+      },
+      "hiddenSeries": false,
+      "id": 18,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.3.6",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "namespace": "QCE/CFS",
+          "refId": "A",
+          "service": "cfs",
+          "showInstanceDetails": false,
+          "cfs": {
+            "dimensionObject": {
+              "FileSystemId": {
+                "Name": "FileSystemId",
+                "Value": ""
+              }
+            },
+            "instance": "$instance",
+            "instanceAlias": "FileSystemId",
+            "metricName": "DataReadIoCount",
+            "metricUnit": "count",
+            "period": 300,
+            "queries": {
+              "FileSystemId": "",
+              "Limit": 20,
+              "Offset": 0,
+              "SubnetId": "",
+              "VpcId": ""
+            },
+            "region": "$region",
+            "version": ""
+          }
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "每秒读文件系统的次数",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
     },
-    "timepicker": {},
-    "timezone": "",
-    "title": "【实例】CFS文件存储",
-    "uid": "cXiuvsyMk",
-    "version": 3
-  }
+    {
+      "datasource": "Tencent Cloud Monitoring",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 9
+      },
+      "id": 16,
+      "title": "带宽类",
+      "type": "row"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "Tencent Cloud Monitoring",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 0,
+        "y": 10
+      },
+      "hiddenSeries": false,
+      "id": 4,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.3.6",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "namespace": "QCE/CFS",
+          "refId": "A",
+          "service": "cfs",
+          "showInstanceDetails": false,
+          "cfs": {
+            "dimensionObject": {
+              "FileSystemId": {
+                "Name": "FileSystemId",
+                "Value": ""
+              }
+            },
+            "instance": "$instance",
+            "instanceAlias": "FileSystemId",
+            "metricName": "DataWriteIoBytes",
+            "metricUnit": "KB/s",
+            "period": 300,
+            "queries": {
+              "FileSystemId": "",
+              "Limit": 20,
+              "Offset": 0,
+              "SubnetId": "",
+              "VpcId": ""
+            },
+            "region": "$region",
+            "version": ""
+          }
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "写入带宽",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "decimals": null,
+          "format": "KBs",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "Tencent Cloud Monitoring",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 12,
+        "y": 10
+      },
+      "hiddenSeries": false,
+      "id": 2,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.3.6",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "namespace": "QCE/CFS",
+          "refId": "A",
+          "service": "cfs",
+          "showInstanceDetails": false,
+          "cfs": {
+            "dimensionObject": {
+              "FileSystemId": {
+                "Name": "FileSystemId",
+                "Value": ""
+              }
+            },
+            "instance": "$instance",
+            "instanceAlias": "FileSystemId",
+            "metricName": "DataReadIoBytes",
+            "metricUnit": "KB/s",
+            "period": 300,
+            "queries": {
+              "FileSystemId": "",
+              "Limit": 20,
+              "Offset": 0,
+              "SubnetId": "",
+              "VpcId": ""
+            },
+            "region": "$region",
+            "version": ""
+          }
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "读取带宽",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "KBs",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "datasource": "Tencent Cloud Monitoring",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 19
+      },
+      "id": 14,
+      "title": "存储类",
+      "type": "row"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "Tencent Cloud Monitoring",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 9,
+        "w": 24,
+        "x": 0,
+        "y": 20
+      },
+      "hiddenSeries": false,
+      "id": 6,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.3.6",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "namespace": "QCE/CFS",
+          "refId": "A",
+          "service": "cfs",
+          "showInstanceDetails": false,
+          "cfs": {
+            "dimensionObject": {
+              "FileSystemId": {
+                "Name": "FileSystemId",
+                "Value": ""
+              }
+            },
+            "instance": "$instance",
+            "instanceAlias": "FileSystemId",
+            "metricName": "Storage",
+            "metricUnit": "GB",
+            "period": 300,
+            "queries": {
+              "FileSystemId": "",
+              "Limit": 20,
+              "Offset": 0,
+              "SubnetId": "",
+              "VpcId": ""
+            },
+            "region": "$region",
+            "version": ""
+          }
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "文件系统存储量",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "decgbytes",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "datasource": "Tencent Cloud Monitoring",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 29
+      },
+      "id": 12,
+      "title": "延时",
+      "type": "row"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "Tencent Cloud Monitoring",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 30
+      },
+      "hiddenSeries": false,
+      "id": 10,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.3.6",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "namespace": "QCE/CFS",
+          "refId": "A",
+          "service": "cfs",
+          "showInstanceDetails": false,
+          "cfs": {
+            "dimensionObject": {
+              "FileSystemId": {
+                "Name": "FileSystemId",
+                "Value": ""
+              }
+            },
+            "instance": "$instance",
+            "instanceAlias": "FileSystemId",
+            "metricName": "DataWriteIoLatency",
+            "metricUnit": "ms",
+            "period": 300,
+            "queries": {
+              "FileSystemId": "",
+              "Limit": 20,
+              "Offset": 0,
+              "SubnetId": "",
+              "VpcId": ""
+            },
+            "region": "$region",
+            "version": ""
+          }
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "写入延迟",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "ms",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "Tencent Cloud Monitoring",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 30
+      },
+      "hiddenSeries": false,
+      "id": 8,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.3.6",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "namespace": "QCE/CFS",
+          "refId": "A",
+          "service": "cfs",
+          "showInstanceDetails": false,
+          "cfs": {
+            "dimensionObject": {
+              "FileSystemId": {
+                "Name": "FileSystemId",
+                "Value": ""
+              }
+            },
+            "instance": "$instance",
+            "instanceAlias": "FileSystemId",
+            "metricName": "DataReadIoLatency",
+            "metricUnit": "ms",
+            "period": 300,
+            "queries": {
+              "FileSystemId": "",
+              "Limit": 20,
+              "Offset": 0,
+              "SubnetId": "",
+              "VpcId": ""
+            },
+            "region": "$region",
+            "version": ""
+          }
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "读取延时",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "ms",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    }
+  ],
+  "schemaVersion": 26,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "Tencent Cloud Monitoring",
+        "definition": "Namespace=QCE/CVM&Action=DescribeRegions",
+        "error": null,
+        "hide": 0,
+        "includeAll": false,
+        "label": "地域",
+        "multi": false,
+        "name": "region",
+        "options": [],
+        "query": "Namespace=QCE/CVM&Action=DescribeRegions",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "Tencent Cloud Monitoring",
+        "definition": "Namespace=QCE/CFS&Region=$region&Action=DescribeInstances",
+        "error": null,
+        "hide": 0,
+        "includeAll": false,
+        "label": "实例",
+        "multi": false,
+        "name": "instance",
+        "options": [],
+        "query": "Namespace=QCE/CFS&Region=$region&Action=DescribeInstances",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      }
+    ]
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "【预设】CFS文件存储",
+  "uid": "",
+  "version": 2
+}

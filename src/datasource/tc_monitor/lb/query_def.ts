@@ -1,4 +1,4 @@
-import * as _ from 'lodash';
+import _ from 'lodash';
 
 // export const LBQueryDescriptor = [{
 //   key: 'Offset',
@@ -62,7 +62,7 @@ export const LBFilterDescriptor = [
       { value: 'UNBIND', text: 'UNBIND' },
       { value: 'OFFLINING', text: 'OFFLINING' },
       { value: 'BIND_ENI', text: 'BIND_ENI' },
-    ]
+    ],
   },
   {
     key: 'instance-id',
@@ -94,7 +94,7 @@ export const LBFilterDescriptor = [
     list: [
       { text: '正常', value: 'FALSE' },
       { text: '欠费', value: 'TRUE' },
-    ]
+    ],
   },
 ];
 
@@ -123,17 +123,17 @@ const LB_STATE = {
     Offset: 0,
     Limit: 20,
     [InstanceKey]: [''],
-    Filters:  {
-      "address-id": [],
-      "address-name": [],
-      "address-ip": [],
-      "address-status ": [],
-      "instance-id ": [],
-      "private-ip-address": [],
-      "network-interface-id ": [],
-      "is-arrears ": [],
+    Filters: {
+      'address-id': [],
+      'address-name': [],
+      'address-ip': [],
+      'address-status ': [],
+      'instance-id ': [],
+      'private-ip-address': [],
+      'network-interface-id ': [],
+      'is-arrears ': [],
     },
-  }
+  },
 };
 
 function GetInstanceQueryParams(queries: any = {}) {
@@ -151,7 +151,9 @@ function GetInstanceQueryParams(queries: any = {}) {
     } else if (queries.filtersChecked) {
       const Filters: any[] = [];
       _.forEach(queries.Filters, (item: any, key) => {
-        if (Filters.length > 9) { return; }
+        if (Filters.length > 9) {
+          return;
+        }
         if (_.isArray(item)) {
           item = _.compact(item);
           if (item.length > 0) {
@@ -175,11 +177,11 @@ const LBInstanceAliasList = ['AddressId', 'AddressName', 'AddressIp'];
 
 // 维度eip对应于实例中的哪个字段？映射
 const LBInvalidDemensions = {
-  eip: 'AddressIp'
+  eip: 'AddressIp',
 };
 
 const templateQueryIdMap = {
-  instance: 'AddressId'
+  instance: 'AddressId',
 };
 // 从monitor维度到LB实例对应字段的映射
 // export const metric2Instance = {

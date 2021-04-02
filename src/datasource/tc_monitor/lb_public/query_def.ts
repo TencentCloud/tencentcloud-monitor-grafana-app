@@ -1,4 +1,4 @@
-import * as _ from 'lodash';
+import _ from 'lodash';
 
 const ForwardTypes = [
   { text: '通用的负载均衡', value: 1 },
@@ -172,7 +172,7 @@ const LBPUBLIC_STATE = {
   instanceAlias: 'LoadBalancerId',
   listener: '',
   listenerAlias: 'ListenerId',
-  queries: Object.assign({}, LBPublicFields),
+  queries: { ...LBPublicFields },
 };
 
 function GetInstanceQueryParams(queries: any = {}) {

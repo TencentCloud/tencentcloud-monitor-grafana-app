@@ -1,4 +1,4 @@
-import * as _ from 'lodash';
+import _ from 'lodash';
 import { CVMInstanceAliasList, isValidMetric, modifyDimensons } from './query_def';
 import { GetServiceAPIInfo } from '../../common/constants';
 import { BaseDatasource } from '../_base/datasource';
@@ -6,6 +6,7 @@ import { BaseDatasource } from '../_base/datasource';
 export default class CVMDatasource extends BaseDatasource {
   Namespace = 'QCE/CVM';
   InstanceAliasList = CVMInstanceAliasList;
+  InvalidDimensions = {};
   templateQueryIdMap = {
     instance: 'InstanceId',
   };
@@ -21,12 +22,12 @@ export default class CVMDatasource extends BaseDatasource {
   async getMetrics(region = 'ap-guangzhou') {
     const rawSet = await super.getMetrics(region);
     return _.compact(
-      rawSet.map(item => {
+      rawSet.map((item) => {
         if (isValidMetric(item)) {
           return modifyDimensons(item);
         }
         return null;
-      }),
+      })
     );
   }
 
@@ -37,13 +38,13 @@ export default class CVMDatasource extends BaseDatasource {
         url: this.url + serviceInfo.path,
       },
       serviceInfo.service,
-      { region, action: 'DescribeZones' },
-    ).then(response => {
+      { region, action: 'DescribeZones' }
+    ).then((response) => {
       return _.filter(
-        _.map(response.ZoneSet || [], item => {
+        _.map(response.ZoneSet || [], (item) => {
           return { text: item.ZoneName, value: item.Zone, ZoneState: item.ZoneState, Zone: item.Zone };
         }),
-        item => item.ZoneState === 'AVAILABLE',
+        (item) => item.ZoneState === 'AVAILABLE'
       );
     });
   }

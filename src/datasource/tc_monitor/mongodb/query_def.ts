@@ -1,4 +1,4 @@
-import * as _ from 'lodash';
+import _ from 'lodash';
 const InstanceTypes = [
   { text: '所有实例', value: 0 },
   { text: '正式实例', value: 1 },
@@ -148,7 +148,7 @@ const MONGODB_STATE = {
   dimensionObject: null,
   instance: '',
   instanceAlias: 'InstanceId',
-  queries: Object.assign({}, MongoDBFields),
+  queries: { ...MongoDBFields },
 };
 
 function GetInstanceQueryParams(queries: any = {}) {

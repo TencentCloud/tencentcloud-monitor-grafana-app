@@ -1,5 +1,5 @@
 import coreModule from 'grafana/app/core/core_module';
-import * as _ from 'lodash';
+import _ from 'lodash';
 import { isDefined } from 'angular';
 
 // mutilple conditions directive for instance query params
@@ -36,8 +36,13 @@ export class MultiConditionCtrl {
     };
 
     $scope.getSelectedOptions = () => {
-      const selectedOptions = _.filter($scope.options, item => _.get($scope.value, 'value', []).indexOf(item.value) !== -1);
-      return selectedOptions.length > 0 ? _.map(selectedOptions, option => `${option.text}: ${option.value}`).join('; ') : undefined;
+      const selectedOptions = _.filter(
+        $scope.options,
+        (item) => _.get($scope.value, 'value', []).indexOf(item.value) !== -1
+      );
+      return selectedOptions.length > 0
+        ? _.map(selectedOptions, (option) => `${option.text}: ${option.value}`).join('; ')
+        : undefined;
     };
 
     $scope.init();

@@ -28,7 +28,7 @@ $ npm install
 
 3. Start development environment:
 ```bash
-$ npm run analyze
+$ npm run watch
 ```
 
 4. Run in your command line:
@@ -42,16 +42,30 @@ Then visit (http://localhost:3000).
 
 ## Commit Message Format
 
-We follow [Angular Commit message guidelines](https://github.com/angular/angular/blob/22b96b9/CONTRIBUTING.md#-commit-message-guidelines) as shown below:
+We follow [Converntional Commit message guidelines](https://conventionalcommits.org/) as shown below:
 
 ```
-<type>(<scope>): <subject>
-<BLANK LINE>
-<body>
-<BLANK LINE>
-<footer>
+<type>[optional scope]: <description>
+
+[optional body]
+
+[optional footer(s)]
 ```
 
 Each commit message consists of a `header`, a `body` and a `footer`. The header is mandatory and the scope of the header is optional.
 
 Any line of the commit message cannot be longer 100 characters!
+
+`type` can be one of the followings:
+
+- build
+- ci
+- chore
+- docs
+- feat
+- fix
+- perf
+- refactor
+- revert
+- style
+- test

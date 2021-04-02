@@ -1,114 +1,117 @@
 import coreModule from 'grafana/app/core/core_module';
-import { CDNFilterFieldsDescriptor } from './query_def';
+import { CDNPROVINCEFilterFieldsDescriptor, queryEditorName, namespace } from './query_def';
+import { GetServiceFromNamespace } from '../../common/constants';
 
-
-export class CDNQueryCtrl {
+const ExtraFields = [
+  {
+    label: 'Isp',
+    field: 'isp',
+  },
+  {
+    label: 'Province',
+    field: 'district',
+  },
+];
+export class QueryCtrl {
   /** @ngInject */
   constructor($scope, $rootScope) {
     $scope.init = () => {
-      $scope.CDNFilterFieldsDescriptor = CDNFilterFieldsDescriptor;
+      $scope.CDNPROVINCEFilterFieldsDescriptor = CDNPROVINCEFilterFieldsDescriptor;
+      $scope.ExtraFields = ExtraFields;
+      $scope.namespace = namespace;
     };
 
-    // $scope.onChecked = (srcField, dstField) => {
-    //   if ($scope.target.queries[srcField] === true) {
-    //     $scope.target.queries[dstField] = false;
-    //   }
-    //   $scope.onChange();
-    // };
-
-    // $scope.getDropdown = (field) => {
-    //   switch (field) {
-    //     case 'zone':
-    //       return $scope.getZones();
-    //     default:
-    //       return [];
-    //   }
-    // };
-
-    // $scope.getZones = () => {
-    //   if (!$scope.region) {
-    //     return [];
-    //   }
-    //   return $scope.datasource.getZones('cvm', $scope.region);
-    // };
+    $scope.getExtraDropdown = async (target, field) => {
+      const service = GetServiceFromNamespace($scope.namespace);
+      const region = $scope.datasource.getServiceFn(service, 'getVariable')(target.region);
+      const rs = await $scope.datasource.getServiceFn(service, 'getConsumerList')({ region, field });
+      return rs;
+    };
 
     $scope.init();
   }
-
 }
 
 const template = `
-<div class="tc-sub-params" ng-if="showDetail">
-<label class="gf-form-label tc-info-label">
-  Instances are queried by following params.
-  <a target="_blank" style="text-decoration:underline;color:#006eff;font-size:medium" href="https://cloud.tencent.com/document/api/213/15728">Click here to get API doc.</a>
-</label>
-<div class="gf-form-inline">
-  <div class="gf-form">
-    <label class="gf-form-label width-14">
-      Offset
-      <info-popover mode="right-normal">
-        偏移量, 例如Offset=20&Limit=20 返回第 20 到 40 项
-      </info-popover>
+<div>
+  <div class="tc-sub-params" ng-if="showDetail">
+    <label class="gf-form-label tc-info-label">
+      Domains are queried by following params.
+      <a target="_blank" style="text-decoration:underline;color:#006eff;font-size:medium" href="https://cloud.tencent.com/document/api/228/41118">Click here to get API doc.</a>
     </label>
-    <input type="number" ng-model="target.queries.Offset" class="gf-form-input width-10" ng-min="0" ng-change="onChange()">
+    <div class="gf-form-inline" ng-repeat="field in CDNPROVINCEFilterFieldsDescriptor">
+      <div class="gf-form">
+        <label class="gf-form-label width-14">
+          {{ field.key }}
+          <info-popover mode="right-normal">
+            {{ field.cnDescriptor }}
+            <a target="_blank" href="{{field.link}}" ng-if="field.link">Click here for more information.</a>
+          </info-popover>
+        </label>
+        <input
+          ng-if="field.type === 'inputNumber'"
+          style="margin-right:2px"
+          type="number"
+          ng-model="target.queries[field.key]"
+          ng-change="onChange()"
+          class="gf-form-input width-10"
+          ng-min="field.min"
+          ng-max="field.max"
+        />
+        <input
+          ng-if="field.type === 'input'"
+          style="margin-right:2px"
+          type="text"
+          ng-model="target.queries[field.key]"
+          ng-change="onChange()"
+          class="gf-form-input width-10"
+        />    
+        <multi-condition
+          ng-if="field.type === 'inputNumberMulti'"
+          type="'inputNumber'"
+          max-cond="5"
+          value="target.queries.Filters[field.key]"
+          maxNum="field.max"
+          minNum="field.min"
+          on-change="onChange()"
+        ></multi-condition>
+        <multi-condition
+          ng-if="field.type === 'inputMulti'"
+          type="'input'"
+          value="target.queries[field.key]"
+          on-change="onChange()"
+        ></multi-condition>
+        <custom-select-dropdown
+          ng-if="field.type === 'select'"
+          value="target.queries[field.key]"
+          options="field.list"
+          multiple="field.multiple || false"
+          on-change="onChange()"
+        ></custom-select-dropdown>
+      </div>
+    </div>
   </div>
-</div>
-<div class="gf-form-inline">
-  <div class="gf-form">
-    <label class="gf-form-label width-14">
-      Limit
-      <info-popover mode="right-normal">
-        单次请求返回的数量，默认为20，最小值为1，最大值为100
-      </info-popover>
-    </label>
-    <input type="number" ng-model="target.queries.Limit" class="gf-form-input width-10" ng-min="1" ng-max="100" ng-change="onChange()">
-  </div>
-</div>
-<div class="gf-form-inline" ng-repeat="field in CDNFilterFieldsDescriptor">
-<label class="gf-form-label width-14">
-  {{ field.key }}
-  <info-popover mode="right-normal">
-    {{ field.cnDescriptor }}
-    <a target="_blank" href="{{field.link}}" ng-if="field.link">Click here for more information.</a>
-  </info-popover>
-</label>
-<multi-condition
-  ng-if="field.type === 'inputNumbermulti'"
-  type="'inputNumber'"
-  max-cond="5"
-  value="target.queries.Filters[field.key]"
-  maxNum="field.max"
-  minNum="field.min"
-  on-change="onChange()"
-></multi-condition>
-<multi-condition
-  ng-if="field.type === 'inputmulti'"
-  type="'input'"
-  max-cond="5"
-  value="target.queries.Filters[field.key]"
-  on-change="onChange()"
-></multi-condition>
-<custom-select-dropdown
-  ng-if="field.type === 'select'"
-  value="target.queries.Filters[field.key]"
-  options="field.list"
-  multiple="true"
-  on-change="onChange()"
-></custom-select-dropdown>
-</div>
 
+<!-- 起始区域 目的区域等 -->
+  <div">
+    <div class="gf-form-inline" ng-repeat="extra in ExtraFields">
+      <div class="gf-form">
+        <label class="gf-form-label query-keyword width-9">{{extra.label}}</label>
+        <div class="gf-form-select-wrapper gf-form-select-wrapper--caret-indent">
+          <gf-form-dropdown model="target[extra.field]" allow-custom="false" get-options="getExtraDropdown(target, extra.field)"
+            on-change="onRefresh()" css-class="min-width-10">
+          </gf-form-dropdown>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 `;
 
-
-
-
-
-export function cdnQuery() {
+export function sQuery() {
   return {
     template: template,
-    controller: CDNQueryCtrl,
+    controller: QueryCtrl,
     restrict: 'E',
     scope: {
       target: '=',
@@ -117,11 +120,9 @@ export function cdnQuery() {
       datasource: '=',
       getDropdownOptions: '&',
       onChange: '&',
+      onRefresh: '&',
+      dims: '=',
     },
   };
 }
-
-
-
-coreModule.directive('cdnQuery', cdnQuery);
-
+coreModule.directive(queryEditorName, sQuery);

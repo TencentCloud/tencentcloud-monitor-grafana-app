@@ -42,19 +42,32 @@ $ docker-compose up
 
 ## 提交代码规范
 
-遵循Angular提出的Angular [提交信息规范](https://github.com/angular/angular/blob/22b96b9/CONTRIBUTING.md#-commit-message-guidelines)。
+遵循 Converntional [提交信息规范](https://conventionalcommits.org/)。
 
 提交格式如下：
 
 ```
-<type>(<scope>): <subject>
-<BLANK LINE>
-<body>
-<BLANK LINE>
-<footer>
+<type>[optional scope]: <description>
+
+[optional body]
+
+[optional footer(s)]
 ```
 
 每次提交可以包含页眉(header)、正文(body)和页脚(footer)，每次提交必须包含页眉内容
 
 每次提交的信息不超过100个字符
 
+`type` 可为如下选择之一：
+
+- build
+- ci
+- chore
+- docs
+- feat
+- fix
+- perf
+- refactor
+- revert
+- style
+- test

@@ -15,7 +15,7 @@
   margin-bottom: 6px;
 }
 
-.tc-sub-params .tc-info-label> a {
+.tc-sub-params .tc-info-label > a {
   margin-left: 10px;
 }
 
@@ -42,12 +42,12 @@
   display: inline-block;
 }
 
-.tc-condition-block> input {
+.tc-condition-block > input {
   display: inline-block;
   margin-right: 0;
 }
 
-.tc-condition-block> label {
+.tc-condition-block > label {
   display: inline-block;
 }
 
@@ -56,6 +56,31 @@
   vertical-align: top;
 }
 
-.tc-condition-add> label {
+.tc-condition-add > label {
   border-radius: 3px;
+}
+.filtered-color {
+  color: #ff851b;
+}
+.secret-tips {
+  position: absolute;
+  right: -25px;
+  border-radius: 2px;
+  background: #1b1b1b;
+  padding: 10px;
+  top: -35px;
+  width: 300px;
+  border: 1px solid #2c3235;
+}
+.secret-tips-tri {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  left: -8px;
+  top: 60px;
+  background: #1b1b1b;
+  border: 1px solid #2c3235;
+  border-top: 0;
+  border-right: 0;
+  transform: rotate(45deg);
 }

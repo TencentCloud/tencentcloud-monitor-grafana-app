@@ -1,4 +1,4 @@
-import * as _ from 'lodash';
+import _ from 'lodash';
 import { CDBInstanceAliasList, CDBInvalidDemensions, isValidMetric, modifyDimensons } from './query_def';
 import { GetServiceAPIInfo } from '../../common/constants';
 import { BaseDatasource } from '../_base/datasource';
@@ -22,12 +22,12 @@ export default class CDBDatasource extends BaseDatasource {
   async getMetrics(region = 'ap-guangzhou') {
     const rawSet = await super.getMetrics(region);
     return _.compact(
-      rawSet.map(item => {
+      rawSet.map((item) => {
         if (isValidMetric(item)) {
           return modifyDimensons(item);
         }
         return null;
-      }),
+      })
     );
   }
   /**
@@ -41,13 +41,13 @@ export default class CDBDatasource extends BaseDatasource {
         url: this.url + serviceInfo.path,
       },
       serviceInfo.service,
-      { region, action: 'DescribeZones' },
-    ).then(response => {
+      { region, action: 'DescribeZones' }
+    ).then((response) => {
       return _.filter(
-        _.map(response.ZoneSet || [], item => {
+        _.map(response.ZoneSet || [], (item) => {
           return { text: item.ZoneName, value: item.ZoneId, ZoneState: item.ZoneState, Zone: item.Zone };
         }),
-        item => item.ZoneState === 'AVAILABLE',
+        (item) => item.ZoneState === 'AVAILABLE'
       );
     });
   }

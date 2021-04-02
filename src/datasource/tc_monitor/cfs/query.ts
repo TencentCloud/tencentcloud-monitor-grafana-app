@@ -1,7 +1,6 @@
 import coreModule from 'grafana/app/core/core_module';
 import { CFSQueryDescriptor } from './query_def';
 
-
 export class SCFQueryCtrl {
   /** @ngInject */
   constructor($scope, $rootScope) {
@@ -9,21 +8,21 @@ export class SCFQueryCtrl {
       $scope.CFSQueryDescriptor = CFSQueryDescriptor;
     };
 
-    $scope.getVersions = async target => {
+    $scope.getVersions = async (target) => {
       // console.log(2222);
-      
+
       // return [{ text: 1, value: 1 }];
       // console.log(target, 'target');
       const { instance, region } = target;
       const fetcher = $scope.datasource.getServiceFn('scf', 'getVersions');
       if (!instance || !region) return [];
 
-      return fetcher(region, { FunctionName: JSON.parse(instance).FunctionName }).then(res => {
+      return fetcher(region, { FunctionName: JSON.parse(instance).FunctionName }).then((res) => {
         console.log(res, 'res');
-        
+
         return res;
       });
-    }
+    };
     // $scope.onChecked = (srcField, dstField) => {
     //   if ($scope.target.queries[srcField] === true) {
     //     $scope.target.queries[dstField] = false;
@@ -49,9 +48,7 @@ export class SCFQueryCtrl {
 
     $scope.init();
   }
-
 }
-
 
 const template = `
 <div>
@@ -113,7 +110,6 @@ const template = `
   </div>
 `;
 
-
 export function scfQuery() {
   return {
     template: template,
@@ -130,4 +126,3 @@ export function scfQuery() {
   };
 }
 coreModule.directive('cfsQuery', scfQuery);
-

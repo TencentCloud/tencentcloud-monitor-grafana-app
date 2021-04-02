@@ -1,5 +1,5 @@
-import * as _ from 'lodash';
-import * as moment from 'moment';
+import _ from 'lodash';
+import moment from 'moment';
 import DatasourceInterface from '../../datasource';
 import {
   LBPUBLICInstanceAliasList,
@@ -50,19 +50,19 @@ export default class LBPUBLICDatasource implements DatasourceInterface {
     const instancesQuery = query['action'].match(/^DescribeInstances/i) && !!query['region'];
     const region = this.getVariable(query['region']);
     if (instancesQuery && region) {
-      return this.getVariableInstances(region).then(result => {
+      return this.getVariableInstances(region).then((result) => {
         this.allInstanceMap = result; // 混存全量实例map
         const instanceAlias =
           LBPUBLICInstanceAliasList.indexOf(query[VARIABLE_ALIAS]) !== -1 ? query[VARIABLE_ALIAS] : 'LoadBalancerId';
         const instances: any[] = [];
-        _.forEach(result, item => {
+        _.forEach(result, (item) => {
           const instanceAliasValue = _.get(item, instanceAlias);
           if (instanceAliasValue) {
             if (typeof instanceAliasValue === 'string') {
               item._InstanceAliasValue = instanceAliasValue;
               instances.push({ text: instanceAliasValue, value: item[templateQueryIdMap.instance] });
             } else if (_.isArray(instanceAliasValue)) {
-              _.forEach(instanceAliasValue, subItem => {
+              _.forEach(instanceAliasValue, (subItem) => {
                 item._InstanceAliasValue = subItem;
                 instances.push({ text: subItem, value: item[templateQueryIdMap.instance] });
               });
@@ -75,22 +75,22 @@ export default class LBPUBLICDatasource implements DatasourceInterface {
     // 查询 clb监听器端口 列表
     const clbListenerPortQuery = query['action'].match(/^DescribeListeners/i) && !!query['instance'];
     const instance = this.getVariable(query['instance']);
-    const instanceMap = _.find(this.allInstanceMap, o => o[templateQueryIdMap.instance] === instance);
+    const instanceMap = _.find(this.allInstanceMap, (o) => o[templateQueryIdMap.instance] === instance);
     const instanceId = instanceMap?.LoadBalancerId;
     if (clbListenerPortQuery && instanceId) {
-      return this.getListeners(region, instanceId).then(result => {
+      return this.getListeners(region, instanceId).then((result) => {
         this.allListenerMap = result;
         const listenerAlias =
           LBPUBLICListenerAliasList.indexOf(query[VARIABLE_ALIAS]) !== -1 ? query[VARIABLE_ALIAS] : 'ListenerId';
         const listeners: any[] = [];
-        _.forEach(result, item => {
+        _.forEach(result, (item) => {
           const listenerAliasValue = _.get(item, listenerAlias);
           if (listenerAliasValue) {
             if (typeof listenerAliasValue === 'string') {
               item._InstanceAliasValue = listenerAliasValue;
               listeners.push({ text: listenerAliasValue, value: item[templateQueryIdMap.listener] });
             } else if (_.isArray(listenerAliasValue)) {
-              _.forEach(listenerAliasValue, subItem => {
+              _.forEach(listenerAliasValue, (subItem) => {
                 item._InstanceAliasValue = subItem;
                 listeners.push({ text: subItem, value: item[templateQueryIdMap.listener] });
               });
@@ -104,7 +104,7 @@ export default class LBPUBLICDatasource implements DatasourceInterface {
   }
 
   query(options: any) {
-    const queries = _.filter(options.targets, item => {
+    const queries = _.filter(options.targets, (item) => {
       // 过滤无效的查询 target
       return (
         item.lbPublic.hide !== true &&
@@ -113,7 +113,7 @@ export default class LBPUBLICDatasource implements DatasourceInterface {
         !_.isEmpty(ReplaceVariable(this.templateSrv, options.scopedVars, item.lbPublic.region, false)) &&
         !_.isEmpty(ReplaceVariable(this.templateSrv, options.scopedVars, item.lbPublic.instance, true))
       );
-    }).map(target => {
+    }).map((target) => {
       const region = ReplaceVariable(this.templateSrv, options.scopedVars, target.lbPublic.region, false);
       // 实例 instances 可能为模板变量，需先判断
       let instances = target.lbPublic.instance;
@@ -122,12 +122,12 @@ export default class LBPUBLICDatasource implements DatasourceInterface {
         if (!_.isArray(templateInsValues)) {
           templateInsValues = [templateInsValues];
         }
-        instances = _.map(templateInsValues, instanceId =>
-          _.find(this.allInstanceMap, o => o[templateQueryIdMap.instance] === instanceId),
+        instances = _.map(templateInsValues, (instanceId) =>
+          _.find(this.allInstanceMap, (o) => o[templateQueryIdMap.instance] === instanceId)
         );
       } else {
         if (_.isArray(instances)) {
-          instances = _.map(instances, instance => (_.isString(instance) ? JSON.parse(instance) : instance));
+          instances = _.map(instances, (instance) => (_.isString(instance) ? JSON.parse(instance) : instance));
         } else {
           instances = [_.isString(instances) ? JSON.parse(instances) : instances];
         }
@@ -140,13 +140,13 @@ export default class LBPUBLICDatasource implements DatasourceInterface {
         if (!_.isArray(templateInsValues)) {
           templateInsValues = [templateInsValues];
         }
-        listeners = _.map(templateInsValues, listenerId =>
-          _.find(this.allListenerMap, o => o[templateQueryIdMap.listener] === listenerId),
+        listeners = _.map(templateInsValues, (listenerId) =>
+          _.find(this.allListenerMap, (o) => o[templateQueryIdMap.listener] === listenerId)
         );
       } else {
         // 按照监听器维度查询；
         if (_.isArray(listeners)) {
-          listeners = _.map(listeners, listener => (_.isString(listener) ? JSON.parse(listener) : listener));
+          listeners = _.map(listeners, (listener) => (_.isString(listener) ? JSON.parse(listener) : listener));
         } else {
           listeners = [_.isString(listeners) ? JSON.parse(listeners) : listeners];
         }
@@ -156,7 +156,7 @@ export default class LBPUBLICDatasource implements DatasourceInterface {
       const instanceUnionArray: any = [];
       // 如果没有选择监听器或者实例为多个，按照实例维度查询,考虑实例选择复选情况；
       if (instances.length > 1 || _.isEmpty(listeners)) {
-        instanceInRequest = _.map(instances, instance => {
+        instanceInRequest = _.map(instances, (instance) => {
           const dimensionObject = LBPUBLIC_INSTANCE_DIMENSIONOBJECTS;
           instanceUnionArray.push(instance);
           _.forEach(dimensionObject, (__, key) => {
@@ -169,7 +169,7 @@ export default class LBPUBLICDatasource implements DatasourceInterface {
           return { Dimensions: GetDimensions(dimensionObject) };
         });
       } else {
-        instanceInRequest = _.map(listeners, listener => {
+        instanceInRequest = _.map(listeners, (listener) => {
           const dimensionObject = LBPUBLIC_LISTENER_DIMENSIONOBJECTS;
 
           const instance = _.cloneDeep(instances[0]);
@@ -204,10 +204,10 @@ export default class LBPUBLICDatasource implements DatasourceInterface {
     }
 
     return Promise.all(queries)
-      .then(responses => {
+      .then((responses) => {
         return _.flatten(responses);
       })
-      .catch(error => {
+      .catch((error) => {
         return [];
       });
   }
@@ -232,8 +232,8 @@ export default class LBPUBLICDatasource implements DatasourceInterface {
         data: params,
       },
       serviceInfo.service,
-      { action: 'GetMonitorData', region },
-    ).then(response => {
+      { action: 'GetMonitorData', region }
+    ).then((response) => {
       // console.log({instances});
       return ParseQueryResult(response, instances);
     });
@@ -245,13 +245,13 @@ export default class LBPUBLICDatasource implements DatasourceInterface {
         url: this.url + '/cvm',
       },
       'cvm',
-      { action: 'DescribeRegions' },
-    ).then(response => {
+      { action: 'DescribeRegions' }
+    ).then((response) => {
       return _.filter(
-        _.map(response.RegionSet || [], item => {
+        _.map(response.RegionSet || [], (item) => {
           return { text: item.RegionName, value: item.Region, RegionState: item.RegionState };
         }),
-        item => item.RegionState === 'AVAILABLE',
+        (item) => item.RegionState === 'AVAILABLE'
       );
     });
   }
@@ -266,20 +266,18 @@ export default class LBPUBLICDatasource implements DatasourceInterface {
         },
       },
       serviceInfo.service,
-      { region, action: 'DescribeBaseMetrics' },
-    ).then(response => {
+      { region, action: 'DescribeBaseMetrics' }
+    ).then((response) => {
       return _.filter(
         response.MetricSet || [],
-        item =>
-          item.Namespace === this.Namespace &&
-          item.MetricName &&
-          _.get(item, 'Dimensions[0].Dimensions', []).length > 0,
+        (item) =>
+          item.Namespace === this.Namespace && item.MetricName && _.get(item, 'Dimensions[0].Dimensions', []).length > 0
       );
     });
   }
 
   getInstances(region = 'ap-guangzhou', params = {}) {
-    params = Object.assign({ Offset: 0, Limit: 20, LoadBalancerType: 'OPEN' }, params);
+    params = { Offset: 0, Limit: 20, LoadBalancerType: 'OPEN', ...params };
     const serviceInfo = GetServiceAPIInfo(region, 'clb');
     return this.doRequest(
       {
@@ -287,8 +285,8 @@ export default class LBPUBLICDatasource implements DatasourceInterface {
         data: params,
       },
       serviceInfo.service,
-      { region, action: 'DescribeLoadBalancers' },
-    ).then(response => {
+      { region, action: 'DescribeLoadBalancers' }
+    ).then((response) => {
       // 过滤非公网实例
       // const publicLoadBalanceSet = response.LoadBalancerSet.filter()
       return response.LoadBalancerSet || [];
@@ -305,8 +303,8 @@ export default class LBPUBLICDatasource implements DatasourceInterface {
         },
       },
       serviceInfo.service,
-      { region, action: 'DescribeListeners' },
-    ).then(response => {
+      { region, action: 'DescribeListeners' }
+    ).then((response) => {
       return response.Listeners || [];
     });
   }
@@ -325,8 +323,8 @@ export default class LBPUBLICDatasource implements DatasourceInterface {
         data: params,
       },
       serviceInfo.service,
-      { region, action: 'DescribeLoadBalancers' },
-    ).then(response => {
+      { region, action: 'DescribeLoadBalancers' }
+    ).then((response) => {
       result = response.LoadBalancerSet || [];
       const total = response.totalCount || 0;
       if (result.length >= total) {
@@ -334,17 +332,17 @@ export default class LBPUBLICDatasource implements DatasourceInterface {
       } else {
         const param = SliceLength(total, 50);
         const promises: any[] = [];
-        _.forEach(param, item => {
+        _.forEach(param, (item) => {
           promises.push(this.getInstances(region, item));
         });
         return Promise.all(promises)
-          .then(responses => {
-            _.forEach(responses, item => {
+          .then((responses) => {
+            _.forEach(responses, (item) => {
               result = _.concat(result, item);
             });
             return result;
           })
-          .catch(error => {
+          .catch((error) => {
             return result;
           });
       }
@@ -371,7 +369,7 @@ export default class LBPUBLICDatasource implements DatasourceInterface {
           url: this.url + '/cvm',
         },
         'cvm',
-        { action: 'DescribeRegions' },
+        { action: 'DescribeRegions' }
       ),
       this.doRequest(
         {
@@ -381,7 +379,7 @@ export default class LBPUBLICDatasource implements DatasourceInterface {
           },
         },
         'monitor',
-        { region: 'ap-guangzhou', action: 'DescribeBaseMetrics' },
+        { region: 'ap-guangzhou', action: 'DescribeBaseMetrics' }
       ),
       this.doRequest(
         {
@@ -392,10 +390,10 @@ export default class LBPUBLICDatasource implements DatasourceInterface {
           },
         },
         'clb',
-        { region: 'ap-guangzhou', action: 'DescribeLoadBalancers' },
+        { region: 'ap-guangzhou', action: 'DescribeLoadBalancers' }
       ),
     ])
-      .then(responses => {
+      .then((responses) => {
         const cvmErr = _.get(responses, '[0].Error', {});
         const monitorErr = _.get(responses, '[1].Error', {});
         const lbPublicErr = _.get(responses, '[2]', {});
@@ -429,7 +427,7 @@ export default class LBPUBLICDatasource implements DatasourceInterface {
           };
         }
       })
-      .catch(error => {
+      .catch((error) => {
         let message = 'LBPublic service:';
         message += error.statusText ? error.statusText + '; ' : '';
         if (_.get(error, 'data.error.code', '')) {
@@ -459,10 +457,10 @@ export default class LBPUBLICDatasource implements DatasourceInterface {
     options = GetRequestParams(options, service, signObj, this.secretId, this.secretKey);
     return this.backendSrv
       .datasourceRequest(options)
-      .then(response => {
+      .then((response) => {
         return _.get(response, 'data.Response', {});
       })
-      .catch(error => {
+      .catch((error) => {
         throw error;
       });
   }

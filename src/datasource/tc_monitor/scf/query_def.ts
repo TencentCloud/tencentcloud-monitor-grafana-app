@@ -1,4 +1,4 @@
-import * as _ from 'lodash';
+import _ from 'lodash';
 
 export const SCFQueryDescriptor = [
   {
@@ -12,11 +12,11 @@ export const SCFQueryDescriptor = [
   {
     key: 'Limit',
     enDescriptor: 'Limit',
-    cnDescriptor: '单次请求返回的数量，默认为20，最小值为1，最大值为2000',
+    cnDescriptor: '单次请求返回的数量，默认为20，最小值为1，最大值为100',
     link: '',
     type: 'inputnumber',
     min: 1,
-    max: 2000,
+    max: 100,
   },
   {
     key: 'SearchKey',
@@ -127,10 +127,27 @@ const SCFInvalidDemensions = {
 const templateQueryIdMap = {
   instance: 'FunctionId',
 };
+const regionSupported = [
+  { text: '华北地区(北京)', value: 'ap-beijing' },
+  { text: '西南地区(成都)', value: 'ap-chengdu' },
+  { text: '西南地区(重庆)', value: 'ap-chongqing' },
+  { text: '华南地区(广州)', value: 'ap-guangzhou' },
+  { text: '港澳台地区(中国香港)', value: 'ap-hongkong' },
+  { text: '亚太南部(孟买)', value: 'ap-mumbai' },
+  { text: '华东地区(上海)', value: 'ap-shanghai' },
+  { text: '华东地区(上海金融)', value: 'ap-shanghai-fsi' },
+  { text: '华南地区(深圳金融)', value: 'ap-shenzhen-fsi' },
+  { text: '亚太东南(新加坡)', value: 'ap-singapore' },
+  { text: '亚太东北(东京)', value: 'ap-tokyo' },
+  { text: '欧洲地区(法兰克福)', value: 'eu-frankfurt' },
+  { text: '美国西部(硅谷)', value: 'na-siliconvalley' },
+  { text: '北美地区(多伦多)', value: 'na-toronto' },
+];
 export default SCF_STATE;
 export {
   SCFInstanceAliasList,
   SCFInvalidDemensions,
+  regionSupported,
   templateQueryIdMap,
   GetInstanceQueryParams as SCFGetInstanceQueryParams,
 };

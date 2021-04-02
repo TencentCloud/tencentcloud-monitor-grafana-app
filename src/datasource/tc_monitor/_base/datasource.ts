@@ -1,5 +1,5 @@
-import * as _ from 'lodash';
-import * as moment from 'moment';
+import _ from 'lodash';
+import moment from 'moment';
 import DatasourceInterface from '../../datasource';
 import {
   GetRequestParams,
@@ -8,23 +8,16 @@ import {
   GetDimensions,
   ParseQueryResult,
   SliceLength,
-  GetServiceFromNamespace,
 } from '../../common/constants';
 import { MetricQuery } from './types';
-interface TemplateQueryIdType {
+import { getNamesapceFromService } from '../../common/utils';
+export interface TemplateQueryIdType {
   instance: string;
   listener?: string;
 }
 export abstract class BaseDatasource implements DatasourceInterface {
-  abstract Namespace: string;
-  abstract InstanceAliasList: string[];
-  abstract templateQueryIdMap: TemplateQueryIdType; // 必须为标识
-  abstract InstanceReqConfig: {
-    service?: string;
-    action: string;
-    responseField: string;
-  };
-  InvalidDimensions: Record<string, string> = {};
+  Namespace?: string;
+  service: string;
   instanceListCache: any[] = [];
   extraMetricDims: string[] = [];
   url: string;
@@ -33,6 +26,20 @@ export abstract class BaseDatasource implements DatasourceInterface {
   templateSrv: any;
   secretId: string;
   secretKey: string;
+  checkKeys: string[] = [];
+  abstract InstanceAliasList: string[];
+  abstract templateQueryIdMap: TemplateQueryIdType; // 必须为标识
+  abstract InstanceReqConfig: {
+    service?: string;
+    action: string;
+    responseField: string;
+    interceptor?: {
+      request?: (params: unknown) => unknown;
+      response?: (data: unknown) => unknown;
+    };
+  };
+  abstract InvalidDimensions: Record<string, string> = {};
+
   /** @ngInject */
   constructor(instanceSettings, backendSrv, templateSrv) {
     this.instanceSettings = instanceSettings;
@@ -43,8 +50,9 @@ export abstract class BaseDatasource implements DatasourceInterface {
     this.secretKey = (instanceSettings.jsonData || {}).secretKey || '';
   }
 
-  get service() {
-    return GetServiceFromNamespace(this.Namespace);
+  get namespace() {
+    // 需要注意的是this.service来自于原型上，在实例中导入时注入
+    return this.Namespace || getNamesapceFromService(this.service);
   }
 
   /* 格式化模板变量上的显示 */
@@ -94,7 +102,7 @@ export abstract class BaseDatasource implements DatasourceInterface {
 
       instancealias = this.InstanceAliasList.includes(instancealias) ? instancealias : this.templateQueryIdMap.instance;
       console.log({ instancealias });
-      return result.flatMap(item => {
+      return result.flatMap((item) => {
         item._InstanceAliasValue = item[instancealias]; // FIXME:
         if (!item[instancealias]) return [];
         return [
@@ -105,14 +113,13 @@ export abstract class BaseDatasource implements DatasourceInterface {
         ];
       });
     }
-
     // 在instance实例的基础上查询其他数据
     let instance = this.getVariable(query['instance']);
     if (region && action && instance) {
       try {
         // instance = JSON.parse(instance);
         instance =
-          _.cloneDeep(this.instanceListCache.find(item => item[this.templateQueryIdMap.instance] === instance)) ?? {};
+          _.cloneDeep(this.instanceListCache.find((item) => item[this.templateQueryIdMap.instance] === instance)) ?? {};
         // eslint-disable-next-line no-empty
       } catch (error) {}
       return this.fetchMetricData(action, region, instance, query);
@@ -142,38 +149,37 @@ export abstract class BaseDatasource implements DatasourceInterface {
    */
   query(options: any) {
     const service = this.service!; // 强制声明非空
-    const queries = _.filter(options.targets, item => {
+
+    const queries = _.filter(options.targets, (item) => {
       // 过滤无效的查询 target
       return (
-        item[service].hide !== true &&
+        item.hide !== true &&
         !!item.namespace &&
         !!item[service].metricName &&
         !_.isEmpty(ReplaceVariable(this.templateSrv, options.scopedVars, item[service].region, false)) &&
         !_.isEmpty(ReplaceVariable(this.templateSrv, options.scopedVars, item[service].instance, true))
       );
-    }).map(target => {
+    }).map((target) => {
       // 实例 instances 可能为模板变量，需先获取实际值
       // 针对JSON字符串和id的形式，分开做处理
       let instances = ReplaceVariable(this.templateSrv, options.scopedVars, target[service].instance, true);
 
-      instances = [].concat(instances).map(inst => {
+      // console.log('instanceListCache', this.instanceListCache);
+      instances = [].concat(instances).map((inst) => {
         try {
           return JSON.parse(inst); // 兼容json字符串的 形式
         } catch (error) {
           return (
-            _.cloneDeep(this.instanceListCache.find(item => item[this.templateQueryIdMap.instance] === inst)) ?? {}
+            _.cloneDeep(this.instanceListCache.find((item) => item[this.templateQueryIdMap.instance] === inst)) ?? {}
           );
         }
       });
-
-      console.log(instances, 'instances');
-
       const region = ReplaceVariable(this.templateSrv, options.scopedVars, target[service].region, false);
       const data = {
         StartTime: moment(options.range.from).format(),
         EndTime: moment(options.range.to).format(),
         Period: target[service].period || 300,
-        Instances: _.flatMap(instances, instance => {
+        Instances: _.flatMap(instances, (instance) => {
           const dimensionObject = target[service].dimensionObject;
 
           // 处理dimensions的值
@@ -187,6 +193,13 @@ export abstract class BaseDatasource implements DatasourceInterface {
             // 设置instance，针对额外的维度，需要注意模板变量的值
             instance[key] = instance[keyTmp] ?? this.getVariable(target[service][keyTmp]);
             // 设置维度值，从实例中取，如果取不到，则从界面模型上取
+
+            // cynosdb产品接口返回维度和入参不一致
+            if (this.checkKeys.length > 0) {
+              this.checkKeys.forEach((Ekey) => {
+                instance[Ekey] = instance[key];
+              });
+            }
             dimensionObject[key] = { Name: key, Value: instance[key] };
           });
 
@@ -196,10 +209,10 @@ export abstract class BaseDatasource implements DatasourceInterface {
           }
 
           // 有额外维度，则处理额外的维度, 为了处理维度的多选值，这里比较绕，比较复杂
-          return _.flatMap(this.extraMetricDims, extraDim => {
+          return _.flatMap(this.extraMetricDims, (extraDim) => {
             const targetDims = dimensionObject[extraDim]?.Value;
             if (Array.isArray(targetDims)) {
-              return targetDims.map(dim => {
+              return targetDims.map((dim) => {
                 instance[extraDim] = dim; // 实例上添加对应属性
                 return {
                   Dimensions: GetDimensions({
@@ -224,10 +237,10 @@ export abstract class BaseDatasource implements DatasourceInterface {
     }
 
     return Promise.all(queries)
-      .then(responses => {
+      .then((responses) => {
         return _.flatten(responses);
       })
-      .catch(error => {
+      .catch((error) => {
         return [];
       });
   }
@@ -257,8 +270,8 @@ export abstract class BaseDatasource implements DatasourceInterface {
         data: params,
       },
       serviceInfo.service,
-      { action: 'GetMonitorData', region },
-    ).then(response => {
+      { action: 'GetMonitorData', region }
+    ).then((response) => {
       return ParseQueryResult(response, instances);
     });
   }
@@ -269,17 +282,17 @@ export abstract class BaseDatasource implements DatasourceInterface {
         url: this.url + '/cvm',
       },
       'cvm',
-      { action: 'DescribeRegions' },
-    ).then(response => {
+      { action: 'DescribeRegions' }
+    ).then((response) => {
       return _.filter(
-        _.map(response.RegionSet || [], item => {
+        _.map(response.RegionSet || [], (item) => {
           return {
             text: item.RegionName,
             value: item.Region,
             RegionState: item.RegionState,
           };
         }),
-        item => item.RegionState === 'AVAILABLE',
+        (item) => item.RegionState === 'AVAILABLE'
       );
     });
   }
@@ -290,31 +303,47 @@ export abstract class BaseDatasource implements DatasourceInterface {
       {
         url: this.url + serviceInfo.path,
         data: {
-          Namespace: this.Namespace,
+          Namespace: this.namespace,
         },
       },
       serviceInfo.service,
-      { region, action: 'DescribeBaseMetrics' },
-    ).then(response => {
+      { region, action: 'DescribeBaseMetrics' }
+    ).then((response) => {
       return _.filter(
-        _.filter(response.MetricSet || [], item => !(item.Namespace !== this.Namespace || !item.MetricName)),
+        _.filter(response.MetricSet || [], (item) => !(item.Namespace !== this.namespace || !item.MetricName))
       );
     });
   }
 
   getInstances(region, params = {}) {
-    const { service = this.service, action, responseField: field } = this.InstanceReqConfig;
-    params = Object.assign({ Offset: 0, Limit: 100 }, params);
+    const { service = this.service, action, responseField: field, interceptor } = this.InstanceReqConfig;
+    params = { Offset: 0, Limit: 100, ...params };
     const serviceInfo = GetServiceAPIInfo(region, service);
     return this.doRequest(
       {
         url: this.url + serviceInfo.path,
-        data: params,
+        data: interceptor?.request ? interceptor.request(params) : params,
       },
       serviceInfo.service,
-      { region, action },
-    ).then(response => {
-      return _.get(response, field) ?? _.get(response, `Result.${field}`) ?? [];
+      { region, action }
+    ).then((response) => {
+      // 处理异常，则不按正常的情况处理，直接抛出错误
+      if (response?.Error) {
+        console.error(response.Error);
+        return response;
+      }
+
+      let result;
+      // 先，field处理
+      if (field) {
+        result = _.get(response, field) ?? _.get(response, `Result.${field}`) ?? [];
+      }
+
+      // 后，拦截器处理
+      if (interceptor?.response) {
+        result = interceptor.response(result);
+      }
+      return result;
     });
   }
 
@@ -331,27 +360,27 @@ export abstract class BaseDatasource implements DatasourceInterface {
         data: params,
       },
       serviceInfo.service,
-      { region, action },
-    ).then(response => {
+      { region, action }
+    ).then((response) => {
       result = _.get(response, field) ?? _.get(response, `Result.${field}`) ?? [];
-      const total = response.TotalCount || 0;
+      const total = response.TotalCount ?? response.TotalCnt ?? 0;
       if (result.length >= total) {
         return result;
       } else {
         const param = SliceLength(total, 100);
         const promises: any[] = [];
-        _.forEach(param, item => {
+        _.forEach(param, (item) => {
           promises.push(this.getInstances(region, { ...item, ...query }));
         });
         return Promise.all(promises)
-          .then(responses => {
-            _.forEach(responses, item => {
+          .then((responses) => {
+            _.forEach(responses, (item) => {
               result = _.concat(result, item);
             });
             console.log('result:', result);
             return result;
           })
-          .catch(error => {
+          .catch((error) => {
             return result;
           });
       }
@@ -364,8 +393,8 @@ export abstract class BaseDatasource implements DatasourceInterface {
   }
 
   testDatasource() {
-    const { service = this.service, action } = this.InstanceReqConfig;
-    const serviceInfo = GetServiceAPIInfo('ap-guangzhou', service);
+    // const { service = this.service, action } = this.InstanceReqConfig;
+    // const serviceInfo = GetServiceAPIInfo('ap-guangzhou', service);
 
     if (!this.isValidConfigField(this.secretId) || !this.isValidConfigField(this.secretKey)) {
       return {
@@ -376,42 +405,34 @@ export abstract class BaseDatasource implements DatasourceInterface {
     }
 
     return Promise.all([
-      this.doRequest(
-        {
-          url: this.url + '/cvm',
-        },
-        'cvm',
-        { action: 'DescribeRegions' },
-      ),
-      this.doRequest(
-        {
-          url: this.url + '/monitor',
-          data: {
-            Namespace: this.Namespace,
-          },
-        },
-        'monitor',
-        { region: 'ap-guangzhou', action: 'DescribeBaseMetrics' },
-      ),
-      this.doRequest(
-        {
-          url: this.url + serviceInfo.path,
-          data: {
-            Offset: 0,
-            Limit: 1,
-          },
-        },
-        service,
-        { region: 'ap-guangzhou', action },
-      ),
+      this.getRegions(),
+      this.getMetrics(),
+      // this.doRequest(
+      //   {
+      //     url: this.url + serviceInfo.path,
+      //     data: {
+      //       Offset: 0,
+      //       Limit: 1,
+      //     },
+      //   },
+      //   service,
+      //   { region: 'ap-guangzhou', action },
+      // ),
+      this.getInstances('ap-guangzhou', {
+        Offset: 0,
+        Limit: 1,
+      }),
     ])
-      .then(responses => {
+      .then((responses) => {
         const cvmErr = _.get(responses, '[0].Error', {});
         const monitorErr = _.get(responses, '[1].Error', {});
         const serviceErr = _.get(responses, '[2].Error', {});
-        const cvmAuthFail = _.get(cvmErr, 'Code', '').indexOf('AuthFailure') !== -1;
-        const monitorAuthFail = _.get(monitorErr, 'Code', '').indexOf('AuthFailure') !== -1;
-        const serviceAuthFail = _.get(serviceErr, 'Code', '').indexOf('AuthFailure') !== -1;
+        // const cvmAuthFail = _.get(cvmErr, 'Code', '').indexOf('AuthFailure') !== -1;
+        // const monitorAuthFail = _.get(monitorErr, 'Code', '').indexOf('AuthFailure') !== -1;
+        // const serviceAuthFail = _.get(serviceErr, 'Code', '').indexOf('AuthFailure') !== -1;
+        const cvmAuthFail = _.get(cvmErr, 'Code', '');
+        const monitorAuthFail = _.get(monitorErr, 'Code', '');
+        const serviceAuthFail = _.get(serviceErr, 'Code', '');
         if (cvmAuthFail || monitorAuthFail || serviceAuthFail) {
           const messages: any[] = [];
           if (cvmAuthFail) {
@@ -431,7 +452,7 @@ export abstract class BaseDatasource implements DatasourceInterface {
           };
         } else {
           return {
-            namespace: this.Namespace,
+            namespace: this.namespace,
             service: this.service,
             status: 'success',
             message: `Successfully queried the ${this.service} service.`,
@@ -439,7 +460,7 @@ export abstract class BaseDatasource implements DatasourceInterface {
           };
         }
       })
-      .catch(error => {
+      .catch((error) => {
         let message = `${this.service} service:`;
         message += error.statusText ? error.statusText + '; ' : '';
         if (_.get(error, 'data.error.code', '')) {
@@ -463,10 +484,10 @@ export abstract class BaseDatasource implements DatasourceInterface {
     options = GetRequestParams(options, service, signObj, this.secretId, this.secretKey);
     return this.backendSrv
       .datasourceRequest(options)
-      .then(response => {
+      .then((response) => {
         return _.get(response, 'data.Response', {});
       })
-      .catch(error => {
+      .catch((error) => {
         throw error;
       });
   }

@@ -24,12 +24,8 @@
       "cacheTimeout": null,
       "colorBackground": false,
       "colorValue": false,
-      "colors": [
-        "#299c46",
-        "rgba(237, 129, 40, 0.89)",
-        "#d44a3a"
-      ],
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
+      "datasource": "Tencent Cloud Monitoring",
       "format": "percent",
       "gauge": {
         "maxValue": 100,
@@ -81,120 +77,10 @@
       "tableColumn": "",
       "targets": [
         {
-          "bwp": {
-            "dimensionObject": null,
-            "instance": "",
-            "instanceAlias": "BandwidthPackageId",
-            "metricName": "",
-            "metricUnit": "",
-            "queries": {
-              "BandwidthPackageIds": [
-                ""
-              ],
-              "Filters": {
-                "bandwidth-package-name": [],
-                "bandwidth-package_id": [],
-                "charge-type": [],
-                "network-type": []
-              },
-              "Limit": 20,
-              "Offset": 0,
-              "filtersChecked": false,
-              "instanceIdsChecked": false
-            },
-            "region": ""
-          },
-          "cdb": {
-            "dimensionObject": null,
-            "instance": "",
-            "instanceAlias": "InstanceId",
-            "metricName": "",
-            "metricUnit": "",
-            "queries": {
-              "CdbErrors": {},
-              "EngineVersions": {},
-              "InitFlag": {},
-              "InstancTypes": {},
-              "InstanceIds": [],
-              "InstanceNames": [],
-              "InstanceTypes": {},
-              "Limit": 20,
-              "Offset": 0,
-              "OrderBy": {},
-              "OrderDirection": {},
-              "PayTypes": {},
-              "ProjectId": "",
-              "SecurityGroupId": "",
-              "Status": {},
-              "SubnetIds": [],
-              "TaskStatus": {},
-              "Vips": [],
-              "VpcIds": [],
-              "ZoneIds": []
-            },
-            "region": ""
-          },
-          "cdn": {
-            "dimensionObject": null,
-            "instance": "",
-            "instanceAlias": "Domain",
-            "metricName": "",
-            "metricUnit": "",
-            "queries": {
-              "Filters": {
-                "domain": [],
-                "domainType": [],
-                "fullUrlCache": [],
-                "https": [],
-                "origin": [],
-                "originPullProtocol": [],
-                "projectId": [],
-                "resourceId": [],
-                "serviceType": [],
-                "status": [],
-                "tagKey": []
-              },
-              "Limit": 20,
-              "Offset": 0
-            },
-            "region": ""
-          },
-          "cfs": {
-            "dimensionObject": null,
-            "instance": "",
-            "instanceAlias": "FileSystemId",
-            "metricName": "",
-            "metricUnit": "",
-            "queries": {
-              "FileSystemId": "",
-              "Limit": 20,
-              "Offset": 0,
-              "SubnetId": "",
-              "VpcId": ""
-            },
-            "region": "",
-            "version": ""
-          },
-          "ckafka": {
-            "consumerGroup": "",
-            "dimensionObject": null,
-            "instance": "",
-            "instanceAlias": "InstanceId",
-            "metricName": "",
-            "metricUnit": "",
-            "partition": "",
-            "queries": {
-              "InstanceId": "",
-              "Limit": 10,
-              "Offset": 0,
-              "SearchWord": "",
-              "Status": [],
-              "TagKey": ""
-            },
-            "region": "",
-            "topicId": "",
-            "topicName": ""
-          },
+          "namespace": "QCE/CVM",
+          "refId": "A",
+          "service": "cvm",
+          "showInstanceDetails": false,
           "cvm": {
             "dimensionObject": {
               "InstanceId": {
@@ -204,7 +90,7 @@
             },
             "instance": "$publicIp",
             "instanceAlias": "PublicIpAddresses",
-            "metricName": "CPUUsage",
+            "metricName": "CpuUsage",
             "metricUnit": "%",
             "period": 300,
             "queries": {
@@ -221,293 +107,14 @@
                 "vpc-id": [],
                 "zone": []
               },
-              "InstanceIds": [
-                ""
-              ],
+              "InstanceIds": [""],
               "Limit": 20,
               "Offset": 0,
               "filtersChecked": false,
               "instanceIdsChecked": false
             },
             "region": "$region"
-          },
-          "lb": {
-            "dimensionObject": null,
-            "instance": "",
-            "instanceAlias": "AddressIp",
-            "metricName": "",
-            "metricUnit": "",
-            "queries": {
-              "AddressIds": [
-                ""
-              ],
-              "Filters": {
-                "address-id": [],
-                "address-ip": [],
-                "address-name": [],
-                "address-status ": [],
-                "instance-id ": [],
-                "is-arrears ": [],
-                "network-interface-id ": [],
-                "private-ip-address": []
-              },
-              "Limit": 20,
-              "Offset": 0
-            },
-            "region": "",
-            "version": ""
-          },
-          "lbPrivate": {
-            "dimensionObject": null,
-            "instance": "",
-            "instanceAlias": "LoadBalancerId",
-            "listener": "",
-            "listenerAlias": "ListenerId",
-            "metricName": "",
-            "metricUnit": "",
-            "queries": {
-              "BackendPrivateIps": [],
-              "BackendPublicIps": [],
-              "Domain": "",
-              "Limit": 20,
-              "LoadBalancerIds": [],
-              "LoadBalancerName": "",
-              "LoadBalancerVips": [],
-              "MasterZone": "",
-              "Offset": 0,
-              "OrderBy": {},
-              "OrderType": {},
-              "SecurityGroup": "",
-              "VpcId": "",
-              "WithRs": {}
-            },
-            "region": ""
-          },
-          "lbPublic": {
-            "dimensionObject": null,
-            "instance": "",
-            "instanceAlias": "LoadBalancerId",
-            "listener": "",
-            "listenerAlias": "ListenerId",
-            "metricName": "",
-            "metricUnit": "",
-            "queries": {
-              "BackendPrivateIps": [],
-              "BackendPublicIps": [],
-              "Domain": "",
-              "Limit": 20,
-              "LoadBalancerIds": [],
-              "LoadBalancerName": "",
-              "LoadBalancerVips": [],
-              "MasterZone": "",
-              "Offset": 0,
-              "OrderBy": {},
-              "OrderType": {},
-              "SecurityGroup": "",
-              "VpcId": "",
-              "WithRs": {}
-            },
-            "region": ""
-          },
-          "loadBalance": {
-            "dimensionObject": null,
-            "instance": "",
-            "instanceAlias": "LoadBalancerId",
-            "listener": "",
-            "listenerAlias": "ListenerId",
-            "metricName": "",
-            "metricUnit": "",
-            "queries": {
-              "BackendPrivateIps": [],
-              "BackendPublicIps": [],
-              "Domain": "",
-              "Limit": 20,
-              "LoadBalancerIds": [],
-              "LoadBalancerName": "",
-              "LoadBalancerVips": [],
-              "MasterZone": "",
-              "Offset": 0,
-              "OrderBy": {},
-              "OrderType": {},
-              "SecurityGroup": "",
-              "VpcId": "",
-              "WithRs": {}
-            },
-            "region": ""
-          },
-          "mongoDB": {
-            "dimensionObject": null,
-            "instance": "",
-            "instanceAlias": "InstanceId",
-            "metricName": "",
-            "metricUnit": "",
-            "queries": {
-              "ClusterType": {},
-              "InstanceIds": [],
-              "InstanceType": {},
-              "Limit": 20,
-              "Offset": 0,
-              "OrderBy": "",
-              "OrderByType": "",
-              "PayMode": {},
-              "Status": [],
-              "SubnetId": "",
-              "VpcId": ""
-            },
-            "region": ""
-          },
-          "namespace": "QCE/CVM",
-          "natGateway": {
-            "dimensionObject": null,
-            "instance": "",
-            "instanceAlias": "NatGatewayId",
-            "metricName": "",
-            "metricUnit": "",
-            "queries": {
-              "Filters": {
-                "nat-gateway-id": [],
-                "nat-gateway-name": [],
-                "vpc-id": []
-              },
-              "Limit": 20,
-              "NatGatewayIds": [
-                ""
-              ],
-              "Offset": 0,
-              "filtersChecked": false,
-              "instanceIdsChecked": false
-            },
-            "region": ""
-          },
-          "ovCdn": {
-            "dimensionObject": null,
-            "instance": "",
-            "instanceAlias": "Domain",
-            "metricName": "",
-            "metricUnit": "",
-            "queries": {
-              "Filters": {
-                "domain": [],
-                "domainType": [],
-                "fullUrlCache": [],
-                "https": [],
-                "origin": [],
-                "originPullProtocol": [],
-                "projectId": [],
-                "resourceId": [],
-                "serviceType": [],
-                "status": [],
-                "tagKey": []
-              },
-              "Limit": 20,
-              "Offset": 0
-            },
-            "region": ""
-          },
-          "pcx": {
-            "dimensionObject": null,
-            "instance": "",
-            "instanceAlias": "peeringConnectionId",
-            "metricName": "",
-            "metricUnit": "",
-            "queries": {
-              "limit": 20,
-              "offset": 0,
-              "peeringConnectionId": "",
-              "peeringConnectionName": "",
-              "vpcId": ""
-            },
-            "region": ""
-          },
-          "postgres": {
-            "dimensionObject": null,
-            "instance": "",
-            "instanceAlias": "DBInstanceId",
-            "metricName": "",
-            "metricUnit": "",
-            "queries": {
-              "Filters": {
-                "db-instance-id": [],
-                "db-instance-name": []
-              },
-              "Limit": 20,
-              "Offset": 0
-            },
-            "region": ""
-          },
-          "redis": {
-            "dimensionObject": null,
-            "instance": "",
-            "instanceAlias": "InstanceId",
-            "metricName": "",
-            "metricUnit": "",
-            "queries": {
-              "AutoRenew": null,
-              "BillingMode": "",
-              "EngineName": "",
-              "InstanceId": "",
-              "InstanceName": "",
-              "OrderBy": "",
-              "OrderType": null,
-              "ProjectIds": [],
-              "SearchKey": "",
-              "Status": [],
-              "SubnetIds": [],
-              "Type": null,
-              "TypeVersion": null,
-              "UniqSubnetIds": [],
-              "UniqVpcIds": [],
-              "VpcIds": []
-            },
-            "region": ""
-          },
-          "redisMem": {
-            "dimensionObject": null,
-            "instance": "",
-            "instanceAlias": "InstanceId",
-            "metricName": "",
-            "metricUnit": "",
-            "queries": {
-              "AutoRenew": null,
-              "BillingMode": "",
-              "EngineName": "",
-              "InstanceId": "",
-              "InstanceName": "",
-              "OrderBy": "",
-              "OrderType": null,
-              "ProjectIds": [],
-              "SearchKey": "",
-              "Status": [],
-              "SubnetIds": [],
-              "Type": null,
-              "TypeVersion": null,
-              "UniqSubnetIds": [],
-              "UniqVpcIds": [],
-              "VpcIds": []
-            },
-            "region": ""
-          },
-          "refId": "A",
-          "scf": {
-            "dimensionObject": null,
-            "instance": "",
-            "instanceAlias": "FunctionName",
-            "metricName": "",
-            "metricUnit": "",
-            "queries": {
-              "Description": "",
-              "Limit": 20,
-              "Namespace": "",
-              "Offset": 0,
-              "Order": {},
-              "OrderBy": {},
-              "SearchKey": ""
-            },
-            "region": "",
-            "version": ""
-          },
-          "service": "cvm",
-          "showInstanceDetails": false
+          }
         }
       ],
       "thresholds": "40,80",
@@ -529,12 +136,8 @@
       "cacheTimeout": null,
       "colorBackground": false,
       "colorValue": false,
-      "colors": [
-        "#299c46",
-        "rgba(237, 129, 40, 0.89)",
-        "#d44a3a"
-      ],
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
+      "datasource": "Tencent Cloud Monitoring",
       "format": "percent",
       "gauge": {
         "maxValue": 100,
@@ -586,35 +189,9 @@
       "tableColumn": "",
       "targets": [
         {
-          "cdb": {
-            "dimensionObject": null,
-            "instance": "",
-            "instanceAlias": "InstanceId",
-            "metricName": "",
-            "metricUnit": "",
-            "queries": {
-              "CdbErrors": {},
-              "EngineVersions": {},
-              "InitFlag": {},
-              "InstancTypes": {},
-              "InstanceIds": [],
-              "InstanceNames": [],
-              "Limit": 20,
-              "Offset": 0,
-              "OrderBy": {},
-              "OrderDirection": {},
-              "PayTypes": {},
-              "ProjectId": "",
-              "SecurityGroupId": "",
-              "Status": {},
-              "SubnetIds": [],
-              "TaskStatus": {},
-              "Vips": [],
-              "VpcIds": [],
-              "ZoneIds": []
-            },
-            "region": ""
-          },
+          "namespace": "QCE/CVM",
+          "refId": "A",
+          "service": "cvm",
           "cvm": {
             "dimensionObject": {
               "InstanceId": {
@@ -641,19 +218,14 @@
                 "vpc-id": [],
                 "zone": []
               },
-              "InstanceIds": [
-                ""
-              ],
+              "InstanceIds": [""],
               "Limit": 20,
               "Offset": 0,
               "filtersChecked": false,
               "instanceIdsChecked": false
             },
             "region": "$region"
-          },
-          "namespace": "QCE/CVM",
-          "refId": "A",
-          "service": "cvm"
+          }
         }
       ],
       "thresholds": "40,80",
@@ -677,12 +249,8 @@
       "colorPostfix": false,
       "colorPrefix": false,
       "colorValue": false,
-      "colors": [
-        "#37872D",
-        "#FF9830",
-        "#d44a3a"
-      ],
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "colors": ["#37872D", "#FF9830", "#d44a3a"],
+      "datasource": "Tencent Cloud Monitoring",
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -734,35 +302,9 @@
       "tableColumn": "",
       "targets": [
         {
-          "cdb": {
-            "dimensionObject": null,
-            "instance": "",
-            "instanceAlias": "InstanceId",
-            "metricName": "",
-            "metricUnit": "",
-            "queries": {
-              "CdbErrors": {},
-              "EngineVersions": {},
-              "InitFlag": {},
-              "InstancTypes": {},
-              "InstanceIds": [],
-              "InstanceNames": [],
-              "Limit": 20,
-              "Offset": 0,
-              "OrderBy": {},
-              "OrderDirection": {},
-              "PayTypes": {},
-              "ProjectId": "",
-              "SecurityGroupId": "",
-              "Status": {},
-              "SubnetIds": [],
-              "TaskStatus": {},
-              "Vips": [],
-              "VpcIds": [],
-              "ZoneIds": []
-            },
-            "region": ""
-          },
+          "namespace": "QCE/CVM",
+          "refId": "A",
+          "service": "cvm",
           "cvm": {
             "dimensionObject": {
               "InstanceId": {
@@ -789,19 +331,14 @@
                 "vpc-id": [],
                 "zone": []
               },
-              "InstanceIds": [
-                ""
-              ],
+              "InstanceIds": [""],
               "Limit": 20,
               "Offset": 0,
               "filtersChecked": false,
               "instanceIdsChecked": false
             },
             "region": "$region"
-          },
-          "namespace": "QCE/CVM",
-          "refId": "A",
-          "service": "cvm"
+          }
         }
       ],
       "thresholds": "100,800",
@@ -825,12 +362,8 @@
       "colorPostfix": false,
       "colorPrefix": false,
       "colorValue": false,
-      "colors": [
-        "#37872D",
-        "#FF9830",
-        "#d44a3a"
-      ],
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "colors": ["#37872D", "#FF9830", "#d44a3a"],
+      "datasource": "Tencent Cloud Monitoring",
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -882,35 +415,9 @@
       "tableColumn": "",
       "targets": [
         {
-          "cdb": {
-            "dimensionObject": null,
-            "instance": "",
-            "instanceAlias": "InstanceId",
-            "metricName": "",
-            "metricUnit": "",
-            "queries": {
-              "CdbErrors": {},
-              "EngineVersions": {},
-              "InitFlag": {},
-              "InstancTypes": {},
-              "InstanceIds": [],
-              "InstanceNames": [],
-              "Limit": 20,
-              "Offset": 0,
-              "OrderBy": {},
-              "OrderDirection": {},
-              "PayTypes": {},
-              "ProjectId": "",
-              "SecurityGroupId": "",
-              "Status": {},
-              "SubnetIds": [],
-              "TaskStatus": {},
-              "Vips": [],
-              "VpcIds": [],
-              "ZoneIds": []
-            },
-            "region": ""
-          },
+          "namespace": "QCE/CVM",
+          "refId": "A",
+          "service": "cvm",
           "cvm": {
             "dimensionObject": {
               "InstanceId": {
@@ -937,19 +444,14 @@
                 "vpc-id": [],
                 "zone": []
               },
-              "InstanceIds": [
-                ""
-              ],
+              "InstanceIds": [""],
               "Limit": 20,
               "Offset": 0,
               "filtersChecked": false,
               "instanceIdsChecked": false
             },
             "region": "$region"
-          },
-          "namespace": "QCE/CVM",
-          "refId": "A",
-          "service": "cvm"
+          }
         }
       ],
       "thresholds": "100,800",
@@ -979,14 +481,15 @@
       "id": 8,
       "panels": [],
       "title": "默认监控指标",
-      "type": "row"
+      "type": "row",
+      "targets": []
     },
     {
       "aliasColors": {},
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -1022,7 +525,7 @@
       "renderer": "flot",
       "seriesOverrides": [
         {
-          "alias": "lanOutpkg",
+          "alias": "/^LanOutpkg/",
           "transform": "negative-Y"
         }
       ],
@@ -1031,105 +534,9 @@
       "steppedLine": false,
       "targets": [
         {
-          "cdb": {
-            "dimensionObject": null,
-            "instance": "",
-            "instanceAlias": "InstanceId",
-            "metricName": "",
-            "metricUnit": "",
-            "queries": {
-              "CdbErrors": {},
-              "EngineVersions": {},
-              "InitFlag": {},
-              "InstancTypes": {},
-              "InstanceIds": [],
-              "InstanceNames": [],
-              "Limit": 20,
-              "Offset": 0,
-              "OrderBy": {},
-              "OrderDirection": {},
-              "PayTypes": {},
-              "ProjectId": "",
-              "SecurityGroupId": "",
-              "Status": {},
-              "SubnetIds": [],
-              "TaskStatus": {},
-              "Vips": [],
-              "VpcIds": [],
-              "ZoneIds": []
-            },
-            "region": ""
-          },
-          "cvm": {
-            "dimensionObject": {
-              "InstanceId": {
-                "Name": "InstanceId",
-                "Value": ""
-              }
-            },
-            "instance": "$publicIp",
-            "instanceAlias": "PublicIpAddresses",
-            "metricName": "lanInpkg",
-            "metricUnit": "count/s",
-            "period": 60,
-            "queries": {
-              "Filters": {
-                "host-id": [],
-                "instance-charge-type": {},
-                "instance-id": [],
-                "instance-name": [],
-                "private-ip-address": [],
-                "project-id": [],
-                "public-ip-address": [],
-                "security-group-id": [],
-                "subnet-id": [],
-                "vpc-id": [],
-                "zone": []
-              },
-              "InstanceIds": [
-                ""
-              ],
-              "Limit": 20,
-              "Offset": 0,
-              "filtersChecked": false,
-              "instanceIdsChecked": false
-            },
-            "region": "$region"
-          },
           "namespace": "QCE/CVM",
           "refId": "A",
-          "service": "cvm"
-        },
-        {
-          "cdb": {
-            "dimensionObject": null,
-            "instance": "",
-            "instanceAlias": "InstanceId",
-            "metricName": "",
-            "metricUnit": "",
-            "queries": {
-              "CdbErrors": {},
-              "EngineVersions": {},
-              "InitFlag": {},
-              "InstancTypes": {},
-              "InstanceIds": [],
-              "InstanceNames": [],
-              "Limit": 20,
-              "Offset": 0,
-              "OrderBy": {},
-              "OrderDirection": {},
-              "PayTypes": {},
-              "ProjectId": "",
-              "SecurityGroupId": "",
-              "Status": {},
-              "SubnetIds": [],
-              "TaskStatus": {},
-              "Vips": [],
-              "VpcIds": [],
-              "ZoneIds": []
-            },
-            "region": ""
-          },
+          "service": "cvm",
           "cvm": {
             "dimensionObject": {
               "InstanceId": {
@@ -1139,7 +546,7 @@
             },
             "instance": "$publicIp",
             "instanceAlias": "PublicIpAddresses",
-            "metricName": "lanOutpkg",
+            "metricName": "LanInpkg",
             "metricUnit": "count/s",
             "period": 60,
             "queries": {
@@ -1156,19 +563,53 @@
                 "vpc-id": [],
                 "zone": []
               },
-              "InstanceIds": [
-                ""
-              ],
+              "InstanceIds": [""],
               "Limit": 20,
               "Offset": 0,
               "filtersChecked": false,
               "instanceIdsChecked": false
             },
             "region": "$region"
-          },
+          }
+        },
+        {
           "namespace": "QCE/CVM",
           "refId": "B",
-          "service": "cvm"
+          "service": "cvm",
+          "cvm": {
+            "dimensionObject": {
+              "InstanceId": {
+                "Name": "InstanceId",
+                "Value": ""
+              }
+            },
+            "instance": "$publicIp",
+            "instanceAlias": "PublicIpAddresses",
+            "metricName": "LanOutpkg",
+            "metricUnit": "count/s",
+            "period": 60,
+            "queries": {
+              "Filters": {
+                "host-id": [],
+                "instance-charge-type": {},
+                "instance-id": [],
+                "instance-name": [],
+                "private-ip-address": [],
+                "project-id": [],
+                "public-ip-address": [],
+                "security-group-id": [],
+                "subnet-id": [],
+                "vpc-id": [],
+                "zone": []
+              },
+              "InstanceIds": [""],
+              "Limit": 20,
+              "Offset": 0,
+              "filtersChecked": false,
+              "instanceIdsChecked": false
+            },
+            "region": "$region"
+          }
         }
       ],
       "thresholds": [],
@@ -1217,7 +658,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -1253,7 +694,7 @@
       "renderer": "flot",
       "seriesOverrides": [
         {
-          "alias": "WanOutpkg",
+          "alias": "/^WanOutpkg/",
           "transform": "negative-Y"
         }
       ],
@@ -1262,35 +703,9 @@
       "steppedLine": false,
       "targets": [
         {
-          "cdb": {
-            "dimensionObject": null,
-            "instance": "",
-            "instanceAlias": "InstanceId",
-            "metricName": "",
-            "metricUnit": "",
-            "queries": {
-              "CdbErrors": {},
-              "EngineVersions": {},
-              "InitFlag": {},
-              "InstancTypes": {},
-              "InstanceIds": [],
-              "InstanceNames": [],
-              "Limit": 20,
-              "Offset": 0,
-              "OrderBy": {},
-              "OrderDirection": {},
-              "PayTypes": {},
-              "ProjectId": "",
-              "SecurityGroupId": "",
-              "Status": {},
-              "SubnetIds": [],
-              "TaskStatus": {},
-              "Vips": [],
-              "VpcIds": [],
-              "ZoneIds": []
-            },
-            "region": ""
-          },
+          "namespace": "QCE/CVM",
+          "refId": "A",
+          "service": "cvm",
           "cvm": {
             "dimensionObject": {
               "InstanceId": {
@@ -1317,50 +732,19 @@
                 "vpc-id": [],
                 "zone": []
               },
-              "InstanceIds": [
-                ""
-              ],
+              "InstanceIds": [""],
               "Limit": 20,
               "Offset": 0,
               "filtersChecked": false,
               "instanceIdsChecked": false
             },
             "region": "$region"
-          },
-          "namespace": "QCE/CVM",
-          "refId": "A",
-          "service": "cvm"
+          }
         },
         {
-          "cdb": {
-            "dimensionObject": null,
-            "instance": "",
-            "instanceAlias": "InstanceId",
-            "metricName": "",
-            "metricUnit": "",
-            "queries": {
-              "CdbErrors": {},
-              "EngineVersions": {},
-              "InitFlag": {},
-              "InstancTypes": {},
-              "InstanceIds": [],
-              "InstanceNames": [],
-              "Limit": 20,
-              "Offset": 0,
-              "OrderBy": {},
-              "OrderDirection": {},
-              "PayTypes": {},
-              "ProjectId": "",
-              "SecurityGroupId": "",
-              "Status": {},
-              "SubnetIds": [],
-              "TaskStatus": {},
-              "Vips": [],
-              "VpcIds": [],
-              "ZoneIds": []
-            },
-            "region": ""
-          },
+          "namespace": "QCE/CVM",
+          "refId": "B",
+          "service": "cvm",
           "cvm": {
             "dimensionObject": {
               "InstanceId": {
@@ -1387,19 +771,14 @@
                 "vpc-id": [],
                 "zone": []
               },
-              "InstanceIds": [
-                ""
-              ],
+              "InstanceIds": [""],
               "Limit": 20,
               "Offset": 0,
               "filtersChecked": false,
               "instanceIdsChecked": false
             },
             "region": "$region"
-          },
-          "namespace": "QCE/CVM",
-          "refId": "B",
-          "service": "cvm"
+          }
         }
       ],
       "thresholds": [],
@@ -1448,7 +827,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -1484,11 +863,11 @@
       "renderer": "flot",
       "seriesOverrides": [
         {
-          "alias": "lanIntraffic",
+          "alias": "/^LanIntraffic/",
           "color": "#3274D9"
         },
         {
-          "alias": "lanOuttraffic",
+          "alias": "/^LanOuttraffic/",
           "color": "#E02F44",
           "transform": "negative-Y"
         }
@@ -1498,35 +877,9 @@
       "steppedLine": false,
       "targets": [
         {
-          "cdb": {
-            "dimensionObject": null,
-            "instance": "",
-            "instanceAlias": "InstanceId",
-            "metricName": "",
-            "metricUnit": "",
-            "queries": {
-              "CdbErrors": {},
-              "EngineVersions": {},
-              "InitFlag": {},
-              "InstancTypes": {},
-              "InstanceIds": [],
-              "InstanceNames": [],
-              "Limit": 20,
-              "Offset": 0,
-              "OrderBy": {},
-              "OrderDirection": {},
-              "PayTypes": {},
-              "ProjectId": "",
-              "SecurityGroupId": "",
-              "Status": {},
-              "SubnetIds": [],
-              "TaskStatus": {},
-              "Vips": [],
-              "VpcIds": [],
-              "ZoneIds": []
-            },
-            "region": ""
-          },
+          "namespace": "QCE/CVM",
+          "refId": "A",
+          "service": "cvm",
           "cvm": {
             "dimensionObject": {
               "InstanceId": {
@@ -1553,50 +906,19 @@
                 "vpc-id": [],
                 "zone": []
               },
-              "InstanceIds": [
-                ""
-              ],
+              "InstanceIds": [""],
               "Limit": 20,
               "Offset": 0,
               "filtersChecked": false,
               "instanceIdsChecked": false
             },
             "region": "$region"
-          },
-          "namespace": "QCE/CVM",
-          "refId": "A",
-          "service": "cvm"
+          }
         },
         {
-          "cdb": {
-            "dimensionObject": null,
-            "instance": "",
-            "instanceAlias": "InstanceId",
-            "metricName": "",
-            "metricUnit": "",
-            "queries": {
-              "CdbErrors": {},
-              "EngineVersions": {},
-              "InitFlag": {},
-              "InstancTypes": {},
-              "InstanceIds": [],
-              "InstanceNames": [],
-              "Limit": 20,
-              "Offset": 0,
-              "OrderBy": {},
-              "OrderDirection": {},
-              "PayTypes": {},
-              "ProjectId": "",
-              "SecurityGroupId": "",
-              "Status": {},
-              "SubnetIds": [],
-              "TaskStatus": {},
-              "Vips": [],
-              "VpcIds": [],
-              "ZoneIds": []
-            },
-            "region": ""
-          },
+          "namespace": "QCE/CVM",
+          "refId": "B",
+          "service": "cvm",
           "cvm": {
             "dimensionObject": {
               "InstanceId": {
@@ -1623,19 +945,14 @@
                 "vpc-id": [],
                 "zone": []
               },
-              "InstanceIds": [
-                ""
-              ],
+              "InstanceIds": [""],
               "Limit": 20,
               "Offset": 0,
               "filtersChecked": false,
               "instanceIdsChecked": false
             },
             "region": "$region"
-          },
-          "namespace": "QCE/CVM",
-          "refId": "B",
-          "service": "cvm"
+          }
         }
       ],
       "thresholds": [],
@@ -1684,7 +1001,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -1720,11 +1037,11 @@
       "renderer": "flot",
       "seriesOverrides": [
         {
-          "alias": "WanIntraffic",
+          "alias": "/^WanIntraffic/",
           "color": "#3274D9"
         },
         {
-          "alias": "WanOuttraffic",
+          "alias": "/^WanOuttraffic/",
           "color": "#E02F44",
           "transform": "negative-Y"
         }
@@ -1734,35 +1051,9 @@
       "steppedLine": false,
       "targets": [
         {
-          "cdb": {
-            "dimensionObject": null,
-            "instance": "",
-            "instanceAlias": "InstanceId",
-            "metricName": "",
-            "metricUnit": "",
-            "queries": {
-              "CdbErrors": {},
-              "EngineVersions": {},
-              "InitFlag": {},
-              "InstancTypes": {},
-              "InstanceIds": [],
-              "InstanceNames": [],
-              "Limit": 20,
-              "Offset": 0,
-              "OrderBy": {},
-              "OrderDirection": {},
-              "PayTypes": {},
-              "ProjectId": "",
-              "SecurityGroupId": "",
-              "Status": {},
-              "SubnetIds": [],
-              "TaskStatus": {},
-              "Vips": [],
-              "VpcIds": [],
-              "ZoneIds": []
-            },
-            "region": ""
-          },
+          "namespace": "QCE/CVM",
+          "refId": "A",
+          "service": "cvm",
           "cvm": {
             "dimensionObject": {
               "InstanceId": {
@@ -1789,50 +1080,19 @@
                 "vpc-id": [],
                 "zone": []
               },
-              "InstanceIds": [
-                ""
-              ],
+              "InstanceIds": [""],
               "Limit": 20,
               "Offset": 0,
               "filtersChecked": false,
               "instanceIdsChecked": false
             },
             "region": "$region"
-          },
-          "namespace": "QCE/CVM",
-          "refId": "A",
-          "service": "cvm"
+          }
         },
         {
-          "cdb": {
-            "dimensionObject": null,
-            "instance": "",
-            "instanceAlias": "InstanceId",
-            "metricName": "",
-            "metricUnit": "",
-            "queries": {
-              "CdbErrors": {},
-              "EngineVersions": {},
-              "InitFlag": {},
-              "InstancTypes": {},
-              "InstanceIds": [],
-              "InstanceNames": [],
-              "Limit": 20,
-              "Offset": 0,
-              "OrderBy": {},
-              "OrderDirection": {},
-              "PayTypes": {},
-              "ProjectId": "",
-              "SecurityGroupId": "",
-              "Status": {},
-              "SubnetIds": [],
-              "TaskStatus": {},
-              "Vips": [],
-              "VpcIds": [],
-              "ZoneIds": []
-            },
-            "region": ""
-          },
+          "namespace": "QCE/CVM",
+          "refId": "B",
+          "service": "cvm",
           "cvm": {
             "dimensionObject": {
               "InstanceId": {
@@ -1859,19 +1119,14 @@
                 "vpc-id": [],
                 "zone": []
               },
-              "InstanceIds": [
-                ""
-              ],
+              "InstanceIds": [""],
               "Limit": 20,
               "Offset": 0,
               "filtersChecked": false,
               "instanceIdsChecked": false
             },
             "region": "$region"
-          },
-          "namespace": "QCE/CVM",
-          "refId": "B",
-          "service": "cvm"
+          }
         }
       ],
       "thresholds": [],
@@ -1920,7 +1175,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -1956,7 +1211,7 @@
       "renderer": "flot",
       "seriesOverrides": [
         {
-          "alias": "AccOuttraffic",
+          "alias": "/^AccOuttraffic/",
           "color": "#FFB357"
         }
       ],
@@ -1965,35 +1220,9 @@
       "steppedLine": false,
       "targets": [
         {
-          "cdb": {
-            "dimensionObject": null,
-            "instance": "",
-            "instanceAlias": "InstanceId",
-            "metricName": "",
-            "metricUnit": "",
-            "queries": {
-              "CdbErrors": {},
-              "EngineVersions": {},
-              "InitFlag": {},
-              "InstancTypes": {},
-              "InstanceIds": [],
-              "InstanceNames": [],
-              "Limit": 20,
-              "Offset": 0,
-              "OrderBy": {},
-              "OrderDirection": {},
-              "PayTypes": {},
-              "ProjectId": "",
-              "SecurityGroupId": "",
-              "Status": {},
-              "SubnetIds": [],
-              "TaskStatus": {},
-              "Vips": [],
-              "VpcIds": [],
-              "ZoneIds": []
-            },
-            "region": ""
-          },
+          "namespace": "QCE/CVM",
+          "refId": "A",
+          "service": "cvm",
           "cvm": {
             "dimensionObject": {
               "InstanceId": {
@@ -2020,19 +1249,14 @@
                 "vpc-id": [],
                 "zone": []
               },
-              "InstanceIds": [
-                ""
-              ],
+              "InstanceIds": [""],
               "Limit": 20,
               "Offset": 0,
               "filtersChecked": false,
               "instanceIdsChecked": false
             },
             "region": "$region"
-          },
-          "namespace": "QCE/CVM",
-          "refId": "A",
-          "service": "cvm"
+          }
         }
       ],
       "thresholds": [],
@@ -2088,14 +1312,15 @@
       "id": 4,
       "panels": [],
       "title": "Agent 监控指标",
-      "type": "row"
+      "type": "row",
+      "targets": []
     },
     {
       "aliasColors": {},
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -2130,7 +1355,7 @@
       "renderer": "flot",
       "seriesOverrides": [
         {
-          "alias": "CPUUsage",
+          "alias": "/^CpuUsage/",
           "color": "#3274D9"
         }
       ],
@@ -2139,35 +1364,9 @@
       "steppedLine": false,
       "targets": [
         {
-          "cdb": {
-            "dimensionObject": null,
-            "instance": "",
-            "instanceAlias": "InstanceId",
-            "metricName": "",
-            "metricUnit": "",
-            "queries": {
-              "CdbErrors": {},
-              "EngineVersions": {},
-              "InitFlag": {},
-              "InstancTypes": {},
-              "InstanceIds": [],
-              "InstanceNames": [],
-              "Limit": 20,
-              "Offset": 0,
-              "OrderBy": {},
-              "OrderDirection": {},
-              "PayTypes": {},
-              "ProjectId": "",
-              "SecurityGroupId": "",
-              "Status": {},
-              "SubnetIds": [],
-              "TaskStatus": {},
-              "Vips": [],
-              "VpcIds": [],
-              "ZoneIds": []
-            },
-            "region": ""
-          },
+          "namespace": "QCE/CVM",
+          "refId": "A",
+          "service": "cvm",
           "cvm": {
             "dimensionObject": {
               "InstanceId": {
@@ -2177,7 +1376,7 @@
             },
             "instance": "$publicIp",
             "instanceAlias": "PublicIpAddresses",
-            "metricName": "CPUUsage",
+            "metricName": "CpuUsage",
             "metricUnit": "%",
             "period": 10,
             "queries": {
@@ -2194,19 +1393,14 @@
                 "vpc-id": [],
                 "zone": []
               },
-              "InstanceIds": [
-                ""
-              ],
+              "InstanceIds": [""],
               "Limit": 20,
               "Offset": 0,
               "filtersChecked": false,
               "instanceIdsChecked": false
             },
             "region": "$region"
-          },
-          "namespace": "QCE/CVM",
-          "refId": "A",
-          "service": "cvm"
+          }
         }
       ],
       "thresholds": [],
@@ -2255,7 +1449,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -2290,7 +1484,7 @@
       "renderer": "flot",
       "seriesOverrides": [
         {
-          "alias": "CPULoadAvg",
+          "alias": "/^CpuLoadavg/",
           "color": "#1F60C4"
         }
       ],
@@ -2299,35 +1493,9 @@
       "steppedLine": false,
       "targets": [
         {
-          "cdb": {
-            "dimensionObject": null,
-            "instance": "",
-            "instanceAlias": "InstanceId",
-            "metricName": "",
-            "metricUnit": "",
-            "queries": {
-              "CdbErrors": {},
-              "EngineVersions": {},
-              "InitFlag": {},
-              "InstancTypes": {},
-              "InstanceIds": [],
-              "InstanceNames": [],
-              "Limit": 20,
-              "Offset": 0,
-              "OrderBy": {},
-              "OrderDirection": {},
-              "PayTypes": {},
-              "ProjectId": "",
-              "SecurityGroupId": "",
-              "Status": {},
-              "SubnetIds": [],
-              "TaskStatus": {},
-              "Vips": [],
-              "VpcIds": [],
-              "ZoneIds": []
-            },
-            "region": ""
-          },
+          "namespace": "QCE/CVM",
+          "refId": "A",
+          "service": "cvm",
           "cvm": {
             "dimensionObject": {
               "InstanceId": {
@@ -2337,7 +1505,7 @@
             },
             "instance": "$publicIp",
             "instanceAlias": "PublicIpAddresses",
-            "metricName": "CPULoadAvg",
+            "metricName": "CpuLoadavg",
             "metricUnit": "",
             "period": 10,
             "queries": {
@@ -2354,26 +1522,21 @@
                 "vpc-id": [],
                 "zone": []
               },
-              "InstanceIds": [
-                ""
-              ],
+              "InstanceIds": [""],
               "Limit": 20,
               "Offset": 0,
               "filtersChecked": false,
               "instanceIdsChecked": false
             },
             "region": "$region"
-          },
-          "namespace": "QCE/CVM",
-          "refId": "A",
-          "service": "cvm"
+          }
         }
       ],
       "thresholds": [],
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "CPU 平均负载",
+      "title": "CPU 一分钟平均负载",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -2415,7 +1578,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -2450,11 +1613,11 @@
       "renderer": "flot",
       "seriesOverrides": [
         {
-          "alias": "MemUsage",
+          "alias": "/^MemUsage/",
           "yaxis": 1
         },
         {
-          "alias": "MemUsed",
+          "alias": "/^MemUsed/",
           "yaxis": 2
         }
       ],
@@ -2463,35 +1626,9 @@
       "steppedLine": false,
       "targets": [
         {
-          "cdb": {
-            "dimensionObject": null,
-            "instance": "",
-            "instanceAlias": "InstanceId",
-            "metricName": "",
-            "metricUnit": "",
-            "queries": {
-              "CdbErrors": {},
-              "EngineVersions": {},
-              "InitFlag": {},
-              "InstancTypes": {},
-              "InstanceIds": [],
-              "InstanceNames": [],
-              "Limit": 20,
-              "Offset": 0,
-              "OrderBy": {},
-              "OrderDirection": {},
-              "PayTypes": {},
-              "ProjectId": "",
-              "SecurityGroupId": "",
-              "Status": {},
-              "SubnetIds": [],
-              "TaskStatus": {},
-              "Vips": [],
-              "VpcIds": [],
-              "ZoneIds": []
-            },
-            "region": ""
-          },
+          "namespace": "QCE/CVM",
+          "refId": "A",
+          "service": "cvm",
           "cvm": {
             "dimensionObject": {
               "InstanceId": {
@@ -2518,50 +1655,19 @@
                 "vpc-id": [],
                 "zone": []
               },
-              "InstanceIds": [
-                ""
-              ],
+              "InstanceIds": [""],
               "Limit": 20,
               "Offset": 0,
               "filtersChecked": false,
               "instanceIdsChecked": false
             },
             "region": "$region"
-          },
-          "namespace": "QCE/CVM",
-          "refId": "A",
-          "service": "cvm"
+          }
         },
         {
-          "cdb": {
-            "dimensionObject": null,
-            "instance": "",
-            "instanceAlias": "InstanceId",
-            "metricName": "",
-            "metricUnit": "",
-            "queries": {
-              "CdbErrors": {},
-              "EngineVersions": {},
-              "InitFlag": {},
-              "InstancTypes": {},
-              "InstanceIds": [],
-              "InstanceNames": [],
-              "Limit": 20,
-              "Offset": 0,
-              "OrderBy": {},
-              "OrderDirection": {},
-              "PayTypes": {},
-              "ProjectId": "",
-              "SecurityGroupId": "",
-              "Status": {},
-              "SubnetIds": [],
-              "TaskStatus": {},
-              "Vips": [],
-              "VpcIds": [],
-              "ZoneIds": []
-            },
-            "region": ""
-          },
+          "namespace": "QCE/CVM",
+          "refId": "B",
+          "service": "cvm",
           "cvm": {
             "dimensionObject": {
               "InstanceId": {
@@ -2572,7 +1678,7 @@
             "instance": "$publicIp",
             "instanceAlias": "PublicIpAddresses",
             "metricName": "MemUsed",
-            "metricUnit": "MB",
+            "metricUnit": "megabytes",
             "period": 300,
             "queries": {
               "Filters": {
@@ -2588,19 +1694,14 @@
                 "vpc-id": [],
                 "zone": []
               },
-              "InstanceIds": [
-                ""
-              ],
+              "InstanceIds": [""],
               "Limit": 20,
               "Offset": 0,
               "filtersChecked": false,
               "instanceIdsChecked": false
             },
             "region": "$region"
-          },
-          "namespace": "QCE/CVM",
-          "refId": "B",
-          "service": "cvm"
+          }
         }
       ],
       "thresholds": [],
@@ -2649,7 +1750,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitor Datasource",
+      "datasource": "Tencent Cloud Monitoring",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -2684,7 +1785,7 @@
       "renderer": "flot",
       "seriesOverrides": [
         {
-          "alias": "TcpCurrEstab",
+          "alias": "/^TcpCurrEstab/",
           "color": "#56A64B"
         }
       ],
@@ -2693,35 +1794,9 @@
       "steppedLine": false,
       "targets": [
         {
-          "cdb": {
-            "dimensionObject": null,
-            "instance": "",
-            "instanceAlias": "InstanceId",
-            "metricName": "",
-            "metricUnit": "",
-            "queries": {
-              "CdbErrors": {},
-              "EngineVersions": {},
-              "InitFlag": {},
-              "InstancTypes": {},
-              "InstanceIds": [],
-              "InstanceNames": [],
-              "Limit": 20,
-              "Offset": 0,
-              "OrderBy": {},
-              "OrderDirection": {},
-              "PayTypes": {},
-              "ProjectId": "",
-              "SecurityGroupId": "",
-              "Status": {},
-              "SubnetIds": [],
-              "TaskStatus": {},
-              "Vips": [],
-              "VpcIds": [],
-              "ZoneIds": []
-            },
-            "region": ""
-          },
+          "namespace": "QCE/CVM",
+          "refId": "A",
+          "service": "cvm",
           "cvm": {
             "dimensionObject": {
               "InstanceId": {
@@ -2748,19 +1823,14 @@
                 "vpc-id": [],
                 "zone": []
               },
-              "InstanceIds": [
-                ""
-              ],
+              "InstanceIds": [""],
               "Limit": 20,
               "Offset": 0,
               "filtersChecked": false,
               "instanceIdsChecked": false
             },
             "region": "$region"
-          },
-          "namespace": "QCE/CVM",
-          "refId": "A",
-          "service": "cvm"
+          }
         }
       ],
       "thresholds": [],
@@ -2813,7 +1883,7 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": "Tencent Cloud Monitor Datasource",
+        "datasource": "Tencent Cloud Monitoring",
         "definition": "Namespace=QCE/CVM&Action=DescribeRegions",
         "hide": 0,
         "includeAll": false,
@@ -2836,7 +1906,7 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": "Tencent Cloud Monitor Datasource",
+        "datasource": "Tencent Cloud Monitoring",
         "definition": "Namespace=QCE/CVM&Action=DescribeInstances&Region=$region&InstanceAlias=PublicIpAddresses",
         "hide": 0,
         "includeAll": false,
@@ -2863,35 +1933,14 @@
     "to": "now"
   },
   "timepicker": {
-    "refresh_intervals": [
-      "5s",
-      "10s",
-      "30s",
-      "1m",
-      "5m",
-      "15m",
-      "30m",
-      "1h",
-      "2h",
-      "1d"
-    ],
-    "time_options": [
-      "5m",
-      "15m",
-      "1h",
-      "6h",
-      "12h",
-      "24h",
-      "2d",
-      "7d",
-      "30d"
-    ]
+    "refresh_intervals": ["5s", "10s", "30s", "1m", "5m", "15m", "30m", "1h", "2h", "1d"],
+    "time_options": ["5m", "15m", "1h", "6h", "12h", "24h", "2d", "7d", "30d"]
   },
   "timezone": "",
-  "title": "【实例】CVM 单机监控",
-  "uid": "DWBrOhyGz",
+  "title": "【预设】CVM 单机监控",
+  "uid": "",
   "variables": {
     "list": []
   },
-  "version": 1
+  "version": 2
 }

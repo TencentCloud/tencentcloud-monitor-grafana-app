@@ -1,43 +1,27 @@
-<p align="center">
-  <a href="https://github.com/TencentCloud/tencentcloud-monitor-grafana-app"><img src="https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/plugin-app.png?raw=true" /></a>
-</p>
+[![Tencent Cloud Monitor Grafana App](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/plugin-app.png?raw=true)](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app)
 
-<p align="center">
-  <a href="https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/releases">
-    <img src="https://img.shields.io/github/v/release/TencentCloud/tencentcloud-monitor-grafana-app?sort=semver&color=green" alt="GitHub release (latest SemVer)">
-  </a>
-  <a href="https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/LICENSE">
-    <img src="https://img.shields.io/github/license/TencentCloud/tencentcloud-monitor-grafana-app?color=blue" alt="License">
-  </a>
-  <a href="https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/CHANGELOG.md">
-    <img src="https://img.shields.io/badge/change-log-blue.svg" alt="Change Log">
-  </a>
-  <a href="#">
-    <img src="https://img.shields.io/github/languages/code-size/TencentCloud/tencentcloud-monitor-grafana-app" alt="GitHub code size in bytes">
-  </a>
-  <a href="https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/pulls">
-    <img alt="PRs Welcome" src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg">
-  </a>
-</p>
+[![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/TencentCloud/tencentcloud-monitor-grafana-app?sort=semver&color=green)](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/releases)
+[![License](https://img.shields.io/github/license/TencentCloud/tencentcloud-monitor-grafana-app?color=blue)](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/LICENSE)
+[![Change Log](https://img.shields.io/badge/change-log-blue.svg)](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/CHANGELOG.md)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/TencentCloud/tencentcloud-monitor-grafana-app)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/pulls)
+[![Marketplace](https://img.shields.io/badge/dynamic/json?logo=grafana&color=F47A20&label=marketplace&prefix=v&query=%24.items%5B%3F%28%40.slug%20%3D%3D%20%22tencentcloud-monitor-app%22%29%5D.version&url=https%3A%2F%2Fgrafana.com%2Fapi%2Fplugins)](https://grafana.com/grafana/plugins/tencentcloud-monitor-app)
+[![Downloads](https://img.shields.io/badge/dynamic/json?logo=grafana&color=F47A20&label=downloads&query=%24.items%5B%3F%28%40.slug%20%3D%3D%20%22tencentcloud-monitor-app%22%29%5D.downloads&url=https%3A%2F%2Fgrafana.com%2Fapi%2Fplugins)](https://grafana.com/grafana/plugins/tencentcloud-monitor-app)
 
-<h1 align="center">腾讯云监控插件 @ Grafana</h1>
+# 腾讯云监控插件 @ Grafana
 
-<p align="center">
-  简体中文
-  |
-  <a href="./README.en-US.md">English</a>
-</p>
+简体中文 | [English](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/README.en-US.md)
 
 # 目录
 
   * [简介](#introduction)
-  * [安装与更新](#get-started)
-    * [使用 tc-monitor-cli](#use-tc-monitor-cli)
-      * [安装](#install)
-      * [更新](#upgrade)
-      * [回滚](#rollback)
-      * [更多选项](#more-options)
-    * [使用 zip 解压至插件目录](#copy-zip-files-into-the-plugin-directory)
+  * [入门指南](#get-started)
+    * [安装](#installation)
+      * [使用 Grafana CLI](#use-grafana-cli)
+      * [从 GitHub Releases](#from-github-releases)
+      * [从源码安装](#from-source-code)
+    * [更新](#upgrade)
+    * [更多选项](#more-options)
   * [配置数据源](#configure-datasource)
   * [创建 Dashboard](#create-dashboard)
     * [快捷创建](#quick-creation)
@@ -45,16 +29,30 @@
     * [导入模板](#import-dashboard-templates)
   * [配置 Panel 数据](#configure-panel)
     * [CVM 云服务器监控](#cvm-monitoring)
-    * [CDB 云数据库MySQL监控](#cdb-monitoring)
-    * [CLB 负载均衡监控](#clb-monitoring)
-    * [MonogoDB 云数据库](#tencentdb-for-mongodb)
-    * [Redis 云数据库](#tencentdb-for-redis)
+    * [CDB 云数据库 MySQL](#cdb-monitoring)
+    * [云数据库 PostgreSql](#postgresql-monitoring)
+    * [云数据库 MonogoDB](#tencentdb-for-mongodb)
+    * [云数据库 Redis](#tencentdb-for-redis)
+    * [云数据库 CYNOSDB_MYSQL](#cynosdbmysql-monitoring)
+    * [云数据库 TcaplusDB](#tcaplusdb-monitoring)
+    * [云数据库 SQL Server](#sqlserver-monitoring)
     * [CDN 内容分发式网络](#content-delivery-network-cdn)
     * [BWP 带宽包](#bandwidth-packet)
     * [CKAFKA 消息队列](#message-queue-ckafka)
+    * [CLB 负载均衡](#clb-monitoring)
     * [LB 弹性公网IP](#elastic-ip)
     * [CFS 文件存储](#cloud-file-storage-cfs)
     * [SCF 云函数](#serverless-cloud-function-scf)
+    * [DCX 专线接入-专用通道](#dedicated-tunnel-monitoring-dcx)
+    * [DC 专线接入-物理专线](#direct-connection)
+    * [VPNGW 私有网络-VPN 网关](#vpn-gateway)
+    * [DCG 私有网络-专线网关](#direct-connect-gateway)
+    * [CDNPROVINCE 省份域名](#cdn-province)
+    * [APIGATEWAY API 网关](#api-gateway)
+    * [CBS 云硬盘](#cloud-block-storage)
+    * [CES Elasticsearch指标](#elasticsearch)
+    * [CMQ 消息队列服务监控](#cmq-queue-service)
+    * [CMQTOPIC 消息队列主题订阅监控](#cmq-topic-subscription)
   * [模板变量](#template-variables)
     * [创建变量](#create-template-variable)
     * [编辑变量](#edit-template-variable)
@@ -74,119 +72,108 @@
 - 支持 [云服务器](https://cloud.tencent.com/document/product/248/6843) 监控指标数据源
 - 支持 [云数据库 MySQL](https://cloud.tencent.com/document/product/248/45147) 监控指标数据源
 - 支持 [云数据库 PostgreSQL](https://cloud.tencent.com/document/product/248/45105) 监控指标数据源
+- 支持 [云数据库 MonogoDB](https://cloud.tencent.com/document/product/248/45104) 监控指标数据源
+- 支持 [云数据库 Redis](https://cloud.tencent.com/document/product/248/49729) 监控指标数据源
+- 支持 [云数据库 TCAPLUS](https://cloud.tencent.com/document/product/248/45107) 监控指标数据源
+- 支持 [云数据库 SQLSERVER](https://cloud.tencent.com/document/product/248/45146) 监控指标数据源
+- 支持 [云数据库 CYNOSDB_MYSQL](https://cloud.tencent.com/document/product/248/45106) 监控指标数据源
 - 支持 [私有网络 NAT 网关](https://cloud.tencent.com/document/product/248/45069) 监控指标数据源
-- 支持 [私有网络对等连接](https://cloud.tencent.com/document/product/248/45096) 监控指标数据源
+- 支持 [私有网络 对等连接](https://cloud.tencent.com/document/product/248/45096) 监控指标数据源
+- 支持 [私有网络 VPN 网关](https://cloud.tencent.com/document/product/248/45070) 监控指标数据源
+- 支持 [私有网络 专线网关](https://cloud.tencent.com/document/product/248/45072) 监控指标数据源
 - 支持 [公网负载均衡](https://cloud.tencent.com/document/product/248/51898) 监控指标数据源
 - 支持 [内网负载均衡四层协议](https://cloud.tencent.com/document/product/248/51899) 监控指标数据源
 - 支持 [负七层协议](https://cloud.tencent.com/document/product/248/51901) 监控指标数据源
-- 支持 [MonogoDB 云数据库](https://cloud.tencent.com/document/product/248/45104) 监控指标数据源
-- 支持 [Redis 云数据库](https://cloud.tencent.com/document/product/248/49729) 监控指标数据源
 - 支持 [CDN 内容分发式网络](https://cloud.tencent.com/document/product/248/50386) 监控指标数据源
+- 支持 [CDNPROVINCE 省份域名](https://cloud.tencent.com/document/product/248/50388) 监控指标数据源
 - 支持 [带宽包](https://cloud.tencent.com/document/product/248/45098) 监控指标数据源
 - 支持 [CKAFKA 消息队列](https://cloud.tencent.com/document/product/248/45121) 监控指标数据源
+- 支持 [CMQ 消息队列](https://cloud.tencent.com/document/product/248/45114) 监控指标数据源
+- 支持 [CMQTOPIC 消息队列](https://cloud.tencent.com/document/product/248/45113) 监控指标数据源
 - 支持 [LB 弹性公网IP](https://cloud.tencent.com/document/product/248/45099) 监控指标数据源
 - 支持 [CFS 文件存储](https://cloud.tencent.com/document/product/248/45143) 监控指标数据源
 - 支持 [SCF 云函数](https://cloud.tencent.com/document/product/248/45130) 监控指标数据源
+- 支持 [DCX 专线接入-专用通道](https://cloud.tencent.com/document/product/248/45101) 监控指标数据源
+- 支持 [DC 专线接入-物理专线](https://cloud.tencent.com/document/product/248/45102) 监控指标数据源
+- 支持 [APIGATEWAY API 网关](https://cloud.tencent.com/document/product/248/45127) 监控指标数据源
+- 支持 [CBS 云硬盘](https://cloud.tencent.com/document/product/248/45411) 监控指标数据源
+- 支持 [CES Elasticsearch指标](https://cloud.tencent.com/document/product/248/45129) 监控指标数据源
 - 提供了云服务器、云数据库 MySQL、负载均衡 等具有代表性的 [Dashboard 模板](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/tree/master/src/dashboards)
 - 更多云产品的监控指标数据源在陆续完善中
 
-# <a id="get-started"></a> 安装与更新
+# <a id="get-started"></a> 入门指南
 
+## <a id="installation"></a> 安装
 此插件有多种安装方式，请选择下面任意一种方式安装。
 
 > 前置条件：腾讯云监控应用插件是运行在 Grafana 6.x 或更新的版本上，请优先安装 Grafana 环境，详情参考 [Grafana 安装文档](https://grafana.com/grafana/download)。
 
 
-## <a id="use-tc-monitor-cli"></a> 使用 tc-monitor-cli
+### <a id="use-grafana-cli"></a> 使用 Grafana CLI
 
-[tc-monitor-cli](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/bin/tc-monitor-cli) 是基于 [grafana-cli](http://docs.grafana.org/plugins/installation/#installing-plugins-manually) 进行封装的脚本，使用方式如下：
-
-### <a id="install"></a> 安装
-
-您可以手动下载并运行[此脚本](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/bin/tc-monitor-cli)，也可以使用以下 cURL 或 Wget 命令进行安装：
+查看所有版本：
 
 ```bash
-$ curl -o- https://raw.githubusercontent.com/TencentCloud/tencentcloud-monitor-grafana-app/master/bin/tc-monitor-cli | bash -s install
+$ grafana-cli plugins list-versions tencentcloud-monitor-app
 ```
+
+安装最新版本插件：
 
 ```bash
-$ wget -qO- https://raw.githubusercontent.com/TencentCloud/tencentcloud-monitor-grafana-app/master/bin/tc-monitor-cli | bash -s install
+$ grafana-cli plugins install tencentcloud-monitor-app
 ```
-运行以上任一命令将下载一个脚本并安装最新版本的插件。如需安装指定版本的插件，只需在命令最后加上版本号即可，如需安装 1.4.0 版本可运行：
 
+重启 Grafana 服务：
 ```bash
-$ curl -o- https://raw.githubusercontent.com/TencentCloud/tencentcloud-monitor-grafana-app/master/bin/tc-monitor-cli | bash -s install 1.4.0
-```
-所有版本号可在 [GitHub Releases](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/releases) 中查看。
-
-安装后需重启并打开 Grafana，鼠标悬浮左侧导航栏的 **齿轮** 图标，点击 `Plugins` 选项，进入 Plugins 管理页面，如果插件列表中正常展示 `Tencent Cloud Monitor` APP 插件，表示插件安装成功。您可以进入应用详情页面，点击 `Enable` 按钮，启用此插件。
-
-### <a id="upgrade"></a> 更新
-
-在更新前脚本会将当前版本进行备份，您可运行以下任一命令更新插件至最新版本：
-
-```bash
-$ curl -o- https://raw.githubusercontent.com/TencentCloud/tencentcloud-monitor-grafana-app/master/bin/tc-monitor-cli | bash -s upgrade
+$ systemctl restart grafana-server
 ```
 
-```bash
-$ wget -qO- https://raw.githubusercontent.com/TencentCloud/tencentcloud-monitor-grafana-app/master/bin/tc-monitor-cli | bash -s upgrade
-```
+在 [Grafana 插件安装指引](https://grafana.com/docs/grafana/latest/plugins/installation/)文档中阅读更多。
 
-更新后重启 Grafana 即可。
+Warning: 唯一可靠的安装方法是grafana-cli。 任何其他方式都应被视为解决方法，并且不提供任何向后兼容的保证。
 
-### <a id="rollback"></a> 回滚
+### <a id="from-github-releases"></a> 从 GitHub Releases
 
-如需回滚至更新之前的版本，可运行以下任一命令回滚插件至最近一次的版本：
+所有 Release 版本号可在 [GitHub Releases](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/releases) 中查看。
 
-```bash
-$ curl -o- https://raw.githubusercontent.com/TencentCloud/tencentcloud-monitor-grafana-app/master/bin/tc-monitor-cli | bash -s rollback
-```
-
-```bash
-$ wget -qO- https://raw.githubusercontent.com/TencentCloud/tencentcloud-monitor-grafana-app/master/bin/tc-monitor-cli | bash -s rollback
-```
-
-### <a id="more-options"></a> 更多选项
-
-如果修改过 Grafana 插件的目录，可使用 `--pluginsDir` 参数传递，如：
-
-```bash
-$ curl -o- https://raw.githubusercontent.com/TencentCloud/tencentcloud-monitor-grafana-app/master/bin/tc-monitor-cli | bash -s -- --pluginsDir /your/grafana/data/plugins
-```
-
-```bash
-$ wget -qO- https://raw.githubusercontent.com/TencentCloud/tencentcloud-monitor-grafana-app/master/bin/tc-monitor-cli | bash -s -- --pluginsDir /your/grafana/data/plugins
-```
-
-更多参数可运行如下命令查看 help：
-
-```bash
-$ curl -o- https://raw.githubusercontent.com/TencentCloud/tencentcloud-monitor-grafana-app/master/bin/tc-monitor-cli | bash -s -- --help
-```
-
-```bash
-$ wget -qO- https://raw.githubusercontent.com/TencentCloud/tencentcloud-monitor-grafana-app/master/bin/tc-monitor-cli | bash -s -- --help
-```
-
-## <a id="copy-zip-files-into-the-plugin-directory"></a> 使用 zip 解压至插件目录
-1. 在 [GitHub Releases](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/releases) 中下载最新版本的腾讯云监控应用插件代码，（资源名为`tencentcloud-monitor-app-[x.x.x].zip`），并将解压后的代码放置在 Grafana 的插件目录下，默认为 `${GRAFANA_HOME}/data/plugins`，用户可在 `${GRAFANA_HOME}/conf/default.ini` 或者 `${GRAFANA_HOME}/conf/custom.ini` 中配置插件的目录。文件 plugins = 指定插件目录下。 点击[这里](https://grafana.com/docs/grafana/latest/administration/configuration/#plugins)查看关于插件目录的更多文档；
+1. 在 [GitHub Releases](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/releases) 中下载最新版本的腾讯云监控应用插件代码，（资源名为`tencentcloud-monitor-app-[x.x.x].zip`），并将解压后的代码放置在 Grafana 的插件目录下，默认为 `${GRAFANA_HOME}/data/plugins`，用户可在 `${GRAFANA_HOME}/conf/default.ini` 或者 `${GRAFANA_HOME}/conf/custom.ini` 中配置插件的目录。点击[这里](https://grafana.com/docs/grafana/latest/administration/configuration/#plugins)查看关于插件目录的更多文档；
 2. 重启 Grafana 服务；
 3. 鼠标悬浮左侧导航栏的 **齿轮** 图标，点击 `Plugins` 选项，进入 Plugins 管理页面，如果插件列表中正常展示 `Tencent Cloud Monitor` APP 插件，表示插件安装成功；
 4. 进入应用详情页面，点击 `Enable` 按钮，启用成功后，即可在 Grafana 中使用腾讯云监控应用插件。
+
+### <a id="from-source-code"></a> 从源码安装
+如果您想自己构建软件包或提供帮助，请阅读[此文档](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/CONTRIBUTING.md)。
+
+## <a id="upgrade"></a> 更新
+
+```bash
+$ grafana-cli plugins upgrade tencentcloud-monitor-app
+```
+
+重启 Grafana 服务：
+```bash
+$ systemctl restart grafana-server
+```
+
+## <a id="more-options"></a> 更多选项
+如需更多帮助，可运行如下命令查看帮助文档：
+
+```bash
+$ grafana-cli plugins --help
+```
 
 # <a id="configure-datasource"></a> 配置数据源
 
 腾讯云监控应用插件通过调用[云监控 API](https://cloud.tencent.com/document/product/248/30342) 的方式获取各云产品的监控指标数据，通过以下步骤，配置相应云产品的数据源。    
 1. 鼠标悬浮左侧导航栏的 **齿轮** 图标，点击 `Data Sources` 选项，进入数据源管理页面；
-  ![Datasource Add](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/datasource-add.png?raw=true)
-2. 点击右上角的 `Add data source` 按钮，然后点击 `Tencent Cloud Monitor Datasource` 数据源，进入数据源配置页面；
-  ![Datasource Add](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/datasource-choose.png?raw=true)
-3. `Name` 数据源名称，可以是任意名称，默认为 `Tencent Cloud Monitor Datasource`；  
+  ![Datasource Add](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/datasource-add@v2.png?raw=true)
+2. 点击右上角的 `Add data source` 按钮，然后点击 `Tencent Cloud Monitoring` 数据源，进入数据源配置页面；
+  ![Datasource Add](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/datasource-choose@v2.png?raw=true)
+3. `Name` 数据源名称，可以是任意名称，默认为 `Tencent Cloud Monitoring`；  
 4. `SecretId` 和 `SecretKey` 是调用云监控 API 必需的安全证书信息，二者可以通过腾讯云控制台 [云 API 密钥页面](https://console.cloud.tencent.com/cam/capi) 获取；
 5. 选择需要获取监控数据的云产品；  
 6. 点击 `Save & Test` 按钮，测试数据源的配置信息是否正确，配置成功后，即可以在 Dashboard 中使用该数据源。
-  ![Datasource Config](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/datasource-config.png?raw=true)
+  ![Datasource Config](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/datasource-config@v2.png?raw=true)
 
 # <a id="create-dashboard"></a> 创建 Dashboard
 
@@ -204,7 +191,7 @@ $ wget -qO- https://raw.githubusercontent.com/TencentCloud/tencentcloud-monitor-
 
 鼠标悬浮左侧导航栏的 **齿轮** 图标，点击 `Plugins` 选项，进入 Plugins 管理页面。然后，点击 `Tencent Cloud Monitor` 应用，进入应用详情页面，切换至 `Dashboards` 选项卡，选择 Dashbboard 模板导入。
 
-![Import Plugin Dashboard](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/plugin-dashboard.png?raw=true)
+![Import Plugin Dashboard](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/plugin-dashboard@v2.png?raw=true)
 
 
 # <a id="configure-panel"></a> 配置 Panel 数据
@@ -225,9 +212,9 @@ $ wget -qO- https://raw.githubusercontent.com/TencentCloud/tencentcloud-monitor-
       - **注意：** 在本应用中，监控数据的单次查询为原子操作，即查询某一实例的某一指标的监控数据，故实例只能单选，如需查询多实例的监控数据，点击右上角的 `Add Query` 增加新的查询。
       - `Show Details` 按钮仅在选择非模板变量时显示。
 
-![CVM Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-cvm-query.png)
+![CVM Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-cvm-query@v2.png)
 
-## <a id="cdb-monitoring"></a> CDB 云数据库MySQL监控
+## <a id="cdb-monitoring"></a> CDB 云数据库 MySQL
 
 1. 点击 **New Panel** 面板的 **Add Query** 选项，进入 Panel 配置页面。在左侧第一个 `Query` 选项卡，通过配置选项获取腾讯云数据库 MySQL 的监控数据。
 2. `Queries to` 数据源列表，选择已配置的包含 CDB 监控服务的腾讯云监控数据源。
@@ -242,30 +229,26 @@ $ wget -qO- https://raw.githubusercontent.com/TencentCloud/tencentcloud-monitor-
       - **注意：** 在本应用中，监控数据的单次查询为原子操作，即查询某一实例的某一指标的监控数据，故实例只能单选，如需查询多实例的监控数据，点击右上角的 `Add Query` 增加新的查询。  
       - `Show Details` 按钮仅在选择非模板变量时显示。
 
-![CDB Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-cdb-query.png)
+![CDB Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-cdb-query@v2.png)
 
-## <a id="clb-monitoring"></a> CLB 负载均衡监控
+## <a id="postgresql-monitoring"></a> 云数据库 PostgreSql
 
-1. 点击 **New Panel** 面板的 **Add Query** 选项，进入 Panel 配置页面。在左侧第一个 `Query` 选项卡，通过配置选项获取腾讯云 负载均衡的监控数据。
-2. `Queries to` 数据源列表，选择已配置的包含 CLB 监控服务的腾讯云监控数据源。
-3. 负载均衡指标分三个命名空间：公网负载均衡监控指标（Namespace=QCE/LB_PUBLIC），内网负载均衡四层协议监控指标（Namespace=QCE/LB_PRIVATE）， 七层协议监控指标（Namespace=QCE/LOADBALANCE），可根据自己需要在`Namespace`选择。
-4. 配置项的内容对齐腾讯云服务器监控接口的输入参数，可参考 [负载均衡云监控接口文档](https://cloud.tencent.com/document/product/248/51898)，更好地理解各配置项。
-    - `Namespace` 命名空间，比如 `QCE/LB_PUBLIC`。
+1. 点击 **New Panel** 面板的 **Add Query** 选项，进入 Panel 配置页面。在左侧第一个 `Query` 选项卡，通过配置选项获取腾讯云数据库 PostgreSQL 的监控数据。
+2. `Queries to` 数据源列表，选择已配置的包含 PostgreSQL 监控服务的腾讯云监控数据源。
+3. 配置项的内容对齐腾讯云数据库PostgreSQL监控接口的输入参数，可参考 [云数据库PostgreSQL监控接口文档](https://cloud.tencent.com/document/product/248/45105)，更好地理解各配置项。
+    - `Namespace` 命名空间，云服务器监控的命名空间为 `QCE/POSTGRES`。
     - `Region` 地域，地域列表会根据 `Namespace` 选项自动获取，单击选择某一地域。
     - `MetricName` 指标名称，指标列表会根据 `Namespace` 和 `Region` 选项自动获取，单击选择某一指标。
     - `Period` 监控统计周期，周期列表会根据 `MetricName` 选项自动获取，单击选择某一统计周期。
     - `Instance` 实例，对应输入参数的 `Instances.N` 字段，实例列表会自动获取。
-      - 为了适应不同用户的习惯，实例列表会以不同的字段展示，默认为 `As LoadBalancerId`，以 **实例ID** 展示实例列表。此外，可以选择 `As LoadBalancerName` 实例名称、`As LoadBalancerVips` 网络ip。
-      - 实例列表的获取可参考 [负载均衡实例列表接口文档](https://cloud.tencent.com/document/api/214/30685)。切换 `Show Details` 为 `true`，可展示实例请求参数，默认参数为`Offset = 0` 和 `Limit = 20`。如果需要变更实例查询条件，可参考接口文档，配置相应参数。
+      - 为了适应不同用户的习惯，实例列表会以不同的字段展示，默认为 `As InstanceId`，以 **实例ID** 展示实例列表。此外，可以选择 `As DBInstanceName`数据库名称, `PrivateIpAddresses`内网ip, `PublicIpAddresses`公网ip。
+      - 实例列表的获取可参考 [云数据库PostgreSQL查询实例列表接口文档](https://cloud.tencent.com/document/api/409/16773)。切换 `Show Details` 为 `true`，可展示实例请求参数，默认参数为`Offset = 0` 和 `Limit = 20`。如果需要变更实例查询条件，可参考接口文档，配置相应参数。
       - **注意：** 在本应用中，监控数据的单次查询为原子操作，即查询某一实例的某一指标的监控数据，故实例只能单选，如需查询多实例的监控数据，点击右上角的 `Add Query` 增加新的查询。  
       - `Show Details` 按钮仅在选择非模板变量时显示。
-    - `Listener` 【可选】监听器，可不选择，这时采用实例维度请求，对应输入参数的 `Listener.N` 字段，列表会自动获取。
-      - 为了适应不同用户的习惯，监听器列表会以不同的字段展示，默认为 `As ListenerId`，以 **监听器ID** 展示实例列表。此外，可以选择 `As ListenerName` 监听器名称、`As Port` 端口。
-      - 监听器列表的获取可参考 [负载均衡监听器列表接口文档](https://cloud.tencent.com/document/api/214/30686)。
 
-![Clb Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-clb-query.png)
+![PostgreSql Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-postgre-query@v2.png)
 
-## <a id="tencentdb-for-mongodb"></a> MonogoDB 云数据库
+## <a id="tencentdb-for-mongodb"></a> 云数据库 MonogoDB
 
 1. 点击 **New Panel** 面板的 **Add Query** 选项，进入 Panel 配置页面。在左侧第一个 `Query` 选项卡，通过配置选项获取腾讯云 负载均衡的监控数据。
 2. `Queries to` 数据源列表，选择已配置的包含 mongodb 监控服务的腾讯云监控数据源。
@@ -280,9 +263,9 @@ $ wget -qO- https://raw.githubusercontent.com/TencentCloud/tencentcloud-monitor-
       - **注意：** 在本应用中，监控数据的单次查询为原子操作，即查询某一实例的某一指标的监控数据，故实例只能单选，如需查询多实例的监控数据，点击右上角的 `Add Query` 增加新的查询。  
       - `Show Details` 按钮仅在选择非模板变量时显示。
 
-![mongodb Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-mongodb-query.png)
+![mongodb Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-mongodb-query@v2.png)
 
-## <a id="tencentdb-for-redis"></a> Redis 云数据库
+## <a id="tencentdb-for-redis"></a> 云数据库 Redis
 
 1. 点击 **New Panel** 面板的 **Add Query** 选项，进入 Panel 配置页面。在左侧第一个 `Query` 选项卡，通过配置选项获取腾讯云 负载均衡的监控数据。
 2. `Queries to` 数据源列表，选择已配置的包含 redis 监控服务的腾讯云监控数据源。
@@ -298,7 +281,59 @@ $ wget -qO- https://raw.githubusercontent.com/TencentCloud/tencentcloud-monitor-
       - **注意：** 在本应用中，监控数据的单次查询为原子操作，即查询某一实例的某一指标的监控数据，故实例只能单选，如需查询多实例的监控数据，点击右上角的 `Add Query` 增加新的查询。  
       - `Show Details` 按钮仅在选择非模板变量时显示。
 
-![redis Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-redis-query.png)
+![redis Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-redis-query@v2.png)
+
+## <a id="cynosdbmysql-monitoring"></a> 云数据库 CYNOSDB_MYSQL
+
+  1. 点击 **New Panel** 面板的 **Add Query** 选项，进入 Panel 配置页面。在左侧第一个 `Query` 选项卡，通过配置选项获取腾讯云云数据库 CYNOSDB(CYNOSDB_MYSQL)的监控数据。
+  2. `Queries to` 数据源列表，选择已配置的包含 cynosdbMysql 监控服务的腾讯云监控数据源。
+  3. 配置项的内容对齐腾讯云监控cynosdbMysql监控接口的输入参数，可参考 [云数据库 CYNOSDB(CYNOSDB_MYSQL)云监控接口文档](https://cloud.tencent.com/document/product/248/45106)，更好地理解各配置项。
+    - `Namespace` 命名空间，比如 `QCE/CYNOSDB_MYSQL`。
+    - `Region` 地域，地域列表会根据 `Namespace` 选项自动获取，单击选择某一地域。
+    - `MetricName` 指标名称，指标列表会根据 `Namespace` 和 `Region` 选项自动获取，单击选择某一指标。
+    - `Period` 监控统计周期，周期列表会根据 `MetricName` 选项自动获取，单击选择某一统计周期。
+    - `Instance` 实例，对应输入参数的 `Instances.N` 字段，实例列表会自动获取。
+      - 为了适应不同用户的习惯，实例列表会以不同的字段展示，默认为 `As InstanceId`，以 **实例ID** 展示实例列表。此外，可以选择 `As InstanceName` 实例名称。
+      - 实例列表的获取可参考 [云数据库 CYNOSDB(CYNOSDB_MYSQL)列表接口文档](https://cloud.tencent.com/product/cynosdb)。切换 `Show Details` 为 `true`，可展示实例请求参数，默认参数为`Offset = 0` 和 `Limit = 20`。如果需要变更实例查询条件，可参考接口文档，配置相应参数。
+      - **注意：** 在本应用中，监控数据的单次查询为原子操作，即查询某一实例的某一指标的监控数据，故实例只能单选，如需查询多实例的监控数据，点击右上角的 `Add Query` 增加新的查询。  
+      - `Show Details` 按钮仅在选择非模板变量时显示。
+
+  ![cynosdbMysql Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-cynosdbMysql-query@v2.png)
+    
+
+## <a id="tcaplusdb-monitoring"></a> 云数据库 TcaplusDB
+
+1. 点击 **New Panel** 面板的 **Add Query** 选项，进入 Panel 配置页面。在左侧第一个 `Query` 选项卡，通过配置选项获取腾讯云云数据库 TcaplusDB(TCAPLUS)的监控数据。
+2. `Queries to` 数据源列表，选择已配置的包含 tcaplus 监控服务的腾讯云监控数据源。
+3. 配置项的内容对齐腾讯云监控tcaplus监控接口的输入参数，可参考 [云数据库 TcaplusDB(TCAPLUS)云监控接口文档](https://cloud.tencent.com/document/product/248/45107)，更好地理解各配置项。
+  - `Namespace` 命名空间，比如 `QCE/TCAPLUS`。
+  - `Region` 地域，地域列表会根据 `Namespace` 选项自动获取，单击选择某一地域。
+  - `MetricName` 指标名称，指标列表会根据 `Namespace` 和 `Region` 选项自动获取，单击选择某一指标。
+  - `Period` 监控统计周期，周期列表会根据 `MetricName` 选项自动获取，单击选择某一统计周期。
+  - `Instance` 实例，对应输入参数的 `Instances.N` 字段，实例列表会自动获取。
+    - 为了适应不同用户的习惯，实例列表会以不同的字段展示，默认为 `As InstanceId`，以 **实例ID** 展示实例列表。此外，可以选择 `As InstanceName` 实例名称。
+    - 实例列表的获取可参考 [云数据库 TcaplusDB(TCAPLUS)列表接口文档](https://cloud.tencent.com/document/api/1003/48334)。切换 `Show Details` 为 `true`，可展示实例请求参数，默认参数为`Offset = 0` 和 `Limit = 20`。如果需要变更实例查询条件，可参考接口文档，配置相应参数。
+    - **注意：** 在本应用中，监控数据的单次查询为原子操作，即查询某一实例的某一指标的监控数据，故实例只能单选，如需查询多实例的监控数据，点击右上角的 `Add Query` 增加新的查询。  
+    - `Show Details` 按钮仅在选择非模板变量时显示。
+
+![tcaplus Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-tcaplus-query@v2.png)
+
+## <a id="sqlserver-monitoring"></a> 云数据库 SQL Server
+
+1. 点击 **New Panel** 面板的 **Add Query** 选项，进入 Panel 配置页面。在左侧第一个 `Query` 选项卡，通过配置选项获取腾讯云云数据库sqlserver(SQLSERVER)的监控数据。
+2. `Queries to` 数据源列表，选择已配置的包含 sqlserver 监控服务的腾讯云监控数据源。
+3. 配置项的内容对齐腾讯云监控sqlserver监控接口的输入参数，可参考 [云数据库sqlserver(SQLSERVER)云监控接口文档](https://cloud.tencent.com/document/product/248/45146)，更好地理解各配置项。
+  - `Namespace` 命名空间，比如 `QCE/SQLSERVER`。
+  - `Region` 地域，地域列表会根据 `Namespace` 选项自动获取，单击选择某一地域。
+  - `MetricName` 指标名称，指标列表会根据 `Namespace` 和 `Region` 选项自动获取，单击选择某一指标。
+  - `Period` 监控统计周期，周期列表会根据 `MetricName` 选项自动获取，单击选择某一统计周期。
+  - `Instance` 实例，对应输入参数的 `Instances.N` 字段，实例列表会自动获取。
+    - 为了适应不同用户的习惯，实例列表会以不同的字段展示，默认为 `As InstanceId`，以 **实例ID** 展示实例列表。此外，可以选择 `As Name` 实例名称。
+    - 实例列表的获取可参考 [云数据库sqlserver(SQLSERVER)列表接口文档](https://cloud.tencent.com/document/api/238/19969)。切换 `Show Details` 为 `true`，可展示实例请求参数，默认参数为`Offset = 0` 和 `Limit = 20`。如果需要变更实例查询条件，可参考接口文档，配置相应参数。
+    - **注意：** 在本应用中，监控数据的单次查询为原子操作，即查询某一实例的某一指标的监控数据，故实例只能单选，如需查询多实例的监控数据，点击右上角的 `Add Query` 增加新的查询。  
+    - `Show Details` 按钮仅在选择非模板变量时显示。
+
+![sqlserver Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-sqlserver-query@v2.png)
 
 ## <a id="content-delivery-network-cdn"></a> CDN 内容分发式网络
 
@@ -331,7 +366,7 @@ $ wget -qO- https://raw.githubusercontent.com/TencentCloud/tencentcloud-monitor-
       - **注意：** 在本应用中，监控数据的单次查询为原子操作，即查询某一实例的某一指标的监控数据，故实例只能单选，如需查询多实例的监控数据，点击右上角的 `Add Query` 增加新的查询。  
       - `Show Details` 按钮仅在选择非模板变量时显示。
 
-![BWP Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-bwp-query.png)
+![BWP Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-bwp-query@v2.png)
 
 ## <a id="message-queue-ckafka"></a> CKAFKA 消息队列
 
@@ -348,7 +383,28 @@ $ wget -qO- https://raw.githubusercontent.com/TencentCloud/tencentcloud-monitor-
       - **注意：** 在本应用中，监控数据的单次查询为原子操作，即查询某一实例的某一指标的监控数据，故实例只能单选，如需查询多实例的监控数据，点击右上角的 `Add Query` 增加新的查询。  
       - `Show Details` 按钮仅在选择非模板变量时显示。
 
-![ckafka Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-ckafka-query.png)
+![ckafka Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-ckafka-query@v2.png)
+
+## <a id="clb-monitoring"></a> CLB 负载均衡
+
+1. 点击 **New Panel** 面板的 **Add Query** 选项，进入 Panel 配置页面。在左侧第一个 `Query` 选项卡，通过配置选项获取腾讯云 负载均衡的监控数据。
+2. `Queries to` 数据源列表，选择已配置的包含 CLB 监控服务的腾讯云监控数据源。
+3. 负载均衡指标分三个命名空间：公网负载均衡监控指标（Namespace=QCE/LB_PUBLIC），内网负载均衡四层协议监控指标（Namespace=QCE/LB_PRIVATE）， 七层协议监控指标（Namespace=QCE/LOADBALANCE），可根据自己需要在`Namespace`选择。
+4. 配置项的内容对齐腾讯云服务器监控接口的输入参数，可参考 [负载均衡云监控接口文档](https://cloud.tencent.com/document/product/248/51898)，更好地理解各配置项。
+    - `Namespace` 命名空间，比如 `QCE/LB_PUBLIC`。
+    - `Region` 地域，地域列表会根据 `Namespace` 选项自动获取，单击选择某一地域。
+    - `MetricName` 指标名称，指标列表会根据 `Namespace` 和 `Region` 选项自动获取，单击选择某一指标。
+    - `Period` 监控统计周期，周期列表会根据 `MetricName` 选项自动获取，单击选择某一统计周期。
+    - `Instance` 实例，对应输入参数的 `Instances.N` 字段，实例列表会自动获取。
+      - 为了适应不同用户的习惯，实例列表会以不同的字段展示，默认为 `As LoadBalancerId`，以 **实例ID** 展示实例列表。此外，可以选择 `As LoadBalancerName` 实例名称、`As LoadBalancerVips` 网络ip。
+      - 实例列表的获取可参考 [负载均衡实例列表接口文档](https://cloud.tencent.com/document/api/214/30685)。切换 `Show Details` 为 `true`，可展示实例请求参数，默认参数为`Offset = 0` 和 `Limit = 20`。如果需要变更实例查询条件，可参考接口文档，配置相应参数。
+      - **注意：** 在本应用中，监控数据的单次查询为原子操作，即查询某一实例的某一指标的监控数据，故实例只能单选，如需查询多实例的监控数据，点击右上角的 `Add Query` 增加新的查询。  
+      - `Show Details` 按钮仅在选择非模板变量时显示。
+    - `Listener` 【可选】监听器，可不选择，这时采用实例维度请求，对应输入参数的 `Listener.N` 字段，列表会自动获取。
+      - 为了适应不同用户的习惯，监听器列表会以不同的字段展示，默认为 `As ListenerId`，以 **监听器ID** 展示实例列表。此外，可以选择 `As ListenerName` 监听器名称、`As Port` 端口。
+      - 监听器列表的获取可参考 [负载均衡监听器列表接口文档](https://cloud.tencent.com/document/api/214/30686)。
+
+![Clb Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-clb-query@v2.png)
 
 ## <a id="elastic-ip"></a> LB 弹性公网IP
 
@@ -365,7 +421,7 @@ $ wget -qO- https://raw.githubusercontent.com/TencentCloud/tencentcloud-monitor-
       - **注意：** 在本应用中，监控数据的单次查询为原子操作，即查询某一实例的某一指标的监控数据，故实例只能单选，如需查询多实例的监控数据，点击右上角的 `Add Query` 增加新的查询。  
       - `Show Details` 按钮仅在选择非模板变量时显示。
 
-![eip Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-eip-query.png)
+![eip Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-eip-query@v2.png)
 
 ## <a id="cloud-file-storage-cfs"></a> CFS 文件存储
 
@@ -382,7 +438,7 @@ $ wget -qO- https://raw.githubusercontent.com/TencentCloud/tencentcloud-monitor-
       - **注意：** 在本应用中，监控数据的单次查询为原子操作，即查询某一实例的某一指标的监控数据，故实例只能单选，如需查询多实例的监控数据，点击右上角的 `Add Query` 增加新的查询。  
       - `Show Details` 按钮仅在选择非模板变量时显示。
 
-![cfs Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-cfs-query.png)
+![cfs Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-cfs-query@v2.png)
 
 ## <a id="serverless-cloud-function-scf"></a> SCF 云函数
 
@@ -399,7 +455,186 @@ $ wget -qO- https://raw.githubusercontent.com/TencentCloud/tencentcloud-monitor-
       - **注意：** 在本应用中，监控数据的单次查询为原子操作，即查询某一实例的某一指标的监控数据，故实例只能单选，如需查询多实例的监控数据，点击右上角的 `Add Query` 增加新的查询。  
       - `Show Details` 按钮仅在选择非模板变量时显示。
 
-![scf Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-scf-query.png)
+![scf Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-scf-query@v2.png)
+
+## <a id="dedicated-tunnel-monitoring-dcx"></a> DCX 专线接入-专用通道
+
+1. 点击 **New Panel** 面板的 **Add Query** 选项，进入 Panel 配置页面。在左侧第一个 `Query` 选项卡，通过配置选项获取腾讯云专线接入-专用通道(DCX)的监控数据。
+2. `Queries to` 数据源列表，选择已配置的包含 dcx 监控服务的腾讯云监控数据源。
+3. 配置项的内容对齐腾讯云监控dcx监控接口的输入参数，可参考 [专线接入-专用通道(DCX)云监控接口文档](https://cloud.tencent.com/document/product/248/45101)，更好地理解各配置项。
+ - `Namespace` 命名空间，比如 `QCE/DCX`。
+ - `Region` 地域，地域列表会根据 `Namespace` 选项自动获取，单击选择某一地域。
+ - `MetricName` 指标名称，指标列表会根据 `Namespace` 和 `Region` 选项自动获取，单击选择某一指标。
+ - `Period` 监控统计周期，周期列表会根据 `MetricName` 选项自动获取，单击选择某一统计周期。
+ - `Instance` 实例，对应输入参数的 `Instances.N` 字段，实例列表会自动获取。
+   - 为了适应不同用户的习惯，实例列表会以不同的字段展示，默认为 `As DirectConnectTunnelId`，以 **通道ID** 展示实例列表。此外，可以选择 `As DirectConnectTunnelName` 通道名称。
+   - 实例列表的获取可参考 [专线接入-专用通道(DCX)列表接口文档](https://cloud.tencent.com/document/api/216/19819)。切换 `Show Details` 为 `true`，可展示实例请求参数，默认参数为`Offset = 0` 和 `Limit = 20`。如果需要变更实例查询条件，可参考接口文档，配置相应参数。
+   - **注意：** 在本应用中，监控数据的单次查询为原子操作，即查询某一实例的某一指标的监控数据，故实例只能单选，如需查询多实例的监控数据，点击右上角的 `Add Query` 增加新的查询。  
+   - `Show Details` 按钮仅在选择非模板变量时显示。
+
+![dcx Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-dcx-query@v2.png)
+    
+
+## <a id="direct-connection"></a> DC 专线接入-物理专线
+
+1. 点击 **New Panel** 面板的 **Add Query** 选项，进入 Panel 配置页面。在左侧第一个 `Query` 选项卡，通过配置选项获取腾讯云专线接入-物理专线(DC)的监控数据。
+2. `Queries to` 数据源列表，选择已配置的包含 dc 监控服务的腾讯云监控数据源。
+3. 配置项的内容对齐腾讯云监控dc监控接口的输入参数，可参考 [专线接入-物理专线(DC)云监控接口文档](https://cloud.tencent.com/document/product/248/45102)，更好地理解各配置项。
+  - `Namespace` 命名空间，比如 `QCE/DC`。
+  - `Region` 地域，地域列表会根据 `Namespace` 选项自动获取，单击选择某一地域。
+  - `MetricName` 指标名称，指标列表会根据 `Namespace` 和 `Region` 选项自动获取，单击选择某一指标。
+  - `Period` 监控统计周期，周期列表会根据 `MetricName` 选项自动获取，单击选择某一统计周期。
+  - `Instance` 实例，对应输入参数的 `Instances.N` 字段，实例列表会自动获取。
+    - 为了适应不同用户的习惯，实例列表会以不同的字段展示，默认为 `As DirectConnectId`，以 **专线ID** 展示实例列表。此外，可以选择 `As DirectConnectName` 专线名称。
+    - 实例列表的获取可参考 [专线接入-物理专线(DC)列表接口文档](https://cloud.tencent.com/document/api/216/34826)。切换 `Show Details` 为 `true`，可展示实例请求参数，默认参数为`Offset = 0` 和 `Limit = 20`。如果需要变更实例查询条件，可参考接口文档，配置相应参数。
+    - **注意：** 在本应用中，监控数据的单次查询为原子操作，即查询某一实例的某一指标的监控数据，故实例只能单选，如需查询多实例的监控数据，点击右上角的 `Add Query` 增加新的查询。  
+    - `Show Details` 按钮仅在选择非模板变量时显示。
+
+![dc Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-dc-query@v2.png)
+
+## <a id="vpn-gateway"></a> VPNGW 私有网络-VPN 网关
+
+1. 点击 **New Panel** 面板的 **Add Query** 选项，进入 Panel 配置页面。在左侧第一个 `Query` 选项卡，通过配置选项获取腾讯云私有网络-VPN 网关(VPNGW)的监控数据。
+2. `Queries to` 数据源列表，选择已配置的包含 vpngw 监控服务的腾讯云监控数据源。
+3. 配置项的内容对齐腾讯云监控vpngw监控接口的输入参数，可参考 [私有网络-VPN 网关(VPNGW)云监控接口文档](https://cloud.tencent.com/document/product/248/45070)，更好地理解各配置项。
+  - `Namespace` 命名空间，比如 `QCE/VPNGW`。
+  - `Region` 地域，地域列表会根据 `Namespace` 选项自动获取，单击选择某一地域。
+  - `MetricName` 指标名称，指标列表会根据 `Namespace` 和 `Region` 选项自动获取，单击选择某一指标。
+  - `Period` 监控统计周期，周期列表会根据 `MetricName` 选项自动获取，单击选择某一统计周期。
+  - `Instance` 实例，对应输入参数的 `Instances.N` 字段，实例列表会自动获取。
+    - 为了适应不同用户的习惯，实例列表会以不同的字段展示，默认为 `As VpnGatewayId`，以 **VPN网关ID** 展示实例列表。此外，可以选择 `As VpnGatewayName` VPN网关名称。
+    - 实例列表的获取可参考 [私有网络-VPN 网关(VPNGW)列表接口文档](https://cloud.tencent.com/document/api/215/17514)。切换 `Show Details` 为 `true`，可展示实例请求参数，默认参数为`Offset = 0` 和 `Limit = 20`。如果需要变更实例查询条件，可参考接口文档，配置相应参数。
+    - **注意：** 在本应用中，监控数据的单次查询为原子操作，即查询某一实例的某一指标的监控数据，故实例只能单选，如需查询多实例的监控数据，点击右上角的 `Add Query` 增加新的查询。  
+    - `Show Details` 按钮仅在选择非模板变量时显示。
+
+![vpngw Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-vpngw-query@v2.png)
+    
+
+## <a id="direct-connect-gateway"></a> DCG 私有网络-专线网关
+
+1. 点击 **New Panel** 面板的 **Add Query** 选项，进入 Panel 配置页面。在左侧第一个 `Query` 选项卡，通过配置选项获取腾讯云私有网络-专线网关(DCG)的监控数据。
+2. `Queries to` 数据源列表，选择已配置的包含 dcg 监控服务的腾讯云监控数据源。
+3. 配置项的内容对齐腾讯云监控dcg监控接口的输入参数，可参考 [私有网络-专线网关(DCG)云监控接口文档](https://cloud.tencent.com/document/product/248/45072)，更好地理解各配置项。
+  - `Namespace` 命名空间，比如 `QCE/DCG`。
+  - `Region` 地域，地域列表会根据 `Namespace` 选项自动获取，单击选择某一地域。
+  - `MetricName` 指标名称，指标列表会根据 `Namespace` 和 `Region` 选项自动获取，单击选择某一指标。
+  - `Period` 监控统计周期，周期列表会根据 `MetricName` 选项自动获取，单击选择某一统计周期。
+  - `Instance` 实例，对应输入参数的 `Instances.N` 字段，实例列表会自动获取。
+    - 为了适应不同用户的习惯，实例列表会以不同的字段展示，默认为 `As DirectConnectGatewayId`，以 **专线网关ID** 展示实例列表。此外，可以选择 `As DirectConnectGatewayName` 专线网关名称。
+    - 实例列表的获取可参考 [私有网络-专线网关(DCG)列表接口文档](https://cloud.tencent.com/document/api/215/30644)。切换 `Show Details` 为 `true`，可展示实例请求参数，默认参数为`Offset = 0` 和 `Limit = 20`。如果需要变更实例查询条件，可参考接口文档，配置相应参数。
+    - **注意：** 在本应用中，监控数据的单次查询为原子操作，即查询某一实例的某一指标的监控数据，故实例只能单选，如需查询多实例的监控数据，点击右上角的 `Add Query` 增加新的查询。  
+    - `Show Details` 按钮仅在选择非模板变量时显示。
+
+![dcg Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-dcg-query@v2.png)
+    
+
+## <a id="cdn-province"></a> CDNPROVINCE 省份域名
+
+1. 点击 **New Panel** 面板的 **Add Query** 选项，进入 Panel 配置页面。在左侧第一个 `Query` 选项卡，通过配置选项获取腾讯云省份域名(CDN_LOG_DATA)的监控数据。
+2. `Queries to` 数据源列表，选择已配置的包含 cdnProvince 监控服务的腾讯云监控数据源。
+3. 配置项的内容对齐腾讯云监控cdnProvince监控接口的输入参数，可参考 [省份域名(CDN_LOG_DATA)云监控接口文档](https://cloud.tencent.com/document/product/248/50388)，更好地理解各配置项。
+    - `Namespace` 命名空间，比如 `QCE/CDN_LOG_DATA`。
+    - `Region` 地域，地域列表会根据 `Namespace` 选项自动获取，单击选择某一地域。
+    - `MetricName` 指标名称，指标列表会根据 `Namespace` 和 `Region` 选项自动获取，单击选择某一指标。
+    - `Period` 监控统计周期，周期列表会根据 `MetricName` 选项自动获取，单击选择某一统计周期。
+    - `Instance` 实例，对应输入参数的 `Instances.N` 字段，实例列表会自动获取。
+      - 为了适应不同用户的习惯，实例列表会以不同的字段展示，默认为 `As Domain`，以 **** 展示实例列表。此外，可以选择 `As ProjectId` 。
+      - 实例列表的获取可参考 [省份域名(CDN_LOG_DATA)列表接口文档](https://cloud.tencent.com/document/api/228/41118)。切换 `Show Details` 为 `true`，可展示实例请求参数，默认参数为`Offset = 0` 和 `Limit = 20`。如果需要变更实例查询条件，可参考接口文档，配置相应参数。
+      - **注意：** 在本应用中，监控数据的单次查询为原子操作，即查询某一实例的某一指标的监控数据，故实例只能单选，如需查询多实例的监控数据，点击右上角的 `Add Query` 增加新的查询。  
+      - `Show Details` 按钮仅在选择非模板变量时显示。
+    - `Isp` 运营商列表。
+    - `Province` 可选省份列表。
+![cdnProvince Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-cdnProvince-query@v2.png)
+    
+
+## <a id="api-gateway"></a> APIGATEWAY API 网关
+
+1. 点击 **New Panel** 面板的 **Add Query** 选项，进入 Panel 配置页面。在左侧第一个 `Query` 选项卡，通过配置选项获取腾讯云API 网关(APIGATEWAY)的监控数据。
+2. `Queries to` 数据源列表，选择已配置的包含 apigateway 监控服务的腾讯云监控数据源。
+3. 配置项的内容对齐腾讯云监控apigateway监控接口的输入参数，可参考 [API 网关(APIGATEWAY)云监控接口文档](https://cloud.tencent.com/document/product/248/45127)，更好地理解各配置项。
+    - `Namespace` 命名空间，比如 `QCE/APIGATEWAY`。
+    - `Region` 地域，地域列表会根据 `Namespace` 选项自动获取，单击选择某一地域。
+    - `MetricName` 指标名称，指标列表会根据 `Namespace` 和 `Region` 选项自动获取，单击选择某一指标。
+    - `Period` 监控统计周期，周期列表会根据 `MetricName` 选项自动获取，单击选择某一统计周期。
+    - `Instance` 实例，对应输入参数的 `Instances.N` 字段，实例列表会自动获取。
+      - 为了适应不同用户的习惯，实例列表会以不同的字段展示，默认为 `As ServiceId`，以 **** 展示实例列表。此外，可以选择 `As ServiceName` 。
+      - 实例列表的获取可参考 [API 网关(APIGATEWAY)列表接口文档](https://cloud.tencent.com/document/api/628/45198)。切换 `Show Details` 为 `true`，可展示实例请求参数，默认参数为`Offset = 0` 和 `Limit = 20`。如果需要变更实例查询条件，可参考接口文档，配置相应参数。
+      - **注意：** 在本应用中，监控数据的单次查询为原子操作，即查询某一实例的某一指标的监控数据，故实例只能单选，如需查询多实例的监控数据，点击右上角的 `Add Query` 增加新的查询。  
+      - `Show Details` 按钮仅在选择非模板变量时显示。
+    - `EnvironmentName` 环境名称，会根据上面Instance内容获取。
+![apigateway Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-apigateway-query@v2.png)
+    
+
+## <a id="cloud-block-storage"></a> CBS 云硬盘
+
+1. 点击 **New Panel** 面板的 **Add Query** 选项，进入 Panel 配置页面。在左侧第一个 `Query` 选项卡，通过配置选项获取腾讯云云硬盘(BLOCK_STORAGE)的监控数据。
+2. `Queries to` 数据源列表，选择已配置的包含 cbs 监控服务的腾讯云监控数据源。
+3. 配置项的内容对齐腾讯云监控cbs监控接口的输入参数，可参考 [云硬盘(BLOCK_STORAGE)云监控接口文档](https://cloud.tencent.com/document/product/248/45411)，更好地理解各配置项。
+  - `Namespace` 命名空间，比如 `QCE/BLOCK_STORAGE`。
+  - `Region` 地域，地域列表会根据 `Namespace` 选项自动获取，单击选择某一地域。
+  - `MetricName` 指标名称，指标列表会根据 `Namespace` 和 `Region` 选项自动获取，单击选择某一指标。
+  - `Period` 监控统计周期，周期列表会根据 `MetricName` 选项自动获取，单击选择某一统计周期。
+  - `Instance` 实例，对应输入参数的 `Instances.N` 字段，实例列表会自动获取。
+    - 为了适应不同用户的习惯，实例列表会以不同的字段展示，默认为 `As DiskId`，以 **云硬盘ID** 展示实例列表。此外，可以选择 `As DiskName` 云硬盘名称。
+    - 实例列表的获取可参考 [云硬盘(BLOCK_STORAGE)列表接口文档](https://cloud.tencent.com/document/api/362/16315)。切换 `Show Details` 为 `true`，可展示实例请求参数，默认参数为`Offset = 0` 和 `Limit = 20`。如果需要变更实例查询条件，可参考接口文档，配置相应参数。
+    - **注意：** 在本应用中，监控数据的单次查询为原子操作，即查询某一实例的某一指标的监控数据，故实例只能单选，如需查询多实例的监控数据，点击右上角的 `Add Query` 增加新的查询。  
+    - `Show Details` 按钮仅在选择非模板变量时显示。
+
+![cbs Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-cbs-query@v2.png)
+    
+
+## <a id="elasticsearch"></a> CES Elasticsearch指标
+
+1. 点击 **New Panel** 面板的 **Add Query** 选项，进入 Panel 配置页面。在左侧第一个 `Query` 选项卡，通过配置选项获取腾讯云Elasticsearch指标(CES)的监控数据。
+2. `Queries to` 数据源列表，选择已配置的包含 ces 监控服务的腾讯云监控数据源。
+3. 配置项的内容对齐腾讯云监控ces监控接口的输入参数，可参考 [Elasticsearch指标(CES)云监控接口文档](https://cloud.tencent.com/document/product/248/45129)，更好地理解各配置项。
+  - `Namespace` 命名空间，比如 `QCE/CES`。
+  - `Region` 地域，地域列表会根据 `Namespace` 选项自动获取，单击选择某一地域。
+  - `MetricName` 指标名称，指标列表会根据 `Namespace` 和 `Region` 选项自动获取，单击选择某一指标。
+  - `Period` 监控统计周期，周期列表会根据 `MetricName` 选项自动获取，单击选择某一统计周期。
+  - `Instance` 实例，对应输入参数的 `Instances.N` 字段，实例列表会自动获取。
+    - 为了适应不同用户的习惯，实例列表会以不同的字段展示，默认为 `As InstanceId`，以 **实例ID** 展示实例列表。此外，可以选择 `As InstanceName` 实例名称。
+    - 实例列表的获取可参考 [Elasticsearch指标(CES)列表接口文档](https://cloud.tencent.com/document/api/845/30631)。切换 `Show Details` 为 `true`，可展示实例请求参数，默认参数为`Offset = 0` 和 `Limit = 20`。如果需要变更实例查询条件，可参考接口文档，配置相应参数。
+    - **注意：** 在本应用中，监控数据的单次查询为原子操作，即查询某一实例的某一指标的监控数据，故实例只能单选，如需查询多实例的监控数据，点击右上角的 `Add Query` 增加新的查询。  
+    - `Show Details` 按钮仅在选择非模板变量时显示。
+
+![ces Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-ces-query@v2.png)
+    
+
+## <a id="cmq-queue-service"></a> CMQ 消息队列服务监控
+
+1. 点击 **New Panel** 面板的 **Add Query** 选项，进入 Panel 配置页面。在左侧第一个 `Query` 选项卡，通过配置选项获取腾讯云消息队列CMQ(队列服务监控CMQ)的监控数据。
+2. `Queries to` 数据源列表，选择已配置的包含 cmq 监控服务的腾讯云监控数据源。
+3. 配置项的内容对齐腾讯云监控cmq监控接口的输入参数，可参考 [消息队列CMQ(队列服务监控CMQ)云监控接口文档](https://cloud.tencent.com/document/product/248/45114)，更好地理解各配置项。
+  - `Namespace` 命名空间，比如 `QCE/CMQ`。
+  - `Region` 地域，地域列表会根据 `Namespace` 选项自动获取，单击选择某一地域。
+  - `MetricName` 指标名称，指标列表会根据 `Namespace` 和 `Region` 选项自动获取，单击选择某一指标。
+  - `Period` 监控统计周期，周期列表会根据 `MetricName` 选项自动获取，单击选择某一统计周期。
+  - `Instance` 实例，对应输入参数的 `Instances.N` 字段，实例列表会自动获取。
+    - 为了适应不同用户的习惯，实例列表会以不同的字段展示，默认为 `As QueueName`，以 **队列名称** 展示实例列表。此外，可以选择 `As QueueId` 队列ID。
+    - 实例列表的获取可参考 [消息队列CMQ(队列服务监控CMQ)列表接口文档](https://cloud.tencent.com/document/api/406/42624)。切换 `Show Details` 为 `true`，可展示实例请求参数，默认参数为`Offset = 0` 和 `Limit = 20`。如果需要变更实例查询条件，可参考接口文档，配置相应参数。
+    - **注意：** 在本应用中，监控数据的单次查询为原子操作，即查询某一实例的某一指标的监控数据，故实例只能单选，如需查询多实例的监控数据，点击右上角的 `Add Query` 增加新的查询。  
+    - `Show Details` 按钮仅在选择非模板变量时显示。
+
+![cmq Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-cmq-query@v2.png)
+    
+
+## <a id="cmq-topic-subscription"></a> CMQTOPIC 消息队列主题订阅监控
+
+1. 点击 **New Panel** 面板的 **Add Query** 选项，进入 Panel 配置页面。在左侧第一个 `Query` 选项卡，通过配置选项获取腾讯云消息队列CMQTOPIC(主题订阅监控)的监控数据。
+2. `Queries to` 数据源列表，选择已配置的包含 cmqTopic 监控服务的腾讯云监控数据源。
+3. 配置项的内容对齐腾讯云监控cmqTopic监控接口的输入参数，可参考 [消息队列CMQTOPIC(主题订阅监控)云监控接口文档](https://cloud.tencent.com/document/product/248/45113)，更好地理解各配置项。
+  - `Namespace` 命名空间，比如 `QCE/CMQTOPIC`。
+  - `Region` 地域，地域列表会根据 `Namespace` 选项自动获取，单击选择某一地域。
+  - `MetricName` 指标名称，指标列表会根据 `Namespace` 和 `Region` 选项自动获取，单击选择某一指标。
+  - `Period` 监控统计周期，周期列表会根据 `MetricName` 选项自动获取，单击选择某一统计周期。
+  - `Instance` 实例，对应输入参数的 `Instances.N` 字段，实例列表会自动获取。
+    - 为了适应不同用户的习惯，实例列表会以不同的字段展示，默认为 `As TopicName`，以 **主题名称** 展示实例列表。此外，可以选择 `As TopicId` 主题ID。
+    - 实例列表的获取可参考 [消息队列CMQTOPIC(主题订阅监控)列表接口文档](https://cloud.tencent.com/document/api/406/42637)。切换 `Show Details` 为 `true`，可展示实例请求参数，默认参数为`Offset = 0` 和 `Limit = 20`。如果需要变更实例查询条件，可参考接口文档，配置相应参数。
+    - **注意：** 在本应用中，监控数据的单次查询为原子操作，即查询某一实例的某一指标的监控数据，故实例只能单选，如需查询多实例的监控数据，点击右上角的 `Add Query` 增加新的查询。  
+    - `Show Details` 按钮仅在选择非模板变量时显示。
+
+![cmqTopic Panel Query](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/panel-cmqTopic-query@v2.png)
 
 # <a id="template-variables"></a> 模板变量
 
@@ -427,8 +662,21 @@ ckafka消息队列             | 参考 [CKAFKA实例查询实例列表接口文
 LB弹性公网IP               | 参考 [LB实例查询实例列表接口文档](https://cloud.tencent.com/document/api/215/16702)。`Namespace` 固定为`QCE/LB`，`Action` 固定为`DescribeInstances`。`Region` 为地域参数，可以为特定的地域值，如 `ap-beijing`；也可以为变量值，如 `$region`。`InstanceAlias` 为实例的展示字段，默认为 `AddressId`，可选值为 `AddressId`, `AddressName`, `AddressIp`。LB实例作为模板变量，同时支持单选和多选。 |   Namespace=QCE/LB&Region=$region&Action=DescribeInstances
 CFS文件存储                | 参考 [CFS实例查询实例列表接口文档](https://cloud.tencent.com/document/api/582/38170)。`Namespace` 固定为`QCE/CFS`，`Action` 固定为`DescribeInstances`。`Region` 为地域参数，可以为特定的地域值，如 `ap-beijing`；也可以为变量值，如 `$region`。`InstanceAlias` 为实例的展示字段，默认为 `FileSystemId`，可选值为 `FileSystemId`, `FsName`。CFS实例作为模板变量，同时支持单选和多选。 |   Namespace=QCE/CFS&Region=$region&Action=DescribeInstances
 SCF云函数                  | 参考 [SCF实例查询实例列表接口文档](https://cloud.tencent.com/document/api/583/18582)。`Namespace` 固定为`QCE/SCF_V2`，`Action` 固定为`DescribeInstances`。`Region` 为地域参数，可以为特定的地域值，如 `ap-beijing`；也可以为变量值，如 `$region`。`InstanceAlias` 为实例的展示字段，默认为 `FunctionId`，可选值为 `FunctionId`, `FunctionName`。SCF实例作为模板变量，同时支持单选和多选。 |   Namespace=QCE/SCF_V2&Region=$region&Action=DescribeInstances
-
-
+DCX专线接入-专用通道(DCX)                  | 参考 [DCX实例查询实例列表接口文档](https://cloud.tencent.com/document/api/216/19819)。`Namespace` 固定为`QCE/DCX`，`Action` 固定为`DescribeInstances`。`Region` 为地域参数，可以为特定的地域值，如 `ap-beijing`；也可以为变量值，如 `$region`。`InstanceAlias` 为实例的展示字段，默认为 `DirectConnectTunnelId`，可选值为 `DirectConnectTunnelName`。DCX实例作为模板变量，同时支持单选和多选。 |   Namespace=QCE/DCX&Region=$region&Action=DescribeInstances
+DC专线接入-物理专线(DC)                  | 参考 [DC实例查询实例列表接口文档](https://cloud.tencent.com/document/api/216/34826)。`Namespace` 固定为`QCE/DC`，`Action` 固定为`DescribeInstances`。`Region` 为地域参数，可以为特定的地域值，如 `ap-beijing`；也可以为变量值，如 `$region`。`InstanceAlias` 为实例的展示字段，默认为 `DirectConnectId`，可选值为 `DirectConnectName`。DC实例作为模板变量，同时支持单选和多选。 |   Namespace=QCE/DC&Region=$region&Action=DescribeInstances
+CYNOSDBMYSQL云数据库 CYNOSDB(CYNOSDB_MYSQL)                  | 参考 [CYNOSDBMYSQL实例查询实例列表接口文档]()。`Namespace` 固定为`QCE/CYNOSDB_MYSQL`，`Action` 固定为`DescribeInstances`。`Region` 为地域参数，可以为特定的地域值，如 `ap-beijing`；也可以为变量值，如 `$region`。`InstanceAlias` 为实例的展示字段，默认为 `InstanceId`，可选值为 `InstanceName`。CYNOSDBMYSQL实例作为模板变量，同时支持单选和多选。 |   Namespace=QCE/CYNOSDB_MYSQL&Region=$region&Action=DescribeInstances
+TCAPLUS云数据库 TcaplusDB(TCAPLUS)                  | 参考 [TCAPLUS实例查询实例列表接口文档](https://cloud.tencent.com/document/api/1003/48334)。`Namespace` 固定为`QCE/TCAPLUS`，`Action` 固定为`DescribeInstances`。`Region` 为地域参数，可以为特定的地域值，如 `ap-beijing`；也可以为变量值，如 `$region`。`InstanceAlias` 为实例的展示字段，默认为 `InstanceId`，可选值为 `InstanceName`。TCAPLUS实例作为模板变量，同时支持单选和多选。 |   Namespace=QCE/TCAPLUS&Region=$region&Action=DescribeInstances
+SQLSERVER云数据库sqlserver(SQLSERVER)                  | 参考 [SQLSERVER实例查询实例列表接口文档](https://cloud.tencent.com/document/api/238/19969)。`Namespace` 固定为`QCE/SQLSERVER`，`Action` 固定为`DescribeInstances`。`Region` 为地域参数，可以为特定的地域值，如 `ap-beijing`；也可以为变量值，如 `$region`。`InstanceAlias` 为实例的展示字段，默认为 `InstanceId`，可选值为 `Name`。SQLSERVER实例作为模板变量，同时支持单选和多选。 |   Namespace=QCE/SQLSERVER&Region=$region&Action=DescribeInstances
+VPNGW私有网络-VPN 网关(VPNGW)                  | 参考 [VPNGW实例查询实例列表接口文档](https://cloud.tencent.com/document/api/215/17514)。`Namespace` 固定为`QCE/VPNGW`，`Action` 固定为`DescribeInstances`。`Region` 为地域参数，可以为特定的地域值，如 `ap-beijing`；也可以为变量值，如 `$region`。`InstanceAlias` 为实例的展示字段，默认为 `VpnGatewayId`，可选值为 `VpnGatewayName`。VPNGW实例作为模板变量，同时支持单选和多选。 |   Namespace=QCE/VPNGW&Region=$region&Action=DescribeInstances
+DCG私有网络-专线网关(DCG)                  | 参考 [DCG实例查询实例列表接口文档](https://cloud.tencent.com/document/api/215/30644)。`Namespace` 固定为`QCE/DCG`，`Action` 固定为`DescribeInstances`。`Region` 为地域参数，可以为特定的地域值，如 `ap-beijing`；也可以为变量值，如 `$region`。`InstanceAlias` 为实例的展示字段，默认为 `DirectConnectGatewayId`，可选值为 `DirectConnectGatewayName`。DCG实例作为模板变量，同时支持单选和多选。 |   Namespace=QCE/DCG&Region=$region&Action=DescribeInstances
+CDNPROVINCE省份域名(CDN_LOG_DATA)                  | 参考 [CDNPROVINCE实例查询实例列表接口文档](https://cloud.tencent.com/document/api/228/41118)。`Namespace` 固定为`QCE/CDN_LOG_DATA`，`Action` 固定为`DescribeInstances`。`Region` 为地域参数，可以为特定的地域值，如 `ap-beijing`；也可以为变量值，如 `$region`。`InstanceAlias` 为实例的展示字段，默认为 `Domain`，可选值为 `ProjectId`。 |   Namespace=QCE/CDN_LOG_DATA&Region=$region&Action=DescribeInstances
+CDNPROVINCE省份运营商(CDN_LOG_DATA)                  | 参考 [CDNPROVINCE的map信息列表接口文档](https://cloud.tencent.com/document/api/228/31296)。`Namespace` 固定为`QCE/CDN_LOG_DATA`，`Action` 固定为`DescribeMapInfo`。`Region` 为地域参数，可以为特定的地域值，如 `ap-beijing`；也可以为变量值，如 `$region`。`Instance` 为实例,可为变量值，如`$instance`。`Name`为接口必填参数，用于获取运营商或者省份列表，isp-运营商，district-省份。详见参考文档 |   Namespace=QCE/CDN_LOG_DATA&Region=$region&Action=DescribeInstances&Instance=$instance&Name=isp
+APIGATEWAYAPI 网关(APIGATEWAY)                  | 参考 [APIGATEWAY实例查询实例列表接口文档](https://cloud.tencent.com/document/api/628/45194)。`Namespace` 固定为`QCE/APIGATEWAY`，`Action` 固定为`DescribeInstances`。`Region` 为地域参数，可以为特定的地域值，如 `ap-beijing`；也可以为变量值，如 `$region`。`InstanceAlias` 为实例的展示字段，默认为 `ServiceId`，可选值为 `ServiceName`。 |   Namespace=QCE/APIGATEWAY&Region=$region&Action=DescribeInstances
+APIGATEWAYAPI 服务环境(APIGATEWAY)                  | 参考 [APIGATEWAY服务环境列表接口文档](https://cloud.tencent.com/document/api/628/45198)。`Namespace` 固定为`QCE/APIGATEWAY`，`Action` 固定为`DescribeServiceEnvironmentList`。`Region` 为地域参数，可以为特定的地域值，如 `ap-beijing`；也可以为变量值，如 `$region`。`Instance` 为实例，可以为特定的地域值；也可以为变量值，如 `$instance`。 |   Namespace=QCE/APIGATEWAY&Region=$region&Action=DescribeInstances&Instance=$instance
+CBS云硬盘(BLOCK_STORAGE)                  | 参考 [CBS实例查询实例列表接口文档](https://cloud.tencent.com/document/api/362/16315)。`Namespace` 固定为`QCE/BLOCK_STORAGE`，`Action` 固定为`DescribeInstances`。`Region` 为地域参数，可以为特定的地域值，如 `ap-beijing`；也可以为变量值，如 `$region`。`InstanceAlias` 为实例的展示字段，默认为 `DiskId`，可选值为 `DiskName`。CBS实例作为模板变量，同时支持单选和多选。 |   Namespace=QCE/BLOCK_STORAGE&Region=$region&Action=DescribeInstances
+CESElasticsearch指标(CES)                  | 参考 [CES实例查询实例列表接口文档](https://cloud.tencent.com/document/api/845/30631)。`Namespace` 固定为`QCE/CES`，`Action` 固定为`DescribeInstances`。`Region` 为地域参数，可以为特定的地域值，如 `ap-beijing`；也可以为变量值，如 `$region`。`InstanceAlias` 为实例的展示字段，默认为 `InstanceId`，可选值为 `InstanceName`。CES实例作为模板变量，同时支持单选和多选。 |   Namespace=QCE/CES&Region=$region&Action=DescribeInstances
+CMQ消息队列CMQ(队列服务监控CMQ)                  | 参考 [CMQ实例查询实例列表接口文档](https://cloud.tencent.com/document/api/406/42624)。`Namespace` 固定为`QCE/CMQ`，`Action` 固定为`DescribeInstances`。`Region` 为地域参数，可以为特定的地域值，如 `ap-beijing`；也可以为变量值，如 `$region`。`InstanceAlias` 为实例的展示字段，默认为 `QueueName`，可选值为 `QueueId`。CMQ实例作为模板变量，同时支持单选和多选。 |   Namespace=QCE/CMQ&Region=$region&Action=DescribeInstances
+CMQTOPIC消息队列CMQTOPIC(主题订阅监控)                  | 参考 [CMQTOPIC实例查询实例列表接口文档](https://cloud.tencent.com/document/api/406/42637)。`Namespace` 固定为`QCE/CMQTOPIC`，`Action` 固定为`DescribeInstances`。`Region` 为地域参数，可以为特定的地域值，如 `ap-beijing`；也可以为变量值，如 `$region`。`InstanceAlias` 为实例的展示字段，默认为 `TopicName`，可选值为 `TopicId`。CMQTOPIC实例作为模板变量，同时支持单选和多选。 |   Namespace=QCE/CMQTOPIC&Region=$region&Action=DescribeInstances
 
 ## <a id="create-template-variable"></a> 创建变量
 
@@ -474,7 +722,7 @@ $ npm install
 
 3. 启动开发环境：
 ```bash
-$ npm run analyze
+$ npm run watch
 ```
 
 ## <a id="docker-support-recommended"></a> Docker 支持 (推荐)
@@ -493,15 +741,9 @@ $ docker-compose up
 
 若在使用过程中遇到任何问题，您可以在此[创建 issue](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/issues/new/choose)，或者扫码添加 云监控插件@Grafana 使用交流QQ群，我们将竭诚为您服务！
 
-<table>
-  <tr>
-    <td>
-      QQ 群 (861359693)
-      <br>
-      <img src="https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/QQ-QRCode.png" width="150px;" alt=""/>
-    </td>
-  </tr>
-</table>
+| QQ 群 (861359693) |
+| ----------- |
+| ![861359693](https://cdn.jsdelivr.net/gh/TencentCloud/tencentcloud-monitor-grafana-app@master/src/image/QQ-QRCode@v2.png) |
 
 # <a id="contributors"></a> 贡献者 ✨
 
@@ -523,7 +765,7 @@ $ docker-compose up
     <td align="center"><a href="https://github.com/leonlysu"><img src="https://avatars.githubusercontent.com/u/73583724?v=4?s=70" width="70px;" alt=""/><br /><sub><b>leonlysu</b></sub></a><br /><a href="https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/commits?author=leonlysu" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/susiezhao"><img src="https://avatars.githubusercontent.com/u/13827192?v=4?s=70" width="70px;" alt=""/><br /><sub><b>susiezhao</b></sub></a><br /><a href="#" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/taoran34"><img src="https://avatars.githubusercontent.com/u/9361046?v=4?s=70" width="70px;" alt=""/><br /><sub><b>taoran34</b></sub></a><br /><a href="#" title="Code">💻</a></td>
-    <td align="center"><a href="https://github.com/Cloudlie"><img src="https://avatars.githubusercontent.com/u/7425309?v=4?s=70" width="70px;" alt=""/><br /><sub><b>Cloudlie</b></sub></a><br /><a href="https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/commits?author=Cloudlie" title="Code">💻</a><a href="https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/issues/32">🐛</a></td>
+    <td align="center"><a href="https://github.com/Cloudlie"><img src="https://avatars.githubusercontent.com/u/7425309?v=4?s=70" width="70px;" alt=""/><br /><sub><b>Cloudlie</b></sub></a><br /><a href="https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/commits?author=Cloudlie" title="Code">💻</a><a href="https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/issues/created_by/Cloudlie">🐛</a></td>
   </tr>
 </table>
 <!-- markdownlint-restore -->

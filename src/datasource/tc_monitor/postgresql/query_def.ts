@@ -1,4 +1,4 @@
-import * as _ from 'lodash';
+import _ from 'lodash';
 
 const PostgresFields = {
   'db-instance-id': [],
@@ -36,7 +36,7 @@ const POSTGRES_STATE = {
   queries: {
     Limit: 20,
     Offset: 0,
-    Filters: Object.assign({}, PostgresFields),
+    Filters: { ...PostgresFields },
   },
 };
 

@@ -23,7 +23,7 @@ export class CKAFKAQueryCtrl {
       $scope.CKAFKAQueryDescriptor = CKAFKAQueryDescriptor;
     };
 
-    $scope.getDropdown = field => {
+    $scope.getDropdown = (field) => {
       switch (field) {
         default:
           return [];
@@ -34,7 +34,7 @@ export class CKAFKAQueryCtrl {
     $scope.consumerGroupCacheMap = {};
 
     $scope.getExtraFields = () => {
-      return ExtraFields.filter(item => item.field in ($scope.dims ?? {}));
+      return ExtraFields.filter((item) => item.field in ($scope.dims ?? {}));
     };
 
     $scope.getInstanceId = () => {
@@ -51,7 +51,7 @@ export class CKAFKAQueryCtrl {
       return instance;
     };
 
-    $scope.onExtraFieldChange = field => {
+    $scope.onExtraFieldChange = (field) => {
       if (field === 'topicId') {
         const { topicId, instance } = $scope.target;
         if (!topicId || !instance) {
@@ -60,12 +60,7 @@ export class CKAFKAQueryCtrl {
         const InstanceId = $scope.getInstanceId();
         const data = $scope.consumerGroupCacheMap[InstanceId];
 
-        console.log(
-          '当前的TopicName，',
-          data.TopicList.find(topic => (topic.value = topicId)),
-        );
-
-        $scope.target.topicName = data.TopicList.find(topic => (topic.value = topicId))?.TopicName;
+        $scope.target.topicName = data.TopicList.find((topic) => topic.value === topicId)?.TopicName;
       }
       $scope.onRefresh();
     };
@@ -158,21 +153,18 @@ const template = `
 </div>
 
 <!-- 主题，消费分组，分区 -->
-<div ng-if="target.instance">
-  <div class="gf-form-inline" ng-repeat="extra in getExtraFields()">
-  <div class="gf-form">
-    <label class="gf-form-label query-keyword width-9">{{extra.label}}</label>
-    <div class="gf-form-select-wrapper gf-form-select-wrapper--caret-indent">
-      <gf-form-dropdown model="target[extra.field]" allow-custom="false" get-options="getExtraDropdown(target, extra.field)"
-        on-change="onExtraFieldChange(extra.field)" css-class="min-width-10">
-      </gf-form-dropdown>
+  <div ng-if="target.instance">
+    <div class="gf-form-inline" ng-repeat="extra in getExtraFields()">
+      <div class="gf-form">
+        <label class="gf-form-label query-keyword width-9">{{extra.label}}</label>
+        <div class="gf-form-select-wrapper gf-form-select-wrapper--caret-indent">
+          <gf-form-dropdown model="target[extra.field]" allow-custom="false" get-options="getExtraDropdown(target, extra.field)"
+            on-change="onExtraFieldChange(extra.field)" css-class="min-width-10">
+          </gf-form-dropdown>
+        </div>
+      </div>
     </div>
   </div>
-</div>
-
-
-
-</div>
 
   </div>
 `;

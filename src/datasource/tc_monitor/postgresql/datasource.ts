@@ -1,5 +1,5 @@
-import * as _ from 'lodash';
-import * as moment from 'moment';
+import _ from 'lodash';
+import moment from 'moment';
 import DatasourceInterface from '../../datasource';
 import { POSTGRESInstanceAliasList, PostgreInvalidDemensions, templateQueryIdMap } from './query_def';
 import {
@@ -48,19 +48,19 @@ export default class POSTGRESDatasource implements DatasourceInterface {
     const instancesQuery = query['action'].match(/^DescribeInstances/i) && !!query['region'];
     const region = this.getVariable(query['region']);
     if (instancesQuery && region) {
-      return this.getVariableInstances(region).then(result => {
+      return this.getVariableInstances(region).then((result) => {
         this.allInstanceMap = _.cloneDeep(result); // 混存全量实例map
         const instanceAlias =
           POSTGRESInstanceAliasList.indexOf(query[VARIABLE_ALIAS]) !== -1 ? query[VARIABLE_ALIAS] : 'DBInstanceId';
         const instances: any[] = [];
-        _.forEach(result, item => {
+        _.forEach(result, (item) => {
           const instanceAliasValue = _.get(item, instanceAlias);
           if (instanceAliasValue) {
             if (typeof instanceAliasValue === 'string') {
               item._InstanceAliasValue = instanceAliasValue;
               instances.push({ text: instanceAliasValue, value: item[templateQueryIdMap.instance] });
             } else if (_.isArray(instanceAliasValue)) {
-              _.forEach(instanceAliasValue, subItem => {
+              _.forEach(instanceAliasValue, (subItem) => {
                 item._InstanceAliasValue = subItem;
                 instances.push({ text: subItem, value: item[templateQueryIdMap.instance] });
               });
@@ -89,7 +89,7 @@ export default class POSTGRESDatasource implements DatasourceInterface {
    * ]
    */
   query(options: any) {
-    const queries = _.filter(options.targets, item => {
+    const queries = _.filter(options.targets, (item) => {
       // 过滤无效的查询 target
       return (
         item.postgres.hide !== true &&
@@ -98,7 +98,7 @@ export default class POSTGRESDatasource implements DatasourceInterface {
         !_.isEmpty(ReplaceVariable(this.templateSrv, options.scopedVars, item.postgres.region, false)) &&
         !_.isEmpty(ReplaceVariable(this.templateSrv, options.scopedVars, item.postgres.instance, true))
       );
-    }).map(target => {
+    }).map((target) => {
       // 实例 instances 可能为模板变量，需先判断
       let instances = target.postgres.instance;
       if (isVariable(instances)) {
@@ -106,12 +106,12 @@ export default class POSTGRESDatasource implements DatasourceInterface {
         if (!_.isArray(templateInsValues)) {
           templateInsValues = [templateInsValues];
         }
-        instances = _.map(templateInsValues, instanceId =>
-          _.find(this.allInstanceMap, o => o[templateQueryIdMap.instance] === instanceId),
+        instances = _.map(templateInsValues, (instanceId) =>
+          _.find(this.allInstanceMap, (o) => o[templateQueryIdMap.instance] === instanceId)
         );
       } else {
         if (_.isArray(instances)) {
-          instances = _.map(instances, instance => (_.isString(instance) ? JSON.parse(instance) : instance));
+          instances = _.map(instances, (instance) => (_.isString(instance) ? JSON.parse(instance) : instance));
         } else {
           instances = [_.isString(instances) ? JSON.parse(instances) : instances];
         }
@@ -121,7 +121,7 @@ export default class POSTGRESDatasource implements DatasourceInterface {
         StartTime: moment(options.range.from).format(),
         EndTime: moment(options.range.to).format(),
         Period: target.postgres.period || 300,
-        Instances: _.map(instances, instance => {
+        Instances: _.map(instances, (instance) => {
           const dimensionObject = target.postgres.dimensionObject;
           _.forEach(dimensionObject, (__, key) => {
             // TODO 兼容接口问题
@@ -150,10 +150,10 @@ export default class POSTGRESDatasource implements DatasourceInterface {
     }
 
     return Promise.all(queries)
-      .then(responses => {
+      .then((responses) => {
         return _.flatten(responses);
       })
-      .catch(error => {
+      .catch((error) => {
         return [];
       });
   }
@@ -178,10 +178,10 @@ export default class POSTGRESDatasource implements DatasourceInterface {
         data: params,
       },
       serviceInfo.service,
-      { action: 'GetMonitorData', region },
-    ).then(response => {
+      { action: 'GetMonitorData', region }
+    ).then((response) => {
       // TODO 兼容接口问题
-      instances = _.map(instances, instance => {
+      instances = _.map(instances, (instance) => {
         instance.resourceId = instance['DBInstanceId'];
         return instance;
       });
@@ -195,13 +195,13 @@ export default class POSTGRESDatasource implements DatasourceInterface {
         url: this.url + '/cvm',
       },
       'cvm',
-      { action: 'DescribeRegions' },
-    ).then(response => {
+      { action: 'DescribeRegions' }
+    ).then((response) => {
       return _.filter(
-        _.map(response.RegionSet || [], item => {
+        _.map(response.RegionSet || [], (item) => {
           return { text: item.RegionName, value: item.Region, RegionState: item.RegionState };
         }),
-        item => item.RegionState === 'AVAILABLE',
+        (item) => item.RegionState === 'AVAILABLE'
       );
     });
   }
@@ -220,9 +220,9 @@ export default class POSTGRESDatasource implements DatasourceInterface {
         },
       },
       serviceInfo.service,
-      { region, action: 'DescribeBaseMetrics' },
-    ).then(response => {
-      return _.filter(response.MetricSet || [], item => !(item.Namespace !== this.Namespace || !item.MetricName));
+      { region, action: 'DescribeBaseMetrics' }
+    ).then((response) => {
+      return _.filter(response.MetricSet || [], (item) => !(item.Namespace !== this.Namespace || !item.MetricName));
     });
   }
 
@@ -232,7 +232,7 @@ export default class POSTGRESDatasource implements DatasourceInterface {
    * @param params 其他实例查询参数，详情参考 https://cloud.tencent.com/document/api/236/15872
    */
   getInstances(region, params = {}) {
-    params = Object.assign({ Offset: 0, Limit: 100 }, params);
+    params = { Offset: 0, Limit: 100, ...params };
     const serviceInfo = GetServiceAPIInfo(region, 'postgres');
     return this.doRequest(
       {
@@ -240,12 +240,12 @@ export default class POSTGRESDatasource implements DatasourceInterface {
         data: params,
       },
       serviceInfo.service,
-      { region, action: 'DescribeDBInstances' },
-    ).then(response => {
-      return _.map(response.DBInstanceSet || [], item => {
+      { region, action: 'DescribeDBInstances' }
+    ).then((response) => {
+      return _.map(response.DBInstanceSet || [], (item) => {
         const privateIpAddress = _.get(
           _.filter(_.get(item, 'DBInstanceNetInfo', []), ['NetType', 'private']),
-          '[0].Ip',
+          '[0].Ip'
         );
         const publicIpAddress = _.get(_.filter(_.get(item, 'DBInstanceNetInfo', []), ['NetType', 'public']), '[0].Ip');
         item.PrivateIpAddresses = privateIpAddress;
@@ -269,12 +269,12 @@ export default class POSTGRESDatasource implements DatasourceInterface {
         data: params,
       },
       serviceInfo.service,
-      { region, action: 'DescribeDBInstances' },
-    ).then(response => {
-      result = _.map(response.DBInstanceSet || [], item => {
+      { region, action: 'DescribeDBInstances' }
+    ).then((response) => {
+      result = _.map(response.DBInstanceSet || [], (item) => {
         const privateIpAddress = _.get(
           _.filter(_.get(item, 'DBInstanceNetInfo', []), ['NetType', 'private']),
-          '[0].Ip',
+          '[0].Ip'
         );
         const publicIpAddress = _.get(_.filter(_.get(item, 'DBInstanceNetInfo', []), ['NetType', 'public']), '[0].Ip');
         item.PrivateIpAddresses = privateIpAddress;
@@ -287,17 +287,17 @@ export default class POSTGRESDatasource implements DatasourceInterface {
       } else {
         const param = SliceLength(total, 100);
         const promises: any[] = [];
-        _.forEach(param, item => {
+        _.forEach(param, (item) => {
           promises.push(this.getInstances(region, item));
         });
         return Promise.all(promises)
-          .then(responses => {
-            _.forEach(responses, item => {
+          .then((responses) => {
+            _.forEach(responses, (item) => {
               result = _.concat(result, item);
             });
             return result;
           })
-          .catch(error => {
+          .catch((error) => {
             return result;
           });
       }
@@ -325,7 +325,7 @@ export default class POSTGRESDatasource implements DatasourceInterface {
           url: this.url + '/cvm',
         },
         'cvm',
-        { action: 'DescribeRegions' },
+        { action: 'DescribeRegions' }
       ),
       this.doRequest(
         {
@@ -335,7 +335,7 @@ export default class POSTGRESDatasource implements DatasourceInterface {
           },
         },
         'monitor',
-        { region: 'ap-guangzhou', action: 'DescribeBaseMetrics' },
+        { region: 'ap-guangzhou', action: 'DescribeBaseMetrics' }
       ),
       this.doRequest(
         {
@@ -346,10 +346,10 @@ export default class POSTGRESDatasource implements DatasourceInterface {
           },
         },
         'postgres',
-        { region: 'ap-guangzhou', action: 'DescribeDBInstances' },
+        { region: 'ap-guangzhou', action: 'DescribeDBInstances' }
       ),
     ])
-      .then(responses => {
+      .then((responses) => {
         const cvmErr = _.get(responses, '[0].Error', {});
         const monitorErr = _.get(responses, '[1].Error', {});
         const postgresErr = _.get(responses, '[2].Error', {});
@@ -383,7 +383,7 @@ export default class POSTGRESDatasource implements DatasourceInterface {
           };
         }
       })
-      .catch(error => {
+      .catch((error) => {
         let message = 'POSTGRESQL service:';
         message += error.statusText ? error.statusText + '; ' : '';
         if (_.get(error, 'data.error.code', '')) {
@@ -407,10 +407,10 @@ export default class POSTGRESDatasource implements DatasourceInterface {
     options = GetRequestParams(options, service, signObj, this.secretId, this.secretKey);
     return this.backendSrv
       .datasourceRequest(options)
-      .then(response => {
+      .then((response) => {
         return _.get(response, 'data.Response', {});
       })
-      .catch(error => {
+      .catch((error) => {
         throw error;
       });
   }

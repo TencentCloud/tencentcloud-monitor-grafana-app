@@ -1,15 +1,15 @@
-import * as _ from 'lodash';
+import _ from 'lodash';
 const CDNFilterFields = {
   origin: [],
   domain: [],
   resourceId: [],
-  status: [],
-  serviceType: [],
+  status: {},
+  serviceType: {},
   projectId: [],
-  domainType: [],
-  fullUrlCache: [],
-  https: [],
-  originPullProtocol: [],
+  domainType: {},
+  fullUrlCache: {},
+  https: {},
+  originPullProtocol: {},
   tagKey: [],
 };
 
@@ -122,7 +122,7 @@ const CDNFilterFieldsDescriptor = [
 ];
 
 const CDN_STATE = {
-  region: '',
+  region: 'ap-guangzhou',
   metricName: '',
   metricUnit: '',
   period: undefined,
@@ -132,7 +132,7 @@ const CDN_STATE = {
   queries: {
     Limit: 20,
     Offset: 0,
-    Filters: Object.assign({}, CDNFilterFields),
+    Filters: { ...CDNFilterFields },
   },
 };
 

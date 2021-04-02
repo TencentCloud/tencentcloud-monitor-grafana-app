@@ -16,3 +16,6 @@ coverage/
 
 # lock files
 package-lock.json
+
+# cache
+.eslintcache

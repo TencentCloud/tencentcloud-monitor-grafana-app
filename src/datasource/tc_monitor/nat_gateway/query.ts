@@ -15,7 +15,7 @@ export class NatGatewayQueryCtrl {
       $scope.onChange();
     };
 
-    $scope.getDropdown = field => {
+    $scope.getDropdown = (field) => {
       switch (field) {
         default:
           return [];

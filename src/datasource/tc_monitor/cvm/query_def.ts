@@ -1,4 +1,4 @@
-import * as _ from 'lodash';
+import _ from 'lodash';
 const instanceChargeTypes = [
   { text: '预付费', value: 'PREPAID' },
   { text: '后付费', value: 'POSTPAID_BY_HOUR' },
@@ -114,7 +114,7 @@ const CVM_STATE = {
     instanceIdsChecked: false,
     filtersChecked: false,
     InstanceIds: [''],
-    Filters: Object.assign({}, CVMFilterFields),
+    Filters: { ...CVMFilterFields },
   },
 };
 
@@ -199,7 +199,7 @@ function isValidMetric(metric) {
 }
 function modifyDimensons(metricItem) {
   const metricTmp = _.cloneDeep(metricItem);
-  metricTmp.Dimensions.forEach(item => {
+  metricTmp.Dimensions.forEach((item) => {
     item.Dimensions = ['InstanceId'];
   });
   return metricTmp;

@@ -1,4 +1,4 @@
-import * as _ from 'lodash';
+import _ from 'lodash';
 import { CDNInstanceAliasList, CDNInvalidDemensions } from './query_def';
 import { BaseDatasource } from '../_base/datasource';
 
@@ -16,5 +16,8 @@ export default class CDNDatasource extends BaseDatasource {
   };
   constructor(instanceSettings, backendSrv, templateSrv) {
     super(instanceSettings, backendSrv, templateSrv);
+  }
+  async metricFindQuery(query: any, regex?: string) {
+    return super.metricFindQuery({ ...query, ...{ region: 'ap-guangzhou' } }, regex);
   }
 }

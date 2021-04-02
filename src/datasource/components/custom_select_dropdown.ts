@@ -1,5 +1,5 @@
 import angular from 'angular';
-import * as _ from 'lodash';
+import _ from 'lodash';
 import coreModule from 'grafana/app/core/core_module';
 
 export class CustomSelectDropdownCtrl {
@@ -19,14 +19,14 @@ export class CustomSelectDropdownCtrl {
   onChange: any;
 
   /** @ngInject */
-  constructor() { }
+  constructor() {}
 
   show() {
     this.oldVariableText = _.get(this.value, 'text', '');
     this.highlightIndex = -1;
 
     this.selectOptions = _.cloneDeep(this.options);
-    _.map(this.selectOptions, option => {
+    _.map(this.selectOptions, (option) => {
       const selectedValue = _.get(this.value, 'value');
       if (!selectedValue) {
         option.selected = false;
@@ -52,7 +52,7 @@ export class CustomSelectDropdownCtrl {
   }
 
   clearSelections() {
-    _.each(this.selectOptions, option => {
+    _.each(this.selectOptions, (option) => {
       option.selected = false;
     });
 
@@ -94,8 +94,8 @@ export class CustomSelectDropdownCtrl {
     commitChange = commitChange || false;
     excludeOthers = excludeOthers || false;
 
-    const setAllExceptCurrentTo = newValue => {
-      _.each(this.selectOptions, other => {
+    const setAllExceptCurrentTo = (newValue) => {
+      _.each(this.selectOptions, (other) => {
         if (option !== other) {
           other.selected = newValue;
         }
@@ -146,17 +146,16 @@ export class CustomSelectDropdownCtrl {
 
   queryChanged() {
     this.highlightIndex = -1;
-    this.search.options = _.filter(this.selectOptions, option => {
+    this.search.options = _.filter(this.selectOptions, (option) => {
       return option.text.toLowerCase().indexOf(this.search.query.toLowerCase()) !== -1;
     });
 
     this.search.options = this.search.options.slice(0, Math.min(this.search.options.length, 1000));
   }
 
-
   init() {
     if (_.isEmpty(this.value)) {
-      this.value = { text: '', value: !!this.multiple ? [] : '' };
+      this.value = { text: '', value: this.multiple ? [] : '' };
     }
     this.updateLinkText();
   }
@@ -241,7 +240,7 @@ export function customSelectDropdown($compile, $window, $timeout, $rootScope) {
         bodyEl.off('click', bodyOnClick);
       }
 
-      scope.$watch('vm.dropdownVisible', newValue => {
+      scope.$watch('vm.dropdownVisible', (newValue) => {
         if (newValue) {
           openDropdown();
         } else {

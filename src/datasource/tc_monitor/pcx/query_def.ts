@@ -1,4 +1,4 @@
-import * as _ from 'lodash';
+import _ from 'lodash';
 
 const PCXFields = {
   limit: 20,
@@ -17,7 +17,7 @@ const PCX_STATE = {
   dimensionObject: null,
   instance: '',
   instanceAlias: 'peeringConnectionId',
-  queries: Object.assign({}, PCXFields),
+  queries: { ...PCXFields },
 };
 
 const StateTypes = [

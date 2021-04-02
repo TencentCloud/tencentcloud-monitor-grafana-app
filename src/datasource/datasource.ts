@@ -1,4 +1,4 @@
-import * as _ from 'lodash';
+import _ from 'lodash';
 import { Datasources, SERVICES } from './tc_monitor';
 import { GetServiceFromNamespace, ParseMetricQuery } from './common/constants';
 
@@ -6,12 +6,12 @@ export default interface DatasourceInterface {
   instanceSettings: any;
   backendSrv: any;
   templateSrv: any;
-  query(options: any);
-  testDatasource();
-  metricFindQuery(query: any);
-  getRegions?(service: string);
-  getMetrics(service: string, region: string);
-  getInstances(service: string, region: string, params: any);
+  query: (options: any) => any;
+  testDatasource: () => any;
+  metricFindQuery: (query: any) => any;
+  getRegions?: (service: string) => any;
+  getMetrics: (service: string, region: string) => any;
+  getInstances: (service: string, region: string, params: any) => any;
   getZones?: (service: string, region: string) => any;
 }
 
@@ -33,7 +33,7 @@ export class TCMonitorDatasource implements DatasourceInterface {
   // 根据 Datasource Config 配置时勾选的监控服务项，获取相应的命名空间
   getNamespaces() {
     const namespaces: string[] = [];
-    _.forEach(SERVICES, service => {
+    _.forEach(SERVICES, (service) => {
       if (this.instanceSettings.jsonData[service.service] === true) {
         namespaces.push(service.namespace);
       }
@@ -43,7 +43,7 @@ export class TCMonitorDatasource implements DatasourceInterface {
 
   getSelectedServices() {
     const namespaces = this.getNamespaces();
-    return _.map(namespaces, namespace => {
+    return _.map(namespaces, (namespace) => {
       return GetServiceFromNamespace(namespace);
     });
   }
@@ -103,9 +103,9 @@ export class TCMonitorDatasource implements DatasourceInterface {
   query(options: any): Record<string, any> {
     const promises: any[] = [];
     const services = this.getSelectedServices();
-    _.forEach(services, service => {
+    _.forEach(services, (service) => {
       const optionsTemp = _.cloneDeep(options);
-      const targets = _.filter(optionsTemp.targets, item => item.service === service);
+      const targets = _.filter(optionsTemp.targets, (item) => item.service === service);
       optionsTemp.targets = targets;
       if (optionsTemp.targets.length > 0) {
         const promiseTemp = this[`${_.toUpper(service)}Datasource`].query(optionsTemp);
@@ -117,7 +117,7 @@ export class TCMonitorDatasource implements DatasourceInterface {
     if (promises.length === 0) {
       return Promise.resolve({ data: [] });
     }
-    return Promise.all(promises).then(results => {
+    return Promise.all(promises).then((results) => {
       return { data: _.flatten(results) };
     });
   }
@@ -136,7 +136,7 @@ export class TCMonitorDatasource implements DatasourceInterface {
     if (this[`${_.toUpper(service)}Datasource`].metricFindQuery) {
       const result = this[`${_.toUpper(service)}Datasource`].metricFindQuery(
         queries,
-        _.get(options, 'variable.regex', undefined),
+        _.get(options, 'variable.regex', undefined)
       );
       if (result) {
         return result;
@@ -178,6 +178,18 @@ export class TCMonitorDatasource implements DatasourceInterface {
   }
 
   /**
+   * 获取filter中dropdown列表
+   * @param service
+   * @param param
+   */
+  getFilterDropdown(service, param) {
+    if (this[`${_.toUpper(service)}Datasource`].getFilterDropdown) {
+      return this[`${_.toUpper(service)}Datasource`].getFilterDropdown(param);
+    }
+    return [];
+  }
+
+  /**
    * 获取实例列表
    * @param service
    * @param region
@@ -214,7 +226,8 @@ export class TCMonitorDatasource implements DatasourceInterface {
   testDatasource() {
     const promises: any[] = [];
     const services = this.getSelectedServices();
-    _.forEach(services, service => {
+    console.log(services, this);
+    _.forEach(services, (service) => {
       promises.push(this[`${_.toUpper(service)}Datasource`].testDatasource());
     });
     if (promises.length === 0) {
@@ -224,7 +237,7 @@ export class TCMonitorDatasource implements DatasourceInterface {
         title: 'Error',
       });
     }
-    return Promise.all(promises).then(results => {
+    return Promise.all(promises).then((results) => {
       let status = 'success';
       let message = '';
       for (let i = 0; i < results.length; i++) {
@@ -242,11 +255,11 @@ export class TCMonitorDatasource implements DatasourceInterface {
   }
 
   getServiceFn(service, fnName) {
-    return (region, params) => {
+    return (...argu) => {
       if (!this[`${_.toUpper(service)}Datasource`][fnName]) {
         return [];
       }
-      return this[`${_.toUpper(service)}Datasource`][fnName](region, params);
+      return this[`${_.toUpper(service)}Datasource`][fnName](...argu);
     };
   }
 }
