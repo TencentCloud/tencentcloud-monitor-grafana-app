@@ -1,5 +1,69 @@
 <h3 class="page-heading">Security Credentials</h3>
 
+<div
+  class="card-item"
+  style="
+    position: relative;
+    margin-top: 16px;
+    padding: 16px;
+    -webkit-box-flex: 1;
+    flex-grow: 1;
+    border-top: 3px solid rgb(50, 115, 217);
+  "
+>
+  <div>
+    <div
+      style="
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: no-wrap;
+        -webkit-box-pack: justify;
+        justify-content: space-between;
+        align-items: flex-start;
+        height: 100%;
+        margin-bottom: 0px;
+      "
+    >
+      <div class="css-657se6">
+        <div>
+          <h4>Initialize Tencent Cloud Monitor Grafana App</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br />
+  <div>
+    <p>
+      To initialize the App and connect it to your Tencent Cloud service you will need a SecretId and a SecretKey for
+      you Tencent Cloud account.
+      <br />
+      <b>SecretId</b> is used to identify the identity of the API caller.
+      <br />
+      <b>SecretKey</b> is used to encrypt the signature and validate the signature of the server-side.
+    </p>
+  </div>
+  <div>
+    <div>
+      <h5>User Permission</h5>
+    </div>
+  </div>
+  <div>
+    <p>
+      If you are using a
+      <a class="highlight-word" href="https://intl.cloud.tencent.com/document/product/598/13674" target="_blank"
+        >sub-user</a
+      >
+      account, you should at least own read permission to the cloud products you wish to monitor.
+    </p>
+  </div>
+  <a class="highlight-word" href="https://console.cloud.tencent.com/cam/capi" target="_blank">
+    Generate a new Tencent Cloud API key
+  </a>
+</div>
+
+<br />
+
 <div class="gf-form-group" style="position: relative">
   <div class="gf-form-inline">
     <div class="gf-form">
@@ -8,52 +72,39 @@
         SecretId
       </span>
       <input
-        ng-style="{'border-color': ctrl.error.secretId==='' ? '#0b0c0e' : '#f00' }"
+        ng-style="{'border-color': ctrl.error.secretId==='' ? '1px solid #2c3235' : '#f00' }"
         class="gf-form-input width-30"
         type="text"
         ng-model="ctrl.current.jsonData.secretId"
-        required
         ng-blur="ctrl.checkSecretId(ctrl.current.jsonData.secretId)"
+        ng-change="ctrl.current.secureJsonFields.secretKey=false"
+        required
       />
-      <!-- <info-popover mode="right-absolute">
-        <p>SecretId is used to identify the identity of the API caller.</p>
-        <a target="_blank" href="https://console.cloud.tencent.com/cam/capi"> Click here for more information. </a>
-      </info-popover> -->
     </div>
   </div>
-  <div class="gf-form-inline">
+  <div class="gf-form-inline" ng-if="!ctrl.current.secureJsonFields.secretKey">
     <div class="gf-form">
       <span class="gf-form-label width-9" style="justify-content: flex-start">
         <span style="color: red">*&nbsp;</span>
         SecretKey
       </span>
       <input
-        ng-style="{'border-color': ctrl.error.secretKey==='' ? '#0b0c0e' : '#f00' }"
+        type="text"
         class="gf-form-input width-30"
-        type="password"
-        ng-model="ctrl.current.jsonData.secretKey"
-        ng-blur="ctrl.checkSecretKey(ctrl.current.jsonData.secretKey)"
+        ng-style="{'border-color': ctrl.error.secretKey==='' ? '1px solid #2c3235' : '#f00' }"
+        ng-model="ctrl.current.secureJsonData.secretKey"
+        ng-blur="ctrl.checkSecretKey(ctrl.current.secureJsonData.secretKey)"
+        placeholder=""
       />
-      <!-- <info-popover mode="right-absolute">
-        <p>SecretKey is used to encrypt the signature and validate the signature of the server-side.</p>
-        <a target="_blank" href="https://console.cloud.tencent.com/cam/capi"> Click here for more information. </a>
-      </info-popover> -->
     </div>
   </div>
-  <div class="secret-tips">
-    <div class="secret-tips-tri"></div>
-    <p>
-      <span style="color: red">{{[ctrl.error.secretKey, ctrl.error.secretId].join('')}}</span> SecretKey and SecretId is
-      used to encrypt the signature and validate the signature of the server-side.
-    </p>
-    <a
-      style="text-decoration: underline"
-      href="https://console.cloud.tencent.com/cam/capi"
-      target="_blank"
-      noreferrer
-      noopenner
-      >Click here for more information.</a
-    >
+  <div class="gf-form" ng-if="ctrl.current.secureJsonFields.secretKey">
+    <span class="gf-form-label width-9" style="justify-content: flex-start">
+      <span style="color: red">*&nbsp;</span>
+      SecretKey
+    </span>
+    <input type="text" class="gf-form-input max-width-27" disabled="disabled" value="configured" />
+    <a class="btn btn-secondary gf-form-btn" href="#" ng-click="ctrl.resetSecret()">reset</a>
   </div>
 </div>
 

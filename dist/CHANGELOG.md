@@ -1,6 +1,40 @@
 # TencentCloud Monitor Grafana App
 ---
 
+## [2.0.0] - 2021-04
+
+### 2.0.0 Feature highlights
+
+We are now officially on [Grafana Plugins](https://grafana.com/grafana/plugins/tencentcloud-monitor-app), the plugin is signed and more safe!
+
+### Breaking changes
+
+- Minimum Grafana version is 7.0.
+- We are now removing [`tc-monitor-cli`](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/release/1.5.0/bin/tc-monitor-cli) in this version, use [grafana-cli](https://grafana.com/docs/grafana/latest/administration/cli/) instead!
+
+### Added
+
+- Signing the plugin from Grafana, [read more about the signed plugin](https://grafana.com/docs/grafana/latest/plugins/plugin-signatures).
+- User guide while enabling the plugin.
+- Searching function when configuring the data source.
+
+### Fixed
+
+- Backend datasource for secretId/secretKey authorization (#19).
+
+
+### Installation
+
+> Prerequisites: Grafana version >= 7.0.
+
+```bash
+$ grafana-cli plugins install tencentcloud-monitor-app
+```
+
+
+See detailed guide in [README.md](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/README.md).
+
+---
 ## [1.5.0] - 2021-04-02
 
 ### Added
