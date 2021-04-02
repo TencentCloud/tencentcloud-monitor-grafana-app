@@ -8,9 +8,12 @@ export class TCMonitorDatasourceConfigCtrl {
   filterKey = '';
 
   error = {
-    secretKey: '',
     secretId: '',
+    secretKey: '',
   };
+
+  // save后保存，不用再次出入
+  secretKeyCache = '';
 
   get filteredList() {
     const rawList = this.current.jsonData.services ?? [];
@@ -40,7 +43,13 @@ export class TCMonitorDatasourceConfigCtrl {
       this.current.jsonData[service.service] = _.get(this.current.jsonData, [service.service], false);
     });
   }
-
+  resetSecret() {
+    this.current.secureJsonFields.secretKey = false;
+    this.current.jsonData.secretId = '';
+  }
+  onSecretKeyChange(secretKey) {
+    this.current.secureJsonData = { ...this.current.secureJsonData, secretKey };
+  }
   getFitleredLabel(label: string) {
     if (!this.filterKey) return label;
     return label.replace(new RegExp(`(${this.filterKey})`, 'ig'), '<span class="filtered-color">$1</span>');

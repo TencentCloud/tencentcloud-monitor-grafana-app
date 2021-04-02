@@ -27,7 +27,7 @@ export default class LBPRIVATEDatasource implements DatasourceInterface {
   backendSrv: any;
   templateSrv: any;
   secretId: string;
-  secretKey: string;
+
   allInstanceMap: any[] = [];
   allListenerMap: any[] = [];
   /** @ngInject */
@@ -37,7 +37,6 @@ export default class LBPRIVATEDatasource implements DatasourceInterface {
     this.templateSrv = templateSrv;
     this.url = instanceSettings.url;
     this.secretId = (instanceSettings.jsonData || {}).secretId || '';
-    this.secretKey = (instanceSettings.jsonData || {}).secretKey || '';
   }
 
   metricFindQuery(query: Record<string, any>) {
@@ -352,7 +351,7 @@ export default class LBPRIVATEDatasource implements DatasourceInterface {
   }
 
   testDatasource() {
-    if (!this.isValidConfigField(this.secretId) || !this.isValidConfigField(this.secretKey)) {
+    if (!this.isValidConfigField(this.secretId)) {
       return {
         service: 'lbPrivate',
         status: 'error',
@@ -450,8 +449,15 @@ export default class LBPRIVATEDatasource implements DatasourceInterface {
    * @param service
    * @param signObj
    */
-  doRequest(options, service, signObj: any = {}): any {
-    options = GetRequestParams(options, service, signObj, this.secretId, this.secretKey);
+  async doRequest(options, service, signObj: any = {}) {
+    options = await GetRequestParams(
+      options,
+      service,
+      signObj,
+      this.secretId,
+      this.instanceSettings.id,
+      this.backendSrv
+    );
     return this.backendSrv
       .datasourceRequest(options)
       .then((response) => {

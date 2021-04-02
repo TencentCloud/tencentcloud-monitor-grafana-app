@@ -39,7 +39,7 @@ export class LBPublicQueryCtrl {
     $scope.getListeners = async () => {
       const InstanceId = $scope.getInstanceId();
 
-      console.log(InstanceId, 'Instance');
+      // console.log(InstanceId, 'Instance');
 
       const fetcher = $scope.datasource.getServiceFn('lbPublic', 'getListeners');
       const region = $scope.datasource.getServiceFn('lbPublic', 'getVariable')($scope.target.region);

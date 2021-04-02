@@ -18,7 +18,7 @@ export class SCFQueryCtrl {
       if (!instance || !region) return [];
 
       return fetcher(region, { FunctionName: JSON.parse(instance).FunctionName }).then((res) => {
-        console.log(res, 'res');
+        // console.log(res, 'res');
 
         return res;
       });
