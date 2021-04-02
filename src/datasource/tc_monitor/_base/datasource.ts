@@ -11,6 +11,7 @@ import {
 } from '../../common/constants';
 import { MetricQuery } from './types';
 import { getNamesapceFromService } from '../../common/utils';
+
 export interface TemplateQueryIdType {
   instance: string;
   listener?: string;
@@ -25,7 +26,6 @@ export abstract class BaseDatasource implements DatasourceInterface {
   backendSrv: any;
   templateSrv: any;
   secretId: string;
-  secretKey: string;
   checkKeys: string[] = [];
   abstract InstanceAliasList: string[];
   abstract templateQueryIdMap: TemplateQueryIdType; // 必须为标识
@@ -47,7 +47,6 @@ export abstract class BaseDatasource implements DatasourceInterface {
     this.templateSrv = templateSrv;
     this.url = instanceSettings.url;
     this.secretId = (instanceSettings.jsonData || {}).secretId || '';
-    this.secretKey = (instanceSettings.jsonData || {}).secretKey || '';
   }
 
   get namespace() {
@@ -58,7 +57,7 @@ export abstract class BaseDatasource implements DatasourceInterface {
   /* 格式化模板变量上的显示 */
   getAliasValue(instance: Record<string, any>, alias: string) {
     const result = instance[alias];
-    console.log({ result, instance, alias });
+    // console.log({ result, instance, alias });
     return Array.isArray(result) ? result.join() : result;
   }
 
@@ -276,7 +275,7 @@ export abstract class BaseDatasource implements DatasourceInterface {
     });
   }
 
-  getRegions() {
+  getRegions(): any {
     return this.doRequest(
       {
         url: this.url + '/cvm',
@@ -396,7 +395,7 @@ export abstract class BaseDatasource implements DatasourceInterface {
     // const { service = this.service, action } = this.InstanceReqConfig;
     // const serviceInfo = GetServiceAPIInfo('ap-guangzhou', service);
 
-    if (!this.isValidConfigField(this.secretId) || !this.isValidConfigField(this.secretKey)) {
+    if (!this.isValidConfigField(this.secretId)) {
       return {
         service: this.service,
         status: 'error',
@@ -436,13 +435,13 @@ export abstract class BaseDatasource implements DatasourceInterface {
         if (cvmAuthFail || monitorAuthFail || serviceAuthFail) {
           const messages: any[] = [];
           if (cvmAuthFail) {
-            messages.push(`${_.get(cvmErr, 'Code')}: ${_.get(cvmErr, 'Message')}`);
+            messages.push(_.get(cvmErr, 'Code'));
           }
           if (monitorAuthFail) {
-            messages.push(`${_.get(monitorErr, 'Code')}: ${_.get(monitorErr, 'Message')}`);
+            messages.push(_.get(monitorErr, 'Code'));
           }
           if (serviceAuthFail) {
-            messages.push(`${_.get(serviceErr, 'Code')}: ${_.get(serviceErr, 'Message')}`);
+            messages.push(_.get(serviceErr, 'Code'));
           }
           const message = _.join(_.compact(_.uniq(messages)), '; ');
           return {
@@ -480,8 +479,15 @@ export abstract class BaseDatasource implements DatasourceInterface {
       });
   }
 
-  doRequest(options, service, signObj: any = {}): any {
-    options = GetRequestParams(options, service, signObj, this.secretId, this.secretKey);
+  async doRequest(options, service, signObj: any = {}) {
+    options = await GetRequestParams(
+      options,
+      service,
+      signObj,
+      this.secretId,
+      this.instanceSettings.id,
+      this.backendSrv
+    );
     return this.backendSrv
       .datasourceRequest(options)
       .then((response) => {

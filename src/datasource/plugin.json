@@ -2,8 +2,10 @@
   "type": "datasource",
   "name": "Tencent Cloud Monitoring",
   "id": "tencentcloud-monitor-datasource",
+  "backend": true,
   "metrics": true,
   "annotations": true,
+  "executable": "tencentcloud-monitor-app-backend",
   "queryOptions": {
     "maxDataPoints": true
   },

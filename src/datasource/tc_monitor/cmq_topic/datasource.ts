@@ -49,7 +49,7 @@ export default class CmqTopicDatasource extends BaseDatasource {
 
   async fetchAllSubscription(region: string, params: any) {
     const serviceInfo = GetServiceAPIInfo(region, 'cmq');
-    console.log(serviceInfo, 'serviceinfo');
+    // console.log(serviceInfo, 'serviceinfo');
 
     // 从分页数据，获取全量数据
     const rs = await fetchAllFactory(
