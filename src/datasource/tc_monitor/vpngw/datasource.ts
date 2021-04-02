@@ -36,5 +36,6 @@ export default class DCDatasource extends BaseDatasource {
         );
       });
     }
+    return [];
   }
 }

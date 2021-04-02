@@ -19,7 +19,6 @@ export default class CFSDatasource implements DatasourceInterface {
   backendSrv: any;
   templateSrv: any;
   secretId: string;
-  secretKey: string;
   /** @ngInject */
   constructor(instanceSettings, backendSrv, templateSrv) {
     this.instanceSettings = instanceSettings;
@@ -27,7 +26,6 @@ export default class CFSDatasource implements DatasourceInterface {
     this.templateSrv = templateSrv;
     this.url = instanceSettings.url;
     this.secretId = (instanceSettings.jsonData || {}).secretId || '';
-    this.secretKey = (instanceSettings.jsonData || {}).secretKey || '';
   }
 
   /**
@@ -247,7 +245,7 @@ export default class CFSDatasource implements DatasourceInterface {
             _.forEach(responses, (item) => {
               result = _.concat(result, item);
             });
-            console.log('result:', result);
+            // console.log('result:', result);
             return result;
           })
           .catch((error) => {
@@ -281,7 +279,7 @@ export default class CFSDatasource implements DatasourceInterface {
   }
 
   testDatasource() {
-    if (!this.isValidConfigField(this.secretId) || !this.isValidConfigField(this.secretKey)) {
+    if (!this.isValidConfigField(this.secretId)) {
       return {
         service: 'cfs',
         status: 'error',
@@ -373,8 +371,15 @@ export default class CFSDatasource implements DatasourceInterface {
       });
   }
 
-  doRequest(options, service, signObj: any = {}): any {
-    options = GetRequestParams(options, service, signObj, this.secretId, this.secretKey);
+  async doRequest(options, service, signObj: any = {}) {
+    options = await GetRequestParams(
+      options,
+      service,
+      signObj,
+      this.secretId,
+      this.instanceSettings.id,
+      this.backendSrv
+    );
     return this.backendSrv
       .datasourceRequest(options)
       .then((response) => {
