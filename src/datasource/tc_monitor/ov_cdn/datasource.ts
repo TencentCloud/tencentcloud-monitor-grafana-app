@@ -17,4 +17,7 @@ export default class OVCDNDatasource extends BaseDatasource {
   constructor(instanceSettings, backendSrv, templateSrv) {
     super(instanceSettings, backendSrv, templateSrv);
   }
+  async metricFindQuery(query: any, regex?: string) {
+    return super.metricFindQuery({ ...query, ...{ region: 'ap-guangzhou' } }, regex);
+  }
 }

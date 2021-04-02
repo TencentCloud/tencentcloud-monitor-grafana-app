@@ -20,6 +20,9 @@ export default class DCDatasource extends BaseDatasource {
   // getFilterDropdown({ field }) {
   //   return super.getRegions();
   // }
+  async metricFindQuery(query: any, regex?: string) {
+    return super.metricFindQuery({ ...query, ...{ region: 'ap-guangzhou' } }, regex);
+  }
   async getConsumerList(params: any) {
     const { region, field } = params;
     const serviceInfo = GetServiceAPIInfo(region, 'cdn');
