@@ -3,6 +3,7 @@
 
 # Dependency directories
 node_modules/
+vendor/
 
 # Optional npm cache directory
 .npm
