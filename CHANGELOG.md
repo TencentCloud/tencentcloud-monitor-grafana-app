@@ -1,11 +1,11 @@
 # TencentCloud Monitor Grafana App
 ---
 
-## [2.0.0] - 2021-04
+## [2.0.0] - 2021-04-06
 
 ### 2.0.0 Feature highlights
 
-We are now officially on [Grafana Plugins](https://grafana.com/grafana/plugins/tencentcloud-monitor-app), the plugin is signed and more safe!
+We are now officially on [Grafana Plugins](https://grafana.com/grafana/plugins/tencentcloud-monitor-app), the plugin is signed and safer!
 
 ### Breaking changes
 
