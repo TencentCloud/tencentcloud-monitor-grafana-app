@@ -14,7 +14,7 @@
       "small": "img/tencent-cloud.svg",
       "large": "img/tencent-cloud.svg"
     },
-    "version": "2.0.0",
+    "version": "2.0.1",
     "updated": "2021-04-06",
     "links": [
       { "name": "GitHub", "url": "https://github.com/TencentCloud/tencentcloud-monitor-grafana-app" },
@@ -25,10 +25,9 @@
       }
     ],
     "screenshots": [
-      { "name": "logo", "path": "img/tencent-cloud.svg" },
-      { "name": "config datasource", "path": "image/datasource-config@v2.png" },
-      { "name": "query example", "path": "image/variable-panel-query.png" },
       { "name": "cvm example", "path": "image/variable-cvm-dashboard.png" },
+      { "name": "config datasource", "path": "image/datasource-config.png" },
+      { "name": "query example", "path": "image/variable-panel-query.png" },
       { "name": "template variable example", "path": "image/variable-region-config.png" }
     ]
   },
