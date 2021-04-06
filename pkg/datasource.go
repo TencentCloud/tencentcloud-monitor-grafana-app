@@ -21,7 +21,7 @@ func newDatasource() datasource.ServeOpts {
 	// into `NewInstanceManger` is called when the instance is created
 	// for the first time or when a datasource configuration changed.
 	im := datasource.NewInstanceManager(newDataSourceInstance)
-	ds := &clsDatasource{
+	ds := &cloudMonitorDatasource{
 		im: im,
 	}
 
@@ -31,24 +31,24 @@ func newDatasource() datasource.ServeOpts {
 	}
 }
 
-var _ backend.CheckHealthHandler = (*clsDatasource)(nil)
-var _ backend.QueryDataHandler = (*clsDatasource)(nil)
+var _ backend.CheckHealthHandler = (*cloudMonitorDatasource)(nil)
+var _ backend.QueryDataHandler = (*cloudMonitorDatasource)(nil)
 
-type clsDatasource struct {
+type cloudMonitorDatasource struct {
 	// The instance manager can help with lifecycle management
 	// of datasource instances in plugins. It's not a requirements
 	// but a best practice that we recommend that you follow.
 	im instancemgmt.InstanceManager
 }
 
-func (td *clsDatasource) CheckHealth(ctx context.Context, req *backend.CheckHealthRequest) (*backend.CheckHealthResult, error) {
+func (td *cloudMonitorDatasource) CheckHealth(ctx context.Context, req *backend.CheckHealthRequest) (*backend.CheckHealthResult, error) {
 	return &backend.CheckHealthResult{
 		Status:  backend.HealthStatusOk,
 		Message: "ok",
 	}, nil
 }
 
-func (td *clsDatasource) QueryData(ctx context.Context, req *backend.QueryDataRequest) (*backend.QueryDataResponse, error) {
+func (td *cloudMonitorDatasource) QueryData(ctx context.Context, req *backend.QueryDataRequest) (*backend.QueryDataResponse, error) {
 	response := backend.NewQueryDataResponse()
 
 	//b, _ := json.Marshal(req.PluginContext.DataSourceInstanceSettings)
@@ -76,7 +76,7 @@ type queryModel struct {
 	Signer string `json:"signer"`
 }
 
-func (td *clsDatasource) query(ctx context.Context, query backend.DataQuery, apiOpts apiOpts) backend.DataResponse {
+func (td *cloudMonitorDatasource) query(ctx context.Context, query backend.DataQuery, apiOpts apiOpts) backend.DataResponse {
 	// Unmarshal the json into our queryModel
 	dataRes := backend.DataResponse{}
 
