@@ -1,6 +1,16 @@
 # TencentCloud Monitor Grafana App
 ---
 
+
+## [2.0.1] - 2021-04-07
+
+### Fixed
+
+- Readme display issues on https://grafana.com/grafana/plugins/tencentcloud-monitor-app.
+- Update screenshot images.
+
+---
+
 ## [2.0.0] - 2021-04-06
 
 ### 2.0.0 Feature highlights
