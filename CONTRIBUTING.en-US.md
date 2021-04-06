@@ -14,7 +14,11 @@ We will add you into [our contributor list](#contributors)
 
 ## Local Development
 
-1. Install [docker](https://docs.docker.com/get-docker/).
+1. Environment preparation
+- [Docker](https://docs.docker.com/get-docker/)
+- [Magefile](https://magefile.org/) >= 1.11
+- [Go](https://golang.org/dl/) >=1.16
+- [Node.js](https://nodejs.org/en/download/) >= 14
 
 2. Fork this project to your own git account and clone:
 ```bash
@@ -24,21 +28,27 @@ $ git clone https://github.com/${your-git-username}/tencentcloud-monitor-grafana
 2. Install dependencies:
 ```bash
 $ npm install
+$ go mod vendor
 ```
 
-3. Start development environment:
+3. Start frontend development environment:
 ```bash
 $ npm run watch
 ```
 
-4. Run in your command line:
+4. Start backend development environment
+```bash
+$ mage -v
+```
+
+5. Run in your command line:
 
 ```bash
 $ docker-compose up
 ```
 Then visit (http://localhost:3000).
 
-5. After making some amazing changes, create a [Pull Request](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/pulls) and we will review your contribution!
+6. After making some amazing changes, create a [Pull Request](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/pulls) and we will review your contribution!
 
 ## Commit Message Format
 

@@ -78,7 +78,7 @@ export class CKAFKAQueryCtrl {
       // 缓存
       $scope.consumerGroupCacheMap[InstanceId] = data;
 
-      console.log(data, field, 'daata--');
+      // console.log(data, field, 'daata--');
 
       switch (field) {
         case 'topicId':

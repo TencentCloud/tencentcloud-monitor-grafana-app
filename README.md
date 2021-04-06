@@ -12,6 +12,9 @@
 
 简体中文 | [English](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/README.en-US.md)
 
+
+> 注意：该插件从 2.0.0 版本起的最低运行要求为 Grafana 7.0 或更新的版本上，请优先安装 Grafana 环境，详情参考 [Grafana 安装文档](https://grafana.com/grafana/download)。
+
 # 目录
 
   * [简介](#introduction)
@@ -106,7 +109,7 @@
 ## <a id="installation"></a> 安装
 此插件有多种安装方式，请选择下面任意一种方式安装。
 
-> 前置条件：腾讯云监控应用插件是运行在 Grafana 6.x 或更新的版本上，请优先安装 Grafana 环境，详情参考 [Grafana 安装文档](https://grafana.com/grafana/download)。
+> 前置条件：腾讯云监控应用插件是运行在 Grafana 7.0 或更新的版本上，请优先安装 Grafana 环境，详情参考 [Grafana 安装文档](https://grafana.com/grafana/download)。
 
 
 ### <a id="use-grafana-cli"></a> 使用 Grafana CLI
@@ -718,11 +721,13 @@ $ git clone https://github.com/TencentCloud/tencentcloud-monitor-grafana-app.git
 2. 安装依赖：
 ```bash
 $ npm install
+$ go mod vendor
 ```
 
 3. 启动开发环境：
 ```bash
 $ npm run watch
+$ mage -v
 ```
 
 ## <a id="docker-support-recommended"></a> Docker 支持 (推荐)
@@ -735,7 +740,7 @@ $ docker-compose up
 
 
 ## <a id="on-local-grafana"></a> 在本地 Grafana上运行
-此外，你也可以将本项目克隆至本地 Grafana 的插件目录，重启本地 Grafana。请确保本地 Grafana 版本 大于 6.x。
+此外，你也可以将本项目克隆至本地 Grafana 的插件目录，重启本地 Grafana。请确保本地 Grafana 版本 大于 7.0。
 
 # <a id="contact-us"></a> 联系我们
 
@@ -751,7 +756,7 @@ $ docker-compose up
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 
-[![All Contributors](https://img.shields.io/badge/all_contributors-5-orange.svg?style=flat-square)](#contributors)
+[![All Contributors](https://img.shields.io/badge/all_contributors-8-orange.svg?style=flat-square)](#contributors)
 
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
@@ -763,9 +768,11 @@ $ docker-compose up
     <td align="center"><a href="https://github.com/heriky"><img src="https://avatars.githubusercontent.com/u/12195736?v=4?s=70" width="70px;" alt=""/><br /><sub><b>heriky</b></sub></a><br /><a href="#" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/jamesxwang"><img src="https://avatars.githubusercontent.com/u/36892657?v=4?s=70" width="70px;" alt=""/><br /><sub><b>jamesxwang</b></sub></a><br /><a href="https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/commits?author=jamesxwang" title="Code">💻</a> <a href="#" title="Documentation	">📖</a></td>
     <td align="center"><a href="https://github.com/leonlysu"><img src="https://avatars.githubusercontent.com/u/73583724?v=4?s=70" width="70px;" alt=""/><br /><sub><b>leonlysu</b></sub></a><br /><a href="https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/commits?author=leonlysu" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/smallpath"><img src="https://avatars.githubusercontent.com/u/10809900?v=4?s=70" width="70px;" alt=""/><br /><sub><b>smallpath</b></sub></a><br /><a href="#" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/susiezhao"><img src="https://avatars.githubusercontent.com/u/13827192?v=4?s=70" width="70px;" alt=""/><br /><sub><b>susiezhao</b></sub></a><br /><a href="#" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/taoran34"><img src="https://avatars.githubusercontent.com/u/9361046?v=4?s=70" width="70px;" alt=""/><br /><sub><b>taoran34</b></sub></a><br /><a href="#" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/Cloudlie"><img src="https://avatars.githubusercontent.com/u/7425309?v=4?s=70" width="70px;" alt=""/><br /><sub><b>Cloudlie</b></sub></a><br /><a href="https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/commits?author=Cloudlie" title="Code">💻</a><a href="https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/issues/created_by/Cloudlie">🐛</a></td>
+    <td align="center"><a href="https://github.com/woson-wang"><img src="https://avatars.githubusercontent.com/u/34298517?v=4?s=70" width="70px;" alt=""/><br /><sub><b>Cloudlie</b></sub></a><br /><a href="https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/issues/created_by/woson-wang">🐛</a></td>
   </tr>
 </table>
 <!-- markdownlint-restore -->
