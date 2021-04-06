@@ -25,11 +25,10 @@
       }
     ],
     "screenshots": [
-      { "name": "logo", "path": "img/tencent-cloud.svg" },
-      { "name": "config datasource", "path": "image/datasource-config@v2.png" },
-      { "name": "query example", "path": "image/variable-panel-query.png" },
-      { "name": "cvm example", "path": "image/variable-cvm-dashboard.png" },
-      { "name": "template variable example", "path": "image/variable-region-config.png" }
+      { "name": "cvm example", "path": "image/variable-cvm-dashboard@v2.png" },
+      { "name": "config datasource", "path": "image/datasource-config@v3.png" },
+      { "name": "query example", "path": "image/variable-panel-query@v2.png" },
+      { "name": "template variable example", "path": "image/variable-region-config@v2.png" }
     ]
   },
   "includes": [
