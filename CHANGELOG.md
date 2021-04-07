@@ -8,6 +8,7 @@
 
 - Readme display issues on https://grafana.com/grafana/plugins/tencentcloud-monitor-app.
 - Update screenshot images.
+- Multi backend plugin process.
 
 ---
 
