@@ -20,7 +20,7 @@ export default class POSTGRESDatasource implements DatasourceInterface {
   backendSrv: any;
   templateSrv: any;
   secretId: string;
-  secretKey: string;
+
   allInstanceMap: any[] = [];
   /** @ngInject */
   constructor(instanceSettings, backendSrv, templateSrv) {
@@ -29,7 +29,6 @@ export default class POSTGRESDatasource implements DatasourceInterface {
     this.instanceSettings = instanceSettings;
     this.url = instanceSettings.url;
     this.secretId = (instanceSettings.jsonData || {}).secretId || '';
-    this.secretKey = (instanceSettings.jsonData || {}).secretKey || '';
   }
 
   /**
@@ -311,7 +310,7 @@ export default class POSTGRESDatasource implements DatasourceInterface {
 
   // 验证 SerectId、SerectKey 的有效性，并测试 cvm、monitor、postgresql 三种 API 的连通性
   testDatasource() {
-    if (!this.isValidConfigField(this.secretId) || !this.isValidConfigField(this.secretKey)) {
+    if (!this.isValidConfigField(this.secretId)) {
       return {
         service: 'POSTGRESQL',
         status: 'error',
@@ -403,8 +402,15 @@ export default class POSTGRESDatasource implements DatasourceInterface {
       });
   }
 
-  doRequest(options, service, signObj: any = {}): any {
-    options = GetRequestParams(options, service, signObj, this.secretId, this.secretKey);
+  async doRequest(options, service, signObj: any = {}) {
+    options = await GetRequestParams(
+      options,
+      service,
+      signObj,
+      this.secretId,
+      this.instanceSettings.id,
+      this.backendSrv
+    );
     return this.backendSrv
       .datasourceRequest(options)
       .then((response) => {

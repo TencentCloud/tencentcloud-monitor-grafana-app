@@ -889,7 +889,7 @@
             },
             "instance": "$publicIp",
             "instanceAlias": "PublicIpAddresses",
-            "metricName": "lanIntraffic",
+            "metricName": "LanIntraffic",
             "metricUnit": "Mbps",
             "period": 60,
             "queries": {
@@ -928,7 +928,7 @@
             },
             "instance": "$publicIp",
             "instanceAlias": "PublicIpAddresses",
-            "metricName": "lanOuttraffic",
+            "metricName": "LanOuttraffic",
             "metricUnit": "Mbps",
             "period": 60,
             "queries": {

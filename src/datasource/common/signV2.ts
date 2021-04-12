@@ -1,8 +1,8 @@
 import * as dotQs from 'dot-qs';
-import moment from 'moment';
 import { compact, cloneDeep } from 'lodash';
 import { HmacSHA256 } from 'crypto-js';
 import * as Base64 from 'crypto-js/enc-base64';
+import { parseDataFromBackendPlugin } from './constants';
 
 /**
  *
@@ -19,23 +19,58 @@ export default class SignV2 {
     path: '/v2/index.php',
     method: 'POST',
   };
-
-  constructor(defaults = {}) {
+  backendSrv: any;
+  datasourceId: Number;
+  constructor(defaults: any = {}) {
     this.defaults = Object.assign(this.defaults, defaults);
+    this.defaults.secretKey = '';
+    this.backendSrv = defaults.backendSrv;
+    this.datasourceId = defaults.datasourceId;
   }
 
-  generateQueryString = () => {
-    const params: any = {
-      Region: this.defaults.region,
-      Action: this.defaults.action,
-      SecretId: this.defaults.secretId,
-      Timestamp: moment().utc().unix(),
-      Nonce: Math.round(Math.random() * 65535),
-      SignatureMethod: 'HmacSHA256',
-      ...(this.defaults.data || {}),
-    };
-    params.Signature = this.generateSignature(params);
-    return { queryString: params, path: this.defaults.path };
+  generateQueryString = async () => {
+    // const params: any = {
+    //   Region: this.defaults.region,
+    //   Action: this.defaults.action,
+    //   SecretId: this.defaults.secretId,
+    //   Timestamp: moment().utc().unix(),
+    //   Nonce: Math.round(Math.random() * 65535),
+    //   SignatureMethod: 'HmacSHA256',
+    //   ...(this.defaults.data || {}),
+    // };
+    let res = {};
+    try {
+      const { data } = this.defaults;
+      const payload = typeof data === 'string' ? data : JSON.stringify(data);
+      res = await this.backendSrv.datasourceRequest({
+        url: '/api/ds/query',
+        method: 'POST',
+        data: {
+          from: '',
+          to: '',
+          queries: [
+            {
+              Query: {
+                Host: this.defaults.host,
+                Action: this.defaults.action,
+                Version: this.defaults.version,
+                Region: this.defaults.region,
+                Method: this.defaults.method,
+                Uri: this.defaults.path,
+                Query: '',
+                Body: payload,
+              },
+              refId: 'A',
+              signer: 'v2',
+              datasourceId: this.datasourceId,
+            },
+          ],
+        },
+      });
+    } catch (e) {}
+    const { authorization } = parseDataFromBackendPlugin(res);
+    const { Path, Querystring } = authorization;
+    return { queryString: Querystring, path: Path };
   };
 
   generateSignature = (para) => {

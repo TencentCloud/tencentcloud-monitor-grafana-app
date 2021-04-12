@@ -21,7 +21,7 @@ export default class PCXDatasource implements DatasourceInterface {
   backendSrv: any;
   templateSrv: any;
   secretId: string;
-  secretKey: string;
+
   allInstanceMap: any[] = [];
   /** @ngInject */
   constructor(instanceSettings, backendSrv, templateSrv) {
@@ -30,7 +30,6 @@ export default class PCXDatasource implements DatasourceInterface {
     this.templateSrv = templateSrv;
     this.url = instanceSettings.url;
     this.secretId = (instanceSettings.jsonData || {}).secretId || '';
-    this.secretKey = (instanceSettings.jsonData || {}).secretKey || '';
   }
 
   metricFindQuery(query: Record<string, any>) {
@@ -305,7 +304,7 @@ export default class PCXDatasource implements DatasourceInterface {
   }
 
   testDatasource() {
-    if (!this.isValidConfigField(this.secretId) || !this.isValidConfigField(this.secretKey)) {
+    if (!this.isValidConfigField(this.secretId)) {
       return {
         service: 'pcx',
         status: 'error',
@@ -419,8 +418,15 @@ export default class PCXDatasource implements DatasourceInterface {
    * @param service
    * @param signObj
    */
-  doRequest(options, service, signObj: any = {}): any {
-    options = GetRequestParams(options, service, signObj, this.secretId, this.secretKey);
+  async doRequest(options, service, signObj: any = {}) {
+    options = await GetRequestParams(
+      options,
+      service,
+      signObj,
+      this.secretId,
+      this.instanceSettings.id,
+      this.backendSrv
+    );
     return this.backendSrv
       .datasourceRequest(options)
       .then((response) => {
@@ -437,8 +443,15 @@ export default class PCXDatasource implements DatasourceInterface {
    * @param service
    * @param signObj
    */
-  doRequestV2(options, service, signObj: any = {}): any {
-    options = GetRequestParamsV2(options, service, signObj, this.secretId, this.secretKey);
+  async doRequestV2(options, service, signObj: any = {}) {
+    options = await GetRequestParamsV2(
+      options,
+      service,
+      signObj,
+      this.secretId,
+      this.instanceSettings.id,
+      this.backendSrv
+    );
     return this.backendSrv
       .datasourceRequest(options)
       .then((response) => {

@@ -8,9 +8,4 @@ services:
       - '3000:3000'
     volumes:
       - ./:/var/lib/grafana/plugins/tencentcloud-monitor-app
-  # grafana-6:
-  #   image: grafana/grafana:6.0.0
-  #   ports:
-  #     - "3001:3000"
-  #   volumes:
-  #     - ./:/var/lib/grafana/plugins/tencentcloud-monitor-app
+      - ./conf/grafana.ini:/etc/grafana/grafana.ini

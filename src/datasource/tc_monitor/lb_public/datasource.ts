@@ -27,7 +27,7 @@ export default class LBPUBLICDatasource implements DatasourceInterface {
   backendSrv: any;
   templateSrv: any;
   secretId: string;
-  secretKey: string;
+
   allInstanceMap: any[] = [];
   allListenerMap: any[] = [];
   /** @ngInject */
@@ -37,7 +37,6 @@ export default class LBPUBLICDatasource implements DatasourceInterface {
     this.templateSrv = templateSrv;
     this.url = instanceSettings.url;
     this.secretId = (instanceSettings.jsonData || {}).secretId || '';
-    this.secretKey = (instanceSettings.jsonData || {}).secretKey || '';
   }
 
   metricFindQuery(query: Record<string, any>) {
@@ -132,7 +131,7 @@ export default class LBPUBLICDatasource implements DatasourceInterface {
           instances = [_.isString(instances) ? JSON.parse(instances) : instances];
         }
       }
-      console.log({ instances });
+      // console.log({ instances });
       // 考虑多个监听器端口查询 可能为模板变量，需先判断
       let listeners = target.lbPublic.listener;
       if (isVariable(listeners)) {
@@ -151,7 +150,7 @@ export default class LBPUBLICDatasource implements DatasourceInterface {
           listeners = [_.isString(listeners) ? JSON.parse(listeners) : listeners];
         }
       }
-      console.log({ listeners });
+      // console.log({ listeners });
       let instanceInRequest: any[] = [];
       const instanceUnionArray: any = [];
       // 如果没有选择监听器或者实例为多个，按照实例维度查询,考虑实例选择复选情况；
@@ -355,7 +354,7 @@ export default class LBPUBLICDatasource implements DatasourceInterface {
   }
 
   testDatasource() {
-    if (!this.isValidConfigField(this.secretId) || !this.isValidConfigField(this.secretKey)) {
+    if (!this.isValidConfigField(this.secretId)) {
       return {
         service: 'lbPublic',
         status: 'error',
@@ -453,8 +452,15 @@ export default class LBPUBLICDatasource implements DatasourceInterface {
    * @param service
    * @param signObj
    */
-  doRequest(options, service, signObj: any = {}): any {
-    options = GetRequestParams(options, service, signObj, this.secretId, this.secretKey);
+  async doRequest(options, service, signObj: any = {}) {
+    options = await GetRequestParams(
+      options,
+      service,
+      signObj,
+      this.secretId,
+      this.instanceSettings.id,
+      this.backendSrv
+    );
     return this.backendSrv
       .datasourceRequest(options)
       .then((response) => {
