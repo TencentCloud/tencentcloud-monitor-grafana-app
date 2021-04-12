@@ -143,7 +143,7 @@ function GetInstanceQueryParams(queries: any = {}) {
     params.Offset = _.get(queries, 'Offset', 0) || 0;
     const Filters: any[] = [];
     _.forEach(queries.Filters, (item: any, key) => {
-      console.log('item', item, queries);
+      // console.log('item', item, queries);
       if (_.isArray(item)) {
         item = _.compact(item);
         if (item.length > 0) {

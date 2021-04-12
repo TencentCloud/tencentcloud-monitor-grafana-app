@@ -2,6 +2,8 @@
   "type": "app",
   "name": "Tencent Cloud Monitor",
   "id": "tencentcloud-monitor-app",
+  "backend": true,
+  "executable": "datasource/tencentcloud-monitor-app-backend",
   "info": {
     "description": "Tencent Cloud Monitor App for Grafana",
     "author": {
@@ -12,8 +14,8 @@
       "small": "img/tencent-cloud.svg",
       "large": "img/tencent-cloud.svg"
     },
-    "version": "1.5.0",
-    "updated": "2021-04-02",
+    "version": "2.0.0",
+    "updated": "2021-04-06",
     "links": [
       { "name": "GitHub", "url": "https://github.com/TencentCloud/tencentcloud-monitor-grafana-app" },
       { "name": "Docs", "url": "https://cloud.tencent.com/document/product/248/48529" },
@@ -102,8 +104,8 @@
     }
   ],
   "dependencies": {
-    "grafanaDependency": ">=6.0",
-    "grafanaVersion": "6.0",
+    "grafanaDependency": ">=7.0",
+    "grafanaVersion": "7.0",
     "plugins": []
   }
 }

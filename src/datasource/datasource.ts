@@ -226,7 +226,6 @@ export class TCMonitorDatasource implements DatasourceInterface {
   testDatasource() {
     const promises: any[] = [];
     const services = this.getSelectedServices();
-    console.log(services, this);
     _.forEach(services, (service) => {
       promises.push(this[`${_.toUpper(service)}Datasource`].testDatasource());
     });
@@ -239,16 +238,28 @@ export class TCMonitorDatasource implements DatasourceInterface {
     }
     return Promise.all(promises).then((results) => {
       let status = 'success';
-      let message = '';
-      for (let i = 0; i < results.length; i++) {
-        if (results[i].status !== 'success') {
-          status = results[i].status;
-        }
-        message += `${i + 1}. ${results[i].message} \n`;
+      let message = 'Datsource Connection OK';
+
+      const errorMsg = _.reduce(
+        results,
+        (acc, cur) => {
+          if (cur.status === 'error') {
+            if (acc === '') acc += 'Oops! Found an error in: ';
+            acc += `${cur.service}: ${cur.message}; \n`;
+          }
+          return acc;
+        },
+        ''
+      );
+
+      if (errorMsg) {
+        status = 'error';
+        message = errorMsg;
       }
+
       return {
-        status: status,
-        message: message,
+        status,
+        message,
         title: _.upperFirst(status),
       };
     });

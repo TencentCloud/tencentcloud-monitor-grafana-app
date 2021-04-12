@@ -1,12 +1,11 @@
-import { SHA256, HmacSHA256 } from 'crypto-js';
-import * as Hex from 'crypto-js/enc-hex';
 import moment from 'moment';
+import { parseDataFromBackendPlugin } from './constants';
 
 const HttpRequestMethod = 'POST';
 const CanonicalUri = '/';
 const CanonicalQueryString = '';
 const ContentType = 'application/json';
-const Algorithm = 'TC3-HMAC-SHA256';
+// const Algorithm = 'TC3-HMAC-SHA256';
 
 /**
  * The steps of TC3-HMAC-SHA256 method:
@@ -44,7 +43,7 @@ export default class Sign {
    */
 
   secretId: string;
-  secretKey: string;
+
   service: string;
   action: string;
   host: string;
@@ -53,11 +52,12 @@ export default class Sign {
   region: string;
   timestamp: number;
   date: string;
-
+  backendSrv: any;
+  datasourceId: Number;
   constructor(options) {
-    const { secretId, secretKey, service, action, host, version, payload = '', region } = options;
+    const { secretId, service, action, host, version, payload = '', region, backendSrv, datasourceId } = options;
     this.secretId = secretId;
-    this.secretKey = secretKey;
+    // this.secretKey = secretKey;
     this.service = service;
     this.action = action;
     this.host = host;
@@ -67,31 +67,67 @@ export default class Sign {
     const nowDate = moment().utc();
     this.timestamp = nowDate.unix();
     this.date = nowDate.format('YYYY-MM-DD');
+    this.backendSrv = backendSrv;
+    this.datasourceId = datasourceId;
   }
 
-  getHeader() {
+  async getHeader() {
     // Generate the request string
-    const canonicalHeaders = `content-type:${ContentType}\nhost:${this.host}\n`;
-    const signedHeaders = 'content-type;host';
-    const hashedRequestPayload = Hex.stringify(SHA256(this.payload)).toLowerCase();
-    const canonicalRequest = `${HttpRequestMethod}\n${CanonicalUri}\n${CanonicalQueryString}\n${canonicalHeaders}\n${signedHeaders}\n${hashedRequestPayload}`;
+    // const canonicalHeaders = `content-type:${ContentType}\nhost:${this.host}\n`;
+    // const signedHeaders = 'content-type;host';
+    // const hashedRequestPayload = Hex.stringify(SHA256(this.payload)).toLowerCase();
+    // const canonicalRequest = `${HttpRequestMethod}\n${CanonicalUri}\n${CanonicalQueryString}\n${canonicalHeaders}\n${signedHeaders}\n${hashedRequestPayload}`;
 
-    // Generate the original signature string
-    const credentialScope = `${this.date}/${this.service}/tc3_request`;
-    const hashedCanonicalRequest = Hex.stringify(SHA256(canonicalRequest)).toLowerCase();
-    const stringToSign = `${Algorithm}\n${this.timestamp}\n${credentialScope}\n${hashedCanonicalRequest}`;
+    // // Generate the original signature string
+    // const credentialScope = `${this.date}/${this.service}/tc3_request`;
+    // const hashedCanonicalRequest = Hex.stringify(SHA256(canonicalRequest)).toLowerCase();
+    // const stringToSign = `${Algorithm}\n${this.timestamp}\n${credentialScope}\n${hashedCanonicalRequest}`;
 
-    // Generate the signature string
-    const secretDate = HmacSHA256(this.date, `TC3${this.secretKey}`);
-    const secretService = HmacSHA256(this.service, secretDate);
-    const secretSigning = HmacSHA256('tc3_request', secretService);
-    const signature = Hex.stringify(HmacSHA256(stringToSign, secretSigning));
+    // // Generate the signature string
+    // const secretDate = HmacSHA256(this.date, `TC3${this.secretKey}`);
+    // const secretService = HmacSHA256(this.service, secretDate);
+    // const secretSigning = HmacSHA256('tc3_request', secretService);
+    // const signature = Hex.stringify(HmacSHA256(stringToSign, secretSigning));
 
-    // Generate the authorization string
-    const authorization = `${Algorithm} Credential=${this.secretId}/${credentialScope}, SignedHeaders=${signedHeaders}, Signature=${signature}`;
+    // // Generate the authorization string
+    // const authorization = `${Algorithm} Credential=${this.secretId}/${credentialScope}, SignedHeaders=${signedHeaders}, Signature=${signature}`;
+    let res = {};
+    try {
+      res = await this.backendSrv.datasourceRequest({
+        url: '/api/ds/query',
+        method: 'POST',
+        data: {
+          from: '',
+          to: '',
+          queries: [
+            {
+              Query: {
+                Host: this.host,
+                Service: this.service,
+                Version: this.version,
+                Action: this.action,
+                Region: this.region,
+                Timestamp: this.timestamp,
+                Method: HttpRequestMethod,
+                Uri: CanonicalUri,
+                Query: CanonicalQueryString,
+                Body: this.payload,
+                Headers: {
+                  'content-type': ContentType,
+                  host: this.host,
+                },
+              },
+              refId: 'A',
+              datasourceId: this.datasourceId,
+            },
+          ],
+        },
+      });
+    } catch (e) {}
+    const { authorization } = parseDataFromBackendPlugin(res);
     const grafanaVersion = (window as any).grafanaBootData?.settings?.buildInfo?.version || '0.0.0';
     // Common Request Parameters of the header information
-    // console.log('versions', `GF_${grafanaVersion}_PL_CM_${process.env.TENCENT_CLOUD_MONITOR_GRAFANA_PLUGIN_VERSION}`);
+    // console.log('versions',  `GF_${grafanaVersion}_PL_CM_${process.env.TENCENT_CLOUD_MONITOR_GRAFANA_PLUGIN_VERSION}`);
     const headers = {
       Authorization: authorization,
       'Content-Type': ContentType,
