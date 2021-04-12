@@ -68,37 +68,37 @@ English | [简体中文](https://github.com/TencentCloud/tencentcloud-monitor-gr
 
 # Introduction
 
-[Tencent Cloud Monitoring]((https://intl.cloud.tencent.com/)) provides users with load and performance monitoring metrics of multiple cloud products such as Cloud Virtual Machine (CVM) and Cloud Databases (CDB). Users can use cloud monitoring consoles, cloud monitoring APIs, and other methods to retrieve relevant monitoring data. Tencent Cloud Monitor Grafana App is an application plugin that adapts to the open-source software Grafana. It retrieves monitoring data by calling [Tencent Cloud Monitoring API 3.0]((https://intl.cloud.tencent.com/document/product/248/33873)), and displays the data on a custom Dashboard.
+[Tencent Cloud Monitoring]((https://intl.cloud.tencent.com/)) provides users with load and performance monitoring metrics of multiple cloud products such as Cloud Virtual Machine (CVM) and Cloud Databases (CDB). Users can use cloud monitoring consoles, cloud monitoring APIs, and other methods to retrieve relevant monitoring data. Tencent Cloud Monitor Grafana App is an application plugin that adapts to the open-source software Grafana. It retrieves monitoring data by calling [Tencent Cloud Monitoring API 3.0]((https://intl.cloud.tencent.com/document/product/248/33873)), and displays the data on a custom Dashboard. Support monitoring:
 
-- Support monitoring [CVM Monitoring Metrics](https://intl.cloud.tencent.com/document/product/248/6843);
-- Support monitoring [TencentDB for MySQL Monitoring Metrics](https://intl.cloud.tencent.com/document/product/248/11006);
-- Support monitoring [TencentDB for PostgreSQL Monitoring Metrics](https://intl.cloud.tencent.com/document/product/248/17945);
-- Support monitoring [TencentDB for MongoDB](https://intl.cloud.tencent.com/document/product/248/35671);
-- Support monitoring [TencentDB for Redis](https://intl.cloud.tencent.com/document/product/248/39507);
-- Support monitoring [TencentDB for TcaplusDB](https://intl.cloud.tencent.com/document/product/248/34592);
-- Support monitoring [TencentDB for SQL Server](https://intl.cloud.tencent.com/document/product/248/11008);
-- Support monitoring [TencentDB for CYNOSDB_MYSQL](https://intl.cloud.tencent.com/document/product/248/37383);
-- Support monitoring [Private Network NAT Gateway Monitoring Metrics](https://intl.cloud.tencent.com/document/product/248/10991);
-- Support monitoring [Private Network Peering Connection Monitoring Metrics](https://intl.cloud.tencent.com/document/product/248/10986);
-- Support monitoring [VPN Gateway Monitoring Metrics](https://intl.cloud.tencent.com/document/product/248/10988);
-- Support monitoring [Direct Connect Gateway](https://intl.cloud.tencent.com/document/product/248/10990);
-- Support monitoring [Cloud Load Balancer Public Network Monitoring Metrics](https://intl.cloud.tencent.com/document/product/248/10997);
-- Support monitoring [Cloud Load Balancer Private Network Layer-4 Protocol](https://intl.cloud.tencent.com/document/product/248/39529);
-- Support monitoring [Cloud Load Balancer Layer-7 Protocol](https://intl.cloud.tencent.com/document/product/248/39530);
-- Support monitoring [Content Delivery Network (CDN)](https://intl.cloud.tencent.com/document/product/248/39554);
-- Support monitoring [CDN Province](https://intl.cloud.tencent.com/document/product/248/39556);
-- Support monitoring [Bandwidth Packet](https://intl.cloud.tencent.com/document/product/248/34645);
-- Support monitoring [Message Queue CKafka](https://intl.cloud.tencent.com/document/product/248/17297);
-- Support monitoring [CMQ Queue Service](https://intl.cloud.tencent.com/document/product/248/34643);
-- Support monitoring [CMQ Topic Subscription](https://intl.cloud.tencent.com/document/product/248/11013);
-- Support monitoring [Elastic IP](https://intl.cloud.tencent.com/document/product/248/34646);
-- Support monitoring [Cloud File Storage (CFS)](https://intl.cloud.tencent.com/document/product/248/34644);
-- Support monitoring [Serverless Cloud Function (SCF)](https://intl.cloud.tencent.com/document/product/248/34638);
-- Support monitoring [Dedicated Tunnel](https://intl.cloud.tencent.com/document/product/248/10995);
-- Support monitoring [Direct Connection](https://intl.cloud.tencent.com/document/product/248/10994);
-- Support monitoring [API Gateway](https://intl.cloud.tencent.com/document/product/248/19130);
-- Support monitoring [Cloud Block Storage](https://intl.cloud.tencent.com/document/product/248/37085);
-- Support monitoring [Elasticsearch](https://intl.cloud.tencent.com/document/product/248/34642);
+- [CVM Monitoring Metrics](https://intl.cloud.tencent.com/document/product/248/6843);
+- [TencentDB for MySQL Monitoring Metrics](https://intl.cloud.tencent.com/document/product/248/11006);
+- [TencentDB for PostgreSQL Monitoring Metrics](https://intl.cloud.tencent.com/document/product/248/17945);
+- [TencentDB for MongoDB](https://intl.cloud.tencent.com/document/product/248/35671);
+- [TencentDB for Redis](https://intl.cloud.tencent.com/document/product/248/39507);
+- [TencentDB for TcaplusDB](https://intl.cloud.tencent.com/document/product/248/34592);
+- [TencentDB for SQL Server](https://intl.cloud.tencent.com/document/product/248/11008);
+- [TencentDB for CYNOSDB_MYSQL](https://intl.cloud.tencent.com/document/product/248/37383);
+- [Private Network NAT Gateway Monitoring Metrics](https://intl.cloud.tencent.com/document/product/248/10991);
+- [Private Network Peering Connection Monitoring Metrics](https://intl.cloud.tencent.com/document/product/248/10986);
+- [VPN Gateway Monitoring Metrics](https://intl.cloud.tencent.com/document/product/248/10988);
+- [Direct Connect Gateway](https://intl.cloud.tencent.com/document/product/248/10990);
+- [Cloud Load Balancer Public Network Monitoring Metrics](https://intl.cloud.tencent.com/document/product/248/10997);
+- [Cloud Load Balancer Private Network Layer-4 Protocol](https://intl.cloud.tencent.com/document/product/248/39529);
+- [Cloud Load Balancer Layer-7 Protocol](https://intl.cloud.tencent.com/document/product/248/39530);
+- [Content Delivery Network (CDN)](https://intl.cloud.tencent.com/document/product/248/39554);
+- [CDN Province](https://intl.cloud.tencent.com/document/product/248/39556);
+- [Bandwidth Packet](https://intl.cloud.tencent.com/document/product/248/34645);
+- [Message Queue CKafka](https://intl.cloud.tencent.com/document/product/248/17297);
+- [CMQ Queue Service](https://intl.cloud.tencent.com/document/product/248/34643);
+- [CMQ Topic Subscription](https://intl.cloud.tencent.com/document/product/248/11013);
+- [Elastic IP](https://intl.cloud.tencent.com/document/product/248/34646);
+- [Cloud File Storage (CFS)](https://intl.cloud.tencent.com/document/product/248/34644);
+- [Serverless Cloud Function (SCF)](https://intl.cloud.tencent.com/document/product/248/34638);
+- [Dedicated Tunnel](https://intl.cloud.tencent.com/document/product/248/10995);
+- [Direct Connection](https://intl.cloud.tencent.com/document/product/248/10994);
+- [API Gateway](https://intl.cloud.tencent.com/document/product/248/19130);
+- [Cloud Block Storage](https://intl.cloud.tencent.com/document/product/248/37085);
+- [Elasticsearch](https://intl.cloud.tencent.com/document/product/248/34642);
 - Provides representative [Dashboard templates](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/tree/master/src/dashboards) for **CVM Monitoring**, **TencentDB for MySQL Monitoring** and **Cloud Load Balancer** etc.
 - More cloud product metrics are being improved.
 
@@ -747,27 +747,6 @@ If you have any questions using this app, you are welcome to [create an issue](h
 | ----------- |
 | ![QQ Group](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/src/image/QQ-QRCode.png?raw=true) |
 
-# Contributors ✨
-
-Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
-
-[![All Contributors](https://img.shields.io/badge/all_contributors-8-orange.svg?style=flat-square)](#contributors)
-
-<table>
-  <tr>
-    <td align="center"><a href="https://github.com/heriky"><img src="https://avatars.githubusercontent.com/u/12195736?v=4?s=70" width="70px;" alt=""/><br /><sub><b>heriky</b></sub></a><br /><a href="#" title="Code">💻</a></td>
-    <td align="center"><a href="https://github.com/jamesxwang"><img src="https://avatars.githubusercontent.com/u/36892657?v=4?s=70" width="70px;" alt=""/><br /><sub><b>jamesxwang</b></sub></a><br /><a href="https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/commits?author=jamesxwang" title="Code">💻</a> <a href="#" title="Documentation	">📖</a></td>
-    <td align="center"><a href="https://github.com/leonlysu"><img src="https://avatars.githubusercontent.com/u/73583724?v=4?s=70" width="70px;" alt=""/><br /><sub><b>leonlysu</b></sub></a><br /><a href="https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/commits?author=leonlysu" title="Code">💻</a></td>
-    <td align="center"><a href="https://github.com/smallpath"><img src="https://avatars.githubusercontent.com/u/10809900?v=4?s=70" width="70px;" alt=""/><br /><sub><b>smallpath</b></sub></a><br /><a href="#" title="Code">💻</a></td>
-    <td align="center"><a href="https://github.com/susiezhao"><img src="https://avatars.githubusercontent.com/u/13827192?v=4?s=70" width="70px;" alt=""/><br /><sub><b>susiezhao</b></sub></a><br /><a href="https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/commits?author=susiezhao" title="Code">💻</a></td>
-    <td align="center"><a href="https://github.com/taoran34"><img src="https://avatars.githubusercontent.com/u/9361046?v=4?s=70" width="70px;" alt=""/><br /><sub><b>taoran34</b></sub></a><br /><a href="#" title="Code">💻</a></td>
-    <td align="center"><a href="https://github.com/Cloudlie"><img src="https://avatars.githubusercontent.com/u/7425309?v=4?s=70" width="70px;" alt=""/><br /><sub><b>Cloudlie</b></sub></a><br /><a href="https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/commits?author=Cloudlie" title="Code">💻</a><a href="https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/issues/created_by/Cloudlie">🐛</a></td>
-    <td align="center"><a href="https://github.com/woson-wang"><img src="https://avatars.githubusercontent.com/u/34298517?v=4?s=70" width="70px;" alt=""/><br /><sub><b>woson-wang</b></sub></a><br /><a href="https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/issues/created_by/woson-wang">🐛</a></td>
-  </tr>
-</table>
-
-This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
-
 # Contribution Guide
 
 Welcome everyone to participate in the development of Tencent Cloud Monitoring Grafana App and contribute!
@@ -778,7 +757,7 @@ You can choose the following contribution methods:
 - [Contribute your amazing code and create a Pull Request](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/pulls)
 - [Report bug(s) and create an Issue](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/issues/new/choose)
 
-We will add you into [our contributor list](#contributors)
+We will add you into [our contributor list](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app#%E8%B4%A1%E7%8C%AE%E8%80%85-)
 
 Read more in the [Contribution Guide](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/CONTRIBUTING.en-US.md) document.
 
