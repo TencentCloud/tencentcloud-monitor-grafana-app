@@ -1,6 +1,18 @@
 # TencentCloud Monitor Grafana App
 ---
 
+## [2.0.2] - 2021-04-13
+
+### Added
+
+- Plugin signing script.
+
+### Fixed
+
+- Set English as the main readme language in dist/
+- Other minor document fixes.
+
+---
 
 ## [2.0.1] - 2021-04-07
 
