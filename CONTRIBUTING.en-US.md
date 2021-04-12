@@ -10,7 +10,7 @@ You can choose the following contribution methods:
 - [Contribute your amazing code and create a Pull Request](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/pulls)
 - [Report bug(s) and create an Issue](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/issues/new/choose)
 
-We will add you into [our contributor list](#contributors)
+We will add you into [our contributor list]([#contributors](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app#%E8%B4%A1%E7%8C%AE%E8%80%85-))
 
 ## Local Development
 
