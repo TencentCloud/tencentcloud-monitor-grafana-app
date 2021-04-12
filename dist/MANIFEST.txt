@@ -9,7 +9,7 @@ Hash: SHA512
   "signedByOrgName": "Tencent",
   "plugin": "tencentcloud-monitor-app",
   "version": "2.0.1",
-  "time": 1618234736719,
+  "time": 1618247484559,
   "keyId": "7e4d0c6a708866e7",
   "files": {
     "datasource/tencentcloud-monitor-app-backend_darwin_amd64": "2a17396e2c4936e9287ca6e89c8ccf014fa5d188b200e971f9f8b1864a70b42e",
@@ -26,14 +26,14 @@ Hash: SHA512
     "datasource/partials/config.html": "ed9e6bb45a9bd3beb92f9be384a4cbd77012e491f2585cb04bd6125ae80e418d",
     "datasource/tencentcloud-monitor-app-backend_darwin_arm64": "917b132bdd20b213b75333ce7dd3fa4f54d5e394feb31962c2a097807da5b303",
     "LICENSE": "7d90d87fbfbc9369eb627fd38811e01dfd955d72269d5039e7c6119372baa1e3",
-    "CHANGELOG.md": "486c2aae9ecbc543ad60b95edbe383e1efed58b9685a7b50dd099f1dc5b6847a",
+    "CHANGELOG.md": "3a42fb9e00edf40c7dae687f8830de7fc05cd368b7c2b6ed68f663a2ae5268b5",
     "module.js.map": "850fed67dd32994fe078a5b8d90d16a6731b39bf938053b9782ba79fa835cd0f",
-    "image/datasource-config.png": "3a3bd2e1f6fcd14bb222371e12d1af1c82b842dfd683300f694dda43fdc7ef8b",
+    "image/datasource-config.png": "e31ceec33c6454f6335850791f9b35fc2be56a4e43dfc11a75435e16f025dc0f",
     "image/variable-region-config.png": "d46215b565d2b851855fb48bf7ee73ef696e3b8cfc671a376743faa39b193f3c",
     "image/variable-panel-query.png": "e17f91280df34695d7be10b3e355b6c91d4b43404243529dc7e75d1f9a8605fa",
     "image/variable-cvm-dashboard.png": "f97220e1230b83b0110f7e11468538b44c48d8b70906509f5153f8895ed02653",
     "plugin.json": "a30f709c21c3a4ede157ad70fcf1236246054e59a8b03fdef4adeddbf3d944a6",
-    "README.md": "7cc65c6eb9204ccafb6fcf28681d2b5d0d0c5d60308b56cc9bb5153958c0c2a3",
+    "README.md": "59b477004f00ed0efc286ce1a963d520c1f1bd571f94ccb555373b0332dd0792",
     "img/tencent-cloud.svg": "572e1abf6d2a4be854845b55219e8d0661f79b325f0659b5439dddb37a304a8a",
     "components/config.js": "aa5ccece671e280edc1378263a35d233192f1b44b659a0e1b993c39e2dc9ceee",
     "components/config.js.map": "eb0973f50e95bd6df4091a7baba36cc03b20ae1695aa61feb0e407d177ca940d",
@@ -58,9 +58,9 @@ Hash: SHA512
 Version: OpenPGP.js v4.10.1
 Comment: https://openpgpjs.org
 
-wqAEARMKAAYFAmB0TXAACgkQfk0ManCIZuemGQIGNIdXrQYoDHts3t4S8449
-Gd+0CLHbhnrR/Po0i5N5q6cDXLNKJaGa7+dj7GqYTx2nNrYu6g74CR+yFYh5
-xtrPWV4CBjh/TRELAwbvaxycGIDwJ5y8zb1QEQ0KuJBs+E40ivovwKyeeOqN
-TfGNOhn2nzRBHKEJoxlDY3yL0IU9wmwRIzsT
-=+GsW
+wqEEARMKAAYFAmB0fzwACgkQfk0ManCIZue/5wIJAT9aVNbkabhg/6HnZefS
+0RqkT8J49YrIqbuq6F7ZOz63RMKocPPCg/bLvmtFSK0ebFuOXM15dJ+dH+XC
+CX/6x507AgdbJdTzZtqJZUR8MkVv42DX0AzCKZwRe4Zq+TvbE1iucB31X5rZ
+KbIkWf9Zc9Wpn4NkeVyA/xwV+9kg0Pc5X2Hf0g==
+=m36I
 -----END PGP SIGNATURE-----
