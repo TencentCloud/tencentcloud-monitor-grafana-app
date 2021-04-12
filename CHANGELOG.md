@@ -1,7 +1,11 @@
 # TencentCloud Monitor Grafana App
 ---
 
-## [2.0.2] - 2021-04-12
+## [2.0.2] - 2021-04-13
+
+### Added
+
+- Plugin signing script.
 
 ### Fixed
 
