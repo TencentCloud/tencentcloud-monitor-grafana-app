@@ -1,6 +1,18 @@
 # TencentCloud Monitor Grafana App
 ---
 
+## [2.0.2] - 2021-04-13
+
+### Added
+
+- Plugin signing script.
+
+### Fixed
+
+- Set English as the main readme language in dist/
+- Other minor document fixes.
+
+---
 
 ## [2.0.1] - 2021-04-07
 
@@ -168,7 +180,7 @@ See detailed guide in [README.md](https://github.com/TencentCloud/tencentcloud-m
 ## [1.0.0] - 2021-01-22
 
 ### 1.0.0 Feature highlights
-[Tencent Cloud Monitoring]((https://intl.cloud.tencent.com/)) provides users with load and performance monitoring metrics of multiple cloud products such as Cloud Virtual Machine (CVM) and Cloud Databases (CDB). Users can use cloud monitoring consoles, cloud monitoring APIs, and other methods to retrieve relevant monitoring data. Tencent Cloud Monitor Grafana App is an application plugin that adapts to the open-source software Grafana. It retrieves monitoring data by calling [Tencent Cloud Monitoring API 3.0]((https://intl.cloud.tencent.com/document/product/248/33873)), and displays the data on a custom Dashboard.
+[Tencent Cloud Monitoring](https://intl.cloud.tencent.com/) provides users with load and performance monitoring metrics of multiple cloud products such as Cloud Virtual Machine (CVM) and Cloud Databases (CDB). Users can use cloud monitoring consoles, cloud monitoring APIs, and other methods to retrieve relevant monitoring data. Tencent Cloud Monitor Grafana App is an application plugin that adapts to the open-source software Grafana. It retrieves monitoring data by calling [Tencent Cloud Monitoring API 3.0](https://intl.cloud.tencent.com/document/product/248/33873), and displays the data on a custom Dashboard.
 
 - Support monitoring [CVM Monitoring Metrics](https://intl.cloud.tencent.com/document/product/248/6843);
 - Support monitoring [TencentDB for MySQL Monitoring Metrics](https://intl.cloud.tencent.com/document/product/248/11006);

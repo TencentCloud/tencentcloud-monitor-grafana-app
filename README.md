@@ -69,37 +69,37 @@
 
 # 简介
 
-[腾讯云监控](https://cloud.tencent.com/product/cm) 为用户提供云服务器、云数据库等多个云产品的负载和性能监控指标，用户可以使用云监控控制台、云监控 API 等方式获取相关监控数据。腾讯云监控应用插件 Tencent Cloud Monitor App，是一款适配开源软件 Grafana 的应用插件，通过调用 [腾讯云监控 API 3.0](https://cloud.tencent.com/document/product/248/30342) 的方式获取监控数据，并对数据进行自定义 Dashboard 展示。
+[腾讯云监控](https://cloud.tencent.com/product/cm) 为用户提供云服务器、云数据库等多个云产品的负载和性能监控指标，用户可以使用云监控控制台、云监控 API 等方式获取相关监控数据。腾讯云监控应用插件 Tencent Cloud Monitor App，是一款适配开源软件 Grafana 的应用插件，通过调用 [腾讯云监控 API 3.0](https://cloud.tencent.com/document/product/248/30342) 的方式获取监控数据，并对数据进行自定义 Dashboard 展示，支持如下监控指标数据源：
 
-- 支持 [云服务器](https://cloud.tencent.com/document/product/248/6843) 监控指标数据源
-- 支持 [云数据库 MySQL](https://cloud.tencent.com/document/product/248/45147) 监控指标数据源
-- 支持 [云数据库 PostgreSQL](https://cloud.tencent.com/document/product/248/45105) 监控指标数据源
-- 支持 [云数据库 MonogoDB](https://cloud.tencent.com/document/product/248/45104) 监控指标数据源
-- 支持 [云数据库 Redis](https://cloud.tencent.com/document/product/248/49729) 监控指标数据源
-- 支持 [云数据库 TCAPLUS](https://cloud.tencent.com/document/product/248/45107) 监控指标数据源
-- 支持 [云数据库 SQLSERVER](https://cloud.tencent.com/document/product/248/45146) 监控指标数据源
-- 支持 [云数据库 CYNOSDB_MYSQL](https://cloud.tencent.com/document/product/248/45106) 监控指标数据源
-- 支持 [私有网络 NAT 网关](https://cloud.tencent.com/document/product/248/45069) 监控指标数据源
-- 支持 [私有网络 对等连接](https://cloud.tencent.com/document/product/248/45096) 监控指标数据源
-- 支持 [私有网络 VPN 网关](https://cloud.tencent.com/document/product/248/45070) 监控指标数据源
-- 支持 [私有网络 专线网关](https://cloud.tencent.com/document/product/248/45072) 监控指标数据源
-- 支持 [公网负载均衡](https://cloud.tencent.com/document/product/248/51898) 监控指标数据源
-- 支持 [内网负载均衡四层协议](https://cloud.tencent.com/document/product/248/51899) 监控指标数据源
-- 支持 [负七层协议](https://cloud.tencent.com/document/product/248/51901) 监控指标数据源
-- 支持 [CDN 内容分发式网络](https://cloud.tencent.com/document/product/248/50386) 监控指标数据源
-- 支持 [CDNPROVINCE 省份域名](https://cloud.tencent.com/document/product/248/50388) 监控指标数据源
-- 支持 [带宽包](https://cloud.tencent.com/document/product/248/45098) 监控指标数据源
-- 支持 [CKAFKA 消息队列](https://cloud.tencent.com/document/product/248/45121) 监控指标数据源
-- 支持 [CMQ 消息队列](https://cloud.tencent.com/document/product/248/45114) 监控指标数据源
-- 支持 [CMQTOPIC 消息队列](https://cloud.tencent.com/document/product/248/45113) 监控指标数据源
-- 支持 [LB 弹性公网IP](https://cloud.tencent.com/document/product/248/45099) 监控指标数据源
-- 支持 [CFS 文件存储](https://cloud.tencent.com/document/product/248/45143) 监控指标数据源
-- 支持 [SCF 云函数](https://cloud.tencent.com/document/product/248/45130) 监控指标数据源
-- 支持 [DCX 专线接入-专用通道](https://cloud.tencent.com/document/product/248/45101) 监控指标数据源
-- 支持 [DC 专线接入-物理专线](https://cloud.tencent.com/document/product/248/45102) 监控指标数据源
-- 支持 [APIGATEWAY API 网关](https://cloud.tencent.com/document/product/248/45127) 监控指标数据源
-- 支持 [CBS 云硬盘](https://cloud.tencent.com/document/product/248/45411) 监控指标数据源
-- 支持 [CES Elasticsearch指标](https://cloud.tencent.com/document/product/248/45129) 监控指标数据源
+- [云服务器](https://cloud.tencent.com/document/product/248/6843)
+- [云数据库 MySQL](https://cloud.tencent.com/document/product/248/45147)
+- [云数据库 PostgreSQL](https://cloud.tencent.com/document/product/248/45105)
+- [云数据库 MonogoDB](https://cloud.tencent.com/document/product/248/45104)
+- [云数据库 Redis](https://cloud.tencent.com/document/product/248/49729)
+- [云数据库 TCAPLUS](https://cloud.tencent.com/document/product/248/45107)
+- [云数据库 SQLSERVER](https://cloud.tencent.com/document/product/248/45146)
+- [云数据库 CYNOSDB_MYSQL](https://cloud.tencent.com/document/product/248/45106)
+- [私有网络 NAT 网关](https://cloud.tencent.com/document/product/248/45069)
+- [私有网络 对等连接](https://cloud.tencent.com/document/product/248/45096)
+- [私有网络 VPN 网关](https://cloud.tencent.com/document/product/248/45070)
+- [私有网络 专线网关](https://cloud.tencent.com/document/product/248/45072)
+- [公网负载均衡](https://cloud.tencent.com/document/product/248/51898)
+- [内网负载均衡四层协议](https://cloud.tencent.com/document/product/248/51899)
+- [负七层协议](https://cloud.tencent.com/document/product/248/51901)
+- [CDN 内容分发式网络](https://cloud.tencent.com/document/product/248/50386)
+- [CDNPROVINCE 省份域名](https://cloud.tencent.com/document/product/248/50388)
+- [带宽包](https://cloud.tencent.com/document/product/248/45098)
+- [CKAFKA 消息队列](https://cloud.tencent.com/document/product/248/45121)
+- [CMQ 消息队列](https://cloud.tencent.com/document/product/248/45114)
+- [CMQTOPIC 消息队列](https://cloud.tencent.com/document/product/248/45113)
+- [LB 弹性公网IP](https://cloud.tencent.com/document/product/248/45099)
+- [CFS 文件存储](https://cloud.tencent.com/document/product/248/45143)
+- [SCF 云函数](https://cloud.tencent.com/document/product/248/45130)
+- [DCX 专线接入-专用通道](https://cloud.tencent.com/document/product/248/45101)
+- [DC 专线接入-物理专线](https://cloud.tencent.com/document/product/248/45102)
+- [APIGATEWAY API 网关](https://cloud.tencent.com/document/product/248/45127)
+- [CBS 云硬盘](https://cloud.tencent.com/document/product/248/45411)
+- [CES Elasticsearch指标](https://cloud.tencent.com/document/product/248/45129)
 - 提供了云服务器、云数据库 MySQL、负载均衡 等具有代表性的 [Dashboard 模板](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/tree/master/src/dashboards)
 - 更多云产品的监控指标数据源在陆续完善中
 
@@ -307,7 +307,7 @@ $ grafana-cli plugins --help
       - **注意：** 在本应用中，监控数据的单次查询为原子操作，即查询某一实例的某一指标的监控数据，故实例只能单选，如需查询多实例的监控数据，点击右上角的 `Add Query` 增加新的查询。  
       - `Show Details` 按钮仅在选择非模板变量时显示。
 
-  ![cynosdbMysql Panel Query](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/src/image/panel-cynosdbMysql-query.png?raw=true)
+![cynosdbMysql Panel Query](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/src/image/panel-cynosdbMysql-query.png?raw=true)
     
 
 ## 云数据库 TcaplusDB
@@ -553,6 +553,7 @@ $ grafana-cli plugins --help
       - `Show Details` 按钮仅在选择非模板变量时显示。
     - `Isp` 运营商列表。
     - `Province` 可选省份列表。
+
 ![cdnProvince Panel Query](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/src/image/panel-cdnProvince-query.png?raw=true)
     
 
@@ -571,6 +572,7 @@ $ grafana-cli plugins --help
       - **注意：** 在本应用中，监控数据的单次查询为原子操作，即查询某一实例的某一指标的监控数据，故实例只能单选，如需查询多实例的监控数据，点击右上角的 `Add Query` 增加新的查询。  
       - `Show Details` 按钮仅在选择非模板变量时显示。
     - `EnvironmentName` 环境名称，会根据上面Instance内容获取。
+
 ![apigateway Panel Query](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/src/image/panel-apigateway-query.png?raw=true)
     
 

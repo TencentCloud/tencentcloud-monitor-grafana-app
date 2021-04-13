@@ -68,37 +68,37 @@ English | [简体中文](https://github.com/TencentCloud/tencentcloud-monitor-gr
 
 # Introduction
 
-[Tencent Cloud Monitoring]((https://intl.cloud.tencent.com/)) provides users with load and performance monitoring metrics of multiple cloud products such as Cloud Virtual Machine (CVM) and Cloud Databases (CDB). Users can use cloud monitoring consoles, cloud monitoring APIs, and other methods to retrieve relevant monitoring data. Tencent Cloud Monitor Grafana App is an application plugin that adapts to the open-source software Grafana. It retrieves monitoring data by calling [Tencent Cloud Monitoring API 3.0]((https://intl.cloud.tencent.com/document/product/248/33873)), and displays the data on a custom Dashboard.
+[Tencent Cloud Monitoring](https://intl.cloud.tencent.com/) provides users with load and performance monitoring metrics of multiple cloud products such as Cloud Virtual Machine (CVM) and Cloud Databases (CDB). Users can use cloud monitoring consoles, cloud monitoring APIs, and other methods to retrieve relevant monitoring data. Tencent Cloud Monitor Grafana App is an application plugin that adapts to the open-source software Grafana. It retrieves monitoring data by calling [Tencent Cloud Monitoring API 3.0](https://intl.cloud.tencent.com/document/product/248/33873), and displays the data on a custom Dashboard. Support monitoring:
 
-- Support monitoring [CVM Monitoring Metrics](https://intl.cloud.tencent.com/document/product/248/6843);
-- Support monitoring [TencentDB for MySQL Monitoring Metrics](https://intl.cloud.tencent.com/document/product/248/11006);
-- Support monitoring [TencentDB for PostgreSQL Monitoring Metrics](https://intl.cloud.tencent.com/document/product/248/17945);
-- Support monitoring [TencentDB for MongoDB](https://intl.cloud.tencent.com/document/product/248/35671);
-- Support monitoring [TencentDB for Redis](https://intl.cloud.tencent.com/document/product/248/39507);
-- Support monitoring [TencentDB for TcaplusDB](https://intl.cloud.tencent.com/document/product/248/34592);
-- Support monitoring [TencentDB for SQL Server](https://intl.cloud.tencent.com/document/product/248/11008);
-- Support monitoring [TencentDB for CYNOSDB_MYSQL](https://intl.cloud.tencent.com/document/product/248/37383);
-- Support monitoring [Private Network NAT Gateway Monitoring Metrics](https://intl.cloud.tencent.com/document/product/248/10991);
-- Support monitoring [Private Network Peering Connection Monitoring Metrics](https://intl.cloud.tencent.com/document/product/248/10986);
-- Support monitoring [VPN Gateway Monitoring Metrics](https://intl.cloud.tencent.com/document/product/248/10988);
-- Support monitoring [Direct Connect Gateway](https://intl.cloud.tencent.com/document/product/248/10990);
-- Support monitoring [Cloud Load Balancer Public Network Monitoring Metrics](https://intl.cloud.tencent.com/document/product/248/10997);
-- Support monitoring [Cloud Load Balancer Private Network Layer-4 Protocol](https://intl.cloud.tencent.com/document/product/248/39529);
-- Support monitoring [Cloud Load Balancer Layer-7 Protocol](https://intl.cloud.tencent.com/document/product/248/39530);
-- Support monitoring [Content Delivery Network (CDN)](https://intl.cloud.tencent.com/document/product/248/39554);
-- Support monitoring [CDN Province](https://intl.cloud.tencent.com/document/product/248/39556);
-- Support monitoring [Bandwidth Packet](https://intl.cloud.tencent.com/document/product/248/34645);
-- Support monitoring [Message Queue CKafka](https://intl.cloud.tencent.com/document/product/248/17297);
-- Support monitoring [CMQ Queue Service](https://intl.cloud.tencent.com/document/product/248/34643);
-- Support monitoring [CMQ Topic Subscription](https://intl.cloud.tencent.com/document/product/248/11013);
-- Support monitoring [Elastic IP](https://intl.cloud.tencent.com/document/product/248/34646);
-- Support monitoring [Cloud File Storage (CFS)](https://intl.cloud.tencent.com/document/product/248/34644);
-- Support monitoring [Serverless Cloud Function (SCF)](https://intl.cloud.tencent.com/document/product/248/34638);
-- Support monitoring [Dedicated Tunnel](https://intl.cloud.tencent.com/document/product/248/10995);
-- Support monitoring [Direct Connection](https://intl.cloud.tencent.com/document/product/248/10994);
-- Support monitoring [API Gateway](https://intl.cloud.tencent.com/document/product/248/19130);
-- Support monitoring [Cloud Block Storage](https://intl.cloud.tencent.com/document/product/248/37085);
-- Support monitoring [Elasticsearch](https://intl.cloud.tencent.com/document/product/248/34642);
+- [CVM Monitoring Metrics](https://intl.cloud.tencent.com/document/product/248/6843);
+- [TencentDB for MySQL Monitoring Metrics](https://intl.cloud.tencent.com/document/product/248/11006);
+- [TencentDB for PostgreSQL Monitoring Metrics](https://intl.cloud.tencent.com/document/product/248/17945);
+- [TencentDB for MongoDB](https://intl.cloud.tencent.com/document/product/248/35671);
+- [TencentDB for Redis](https://intl.cloud.tencent.com/document/product/248/39507);
+- [TencentDB for TcaplusDB](https://intl.cloud.tencent.com/document/product/248/34592);
+- [TencentDB for SQL Server](https://intl.cloud.tencent.com/document/product/248/11008);
+- [TencentDB for CYNOSDB_MYSQL](https://intl.cloud.tencent.com/document/product/248/37383);
+- [Private Network NAT Gateway Monitoring Metrics](https://intl.cloud.tencent.com/document/product/248/10991);
+- [Private Network Peering Connection Monitoring Metrics](https://intl.cloud.tencent.com/document/product/248/10986);
+- [VPN Gateway Monitoring Metrics](https://intl.cloud.tencent.com/document/product/248/10988);
+- [Direct Connect Gateway](https://intl.cloud.tencent.com/document/product/248/10990);
+- [Cloud Load Balancer Public Network Monitoring Metrics](https://intl.cloud.tencent.com/document/product/248/10997);
+- [Cloud Load Balancer Private Network Layer-4 Protocol](https://intl.cloud.tencent.com/document/product/248/39529);
+- [Cloud Load Balancer Layer-7 Protocol](https://intl.cloud.tencent.com/document/product/248/39530);
+- [Content Delivery Network (CDN)](https://intl.cloud.tencent.com/document/product/248/39554);
+- [CDN Province](https://intl.cloud.tencent.com/document/product/248/39556);
+- [Bandwidth Packet](https://intl.cloud.tencent.com/document/product/248/34645);
+- [Message Queue CKafka](https://intl.cloud.tencent.com/document/product/248/17297);
+- [CMQ Queue Service](https://intl.cloud.tencent.com/document/product/248/34643);
+- [CMQ Topic Subscription](https://intl.cloud.tencent.com/document/product/248/11013);
+- [Elastic IP](https://intl.cloud.tencent.com/document/product/248/34646);
+- [Cloud File Storage (CFS)](https://intl.cloud.tencent.com/document/product/248/34644);
+- [Serverless Cloud Function (SCF)](https://intl.cloud.tencent.com/document/product/248/34638);
+- [Dedicated Tunnel](https://intl.cloud.tencent.com/document/product/248/10995);
+- [Direct Connection](https://intl.cloud.tencent.com/document/product/248/10994);
+- [API Gateway](https://intl.cloud.tencent.com/document/product/248/19130);
+- [Cloud Block Storage](https://intl.cloud.tencent.com/document/product/248/37085);
+- [Elasticsearch](https://intl.cloud.tencent.com/document/product/248/34642);
 - Provides representative [Dashboard templates](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/tree/master/src/dashboards) for **CVM Monitoring**, **TencentDB for MySQL Monitoring** and **Cloud Load Balancer** etc.
 - More cloud product metrics are being improved.
 
@@ -244,7 +244,7 @@ After creating the Dashboard, you can get the corresponding monitoring data moni
 
 1. Click `Add Query` button in a new panel, navigate to the first `Query` tab.
 2. Select Datasource to `Tencent Cloud Monitoring`.
-3. The input parameters are aligned with [Tencent Cloud Monitoring API documentation](https://intl.cloud.tencent.com/document/product/248/45105).
+3. The input parameters are aligned with [Tencent Cloud Monitoring API documentation](https://intl.cloud.tencent.com/document/product/248/17945).
     - The `Namespace` is for example `QCE/POSTGRES`.
     - The `Region` list will be automatically retrieved according to the `Namespace` seleciton.
     - The `MetricName` list will be retrieved after `Namespace` and `Region` are selected.
@@ -470,7 +470,7 @@ After creating the Dashboard, you can get the corresponding monitoring data moni
 
 1. Click `Add Query` button in a new panel, navigate to the first `Query` tab.
 2. Select Datasource to `Tencent Cloud Monitoring`.
-3. The input parameters are aligned with [Tencent Cloud Monitoring API documentation](https://intl.cloud.tencent.com/document/product/248/45101).
+3. The input parameters are aligned with [Tencent Cloud Monitoring API documentation](https://intl.cloud.tencent.com/document/product/248/10995).
     - The `Namespace` is for example `QCE/DCX`.
     - The `Region` list will be automatically retrieved according to the `Namespace` seleciton.
     - The `MetricName` list will be retrieved after `Namespace` and `Region` are selected.
@@ -495,7 +495,7 @@ After creating the Dashboard, you can get the corresponding monitoring data moni
     - The `Period` list will be retrieved after `MetricName` is selected.
     - The `Instance` corresponds to `Instance.N` in the input params.
       - In order to adapt to the habits of different users, the instance list will be displayed in different fields, default field is `As DirectConnectId`. There are other options such as `As DirectConnectName`.
-      - Please refer to [this documentation](https://intl.cloud.tencent.com/document/api/216/34826) of how to configure instance params. Toggle `Show Details` to see detailed instance query parameter. The default params are `Offset = 0` and `Limit = 20`.
+      - Please refer to [this documentation](https://intl.cloud.tencent.com/document/api/216/35330) of how to configure instance params. Toggle `Show Details` to see detailed instance query parameter. The default params are `Offset = 0` and `Limit = 20`.
       - Note: In this app, a single query of monitoring data is an atomic operation, that is, to query the monitoring data of a certain metric of a certain instance, so the instance can only be single-selected. If you need to query the monitoring data of multiple instances, click on the `Add Query` button in upper right corner of the page.
       - `Show Details` toggle button will only show when not selecting template variables.
 
@@ -529,7 +529,7 @@ After creating the Dashboard, you can get the corresponding monitoring data moni
     - The `Period` list will be retrieved after `MetricName` is selected.
     - The `Instance` corresponds to `Instance.N` in the input params.
       - In order to adapt to the habits of different users, the instance list will be displayed in different fields, default field is `As DirectConnectGatewayId`. There are other options such as `As DirectConnectGatewayName`.
-      - Please refer to [this documentation](https://intl.cloud.tencent.com/document/api/215/30644) of how to configure instance params. Toggle `Show Details` to see detailed instance query parameter. The default params are `Offset = 0` and `Limit = 20`.
+      - Please refer to [this documentation](https://intl.cloud.tencent.com/document/api/215/36913) of how to configure instance params. Toggle `Show Details` to see detailed instance query parameter. The default params are `Offset = 0` and `Limit = 20`.
       - Note: In this app, a single query of monitoring data is an atomic operation, that is, to query the monitoring data of a certain metric of a certain instance, so the instance can only be single-selected. If you need to query the monitoring data of multiple instances, click on the `Add Query` button in upper right corner of the page.
       - `Show Details` toggle button will only show when not selecting template variables.
 
@@ -546,7 +546,7 @@ After creating the Dashboard, you can get the corresponding monitoring data moni
     - The `Period` list will be retrieved after `MetricName` is selected.
     - The `Instance` corresponds to `Instance.N` in the input params.
       - In order to adapt to the habits of different users, the instance list will be displayed in different fields, default field is `As Domain`. There are other options such as `As ProjectId`.
-      - Please refer to [this documentation](https://intl.cloud.tencent.com/document/api/228/41118) of how to configure instance params. Toggle `Show Details` to see detailed instance query parameter. The default params are `Offset = 0` and `Limit = 20`.
+      - Please refer to [this documentation](https://intl.cloud.tencent.com/document/api/228/34020) of how to configure instance params. Toggle `Show Details` to see detailed instance query parameter. The default params are `Offset = 0` and `Limit = 20`.
       - Note: In this app, a single query of monitoring data is an atomic operation, that is, to query the monitoring data of a certain metric of a certain instance, so the instance can only be single-selected. If you need to query the monitoring data of multiple instances, click on the `Add Query` button in upper right corner of the page.
       - `Show Details` toggle button will only show when not selecting template variables.
 
@@ -563,7 +563,7 @@ After creating the Dashboard, you can get the corresponding monitoring data moni
     - The `Period` list will be retrieved after `MetricName` is selected.
     - The `Instance` corresponds to `Instance.N` in the input params.
       - In order to adapt to the habits of different users, the instance list will be displayed in different fields, default field is `As ServiceId`. There are other options such as `As ServiceName`.
-      - Please refer to [this documentation](https://intl.cloud.tencent.com/document/api/628/45198) of how to configure instance params. Toggle `Show Details` to see detailed instance query parameter. The default params are `Offset = 0` and `Limit = 20`.
+      - Please refer to [this documentation](https://intl.cloud.tencent.com/document/api/628/36627) of how to configure instance params. Toggle `Show Details` to see detailed instance query parameter. The default params are `Offset = 0` and `Limit = 20`.
       - Note: In this app, a single query of monitoring data is an atomic operation, that is, to query the monitoring data of a certain metric of a certain instance, so the instance can only be single-selected. If you need to query the monitoring data of multiple instances, click on the `Add Query` button in upper right corner of the page.
       - `Show Details` toggle button will only show when not selecting template variables.
     - `EnvironmentName` will retrieve by `Instance`.
@@ -599,7 +599,7 @@ After creating the Dashboard, you can get the corresponding monitoring data moni
     - The `Period` list will be retrieved after `MetricName` is selected.
     - The `Instance` corresponds to `Instance.N` in the input params.
       - In order to adapt to the habits of different users, the instance list will be displayed in different fields, default field is `As InstanceId`. There are other options such as `As InstanceName`.
-      - Please refer to [this documentation](https://intl.cloud.tencent.com/document/api/845/30631) of how to configure instance params. Toggle `Show Details` to see detailed instance query parameter. The default params are `Offset = 0` and `Limit = 20`.
+      - Please refer to [this documentation](https://intl.cloud.tencent.com/document/api/845/32214) of how to configure instance params. Toggle `Show Details` to see detailed instance query parameter. The default params are `Offset = 0` and `Limit = 20`.
       - Note: In this app, a single query of monitoring data is an atomic operation, that is, to query the monitoring data of a certain metric of a certain instance, so the instance can only be single-selected. If you need to query the monitoring data of multiple instances, click on the `Add Query` button in upper right corner of the page.
       - `Show Details` toggle button will only show when not selecting template variables.
 
@@ -616,7 +616,7 @@ After creating the Dashboard, you can get the corresponding monitoring data moni
     - The `Period` list will be retrieved after `MetricName` is selected.
     - The `Instance` corresponds to `Instance.N` in the input params.
       - In order to adapt to the habits of different users, the instance list will be displayed in different fields, default field is `As QueueName`. There are other options such as `As QueueId`.
-      - Please refer to [this documentation](https://intl.cloud.tencent.com/document/api/406/42624) of how to configure instance params. Toggle `Show Details` to see detailed instance query parameter. The default params are `Offset = 0` and `Limit = 20`.
+      - Please refer to [this documentation](https://intl.cloud.tencent.com/document/api/406/35944) of how to configure instance params. Toggle `Show Details` to see detailed instance query parameter. The default params are `Offset = 0` and `Limit = 20`.
       - Note: In this app, a single query of monitoring data is an atomic operation, that is, to query the monitoring data of a certain metric of a certain instance, so the instance can only be single-selected. If you need to query the monitoring data of multiple instances, click on the `Add Query` button in upper right corner of the page.
       - `Show Details` toggle button will only show when not selecting template variables.
 
@@ -633,7 +633,7 @@ After creating the Dashboard, you can get the corresponding monitoring data moni
     - The `Period` list will be retrieved after `MetricName` is selected.
     - The `Instance` corresponds to `Instance.N` in the input params.
       - In order to adapt to the habits of different users, the instance list will be displayed in different fields, default field is `As TopicName`. There are other options such as `As TopicId`.
-      - Please refer to [this documentation](https://intl.cloud.tencent.com/document/api/406/42637) of how to configure instance params. Toggle `Show Details` to see detailed instance query parameter. The default params are `Offset = 0` and `Limit = 20`.
+      - Please refer to [this documentation](https://intl.cloud.tencent.com/document/api/406/35944) of how to configure instance params. Toggle `Show Details` to see detailed instance query parameter. The default params are `Offset = 0` and `Limit = 20`.
       - Note: In this app, a single query of monitoring data is an atomic operation, that is, to query the monitoring data of a certain metric of a certain instance, so the instance can only be single-selected. If you need to query the monitoring data of multiple instances, click on the `Add Query` button in upper right corner of the page.
       - `Show Details` toggle button will only show when not selecting template variables.
 
@@ -653,7 +653,7 @@ CVM instances                                                   | Please refer t
 TencentDB for MySQL instances                                   | Please refer to [TencentDB for MySQL Instance Documents](https://intl.cloud.tencent.com/document/api/236/15872). `Namespace` is fixed as`QCE/CDB`, `Action` is fixed as`DescribeInstances`. `Region` can be specific value such as `ap-beijing`, or a template variable, such as `$region`. `InstanceAlias`is default as `InstanceId`, can be selected as `InstanceName`、`Vip`. CDB MySQL instance allow single-selected and multi-selected when using template variable.  |  Namespace=QCE/CDB&Region=ap-beijing&Action=DescribeInstances&InstanceAlias=InstanceId
  TencentDB for PostgreSQL instances                             | Please refer to [TencentDB for PostgreSQL Instance Documents](https://intl.cloud.tencent.com/document/api/409/16773). `Namespace` is fixed as`QCE/CDB`, `Action` is fixed as`DescribeInstances`. `Region` can be specific value such as `ap-beijing`, or a template variable, such as `$region`. `InstanceAlias`is default as `DBInstanceId`, can be selected as `DBInstanceName`, `PrivateIpAddresses`, `PublicIpAddresses`. CDB PostgreSQL instance allow single-selected and multi-selected when using template variable.  |  Namespace=QCE/POSTGRES&Region=ap-beijing&Action=DescribeInstances&InstanceAlias=DBInstanceId
 Private Network NAT Gateway instances                           | Please refer to [Private Network NAT Gateway Instance Documents](https://intl.cloud.tencent.com/document/api/215/34752). `Namespace` is fixed as`QCE/NAT_GATEWAY`, `Action` is fixed as`DescribeInstances`. `Region` can be specific value such as `ap-beijing`, or a template variable, such as `$region`. `InstanceAlias` is default as `NatGatewayId`, can be selected as `NatGatewayName`. Private Network Nat Gateway instance allow single-selected and multi-selected when using template variable.  |  Namespace=QCE/NAT_GATEWAY&Region=ap-beijing&Action=DescribeInstances&InstanceAlias=NatGatewayId
-Private Network Peering Connection instances                    | Please refer to [Private Network Peering Connection Instance Documents](https://intl.cloud.tencent.com/document/product/215/2101). `Namespace` is fixed as`QCE/PCX`, `Action` is fixed as`DescribeInstances`. `Region` can be specific value such as `ap-beijing`, or a template variable, such as `$region`. `InstanceAlias`is default as `peeringConnectionId`, can be selected as `peeringConnectionName`. Peering Connection instance allow single-selected and multi-selected when using template variable (use multi listeners for Cloud Load Balance).  |  Namespace=QCE/PCX&Region=ap-beijing&Action=DescribeInstances&InstanceAlias=peeringConnectionId
+Private Network Peering Connection instances                    | Please refer to [Private Network Peering Connection Instance Documents](https://cloud.tencent.com/document/api/215/2101). `Namespace` is fixed as`QCE/PCX`, `Action` is fixed as`DescribeInstances`. `Region` can be specific value such as `ap-beijing`, or a template variable, such as `$region`. `InstanceAlias`is default as `peeringConnectionId`, can be selected as `peeringConnectionName`. Peering Connection instance allow single-selected and multi-selected when using template variable (use multi listeners for Cloud Load Balance).  |  Namespace=QCE/PCX&Region=ap-beijing&Action=DescribeInstances&InstanceAlias=peeringConnectionId
 Cloud Load Balancer Private Network Layer-4 Protocol instances  | Please refer to [Cloud Load Balancer Instance Documents](https://intl.cloud.tencent.com/document/product/214/33830). `Namespace` can be `QCE/LB_PRIVATE`, `QCE/LB_PUBLIC`, `QCE/LOADBALANCE`, `Action` is fixed as`DescribeInstances`. `Region` can be specific value such as `ap-guangzhou`, or a template variable, such as `$region`. `InstanceAlias`is default as `LoadBalancerId`, can be selected as `LoadBalancerName`, `LoadBalancerVips`, allowing single-selected and multi-selected.  |  Namespace=QCE/LB_PRIVATE&Action=DescribeInstances&Region=$region&InstanceAlias=LoadBalancerId
 Cloud Load Balancer Private Network Layer-4 Protocol listeners  | Please refer to [Cloud Load Balancer Listener Documents](https://intl.cloud.tencent.com/document/product/214/33831). `Namespace` can be `QCE/LB_PRIVATE`, `QCE/LB_PUBLIC`, `QCE/LOADBALANCE`, `Action` is fixed as`DescribeListeners`. `Region` can be specific value such as `ap-guangzhou`, or a template variable, such as `$region`. `Instance` is an instance ID, can be specific value such as `lbl-rbw529fz`, or a template variable, such as `$instance`. `listenerAlias` is default as `ListenerId`, can be selected as `ListenerName`, `Port`, allowing single-selected and multi-selected. |  Namespace=QCE/LB_PRIVATE&Action=DescribeListeners&Region=$region&Instance=$instance&listenerAlias=ListenerId
 TencentDB for MongoDB                                           | Please refer to [TencentDB for MongoDB Instance Documents](https://intl.cloud.tencent.com/document/api/240/34702). `Namespace` is fixed as `QCE/CMONGO`, `Action` is fixed as `DescribeDBInstances`. `Region` can be specific value such as `ap-beijing`, or a template variable, such as `$region`. `InstanceAlias`is default as `InstanceId`, can be selected as `InstanceName`. CMONGO instance allow single-selected and multi-selected when using template variable. |  Namespace=QCE/CMONGO&Region=$region&Action=DescribeDBInstances
@@ -747,27 +747,6 @@ If you have any questions using this app, you are welcome to [create an issue](h
 | ----------- |
 | ![QQ Group](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/src/image/QQ-QRCode.png?raw=true) |
 
-# Contributors ✨
-
-Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
-
-[![All Contributors](https://img.shields.io/badge/all_contributors-8-orange.svg?style=flat-square)](#contributors)
-
-<table>
-  <tr>
-    <td align="center"><a href="https://github.com/heriky"><img src="https://avatars.githubusercontent.com/u/12195736?v=4?s=70" width="70px;" alt=""/><br /><sub><b>heriky</b></sub></a><br /><a href="#" title="Code">💻</a></td>
-    <td align="center"><a href="https://github.com/jamesxwang"><img src="https://avatars.githubusercontent.com/u/36892657?v=4?s=70" width="70px;" alt=""/><br /><sub><b>jamesxwang</b></sub></a><br /><a href="https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/commits?author=jamesxwang" title="Code">💻</a> <a href="#" title="Documentation	">📖</a></td>
-    <td align="center"><a href="https://github.com/leonlysu"><img src="https://avatars.githubusercontent.com/u/73583724?v=4?s=70" width="70px;" alt=""/><br /><sub><b>leonlysu</b></sub></a><br /><a href="https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/commits?author=leonlysu" title="Code">💻</a></td>
-    <td align="center"><a href="https://github.com/smallpath"><img src="https://avatars.githubusercontent.com/u/10809900?v=4?s=70" width="70px;" alt=""/><br /><sub><b>smallpath</b></sub></a><br /><a href="#" title="Code">💻</a></td>
-    <td align="center"><a href="https://github.com/susiezhao"><img src="https://avatars.githubusercontent.com/u/13827192?v=4?s=70" width="70px;" alt=""/><br /><sub><b>susiezhao</b></sub></a><br /><a href="https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/commits?author=susiezhao" title="Code">💻</a></td>
-    <td align="center"><a href="https://github.com/taoran34"><img src="https://avatars.githubusercontent.com/u/9361046?v=4?s=70" width="70px;" alt=""/><br /><sub><b>taoran34</b></sub></a><br /><a href="#" title="Code">💻</a></td>
-    <td align="center"><a href="https://github.com/Cloudlie"><img src="https://avatars.githubusercontent.com/u/7425309?v=4?s=70" width="70px;" alt=""/><br /><sub><b>Cloudlie</b></sub></a><br /><a href="https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/commits?author=Cloudlie" title="Code">💻</a><a href="https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/issues/created_by/Cloudlie">🐛</a></td>
-    <td align="center"><a href="https://github.com/woson-wang"><img src="https://avatars.githubusercontent.com/u/34298517?v=4?s=70" width="70px;" alt=""/><br /><sub><b>woson-wang</b></sub></a><br /><a href="https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/issues/created_by/woson-wang">🐛</a></td>
-  </tr>
-</table>
-
-This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
-
 # Contribution Guide
 
 Welcome everyone to participate in the development of Tencent Cloud Monitoring Grafana App and contribute!
@@ -778,7 +757,7 @@ You can choose the following contribution methods:
 - [Contribute your amazing code and create a Pull Request](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/pulls)
 - [Report bug(s) and create an Issue](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/issues/new/choose)
 
-We will add you into [our contributor list](#contributors)
+We will add you into [our contributor list](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app#%E8%B4%A1%E7%8C%AE%E8%80%85-)
 
 Read more in the [Contribution Guide](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/CONTRIBUTING.en-US.md) document.
 
