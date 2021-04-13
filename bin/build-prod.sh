@@ -15,19 +15,21 @@ for image in ${used_screenshots_arr[@]};do cp -- "$image" dist/tmp;done
 rm -r dist/image
 mv dist/tmp dist/image
 
+plugin_id="tencentcloud-monitor-app"
+
 # check if zip file exists
 version="$(jq -r '.info.version' 'dist/plugin.json')"
 
-if test -f "tencentcloud-monitor-app-${version}.zip"
+if test -f "${plugin_id}-${version}.zip"
 then
-	printf >&2 'File already exists: %s\n' "tencentcloud-monitor-app-${version}.zip"
+	printf >&2 'File already exists: %s\n' "${plugin_id}-${version}.zip"
 	exit 1
 fi
 
 # check if GRAFANA_API_KEY available
 if [ -z ${GRAFANA_API_KEY+x} ]
 then
-	echo >&2 'GRAFANA_API_KEY must be set.'
+	echo >&2 "GRAFANA_API_KEY must be set."
 fi
 
 # sign
@@ -35,11 +37,11 @@ npm run sign
 
 # bundle zip file
 tmp="$(mktemp -d)"
-cp -r -- dist "${tmp}/tencentcloud-app"
+cp -r -- dist "${tmp}/${plugin_id}"
 
 (
 	cd -- "$tmp"
-	zip -qr "tencentcloud-monitor-app-${version}.zip" -- 'tencentcloud-app'
+	zip -qr "${plugin_id}-${version}.zip" -- "${plugin_id}"
 )
 
-mv -- "$tmp/tencentcloud-monitor-app-${version}.zip" .
+mv -- "$tmp/${plugin_id}-${version}.zip" .

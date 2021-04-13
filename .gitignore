@@ -22,5 +22,5 @@ package-lock.json
 .eslintcache
 
 # Grafana plugin files
-dist/MANIFEST.txt
+# dist/MANIFEST.txt
 tencentcloud-monitor-app-*.zip
