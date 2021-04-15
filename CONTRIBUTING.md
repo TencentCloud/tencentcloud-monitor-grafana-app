@@ -10,7 +10,7 @@
 - [贡献代码，提交 Pull Request](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/pulls)
 - [反馈 bug，提交 Issue](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/issues/new/choose)
 
-我们会将您加入 [我们的贡献者名单](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app#contributors)
+我们会将您加入 [我们的贡献者名单](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app#%E8%B4%A1%E7%8C%AE%E8%80%85-)
 
 ## 本地开发
 

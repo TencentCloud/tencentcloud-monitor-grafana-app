@@ -1,7 +1,7 @@
 {
   "name": "tencentcloud-monitor-grafana-app",
   "private": false,
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Tencent Cloud Monitor plugin for Grafana",
   "engines": {
     "node": ">=14"
@@ -19,7 +19,7 @@
   "author": "Tencent Cloud",
   "license": "Apache-2.0",
   "scripts": {
-    "build": "grafana-toolkit plugin:build",
+    "build": "./bin/build-prod.sh",
     "test": "grafana-toolkit plugin:test",
     "dev": "grafana-toolkit plugin:dev",
     "watch": "grafana-toolkit plugin:dev --watch",
@@ -43,6 +43,7 @@
     "@typescript-eslint/eslint-plugin": "^4.19.0",
     "@typescript-eslint/parser": "^4.19.0",
     "clean-webpack-plugin": "^3.0.0",
+    "copy-webpack-plugin": "5.1.2",
     "eslint": "^7.21.0",
     "eslint-config-alloy": "^3.10.0",
     "eslint-config-prettier": "^8.1.0",
