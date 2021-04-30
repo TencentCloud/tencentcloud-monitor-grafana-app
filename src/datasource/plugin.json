@@ -206,6 +206,11 @@
       "headers": [{ "name": "Content-Type", "content": "application/json" }]
     },
     {
+      "path": "dcdb",
+      "url": "https://dcdb.tencentcloudapi.com",
+      "headers": [{ "name": "Content-Type", "content": "application/json" }]
+    },
+    {
       "path": "dc",
       "url": "https://dc.tencentcloudapi.com",
       "headers": [{ "name": "Content-Type", "content": "application/json" }]
@@ -218,11 +223,6 @@
     {
       "path": "sqlserver",
       "url": "https://sqlserver.tencentcloudapi.com",
-      "headers": [{ "name": "Content-Type", "content": "application/json" }]
-    },
-    {
-      "path": "bm",
-      "url": "https://bm.tencentcloudapi.com",
       "headers": [{ "name": "Content-Type", "content": "application/json" }]
     },
     {
@@ -241,6 +241,11 @@
       "headers": [{ "name": "Content-Type", "content": "application/json" }]
     },
     {
+      "path": "bm",
+      "url": "https://bm.tencentcloudapi.com",
+      "headers": [{ "name": "Content-Type", "content": "application/json" }]
+    },
+    {
       "path": "es",
       "url": "https://es.tencentcloudapi.com",
       "headers": [{ "name": "Content-Type", "content": "application/json" }]
@@ -256,11 +261,6 @@
       "headers": [{ "name": "Content-Type", "content": "application/json" }]
     },
     {
-      "path": "dcdb",
-      "url": "https://dcdb.tencentcloudapi.com",
-      "headers": [{ "name": "Content-Type", "content": "application/json" }]
-    },
-    {
       "path": "apigateway",
       "url": "https://apigateway.tencentcloudapi.com",
       "headers": [{ "name": "Content-Type", "content": "application/json" }]
@@ -268,6 +268,16 @@
     {
       "path": "tdmq",
       "url": "https://tdmq.tencentcloudapi.com",
+      "headers": [{ "name": "Content-Type", "content": "application/json" }]
+    },
+    {
+      "path": "gaap",
+      "url": "https://gaap.tencentcloudapi.com",
+      "headers": [{ "name": "Content-Type", "content": "application/json" }]
+    },
+    {
+      "path": "ecm",
+      "url": "https://ecm.tencentcloudapi.com",
       "headers": [{ "name": "Content-Type", "content": "application/json" }]
     }
   ],

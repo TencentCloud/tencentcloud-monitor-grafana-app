@@ -1,16 +1,16 @@
 import coreModule from 'grafana/app/core/core_module';
-import { VBCFilterFieldsDescriptor } from './query_def';
+import { VBCFilterFieldsDescriptor, namespace } from './query_def';
 import { GetServiceFromNamespace } from '../../common/constants';
 
-const ExtraFields = [
-  {
-    label: 'SRegion',
-    field: 'SRegion',
-  },
-  {
-    label: 'DRegion',
-    field: 'DRegion',
-  },
+const ExtraFields: any = [
+  // {
+  //   label: 'SRegion',
+  //   field: 'SRegion',
+  // },
+  // {
+  //   label: 'DRegion',
+  //   field: 'DRegion',
+  // },
 ];
 
 export class VBCQueryCtrl {
@@ -18,6 +18,7 @@ export class VBCQueryCtrl {
   constructor($scope, $rootScope) {
     $scope.init = () => {
       $scope.VBCFilterFieldsDescriptor = VBCFilterFieldsDescriptor;
+      $scope.namespace = namespace;
     };
     $scope.getExtraFields = () => {
       return ExtraFields.filter((item) => item.field in ($scope.dims ?? {}));
@@ -25,6 +26,7 @@ export class VBCQueryCtrl {
 
     $scope.getExtraDropdown = (field) => {
       const service = GetServiceFromNamespace($scope.namespace);
+      // return $scope.datasource.getServiceFn(service, 'getFilterDropdown')({ field })
       return $scope.datasource.getFilterDropdown(service, { field });
     };
 
@@ -99,7 +101,7 @@ const template = `
         <label class="gf-form-label query-keyword width-9">{{extra.label}}</label>
         <div class="gf-form-select-wrapper gf-form-select-wrapper--caret-indent">
           <gf-form-dropdown model="target[extra.field]" allow-custom="false" get-options="getExtraDropdown(extra.field)"
-            on-change="onChange()" css-class="min-width-10">
+            on-change="onRefresh()" css-class="min-width-10">
           </gf-form-dropdown>
         </div>
       </div>

@@ -1,6 +1,7 @@
 // 产品目录名字和service名字匹配即 lb_private(目录名) => lbPrivate(service)
 import { DetailQueryConfig, FildDescriptorType } from '../_base/types';
 import { instanceQueryParamsBaseParse } from '../../common/utils';
+import _ from 'lodash';
 
 const namespace = 'QCE/BM_PCX';
 
@@ -66,12 +67,19 @@ const BMPCX_STATE = {
   period: undefined,
   dimensionObject: null,
   instance: '',
-  instanceAlias: 'InstanceId',
+  instanceAlias: 'VpcPeerConnectionId',
   queries: BMPCXFilterFields,
 };
 
 function GetInstanceQueryParams(queries: any = {}) {
   return instanceQueryParamsBaseParse(queries, false);
+}
+function modifyDimensons(metricItem: any) {
+  const metricTmp = _.cloneDeep(metricItem);
+  metricTmp.Dimensions.forEach((item) => {
+    item.Dimensions = ['peeringConnectionId'];
+  });
+  return metricTmp;
 }
 export default BMPCX_STATE;
 export {
@@ -82,6 +90,7 @@ export {
   namespace,
   queryEditorName,
   queryEditorConfig,
+  modifyDimensons,
   // 对应产品的service的全大写拼接GetInstanceQueryParams
   GetInstanceQueryParams as BMPCXGetInstanceQueryParams,
 };

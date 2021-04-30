@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import moment from 'moment';
 import DatasourceInterface from '../../datasource';
-import { CKAFKAInstanceAliasList, CKAFKAInvalidDemensions } from './query_def';
+import { POSTGRESInstanceAliasList, PostgreInvalidDemensions, templateQueryIdMap } from './query_def';
 import {
   GetRequestParams,
   GetServiceAPIInfo,
@@ -10,56 +10,58 @@ import {
   ParseQueryResult,
   VARIABLE_ALIAS,
   SliceLength,
+  isVariable,
 } from '../../common/constants';
-import { fetchAllFactory } from '../../common/utils';
 
-export default class CKAFKADatasource implements DatasourceInterface {
-  Namespace = 'QCE/CKAFKA';
+export default class POSTGRESDatasource implements DatasourceInterface {
+  Namespace = 'QCE/POSTGRES';
   url: string;
   instanceSettings: any;
   backendSrv: any;
   templateSrv: any;
   secretId: string;
+
+  allInstanceMap: any[] = [];
   /** @ngInject */
   constructor(instanceSettings, backendSrv, templateSrv) {
-    this.instanceSettings = instanceSettings;
     this.backendSrv = backendSrv;
     this.templateSrv = templateSrv;
+    this.instanceSettings = instanceSettings;
     this.url = instanceSettings.url;
     this.secretId = (instanceSettings.jsonData || {}).secretId || '';
   }
 
   /**
-   * 获取模板变量的选择项列表，当前支持两种变量：地域、CKAFKA实例
+   * 获取模板变量的选择项列表，当前支持两种变量：地域、POSTGRESQL 实例
    *
    * @param query 模板变量配置填写的 Query 参数字符串
    */
-  metricFindQuery(query: { action: string; namespace: string; region?: string }, regex?: string) {
+  metricFindQuery(query: Record<string, any>) {
     // 查询地域列表
     const regionQuery = query['action'].match(/^DescribeRegions$/i);
     if (regionQuery) {
       return this.getRegions();
     }
-    // 查询 CKAFKA实例列表
+
+    // 查询 POSTGRESQL 实例列表
     const instancesQuery = query['action'].match(/^DescribeInstances/i) && !!query['region'];
     const region = this.getVariable(query['region']);
     if (instancesQuery && region) {
-      // const tagText = _.get(query, 'tag', '');
-      // const Filters = ParseMetricRegex(!tagText ? '' : `tag:tag-key=${tagText}`);
-      return this.getVariableInstances(region).then((result) => {
+      return this.getVariableInstances(region, query['payload'] || {}).then((result) => {
+        this.allInstanceMap = _.cloneDeep(result); // 混存全量实例map
         const instanceAlias =
-          CKAFKAInstanceAliasList.indexOf(query[VARIABLE_ALIAS]) !== -1 ? query[VARIABLE_ALIAS] : 'InstanceId';
+          POSTGRESInstanceAliasList.indexOf(query[VARIABLE_ALIAS]) !== -1 ? query[VARIABLE_ALIAS] : 'DBInstanceId';
         const instances: any[] = [];
         _.forEach(result, (item) => {
           const instanceAliasValue = _.get(item, instanceAlias);
           if (instanceAliasValue) {
             if (typeof instanceAliasValue === 'string') {
               item._InstanceAliasValue = instanceAliasValue;
-              instances.push({ text: instanceAliasValue, value: JSON.stringify(item) });
+              instances.push({ text: instanceAliasValue, value: item[templateQueryIdMap.instance] });
             } else if (_.isArray(instanceAliasValue)) {
               _.forEach(instanceAliasValue, (subItem) => {
                 item._InstanceAliasValue = subItem;
-                instances.push({ text: subItem, value: JSON.stringify(item) });
+                instances.push({ text: subItem, value: item[templateQueryIdMap.instance] });
               });
             }
           }
@@ -67,28 +69,7 @@ export default class CKAFKADatasource implements DatasourceInterface {
         return instances;
       });
     }
-
-    let instance = this.getVariable(query['instance']);
-
-    try {
-      instance = JSON.parse(instance);
-    } catch (error) {}
-
-    return this.fetchAllData(query['action'], region, { InstanceId: instance.InstanceId });
-  }
-
-  async fetchAllData(action, region, params = {}) {
-    const rs = await this.getConsumerGroups(region, params);
-    switch (action) {
-      case 'DescribeTopicList':
-        return rs.TopicList;
-      case 'DescribeGroup':
-        return rs.GroupList;
-      case 'DescribePartion':
-        return rs.PartitionList;
-      default:
-        return [];
-    }
+    return Promise.resolve([]);
   }
 
   /**
@@ -98,7 +79,7 @@ export default class CKAFKADatasource implements DatasourceInterface {
    * @return 返回数据数组，示例如下
    * [
    *   {
-   *     "target": "AccOuttraffic - ins-123",
+   *     "target": "BytesReceived - postgres-123",
    *     "datapoints": [
    *       [861, 1450754160000],
    *       [767, 1450754220000]
@@ -110,66 +91,55 @@ export default class CKAFKADatasource implements DatasourceInterface {
     const queries = _.filter(options.targets, (item) => {
       // 过滤无效的查询 target
       return (
-        item.ckafka.hide !== true &&
+        item.postgres.hide !== true &&
         !!item.namespace &&
-        !!item.ckafka.metricName &&
-        !_.isEmpty(ReplaceVariable(this.templateSrv, options.scopedVars, item.ckafka.region, false)) &&
-        !_.isEmpty(ReplaceVariable(this.templateSrv, options.scopedVars, item.ckafka.instance, true))
+        !!item.postgres.metricName &&
+        !_.isEmpty(ReplaceVariable(this.templateSrv, options.scopedVars, item.postgres.region, false)) &&
+        !_.isEmpty(ReplaceVariable(this.templateSrv, options.scopedVars, item.postgres.instance, true))
       );
     }).map((target) => {
-      // 实例 instances 可能为模板变量，需先获取实际值
-      let instances = ReplaceVariable(this.templateSrv, options.scopedVars, target.ckafka.instance, true);
-
-      if (_.isArray(instances)) {
-        instances = _.map(instances, (instance) => (_.isString(instance) ? JSON.parse(instance) : instance));
+      // 实例 instances 可能为模板变量，需先判断
+      let instances = target.postgres.instance;
+      if (isVariable(instances)) {
+        let templateInsValues = ReplaceVariable(this.templateSrv, options.scopedVars, instances, true);
+        if (!_.isArray(templateInsValues)) {
+          templateInsValues = [templateInsValues];
+        }
+        instances = _.map(templateInsValues, (instanceId) =>
+          _.find(this.allInstanceMap, (o) => o[templateQueryIdMap.instance] === instanceId)
+        );
       } else {
-        instances = [_.isString(instances) ? JSON.parse(instances) : instances];
+        if (_.isArray(instances)) {
+          instances = _.map(instances, (instance) => (_.isString(instance) ? JSON.parse(instance) : instance));
+        } else {
+          instances = [_.isString(instances) ? JSON.parse(instances) : instances];
+        }
       }
-      const region = ReplaceVariable(this.templateSrv, options.scopedVars, target.ckafka.region, false);
-
-      const extraDimList = []; // 额外的维度
-
+      const region = ReplaceVariable(this.templateSrv, options.scopedVars, target.postgres.region, false);
       const data = {
         StartTime: moment(options.range.from).format(),
         EndTime: moment(options.range.to).format(),
-        Period: target.ckafka.period || 300,
-        Instances: _.flatMap(instances, (instance) => {
-          // 多个topicList
-          const dimensionObject = target.ckafka.dimensionObject;
-
+        Period: target.postgres.period || 300,
+        Instances: _.map(instances, (instance) => {
+          const dimensionObject = target.postgres.dimensionObject;
           _.forEach(dimensionObject, (__, key) => {
+            // TODO 兼容接口问题
+            // if (key === 'resourceId') {
+            //   dimensionObject[key] = { Name: key, Value: instance['DBInstanceId'] };
+            // } else {
+            //   dimensionObject[key] = { Name: key, Value: instance[key] };
+            // }
             let keyTmp = key;
-            if (_.has(CKAFKAInvalidDemensions, key)) {
-              keyTmp = CKAFKAInvalidDemensions[key];
+            if (_.has(PostgreInvalidDemensions, key)) {
+              keyTmp = PostgreInvalidDemensions[key];
+              instance[key] = instance[keyTmp];
             }
-            const extraValue = this.getVariable(target.ckafka[keyTmp]); // 这里要支持额外维度的模板变量
-            dimensionObject[key] = { Name: key, Value: instance[keyTmp] ?? extraValue }; // 从实例中取，如果取不到，则从界面模型上取
-
-            // 设置instance
-            instance[key] = instance[keyTmp] ?? extraValue;
+            dimensionObject[key] = { Name: 'resourceId', Value: instance[key] };
           });
-
-          if (extraDimList.length === 0) {
-            return [{ Dimensions: GetDimensions(dimensionObject) }];
-          }
-
-          // 处理额外的维度, 为了处理维度的多选值，这里比较绕，比较复杂
-          return _.flatMap(extraDimList, (extraDim) => {
-            const targetDims = dimensionObject[extraDim]?.Value;
-            if (Array.isArray(targetDims)) {
-              return targetDims.map((dim) => {
-                instance[extraDim] = dim; // 实例上添加对应属性
-                return {
-                  Dimensions: GetDimensions({ ...dimensionObject, [extraDim]: { Name: extraDim, Value: dim } }),
-                };
-              });
-            }
-
-            return [{ Dimensions: GetDimensions(dimensionObject) }];
-          });
+          return { Dimensions: GetDimensions(dimensionObject) };
         }),
         Namespace: target.namespace,
-        MetricName: target.ckafka.metricName,
+        MetricName: target.postgres.metricName,
       };
       return this.getMonitorData(data, region, instances);
     });
@@ -188,18 +158,12 @@ export default class CKAFKADatasource implements DatasourceInterface {
   }
 
   // 获取某个变量的实际值，this.templateSrv.replace() 函数返回实际值的字符串
-  getVariable(metric?: string) {
-    const rs = this.templateSrv.replace((metric || '').trim());
-    const valStr = rs.match(/\{([\w-,]+)\}/);
-    // 判断是否为多选
-    if (valStr) {
-      return valStr[1].split(',');
-    }
-    return rs;
+  getVariable(metric: string) {
+    return this.templateSrv.replace((metric || '').trim());
   }
 
   /**
-   * 获取 CVM 的监控数据
+   * 获取 POSTGRESQL 的监控数据
    *
    * @param params 获取监控数据的请求参数
    * @param region 地域信息
@@ -215,6 +179,11 @@ export default class CKAFKADatasource implements DatasourceInterface {
       serviceInfo.service,
       { action: 'GetMonitorData', region }
     ).then((response) => {
+      // TODO 兼容接口问题
+      instances = _.map(instances, (instance) => {
+        instance.resourceId = instance['DBInstanceId'];
+        return instance;
+      });
       return ParseQueryResult(response, instances);
     });
   }
@@ -236,6 +205,10 @@ export default class CKAFKADatasource implements DatasourceInterface {
     });
   }
 
+  /**
+   * 获取 POSTGRESQL 的监控指标
+   * @param region  地域信息
+   */
   getMetrics(region = 'ap-guangzhou') {
     const serviceInfo = GetServiceAPIInfo(region, 'monitor');
     return this.doRequest(
@@ -248,40 +221,65 @@ export default class CKAFKADatasource implements DatasourceInterface {
       serviceInfo.service,
       { region, action: 'DescribeBaseMetrics' }
     ).then((response) => {
-      return _.filter(
-        _.filter(response.MetricSet || [], (item) => !(item.Namespace !== this.Namespace || !item.MetricName))
-      );
+      return _.filter(response.MetricSet || [], (item) => !(item.Namespace !== this.Namespace || !item.MetricName));
     });
   }
 
+  /**
+   * 获取 POSTGRESQL 实例
+   * @param region 地域信息
+   * @param params 其他实例查询参数，详情参考 https://cloud.tencent.com/document/api/236/15872
+   */
   getInstances(region, params = {}) {
     params = { Offset: 0, Limit: 100, ...params };
-    const serviceInfo = GetServiceAPIInfo(region, 'ckafka');
+    const serviceInfo = GetServiceAPIInfo(region, 'postgres');
     return this.doRequest(
       {
         url: this.url + serviceInfo.path,
         data: params,
       },
       serviceInfo.service,
-      { region, action: 'DescribeInstances' }
+      { region, action: 'DescribeDBInstances' }
     ).then((response) => {
-      return response.Result.InstanceList ?? [];
+      return _.map(response.DBInstanceSet || [], (item) => {
+        const privateIpAddress = _.get(
+          _.filter(_.get(item, 'DBInstanceNetInfo', []), ['NetType', 'private']),
+          '[0].Ip'
+        );
+        const publicIpAddress = _.get(_.filter(_.get(item, 'DBInstanceNetInfo', []), ['NetType', 'public']), '[0].Ip');
+        item.PrivateIpAddresses = privateIpAddress;
+        item.PublicIpAddresses = publicIpAddress;
+        return item;
+      });
     });
   }
 
+  /**
+   * 模板变量中获取全量的 POSTGRESQL 实例列表
+   * @param region 地域信息
+   */
   getVariableInstances(region, query = {}) {
     let result: any[] = [];
-    const params = { ...query, ...{ Offset: 0, Limit: 100 } };
-    const serviceInfo = GetServiceAPIInfo(region, 'ckafka');
+    const params = { Offset: 0, Limit: 100, ...query };
+    const serviceInfo = GetServiceAPIInfo(region, 'postgres');
     return this.doRequest(
       {
         url: this.url + serviceInfo.path,
         data: params,
       },
       serviceInfo.service,
-      { region, action: 'DescribeInstances' }
+      { region, action: 'DescribeDBInstances' }
     ).then((response) => {
-      result = response.Result.InstanceList || [];
+      result = _.map(response.DBInstanceSet || [], (item) => {
+        const privateIpAddress = _.get(
+          _.filter(_.get(item, 'DBInstanceNetInfo', []), ['NetType', 'private']),
+          '[0].Ip'
+        );
+        const publicIpAddress = _.get(_.filter(_.get(item, 'DBInstanceNetInfo', []), ['NetType', 'public']), '[0].Ip');
+        item.PrivateIpAddresses = privateIpAddress;
+        item.PublicIpAddresses = publicIpAddress;
+        return item;
+      });
       const total = response.TotalCount || 0;
       if (result.length >= total) {
         return result;
@@ -289,14 +287,13 @@ export default class CKAFKADatasource implements DatasourceInterface {
         const param = SliceLength(total, 100);
         const promises: any[] = [];
         _.forEach(param, (item) => {
-          promises.push(this.getInstances(region, { ...item, ...query }));
+          promises.push(this.getInstances(region, item));
         });
         return Promise.all(promises)
           .then((responses) => {
             _.forEach(responses, (item) => {
               result = _.concat(result, item);
             });
-            // console.log('result:', result);
             return result;
           })
           .catch((error) => {
@@ -306,69 +303,16 @@ export default class CKAFKADatasource implements DatasourceInterface {
     });
   }
 
-  getZones(region) {
-    const serviceInfo = GetServiceAPIInfo(region, 'cvm');
-    return this.doRequest(
-      {
-        url: this.url + serviceInfo.path,
-      },
-      serviceInfo.service,
-      { region, action: 'DescribeZones' }
-    ).then((response) => {
-      return _.filter(
-        _.map(response.ZoneSet || [], (item) => {
-          return { text: item.ZoneName, value: item.Zone, ZoneState: item.ZoneState, Zone: item.Zone };
-        }),
-        (item) => item.ZoneState === 'AVAILABLE'
-      );
-    });
-  }
-
-  async getConsumerGroups(region, params) {
-    const serviceInfo = GetServiceAPIInfo(region, 'ckafka');
-
-    // 从分页数据，获取全量数据
-    const rs = await fetchAllFactory(
-      (data) => {
-        return this.doRequest(
-          {
-            url: this.url + serviceInfo.path,
-            data,
-          },
-          serviceInfo.service,
-          { region, action: 'DescribeConsumerGroup' }
-        );
-      },
-      params,
-      ['GroupListForMonitor', 'TopicListForMonitor', 'PartitionListForMonitor']
-    );
-
-    let [GroupList, TopicList, PartitionList] = rs;
-
-    // @ts-ignore
-    TopicList = _.uniqBy(TopicList, (item) => item.TopicId);
-    // @ts-ignore
-    GroupList = _.uniqBy(GroupList, (item) => item.GroupName);
-
-    // @ts-ignore
-    PartitionList = _.uniqBy(PartitionList, (item) => item.Partition);
-
-    return {
-      TopicList: TopicList.map((topic) => ({ text: topic.TopicId, value: topic.TopicId, TopicName: topic.TopicName })),
-      GroupList: GroupList.map((group) => ({ text: group.GroupName, value: group.GroupName })),
-      PartitionList: PartitionList.map((par) => ({ text: par.Partition, value: par.Partition })),
-    };
-  }
-
   // 检查某变量字段是否有值
   isValidConfigField(field: string) {
     return field && field.length > 0;
   }
 
+  // 验证 SerectId、SerectKey 的有效性，并测试 cvm、monitor、postgresql 三种 API 的连通性
   testDatasource() {
     if (!this.isValidConfigField(this.secretId)) {
       return {
-        service: 'ckafka',
+        service: 'POSTGRESQL',
         status: 'error',
         message: 'The SecretId/SecretKey field is required.',
       };
@@ -394,24 +338,24 @@ export default class CKAFKADatasource implements DatasourceInterface {
       ),
       this.doRequest(
         {
-          url: this.url + '/ckafka',
+          url: this.url + '/postgres',
           data: {
             Offset: 0,
             Limit: 1,
           },
         },
-        'ckafka',
-        { region: 'ap-guangzhou', action: 'DescribeInstances' }
+        'postgres',
+        { region: 'ap-guangzhou', action: 'DescribeDBInstances' }
       ),
     ])
       .then((responses) => {
         const cvmErr = _.get(responses, '[0].Error', {});
         const monitorErr = _.get(responses, '[1].Error', {});
-        const ckafkaErr = _.get(responses, '[2].Error', {});
+        const postgresErr = _.get(responses, '[2].Error', {});
         const cvmAuthFail = _.get(cvmErr, 'Code', '').indexOf('AuthFailure') !== -1;
         const monitorAuthFail = _.get(monitorErr, 'Code', '').indexOf('AuthFailure') !== -1;
-        const ckafkaAuthFail = _.get(ckafkaErr, 'Code', '').indexOf('AuthFailure') !== -1;
-        if (cvmAuthFail || monitorAuthFail || ckafkaAuthFail) {
+        const postgresAuthFail = _.get(postgresErr, 'Code', '').indexOf('AuthFailure') !== -1;
+        if (cvmAuthFail || monitorAuthFail || postgresAuthFail) {
           const messages: any[] = [];
           if (cvmAuthFail) {
             messages.push(`${_.get(cvmErr, 'Code')}: ${_.get(cvmErr, 'Message')}`);
@@ -419,27 +363,27 @@ export default class CKAFKADatasource implements DatasourceInterface {
           if (monitorAuthFail) {
             messages.push(`${_.get(monitorErr, 'Code')}: ${_.get(monitorErr, 'Message')}`);
           }
-          if (ckafkaAuthFail) {
-            messages.push(`${_.get(ckafkaErr, 'Code')}: ${_.get(ckafkaErr, 'Message')}`);
+          if (postgresAuthFail) {
+            messages.push(`${_.get(postgresErr, 'Code')}: ${_.get(postgresErr, 'Message')}`);
           }
           const message = _.join(_.compact(_.uniq(messages)), '; ');
           return {
-            service: 'ckafka',
+            service: 'POSTGRESQL',
             status: 'error',
             message,
           };
         } else {
           return {
             namespace: this.Namespace,
-            service: 'ckafka',
+            service: 'POSTGRESQL',
             status: 'success',
-            message: 'Successfully queried the CKAFKA service.',
+            message: 'Successfully queried the POSTGRESQL service.',
             title: 'Success',
           };
         }
       })
       .catch((error) => {
-        let message = 'CKAFKA service:';
+        let message = 'POSTGRESQL service:';
         message += error.statusText ? error.statusText + '; ' : '';
         if (_.get(error, 'data.error.code', '')) {
           message += error.data.error.code + '. ' + error.data.error.message;
@@ -448,10 +392,10 @@ export default class CKAFKADatasource implements DatasourceInterface {
         } else if (_.get(error, 'data', '')) {
           message += error.data;
         } else {
-          message += 'Cannot connect to CKAFKA service.';
+          message += 'Cannot connect to POSTGRESQL service.';
         }
         return {
-          service: 'CKAFKA',
+          service: 'POSTGRESQL',
           status: 'error',
           message: message,
         };

@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import { Datasources, SERVICES } from './tc_monitor';
 import { GetServiceFromNamespace, ParseMetricQuery } from './common/constants';
+import { serviceGroupBy } from './common/utils';
 
 export default interface DatasourceInterface {
   instanceSettings: any;
@@ -32,18 +33,24 @@ export class TCMonitorDatasource implements DatasourceInterface {
 
   // 根据 Datasource Config 配置时勾选的监控服务项，获取相应的命名空间
   getNamespaces() {
-    const namespaces: string[] = [];
+    const namespaces: any[] = [];
     _.forEach(SERVICES, (service) => {
       if (this.instanceSettings.jsonData[service.service] === true) {
-        namespaces.push(service.namespace);
+        // namespaces.push(service.namespace);
+        namespaces.push(service);
       }
     });
     return namespaces;
   }
 
+  getCascaderNamespaces() {
+    const validServices = SERVICES.filter((service) => this.instanceSettings.jsonData[service.service]);
+    return serviceGroupBy(validServices);
+  }
+
   getSelectedServices() {
     const namespaces = this.getNamespaces();
-    return _.map(namespaces, (namespace) => {
+    return _.map(namespaces, ({ namespace }) => {
       return GetServiceFromNamespace(namespace);
     });
   }
@@ -129,6 +136,7 @@ export class TCMonitorDatasource implements DatasourceInterface {
    */
   metricFindQuery(query: string, options?: any) {
     const queries = ParseMetricQuery(query);
+    console.log({ queries });
     const service = GetServiceFromNamespace(queries['namespace'] || '');
     if (_.isEmpty(queries) || !queries['namespace'] || !queries['action'] || !service) {
       return Promise.resolve([]);

@@ -4,6 +4,7 @@ import {
   namespace,
   templateQueryIdMap,
   regionSupported,
+  modifyDimensons,
 } from './query_def';
 import { BaseDatasource } from '../_base/datasource';
 import _ from 'lodash';
@@ -18,21 +19,21 @@ export default class DCDatasource extends BaseDatasource {
   // 此处service是接口的配置参数，需和plugin.json里一致，和constant.ts中SERVICES_API_INFO保持一致
   InstanceReqConfig = {
     service: 'tdmq',
-    action: 'DescribeEnvironments',
-    responseField: 'EnvironmentSet',
+    action: 'DescribeClusters',
+    responseField: 'ClusterSet',
   };
   extraActionMap = {
-    TopicName: {
+    topicName: {
       service: 'tdmq',
       action: 'DescribeTopics',
       responseField: 'TopicSets',
       pickKey: 'TopicName',
     },
-    SubscriptionName: {
+    environmentId: {
       service: 'tdmq',
-      action: 'DescribeSubscriptions',
-      responseField: 'SubscriptionSets',
-      pickKey: 'SubscriptionName',
+      action: 'DescribeEnvironments',
+      responseField: 'EnvironmentSet',
+      pickKey: 'EnvironmentId',
     },
   };
   constructor(instanceSettings, backendSrv, templateSrv) {
@@ -44,6 +45,12 @@ export default class DCDatasource extends BaseDatasource {
   getRegions() {
     return Promise.resolve(regionSupported);
   }
+
+  async getMetrics(region = 'ap-guangzhou') {
+    const rawSet = await super.getMetrics(region);
+    return _.compact(rawSet.map((item) => modifyDimensons(item)));
+  }
+
   async getConsumerList(params: any) {
     const { region, field, payload } = params;
     const { service, action, responseField, pickKey } = this.extraActionMap[field];
@@ -65,7 +72,8 @@ export default class DCDatasource extends BaseDatasource {
       payload,
       responseField
     );
-    return rs.map((o) => {
+    console.log({ rs });
+    return rs[0].map((o) => {
       return {
         text: o[pickKey],
         value: o[pickKey],
@@ -73,19 +81,15 @@ export default class DCDatasource extends BaseDatasource {
     });
   }
   async fetchMetricData(action: string, region: string, instance: any, query: any) {
-    if (action in this.extraActionMap) {
-      const payload: any = {
-        EnvironmentId: instance[templateQueryIdMap.instance],
-      };
-      let field = 'TopicName';
-      if (action === 'DescribeSubscriptions') {
-        const topicName = this.getVariable(query['topicname']);
-        payload.TopicName = topicName;
-        field = 'SubscriptionName';
-      }
-      const rs = await this.getConsumerList({ region, field, payload });
-      return rs;
+    const payload: any = {
+      Limit: 20,
+    };
+    let field = 'environmentId';
+    if (action === 'DescribeTopics') {
+      payload.EnvironmentId = this.getVariable(query['environmentid']);
+      field = 'topicName';
     }
-    return [];
+    const rs = await this.getConsumerList({ region, field, payload });
+    return rs;
   }
 }

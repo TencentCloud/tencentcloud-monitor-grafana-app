@@ -99,9 +99,12 @@ export const InvalidDemensions = new Proxy(
     get(target, k, receiver) {
       if (typeof k === 'string') {
         if (k.startsWith('id4')) return 'ClusterId'; // id4****
-        if (k.startsWith('host4')) return 'nodeIp'; // host4***
+        if (k.startsWith('host4')) return 'nodeIP'; // host4***
       }
       return Reflect.get(target, k, receiver);
+    },
+    has(target, propKey) {
+      return true;
     },
   }
 );
@@ -123,7 +126,7 @@ export default {
   dimensionObject: null,
   instance: '',
   instanceAlias: 'ClusterId',
-  nodeIp: '',
+  nodeIP: '',
   queries: {
     Offset: 0,
     Limit: 10,

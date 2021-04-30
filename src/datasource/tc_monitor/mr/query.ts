@@ -3,7 +3,7 @@ import coreModule from 'grafana/app/core/core_module';
 
 const ExtraFields = [
   {
-    label: 'NodeIp',
+    label: 'NodeIP',
     field: 'nodeIP',
   },
 ];
@@ -26,7 +26,7 @@ export class MrQueryCtrl {
     $scope.cacheMap = {};
 
     $scope.getExtraFields = () => {
-      return Object.keys($scope.dims).some((item: string) => item.startsWith('host4')) ? ExtraFields : [];
+      return Object.keys($scope.dims ?? {}).some((item: string) => item.startsWith('host4')) ? ExtraFields : [];
       // return ExtraFields;
     };
 
@@ -49,8 +49,6 @@ export class MrQueryCtrl {
     };
 
     $scope.getExtraDropdown = async (target, field) => {
-      console.log('field,', field);
-
       if (field === 'nodeIP') {
         const InstanceId = $scope.getInstanceId();
         let data = $scope.cacheMap[InstanceId];
@@ -135,7 +133,7 @@ const template = `
       <div class="gf-form">
         <label class="gf-form-label query-keyword width-9">{{extra.label}}</label>
         <div class="gf-form-select-wrapper gf-form-select-wrapper--caret-indent">
-        
+
           <gf-form-dropdown model="target[extra.field]" allow-custom="false" get-options="getExtraDropdown(target, extra.field)"
             on-change="onExtraFieldChange(extra.field)" css-class="min-width-10">
           </gf-form-dropdown>

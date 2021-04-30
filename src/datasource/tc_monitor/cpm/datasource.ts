@@ -1,4 +1,10 @@
-import { CPMInstanceAliasList, CPMInvalidDemensions, namespace, templateQueryIdMap } from './query_def';
+import {
+  CPMInstanceAliasList,
+  CPMInvalidDemensions,
+  namespace,
+  templateQueryIdMap,
+  modifyDimensons,
+} from './query_def';
 import { BaseDatasource } from '../_base/datasource';
 import { GetServiceAPIInfo } from '../../common/constants';
 import _ from 'lodash';
@@ -37,6 +43,12 @@ export default class DCDatasource extends BaseDatasource {
       });
     });
   }
+
+  async getMetrics(region = 'ap-guangzhou') {
+    const rawSet = await super.getMetrics(region);
+    return rawSet.map((item) => modifyDimensons(item));
+  }
+
   getFilterDropdown({ field, region }) {
     if (field === 'DeviceClassCode') {
       const serviceInfo = GetServiceAPIInfo(region, 'bm');

@@ -98,3 +98,26 @@ export function getNamesapceFromService(serviceName: string) {
     'namespace'
   );
 }
+
+export function serviceGroupBy(
+  services: { service: string; label: string; namespace: string; href: string; groupName?: string }[]
+) {
+  const result = services.reduce((acc, cur) => {
+    const { namespace, label, groupName = label } = cur;
+
+    const existedGroup = acc.find((item) => item.label === groupName);
+    if (!existedGroup) {
+      acc.push({ label: groupName, value: groupName, items: [{ label, value: namespace }] });
+      return acc;
+    }
+
+    existedGroup.items.push({ label, value: namespace });
+    return acc;
+  }, [] as any[]);
+
+  // 将只有一个子元素的项目进行特殊处理
+  const rs = result.map((item) =>
+    item.items.length === 1 ? { label: item.items[0].label, value: item.items[0].value } : item
+  );
+  return rs;
+}

@@ -1,17 +1,23 @@
 import _ from 'lodash';
+import { DetailQueryConfig, FildDescriptorType } from '../_base/types';
+import { instanceQueryParamsBaseParse } from '../../common/utils';
+const namespace = 'QCE/POSTGRES';
+
+// 组件名称。这里名字要和index.ts中的SERVICES对应，后面会根据SERVICES中service字段拼接这个query组件名称
+const queryEditorName = 'postgresQuery';
 
 const PostgresFields = {
   'db-instance-id': [],
   'db-instance-name': [],
 };
 
-const PostgresFieldsDescriptor = [
+const PostgresFieldsDescriptor: FildDescriptorType = [
   {
     key: 'db-instance-id',
     enDescriptor: 'DB Instance ID',
     cnDescriptor: 'DB 实例ID',
     link: '',
-    type: 'inputmulti',
+    type: 'inputMulti',
     min: 0,
   },
   {
@@ -19,11 +25,17 @@ const PostgresFieldsDescriptor = [
     enDescriptor: 'DB Instance Name',
     cnDescriptor: 'DB 实例名称',
     link: '',
-    type: 'inputmulti',
+    type: 'inputMulti',
   },
 ];
 
-const POSTGRESInstanceAliasList = ['DBInstanceId', 'DBInstanceName', 'PrivateIpAddresses', 'PublicIpAddresses'];
+// 各产品实例列表detail配置
+const queryEditorConfig: DetailQueryConfig = {
+  instanceDocUrl: 'https://cloud.tencent.com/document/api/409/16773',
+  namespace,
+  fieldDescriptor: PostgresFieldsDescriptor,
+};
+const POSTGRESInstanceAliasList = ['DBInstanceId', 'DBInstanceName'];
 
 const POSTGRES_STATE = {
   region: '',
@@ -41,29 +53,18 @@ const POSTGRES_STATE = {
 };
 
 function GetInstanceQueryParams(queries: any = {}) {
-  const params: any = {};
-  if (!_.isEmpty(queries)) {
-    params.Limit = _.get(queries, 'Limit', 20) || 20;
-    params.Offset = _.get(queries, 'Offset', 0) || 0;
-    queries = _.omit(queries, ['Offset', 'Limit']);
-    const Filters: any[] = [];
-    _.forEach(queries.Filters, (item: any, key) => {
-      if (_.isArray(item)) {
-        item = _.compact(item);
-        if (item.length > 0) {
-          Filters.push({ Name: key, Values: _.uniq(item) });
-        }
-      }
-    });
-    if (Filters.length > 0) {
-      params.Filters = Filters;
-    }
-  }
-  return params;
+  return instanceQueryParamsBaseParse(queries, true);
 }
-
+function modifyDimensons(metricItem: any) {
+  const metricTmp = _.cloneDeep(metricItem);
+  metricTmp.Dimensions.forEach((item) => {
+    item.Dimensions = ['resourceId'];
+  });
+  return metricTmp;
+}
 const PostgreInvalidDemensions = {
   uid: 'DBInstanceId',
+  resourceId: 'DBInstanceId',
 };
 const templateQueryIdMap = {
   instance: 'DBInstanceId',
@@ -74,6 +75,10 @@ export {
   PostgresFieldsDescriptor,
   POSTGRESInstanceAliasList,
   templateQueryIdMap,
+  modifyDimensons,
+  namespace,
+  queryEditorName,
+  queryEditorConfig,
   PostgreInvalidDemensions,
   GetInstanceQueryParams as POSTGRESGetInstanceQueryParams,
 };

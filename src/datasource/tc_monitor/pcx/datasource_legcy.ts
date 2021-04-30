@@ -1,24 +1,28 @@
 import _ from 'lodash';
 import moment from 'moment';
 import DatasourceInterface from '../../datasource';
-import { CFSInstanceAliasList, CFSInvalidDemensions } from './query_def';
+import { PCXInstanceAliasList, templateQueryIdMap } from './query_def';
 import {
-  GetRequestParams,
   GetServiceAPIInfo,
+  GetRequestParamsV2,
+  GetRequestParams,
   ReplaceVariable,
   GetDimensions,
   ParseQueryResult,
   VARIABLE_ALIAS,
   SliceLength,
+  isVariable,
 } from '../../common/constants';
 
-export default class CFSDatasource implements DatasourceInterface {
-  Namespace = 'QCE/CFS';
+export default class PCXDatasource implements DatasourceInterface {
+  Namespace = 'QCE/PCX';
   url: string;
   instanceSettings: any;
   backendSrv: any;
   templateSrv: any;
   secretId: string;
+
+  allInstanceMap: any[] = [];
   /** @ngInject */
   constructor(instanceSettings, backendSrv, templateSrv) {
     this.instanceSettings = instanceSettings;
@@ -28,37 +32,32 @@ export default class CFSDatasource implements DatasourceInterface {
     this.secretId = (instanceSettings.jsonData || {}).secretId || '';
   }
 
-  /**
-   * 获取模板变量的选择项列表，当前支持两种变量：地域、CFS实例
-   *
-   * @param query 模板变量配置填写的 Query 参数字符串
-   */
-  metricFindQuery(query: { action: string; namespace: string; region?: string }, regex?: string) {
+  metricFindQuery(query: Record<string, any>) {
     // 查询地域列表
     const regionQuery = query['action'].match(/^DescribeRegions$/i);
     if (regionQuery) {
       return this.getRegions();
     }
-    // 查询 CFS实例列表
+
+    // 查询 PCX 实例列表
     const instancesQuery = query['action'].match(/^DescribeInstances/i) && !!query['region'];
     const region = this.getVariable(query['region']);
     if (instancesQuery && region) {
-      // const tagText = _.get(query, 'tag', '');
-      // const Filters = ParseMetricRegex(!tagText ? '' : `tag:tag-key=${tagText}`);
-      return this.getVariableInstances(region).then((result) => {
+      return this.getVariableInstances(region, query['payload'] || {}).then((result) => {
+        this.allInstanceMap = _.cloneDeep(result); // 混存全量实例map
         const instanceAlias =
-          CFSInstanceAliasList.indexOf(query[VARIABLE_ALIAS]) !== -1 ? query[VARIABLE_ALIAS] : 'FileSystemId';
+          PCXInstanceAliasList.indexOf(query[VARIABLE_ALIAS]) !== -1 ? query[VARIABLE_ALIAS] : 'peeringConnectionId';
         const instances: any[] = [];
         _.forEach(result, (item) => {
           const instanceAliasValue = _.get(item, instanceAlias);
           if (instanceAliasValue) {
             if (typeof instanceAliasValue === 'string') {
               item._InstanceAliasValue = instanceAliasValue;
-              instances.push({ text: instanceAliasValue, value: JSON.stringify(item) });
+              instances.push({ text: instanceAliasValue, value: item[templateQueryIdMap.instance] });
             } else if (_.isArray(instanceAliasValue)) {
               _.forEach(instanceAliasValue, (subItem) => {
                 item._InstanceAliasValue = subItem;
-                instances.push({ text: subItem, value: JSON.stringify(item) });
+                instances.push({ text: subItem, value: item[templateQueryIdMap.instance] });
               });
             }
           }
@@ -69,62 +68,48 @@ export default class CFSDatasource implements DatasourceInterface {
     return Promise.resolve([]);
   }
 
-  /**
-   * 根据 Panel 的配置项，获取相应的监控数据
-   *
-   * @param options Panel 的配置参数
-   * @return 返回数据数组，示例如下
-   * [
-   *   {
-   *     "target": "AccOuttraffic - ins-123",
-   *     "datapoints": [
-   *       [861, 1450754160000],
-   *       [767, 1450754220000]
-   *     ]
-   *   }
-   * ]
-   */
   query(options: any) {
     const queries = _.filter(options.targets, (item) => {
       // 过滤无效的查询 target
       return (
-        item.cfs.hide !== true &&
+        item.pcx.hide !== true &&
         !!item.namespace &&
-        !!item.cfs.metricName &&
-        !_.isEmpty(ReplaceVariable(this.templateSrv, options.scopedVars, item.cfs.region, false)) &&
-        !_.isEmpty(ReplaceVariable(this.templateSrv, options.scopedVars, item.cfs.instance, true))
+        !!item.pcx.metricName &&
+        !_.isEmpty(ReplaceVariable(this.templateSrv, options.scopedVars, item.pcx.region, false)) &&
+        !_.isEmpty(ReplaceVariable(this.templateSrv, options.scopedVars, item.pcx.instance, true))
       );
     }).map((target) => {
-      // 实例 instances 可能为模板变量，需先获取实际值
-      let instances = ReplaceVariable(this.templateSrv, options.scopedVars, target.cfs.instance, true);
-
-      if (_.isArray(instances)) {
-        instances = _.map(instances, (instance) => (_.isString(instance) ? JSON.parse(instance) : instance));
+      // 实例 instances 可能为模板变量，需先判断
+      let instances = target.pcx.instance;
+      if (isVariable(instances)) {
+        let templateInsValues = ReplaceVariable(this.templateSrv, options.scopedVars, instances, true);
+        if (!_.isArray(templateInsValues)) {
+          templateInsValues = [templateInsValues];
+        }
+        instances = _.map(templateInsValues, (instanceId) =>
+          _.find(this.allInstanceMap, (o) => o[templateQueryIdMap.instance] === instanceId)
+        );
       } else {
-        instances = [_.isString(instances) ? JSON.parse(instances) : instances];
+        if (_.isArray(instances)) {
+          instances = _.map(instances, (instance) => (_.isString(instance) ? JSON.parse(instance) : instance));
+        } else {
+          instances = [_.isString(instances) ? JSON.parse(instances) : instances];
+        }
       }
-      const region = ReplaceVariable(this.templateSrv, options.scopedVars, target.cfs.region, false);
+      const region = ReplaceVariable(this.templateSrv, options.scopedVars, target.pcx.region, false);
       const data = {
         StartTime: moment(options.range.from).format(),
         EndTime: moment(options.range.to).format(),
-        Period: target.cfs.period || 300,
+        Period: target.pcx.period || 300,
         Instances: _.map(instances, (instance) => {
-          const dimensionObject = target.cfs.dimensionObject;
-
+          const dimensionObject = target.pcx.dimensionObject;
           _.forEach(dimensionObject, (__, key) => {
-            let keyTmp = key;
-            if (_.has(CFSInvalidDemensions, key)) {
-              keyTmp = CFSInvalidDemensions[key];
-            }
-            dimensionObject[key] = { Name: key, Value: instance[keyTmp] };
-
-            // 设置instance
-            instance[key] = instance[keyTmp];
+            dimensionObject[key] = { Name: key, Value: instance[key] };
           });
           return { Dimensions: GetDimensions(dimensionObject) };
         }),
         Namespace: target.namespace,
-        MetricName: target.cfs.metricName,
+        MetricName: target.pcx.metricName,
       };
       return this.getMonitorData(data, region, instances);
     });
@@ -143,12 +128,12 @@ export default class CFSDatasource implements DatasourceInterface {
   }
 
   // 获取某个变量的实际值，this.templateSrv.replace() 函数返回实际值的字符串
-  getVariable(metric?: string) {
+  getVariable(metric: string) {
     return this.templateSrv.replace((metric || '').trim());
   }
 
   /**
-   * 获取 CVM 的监控数据
+   * 获取 PCX 的监控数据
    *
    * @param params 获取监控数据的请求参数
    * @param region 地域信息
@@ -197,55 +182,56 @@ export default class CFSDatasource implements DatasourceInterface {
       serviceInfo.service,
       { region, action: 'DescribeBaseMetrics' }
     ).then((response) => {
-      return _.filter(
-        _.filter(response.MetricSet || [], (item) => !(item.Namespace !== this.Namespace || !item.MetricName))
-      );
+      return _.filter(response.MetricSet || [], (item) => !(item.Namespace !== this.Namespace || !item.MetricName));
     });
   }
 
-  getInstances(region, params = {}) {
-    params = { Offset: 0, Limit: 100, ...params };
-    const serviceInfo = GetServiceAPIInfo(region, 'cfs');
-    return this.doRequest(
+  getInstances(region = 'ap-guangzhou', params = {}) {
+    params = { offset: 0, limit: 50, ...params };
+    const serviceInfo = GetServiceAPIInfo(region, 'pcx');
+    return this.doRequestV2(
       {
         url: this.url + serviceInfo.path,
         data: params,
       },
       serviceInfo.service,
-      { region, action: 'DescribeCfsFileSystems' }
+      { region, action: 'DescribeVpcPeeringConnections' }
     ).then((response) => {
-      return response.FileSystems || [];
+      return response.data || [];
     });
   }
 
-  getVariableInstances(region, query = {}) {
+  /**
+   * 模板变量中获取全量的 PCX 实例列表
+   * @param region 地域信息
+   */
+  getVariableInstances(region, query) {
     let result: any[] = [];
-    const params = { ...query, ...{ Offset: 0, Limit: 100 } };
-    const serviceInfo = GetServiceAPIInfo(region, 'cfs');
-    return this.doRequest(
+    const params = { Offset: 0, Limit: 50, ...query };
+    const serviceInfo = GetServiceAPIInfo(region, 'pcx');
+    return this.doRequestV2(
       {
         url: this.url + serviceInfo.path,
         data: params,
       },
       serviceInfo.service,
-      { region, action: 'DescribeCfsFileSystems' }
+      { region, action: 'DescribeVpcPeeringConnections' }
     ).then((response) => {
-      result = response.FileSystems || [];
-      const total = response.TotalCount || 0;
+      result = response.data || [];
+      const total = response.totalCount || 0;
       if (result.length >= total) {
         return result;
       } else {
-        const param = SliceLength(total, 100);
+        const param = SliceLength(total, 50);
         const promises: any[] = [];
         _.forEach(param, (item) => {
-          promises.push(this.getInstances(region, { ...item, ...query }));
+          promises.push(this.getInstances(region, item));
         });
         return Promise.all(promises)
           .then((responses) => {
             _.forEach(responses, (item) => {
               result = _.concat(result, item);
             });
-            // console.log('result:', result);
             return result;
           })
           .catch((error) => {
@@ -255,21 +241,60 @@ export default class CFSDatasource implements DatasourceInterface {
     });
   }
 
-  getZones(region) {
-    const serviceInfo = GetServiceAPIInfo(region, 'cvm');
+  getVpcId(region, params: any = {}) {
+    params = { Offset: 0, Limit: 20, ...params };
+    // TODO 等待腾讯云接口查问题
+    params.Offset = String(params.Offset);
+    params.Limit = String(params.Limit);
+    const serviceInfo = GetServiceAPIInfo(region, 'vpc');
     return this.doRequest(
       {
         url: this.url + serviceInfo.path,
+        data: params,
       },
       serviceInfo.service,
-      { region, action: 'DescribeZones' }
+      { region, action: 'DescribeVpcs' }
     ).then((response) => {
-      return _.filter(
-        _.map(response.ZoneSet || [], (item) => {
-          return { text: item.ZoneName, value: item.Zone, ZoneState: item.ZoneState, Zone: item.Zone };
-        }),
-        (item) => item.ZoneState === 'AVAILABLE'
-      );
+      return _.map(response.VpcSet || [], (item) => ({ text: item.VpcId, value: item.VpcId }));
+    });
+  }
+
+  getVpcIds(region) {
+    let result: any[] = [];
+    const params: any = { Offset: 0, Limit: 100 };
+    // TODO 等待腾讯云接口查问题
+    params.Offset = String(params.Offset);
+    params.Limit = String(params.Limit);
+    const serviceInfo = GetServiceAPIInfo(region, 'vpc');
+    return this.doRequest(
+      {
+        url: this.url + serviceInfo.path,
+        data: params,
+      },
+      serviceInfo.service,
+      { region, action: 'DescribeVpcs' }
+    ).then((response) => {
+      result = _.map(response.VpcSet || [], (item) => ({ text: item.VpcId, value: item.VpcId }));
+      const total = response.TotalCount || 0;
+      if (result.length >= total) {
+        return result;
+      } else {
+        const param = SliceLength(total, 100);
+        const promises: any[] = [];
+        _.forEach(param, (item) => {
+          promises.push(this.getVpcId(region, item));
+        });
+        return Promise.all(promises)
+          .then((responses) => {
+            _.forEach(responses, (item) => {
+              result = _.concat(result, item);
+            });
+            return result;
+          })
+          .catch((error) => {
+            return result;
+          });
+      }
     });
   }
 
@@ -281,7 +306,7 @@ export default class CFSDatasource implements DatasourceInterface {
   testDatasource() {
     if (!this.isValidConfigField(this.secretId)) {
       return {
-        service: 'cfs',
+        service: 'pcx',
         status: 'error',
         message: 'The SecretId/SecretKey field is required.',
       };
@@ -305,26 +330,39 @@ export default class CFSDatasource implements DatasourceInterface {
         'monitor',
         { region: 'ap-guangzhou', action: 'DescribeBaseMetrics' }
       ),
-      this.doRequest(
+      this.doRequestV2(
         {
-          url: this.url + '/cfs',
+          url: this.url + '/pcx',
           data: {
-            Offset: 0,
-            Limit: 1,
+            limit: 1,
+            offset: 0,
           },
         },
-        'cfs',
-        { region: 'ap-guangzhou', action: 'DescribeCfsFileSystems' }
+        'pcx',
+        { region: 'ap-guangzhou', action: 'DescribeVpcPeeringConnections' }
+      ),
+      this.doRequest(
+        {
+          url: this.url + '/vpc',
+          data: {
+            Limit: 1,
+            Offset: 0,
+          },
+        },
+        'vpc',
+        { region: 'ap-guangzhou', action: 'DescribeVpcs' }
       ),
     ])
       .then((responses) => {
         const cvmErr = _.get(responses, '[0].Error', {});
         const monitorErr = _.get(responses, '[1].Error', {});
-        const cfsErr = _.get(responses, '[2].Error', {});
+        const pcxErr = _.get(responses, '[2]', {});
+        const vpcErr = _.get(responses, '[3]', {});
         const cvmAuthFail = _.get(cvmErr, 'Code', '').indexOf('AuthFailure') !== -1;
         const monitorAuthFail = _.get(monitorErr, 'Code', '').indexOf('AuthFailure') !== -1;
-        const cfsAuthFail = _.get(cfsErr, 'Code', '').indexOf('AuthFailure') !== -1;
-        if (cvmAuthFail || monitorAuthFail || cfsAuthFail) {
+        const pcxAuthFail = _.startsWith(_.toString(_.get(pcxErr, 'code')), '4');
+        const vpcAuthFail = _.get(vpcErr, 'Code', '').indexOf('AuthFailure') !== -1;
+        if (cvmAuthFail || monitorAuthFail || pcxAuthFail || vpcAuthFail) {
           const messages: any[] = [];
           if (cvmAuthFail) {
             messages.push(`${_.get(cvmErr, 'Code')}: ${_.get(cvmErr, 'Message')}`);
@@ -332,27 +370,30 @@ export default class CFSDatasource implements DatasourceInterface {
           if (monitorAuthFail) {
             messages.push(`${_.get(monitorErr, 'Code')}: ${_.get(monitorErr, 'Message')}`);
           }
-          if (cfsAuthFail) {
-            messages.push(`${_.get(cfsErr, 'Code')}: ${_.get(cfsErr, 'Message')}`);
+          if (pcxAuthFail) {
+            messages.push(`${_.get(pcxErr, 'code')}: ${_.get(pcxErr, 'codeDesc')}`);
+          }
+          if (vpcAuthFail) {
+            messages.push(`${_.get(vpcErr, 'Code')}: ${_.get(vpcErr, 'Message')}`);
           }
           const message = _.join(_.compact(_.uniq(messages)), '; ');
           return {
-            service: 'cfs',
+            service: 'pcx',
             status: 'error',
             message,
           };
         } else {
           return {
             namespace: this.Namespace,
-            service: 'cfs',
+            service: 'pcx',
             status: 'success',
-            message: 'Successfully queried the CFS service.',
+            message: 'Successfully queried the PCX service.',
             title: 'Success',
           };
         }
       })
       .catch((error) => {
-        let message = 'CFS service:';
+        let message = 'PCX service:';
         message += error.statusText ? error.statusText + '; ' : '';
         if (_.get(error, 'data.error.code', '')) {
           message += error.data.error.code + '. ' + error.data.error.message;
@@ -361,16 +402,22 @@ export default class CFSDatasource implements DatasourceInterface {
         } else if (_.get(error, 'data', '')) {
           message += error.data;
         } else {
-          message += 'Cannot connect to CFS service.';
+          message += 'Cannot connect to PCX service.';
         }
         return {
-          service: 'CFS',
+          service: 'pcx',
           status: 'error',
           message: message,
         };
       });
   }
 
+  /**
+   * 腾讯云 API 3.0 请求接口
+   * @param options
+   * @param service
+   * @param signObj
+   */
   async doRequest(options, service, signObj: any = {}) {
     options = await GetRequestParams(
       options,
@@ -384,6 +431,31 @@ export default class CFSDatasource implements DatasourceInterface {
       .datasourceRequest(options)
       .then((response) => {
         return _.get(response, 'data.Response', {});
+      })
+      .catch((error) => {
+        throw error;
+      });
+  }
+
+  /**
+   * 腾讯云 API 2.0 请求接口
+   * @param options
+   * @param service
+   * @param signObj
+   */
+  async doRequestV2(options, service, signObj: any = {}) {
+    options = await GetRequestParamsV2(
+      options,
+      service,
+      signObj,
+      this.secretId,
+      this.instanceSettings.id,
+      this.backendSrv
+    );
+    return this.backendSrv
+      .datasourceRequest(options)
+      .then((response) => {
+        return _.get(response, 'data', {});
       })
       .catch((error) => {
         throw error;

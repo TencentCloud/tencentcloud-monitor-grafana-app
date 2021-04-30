@@ -1,6 +1,47 @@
 # TencentCloud Monitor Grafana App
 ---
 
+## [2.1.0] - 2021-05-01
+
+### Added
+
+- Support Monitoring [TDSQL for MySQL](https://intl.cloud.tencent.com/document/product/248/40012)
+- Support Monitoring [Private Network VPN Gateway](https://intl.cloud.tencent.com/document/product/248/10988)
+- Support Monitoring [Private Network Anycast EIP](https://intl.cloud.tencent.com/document/product/248/39552)
+- Support Monitoring [Private Network Network Detection](https://intl.cloud.tencent.com/document/product/248/39557)
+- Support Monitoring [Private Network Cloud Connect Network](https://intl.cloud.tencent.com/document/product/248/10987)
+- Support Monitoring [Tencent Distributed Message Queue](https://cloud.tencent.com/document/product/248/51450)
+- Support Monitoring [Cloud Physical Machine 1.0](https://cloud.tencent.com/document/product/248/45881)
+- Support Monitoring [CPM Peering Connection](https://cloud.tencent.com/document/product/248/45884)
+- Support Monitoring [CPM Load Balancer Public Network](https://cloud.tencent.com/document/product/248/45886)
+- Support Monitoring [CPM Load Balancer Private Network](https://cloud.tencent.com/document/product/248/45885)
+- Support Monitoring [Elastic MapReduce(HDFS)](https://cloud.tencent.com/document/product/248/44797)
+- Support Monitoring [Elastic MapReduce(HBASE)](https://cloud.tencent.com/document/product/248/45567)
+- Support Monitoring [Elastic MapReduce(HIVE)](https://cloud.tencent.com/document/product/248/45569)
+- Support Monitoring [Elastic MapReduce(NODE)](https://cloud.tencent.com/document/product/248/45570)
+- Support Monitoring [Elastic MapReduce(PRESTO)](https://cloud.tencent.com/document/product/248/45571)
+- Support Monitoring [Elastic MapReduce(SPARK)](https://cloud.tencent.com/document/product/248/45572)
+- Support Monitoring [Elastic MapReduce(YARN)](https://cloud.tencent.com/document/product/248/45573)
+- Support Monitoring [Elastic MapReduce(ZOOKEEPER)](https://cloud.tencent.com/document/product/248/45574)
+- Support Monitoring [Edge Computing Machine Compute Monitor](https://cloud.tencent.com/document/product/248/45124)
+- Support Monitoring [Edge Computing Machine Block Storage](https://cloud.tencent.com/document/product/248/45123)
+- Support Monitoring [Edge Computing Machine Load Balancer](https://cloud.tencent.com/document/product/248/54253)
+- Support Monitoring [Web Application Firewall](https://cloud.tencent.com/document/product/248/48124)
+- Support Monitoring [Cloud Object Storage](https://cloud.tencent.com/document/product/248/45140)
+- Support Monitoring [Global Application Acceleration Platform](https://cloud.tencent.com/document/product/248/45062)
+- Namespace dropdown multi-level classification
+- Allow `payload` param in template variable. (Advanced function)
+
+### Fixed
+
+- Import preset dashboard templates under "Tencent Cloud Monitor" folder.
+- Change CVM template variable value from `PublicIp` to `InstanceId`.
+- Known bugs when setting template variable refresh method to `never`.
+- `percent` unit in preset dashboard templates.
+- `InstanceAlias` display issue on when hovering the graph and in the legend.
+
+---
+
 ## [2.0.2] - 2021-04-13
 
 ### Added

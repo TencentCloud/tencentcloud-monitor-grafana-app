@@ -1,4 +1,10 @@
-import { BMPCXInstanceAliasList, BMPCXInvalidDemensions, namespace, templateQueryIdMap } from './query_def';
+import {
+  BMPCXInstanceAliasList,
+  BMPCXInvalidDemensions,
+  namespace,
+  templateQueryIdMap,
+  modifyDimensons,
+} from './query_def';
 import { BaseDatasource } from '../_base/datasource';
 import _ from 'lodash';
 
@@ -12,6 +18,9 @@ export default class DCDatasource extends BaseDatasource {
     service: 'bmvpc',
     action: 'DescribeVpcPeerConnections',
     responseField: 'VpcPeerConnectionSet',
+  };
+  MetricReqConfig = {
+    resultFilter: modifyDimensons,
   };
   RegionMap = {};
   constructor(instanceSettings, backendSrv, templateSrv) {
