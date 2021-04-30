@@ -1,6 +1,7 @@
 // 产品目录名字和service名字匹配即 lb_private(目录名) => lbPrivate(service)
 import { DetailQueryConfig, FildDescriptorType } from '../_base/types';
 import { instanceQueryParamsBaseParse } from '../../common/utils';
+import _ from 'lodash';
 
 const namespace = 'QCE/BM_LB';
 
@@ -8,32 +9,23 @@ const namespace = 'QCE/BM_LB';
 const queryEditorName = 'bmLbQuery';
 
 const CPMInvalidDemensions = {
-  vip: 'Eip',
+  vip: 'LoadBalancerVips',
 };
 
 // 要和文件名方式一致，ceip_summary=>CEIPSUMMARY
-const BMLBInstanceAliasList = ['EipId', 'Eip', 'EipName'];
+const BMLBInstanceAliasList = ['LoadBalancerId', 'LoadBalancerVips', 'LoadBalancerName'];
 
 const templateQueryIdMap = {
-  instance: 'EipId',
+  instance: 'LoadBalancerId',
 };
 
 // select类型需要注意是{},multi后缀是[],dropdown是类型
 const CPMFilterFields = {
   Limit: 20,
   Offset: 0,
-  EipIds: [],
-  Eips: [],
-  InstanceIds: [],
-  SearchKey: [],
-  OrderField: {},
-  Order: {},
-  PayMode: {},
-  VpcId: '',
-  BindTypes: [],
-  ExclusiveTag: {},
-  AclId: '',
-  BindAcl: {},
+  LoadBalancerIds: [],
+  LoadBalancerName: [],
+  LoadBalancerVips: [],
 };
 
 const CPMFilterFieldsDescriptor: FildDescriptorType = [
@@ -55,125 +47,31 @@ const CPMFilterFieldsDescriptor: FildDescriptorType = [
     max: 100,
   },
   {
-    key: 'EipIds',
-    enDescriptor: 'EipIds',
-    cnDescriptor: 'EIP实例ID列表',
+    key: 'LoadBalancerIds',
+    enDescriptor: 'LoadBalancerIds',
+    cnDescriptor: '负载均衡器ID数组',
     link: '',
     type: 'inputMulti',
   },
   {
-    key: 'Eips',
-    enDescriptor: 'Eips',
-    cnDescriptor: 'EIP IP 列表',
+    key: 'LoadBalancerName',
+    enDescriptor: 'LoadBalancerName',
+    cnDescriptor: '负载均衡器名称',
     link: '',
     type: 'inputMulti',
   },
   {
-    key: 'InstanceIds',
-    enDescriptor: 'InstanceIds',
-    cnDescriptor: '主机实例ID 列表',
+    key: 'LoadBalancerVips',
+    enDescriptor: 'LoadBalancerVips',
+    cnDescriptor: '负载均衡获得的公网IP地址',
     link: '',
     type: 'inputMulti',
-  },
-  {
-    key: 'SearchKey',
-    enDescriptor: 'SearchKey',
-    cnDescriptor: 'EIP名称,模糊匹配',
-    link: '',
-    type: 'input',
-  },
-  {
-    key: 'OrderField',
-    enDescriptor: 'OrderField',
-    cnDescriptor: '排序字段',
-    link: '',
-    type: 'select',
-    list: [
-      { text: 'EipId', value: 'EipId' },
-      { text: 'Eip', value: 'Eip' },
-      { text: 'Status', value: 'Status' },
-      { text: 'InstanceId', value: 'InstanceId' },
-      { text: 'CreatedAt', value: 'CreatedAt' },
-    ],
-  },
-  {
-    key: 'Order',
-    enDescriptor: 'Order',
-    cnDescriptor: '排序方式',
-    link: '',
-    type: 'select',
-    list: [
-      { text: '递增', value: 0 },
-      { text: '递减', value: 1 },
-    ],
-  },
-  {
-    key: 'PayMode',
-    enDescriptor: 'PayMode',
-    cnDescriptor: '计费模式',
-    link: '',
-    type: 'select',
-    list: [
-      { text: '流量', value: 'flow' },
-      { text: '带宽', value: 'bandwidth' },
-    ],
-  },
-  {
-    key: 'VpcId',
-    enDescriptor: 'VpcId',
-    cnDescriptor: 'EIP归属VpcId',
-    link: '',
-    type: 'input',
-  },
-  {
-    key: 'BindTypes',
-    enDescriptor: 'BindTypes',
-    cnDescriptor: '绑定类型',
-    link: '',
-    type: 'select',
-    multiple: true,
-    list: [
-      { text: '未绑定', value: -1 },
-      { text: '物理机', value: 0 },
-      { text: 'nat网关', value: 1 },
-      { text: '虚拟IP', value: 2 },
-      { text: '托管机器', value: 3 },
-    ],
-  },
-  {
-    key: 'ExclusiveTag',
-    enDescriptor: 'ExclusiveTag',
-    cnDescriptor: '独占标志',
-    link: '',
-    type: 'select',
-    list: [
-      { text: '共享', value: 0 },
-      { text: '独占', value: 1 },
-    ],
-  },
-  {
-    key: 'BindAcl',
-    enDescriptor: 'BindAcl',
-    cnDescriptor: '是否绑定了EIP ACL',
-    link: '',
-    type: 'select',
-    list: [
-      { text: '未绑', value: 0 },
-      { text: '绑定', value: 1 },
-    ],
-  },
-  {
-    key: 'AclId',
-    enDescriptor: 'AclId',
-    cnDescriptor: 'EIP ACL实例ID',
-    link: '',
-    type: 'input',
   },
 ];
 
 // 各产品实例列表detail配置
 const queryEditorConfig: DetailQueryConfig = {
-  instanceDocUrl: 'https://cloud.tencent.com/document/api/1028/32853',
+  instanceDocUrl: 'https://cloud.tencent.com/document/api/1027/33280',
   namespace,
   fieldDescriptor: CPMFilterFieldsDescriptor,
 };
@@ -185,12 +83,17 @@ const CPM_STATE = {
   period: undefined,
   dimensionObject: null,
   instance: '',
-  instanceAlias: 'InstanceId',
+  instanceAlias: 'LoadBalancerId',
   queries: CPMFilterFields,
 };
 
 function GetInstanceQueryParams(queries: any = {}) {
   return instanceQueryParamsBaseParse(queries, false);
+}
+const BMLBValidMetricsT = ['Inpkg', 'Outpkg', 'Intraffic', 'Outtraffic', 'Connum', 'Req'];
+function isValidMetric(metric) {
+  const validMetrics = _.map(BMLBValidMetricsT, _.toUpper);
+  return _.indexOf(validMetrics, _.toUpper(metric.MetricName)) !== -1;
 }
 export default CPM_STATE;
 export {
@@ -201,6 +104,7 @@ export {
   namespace,
   queryEditorName,
   queryEditorConfig,
+  isValidMetric,
   // 对应产品的service的全大写拼接GetInstanceQueryParams
   GetInstanceQueryParams as BMLBGetInstanceQueryParams,
 };

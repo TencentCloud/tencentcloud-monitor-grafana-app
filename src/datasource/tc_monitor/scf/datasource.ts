@@ -58,7 +58,7 @@ export default class SCFDatasource extends BaseDatasource {
 
   async metricFindQuery(query: MetricQuery, regex?: string) {
     // 查询地域列表
-    const { action, namespace, display, filterkey, filtervalue } = query;
+    const { action, namespace, display, filterkey, filtervalue, payload = {} } = query;
     let { region, instancealias = this.templateQueryIdMap.instance } = query;
 
     if (!action || !namespace) {
@@ -80,7 +80,7 @@ export default class SCFDatasource extends BaseDatasource {
 
     // 查询实例列表
     if (region && action.match(/^DescribeInstances/i)) {
-      const result = await this.getVariableInstances(region, variableQuery);
+      const result = await this.getVariableInstances(region, { ...variableQuery, ...payload });
       // 缓存全量实例列表
       this.instanceListCache = result;
 

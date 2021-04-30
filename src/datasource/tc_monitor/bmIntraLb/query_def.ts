@@ -1,6 +1,7 @@
 // 产品目录名字和service名字匹配即 lb_private(目录名) => lbPrivate(service)
 import { DetailQueryConfig, FildDescriptorType } from '../_base/types';
 import { instanceQueryParamsBaseParse } from '../../common/utils';
+import _ from 'lodash';
 
 const namespace = 'QCE/BM_INTRA_LB';
 
@@ -9,6 +10,7 @@ const queryEditorName = 'bmIntraLbQuery';
 
 const BMINTRALBInvalidDemensions = {
   vip: 'LoadBalancerVips',
+  vpcId: 'VpcId',
 };
 
 // 要和文件名方式一致，ceip_summary=>CEIPSUMMARY
@@ -85,7 +87,11 @@ const BMINTRALB_STATE = {
   instanceAlias: 'LoadBalancerId',
   queries: BMINTRALBFilterFields,
 };
-
+const BMLBValidMetricsT = ['Inpkg', 'Outpkg', 'Intraffic', 'Outtraffic', 'Connum', 'Req'];
+function isValidMetric(metric) {
+  const validMetrics = _.map(BMLBValidMetricsT, _.toUpper);
+  return _.indexOf(validMetrics, _.toUpper(metric.MetricName)) !== -1;
+}
 function GetInstanceQueryParams(queries: any = {}) {
   return instanceQueryParamsBaseParse(queries, false);
 }
@@ -98,6 +104,7 @@ export {
   namespace,
   queryEditorName,
   queryEditorConfig,
+  isValidMetric,
   // 对应产品的service的全大写拼接GetInstanceQueryParams
   GetInstanceQueryParams as BMINTRALBGetInstanceQueryParams,
 };

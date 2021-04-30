@@ -1,4 +1,10 @@
-import { BMINTRALBInstanceAliasList, BMINTRALBInvalidDemensions, namespace, templateQueryIdMap } from './query_def';
+import {
+  BMINTRALBInstanceAliasList,
+  BMINTRALBInvalidDemensions,
+  namespace,
+  templateQueryIdMap,
+  isValidMetric,
+} from './query_def';
 import { BaseDatasource } from '../_base/datasource';
 import _ from 'lodash';
 
@@ -12,6 +18,12 @@ export default class DCDatasource extends BaseDatasource {
     service: 'bmlb',
     action: 'DescribeLoadBalancers',
     responseField: 'LoadBalancerSet',
+    interceptor: {
+      request: (params) => ({
+        ...params,
+        LoadBalancerType: 'internal',
+      }), // 设置一些请求参数的 默认值
+    },
   };
   RegionMap = {};
   constructor(instanceSettings, backendSrv, templateSrv) {
@@ -36,14 +48,15 @@ export default class DCDatasource extends BaseDatasource {
       });
     });
   }
-
-  async getInstances(region, params = {}) {
-    const rawSet = await super.getInstances(region, params);
-    return rawSet.filter((item) => item.LoadBalancerType === 'internal');
-  }
-
-  async getVariableInstances(region, query = {}) {
-    const rawSet = await super.getVariableInstances(region, query);
-    return rawSet.filter((item) => item.LoadBalancerType === 'internal');
+  async getMetrics(region = 'ap-guangzhou') {
+    const rawSet = await super.getMetrics(region);
+    return _.compact(
+      rawSet.map((item) => {
+        if (isValidMetric(item)) {
+          return item;
+        }
+        return null;
+      })
+    );
   }
 }

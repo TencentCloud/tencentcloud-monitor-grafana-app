@@ -46,6 +46,7 @@ export default class DCDatasource extends BaseDatasource {
     });
   }
   async fetchMetricData(action: string, region: string, instance: any, query: any) {
+    console.log('action', action);
     if (action === 'DescribeMapInfo') {
       const { name: field } = query;
       const rs = await this.getConsumerList({ region, field });

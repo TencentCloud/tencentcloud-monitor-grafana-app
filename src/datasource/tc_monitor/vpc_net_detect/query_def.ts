@@ -9,6 +9,7 @@ const queryEditorName = 'vpcNetDetectQuery';
 
 const VPCNETInvalidDemensions = {
   netdetectid: 'NetDetectId',
+  netDetectId: 'NetDetectId',
 };
 
 const VPCNETDETECTInstanceAliasList = ['NetDetectId', 'NetDetectName'];
@@ -96,6 +97,13 @@ const VPCNET_STATE = {
 function GetInstanceQueryParams(queries: any = {}) {
   return instanceQueryParamsBaseParse(queries, true);
 }
+function modifyDimensons(metricItem: any) {
+  const metricTmp = _.cloneDeep(metricItem);
+  metricTmp.Dimensions.forEach((item) => {
+    item.Dimensions = ['netDetectId'];
+  });
+  return metricTmp;
+}
 export default VPCNET_STATE;
 export {
   VPCNETFilterFieldsDescriptor,
@@ -105,5 +113,6 @@ export {
   namespace,
   queryEditorName,
   queryEditorConfig,
+  modifyDimensons,
   GetInstanceQueryParams as VPCNETDETECTGetInstanceQueryParams,
 };

@@ -1,6 +1,7 @@
 // 产品目录名字和service名字匹配即 lb_private(目录名) => lbPrivate(service)
 import { DetailQueryConfig, FildDescriptorType } from '../_base/types';
 import { instanceQueryParamsBaseParse } from '../../common/utils';
+import _ from 'lodash';
 
 const namespace = 'QCE/CPM';
 
@@ -9,6 +10,7 @@ const queryEditorName = 'cpmQuery';
 
 const CPMInvalidDemensions = {
   instanceId: 'InstanceId',
+  // uniqid: 'InstanceId',
 };
 
 const CPMInstanceAliasList = ['InstanceId', 'Name'];
@@ -165,6 +167,14 @@ const CPM_STATE = {
 function GetInstanceQueryParams(queries: any = {}) {
   return instanceQueryParamsBaseParse(queries, false);
 }
+
+function modifyDimensons(metricItem: any) {
+  const metricTmp = _.cloneDeep(metricItem);
+  metricTmp.Dimensions.forEach((item) => {
+    item.Dimensions = ['instanceId'];
+  });
+  return metricTmp;
+}
 export default CPM_STATE;
 export {
   CPMFilterFieldsDescriptor,
@@ -174,6 +184,7 @@ export {
   namespace,
   queryEditorName,
   queryEditorConfig,
+  modifyDimensons,
   // 对应产品的service的全大写拼接GetInstanceQueryParams
   GetInstanceQueryParams as CPMGetInstanceQueryParams,
 };

@@ -4,11 +4,14 @@ import {
   namespace,
   templateQueryIdMap,
   regionSupported,
+  keyInStorage,
+  queryMonitorExtraConfg,
 } from './query_def';
 import { BaseDatasource } from '../_base/datasource';
 import _ from 'lodash';
 import { GetServiceAPIInfo } from '../../common/constants';
 import { fetchAllFactory } from '../../common/utils';
+import instanceStorage from '../../common/datasourceStorage';
 
 export default class DCDatasource extends BaseDatasource {
   Namespace = namespace;
@@ -21,6 +24,10 @@ export default class DCDatasource extends BaseDatasource {
     action: 'DescribeServicesStatus',
     responseField: 'ServiceSet',
   };
+
+  keyInStorage = keyInStorage;
+  queryMonitorExtraConfg = queryMonitorExtraConfg;
+
   constructor(instanceSettings, backendSrv, templateSrv) {
     super(instanceSettings, backendSrv, templateSrv);
   }
@@ -35,7 +42,7 @@ export default class DCDatasource extends BaseDatasource {
     const serviceInfo = GetServiceAPIInfo(region, this.service);
 
     // 从分页数据，获取全量数据
-    const rses = await fetchAllFactory(
+    const res = await fetchAllFactory(
       (data) => {
         return this.doRequest(
           {
@@ -51,19 +58,21 @@ export default class DCDatasource extends BaseDatasource {
       },
       'EnvironmentList'
     );
-    const [rs] = rses;
-    return rs.map((o) => {
-      return {
-        text: o.EnvironmentName,
-        value: o.EnvironmentName,
-      };
-    });
+    const [rs] = res;
+    return rs;
   }
   async fetchMetricData(action: string, region: string, instance: any) {
     // console.log({ action, region, instance });
     if (action === 'DescribeServiceEnvironmentList') {
       const rs = await this.getEnvironmentNameList({ region, instanceId: instance[this.templateQueryIdMap.instance] });
-      return rs;
+      instanceStorage.setExtraStorage(this.service, this.keyInStorage.environmentList, rs);
+      const result = rs.map((o) => {
+        return {
+          text: o[this.templateQueryIdMap.environmentName],
+          value: o[this.templateQueryIdMap.environmentName],
+        };
+      });
+      return result;
     }
     return [];
   }

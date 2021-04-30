@@ -26,8 +26,9 @@ func newDatasource() datasource.ServeOpts {
 	}
 
 	return datasource.ServeOpts{
-		QueryDataHandler:   ds,
-		CheckHealthHandler: ds,
+		QueryDataHandler:    ds,
+		CheckHealthHandler:  ds,
+		CallResourceHandler: newResourceHandler(ds),
 	}
 }
 
@@ -86,7 +87,7 @@ func (td *cloudMonitorDatasource) query(ctx context.Context, query backend.DataQ
 	b, _ := json.Marshal(model.Query)
 	c, _ := json.Marshal(model)
 
-	if model.Query.Action == "DescribeVpcPeeringConnections" {
+	if model.Query.Action == "DescribeEips" {
 		logger.Info("===> origin model: " + string(query.JSON))
 		logger.Info("===> mashed model: " + string(c))
 		logger.Info("===> mashaled model query: " + string(b))
