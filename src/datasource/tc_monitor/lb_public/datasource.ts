@@ -24,7 +24,7 @@ export default class DCDatasource extends BaseDatasource {
     responseField: 'LoadBalancerSet',
     interceptor: {
       request: (param) => {
-        console.log('interceptor', { ...param, LoadBalancerType: 'OPEN' });
+        // console.log('interceptor', { ...param, LoadBalancerType: 'OPEN' });
         return { ...param, LoadBalancerType: 'OPEN' };
       },
     },
@@ -64,7 +64,7 @@ export default class DCDatasource extends BaseDatasource {
     return rs;
   }
   async fetchMetricData(action: string, region: string, instance: any) {
-    console.log({ action, region, instance });
+    // console.log({ action, region, instance });
     if (action === 'DescribeListeners') {
       const rs = await this.getListenerList({ region, instanceId: instance[this.templateQueryIdMap.instance] });
       instanceStorage.setExtraStorage(this.service, this.keyInStorage.listener, rs);

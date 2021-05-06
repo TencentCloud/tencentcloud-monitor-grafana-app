@@ -47,7 +47,7 @@ export class CKAFKAQueryCtrl {
       try {
         instance = JSON.parse(instance).InstanceId;
       } catch (error) {
-        console.log();
+        // console.log();
       }
       return instance;
     };
@@ -55,7 +55,6 @@ export class CKAFKAQueryCtrl {
     $scope.getExtraDropdown = async (target, field) => {
       const InstanceId = $scope.getInstanceId();
       let data = $scope.consumerGroupCacheMap[InstanceId];
-      console.log({ data }, $scope.consumerGroupCacheMap);
 
       if (!data) {
         const fetcher = $scope.datasource.getServiceFn('ckafka', 'getConsumerGroups');

@@ -23,7 +23,7 @@ export class QueryCtrl {
       try {
         instance = JSON.parse(instance)[templateQueryIdMap.instance];
       } catch (error) {
-        console.log();
+        // console.log();
       }
       return instance;
     };

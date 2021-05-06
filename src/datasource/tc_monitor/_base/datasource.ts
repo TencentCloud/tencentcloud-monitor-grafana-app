@@ -98,7 +98,7 @@ export abstract class BaseDatasource implements DatasourceInterface {
   async metricFindQuery(query: MetricQuery, regex?: string) {
     const { action, namespace, display, payload = {} } = query;
     let { region, instancealias = this.templateQueryIdMap.instance } = query;
-    console.log({ action, namespace, display, payload });
+    // console.log({ action, namespace, display, payload });
     if (!action || !namespace) {
       return [];
     }
@@ -140,7 +140,6 @@ export abstract class BaseDatasource implements DatasourceInterface {
         const instanceCache = instanceStorage.getInstance(this.service);
         instance = _.cloneDeep(instanceCache.find((item) => item[this.templateQueryIdMap.instance] === instance)) ?? {};
         // eslint-disable-next-line no-empty
-        console.log('dres', { instance });
       } catch (error) {}
       return this.fetchMetricData(action, region, instance, query);
     }
@@ -185,7 +184,7 @@ export abstract class BaseDatasource implements DatasourceInterface {
       let instances = ReplaceVariable(this.templateSrv, options.scopedVars, target[service].instance, true);
 
       const instanceCache = instanceStorage.getInstance(this.service);
-      console.log({ instanceCache });
+      // console.log({ instanceCache });
       instances = [].concat(instances).map((inst) => {
         try {
           return JSON.parse(inst); // 兼容json字符串的 形式
@@ -224,7 +223,6 @@ export abstract class BaseDatasource implements DatasourceInterface {
                 target[service][dim_KeyInTarget],
                 true
               );
-              console.log({ keyTmp, dim_KeyInStorage, dim_KeyInTarget, dim_KeyInMap, extraIns });
               let extraSourceMap = {};
               try {
                 extraSourceMap = JSON.parse(extraIns); // 兼容json字符串的 形式
@@ -232,11 +230,9 @@ export abstract class BaseDatasource implements DatasourceInterface {
                 if (_.isArray(extraIns)) extraIns = extraIns[0]; // 如果多个，取第一个。除了实例ID 暂不支持其他纬度多选
                 const extraStorage = instanceStorage.getExtraStorage(this.service, dim_KeyInStorage);
                 extraSourceMap = extraStorage.find((item) => item[dim_KeyInMap] === extraIns) ?? {};
-                console.log({ extraSourceMap, extraStorage });
               }
               extraDimValue = extraSourceMap?.[keyTmp];
             }
-            console.log({ extraDimValue });
             // // edit中当前选择项。和instance类似，如topic，listener。可能为变量
             // let dimValueInTarget = this.getVariable(target[service][key] || target[service][keyTmp]);
             // console.log('extraStorage1', dimValueInTarget);
@@ -274,7 +270,6 @@ export abstract class BaseDatasource implements DatasourceInterface {
             }
             dimensionObject[key] = { Name: key, Value: ins[key] };
           });
-          console.log({ dimensionObject });
           return [{ Dimensions: GetDimensions(dimensionObject) }];
           // // 没有额外维度，则直接返回
           // if (this.extraMetricDims.length === 0) {

@@ -78,7 +78,6 @@ export default class CKFKADatasource extends BaseDatasource {
   }
 
   async fetchMetricData(action: string, region: string, instance: any) {
-    console.log('fetchMetricData2', { instance });
     const result = await this.getConsumerGroups(region, {
       InstanceId: instance.InstanceId,
     });

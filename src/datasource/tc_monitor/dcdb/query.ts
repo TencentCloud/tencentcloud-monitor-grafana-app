@@ -33,12 +33,11 @@ export class QueryCtrl {
       try {
         instance = JSON.parse(instance)[templateQueryIdMap.instance];
       } catch (error) {
-        console.log();
+        // console.log();
       }
       return instance;
     };
     $scope.getExtraFields = () => {
-      console.log('ExtraFields', ExtraFields, $scope.dims);
       return ExtraFields.filter((item) => item.field in ($scope.dims ?? {}) || item.label in ($scope.dims ?? {}));
     };
     $scope.getExtraDropdown = async (target, action) => {
@@ -50,7 +49,6 @@ export class QueryCtrl {
         Limit: 100,
       };
       const rs = await $scope.datasource.getServiceFn(service, 'getConsumerList')({ region, action, payload });
-      console.log('res', rs);
       return rs;
     };
 

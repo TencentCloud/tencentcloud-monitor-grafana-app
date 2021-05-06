@@ -53,7 +53,7 @@ export class QueryCtrl {
           };
         });
       } catch (error) {
-        console.log('instance error', instance);
+        // console.log('instance error', instance);
         const payload: any = {
           InstanceId: instance,
         };
