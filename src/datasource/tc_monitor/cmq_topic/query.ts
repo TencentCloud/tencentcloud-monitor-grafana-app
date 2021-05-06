@@ -38,7 +38,7 @@ export class CmqTopicQueryCtrl {
       try {
         instance = JSON.parse(instance).TopicName;
       } catch (error) {
-        console.log();
+        // console.log();
       }
       return instance;
     };

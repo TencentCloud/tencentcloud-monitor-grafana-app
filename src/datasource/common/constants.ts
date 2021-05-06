@@ -394,9 +394,8 @@ export function ParseMetricQuery(query = '') {
       let val = _.trim(_.get(str, '1', ''));
       try {
         val = JSON.parse(val);
-        console.log('val', val);
       } catch (e) {
-        console.log({ val });
+        // console.log({ val });
       }
       result[_.toLower(_.trim(_.get(str, '0', '')))] = val;
     }
@@ -479,14 +478,13 @@ export function GetDimensions(obj) {
 // parse query data result for panel
 export function ParseQueryResult(response, instances: any[] = []) {
   const instanceList = _.cloneDeep(instances);
-  console.log('parseQueryResult:', response, instances, instanceList);
+  // console.log('parseQueryResult:', response, instances, instanceList);
   const dataPoints = _.get(response, 'DataPoints', []);
   return _.map(dataPoints, (dataPoint) => {
     let instanceAliasValue = _.get(dataPoint, 'Dimensions[0].Value');
     for (let i = 0; i < instanceList.length; i++) {
       if (isInstanceMatch(instanceList[i], _.get(dataPoint, 'Dimensions', []))) {
         instanceAliasValue = instanceList[i]._InstanceAliasValue;
-        console.log(1123344, instanceList, instanceAliasValue);
         instanceList.splice(i, 1);
         break;
       }

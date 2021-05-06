@@ -39,7 +39,7 @@ export class MrQueryCtrl {
       try {
         instance = JSON.parse(instance).ClusterId;
       } catch (error) {
-        console.log();
+        // console.log();
       }
       return instance;
     };

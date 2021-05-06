@@ -17,7 +17,7 @@ export class SCFQueryCtrl {
       try {
         instance = JSON.parse(instance).FunctionName;
       } catch (error) {
-        console.log();
+        // console.log();
       }
       return instance;
     };
@@ -35,7 +35,7 @@ export class SCFQueryCtrl {
       const fetcher = $scope.datasource.getServiceFn('scf', 'getVersions');
 
       return fetcher(region, { FunctionName }).then((res) => {
-        console.log(res, 'res');
+        // console.log(res, 'res');
 
         return res;
       });

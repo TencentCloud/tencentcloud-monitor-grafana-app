@@ -72,7 +72,7 @@ export default class DCDatasource extends BaseDatasource {
       payload,
       responseField
     );
-    console.log({ rs });
+    // console.log({ rs });
     return rs[0].map((o) => {
       return {
         text: o[pickKey],

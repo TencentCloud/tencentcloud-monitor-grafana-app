@@ -31,7 +31,7 @@ export class QueryCtrl {
       try {
         instance = JSON.parse(instance)[templateQueryIdMap.instance];
       } catch (error) {
-        console.log();
+        // console.log();
       }
       return instance;
     };
@@ -49,7 +49,7 @@ export class QueryCtrl {
       }
 
       const rs = await $scope.datasource.getServiceFn(service, 'getConsumerList')({ region, field, payload });
-      console.log('res', rs);
+      // console.log('res', rs);
       return rs;
     };
 
