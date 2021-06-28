@@ -1,5 +1,13 @@
 import _ from 'lodash';
 
+import { DetailQueryConfig, FildDescriptorType } from '../_base/types';
+import { instanceQueryParamsBaseParse } from '../../common/utils';
+
+const namespace = 'QCE/LB_PUBLIC';
+
+// 组件名称。这里名字要和index.ts中的SERVICES对应，后面会根据SERVICES中service字段拼接这个query组件名称
+const queryEditorName = 'loadBalanceQuery';
+
 const ForwardTypes = [
   { text: '通用的负载均衡', value: 1 },
   { text: '传统的负载均衡', value: 0 },
@@ -22,13 +30,13 @@ const WithRs = [
   { text: '绑定后端服务', value: 1 },
   { text: '查询全部', value: -1 },
 ];
-const LBPUBLICFieldsDescriptor = [
+const LBPUBLICFieldsDescriptor: FildDescriptorType = [
   {
     key: 'Offset',
     enDescriptor: 'Offset',
     cnDescriptor: '偏移量, 例如Offset=20&Limit=20 返回第 20 到 40 项',
     link: '',
-    type: 'inputnumber',
+    type: 'inputNumber',
     min: 0,
   },
   {
@@ -36,7 +44,7 @@ const LBPUBLICFieldsDescriptor = [
     enDescriptor: 'Limit',
     cnDescriptor: '单次请求返回的数量，默认为20，最小值为1',
     link: '',
-    type: 'inputnumber',
+    type: 'inputNumber',
     min: 1,
   },
   {
@@ -44,7 +52,7 @@ const LBPUBLICFieldsDescriptor = [
     enDescriptor: 'LoadBalancer ID',
     cnDescriptor: '实例ID',
     link: '',
-    type: 'inputmulti',
+    type: 'inputMulti',
   },
   {
     key: 'LoadBalancerName',
@@ -73,28 +81,28 @@ const LBPUBLICFieldsDescriptor = [
     enDescriptor: 'LoadBalancer Vips',
     cnDescriptor: '负载均衡实例的 VIP 地址',
     link: '',
-    type: 'inputmulti',
+    type: 'inputMulti',
   },
   {
     key: 'BackendPrivateIps',
     enDescriptor: 'BackendPrivate Ips',
     cnDescriptor: '负载均衡绑定的后端服务的内网 IP',
     link: '',
-    type: 'inputmulti',
+    type: 'inputMulti',
   },
   {
     key: 'BackendPublicIps',
     enDescriptor: 'BackendPublic Ips',
     cnDescriptor: '负载均衡绑定的后端服务的外网 IP',
     link: '',
-    type: 'inputmulti',
+    type: 'inputMulti',
   },
   {
     key: 'ProjectId',
     enDescriptor: 'Project ID',
     cnDescriptor: '负载均衡实例所属的项目 ID',
     link: '',
-    type: 'inputnumber',
+    type: 'inputNumber',
   },
   {
     key: 'VpcId',
@@ -143,7 +151,13 @@ const LBPUBLICFieldsDescriptor = [
   },
 ];
 
-const LBPublicFields = {
+// 各产品实例列表detail配置
+const queryEditorConfig: DetailQueryConfig = {
+  instanceDocUrl: 'https://cloud.tencent.com/document/api/214/30685',
+  namespace,
+  fieldDescriptor: LBPUBLICFieldsDescriptor,
+};
+const LBFields = {
   LoadBalancerIds: [],
   Forward: undefined,
   LoadBalancerName: '',
@@ -170,63 +184,103 @@ const LBPUBLIC_STATE = {
   dimensionObject: null,
   instance: '',
   instanceAlias: 'LoadBalancerId',
+  Port: '',
+  Protocol: '',
   listener: '',
-  listenerAlias: 'ListenerId',
-  queries: { ...LBPublicFields },
+  // listenerAlias: 'ListenerId',
+  queries: LBFields,
 };
 
-function GetInstanceQueryParams(queries: any = {}) {
-  const params: any = {};
-  if (!_.isEmpty(queries)) {
-    params.Limit = _.get(queries, 'Limit', 20) || 20;
-    params.Offset = _.get(queries, 'Offset', 0) || 0;
-    queries = _.omit(queries, ['Offset', 'Limit']);
-    _.forEach(queries, (item: any, key) => {
-      if (_.isArray(item)) {
-        item = _.compact(item);
-        if (item.length > 0) {
-          params[key] = _.uniq(item);
-        }
-      } else if (_.isObject(item)) {
-        if (_.isNumber(_.get(item, 'value', undefined)) || !_.isEmpty(_.get(item, 'value', undefined))) {
-          params[key] = _.get(item, 'value');
-        }
-      } else if (_.isNumber(item) || !_.isEmpty(item)) {
-        params[key] = item;
-      }
-    });
-  }
-  return params;
-}
+// function GetInstanceQueryParams(queries: any = {}) {
+//   const params: any = {};
+//   if (!_.isEmpty(queries)) {
+//     params.Limit = _.get(queries, 'Limit', 20) || 20;
+//     params.Offset = _.get(queries, 'Offset', 0) || 0;
+//     queries = _.omit(queries, ['Offset', 'Limit']);
+//     _.forEach(queries, (item: any, key) => {
+//       if (_.isArray(item)) {
+//         item = _.compact(item);
+//         if (item.length > 0) {
+//           params[key] = _.uniq(item);
+//         }
+//       } else if (_.isObject(item)) {
+//         if (_.isNumber(_.get(item, 'value', undefined)) || !_.isEmpty(_.get(item, 'value', undefined))) {
+//           params[key] = _.get(item, 'value');
+//         }
+//       } else if (_.isNumber(item) || !_.isEmpty(item)) {
+//         params[key] = item;
+//       }
+//     });
+//   }
+//   return params;
+// }
 
+function GetInstanceQueryParams(queries: any = {}) {
+  return instanceQueryParamsBaseParse(queries, false);
+}
 const LBPUBLICInstanceAliasList = ['LoadBalancerId', 'LoadBalancerName', 'LoadBalancerVips'];
-const LBPUBLICListenerAliasList = ['ListenerId', 'ListenerName', 'Port'];
+// const LBPUBLICListenerAliasList = ['ListenerId', 'ListenerName', 'Port'];
 const LBPUBLICVALIDDIMENSIONS = {
   vip: 'LoadBalancerVips',
-  vpcId: 'NumericalVpcId',
+  // vpcId: 'NumericalVpcId',
   loadBalancerPort: 'Port',
   protocol: 'Protocol',
 };
-const LBPUBLIC_INSTANCE_DIMENSIONOBJECTS = {
-  vip: { Name: 'vip', Value: '' },
-};
-const LBPUBLIC_LISTENER_DIMENSIONOBJECTS = {
-  vip: { Name: 'vip', Value: '' },
-  loadBalancerPort: { Name: 'loadBalancerPort', Value: '' },
-  protocol: { Name: 'protocol', Value: '' },
-};
+// dimensionObject[item] = { Name: item, Value: '' };
+// const LBPUBLIC_INSTANCE_DIMENSIONOBJECTS = {
+//   vip: { Name: 'vip', Value: '' },
+// };
+// const LBPUBLIC_LISTENER_DIMENSIONOBJECTS = {
+//   vip: { Name: 'vip', Value: '' },
+//   loadBalancerPort: { Name: 'loadBalancerPort', Value: '' },
+//   protocol: { Name: 'protocol', Value: '' },
+// };
 const templateQueryIdMap = {
   instance: 'LoadBalancerId',
   listener: 'ListenerId',
+};
+// 需要缓存到storage的内容的key列表
+const keyInStorage = {
+  listener: 'ListenerList',
+};
+/*
+如果有InstanceId额外的维度，原则上都需要传入此map结构配置
+key的含义：
+  经过InvalidDemensions处理后的string。topicId =》TopicId。
+  否则认为指标中维度正确，和指标中维度字段保持一致，即topicId
+value的含义：
+  1 dim_KeyInStorage 指标中维度dimension对应的storage中的key，获取缓存列表，sourceMapList、
+  2 dim_KeyInTarget  通过getVariable方法获取变量中选中项。比如ListnerId为Lis-xxxx；即：STATE中的key。
+                    默认取通过InvalidDemsion处理后的key
+  3 dim_KeyInMap     保存在模板变量value比如（监听器ID）源自sourceMapList（接口返回内容）的哪个key（ListenerId）。
+                    即：templateQueryIdMap中内容。
+                    联合上面2的内容筛选出原始sourceMap
+*/
+const queryMonitorExtraConfg = {
+  Port: {
+    dim_KeyInStorage: keyInStorage.listener,
+    dim_KeyInTarget: 'listener',
+    dim_KeyInMap: templateQueryIdMap.listener,
+  },
+  Protocol: {
+    dim_KeyInStorage: keyInStorage.listener,
+    dim_KeyInTarget: 'listener',
+    dim_KeyInMap: templateQueryIdMap.listener,
+  },
 };
 export default LBPUBLIC_STATE;
 export {
   LBPUBLICFieldsDescriptor,
   LBPUBLICInstanceAliasList,
-  LBPUBLICListenerAliasList,
+  // LBPUBLICListenerAliasList,
   LBPUBLICVALIDDIMENSIONS,
   templateQueryIdMap,
-  LBPUBLIC_INSTANCE_DIMENSIONOBJECTS,
-  LBPUBLIC_LISTENER_DIMENSIONOBJECTS,
+  // LBPUBLIC_LISTENER_DIMENSIONOBJECTS,
+  // LBPUBLIC_INSTANCE_DIMENSIONOBJECTS,
+  queryMonitorExtraConfg,
+  keyInStorage,
+  queryEditorConfig,
+  namespace,
+  queryEditorName,
   GetInstanceQueryParams as LBPUBLICGetInstanceQueryParams,
 };

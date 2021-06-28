@@ -1,473 +1,81 @@
-import _ from 'lodash';
-import moment from 'moment';
-import DatasourceInterface from '../../datasource';
 import {
   LBPUBLICInstanceAliasList,
-  LBPUBLICListenerAliasList,
   LBPUBLICVALIDDIMENSIONS,
-  LBPUBLIC_INSTANCE_DIMENSIONOBJECTS,
-  LBPUBLIC_LISTENER_DIMENSIONOBJECTS,
+  namespace,
   templateQueryIdMap,
+  keyInStorage,
+  queryMonitorExtraConfg,
 } from './query_def';
-import {
-  GetServiceAPIInfo,
-  GetRequestParams,
-  ReplaceVariable,
-  GetDimensions,
-  ParseQueryResult,
-  VARIABLE_ALIAS,
-  SliceLength,
-  isVariable,
-} from '../../common/constants';
+import { BaseDatasource } from '../_base/datasource';
+import _ from 'lodash';
+import { GetServiceAPIInfo } from '../../common/constants';
+import { fetchAllFactory } from '../../common/utils';
+import instanceStorage from '../../common/datasourceStorage';
 
-export default class LBPUBLICDatasource implements DatasourceInterface {
-  Namespace = 'QCE/LB_PUBLIC';
-  url: string;
-  instanceSettings: any;
-  backendSrv: any;
-  templateSrv: any;
-  secretId: string;
+export default class DCDatasource extends BaseDatasource {
+  Namespace = namespace;
+  InstanceAliasList = LBPUBLICInstanceAliasList;
+  InvalidDimensions = LBPUBLICVALIDDIMENSIONS;
+  templateQueryIdMap = templateQueryIdMap;
+  // 此处service是接口的配置参数，需和plugin.json里一致，和constant.ts中SERVICES_API_INFO保持一致
+  InstanceReqConfig = {
+    service: 'clb',
+    action: 'DescribeLoadBalancers',
+    responseField: 'LoadBalancerSet',
+    interceptor: {
+      request: (param) => {
+        // console.log('interceptor', { ...param, LoadBalancerType: 'OPEN' });
+        return { ...param, LoadBalancerType: 'OPEN' };
+      },
+    },
+  };
 
-  allInstanceMap: any[] = [];
-  allListenerMap: any[] = [];
-  /** @ngInject */
+  keyInStorage = keyInStorage;
+  queryMonitorExtraConfg = queryMonitorExtraConfg;
+
   constructor(instanceSettings, backendSrv, templateSrv) {
-    this.instanceSettings = instanceSettings;
-    this.backendSrv = backendSrv;
-    this.templateSrv = templateSrv;
-    this.url = instanceSettings.url;
-    this.secretId = (instanceSettings.jsonData || {}).secretId || '';
+    super(instanceSettings, backendSrv, templateSrv);
   }
-
-  metricFindQuery(query: Record<string, any>) {
-    // 查询地域列表
-    const regionQuery = query['action'].match(/^DescribeRegions$/i);
-    if (regionQuery) {
-      return this.getRegions();
-    }
-    // 查询 clb 实例列表
-    const instancesQuery = query['action'].match(/^DescribeInstances/i) && !!query['region'];
-    const region = this.getVariable(query['region']);
-    if (instancesQuery && region) {
-      return this.getVariableInstances(region).then((result) => {
-        this.allInstanceMap = result; // 混存全量实例map
-        const instanceAlias =
-          LBPUBLICInstanceAliasList.indexOf(query[VARIABLE_ALIAS]) !== -1 ? query[VARIABLE_ALIAS] : 'LoadBalancerId';
-        const instances: any[] = [];
-        _.forEach(result, (item) => {
-          const instanceAliasValue = _.get(item, instanceAlias);
-          if (instanceAliasValue) {
-            if (typeof instanceAliasValue === 'string') {
-              item._InstanceAliasValue = instanceAliasValue;
-              instances.push({ text: instanceAliasValue, value: item[templateQueryIdMap.instance] });
-            } else if (_.isArray(instanceAliasValue)) {
-              _.forEach(instanceAliasValue, (subItem) => {
-                item._InstanceAliasValue = subItem;
-                instances.push({ text: subItem, value: item[templateQueryIdMap.instance] });
-              });
-            }
-          }
-        });
-        return instances;
-      });
-    }
-    // 查询 clb监听器端口 列表
-    const clbListenerPortQuery = query['action'].match(/^DescribeListeners/i) && !!query['instance'];
-    const instance = this.getVariable(query['instance']);
-    const instanceMap = _.find(this.allInstanceMap, (o) => o[templateQueryIdMap.instance] === instance);
-    const instanceId = instanceMap?.LoadBalancerId;
-    if (clbListenerPortQuery && instanceId) {
-      return this.getListeners(region, instanceId).then((result) => {
-        this.allListenerMap = result;
-        const listenerAlias =
-          LBPUBLICListenerAliasList.indexOf(query[VARIABLE_ALIAS]) !== -1 ? query[VARIABLE_ALIAS] : 'ListenerId';
-        const listeners: any[] = [];
-        _.forEach(result, (item) => {
-          const listenerAliasValue = _.get(item, listenerAlias);
-          if (listenerAliasValue) {
-            if (typeof listenerAliasValue === 'string') {
-              item._InstanceAliasValue = listenerAliasValue;
-              listeners.push({ text: listenerAliasValue, value: item[templateQueryIdMap.listener] });
-            } else if (_.isArray(listenerAliasValue)) {
-              _.forEach(listenerAliasValue, (subItem) => {
-                item._InstanceAliasValue = subItem;
-                listeners.push({ text: subItem, value: item[templateQueryIdMap.listener] });
-              });
-            }
-          }
-        });
-        return listeners;
-      });
-    }
-    return Promise.resolve([]);
-  }
-
-  query(options: any) {
-    const queries = _.filter(options.targets, (item) => {
-      // 过滤无效的查询 target
-      return (
-        item.lbPublic.hide !== true &&
-        !!item.namespace &&
-        !!item.lbPublic.metricName &&
-        !_.isEmpty(ReplaceVariable(this.templateSrv, options.scopedVars, item.lbPublic.region, false)) &&
-        !_.isEmpty(ReplaceVariable(this.templateSrv, options.scopedVars, item.lbPublic.instance, true))
-      );
-    }).map((target) => {
-      const region = ReplaceVariable(this.templateSrv, options.scopedVars, target.lbPublic.region, false);
-      // 实例 instances 可能为模板变量，需先判断
-      let instances = target.lbPublic.instance;
-      if (isVariable(instances)) {
-        let templateInsValues = ReplaceVariable(this.templateSrv, options.scopedVars, instances, true);
-        if (!_.isArray(templateInsValues)) {
-          templateInsValues = [templateInsValues];
-        }
-        instances = _.map(templateInsValues, (instanceId) =>
-          _.find(this.allInstanceMap, (o) => o[templateQueryIdMap.instance] === instanceId)
-        );
-      } else {
-        if (_.isArray(instances)) {
-          instances = _.map(instances, (instance) => (_.isString(instance) ? JSON.parse(instance) : instance));
-        } else {
-          instances = [_.isString(instances) ? JSON.parse(instances) : instances];
-        }
-      }
-      // console.log({ instances });
-      // 考虑多个监听器端口查询 可能为模板变量，需先判断
-      let listeners = target.lbPublic.listener;
-      if (isVariable(listeners)) {
-        let templateInsValues = ReplaceVariable(this.templateSrv, options.scopedVars, listeners, true);
-        if (!_.isArray(templateInsValues)) {
-          templateInsValues = [templateInsValues];
-        }
-        listeners = _.map(templateInsValues, (listenerId) =>
-          _.find(this.allListenerMap, (o) => o[templateQueryIdMap.listener] === listenerId)
-        );
-      } else {
-        // 按照监听器维度查询；
-        if (_.isArray(listeners)) {
-          listeners = _.map(listeners, (listener) => (_.isString(listener) ? JSON.parse(listener) : listener));
-        } else {
-          listeners = [_.isString(listeners) ? JSON.parse(listeners) : listeners];
-        }
-      }
-      // console.log({ listeners });
-      let instanceInRequest: any[] = [];
-      const instanceUnionArray: any = [];
-      // 如果没有选择监听器或者实例为多个，按照实例维度查询,考虑实例选择复选情况；
-      if (instances.length > 1 || _.isEmpty(listeners)) {
-        instanceInRequest = _.map(instances, (instance) => {
-          const dimensionObject = LBPUBLIC_INSTANCE_DIMENSIONOBJECTS;
-          instanceUnionArray.push(instance);
-          _.forEach(dimensionObject, (__, key) => {
-            if (_.has(LBPUBLICVALIDDIMENSIONS, key)) {
-              const keyTmp = LBPUBLICVALIDDIMENSIONS[key];
-              instance[key] = instance[keyTmp]; // baseMetric的key和getMonitor不对应，写入新旧键值对
-            }
-            dimensionObject[key] = { Name: key, Value: instance[key] };
-          });
-          return { Dimensions: GetDimensions(dimensionObject) };
-        });
-      } else {
-        instanceInRequest = _.map(listeners, (listener) => {
-          const dimensionObject = LBPUBLIC_LISTENER_DIMENSIONOBJECTS;
-
-          const instance = _.cloneDeep(instances[0]);
-          instance._InstanceAliasValue += ` - ${listener.ListenerId}`;
-          const instanceUnionMap = _.assign(listener, instance);
-          // console.log({instanceUnionMap,listener, instance, dimensionObject});
-          instanceUnionArray.push(instanceUnionMap);
-          _.forEach(dimensionObject, (__, key) => {
-            // let keyTmp = key;
-            if (_.has(LBPUBLICVALIDDIMENSIONS, key)) {
-              const keyTmp = LBPUBLICVALIDDIMENSIONS[key];
-              instanceUnionMap[key] = instanceUnionMap[keyTmp]; // baseMetric的key和getMonitor不对应，写入新旧键值对
-            }
-            dimensionObject[key] = { Name: key, Value: instanceUnionMap[key] };
-          });
-          return { Dimensions: GetDimensions(dimensionObject) };
-        });
-      }
-      const data = {
-        StartTime: moment(options.range.from).format(),
-        EndTime: moment(options.range.to).format(),
-        Period: target.lbPublic.period || 300,
-        Instances: instanceInRequest,
-        Namespace: target.namespace,
-        MetricName: target.lbPublic.metricName,
-      };
-      return this.getMonitorData(data, region, instanceUnionArray);
-    });
-
-    if (queries.length === 0) {
-      return [];
-    }
-
-    return Promise.all(queries)
-      .then((responses) => {
-        return _.flatten(responses);
-      })
-      .catch((error) => {
-        return [];
-      });
-  }
-
-  // 获取某个变量的实际值，this.templateSrv.replace() 函数返回实际值的字符串
-  getVariable(metric: string) {
-    return this.templateSrv.replace((metric || '').trim());
-  }
-
-  /**
-   * 获取 LBPublic 的监控数据
-   *
-   * @param params 获取监控数据的请求参数
-   * @param region 地域信息
-   * @param instances 实例列表，用于对返回结果的匹配解析
-   */
-  getMonitorData(params, region, instances) {
-    const serviceInfo = GetServiceAPIInfo(region, 'monitor');
-    return this.doRequest(
-      {
-        url: this.url + serviceInfo.path,
-        data: params,
-      },
-      serviceInfo.service,
-      { action: 'GetMonitorData', region }
-    ).then((response) => {
-      // console.log({instances});
-      return ParseQueryResult(response, instances);
-    });
-  }
-
-  getRegions() {
-    return this.doRequest(
-      {
-        url: this.url + '/cvm',
-      },
-      'cvm',
-      { action: 'DescribeRegions' }
-    ).then((response) => {
-      return _.filter(
-        _.map(response.RegionSet || [], (item) => {
-          return { text: item.RegionName, value: item.Region, RegionState: item.RegionState };
-        }),
-        (item) => item.RegionState === 'AVAILABLE'
-      );
-    });
-  }
-
-  getMetrics(region = 'ap-guangzhou') {
-    const serviceInfo = GetServiceAPIInfo(region, 'monitor');
-    return this.doRequest(
-      {
-        url: this.url + serviceInfo.path,
-        data: {
-          Namespace: this.Namespace,
-        },
-      },
-      serviceInfo.service,
-      { region, action: 'DescribeBaseMetrics' }
-    ).then((response) => {
-      return _.filter(
-        response.MetricSet || [],
-        (item) =>
-          item.Namespace === this.Namespace && item.MetricName && _.get(item, 'Dimensions[0].Dimensions', []).length > 0
-      );
-    });
-  }
-
-  getInstances(region = 'ap-guangzhou', params = {}) {
-    params = { Offset: 0, Limit: 20, LoadBalancerType: 'OPEN', ...params };
+  // getFilterDropdown({ field }) {
+  //   return super.getRegions();
+  // }
+  async getListenerList(params: any) {
+    const { region, instanceId } = params;
     const serviceInfo = GetServiceAPIInfo(region, 'clb');
-    return this.doRequest(
-      {
-        url: this.url + serviceInfo.path,
-        data: params,
-      },
-      serviceInfo.service,
-      { region, action: 'DescribeLoadBalancers' }
-    ).then((response) => {
-      // 过滤非公网实例
-      // const publicLoadBalanceSet = response.LoadBalancerSet.filter()
-      return response.LoadBalancerSet || [];
-    });
-  }
 
-  getListeners(region, lbInstanceId) {
-    const serviceInfo = GetServiceAPIInfo(region, 'clb');
-    return this.doRequest(
-      {
-        url: this.url + serviceInfo.path,
-        data: {
-          LoadBalancerId: lbInstanceId,
-        },
-      },
-      serviceInfo.service,
-      { region, action: 'DescribeListeners' }
-    ).then((response) => {
-      return response.Listeners || [];
-    });
-  }
-
-  /**
-   * 模板变量中获取全量的 LBPublic 实例列表
-   * @param region 地域信息
-   */
-  getVariableInstances(region) {
-    let result: any[] = [];
-    const params = { Offset: 0, Limit: 50, LoadBalancerType: 'OPEN' };
-    const serviceInfo = GetServiceAPIInfo(region, 'clb');
-    return this.doRequest(
-      {
-        url: this.url + serviceInfo.path,
-        data: params,
-      },
-      serviceInfo.service,
-      { region, action: 'DescribeLoadBalancers' }
-    ).then((response) => {
-      result = response.LoadBalancerSet || [];
-      const total = response.totalCount || 0;
-      if (result.length >= total) {
-        return result;
-      } else {
-        const param = SliceLength(total, 50);
-        const promises: any[] = [];
-        _.forEach(param, (item) => {
-          promises.push(this.getInstances(region, item));
-        });
-        return Promise.all(promises)
-          .then((responses) => {
-            _.forEach(responses, (item) => {
-              result = _.concat(result, item);
-            });
-            return result;
-          })
-          .catch((error) => {
-            return result;
-          });
-      }
-    });
-  }
-
-  // 检查某变量字段是否有值
-  isValidConfigField(field: string) {
-    return field && field.length > 0;
-  }
-
-  testDatasource() {
-    if (!this.isValidConfigField(this.secretId)) {
-      return {
-        service: 'lbPublic',
-        status: 'error',
-        message: 'The SecretId/SecretKey field is required.',
-      };
-    }
-
-    return Promise.all([
-      this.doRequest(
-        {
-          url: this.url + '/cvm',
-        },
-        'cvm',
-        { action: 'DescribeRegions' }
-      ),
-      this.doRequest(
-        {
-          url: this.url + '/monitor',
-          data: {
-            Namespace: this.Namespace,
+    // 从分页数据，获取全量数据
+    const res = await fetchAllFactory(
+      (data) => {
+        return this.doRequest(
+          {
+            url: this.url + serviceInfo.path,
+            data,
           },
-        },
-        'monitor',
-        { region: 'ap-guangzhou', action: 'DescribeBaseMetrics' }
-      ),
-      this.doRequest(
-        {
-          url: this.url + '/clb',
-          data: {
-            Limit: 1,
-            Offset: 0,
-          },
-        },
-        'clb',
-        { region: 'ap-guangzhou', action: 'DescribeLoadBalancers' }
-      ),
-    ])
-      .then((responses) => {
-        const cvmErr = _.get(responses, '[0].Error', {});
-        const monitorErr = _.get(responses, '[1].Error', {});
-        const lbPublicErr = _.get(responses, '[2]', {});
-        const cvmAuthFail = _.get(cvmErr, 'Code', '').indexOf('AuthFailure') !== -1;
-        const monitorAuthFail = _.get(monitorErr, 'Code', '').indexOf('AuthFailure') !== -1;
-        const lbPublicAuthFail = _.get(lbPublicErr, 'Code', '').indexOf('AuthFailure') !== -1;
-        if (cvmAuthFail || monitorAuthFail || lbPublicAuthFail) {
-          const messages: any[] = [];
-          if (cvmAuthFail) {
-            messages.push(`${_.get(cvmErr, 'Code')}: ${_.get(cvmErr, 'Message')}`);
-          }
-          if (monitorAuthFail) {
-            messages.push(`${_.get(monitorErr, 'Code')}: ${_.get(monitorErr, 'Message')}`);
-          }
-          if (lbPublicAuthFail) {
-            messages.push(`${_.get(lbPublicErr, 'code')}: ${_.get(lbPublicErr, 'codeDesc')}`);
-          }
-          const message = _.join(_.compact(_.uniq(messages)), '; ');
-          return {
-            service: 'lbPublic',
-            status: 'error',
-            message,
-          };
-        } else {
-          return {
-            namespace: this.Namespace,
-            service: 'lbPublic',
-            status: 'success',
-            message: 'Successfully queried the LBPublic service.',
-            title: 'Success',
-          };
-        }
-      })
-      .catch((error) => {
-        let message = 'LBPublic service:';
-        message += error.statusText ? error.statusText + '; ' : '';
-        if (_.get(error, 'data.error.code', '')) {
-          message += error.data.error.code + '. ' + error.data.error.message;
-        } else if (_.get(error, 'data.error', '')) {
-          message += error.data.error;
-        } else if (_.get(error, 'data', '')) {
-          message += error.data;
-        } else {
-          message += 'Cannot connect to LBPublic service.';
-        }
+          serviceInfo.service,
+          { region, action: 'DescribeListeners' }
+        );
+      },
+      {
+        LoadBalancerId: instanceId,
+      },
+      'Listeners'
+    );
+    const [rs] = res;
+    return rs;
+  }
+  async fetchMetricData(action: string, region: string, instance: any) {
+    // console.log({ action, region, instance });
+    if (action === 'DescribeListeners') {
+      const rs = await this.getListenerList({ region, instanceId: instance[this.templateQueryIdMap.instance] });
+      instanceStorage.setExtraStorage(this.service, this.keyInStorage.listener, rs);
+      const result = rs.map((o) => {
         return {
-          service: 'lbPublic',
-          status: 'error',
-          message: message,
+          text: o[this.templateQueryIdMap.listener],
+          value: o[this.templateQueryIdMap.listener],
         };
       });
-  }
-
-  /**
-   * 腾讯云 API 3.0 请求接口
-   * @param options
-   * @param service
-   * @param signObj
-   */
-  async doRequest(options, service, signObj: any = {}) {
-    options = await GetRequestParams(
-      options,
-      service,
-      signObj,
-      this.secretId,
-      this.instanceSettings.id,
-      this.backendSrv
-    );
-    return this.backendSrv
-      .datasourceRequest(options)
-      .then((response) => {
-        return _.get(response, 'data.Response', {});
-      })
-      .catch((error) => {
-        throw error;
-      });
+      return result;
+    }
+    return [];
   }
 }

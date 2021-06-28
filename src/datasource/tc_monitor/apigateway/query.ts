@@ -20,7 +20,7 @@ export class QueryCtrl {
       try {
         instance = JSON.parse(instance)[templateQueryIdMap.instance];
       } catch (error) {
-        console.log();
+        // console.log();
       }
       return instance;
     };
@@ -29,7 +29,14 @@ export class QueryCtrl {
       const instanceId = $scope.getInstanceId();
       const region = $scope.datasource.getServiceFn(service, 'getVariable')(target.region);
       const rs = await $scope.datasource.getServiceFn(service, 'getEnvironmentNameList')({ region, instanceId });
-      return rs;
+
+      const result = rs.map((o) => {
+        return {
+          text: o.EnvironmentName,
+          value: JSON.stringify(o),
+        };
+      });
+      return result;
     };
 
     $scope.init();
@@ -102,7 +109,7 @@ const template = `
       <div class="gf-form">
         <label class="gf-form-label query-keyword width-9">EnvironmentName</label>
         <div class="gf-form-select-wrapper gf-form-select-wrapper--caret-indent">
-          <gf-form-dropdown model="target.EnvironmentName" allow-custom="false" get-options="getExtraDropdown(target)"
+          <gf-form-dropdown model="target.EnvironmentName" allow-custom="true" lookup-text="true"  get-options="getExtraDropdown(target)"
             on-change="onRefresh()" css-class="min-width-10">
           </gf-form-dropdown>
         </div>

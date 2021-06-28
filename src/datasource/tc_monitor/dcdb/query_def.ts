@@ -3,13 +3,15 @@ import { DetailQueryConfig, FildDescriptorType } from '../_base/types';
 import { isArray } from 'lodash';
 import { instanceQueryParamsBaseParse } from '../../common/utils';
 
-const namespace = 'QCE/DCDB';
+const namespace = 'QCE/TDMYSQL';
 
 // 组件名称。这里名字要和index.ts中的SERVICES对应，后面会根据SERVICES中service字段拼接这个query组件名称
 const queryEditorName = 'dcdbQuery';
 
 const DCDBInvalidDemensions = {
-  uuid: 'InstanceId',
+  nodeid: 'NodeId',
+  instanceid: 'InstanceId',
+  shardid: 'ShardId',
 };
 
 // 需和文件名对应
@@ -173,6 +175,8 @@ const DCDB_STATE = {
   dimensionObject: null,
   instance: '',
   instanceAlias: 'InstanceId',
+  ShardId: '',
+  NodeId: '',
   queries: DCDBFilterFields,
 };
 

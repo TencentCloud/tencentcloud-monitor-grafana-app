@@ -1,89 +1,98 @@
 <div>
-  <div
-    class="card-item"
-    style="
-      position: relative;
-      margin-top: 16px;
-      padding: 16px;
-      -webkit-box-flex: 1;
-      flex-grow: 1;
-      border-top: 3px solid rgb(50, 115, 217);
-    "
-  >
-    <div>
-      <div
-        style="
-          width: 100%;
-          display: flex;
-          flex-direction: row;
-          flex-wrap: no-wrap;
-          -webkit-box-pack: justify;
-          justify-content: space-between;
-          align-items: flex-start;
-          height: 100%;
-          margin-bottom: 0px;
-        "
-      >
-        <div class="css-657se6">
-          <div>
-            <h4>Tencent Cloud Monitor Grafana App</h4>
+  <div class="gf-form-inline">
+    <div
+      class="card-item"
+      style="
+        position: relative;
+        margin-top: 16px;
+        padding: 16px;
+        -webkit-box-flex: 1;
+        flex-grow: 1;
+        border-top: 3px solid rgb(50, 115, 217);
+      "
+    >
+      <div>
+        <div
+          style="
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: no-wrap;
+            -webkit-box-pack: justify;
+            justify-content: space-between;
+            align-items: flex-start;
+            height: 100%;
+            margin-bottom: 0px;
+          "
+        >
+          <div class="css-657se6">
+            <div>
+              <h4>Tencent Cloud Monitor Grafana App</h4>
+            </div>
           </div>
         </div>
       </div>
+      <div ng-if="!ctrl.configured">
+        <p>
+          Tencent Cloud Monitor is an intelligent monitoring solution provided as part of
+          <a class="highlight-word" href="https://cloud.tencent.com/" target="_blank">Tencent Cloud</a>. If you don't
+          have a Tencent Cloud service,
+          <a class="highlight-word" href="https://cloud.tencent.com/register" target="_blank">sign up now</a>.
+          <br /><br />
+          Click below to enable and initialize the App and start monitoring your cloud products today.
+        </p>
+      </div>
+      <div ng-if="ctrl.configured">
+        <p>
+          Tencent Cloud Monitor is an intelligent monitoring solution provided as part of
+          <a class="highlight-word" href="https://cloud.tencent.com/" target="_blank">Tencent Cloud</a>. <br /><br />
+          Click <b>Update</b> to refresh the App's configuration.
+        </p>
+      </div>
     </div>
-    <div ng-if="!ctrl.configured">
-      <p>
-        Tencent Cloud Monitor is an intelligent monitoring solution provided as part of
-        <a class="highlight-word" href="https://cloud.tencent.com/" target="_blank">Tencent Cloud</a>. If you don't have
-        a Tencent Cloud service,
-        <a class="highlight-word" href="https://cloud.tencent.com/register" target="_blank">sign up now</a>.
-        <br /><br />
-        Click below to enable and initialize the App and start monitoring your cloud products today.
-      </p>
-    </div>
-    <div ng-if="ctrl.configured">
-      <p>
-        Tencent Cloud Monitor is an intelligent monitoring solution provided as part of
-        <a class="highlight-word" href="https://cloud.tencent.com/" target="_blank">Tencent Cloud</a>. <br /><br />
-        Click <b>Update</b> to edit the App's configuration.
-      </p>
-    </div>
-  </div>
-  <div
-    ng-if="ctrl.appModel.enabled"
-    class="card-item"
-    style="
-      position: relative;
-      margin-top: 16px;
-      padding: 16px;
-      -webkit-box-flex: 1;
-      flex-grow: 1;
-      border-top: 3px solid rgb(50, 115, 217);
-    "
-  >
-    <div>
-      <div
-        style="
-          width: 100%;
-          display: flex;
-          flex-direction: row;
-          flex-wrap: no-wrap;
-          -webkit-box-pack: justify;
-          justify-content: space-between;
-          align-items: flex-start;
-          height: 100%;
-          margin-bottom: 0px;
-        "
-      >
-        <div class="css-657se6">
-          <div>
-            <h4>Add a Datasource</h4>
+    <div
+      ng-if="ctrl.appModel.enabled"
+      class="card-item"
+      style="
+        position: relative;
+        margin-top: 16px;
+        padding: 16px;
+        -webkit-box-flex: 1;
+        flex-grow: 1;
+        border-top: 3px solid rgb(50, 115, 217);
+      "
+    >
+      <div>
+        <div
+          style="
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: no-wrap;
+            -webkit-box-pack: justify;
+            justify-content: space-between;
+            align-items: flex-start;
+            height: 100%;
+            margin-bottom: 0px;
+          "
+        >
+          <div class="css-657se6">
+            <div>
+              <h4>Next Step</h4>
+            </div>
           </div>
         </div>
       </div>
+      <div ng-if="!ctrl.configured">
+        <p>Congratulations! You have successfully installed the plugin!</p>
+        Next step to do: <a class="highlight-word" href="/datasources/new" target="_blank">Add a data source</a> named
+        <i><b>"Tencent Cloud Monitoring"</b></i> and begin your monitoring!
+      </div>
+      <div ng-if="ctrl.configured">
+        <p>Seems that you have already configured a datasource!</p>
+        Next step to do: Try our preset dashboard templates
+        <a class="highlight-word" href="plugins/tencentcloud-monitor-app?page=dashboards">here</a>.
+      </div>
     </div>
-    <p>Congratulations! You have successfully installed the plugin!</p>
-    Next step to do: <a class="highlight-word" href="/datasources/new" target="_blank">Add a data source</a> named
-    <i><b>"Tencent Cloud Monitoring"</b></i> and begin your monitoring!
   </div>
 </div>

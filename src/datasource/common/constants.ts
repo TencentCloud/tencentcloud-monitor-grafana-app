@@ -190,12 +190,23 @@ const SERVICES_API_INFO = {
     path: '/apigateway',
     host: 'apigateway.tencentcloudapi.com',
   },
-  // apigateway实例
   tdmq: {
     service: 'tdmq',
     version: '2020-02-17',
     path: '/tdmq',
     host: 'tdmq.tencentcloudapi.com',
+  },
+  gaap: {
+    service: 'gaap',
+    version: '2018-05-29',
+    path: '/gaap',
+    host: 'gaap.tencentcloudapi.com',
+  },
+  ecm: {
+    service: 'ecm',
+    version: '2019-07-19',
+    path: '/ecm',
+    host: 'ecm.tencentcloudapi.com',
   },
   // 不单独定义lb，因为lb同样用的是vpc的配置，同上
   // lb: {
@@ -363,7 +374,13 @@ export function GetServiceFromNamespace(namespace) {
     'service'
   );
 }
-
+// 处理存量target中保存的qce/cvm
+export function GetLabelFromNamespace(namespace) {
+  return _.get(
+    _.find(SERVICES, (service) => service.namespace === namespace || service.label === namespace),
+    'label'
+  );
+}
 // parse template variable query params
 export function ParseMetricQuery(query = '') {
   if (!query) {
@@ -374,7 +391,13 @@ export function ParseMetricQuery(query = '') {
   _.forEach(queries, (item) => {
     const str = _.split(item, '=');
     if (_.trim(_.get(str, '0', ''))) {
-      result[_.toLower(_.trim(_.get(str, '0', '')))] = _.trim(_.get(str, '1', ''));
+      let val = _.trim(_.get(str, '1', ''));
+      try {
+        val = JSON.parse(val);
+      } catch (e) {
+        // console.log({ val });
+      }
+      result[_.toLower(_.trim(_.get(str, '0', '')))] = val;
     }
   });
   return result;
@@ -455,14 +478,13 @@ export function GetDimensions(obj) {
 // parse query data result for panel
 export function ParseQueryResult(response, instances: any[] = []) {
   const instanceList = _.cloneDeep(instances);
-  // console.log('parseQueryResult:', response, instances);
+  // console.log('parseQueryResult:', response, instances, instanceList);
   const dataPoints = _.get(response, 'DataPoints', []);
   return _.map(dataPoints, (dataPoint) => {
     let instanceAliasValue = _.get(dataPoint, 'Dimensions[0].Value');
     for (let i = 0; i < instanceList.length; i++) {
       if (isInstanceMatch(instanceList[i], _.get(dataPoint, 'Dimensions', []))) {
         instanceAliasValue = instanceList[i]._InstanceAliasValue;
-        // console.log(1123344, instanceAliasValue);
         instanceList.splice(i, 1);
         break;
       }

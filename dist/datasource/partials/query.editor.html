@@ -3,7 +3,17 @@
     <div class="gf-form">
       <label class="gf-form-label query-keyword width-9">Namespace</label>
       <div class="gf-form-select-wrapper gf-form-select-wrapper--caret-indent">
+        <gf-cascader
+          ng-if="ctrl.isCascader"
+          style="width: 160px"
+          change-on-select="false"
+          options="ctrl.cascaderOptions"
+          on-select="ctrl.cascaderChange(_query)"
+          initial-value="{{ctrl.target.namespace}}"
+        ></gf-cascader>
+
         <gf-form-dropdown
+          ng-if="!ctrl.isCascader"
           model="ctrl.target.namespace"
           lookup-text="true"
           get-options="ctrl.getNamespaces($query)"

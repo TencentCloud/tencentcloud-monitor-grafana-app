@@ -3,22 +3,14 @@ import { TDMQFilterFieldsDescriptor, queryEditorName, namespace, templateQueryId
 import { GetServiceFromNamespace } from '../../common/constants';
 
 const ExtraFields = [
-  // {
-  //   label: 'namespace',
-  //   field: 'NamespaceName',
-  // },
   {
-    label: 'topic',
-    field: 'TopicName',
+    label: 'environmentId',
+    field: 'environmentId',
   },
   {
-    label: 'subscriptionname',
-    field: 'SubscriptionName',
+    label: 'topicName',
+    field: 'topicName',
   },
-  // {
-  //   label: 'tenant',
-  //   field: 'tenant',
-  // },
 ];
 export class QueryCtrl {
   /** @ngInject */
@@ -39,7 +31,7 @@ export class QueryCtrl {
       try {
         instance = JSON.parse(instance)[templateQueryIdMap.instance];
       } catch (error) {
-        console.log();
+        // console.log();
       }
       return instance;
     };
@@ -49,18 +41,15 @@ export class QueryCtrl {
     $scope.getExtraDropdown = async (target, field) => {
       const service = GetServiceFromNamespace($scope.namespace);
       const region = $scope.datasource.getServiceFn(service, 'getVariable')(target.region);
-      const EnvironmentId = $scope.getInstanceId();
       const payload: any = {
-        EnvironmentId,
+        Limit: 20,
       };
-      // if(field === 'TopicName') {
-      //   payload = {EnvironmentId: }
-      // }
-      if (field === 'SubscriptionName') {
-        payload.TopicName = $scope.target.TopicName;
+      if (field === 'topicName') {
+        payload.EnvironmentId = $scope.target.environmentId;
       }
 
       const rs = await $scope.datasource.getServiceFn(service, 'getConsumerList')({ region, field, payload });
+      // console.log('res', rs);
       return rs;
     };
 

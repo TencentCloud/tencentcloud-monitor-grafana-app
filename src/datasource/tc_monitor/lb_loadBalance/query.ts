@@ -1,25 +1,44 @@
 import coreModule from 'grafana/app/core/core_module';
-import { LOADBALANCEFieldsDescriptor } from './query_def';
+import { LOADBALANCEFieldsDescriptor, templateQueryIdMap, namespace } from './query_def';
+import { GetServiceFromNamespace } from '../../common/constants';
 
-export class LOADBALANCEQueryCtrl {
+export class QueryCtrl {
   /** @ngInject */
   constructor($scope, $rootScope) {
     $scope.init = () => {
       $scope.LOADBALANCEFieldsDescriptor = LOADBALANCEFieldsDescriptor;
+      $scope.namespace = namespace;
     };
-
-    $scope.onChecked = (srcField, dstField) => {
-      if ($scope.target.queries[srcField] === true) {
-        $scope.target.queries[dstField] = false;
-      }
-      $scope.onChange();
+    $scope.onFieldChange = (field) => {
+      $scope.onRefresh();
     };
-
-    $scope.getDropdown = (field) => {
-      switch (field) {
-        default:
-          return [];
+    $scope.getInstanceId = () => {
+      let { instance } = $scope.target;
+      const service = GetServiceFromNamespace($scope.namespace);
+      // console.log({namespace, service});
+      instance = $scope.datasource.getServiceFn(service, 'getVariable')(instance);
+      if (!instance) {
+        return '';
       }
+      try {
+        instance = JSON.parse(instance)[templateQueryIdMap.instance];
+      } catch (error) {
+        // console.log();
+      }
+      return instance;
+    };
+    $scope.getExtraDropdown = async (target) => {
+      const service = GetServiceFromNamespace($scope.namespace);
+      const instanceId = $scope.getInstanceId();
+      const region = $scope.datasource.getServiceFn(service, 'getVariable')(target.region);
+      const rs = await $scope.datasource.getServiceFn(service, 'getListenerList')({ region, instanceId });
+      const result = rs.map((o) => {
+        return {
+          text: o[templateQueryIdMap.listener],
+          value: JSON.stringify(o),
+        };
+      });
+      return result;
     };
 
     $scope.init();
@@ -27,9 +46,10 @@ export class LOADBALANCEQueryCtrl {
 }
 
 const template = `
+<div>
 <div class="tc-sub-params" ng-if="showDetail">
   <label class="gf-form-label tc-info-label">
-    Instances are queried by following params.
+    Functions are queried by following params.
     <a target="_blank" style="text-decoration:underline;color:#006eff;font-size:medium" href="https://cloud.tencent.com/document/api/214/30685">Click here to get API doc.</a>
   </label>
   <div class="gf-form-inline" ng-repeat="field in LOADBALANCEFieldsDescriptor">
@@ -42,7 +62,7 @@ const template = `
         </info-popover>
       </label>
       <input
-        ng-if="field.type === 'inputnumber'"
+        ng-if="field.type === 'inputNumber'"
         style="margin-right:2px"
         type="number"
         ng-model="target.queries[field.key]"
@@ -58,28 +78,21 @@ const template = `
         ng-model="target.queries[field.key]"
         ng-change="onChange()"
         class="gf-form-input width-10"
-      />
-      <gf-form-dropdown
-        ng-if="field.type === 'dropdown'"
-        model="target.queries[field.key]"
-        allow-custom="true"
-        lookup-text="true"
-        get-options="getDropdown(field.key)"
-        on-change="onChange()"
-        css-class="min-width-10"
-      ></gf-form-dropdown>
+      />    
       <multi-condition
-        ng-if="field.type === 'inputmulti'"
-        type="'input'"
-        value="target.queries[field.key]"
+        ng-if="field.type === 'inputNumberMulti'"
+        type="'inputNumber'"
+        max-cond="5"
+        value="target.queries.Filters[field.key]"
+        maxNum="field.max"
+        minNum="field.min"
         on-change="onChange()"
       ></multi-condition>
       <multi-condition
-        ng-if="field.type === 'dropdownmulti'"
-        type="'dropdown'"
+        ng-if="field.type === 'inputMulti'"
+        type="'input'"
         value="target.queries[field.key]"
         on-change="onChange()"
-        get-options="getDropdown(field.key)"
       ></multi-condition>
       <custom-select-dropdown
         ng-if="field.type === 'select'"
@@ -90,23 +103,42 @@ const template = `
       ></custom-select-dropdown>
     </div>
   </div>
+</div>
+</div>
 
+<!--Listener维度部分-->
+<div class="gf-form-inline" ng-if="target.instance">
+  <div class="gf-form">
+    <label class="gf-form-label query-keyword width-9">
+      Listeners
+      <info-popover mode="right-normal">
+        可不选择监听器，这时通过实例维度查询监控数据
+      </info-popover>
+    </label>
+    <div class="gf-form-select-wrapper gf-form-select-wrapper--caret-indent">
+      <gf-form-dropdown model="target.listener" allow-custom="true" lookup-text="true" get-options="getExtraDropdown(target)"
+        on-change="onRefresh()" css-class="min-width-10">
+      </gf-form-dropdown>
+    </div>
+  </div>
 </div>
 `;
 
-export function loadBalanceQuery() {
+export function sQuery() {
   return {
     template: template,
-    controller: LOADBALANCEQueryCtrl,
+    controller: QueryCtrl,
     restrict: 'E',
     scope: {
       target: '=',
       showDetail: '=',
       region: '=',
       datasource: '=',
+      getDropdownOptions: '&',
       onChange: '&',
+      onRefresh: '&',
+      dims: '=',
     },
   };
 }
-
-coreModule.directive('loadBalanceQuery', loadBalanceQuery);
+coreModule.directive('clbQuery', sQuery);

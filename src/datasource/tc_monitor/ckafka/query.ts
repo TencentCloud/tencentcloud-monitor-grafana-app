@@ -40,29 +40,16 @@ export class CKAFKAQueryCtrl {
     $scope.getInstanceId = () => {
       let { instance } = $scope.target;
       instance = $scope.datasource.getServiceFn('ckafka', 'getVariable')(instance);
+      if (Array.isArray(instance)) instance = instance[0];
       if (!instance) {
         return '';
       }
       try {
         instance = JSON.parse(instance).InstanceId;
       } catch (error) {
-        console.log();
+        // console.log();
       }
       return instance;
-    };
-
-    $scope.onExtraFieldChange = (field) => {
-      if (field === 'topicId') {
-        const { topicId, instance } = $scope.target;
-        if (!topicId || !instance) {
-          return;
-        }
-        const InstanceId = $scope.getInstanceId();
-        const data = $scope.consumerGroupCacheMap[InstanceId];
-
-        $scope.target.topicName = data.TopicList.find((topic) => topic.value === topicId)?.TopicName;
-      }
-      $scope.onRefresh();
     };
 
     $scope.getExtraDropdown = async (target, field) => {
@@ -72,9 +59,24 @@ export class CKAFKAQueryCtrl {
       if (!data) {
         const fetcher = $scope.datasource.getServiceFn('ckafka', 'getConsumerGroups');
         const region = $scope.datasource.getServiceFn('ckafka', 'getVariable')(target.region);
-        data = await fetcher(region, { InstanceId });
-      }
+        const res = await fetcher(region, { InstanceId });
 
+        const { TopicList, GroupList, PartitionList } = res;
+        data = {
+          TopicList: TopicList.map((topic) => ({
+            text: topic.TopicId,
+            value: JSON.stringify(topic), // 为了获取多维度的值，这里完全可以使用JSON.stringify()将整个对象放进去
+          })),
+          GroupList: GroupList.map((group) => ({
+            text: group.GroupName,
+            value: JSON.stringify(group),
+          })),
+          PartitionList: PartitionList.map((par) => ({
+            text: par.Partition,
+            value: JSON.stringify(par),
+          })),
+        };
+      }
       // 缓存
       $scope.consumerGroupCacheMap[InstanceId] = data;
 
@@ -158,8 +160,8 @@ const template = `
       <div class="gf-form">
         <label class="gf-form-label query-keyword width-9">{{extra.label}}</label>
         <div class="gf-form-select-wrapper gf-form-select-wrapper--caret-indent">
-          <gf-form-dropdown model="target[extra.field]" allow-custom="false" get-options="getExtraDropdown(target, extra.field)"
-            on-change="onExtraFieldChange(extra.field)" css-class="min-width-10">
+          <gf-form-dropdown model="target[extra.field]" allow-custom="true" lookup-text="true" get-options="getExtraDropdown(target, extra.field)"
+            on-change="onRefresh()" css-class="min-width-10">
           </gf-form-dropdown>
         </div>
       </div>

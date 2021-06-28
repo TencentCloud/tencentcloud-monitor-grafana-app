@@ -9,6 +9,7 @@ const queryEditorName = 'ceipSummaryQuery';
 
 const CEIPInvalidDemensions = {
   vip: 'AddressIp',
+  eip: 'AddressIp',
 };
 
 // 要和文件名方式一致，ceip_summary=>CEIPSUMMARY
@@ -159,6 +160,13 @@ const CEIP_STATE = {
 function GetInstanceQueryParams(queries: any = {}) {
   return instanceQueryParamsBaseParse(queries, true);
 }
+function modifyDimensons(metricItem: any) {
+  const metricTmp = _.cloneDeep(metricItem);
+  metricTmp.Dimensions.forEach((item) => {
+    item.Dimensions = ['eip'];
+  });
+  return metricTmp;
+}
 export default CEIP_STATE;
 export {
   CEIPFilterFieldsDescriptor,
@@ -167,6 +175,7 @@ export {
   CEIPInvalidDemensions,
   namespace,
   queryEditorName,
+  modifyDimensons,
   queryEditorConfig,
   GetInstanceQueryParams as CEIPSUMMARYGetInstanceQueryParams,
 };

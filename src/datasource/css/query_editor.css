@@ -84,3 +84,8 @@
   border-right: 0;
   transform: rotate(45deg);
 }
+
+.rc-cascader-menu-item {
+  min-width: 160px;
+  font-size: 14px;
+}

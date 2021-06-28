@@ -1,4 +1,10 @@
-import { VPCNETDETECTInstanceAliasList, VPCNETInvalidDemensions, namespace, templateQueryIdMap } from './query_def';
+import {
+  VPCNETDETECTInstanceAliasList,
+  VPCNETInvalidDemensions,
+  namespace,
+  templateQueryIdMap,
+  modifyDimensons,
+} from './query_def';
 import { BaseDatasource } from '../_base/datasource';
 
 export default class DCDatasource extends BaseDatasource {
@@ -11,6 +17,16 @@ export default class DCDatasource extends BaseDatasource {
     service: 'vpc',
     action: 'DescribeNetDetects',
     responseField: 'NetDetectSet',
+    interceptor: {
+      // response: (data: unknown[]) =>[
+      //   {
+      //     "NetDetectId": "netd-12345678",
+      //   },
+      // ],
+    },
+  };
+  MetricReqConfig = {
+    resultFilter: modifyDimensons,
   };
   constructor(instanceSettings, backendSrv, templateSrv) {
     super(instanceSettings, backendSrv, templateSrv);

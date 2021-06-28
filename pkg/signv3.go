@@ -118,14 +118,14 @@ func signV3(opts signOpts, apiOpts apiOpts) string {
  -H "X-TC-Region: %s"\
  -d '%s'`, host, authorization, opts.Headers["content-type"], host, action, timestamp, version, region, payload)
 
-	//if action == "DescribeInstances" {
-	//	logger.Info("===> canonicalHeaders: " + canonicalHeaders)
-	//	logger.Info("===> canonicalRequest: " + canonicalRequest)
-	//	logger.Info("===> string2sign: " + string2sign)
-	//	logger.Info("===> signature: " + signature)
-	//	logger.Info("===> auth: " + authorization)
-	//	logger.Info("===> curl: ", curl)
-	//}
+	if action == "DescribeEips" {
+		logger.Info("===> canonicalHeaders: " + canonicalHeaders)
+		logger.Info("===> canonicalRequest: " + canonicalRequest)
+		logger.Info("===> string2sign: " + string2sign)
+		logger.Info("===> signature: " + signature)
+		logger.Info("===> auth: " + authorization)
+		logger.Info("===> curl: \n", curl+"\n")
+	}
 
 	fmt.Println(curl)
 

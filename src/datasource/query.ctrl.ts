@@ -6,6 +6,7 @@ import { InitServiceState, InstanceAliasList, GetInstanceQueryParams, SERVICES }
 
 import './components/multi_condition';
 import './components/custom_select_dropdown';
+import './components/cascader';
 import './css/query_editor.css';
 import { editorHtml } from './partials/queryEditorTemplate';
 export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
@@ -35,21 +36,30 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
     ...InitServiceState,
   };
 
+  cascaderOptions: any = [];
+
   lastQuery: string;
   lastQueryError?: string;
 
   isMetricsNeedUpdate: boolean;
   hideRegion: boolean;
+
+  $scope: any;
+
   /** @ngInject */
   // eslint-disable-next-line @typescript-eslint/no-parameter-properties
   constructor($scope, $injector, private templateSrv) {
     super($scope, $injector);
+    this.$scope = $scope;
+    this.cascaderOptions = this.datasource.getCascaderNamespaces();
     this.namespaces = this.datasource.getNamespaces();
     // 当数据源的命名空间列表存在时，设置相应的默认值
     if (this.namespaces.length > 0) {
-      if (_.indexOf(this.namespaces, this.target.namespace) === -1) {
-        this.target.namespace = this.namespaces[0];
-      }
+      // if (_.indexOf(this.namespaces, this.target.namespace) === -1) {
+      //   this.target.namespace = this.namespaces[0];
+      // }
+      this.target.namespace =
+        this.target.namespace ?? this.cascaderOptions[0]?.items?.[0].value ?? this.cascaderOptions[0].value;
       this.target.service = GetServiceFromNamespace(this.target.namespace) || '';
     }
     this.hideRegion = !!SERVICES.find((o) => o.service === this.target.service)?.hideRegion;
@@ -62,6 +72,13 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
 
   get sortedPeriodList() {
     return this.periodList.sort((a, b) => a - b);
+  }
+  get isCascader() {
+    return this.cascaderOptions.length > 2;
+  }
+  cascaderChange(namespace) {
+    this.target.namespace = namespace;
+    this.onNamespaceChange();
   }
 
   onDataReceived(dataList) {
@@ -119,7 +136,7 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
     }));
   }
   getNamespaces(query) {
-    return _.map(this.namespaces.sort(), (o) => ({ text: o, value: o })); // TODO: 为什么对对象排序不行呢？？？？待解决
+    return _.map(this.namespaces, (o: any) => ({ text: o.label, value: o.namespace })); // TODO: 为什么对对象排序不行呢？？？？待解决
   }
   onNamespaceChange() {
     const service = GetServiceFromNamespace(this.target.namespace) || '';
@@ -139,6 +156,7 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
     // this.listenerAliasList = this.getListenerAliasList(service);
 
     this.refresh();
+    if (this.isCascader) this.$scope.$apply();
   }
 
   /**
@@ -371,7 +389,7 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
   }
   isVariable(field) {
     const service = this.target.service;
-    const value = this.target[service][field];
+    const value = this.target[service]?.[field];
     return isVariable(value);
   }
   checkShowDetail(field) {

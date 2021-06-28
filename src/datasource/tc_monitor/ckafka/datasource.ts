@@ -2,21 +2,31 @@ import _ from 'lodash';
 import { GetServiceAPIInfo } from '../../common/constants';
 import { fetchAllFactory } from '../../common/utils';
 import { BaseDatasource } from '../_base/datasource';
-import { CKAFKAInstanceAliasList, CKAFKAInvalidDemensions } from './query_def';
+import {
+  CKAFKAInstanceAliasList,
+  CKAFKAInvalidDemensions,
+  templateQueryIdMap,
+  keyInStorage,
+  queryMonitorExtraConfg,
+} from './query_def';
+
+import instanceStorage from '../../common/datasourceStorage';
 
 export default class CKFKADatasource extends BaseDatasource {
   Namespace = 'QCE/CKAFKA';
   InstanceAliasList = CKAFKAInstanceAliasList;
   InvalidDimensions = CKAFKAInvalidDemensions;
-  templateQueryIdMap = {
-    instance: 'InstanceId',
-  };
+  templateQueryIdMap = templateQueryIdMap;
   InstanceReqConfig = {
     service: 'ckafka',
     action: 'DescribeInstances',
     responseField: 'InstanceList',
   };
   extraMetricDims = ['topicId'];
+
+  keyInStorage = keyInStorage;
+  queryMonitorExtraConfg = queryMonitorExtraConfg;
+
   constructor(instanceSettings, backendSrv, templateSrv) {
     super(instanceSettings, backendSrv, templateSrv);
   }
@@ -45,28 +55,52 @@ export default class CKFKADatasource extends BaseDatasource {
     TopicList = _.uniqBy(TopicList, (item) => (item as any).TopicId);
     GroupList = _.uniqBy(GroupList, (item) => (item as any).GroupName);
     PartitionList = _.uniqBy(PartitionList, (item) => (item as any).Partition);
-
     return {
+      TopicList,
+      GroupList,
+      PartitionList,
+    };
+    // return {
+    //   TopicList: TopicList.map((topic) => ({
+    //     text: topic.TopicId,
+    //     value: topic.TopicId, // 为了获取多维度的值，这里完全可以使用JSON.stringify()将整个对象放进去
+    //     TopicName: topic.TopicName,
+    //   })),
+    //   GroupList: GroupList.map((group) => ({
+    //     text: group.GroupName,
+    //     value: group.GroupName,
+    //   })),
+    //   PartitionList: PartitionList.map((par) => ({
+    //     text: par.Partition,
+    //     value: par.Partition,
+    //   })),
+    // };
+  }
+
+  async fetchMetricData(action: string, region: string, instance: any) {
+    const result = await this.getConsumerGroups(region, {
+      InstanceId: instance.InstanceId,
+    });
+    const { TopicList, GroupList, PartitionList } = result;
+    instanceStorage.setExtraStorage(this.service, this.keyInStorage.TopicList, TopicList);
+    instanceStorage.setExtraStorage(this.service, this.keyInStorage.GroupList, GroupList);
+    instanceStorage.setExtraStorage(this.service, this.keyInStorage.PartitionList, PartitionList);
+
+    const rs = {
       TopicList: TopicList.map((topic) => ({
         text: topic.TopicId,
-        value: topic.TopicId, // 为了获取多维度的值，这里完全可以使用JSON.stringify()将整个对象放进去
+        value: topic[templateQueryIdMap.topicId], // 为了获取多维度的值，这里完全可以使用JSON.stringify()将整个对象放进去
         TopicName: topic.TopicName,
       })),
       GroupList: GroupList.map((group) => ({
         text: group.GroupName,
-        value: group.GroupName,
+        value: group[templateQueryIdMap.groupName],
       })),
       PartitionList: PartitionList.map((par) => ({
         text: par.Partition,
-        value: par.Partition,
+        value: par[templateQueryIdMap.partition],
       })),
     };
-  }
-
-  async fetchMetricData(action: string, region: string, instance: any) {
-    const rs = await this.getConsumerGroups(region, {
-      InstanceId: instance.InstanceId,
-    });
     switch (action) {
       case 'DescribeTopicList':
         return rs.TopicList;

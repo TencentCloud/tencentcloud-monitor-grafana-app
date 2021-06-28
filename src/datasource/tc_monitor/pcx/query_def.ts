@@ -1,4 +1,5 @@
 import _ from 'lodash';
+const namespace = 'QCE/PCX';
 
 const PCXFields = {
   limit: 20,
@@ -112,5 +113,6 @@ export {
   PCXInstanceAliasList,
   PCXFieldsDescriptor,
   templateQueryIdMap,
+  namespace,
   GetInstanceQueryParams as PCXGetInstanceQueryParams,
 };
