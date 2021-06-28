@@ -8,6 +8,12 @@ import { toDataQueryResponse } from '@grafana/runtime';
 // the services of tencentcloud monitor api
 const FINACE_REGIONS = ['ap-shanghai-fsi', 'ap-shenzhen-fsi'];
 const SERVICES_API_INFO = {
+  api: {
+    service: 'api',
+    version: '2020-11-06',
+    path: '/api',
+    host: 'api.tencentcloudapi.com',
+  },
   // monitor api info
   monitor: {
     service: 'monitor',
@@ -207,6 +213,12 @@ const SERVICES_API_INFO = {
     version: '2019-07-19',
     path: '/ecm',
     host: 'ecm.tencentcloudapi.com',
+  },
+  gse: {
+    service: 'gse',
+    version: '2019-11-12',
+    path: '/gse',
+    host: 'gse.tencentcloudapi.com',
   },
   // 不单独定义lb，因为lb同样用的是vpc的配置，同上
   // lb: {

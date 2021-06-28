@@ -287,7 +287,7 @@ function isValidMetric(metricObj: any = {}) {
 function modifyDimensons(metricItem: any) {
   const metricTmp = _.cloneDeep(metricItem);
   metricTmp.Dimensions.forEach((item) => {
-    item.Dimensions = item.Dimensions.map((i) => CDBInvalidDemensions[i]);
+    item.Dimensions = item.Dimensions.map((i) => CDBInvalidDemensions[i] || i);
   });
   return metricTmp;
 }
