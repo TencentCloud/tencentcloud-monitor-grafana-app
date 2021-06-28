@@ -11,7 +11,7 @@
 
 English | [简体中文](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/README.md)
 
-> Note: This plugin requires Grafana version >= 7.0 to run from version 2.0.0, for Grafana installation, please read [Download Grafana](https://grafana.com/grafana/download).
+> Note: This plugin requires Grafana version >= 7.3 to run from version 2.0.0, for Grafana installation, please read [Download Grafana](https://grafana.com/grafana/download).
 
 # Table of Contents
 
@@ -54,6 +54,7 @@ TencentDB for MySQL | QCE/CDB | https://intl.cloud.tencent.com/document/product/
 TencentDB for PostgreSQL | QCE/POSTGRES | https://intl.cloud.tencent.com/document/product/248/17945 | https://intl.cloud.tencent.com/document/product/409/16773
 TencentDB for MongoDB | QCE/CMONGO | https://intl.cloud.tencent.com/document/product/248/35671 | https://intl.cloud.tencent.com/document/api/240/34702
 TencentDB for Redis | QCE/REDIS | https://intl.cloud.tencent.com/document/product/248/34641 | https://intl.cloud.tencent.com/document/product/239/32065
+TencentDB for Redis (Memory Edition, 5-Second) | QCE/REDIS_MEM | https://intl.cloud.tencent.com/document/product/248/39507 | https://intl.cloud.tencent.com/document/product/239/32065
 TencentDB for TDSQL-C (CynosDB) | QCE/CYNOSDB_MYSQL | https://intl.cloud.tencent.com/document/product/248/37383 | https://intl.cloud.tencent.com/document/product/248/37383
 TencentDB for TcaplusDB | QCE/TCAPLUS | https://intl.cloud.tencent.com/document/product/248/34592 | https://intl.cloud.tencent.com/document/product/248/34592
 TencentDB for SQL Server | QCE/SQLSERVER | https://intl.cloud.tencent.com/document/product/248/11008 | https://intl.cloud.tencent.com/document/api/238/32115
@@ -99,14 +100,14 @@ Elastic MapReduce(ZOOKEEPER) | QCE/TXMR_ZOOKEEPER | https://cloud.tencent.com/do
 Edge Computing Machine Compute Monitor | QCE/ECM | https://cloud.tencent.com/document/product/248/45124 | https://cloud.tencent.com/document/api/1108/42565
 Edge Computing Machine Block Storage | QCE/ECM_BLOCK_STORAGE | https://cloud.tencent.com/document/product/248/45123 | https://cloud.tencent.com/document/api/1108/42565
 Edge Computing Machine Load Balancer | QCE/ECM_LB | https://cloud.tencent.com/document/product/248/54253 | https://cloud.tencent.com/document/api/1108/48459
-Web Application Firewall | QCE/WAF | https://cloud.tencent.com/document/product/248/48124 | https://cloud.tencent.com/document/api/627/53601?lang=en
 Cloud Object Storage | QCE/COS | https://cloud.tencent.com/document/product/248/45140 | https://intl.cloud.tencent.com/document/product/436/8291
 Global Application Acceleration Platform | QCE/QAAP | https://cloud.tencent.com/document/product/248/45062 | https://intl.cloud.tencent.com/document/api/608/33101
+Game Server Elastic-scaling | QCE/GSE | https://cloud.tencent.com/document/product/248/55273?lang=en | https://intl.cloud.tencent.com/document/api/1055/37120
 
 # Get Started
 ## Installation
 
-> Prerequisites: Tencent Cloud Monitor Grafana App Plugin requires Grafana version >= 7.0 to run, for Grafana installation, please read [Download Grafana](https://grafana.com/grafana/download).
+> Prerequisites: Tencent Cloud Monitor Grafana App Plugin requires Grafana version >= 7.3 to run, for Grafana installation, please read [Download Grafana](https://grafana.com/grafana/download).
 
 There are multiple ways to install tencentcloud-monitor-grafana-app, please choose one of the methods below.
 

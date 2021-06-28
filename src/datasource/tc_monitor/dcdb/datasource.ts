@@ -4,6 +4,7 @@ import {
   namespace,
   templateQueryIdMap,
   regionSupported,
+  modifyDimensons,
 } from './query_def';
 import { BaseDatasource } from '../_base/datasource';
 import _ from 'lodash';
@@ -41,6 +42,15 @@ export default class DCDatasource extends BaseDatasource {
   // 重写getRegion,无接口，用本地config
   getRegions() {
     return Promise.resolve(regionSupported);
+  }
+
+  async getMetrics(region = 'ap-guangzhou') {
+    const rawSet = await super.getMetrics(region);
+    return _.compact(
+      rawSet.map((item) => {
+        return modifyDimensons(item);
+      })
+    );
   }
   async getConsumerList(params: any) {
     const { region, action: act, payload } = params;

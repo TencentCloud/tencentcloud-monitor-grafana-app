@@ -35,6 +35,13 @@ const SERVICES = [
     groupName: '云数据库',
   },
   {
+    service: 'redisMem',
+    label: '云数据库redis内存版（5s）(REDIS_MEM)',
+    namespace: 'QCE/REDIS_MEM',
+    href: 'https://cloud.tencent.com/document/product/248/49729',
+    groupName: '云数据库',
+  },
+  {
     service: 'sqlserver',
     label: '云数据库sqlserver(SQLSERVER)',
     namespace: 'QCE/SQLSERVER',
@@ -176,7 +183,6 @@ const SERVICES = [
     href: 'https://cloud.tencent.com/document/product/248/50387',
     groupName: 'CDN',
   },
-  // { service: 'redisMem', label: 'redis内存版（5s）(REDIS_MEM)', namespace: 'QCE/REDIS_MEM', href: 'https://cloud.tencent.com/document/product/248/49729' },
   {
     service: 'scf',
     label: '云函数(SCF)',
@@ -369,12 +375,18 @@ const SERVICES = [
     groupName: '边缘计算机器',
   },
   {
-    service: 'waf',
-    label: 'Web 应用防火墙(WAF)',
-    hideRegion: true,
-    namespace: 'QCE/WAF',
-    href: 'https://cloud.tencent.com/document/product/627',
+    service: 'gse',
+    label: '游戏服务器伸缩监控指标(GSE))',
+    namespace: 'QCE/GSE',
+    href: 'https://cloud.tencent.com/document/product/1165',
   },
+  // {
+  //   service: 'waf',
+  //   label: 'Web 应用防火墙(WAF)',
+  //   hideRegion: true,
+  //   namespace: 'QCE/WAF',
+  //   href: 'https://cloud.tencent.com/document/product/627',
+  // },
 ];
 const Datasources = {};
 const InitStates = {};
@@ -385,9 +397,10 @@ const GetInstanceQueryParams = {};
  * 由于目录命名不规范，导致需要使用额外逻辑保证正确性。从目录到具体service的映射
  */
 const hackModuleName = {
-  lb_loadBalance: 'loadBalance',
+  // lb_loadBalance: 'loadBalance',
   postgresql: 'postgres',
   mongodb: 'mongoDB',
+  clb: ['lbPrivate', 'lbPublic', 'loadBalance'],
   mr: ['mrHDFS', 'mrHBASE', 'mrHIVE', 'mrNODE', 'mrPRESTO', 'mrSPARK', 'mrYARN', 'mrZOOKEEPER'],
 };
 

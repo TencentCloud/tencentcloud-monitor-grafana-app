@@ -25,7 +25,7 @@ export default class DCDatasource extends BaseDatasource {
   async getDiskList(params: any) {
     const { payload } = params;
     const { InstanceId } = payload;
-    const instanceCache = instanceStorage.getInstance(this.service);
+    const instanceCache = await instanceStorage.getInstance(this.service);
     const instanceObj: any =
       _.cloneDeep(instanceCache.find((item) => item[this.templateQueryIdMap.instance] === InstanceId)) ?? {};
     const { DataDisks: dataDisks } = instanceObj;

@@ -1,4 +1,6 @@
 import _ from 'lodash';
+
+const namespace = 'QCE/REDIS_MEM';
 const BillingMode = [
   { text: '按量计费', value: 'postpaid' },
   { text: '包年包月', value: 'prepaid' },
@@ -255,12 +257,14 @@ const RedisMemInvalidDemensions = {
 const templateQueryIdMap = {
   instance: 'InstanceId',
 };
+
 export default REDISMEM_STATE;
 export {
   RedisMemFieldsDescriptor,
   RedisMemInvalidDemensions,
   REDISMEMInstanceAliasList,
   templateQueryIdMap,
+  namespace,
   isValidMetric,
   GetInstanceQueryParams as REDISMEMGetInstanceQueryParams,
 };
