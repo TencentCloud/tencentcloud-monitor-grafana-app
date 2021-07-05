@@ -13,6 +13,9 @@ export default class REDISDatasource extends BaseDatasource {
     service: 'redis',
     action: 'DescribeInstances',
     responseField: 'InstanceSet',
+    interceptor: {
+      request: (params) => ({ ...params, MonitorVersion: '1m' }),
+    },
   };
   constructor(instanceSettings, backendSrv, templateSrv) {
     super(instanceSettings, backendSrv, templateSrv);

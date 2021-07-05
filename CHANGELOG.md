@@ -1,6 +1,25 @@
 # TencentCloud Monitor Grafana App
 ---
 
+## [2.2.0] - 2021-06-28
+
+### Added
+- Support Monitoring [TencentDB for Redis (Memory Edition, 5-Second)](https://intl.cloud.tencent.com/document/product/248/39507)
+- Support Monitoring [Game Server Elastic-scaling](https://intl.cloud.tencent.com/document/product/1055/37120)
+
+### Fixed
+- The caching method of the instance list is optimized from *localStorage* to *IndexedDB*.
+- Support `listenerAlias` in CLB template variable configuration (#64).
+- The CVM regional interface is replaced with api.tencentcloudapi.com.
+- Change dimension `instanceId` to `InstanceId` for DCDB monitoring.
+
+### Removed
+- Removed [Web Application Firewall](https://cloud.tencent.com/document/product/248/48124) since regional interface is not supported.
+
+See detailed guide in [README.md](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/README.md).
+
+---
+
 ## [2.1.0] - 2021-05-01
 
 ### Added

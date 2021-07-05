@@ -1,6 +1,6 @@
 // 产品目录名字和service名字匹配即 lb_private(目录名) => lbPrivate(service)
 import { DetailQueryConfig, FildDescriptorType } from '../_base/types';
-import { isArray } from 'lodash';
+import { isArray, cloneDeep } from 'lodash';
 import { instanceQueryParamsBaseParse } from '../../common/utils';
 
 const namespace = 'QCE/TDMYSQL';
@@ -180,6 +180,14 @@ const DCDB_STATE = {
   queries: DCDBFilterFields,
 };
 
+function modifyDimensons(metricItem: any) {
+  const metricTmp = cloneDeep(metricItem);
+  metricTmp.Dimensions.forEach((item) => {
+    item.Dimensions = item.Dimensions.map((v) => DCDBInvalidDemensions[v] || v);
+  });
+  return metricTmp;
+}
+
 function GetInstanceQueryParams(queries: any = {}) {
   const params = instanceQueryParamsBaseParse(queries, false);
   // 特殊处理
@@ -219,6 +227,7 @@ export {
   queryEditorName,
   queryEditorConfig,
   regionSupported,
+  modifyDimensons,
   // 对应产品的service的全大写拼接GetInstanceQueryParams
   GetInstanceQueryParams as DCDBGetInstanceQueryParams,
 };

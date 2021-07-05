@@ -10,7 +10,7 @@ import {
   queryMonitorExtraConfg,
 } from './query_def';
 
-import instanceStorage from '../../common/datasourceStorage';
+// import instanceStorage from '../../common/datasourceStorage';
 
 export default class CKFKADatasource extends BaseDatasource {
   Namespace = 'QCE/CKAFKA';
@@ -82,10 +82,11 @@ export default class CKFKADatasource extends BaseDatasource {
       InstanceId: instance.InstanceId,
     });
     const { TopicList, GroupList, PartitionList } = result;
-    instanceStorage.setExtraStorage(this.service, this.keyInStorage.TopicList, TopicList);
-    instanceStorage.setExtraStorage(this.service, this.keyInStorage.GroupList, GroupList);
-    instanceStorage.setExtraStorage(this.service, this.keyInStorage.PartitionList, PartitionList);
-
+    // console.log({ TopicList, GroupList, PartitionList });
+    // const res1 = await instanceStorage.setExtraStorage(this.service, this.keyInStorage.TopicList, TopicList);
+    // const res2 = await instanceStorage.setExtraStorage(this.service, this.keyInStorage.GroupList, GroupList);
+    // const res3 = await instanceStorage.setExtraStorage(this.service, this.keyInStorage.PartitionList, PartitionList);
+    // console.log({ res1, res2, res3 });
     const rs = {
       TopicList: TopicList.map((topic) => ({
         text: topic.TopicId,

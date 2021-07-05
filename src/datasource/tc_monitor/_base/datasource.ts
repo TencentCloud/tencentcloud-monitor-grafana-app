@@ -46,9 +46,7 @@ export abstract class BaseDatasource implements DatasourceInterface {
   */
   queryMonitorExtraConfg: Record<string, queryConfigType> = {};
 
-  abstract InstanceAliasList: string[];
-  abstract templateQueryIdMap: TemplateQueryIdType; // 必须为标识
-  abstract InstanceReqConfig: {
+  InstanceReqConfig?: {
     service?: string;
     action: string;
     responseField: string;
@@ -57,6 +55,9 @@ export abstract class BaseDatasource implements DatasourceInterface {
       response?: (data: unknown) => unknown;
     };
   };
+  abstract InstanceAliasList: string[];
+  abstract templateQueryIdMap: TemplateQueryIdType; // 必须为标识
+
   abstract InvalidDimensions: Record<string, string> = {};
 
   /** @ngInject */
@@ -128,6 +129,11 @@ export abstract class BaseDatasource implements DatasourceInterface {
       });
       // 缓存全量实例列表
       // this.instanceListCache = result;
+      // const testData = [];
+      // for(let i=0; i<2000; i++) {
+      //   testData.push(_.cloneDeep(result[0]))
+      // }
+      // console.log({result,testData})
       instanceStorage.setInstance(this.service, result);
       return res;
     }
@@ -137,7 +143,9 @@ export abstract class BaseDatasource implements DatasourceInterface {
     if (region && action && instance) {
       try {
         // instance = JSON.parse(instance);
-        const instanceCache = instanceStorage.getInstance(this.service);
+        const instanceCache = await instanceStorage.getInstance(this.service);
+        // console.log({ instanceCache });
+
         instance = _.cloneDeep(instanceCache.find((item) => item[this.templateQueryIdMap.instance] === instance)) ?? {};
         // eslint-disable-next-line no-empty
       } catch (error) {}
@@ -166,8 +174,72 @@ export abstract class BaseDatasource implements DatasourceInterface {
    *   }
    * ]
    */
+  async dimensionsFormat(dimKeys, ins, dimensionObject, target, service, options) {
+    for (let key of dimKeys) {
+      let keyTmp = key;
+      if (key in this.InvalidDimensions) {
+        // 从【维度中】的字段到【实例中】字段的映射。 { functionName: FunctionName }
+        keyTmp = this.InvalidDimensions[key];
+        ins[key] = ins[keyTmp];
+      }
+      // console.log('dimensionObject2', dimensionObject, {key, keyTmp}, this.InvalidDimensions);
+      let extraDimValue = this.getVariable(target[service][keyTmp]);
+      if (this.queryMonitorExtraConfg[keyTmp]) {
+        const { dim_KeyInStorage, dim_KeyInTarget = keyTmp, dim_KeyInMap } = this.queryMonitorExtraConfg[keyTmp];
+        let extraIns = ReplaceVariable(this.templateSrv, options.scopedVars, target[service][dim_KeyInTarget], true);
+        let extraSourceMap = {};
+        try {
+          extraSourceMap = JSON.parse(extraIns); // 兼容json字符串的 形式
+        } catch (error) {
+          if (_.isArray(extraIns)) extraIns = extraIns[0]; // 如果多个，取第一个。除了实例ID 暂不支持其他纬度多选
+          const extraStorage = await instanceStorage.getExtraStorage(this.service, dim_KeyInStorage);
+          // console.log({ extraStorage });
+          extraSourceMap = extraStorage.find((item) => item[dim_KeyInMap] === extraIns) ?? {};
+        }
+        extraDimValue = extraSourceMap?.[keyTmp];
+      }
+      // // edit中当前选择项。和instance类似，如topic，listener。可能为变量
+      // let dimValueInTarget = this.getVariable(target[service][key] || target[service][keyTmp]);
+      // console.log('extraStorage1', dimValueInTarget);
+      // let res:any = {};
+      // if(_.isArray(dimValueInTarget)) dimValueInTarget = dimValueInTarget[0];
+      // try {
+      //   res = JSON.parse(dimValueInTarget); // 兼容json字符串的 形式
+      // } catch (error) {
+      //   // extraStorage
+      //   const extraStorageV = Object.values(extraStorage);
+      //   console.log({extraStorageV})
+      //   extraStorageV.forEach((extraV:any) => {
+      //     const rightIds = this.getRightKey(extraV,ids);
+      //     const extraRes = extraV.find((item) => {
+      //       const ar1 = Object.keys(item);
+      //       console.log({ar1, rightIds})
+      //       return _.intersection(ar1,rightIds)
+      //     });
+      //     if(extraRes) {
+      //       res = extraRes;
+      //     }
+      //   })
+      // }
+      // const dimValue = res[keyTmp];
+
+      // 设置instance，针对额外的维度，需要注意模板变量的值
+      // ins[key] = (ins[keyTmp]) ?? this.getVariable(target[service][keyTmp]);
+      ins[key] = ins[keyTmp] ?? extraDimValue;
+
+      // cynosdb产品接口返回维度和入参不一致
+      if (this.checkKeys.length > 0) {
+        this.checkKeys.forEach((Ekey) => {
+          ins[Ekey] = ins[key];
+        });
+      }
+      dimensionObject[key] = { Name: key, Value: ins[key] };
+    }
+    return dimensionObject;
+  }
   query(options: any) {
     const service = this.service!; // 强制声明非空
+    // console.log('query');
 
     const queries = _.filter(options.targets, (item) => {
       // 过滤无效的查询 target
@@ -178,12 +250,11 @@ export abstract class BaseDatasource implements DatasourceInterface {
         !_.isEmpty(ReplaceVariable(this.templateSrv, options.scopedVars, item[service].region, false)) &&
         !_.isEmpty(ReplaceVariable(this.templateSrv, options.scopedVars, item[service].instance, true))
       );
-    }).map((target) => {
+    }).map(async (target) => {
       // 实例 instances 可能为模板变量，需先获取实际值
       // 针对JSON字符串和id的形式，分开做处理
       let instances = ReplaceVariable(this.templateSrv, options.scopedVars, target[service].instance, true);
-
-      const instanceCache = instanceStorage.getInstance(this.service);
+      const instanceCache = await instanceStorage.getInstance(this.service);
       // console.log({ instanceCache });
       instances = [].concat(instances).map((inst) => {
         try {
@@ -193,107 +264,42 @@ export abstract class BaseDatasource implements DatasourceInterface {
         }
       });
       const region = ReplaceVariable(this.templateSrv, options.scopedVars, target[service].region, false);
+      const insInReq: any = [];
+      for (let ins of instances) {
+        const dimensionObject = target[service].dimensionObject;
+        // 处理dimensions的值
+        const dimKeys = Object.keys(dimensionObject);
+        const dimResult = await this.dimensionsFormat(dimKeys, ins, dimensionObject, target, service, options);
+        // console.log({dimResult})
+        insInReq.push([{ Dimensions: GetDimensions(dimResult) }]);
+        // // 没有额外维度，则直接返回
+        // if (this.extraMetricDims.length === 0) {
+        //   return [{ Dimensions: GetDimensions(dimensionObject) }];
+        // }
+        // // 有额外维度，则处理额外的维度, 为了处理维度的多选值，这里比较绕，比较复杂
+        // return _.flatMap(this.extraMetricDims, (extraDim) => {
+        //   const targetDims = dimensionObject[extraDim]?.Value;
+
+        //   if (Array.isArray(targetDims)) {
+        //     return targetDims.map((dim) => {
+        //       ins[extraDim] = dim; // 实例上添加对应属性
+        //       return {
+        //         Dimensions: GetDimensions({
+        //           ...dimensionObject,
+        //           [extraDim]: { Name: extraDim, Value: dim },
+        //         }),
+        //       };
+        //     });
+        //   }
+
+        //   return [{ Dimensions: GetDimensions(dimensionObject) }];
+        // });
+      }
       const data = {
         StartTime: moment(options.range.from).format(),
         EndTime: moment(options.range.to).format(),
         Period: target[service].period || 300,
-        Instances: _.flatMap(instances, (ins) => {
-          const dimensionObject = target[service].dimensionObject;
-
-          // 获取额外的维度信息
-          // const extraStorage = instanceStorage.getExtraStorage(this.service);
-          // const {instance, ...extraIds} = this.templateQueryIdMap;
-          // const ids = Object.values(extraIds);
-          // console.log({extraStorage, ids});
-
-          // 处理dimensions的值
-          _.forEach(dimensionObject, (__, key) => {
-            let keyTmp = key;
-            if (key in this.InvalidDimensions) {
-              // 从【维度中】的字段到【实例中】字段的映射。 { functionName: FunctionName }
-              keyTmp = this.InvalidDimensions[key];
-              ins[key] = ins[keyTmp];
-            }
-            let extraDimValue = this.getVariable(target[service][keyTmp]);
-            if (this.queryMonitorExtraConfg[keyTmp]) {
-              const { dim_KeyInStorage, dim_KeyInTarget = keyTmp, dim_KeyInMap } = this.queryMonitorExtraConfg[keyTmp];
-              let extraIns = ReplaceVariable(
-                this.templateSrv,
-                options.scopedVars,
-                target[service][dim_KeyInTarget],
-                true
-              );
-              let extraSourceMap = {};
-              try {
-                extraSourceMap = JSON.parse(extraIns); // 兼容json字符串的 形式
-              } catch (error) {
-                if (_.isArray(extraIns)) extraIns = extraIns[0]; // 如果多个，取第一个。除了实例ID 暂不支持其他纬度多选
-                const extraStorage = instanceStorage.getExtraStorage(this.service, dim_KeyInStorage);
-                extraSourceMap = extraStorage.find((item) => item[dim_KeyInMap] === extraIns) ?? {};
-              }
-              extraDimValue = extraSourceMap?.[keyTmp];
-            }
-            // // edit中当前选择项。和instance类似，如topic，listener。可能为变量
-            // let dimValueInTarget = this.getVariable(target[service][key] || target[service][keyTmp]);
-            // console.log('extraStorage1', dimValueInTarget);
-            // let res:any = {};
-            // if(_.isArray(dimValueInTarget)) dimValueInTarget = dimValueInTarget[0];
-            // try {
-            //   res = JSON.parse(dimValueInTarget); // 兼容json字符串的 形式
-            // } catch (error) {
-            //   // extraStorage
-            //   const extraStorageV = Object.values(extraStorage);
-            //   console.log({extraStorageV})
-            //   extraStorageV.forEach((extraV:any) => {
-            //     const rightIds = this.getRightKey(extraV,ids);
-            //     const extraRes = extraV.find((item) => {
-            //       const ar1 = Object.keys(item);
-            //       console.log({ar1, rightIds})
-            //       return _.intersection(ar1,rightIds)
-            //     });
-            //     if(extraRes) {
-            //       res = extraRes;
-            //     }
-            //   })
-            // }
-            // const dimValue = res[keyTmp];
-
-            // 设置instance，针对额外的维度，需要注意模板变量的值
-            // ins[key] = (ins[keyTmp]) ?? this.getVariable(target[service][keyTmp]);
-            ins[key] = ins[keyTmp] ?? extraDimValue;
-
-            // cynosdb产品接口返回维度和入参不一致
-            if (this.checkKeys.length > 0) {
-              this.checkKeys.forEach((Ekey) => {
-                ins[Ekey] = ins[key];
-              });
-            }
-            dimensionObject[key] = { Name: key, Value: ins[key] };
-          });
-          return [{ Dimensions: GetDimensions(dimensionObject) }];
-          // // 没有额外维度，则直接返回
-          // if (this.extraMetricDims.length === 0) {
-          //   return [{ Dimensions: GetDimensions(dimensionObject) }];
-          // }
-          // // 有额外维度，则处理额外的维度, 为了处理维度的多选值，这里比较绕，比较复杂
-          // return _.flatMap(this.extraMetricDims, (extraDim) => {
-          //   const targetDims = dimensionObject[extraDim]?.Value;
-
-          //   if (Array.isArray(targetDims)) {
-          //     return targetDims.map((dim) => {
-          //       ins[extraDim] = dim; // 实例上添加对应属性
-          //       return {
-          //         Dimensions: GetDimensions({
-          //           ...dimensionObject,
-          //           [extraDim]: { Name: extraDim, Value: dim },
-          //         }),
-          //       };
-          //     });
-          //   }
-
-          //   return [{ Dimensions: GetDimensions(dimensionObject) }];
-          // });
-        }),
+        Instances: _.flatMap(insInReq),
         Namespace: target.namespace,
         MetricName: target[service].metricName,
       };
@@ -312,7 +318,9 @@ export abstract class BaseDatasource implements DatasourceInterface {
         return [];
       });
   }
-
+  getInstanceReqConfig(selfIns: any) {
+    return {} as any;
+  }
   // 获取某个变量的实际值，this.templateSrv.replace() 函数返回实际值的字符串
   getVariable(metric?: string) {
     const rs = this.templateSrv.replace((metric || '').trim());
@@ -389,7 +397,8 @@ export abstract class BaseDatasource implements DatasourceInterface {
   }
 
   getInstances(region, params = {}) {
-    const { service = this.service, action, responseField: field, interceptor } = this.InstanceReqConfig;
+    const { service = this.service, action, responseField: field, interceptor } =
+      this.InstanceReqConfig || this.getInstanceReqConfig(this);
     params = { Offset: 0, Limit: 100, ...params };
     const serviceInfo = GetServiceAPIInfo(region, service);
     return this.doRequest(
@@ -424,7 +433,8 @@ export abstract class BaseDatasource implements DatasourceInterface {
     let result: any[] = [];
     const params = { ...query, ...{ Offset: 0, Limit: 100 } };
 
-    const { service = this.service, action, responseField: field, interceptor } = this.InstanceReqConfig;
+    const { service = this.service, action, responseField: field, interceptor } =
+      this.InstanceReqConfig || this.getInstanceReqConfig(this);
 
     const serviceInfo = GetServiceAPIInfo(region, service);
     return this.doRequest(

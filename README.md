@@ -12,7 +12,7 @@
 简体中文 | [English](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/README.en-US.md)
 
 
-> 注意：该插件从 2.0.0 版本起的最低运行要求为 Grafana 7.0 或更高的版本上。请优先安装 Grafana 环境，详情参考 [Grafana 安装文档](https://grafana.com/grafana/download)。
+> 注意：该插件从 2.0.0 版本起的最低运行要求为 Grafana 7.3 或更高的版本上。请优先安装 Grafana 环境，详情参考 [Grafana 安装文档](https://grafana.com/grafana/download)。
 
 # 目录
 
@@ -50,7 +50,8 @@ CVM 云服务器 | QCE/CVM | https://cloud.tencent.com/document/api/248/6843 | h
 CDB 云数据库 MySQL | QCE/CDB | https://cloud.tencent.com/document/api/248/45147 | https://cloud.tencent.com/document/api/236/15872
 云数据库 PostgreSql | QCE/POSTGRES | https://cloud.tencent.com/document/product/248/45105 | https://cloud.tencent.com/document/api/409/16773
 云数据库 MongoDB | QCE/CMONGO | https://cloud.tencent.com/document/product/248/45104 | https://cloud.tencent.com/document/api/240/38568
-云数据库 Redis | QCE/REDIS | https://cloud.tencent.com/document/product/248/45111 | https://cloud.tencent.com/document/api/239/20018
+云数据库 Redis 内存版监控指标 (1分钟) | QCE/REDIS | https://cloud.tencent.com/document/product/248/45111 | https://cloud.tencent.com/document/api/239/20018
+云数据库 Redis 内存版监控指标 (5秒) | QCE/REDIS_MEM | https://cloud.tencent.com/document/product/248/49729 | https://cloud.tencent.com/document/api/239/20018
 云数据库 TDSQL-C (原CynosDB) | QCE/CYNOSDB_MYSQL | https://cloud.tencent.com/document/product/248/45106 | https://cloud.tencent.com/product/cynosdb
 云数据库 TcaplusDB | QCE/TCAPLUS | https://cloud.tencent.com/document/product/248/45107 | https://cloud.tencent.com/document/api/1003/48334
 云数据库 SQL Server | QCE/SQLSERVER | https://cloud.tencent.com/document/product/248/45146 | https://cloud.tencent.com/document/api/238/19969
@@ -96,14 +97,15 @@ CMQ 消息队列主题订阅 | QCE/CMQTOPIC | https://cloud.tencent.com/document
 边缘计算机器 计算和网络 | QCE/ECM | https://cloud.tencent.com/document/product/248/45124 | https://cloud.tencent.com/document/api/1108/42565
 边缘计算机器 存储 | QCE/ECM_BLOCK_STORAGE | https://cloud.tencent.com/document/product/248/45123 | https://cloud.tencent.com/document/api/1108/42565
 边缘计算机器 负载均衡四层协议 | QCE/ECM_LB | https://cloud.tencent.com/document/product/248/54253 | https://cloud.tencent.com/document/api/1108/48459
-Web 应用防火墙 | QCE/WAF | https://cloud.tencent.com/document/product/248/48124 | https://cloud.tencent.com/document/api/627/53601
 对象存储 | QCE/COS | https://cloud.tencent.com/document/product/248/45140 | https://cloud.tencent.com/document/api/436/8291
 全球应用加速 | QCE/QAAP | https://cloud.tencent.com/document/product/248/45062 | https://cloud.tencent.com/document/api/608/36963
+游戏服务器伸缩 | QCE/GSE | https://cloud.tencent.com/document/product/248/55273 ｜ https://cloud.tencent.com/document/api/1165/42076
+
 # 入门指南
 
 ## 安装与更新
 
-> 前置条件：腾讯云监控应用插件是运行在 Grafana 7.0 或更高的版本上。请优先安装 Grafana 环境，详情参考 [Grafana 安装文档](https://grafana.com/grafana/download)。
+> 前置条件：腾讯云监控应用插件是运行在 Grafana 7.3 或更高的版本上。请优先安装 Grafana 环境，详情参考 [Grafana 安装文档](https://grafana.com/grafana/download)。
 
 使用 Grafana CLI 安装：
 

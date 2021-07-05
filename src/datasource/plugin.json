@@ -11,6 +11,11 @@
   },
   "routes": [
     {
+      "path": "api",
+      "url": "https://api.tencentcloudapi.com",
+      "headers": [{ "name": "Content-Type", "content": "application/json" }]
+    },
+    {
       "path": "cmq",
       "url": "https://cmq.tencentcloudapi.com",
       "headers": [{ "name": "Content-Type", "content": "application/json" }]
@@ -278,6 +283,11 @@
     {
       "path": "ecm",
       "url": "https://ecm.tencentcloudapi.com",
+      "headers": [{ "name": "Content-Type", "content": "application/json" }]
+    },
+    {
+      "path": "gse",
+      "url": "https://gse.tencentcloudapi.com",
       "headers": [{ "name": "Content-Type", "content": "application/json" }]
     }
   ],

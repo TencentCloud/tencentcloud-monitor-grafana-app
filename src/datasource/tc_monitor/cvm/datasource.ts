@@ -31,11 +31,34 @@ export default class CVMDatasource extends BaseDatasource {
     );
   }
 
+  getRegions() {
+    return this.doRequest(
+      {
+        url: this.url + '/api',
+        data: { Product: 'cvm' },
+      },
+      'api',
+      { action: 'DescribeRegions' }
+    ).then((response) => {
+      return _.filter(
+        _.map(response.RegionSet || [], (item) => {
+          return {
+            text: item.RegionName,
+            value: item.Region,
+            RegionState: item.RegionState,
+          };
+        }),
+        (item) => item.RegionState === 'AVAILABLE'
+      );
+    });
+  }
+
   getZones(region) {
-    const serviceInfo = GetServiceAPIInfo(region, 'cvm');
+    const serviceInfo = GetServiceAPIInfo(region, 'api');
     return this.doRequest(
       {
         url: this.url + serviceInfo.path,
+        data: { Product: 'cvm' },
       },
       serviceInfo.service,
       { region, action: 'DescribeZones' }
