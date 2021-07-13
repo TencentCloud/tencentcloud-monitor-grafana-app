@@ -184,6 +184,8 @@ const CVMValidMetricsT = [
   'TimeOffset',
   'MemUsed',
   'MemUsage',
+  'CvmDiskUsage',
+  'BaseCpuUsage',
 ];
 // const CVMInvalidDemensions = {
 //   'vm_uuid': 'InstanceId',
