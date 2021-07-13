@@ -55,10 +55,11 @@ export abstract class BaseDatasource implements DatasourceInterface {
       response?: (data: unknown) => unknown;
     };
   };
+
+  InvalidDimensions?: Record<string, string>;
+
   abstract InstanceAliasList: string[];
   abstract templateQueryIdMap: TemplateQueryIdType; // 必须为标识
-
-  abstract InvalidDimensions: Record<string, string> = {};
 
   /** @ngInject */
   constructor(instanceSettings, backendSrv, templateSrv) {
@@ -177,12 +178,13 @@ export abstract class BaseDatasource implements DatasourceInterface {
   async dimensionsFormat(dimKeys, ins, dimensionObject, target, service, options) {
     for (let key of dimKeys) {
       let keyTmp = key;
-      if (key in this.InvalidDimensions) {
+      const invalidDim = this.InvalidDimensions || this.getInvalidDimensions(this);
+      if (key in invalidDim) {
         // 从【维度中】的字段到【实例中】字段的映射。 { functionName: FunctionName }
-        keyTmp = this.InvalidDimensions[key];
+        keyTmp = invalidDim[key];
         ins[key] = ins[keyTmp];
       }
-      // console.log('dimensionObject2', dimensionObject, {key, keyTmp}, this.InvalidDimensions);
+      // console.log('dimensionObject2', dimensionObject, {key, keyTmp}, invalidDim);
       let extraDimValue = this.getVariable(target[service][keyTmp]);
       if (this.queryMonitorExtraConfg[keyTmp]) {
         const { dim_KeyInStorage, dim_KeyInTarget = keyTmp, dim_KeyInMap } = this.queryMonitorExtraConfg[keyTmp];
@@ -319,6 +321,9 @@ export abstract class BaseDatasource implements DatasourceInterface {
       });
   }
   getInstanceReqConfig(selfIns: any) {
+    return {} as any;
+  }
+  getInvalidDimensions(selfIns: any) {
     return {} as any;
   }
   // 获取某个变量的实际值，this.templateSrv.replace() 函数返回实际值的字符串
