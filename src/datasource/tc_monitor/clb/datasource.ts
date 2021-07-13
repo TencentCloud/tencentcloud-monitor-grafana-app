@@ -16,7 +16,7 @@ export default class DCDatasource extends BaseDatasource {
   // Namespace = namespace;
   InstanceAliasList = InstanceAliasList;
   ListenerAliasList = LOADBALANCEListenerAliasList;
-  InvalidDimensions = LOADBALANCEVALIDDIMENSIONS;
+  // InvalidDimensions = LOADBALANCEVALIDDIMENSIONS;
   templateQueryIdMap = templateQueryIdMap;
   // 此处service是接口的配置参数，需和plugin.json里一致，和constant.ts中SERVICES_API_INFO保持一致
   // InstanceReqConfig = {
@@ -33,7 +33,10 @@ export default class DCDatasource extends BaseDatasource {
   // getFilterDropdown({ field }) {
   //   return super.getRegions();
   // }
-
+  getInvalidDimensions(selfIns: any) {
+    if (selfIns.service === 'lbPrivate') return { ...LOADBALANCEVALIDDIMENSIONS, vpcId: 'NumericalVpcId' };
+    return LOADBALANCEVALIDDIMENSIONS;
+  }
   getInstanceReqConfig(selfIns: any) {
     const res: any = {
       service: 'clb',

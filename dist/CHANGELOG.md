@@ -1,6 +1,16 @@
 # TencentCloud Monitor Grafana App
 ---
 
+## [2.2.1] - 2021-07-13
+
+### Fixed
+- Missing dimensions in lbPrivate.
+- Missing metrics `BaseCpuUsage`, `CvmDiskUsage` for CVM monitoring.
+
+See detailed guide in [README.md](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/README.md).
+
+---
+
 ## [2.2.0] - 2021-06-28
 
 ### Added
