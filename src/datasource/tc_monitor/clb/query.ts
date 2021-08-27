@@ -33,6 +33,7 @@ export class QueryCtrl {
       const region = $scope.datasource.getServiceFn(service, 'getVariable')(target.region);
       const rs = await $scope.datasource.getServiceFn(service, 'getListenerList')({ region, instanceId });
       const result = rs.map((o) => {
+        o._InstanceAliasValue = o[templateQueryIdMap.listener];
         return {
           text: o[templateQueryIdMap.listener],
           value: JSON.stringify(o),

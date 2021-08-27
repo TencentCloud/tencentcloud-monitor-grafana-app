@@ -1,5 +1,5 @@
 import coreModule from 'grafana/app/core/core_module';
-import { SCFQueryDescriptor } from './query_def';
+import { SCFQueryDescriptor, templateQueryIdMap } from './query_def';
 
 export class SCFQueryCtrl {
   /** @ngInject */
@@ -36,8 +36,14 @@ export class SCFQueryCtrl {
 
       return fetcher(region, { FunctionName }).then((res) => {
         // console.log(res, 'res');
-
-        return res;
+        const result = res.map((o) => {
+          o._InstanceAliasValue = o[templateQueryIdMap.version];
+          return {
+            text: o[templateQueryIdMap.version],
+            value: JSON.stringify(o),
+          };
+        });
+        return result;
       });
     };
     // $scope.onChecked = (srcField, dstField) => {

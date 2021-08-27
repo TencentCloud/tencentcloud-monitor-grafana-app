@@ -246,7 +246,7 @@ function isValidMetric(metricObj: any = {}) {
   return dimension.length === 1 && _.indexOf(dimension, 'instanceid') !== -1;
 }
 
-const REDISInstanceAliasList = ['InstanceId', 'InstanceName'];
+const REDISInstanceAliasList = ['InstanceId', 'InstanceName', 'WanIp'];
 
 const RedisInvalidDemensions = {
   redis_uuid: 'InstanceId',

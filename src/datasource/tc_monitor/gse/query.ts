@@ -49,13 +49,14 @@ export class QueryCtrl {
       const region = $scope.datasource.getServiceFn(service, 'getVariable')(target.region);
       // const rs = await $scope.datasource.getServiceFn(service, 'getEnvironmentNameList')({ region, instanceId });
       let rs = await $scope.datasource.getServiceFn(service, actionMaps[field])({ region, instanceId });
-      // const result = rs.map((o) => {
-      //   return {
-      //     text: o.EnvironmentName,
-      //     value: JSON.stringify(o),
-      //   };
-      // });
-      return rs;
+      const result = rs.map((o) => {
+        o._InstanceAliasValue = o[templateQueryIdMap[field]];
+        return {
+          text: o[templateQueryIdMap[field]],
+          value: JSON.stringify(o),
+        };
+      });
+      return result;
     };
 
     $scope.init();

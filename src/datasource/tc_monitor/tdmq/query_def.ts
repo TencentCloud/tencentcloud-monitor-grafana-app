@@ -10,6 +10,8 @@ const queryEditorName = 'tdmqQuery';
 
 const TDMQInvalidDemensions = {
   tenantId: 'ClusterId',
+  topicName: 'TopicName',
+  environmentId: 'EnvironmentId',
 };
 
 // 需和文件名对应
@@ -17,6 +19,8 @@ const TDMQInstanceAliasList = ['ClusterId', 'ClusterName'];
 
 const templateQueryIdMap = {
   instance: 'ClusterId',
+  topicName: 'TopicName',
+  environmentId: 'EnvironmentId',
 };
 
 // select类型需要注意是{},multi后缀是[],dropdown是''
@@ -81,6 +85,36 @@ function modifyDimensons(metricItem) {
   });
   return metricTmp;
 }
+// 需要缓存到storage的内容的key列表
+const keyInStorage = {
+  topicName: 'topicName',
+  environmentId: 'environmentId',
+};
+/*
+如果有InstanceId额外的维度，原则上都需要传入此map结构配置
+key的含义：
+  经过InvalidDemensions处理后的string。topicId =》TopicId。
+  否则认为指标中维度正确，和指标中维度字段保持一致，即topicId
+value的含义：
+  1 dim_KeyInStorage 指标中维度dimension对应的storage中的key，获取缓存列表，sourceMapList、
+  2 dim_KeyInTarget  通过getVariable方法获取变量中选中项。比如ListnerId为Lis-xxxx；即：STATE中的key。
+                    默认取通过InvalidDemsion处理后的key
+  3 dim_KeyInMap     保存在模板变量value比如（监听器ID）源自sourceMapList（接口返回内容）的哪个key（ListenerId）。
+                    即：templateQueryIdMap中内容。
+                    联合上面2的内容筛选出原始sourceMap
+*/
+const queryMonitorExtraConfg = {
+  TopicName: {
+    dim_KeyInStorage: keyInStorage.topicName,
+    dim_KeyInTarget: 'topicName',
+    dim_KeyInMap: templateQueryIdMap.topicName,
+  },
+  EnvironmentId: {
+    dim_KeyInStorage: keyInStorage.environmentId,
+    dim_KeyInTarget: 'environmentId',
+    dim_KeyInMap: templateQueryIdMap.environmentId,
+  },
+};
 export default CDNPROVINCE_STATE;
 export {
   TDMQFilterFieldsDescriptor,
@@ -89,6 +123,8 @@ export {
   TDMQInvalidDemensions,
   namespace,
   queryEditorName,
+  queryMonitorExtraConfg,
+  keyInStorage,
   modifyDimensons,
   regionSupported,
   // 对应产品的service的全大写拼接GetInstanceQueryParams

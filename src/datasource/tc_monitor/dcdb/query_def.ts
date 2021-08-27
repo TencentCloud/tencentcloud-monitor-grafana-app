@@ -11,7 +11,8 @@ const queryEditorName = 'dcdbQuery';
 const DCDBInvalidDemensions = {
   nodeid: 'NodeId',
   instanceid: 'InstanceId',
-  shardid: 'ShardId',
+  shardid: 'ShardInstanceId',
+  ShardId: 'ShardInstanceId',
 };
 
 // 需和文件名对应
@@ -19,6 +20,8 @@ const DCDBInstanceAliasList = ['InstanceId', 'InstanceName'];
 
 const templateQueryIdMap = {
   instance: 'InstanceId',
+  NodeId: 'NodeId',
+  ShardInstanceId: 'ShardInstanceId',
 };
 
 // select类型需要注意是{},multi后缀是[],dropdown是''
@@ -179,11 +182,15 @@ const DCDB_STATE = {
   NodeId: '',
   queries: DCDBFilterFields,
 };
-
+const modifyMetricConf = {
+  shardid: 'ShardId',
+  instanceid: 'InstanceId',
+  nodeid: 'NodeId',
+};
 function modifyDimensons(metricItem: any) {
   const metricTmp = cloneDeep(metricItem);
   metricTmp.Dimensions.forEach((item) => {
-    item.Dimensions = item.Dimensions.map((v) => DCDBInvalidDemensions[v] || v);
+    item.Dimensions = item.Dimensions.map((v) => modifyMetricConf[v] || v);
   });
   return metricTmp;
 }
@@ -198,6 +205,36 @@ function GetInstanceQueryParams(queries: any = {}) {
   if (isArray(params.FilterInstanceType)) params.FilterInstanceType = params.FilterInstanceType.join(',');
   return params;
 }
+// 需要缓存到storage的内容的key列表
+const keyInStorage = {
+  NodeId: 'NodeId',
+  ShardInstanceId: 'ShardId',
+};
+/*
+如果有InstanceId额外的维度，原则上都需要传入此map结构配置
+key的含义：
+  经过InvalidDemensions处理后的string。topicId =》TopicId。
+  否则认为指标中维度正确，和指标中维度字段保持一致，即topicId
+value的含义：
+  1 dim_KeyInStorage 指标中维度dimension对应的storage中的key，获取缓存列表，sourceMapList、
+  2 dim_KeyInTarget  通过getVariable方法获取变量中选中项。比如ListnerId为Lis-xxxx；即：STATE中的key。
+                    默认取通过InvalidDemsion处理后的key
+  3 dim_KeyInMap     保存在模板变量value比如（监听器ID）源自sourceMapList（接口返回内容）的哪个key（ListenerId）。
+                    即：templateQueryIdMap中内容。
+                    联合上面2的内容筛选出原始sourceMap
+*/
+const queryMonitorExtraConfg = {
+  NodeId: {
+    dim_KeyInStorage: keyInStorage.NodeId,
+    dim_KeyInTarget: 'NodeId',
+    dim_KeyInMap: templateQueryIdMap.NodeId,
+  },
+  ShardInstanceId: {
+    dim_KeyInStorage: keyInStorage.ShardInstanceId,
+    dim_KeyInTarget: 'ShardId',
+    dim_KeyInMap: templateQueryIdMap.ShardInstanceId,
+  },
+};
 // 和其他产品的展示保持一致
 const regionSupported = [
   { text: '华北地区(北京)', value: 'ap-beijing' },
@@ -227,7 +264,9 @@ export {
   queryEditorName,
   queryEditorConfig,
   regionSupported,
+  keyInStorage,
   modifyDimensons,
+  queryMonitorExtraConfg,
   // 对应产品的service的全大写拼接GetInstanceQueryParams
   GetInstanceQueryParams as DCDBGetInstanceQueryParams,
 };

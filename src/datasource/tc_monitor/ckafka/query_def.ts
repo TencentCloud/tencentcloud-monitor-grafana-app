@@ -101,7 +101,7 @@ function GetInstanceQueryParams(queries: any = {}) {
 }
 
 const CKAFKAInstanceAliasList = ['InstanceId', 'InstanceName'];
-
+const CKAFKATopicAliasList = ['TopicId', 'TopicName'];
 // 保存在模板变量value中的key
 const templateQueryIdMap = {
   instance: 'InstanceId',
@@ -163,6 +163,7 @@ const queryMonitorExtraConfg = {
 export default CKAFKA_STATE;
 export {
   CKAFKAInstanceAliasList,
+  CKAFKATopicAliasList,
   CKAFKAInvalidDemensions,
   templateQueryIdMap,
   keyInStorage,

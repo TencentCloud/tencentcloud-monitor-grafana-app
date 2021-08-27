@@ -10,6 +10,7 @@ export default class CFSDatasource extends BaseDatasource {
   templateQueryIdMap = {
     instance: 'FileSystemId',
   };
+  extrasAlias = ['version'];
   InstanceReqConfig: { service?: string | undefined; action: string; responseField: string };
 
   constructor(instanceSettings, backendSrv, templateSrv) {

@@ -79,19 +79,35 @@ export default class DCDatasource extends BaseDatasource {
     const [rs] = res;
     return rs;
   }
+  formatListenerVarDisplay(listener: Record<string, any>, displayTpl: string | undefined, listenerAlias: string) {
+    if (displayTpl) {
+      return displayTpl.replace(/\$\{(\w+)\}/g, (a, b) => {
+        if (!b || !this.ListenerAliasList.includes(b)) {
+          return '';
+        }
+        return this.getAliasValue(listener, b);
+      });
+    }
+    return this.getAliasValue(listener, listenerAlias);
+  }
   async fetchMetricData(action: string, region: string, instance: any, query: any) {
+    const { display } = query;
     // console.log({ action, region, instance });
     if (action === 'DescribeListeners') {
       const rs = await this.getListenerList({ region, instanceId: instance[this.templateQueryIdMap.instance] });
-      instanceStorage.setExtraStorage(this.service, this.keyInStorage.listener, rs);
       let { listeneralias } = query;
       listeneralias = this.ListenerAliasList.includes(listeneralias) ? listeneralias : this.templateQueryIdMap.listener;
-      const result = rs.map((o) => {
+      const result = rs.flatMap((o) => {
+        const listenAlias = this.formatListenerVarDisplay(o, display, listeneralias);
+        const lisId = o[this.templateQueryIdMap.listener];
+        o._InstanceAliasValue = listenAlias || lisId;
+        // if (!o[listeneralias]) return [];
         return {
-          text: o[listeneralias],
-          value: o[this.templateQueryIdMap.listener],
+          text: listenAlias || lisId,
+          value: lisId,
         };
       });
+      await instanceStorage.setExtraStorage(this.service, this.keyInStorage.listener, rs);
       return result;
     }
     return [];

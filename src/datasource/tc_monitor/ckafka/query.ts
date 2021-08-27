@@ -63,18 +63,27 @@ export class CKAFKAQueryCtrl {
 
         const { TopicList, GroupList, PartitionList } = res;
         data = {
-          TopicList: TopicList.map((topic) => ({
-            text: topic.TopicId,
-            value: JSON.stringify(topic), // 为了获取多维度的值，这里完全可以使用JSON.stringify()将整个对象放进去
-          })),
-          GroupList: GroupList.map((group) => ({
-            text: group.GroupName,
-            value: JSON.stringify(group),
-          })),
-          PartitionList: PartitionList.map((par) => ({
-            text: par.Partition,
-            value: JSON.stringify(par),
-          })),
+          TopicList: TopicList.map((topic) => {
+            topic._InstanceAliasValue = topic.TopicId;
+            return {
+              text: topic.TopicId,
+              value: JSON.stringify(topic), // 为了获取多维度的值，这里完全可以使用JSON.stringify()将整个对象放进去
+            };
+          }),
+          GroupList: GroupList.map((group) => {
+            group._InstanceAliasValue = group.GroupName;
+            return {
+              text: group.GroupName,
+              value: JSON.stringify(group),
+            };
+          }),
+          PartitionList: PartitionList.map((par) => {
+            par._InstanceAliasValue = par.Partition;
+            return {
+              text: par.Partition,
+              value: JSON.stringify(par),
+            };
+          }),
         };
       }
       // 缓存
