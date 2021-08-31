@@ -283,11 +283,12 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
       .getInstances(service, region, params)
       .then((list) => {
         this.instanceList = list;
-        const instanceAlias = this.target[service].instanceAlias;
+        const instanceAlias = this.target[service].instanceAlias; // InstanceId
         const instances: any[] = [];
         _.forEach(list, (item) => {
           // 根据 instanceAlias，确定实例展示字段，并保存至 _InstanceAliasValue，用于 constants.ts 的监控数据解析函数 ParseQueryResult
           const instanceAliasValue = _.get(item, instanceAlias);
+          // console.log({instanceAliasValue}); 遍历出所有的InstanceId
           if (instanceAliasValue) {
             if (typeof instanceAliasValue === 'string') {
               item._InstanceAliasValue = instanceAliasValue;

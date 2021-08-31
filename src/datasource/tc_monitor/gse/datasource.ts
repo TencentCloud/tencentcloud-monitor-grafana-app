@@ -5,6 +5,7 @@ import {
   templateQueryIdMap,
   regionSupported,
   keyInStorage,
+  queryMonitorExtraConfg,
   modifyDimensons,
 } from './query_def';
 import { BaseDatasource } from '../_base/datasource';
@@ -18,6 +19,7 @@ export default class DCDatasource extends BaseDatasource {
   InstanceAliasList = GSEInstanceAliasList;
   InvalidDimensions = GSEInvalidDemensions;
   templateQueryIdMap = templateQueryIdMap;
+  queryMonitorExtraConfg = queryMonitorExtraConfg;
   // 此处service是接口的配置参数，需和plugin.json里一致，和constant.ts中SERVICES_API_INFO保持一致
   InstanceReqConfig = {
     service: 'gse',
@@ -65,7 +67,7 @@ export default class DCDatasource extends BaseDatasource {
       'GameServerSessionQueues'
     );
     const [rs] = res;
-    return rs.map((r) => ({ text: r[templateQueryIdMap.queue], value: r[templateQueryIdMap.queue] }));
+    return rs;
   }
   async getFleetList(params: any) {
     const { region } = params;
@@ -87,30 +89,32 @@ export default class DCDatasource extends BaseDatasource {
       'FleetIds'
     );
     const [rs] = res;
-    return rs.map((r) => ({ text: r, value: r }));
+    return rs.map((r) => ({ [this.templateQueryIdMap.FleetId]: r }));
   }
   async fetchMetricData(action: string, region: string, instance: any) {
     // console.log({ action, region, instance });
     if (action === 'DescribeGameServerSessionQueues') {
       const rs = await this.getQueueNameList({ region, instanceId: instance[this.templateQueryIdMap.instance] });
-      instanceStorage.setExtraStorage(this.service, this.keyInStorage.queue, rs);
       const result = rs.map((o) => {
+        o._InstanceAliasValue = o[this.templateQueryIdMap.Name];
         return {
-          text: o[this.templateQueryIdMap.queue],
-          value: o[this.templateQueryIdMap.queue],
+          text: o[this.templateQueryIdMap.Name],
+          value: o[this.templateQueryIdMap.Name],
         };
       });
+      await instanceStorage.setExtraStorage(this.service, this.keyInStorage.queue, rs);
       return result;
     }
     if (action === 'ListFleets') {
       const rs = await this.getFleetList({ region, instanceId: instance[this.templateQueryIdMap.instance] });
-      instanceStorage.setExtraStorage(this.service, this.keyInStorage.fleet, rs);
       const result = rs.map((o) => {
+        o._InstanceAliasValue = o[this.templateQueryIdMap.FleetId];
         return {
-          text: o[this.templateQueryIdMap.fleet],
-          value: o[this.templateQueryIdMap.fleet],
+          text: o[this.templateQueryIdMap.FleetId],
+          value: o[this.templateQueryIdMap.FleetId],
         };
       });
+      await instanceStorage.setExtraStorage(this.service, this.keyInStorage.fleet, rs);
       return result;
     }
     return [];

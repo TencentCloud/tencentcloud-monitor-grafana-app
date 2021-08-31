@@ -5,17 +5,22 @@ import {
   templateQueryIdMap,
   regionSupported,
   modifyDimensons,
+  queryMonitorExtraConfg,
+  keyInStorage,
 } from './query_def';
 import { BaseDatasource } from '../_base/datasource';
 import _ from 'lodash';
 import { GetServiceAPIInfo } from '../../common/constants';
 import { fetchAllFactory } from '../../common/utils';
+import instanceStorage from '../../common/datasourceStorage';
 
 export default class DCDatasource extends BaseDatasource {
   Namespace = namespace;
   InstanceAliasList = TDMQInstanceAliasList;
   InvalidDimensions = TDMQInvalidDemensions;
   templateQueryIdMap = templateQueryIdMap;
+  queryMonitorExtraConfg = queryMonitorExtraConfg;
+  keyInStorage = keyInStorage;
   // 此处service是接口的配置参数，需和plugin.json里一致，和constant.ts中SERVICES_API_INFO保持一致
   InstanceReqConfig = {
     service: 'tdmq',
@@ -23,17 +28,17 @@ export default class DCDatasource extends BaseDatasource {
     responseField: 'ClusterSet',
   };
   extraActionMap = {
-    topicName: {
+    DescribeTopics: {
       service: 'tdmq',
       action: 'DescribeTopics',
       responseField: 'TopicSets',
-      pickKey: 'TopicName',
+      pickKey: 'topicName',
     },
-    environmentId: {
+    DescribeEnvironments: {
       service: 'tdmq',
       action: 'DescribeEnvironments',
       responseField: 'EnvironmentSet',
-      pickKey: 'EnvironmentId',
+      pickKey: 'environmentId',
     },
   };
   constructor(instanceSettings, backendSrv, templateSrv) {
@@ -52,8 +57,8 @@ export default class DCDatasource extends BaseDatasource {
   }
 
   async getConsumerList(params: any) {
-    const { region, field, payload } = params;
-    const { service, action, responseField, pickKey } = this.extraActionMap[field];
+    const { region, action: act, payload } = params;
+    const { service, action, responseField } = this.extraActionMap[act];
 
     const serviceInfo = GetServiceAPIInfo(region, service);
 
@@ -73,23 +78,29 @@ export default class DCDatasource extends BaseDatasource {
       responseField
     );
     // console.log({ rs });
-    return rs[0].map((o) => {
-      return {
-        text: o[pickKey],
-        value: o[pickKey],
-      };
-    });
+    return rs[0];
   }
   async fetchMetricData(action: string, region: string, instance: any, query: any) {
     const payload: any = {
-      Limit: 20,
+      Limit: 100,
+      ClusterId: instance[this.templateQueryIdMap.instance],
     };
-    let field = 'environmentId';
-    if (action === 'DescribeTopics') {
-      payload.EnvironmentId = this.getVariable(query['environmentid']);
-      field = 'topicName';
+    if (Object.keys(this.extraActionMap).indexOf(action) !== -1) {
+      if (action === 'DescribeTopics') {
+        payload.EnvironmentId = this.getVariable(query['environmentid']);
+      }
+      const rs = await this.getConsumerList({ region, action, payload });
+      const { pickKey } = this.extraActionMap[action];
+      const result = rs.map((o) => {
+        o._InstanceAliasValue = o[this.templateQueryIdMap[pickKey]];
+        return {
+          text: o[this.templateQueryIdMap[pickKey]],
+          value: o[this.templateQueryIdMap[pickKey]],
+        };
+      });
+      await instanceStorage.setExtraStorage(this.service, this.keyInStorage[pickKey], rs);
+      return result;
     }
-    const rs = await this.getConsumerList({ region, field, payload });
-    return rs;
+    return [];
   }
 }

@@ -17,6 +17,7 @@ const CVMFilterFields = {
   'instance-charge-type': {},
   'private-ip-address': [],
   'public-ip-address': [],
+  'tag-key': [],
 };
 
 const CVMFilterFieldsDescriptor = [
@@ -73,6 +74,13 @@ const CVMFilterFieldsDescriptor = [
     key: 'instance-name',
     enDescriptor: 'Instance Name',
     cnDescriptor: '实例名称',
+    link: '',
+    type: 'inputmulti',
+  },
+  {
+    key: 'tag-key',
+    enDescriptor: '标签简',
+    cnDescriptor: '标签简',
     link: '',
     type: 'inputmulti',
   },
@@ -184,6 +192,9 @@ const CVMValidMetricsT = [
   'TimeOffset',
   'MemUsed',
   'MemUsage',
+  'CvmDiskUsage',
+  'BaseCpuUsage',
+  'VmDiskReadIops',
 ];
 // const CVMInvalidDemensions = {
 //   'vm_uuid': 'InstanceId',

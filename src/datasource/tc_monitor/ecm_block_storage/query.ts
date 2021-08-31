@@ -1,5 +1,5 @@
 import coreModule from 'grafana/app/core/core_module';
-import { ECMBLOCKSTORAGEFilterFieldsDescriptor, queryEditorName, namespace } from './query_def';
+import { ECMBLOCKSTORAGEFilterFieldsDescriptor, queryEditorName, namespace, templateQueryIdMap } from './query_def';
 import { GetServiceFromNamespace } from '../../common/constants';
 
 const ExtraFields = [
@@ -47,9 +47,10 @@ export class QueryCtrl {
         instance = JSON.parse(instance);
         const { DataDisks: dataDisks } = instance;
         return dataDisks.map((o) => {
+          o._InstanceAliasValue = o[templateQueryIdMap.diskId];
           return {
-            text: o.DiskId,
-            value: o.DiskId,
+            text: o[templateQueryIdMap.diskId],
+            value: JSON.stringify(o),
           };
         });
       } catch (error) {
@@ -58,7 +59,13 @@ export class QueryCtrl {
           InstanceId: instance,
         };
         const rs = $scope.datasource.getServiceFn(service, 'getDiskList')({ payload });
-        return rs;
+        const result = rs.map((o) => {
+          return {
+            text: o[templateQueryIdMap.diskId],
+            value: JSON.stringify(o),
+          };
+        });
+        return result;
       }
     };
 

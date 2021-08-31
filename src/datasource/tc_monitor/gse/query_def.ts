@@ -15,12 +15,12 @@ const GSEInvalidDemensions = {
 };
 
 // 需和文件名对应
-const GSEInstanceAliasList = ['InstanceId'];
+const GSEInstanceAliasList = ['InstanceId', 'PrivateIpAddress', 'IpAddress'];
 
 const templateQueryIdMap = {
   instance: 'InstanceId',
-  queue: 'Name',
-  fleet: fleetId,
+  Name: 'Name',
+  FleetId: fleetId,
 };
 
 // 需要缓存到storage的内容的key列表
@@ -41,13 +41,18 @@ value的含义：
                     即：templateQueryIdMap中内容。
                     联合上面2的内容筛选出原始sourceMap
 */
-// const queryMonitorExtraConfg = {
-//   EnvironmentName: {
-//     dim_KeyInStorage: keyInStorage.environmentList,
-//     dim_KeyInTarget: 'EnvironmentName',
-//     dim_KeyInMap: templateQueryIdMap.environmentName,
-//   },
-// };
+const queryMonitorExtraConfg = {
+  FleetId: {
+    dim_KeyInStorage: keyInStorage.fleet,
+    dim_KeyInTarget: 'FleetId',
+    dim_KeyInMap: templateQueryIdMap.FleetId,
+  },
+  Name: {
+    dim_KeyInStorage: keyInStorage.queue,
+    dim_KeyInTarget: 'Name',
+    dim_KeyInMap: templateQueryIdMap.Name,
+  },
+};
 // select类型需要注意是{},multi后缀是[],dropdown是''
 const GSEFilterFields = {
   Limit: 20,
@@ -152,7 +157,7 @@ export {
   queryEditorConfig,
   regionSupported,
   modifyDimensons,
-  // queryMonitorExtraConfg,
+  queryMonitorExtraConfg,
   fleetId,
   keyInStorage,
   // 对应产品的service的全大写拼接GetInstanceQueryParams

@@ -14,6 +14,7 @@ export default class DCDatasource extends BaseDatasource {
     action: 'DescribeDomains',
     responseField: 'Domains',
   };
+  extrasAlias = ['isp', 'district'];
   constructor(instanceSettings, backendSrv, templateSrv) {
     super(instanceSettings, backendSrv, templateSrv);
   }

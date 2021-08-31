@@ -18,7 +18,6 @@ export default class CDBDatasource extends BaseDatasource {
   constructor(instanceSettings, backendSrv, templateSrv) {
     super(instanceSettings, backendSrv, templateSrv);
   }
-
   async getMetrics(region = 'ap-guangzhou') {
     const rawSet = await super.getMetrics(region);
     return _.compact(

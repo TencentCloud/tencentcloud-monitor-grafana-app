@@ -16,7 +16,7 @@ export default class DCDatasource extends BaseDatasource {
   // Namespace = namespace;
   InstanceAliasList = InstanceAliasList;
   ListenerAliasList = LOADBALANCEListenerAliasList;
-  InvalidDimensions = LOADBALANCEVALIDDIMENSIONS;
+  // InvalidDimensions = LOADBALANCEVALIDDIMENSIONS;
   templateQueryIdMap = templateQueryIdMap;
   // 此处service是接口的配置参数，需和plugin.json里一致，和constant.ts中SERVICES_API_INFO保持一致
   // InstanceReqConfig = {
@@ -33,7 +33,10 @@ export default class DCDatasource extends BaseDatasource {
   // getFilterDropdown({ field }) {
   //   return super.getRegions();
   // }
-
+  getInvalidDimensions(selfIns: any) {
+    if (selfIns.service === 'lbPrivate') return { ...LOADBALANCEVALIDDIMENSIONS, vpcId: 'NumericalVpcId' };
+    return LOADBALANCEVALIDDIMENSIONS;
+  }
   getInstanceReqConfig(selfIns: any) {
     const res: any = {
       service: 'clb',
@@ -76,19 +79,35 @@ export default class DCDatasource extends BaseDatasource {
     const [rs] = res;
     return rs;
   }
+  formatListenerVarDisplay(listener: Record<string, any>, displayTpl: string | undefined, listenerAlias: string) {
+    if (displayTpl) {
+      return displayTpl.replace(/\$\{(\w+)\}/g, (a, b) => {
+        if (!b || !this.ListenerAliasList.includes(b)) {
+          return '';
+        }
+        return this.getAliasValue(listener, b);
+      });
+    }
+    return this.getAliasValue(listener, listenerAlias);
+  }
   async fetchMetricData(action: string, region: string, instance: any, query: any) {
+    const { display } = query;
     // console.log({ action, region, instance });
     if (action === 'DescribeListeners') {
       const rs = await this.getListenerList({ region, instanceId: instance[this.templateQueryIdMap.instance] });
-      instanceStorage.setExtraStorage(this.service, this.keyInStorage.listener, rs);
       let { listeneralias } = query;
       listeneralias = this.ListenerAliasList.includes(listeneralias) ? listeneralias : this.templateQueryIdMap.listener;
-      const result = rs.map((o) => {
+      const result = rs.flatMap((o) => {
+        const listenAlias = this.formatListenerVarDisplay(o, display, listeneralias);
+        const lisId = o[this.templateQueryIdMap.listener];
+        o._InstanceAliasValue = listenAlias || lisId;
+        // if (!o[listeneralias]) return [];
         return {
-          text: o[listeneralias],
-          value: o[this.templateQueryIdMap.listener],
+          text: listenAlias || lisId,
+          value: lisId,
         };
       });
+      await instanceStorage.setExtraStorage(this.service, this.keyInStorage.listener, rs);
       return result;
     }
     return [];

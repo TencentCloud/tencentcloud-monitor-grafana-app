@@ -4,6 +4,7 @@ import { SERVICES } from '../tc_monitor';
 import Sign from './sign';
 import SignV2 from './signV2';
 import { toDataQueryResponse } from '@grafana/runtime';
+// import { BaseDatasource } from '../tc_monitor/_base/datasource'
 
 // the services of tencentcloud monitor api
 const FINACE_REGIONS = ['ap-shanghai-fsi', 'ap-shenzhen-fsi'];
@@ -401,7 +402,9 @@ export function ParseMetricQuery(query = '') {
   const result = {};
   const queries = _.split(query, '&');
   _.forEach(queries, (item) => {
+    // 去掉=
     const str = _.split(item, '=');
+    // 删除掉str中的0和空格，返回处理后的字符串
     if (_.trim(_.get(str, '0', ''))) {
       let val = _.trim(_.get(str, '1', ''));
       try {
@@ -423,6 +426,8 @@ export function ParseMetricRegex(regex = '') {
   regex = regex.replace(/：/g, ':');
   regex = regex.replace(/，/g, ',');
   const regexParams = ParseMetricQuery(regex);
+  // console.log({regexParams});
+
   const result: any[] = [];
   _.forEach(regexParams, (value, key) => {
     if (key === 'tag:tag-key') {
@@ -446,12 +451,14 @@ function parseVariableFormat(varname: string) {
   // $varname
   let varFlag = false;
   const regResult1 = varname.match(/^\${?(\w+)}?/);
+
   if (regResult1) {
     varFlag = true;
     varname = `\$\{${regResult1[1]}\:json\}`;
   }
   // [[varname]]
   const regResult2 = varname.match(/^\[\[(\w+)(\:\w+)?\]\]/);
+
   if (regResult2) {
     varFlag = true;
     varname = `\$\{${regResult2[1]}\:json\}`;
@@ -459,9 +466,13 @@ function parseVariableFormat(varname: string) {
   return { varname, varFlag };
 }
 
+// 替换region
 export function ReplaceVariable(templateSrv, scopedVars, field, multiple = false) {
   const { varname, varFlag } = parseVariableFormat(field);
+
   let replaceVar = templateSrv.replace(varname, scopedVars);
+  // console.log({ varname, varFlag, replaceVar });
+
   if (varFlag) {
     try {
       replaceVar = JSON.parse(replaceVar);
@@ -490,10 +501,24 @@ export function GetDimensions(obj) {
 // parse query data result for panel
 export function ParseQueryResult(response, instances: any[] = []) {
   const instanceList = _.cloneDeep(instances);
-  // console.log('parseQueryResult:', response, instances, instanceList);
   const dataPoints = _.get(response, 'DataPoints', []);
+
+  // let dimensions = getOtherAlias(dataPoints[0]);
+  // console.log(dimensions);
+
   return _.map(dataPoints, (dataPoint) => {
     let instanceAliasValue = _.get(dataPoint, 'Dimensions[0].Value');
+
+    // let instanceAliasValue = dataPoints[0].Dimensions[0].Value;
+    // console.log(dataPoints[0].Dimensions);
+    // console.log(instanceAliasValue);
+    // let allAliasValue = dimensions[0].Value;
+
+    // for (let j = 1; j < dimensions.length; j++) {
+    //   let path = dimensions[j].Value;
+    //   allAliasValue = `${allAliasValue} - ${path}`;
+    // }
+
     for (let i = 0; i < instanceList.length; i++) {
       if (isInstanceMatch(instanceList[i], _.get(dataPoint, 'Dimensions', []))) {
         instanceAliasValue = instanceList[i]._InstanceAliasValue;

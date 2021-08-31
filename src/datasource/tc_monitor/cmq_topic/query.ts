@@ -55,7 +55,11 @@ export class CmqTopicQueryCtrl {
         if (!data) {
           const region = $scope.datasource.getServiceFn('cmqTopic', 'getVariable')(target.region);
           const fetcher = $scope.datasource.getServiceFn('cmqTopic', 'fetchAllSubscription');
-          data = await fetcher(region, { TopicName });
+          const datas = await fetcher(region, { TopicName });
+          data = datas.map((item) => {
+            item._InstanceAliasValue = item.SubscriptionId;
+            return { text: item.SubscriptionId, value: JSON.stringify(item) };
+          });
         }
 
         // 缓存

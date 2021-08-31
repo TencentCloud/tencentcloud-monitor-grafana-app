@@ -6,12 +6,19 @@ const ExtraFields = [
   {
     label: 'environmentId',
     field: 'environmentId',
+    action: 'DescribeEnvironments',
   },
   {
     label: 'topicName',
     field: 'topicName',
+    action: 'DescribeTopics',
   },
 ];
+
+const dropdownTextConfig = {
+  DescribeTopics: 'topicName',
+  DescribeEnvironments: 'environmentId',
+};
 export class QueryCtrl {
   /** @ngInject */
   constructor($scope, $rootScope) {
@@ -38,19 +45,32 @@ export class QueryCtrl {
     $scope.getExtraFields = () => {
       return ExtraFields.filter((item) => item.field in ($scope.dims ?? {}) || item.label in ($scope.dims ?? {}));
     };
-    $scope.getExtraDropdown = async (target, field) => {
+    $scope.getExtraDropdown = async (target, action) => {
       const service = GetServiceFromNamespace($scope.namespace);
       const region = $scope.datasource.getServiceFn(service, 'getVariable')(target.region);
       const payload: any = {
-        Limit: 20,
+        Limit: 100,
+        ClusterId: $scope.getInstanceId(),
       };
-      if (field === 'topicName') {
-        payload.EnvironmentId = $scope.target.environmentId;
+      if (action === 'DescribeTopics') {
+        let evId = $scope.target.environmentId;
+        try {
+          evId = JSON.parse(evId);
+          evId = evId[templateQueryIdMap.environmentId];
+        } catch (e) {}
+        payload.EnvironmentId = evId;
       }
 
-      const rs = await $scope.datasource.getServiceFn(service, 'getConsumerList')({ region, field, payload });
-      // console.log('res', rs);
-      return rs;
+      const rs = await $scope.datasource.getServiceFn(service, 'getConsumerList')({ region, action, payload });
+      const result = rs.map((o) => {
+        o._InstanceAliasValue = o[templateQueryIdMap[dropdownTextConfig[action]]];
+        return {
+          text: o[templateQueryIdMap[dropdownTextConfig[action]]],
+          label: o[templateQueryIdMap[dropdownTextConfig[action]]],
+          value: JSON.stringify(o),
+        };
+      });
+      return result;
     };
 
     $scope.init();
@@ -123,7 +143,7 @@ const template = `
       <div class="gf-form">
         <label class="gf-form-label query-keyword width-9">{{extra.label}}</label>
         <div class="gf-form-select-wrapper gf-form-select-wrapper--caret-indent">
-          <gf-form-dropdown model="target[extra.field]" allow-custom="false" get-options="getExtraDropdown(target, extra.field)"
+          <gf-form-dropdown model="target[extra.field]" allow-custom="false" get-options="getExtraDropdown(target, extra.action)"
             on-change="onRefresh()" css-class="min-width-10">
           </gf-form-dropdown>
         </div>

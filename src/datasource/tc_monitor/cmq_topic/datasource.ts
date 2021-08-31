@@ -1,9 +1,17 @@
 import { GetServiceAPIInfo } from '../../common/constants';
 import { fetchAllFactory } from '../../common/utils';
 import { BaseDatasource } from '../_base/datasource';
-import { InvalidDemensions, InstanceAliasList, templateQueryIdMap } from './query_def';
+import {
+  InvalidDemensions,
+  InstanceAliasList,
+  templateQueryIdMap,
+  keyInStorage,
+  queryMonitorExtraConfg,
+} from './query_def';
+import instanceStorage from '../../common/datasourceStorage';
 
 export default class CmqTopicDatasource extends BaseDatasource {
+  Namespace = 'QCE/CMQTOPIC';
   InvalidDimensions: Record<string, string> = InvalidDemensions;
   InstanceAliasList: string[] = InstanceAliasList;
   templateQueryIdMap = templateQueryIdMap;
@@ -11,40 +19,9 @@ export default class CmqTopicDatasource extends BaseDatasource {
     service: 'cmq',
     action: 'DescribeTopicDetail',
     responseField: 'TopicSet',
-    // interceptor: {
-    //   response: (data: unknown[]) =>
-    //     data?.length
-    //       ? data
-    //       : [
-    //           {
-    //             Tags: [],
-    //             TopicId: 'topic-rga4l1o4',
-    //             TopicName: 'ConnTopic',
-    //             CreateUin: 20548499,
-    //             MsgRetentionSeconds: 10000,
-    //             MaxMsgSize: 20000,
-    //             Qps: 10000,
-    //             FilterType: 1,
-    //             CreateTime: 1581516588,
-    //             LastModifyTime: 1581563581,
-    //             MsgCount: 0,
-    //           },
-    //           {
-    //             Tags: [],
-    //             TopicId: 'topic-388k6x98',
-    //             TopicName: 'test123',
-    //             CreateUin: 20548499,
-    //             MsgRetentionSeconds: 86400,
-    //             MaxMsgSize: 65536,
-    //             Qps: 5000,
-    //             FilterType: 1,
-    //             CreateTime: 1581493669,
-    //             LastModifyTime: 1581495310,
-    //             MsgCount: 0,
-    //           },
-    //         ],
-    // },
   };
+  keyInStorage = keyInStorage;
+  queryMonitorExtraConfg = queryMonitorExtraConfg;
   extraMetricDims = ['subscriptionId']; // 多选
 
   async fetchAllSubscription(region: string, params: any) {
@@ -67,7 +44,7 @@ export default class CmqTopicDatasource extends BaseDatasource {
       'SubscriptionSet'
     );
 
-    return rs[0].map((item) => ({ text: item.SubscriptionId, value: item.SubscriptionId }));
+    return rs[0];
   }
 
   async fetchMetricData(action: string, region: string, instance: any) {
@@ -75,7 +52,13 @@ export default class CmqTopicDatasource extends BaseDatasource {
     switch (action) {
       case 'DescribeSubscriptionDetail':
         result = await this.fetchAllSubscription(region, { TopicName: instance.TopicName });
-        return result;
+        // eslint-disable-next-line no-case-declarations
+        const rs = result.map((item) => {
+          item._InstanceAliasValue = item.SubscriptionId;
+          return { text: item.SubscriptionId, value: item[templateQueryIdMap.subscription] };
+        });
+        await instanceStorage.setExtraStorage(this.service, this.keyInStorage.subscriptionId, result);
+        return rs;
       default:
         return [];
     }

@@ -3,17 +3,21 @@ import { DCDBFilterFieldsDescriptor, queryEditorName, namespace, templateQueryId
 import { GetServiceFromNamespace } from '../../common/constants';
 
 const ExtraFields = [
-  // {
-  //   label: 'nodeid',
-  //   field: 'NodeId',
-  //   action: 'DescribeInstanceNodeInfo',
-  // },
+  {
+    label: 'nodeid',
+    field: 'NodeId',
+    action: 'DescribeDCDBInstanceNodeInfo',
+  },
   {
     label: 'shardid',
     field: 'ShardId',
     action: 'DescribeDCDBShards',
   },
 ];
+const dropdownTextConfig = {
+  DescribeDCDBInstanceNodeInfo: 'NodeId',
+  DescribeDCDBShards: 'ShardInstanceId',
+};
 export class QueryCtrl {
   /** @ngInject */
   constructor($scope, $rootScope) {
@@ -49,7 +53,15 @@ export class QueryCtrl {
         Limit: 100,
       };
       const rs = await $scope.datasource.getServiceFn(service, 'getConsumerList')({ region, action, payload });
-      return rs;
+
+      const result = rs.map((o) => {
+        o._InstanceAliasValue = o[templateQueryIdMap[dropdownTextConfig[action]]];
+        return {
+          text: o[templateQueryIdMap[dropdownTextConfig[action]]],
+          value: JSON.stringify(o),
+        };
+      });
+      return result;
     };
 
     $scope.init();

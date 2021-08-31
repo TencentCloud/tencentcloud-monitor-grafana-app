@@ -27,10 +27,10 @@ class InstanceStorage {
       isCover
     );
   }
-
+  // 获取到模版变量信息
   private async getStorage(service: string, key?: string) {
     const storage = await indexedDB.getData(service);
-    console.log('get', key, storage);
+    // console.log('get', key, storage);
     return key ? storage?.[key] : storage;
   }
 }

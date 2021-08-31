@@ -65,13 +65,14 @@ export default class DCDatasource extends BaseDatasource {
     // console.log({ action, region, instance });
     if (action === 'DescribeServiceEnvironmentList') {
       const rs = await this.getEnvironmentNameList({ region, instanceId: instance[this.templateQueryIdMap.instance] });
-      instanceStorage.setExtraStorage(this.service, this.keyInStorage.environmentList, rs);
       const result = rs.map((o) => {
+        o._InstanceAliasValue = o[this.templateQueryIdMap.environmentName];
         return {
           text: o[this.templateQueryIdMap.environmentName],
           value: o[this.templateQueryIdMap.environmentName],
         };
       });
+      await instanceStorage.setExtraStorage(this.service, this.keyInStorage.environmentList, rs);
       return result;
     }
     return [];

@@ -5,11 +5,14 @@ import {
   templateQueryIdMap,
   regionSupported,
   modifyDimensons,
+  keyInStorage,
+  queryMonitorExtraConfg,
 } from './query_def';
 import { BaseDatasource } from '../_base/datasource';
 import _ from 'lodash';
 import { GetServiceAPIInfo } from '../../common/constants';
 import { fetchAllFactory } from '../../common/utils';
+import instanceStorage from '../../common/datasourceStorage';
 
 export default class DCDatasource extends BaseDatasource {
   Namespace = namespace;
@@ -22,6 +25,8 @@ export default class DCDatasource extends BaseDatasource {
     action: 'DescribeDCDBInstances',
     responseField: 'Instances',
   };
+  keyInStorage = keyInStorage;
+  queryMonitorExtraConfg = queryMonitorExtraConfg;
   extraActionMap = {
     DescribeDCDBShards: {
       service: 'dcdb',
@@ -29,11 +34,11 @@ export default class DCDatasource extends BaseDatasource {
       responseField: 'Shards',
       pickKey: 'ShardInstanceId',
     },
-    DescribeInstanceNodeInfo: {
+    DescribeDCDBInstanceNodeInfo: {
       service: 'dcdb',
-      action: 'DescribeInstanceNodeInfo',
-      // responseField: 'EnvironmentSet',
-      // pickKey: 'EnvironmentId',
+      action: 'DescribeDCDBInstanceNodeInfo',
+      responseField: 'NodesInfo',
+      pickKey: 'NodeId',
     },
   };
   constructor(instanceSettings, backendSrv, templateSrv) {
@@ -54,7 +59,7 @@ export default class DCDatasource extends BaseDatasource {
   }
   async getConsumerList(params: any) {
     const { region, action: act, payload } = params;
-    const { service, action, responseField, pickKey } = this.extraActionMap[act];
+    const { service, action, responseField } = this.extraActionMap[act];
 
     const serviceInfo = GetServiceAPIInfo(region, service);
 
@@ -73,19 +78,26 @@ export default class DCDatasource extends BaseDatasource {
       payload,
       responseField
     );
-    return rs[0].map((o) => {
-      return {
-        text: o[pickKey],
-        value: o[pickKey],
-      };
-    });
+    return rs[0];
   }
   async fetchMetricData(action: string, region: string, instance: any, query: any) {
     const payload: any = {
-      InstanceId: instance,
-      Limit: 20,
+      InstanceId: instance[this.templateQueryIdMap.instance],
+      Limit: 100,
     };
-    const rs = await this.getConsumerList({ region, action, payload });
-    return rs;
+    if (Object.keys(this.extraActionMap).indexOf(action) !== -1) {
+      const rs = await this.getConsumerList({ region, action, payload });
+      const { pickKey } = this.extraActionMap[action];
+      const result = rs.map((o) => {
+        o._InstanceAliasValue = o[this.templateQueryIdMap[pickKey]];
+        return {
+          text: o[this.templateQueryIdMap[pickKey]],
+          value: o[this.templateQueryIdMap[pickKey]],
+        };
+      });
+      await instanceStorage.setExtraStorage(this.service, this.keyInStorage[pickKey], rs);
+      return result;
+    }
+    return [];
   }
 }
