@@ -99,7 +99,7 @@ CMQ 消息队列主题订阅 | QCE/CMQTOPIC | https://cloud.tencent.com/document
 边缘计算机器 负载均衡四层协议 | QCE/ECM_LB | https://cloud.tencent.com/document/product/248/54253 | https://cloud.tencent.com/document/api/1108/48459
 对象存储 | QCE/COS | https://cloud.tencent.com/document/product/248/45140 | https://cloud.tencent.com/document/api/436/8291
 全球应用加速 | QCE/QAAP | https://cloud.tencent.com/document/product/248/45062 | https://cloud.tencent.com/document/api/608/36963
-游戏服务器伸缩 | QCE/GSE | https://cloud.tencent.com/document/product/248/55273 ｜ https://cloud.tencent.com/document/api/1165/42076
+游戏服务器伸缩 | QCE/GSE | https://cloud.tencent.com/document/product/248/55273 | https://cloud.tencent.com/document/api/1165/42076
 
 # 入门指南
 
