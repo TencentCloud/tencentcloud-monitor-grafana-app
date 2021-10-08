@@ -25,10 +25,10 @@ func newResourceHandler(ds *cloudMonitorDatasource) backend.CallResourceHandler 
 func (ds *cloudMonitorDatasource) CosApi(rw http.ResponseWriter, req *http.Request) {
 	regions := req.URL.Query()["region"]
 
-	baseURL := "https://service.cos.myqcloud.com"
+	baseURL := "http://service.cos.myqcloud.com"
 	if len(regions) > 0 {
 		// cos.<Region>.myqcloud.com
-		baseURL = fmt.Sprintf("https://cos.%s.myqcloud.com", regions[0])
+		baseURL = fmt.Sprintf("http://cos.%s.myqcloud.com", regions[0])
 	}
 
 	su, _ := url.Parse(baseURL)
