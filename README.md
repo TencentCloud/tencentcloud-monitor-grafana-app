@@ -69,8 +69,7 @@ $ grafana-cli plugins install tencentcloud-monitor-app
     <td align="center"><a href="https://github.com/Cloudlie"><img src="https://avatars.githubusercontent.com/u/7425309?v=4?s=70" width="70px;" alt=""/><br /><sub><b>Cloudlie</b></sub></a><br /><a href="https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/commits?author=Cloudlie" title="Code">💻</a><a href="https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/issues/created_by/Cloudlie">🐛</a></td>
   </tr>
     <td align="center"><a href="https://github.com/woson-wang"><img src="https://avatars.githubusercontent.com/u/34298517?v=4?s=70" width="70px;" alt=""/><br /><sub><b>woson-wang</b></sub></a><br /><a href="https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/issues/created_by/woson-wang">🐛</a></td>
-  <tr>
-  
+    <td align="center"><a href="https://github.com/TomatoAres"><img src="https://avatars.githubusercontent.com/u/34213033?v=4?s=70" width="70px;" alt=""/><br /><sub><b>TomatoAres</b></sub></a><br /><a href="https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/pulls?q=author%3ATomatoAres">🐛</a></td>
   </tr>
 </table>
 
