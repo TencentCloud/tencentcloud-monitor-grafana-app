@@ -426,7 +426,8 @@ export abstract class BaseDatasource implements DatasourceInterface {
       { region, action }
     ).then((response) => {
       result = _.get(response, field) ?? _.get(response, `Result.${field}`) ?? [];
-      const total = response.TotalCount ?? response.TotalCnt ?? 0;
+      const total = response.TotalCount ?? response.TotalCnt ?? _.get(response, `Result.TotalCount`) ?? 0;
+      console.log({ total, result });
       if (result.length >= total) {
         return result;
       } else {

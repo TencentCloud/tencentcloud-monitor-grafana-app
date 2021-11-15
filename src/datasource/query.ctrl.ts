@@ -74,7 +74,7 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
     return this.periodList.sort((a, b) => a - b);
   }
   get isCascader() {
-    return this.cascaderOptions.length > 2;
+    return this.cascaderOptions.length > 1;
   }
   cascaderChange(namespace) {
     this.target.namespace = namespace;

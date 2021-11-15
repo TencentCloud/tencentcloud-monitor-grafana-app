@@ -43,7 +43,7 @@ export default class DCDatasource extends BaseDatasource {
       action: 'DescribeLoadBalancers',
       responseField: 'LoadBalancerSet',
     };
-    if (selfIns.service === 'lbPrivate') {
+    if (selfIns.service === 'lbPrivate' || selfIns.service === 'loadBalance') {
       res.interceptor = {
         request: (param) => ({ ...param, LoadBalancerType: 'INTERNAL' }),
       };

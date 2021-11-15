@@ -2,6 +2,7 @@
   "type": "app",
   "name": "Tencent Cloud Monitor",
   "id": "tencentcloud-monitor-app",
+  "autoEnabled": true,
   "executable": "datasource/tencentcloud-monitor-app-backend",
   "info": {
     "description": "Tencent Cloud Monitor App for Grafana",
@@ -13,8 +14,8 @@
       "small": "img/tencent-cloud.svg",
       "large": "img/tencent-cloud.svg"
     },
-    "version": "2.2.2",
-    "updated": "2021-08-27",
+    "version": "2.3.0",
+    "updated": "2021-11-15",
     "links": [
       { "name": "GitHub", "url": "https://github.com/TencentCloud/tencentcloud-monitor-grafana-app" },
       { "name": "Docs", "url": "https://cloud.tencent.com/document/product/248/48529" },
@@ -43,8 +44,13 @@
     },
     {
       "type": "dashboard",
-      "name": "【预设】CLB 负载均衡",
+      "name": "【预设】CLB 负载均衡-多场景版",
       "path": "dashboards/example_clb_dashboard.json"
+    },
+    {
+      "type": "dashboard",
+      "name": "【预设】CLB 负载均衡-精简版",
+      "path": "dashboards/example_v_clb_dashboard.json"
     },
     {
       "type": "dashboard",
@@ -58,8 +64,13 @@
     },
     {
       "type": "dashboard",
-      "name": "【预设】云数据库REDIS-内存版",
+      "name": "【预设】云数据库REDIS-1min内存版",
       "path": "dashboards/example_redis_dashboard.json"
+    },
+    {
+      "type": "dashboard",
+      "name": "【预设】云数据库REDIS-5s内存版",
+      "path": "dashboards/example_redis_mem_dashboard.json"
     },
     {
       "type": "dashboard",
