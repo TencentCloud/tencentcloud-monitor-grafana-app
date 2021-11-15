@@ -9,22 +9,22 @@ Hash: SHA512
   "signedByOrgName": "Tencent",
   "plugin": "tencentcloud-monitor-app",
   "version": "2.3.0",
-  "time": 1636961238119,
+  "time": 1636967809572,
   "keyId": "7e4d0c6a708866e7",
   "files": {
-    "datasource/tencentcloud-monitor-app-backend_darwin_amd64": "8ca350c5429562d4e6677a8470ecc70f785cf624b2576bbe7f299d50d0dd698f",
+    "datasource/tencentcloud-monitor-app-backend_darwin_amd64": "57c04c9ce5eb25bb0c5b0c3e132bc0d45dcfd8590116043fbad9fd5e8bc12071",
     "datasource/module.js.LICENSE.txt": "71ccccf01420f6d64c1e2f86385f1e3a5bf8981af5c9220cf9641637cb401cf3",
-    "datasource/tencentcloud-monitor-app-backend_linux_arm64": "390533c076f35ce2897a4c21780d090f7a4be63e60c112be171c9cbb84a40bb6",
+    "datasource/tencentcloud-monitor-app-backend_linux_arm64": "8652deb2f6b43294497dd593667b887835c1ab2f0664e41851975a44fe0ddf2f",
     "datasource/module.js.map": "b10b5a5ed4c2822e7b590ddd2443957dc450f18283a74324372f63fcb1b82ec2",
-    "datasource/plugin.json": "06a63c6b5aa8a99e4df59e82249d846c62cb0934727423bf59722d932353d825",
+    "datasource/plugin.json": "99d4d57e1ebbde3cab239072f63a489756e57c75e6788e12e9f62dc1e58b3a84",
     "datasource/img/tencent-cloud.svg": "572e1abf6d2a4be854845b55219e8d0661f79b325f0659b5439dddb37a304a8a",
-    "datasource/tencentcloud-monitor-app-backend_linux_arm": "411f91dd42b56efb3e96deabed9ae626c9336d6a7e8a5fa5c5298917e84d806d",
+    "datasource/tencentcloud-monitor-app-backend_linux_arm": "8ac8be2090b19fcb1adc377026fb138582a3aede1b436e3b1bfb631ffacc7e6b",
     "datasource/module.js": "47d137f0d303b7f0c49064a50b5c079e4c2b01c31c95a891f23e8f071703eb10",
-    "datasource/tencentcloud-monitor-app-backend_windows_amd64.exe": "bcc5cfef3cca5a2c493e9c209c298afe4827bee2414ffa6215622abe888bba89",
-    "datasource/tencentcloud-monitor-app-backend_linux_amd64": "9fafcecad59f8c6475e8f595ed7677b9b99ff2dc2c35250223e91f6901e2a43f",
+    "datasource/tencentcloud-monitor-app-backend_windows_amd64.exe": "163cbe3b86828da135ffddc4066c373652242f08308a1f46cf7bb9b3a02a7b1a",
+    "datasource/tencentcloud-monitor-app-backend_linux_amd64": "aec01b2f7fbc1ce9dcfe2acbf2599b56e481e6c4941743178a974dbb38e7367f",
     "datasource/partials/query.editor.html": "2f484b574a66618b3b38fbacd0e36c4a55a327f9fa66673e651eda653fef0739",
     "datasource/partials/config.html": "ed9e6bb45a9bd3beb92f9be384a4cbd77012e491f2585cb04bd6125ae80e418d",
-    "datasource/tencentcloud-monitor-app-backend_darwin_arm64": "d650319028dd6c9e74c8edd2495500bfbb5ff36dcec976556855929ca824c352",
+    "datasource/tencentcloud-monitor-app-backend_darwin_arm64": "29aa79160932acc9f385d810a337bb28249e5471fe84155c216991c6f4531a64",
     "LICENSE": "7d90d87fbfbc9369eb627fd38811e01dfd955d72269d5039e7c6119372baa1e3",
     "CHANGELOG.md": "77a4b29bbd98b9bbda006f51ef1ba04a28ee330eaeca7899b81b2550b8ccb317",
     "module.js.map": "bf6c742395bf34c152c4eb3e4a9b6740a0a02c256041ba9f2264634180e99f85",
@@ -32,7 +32,7 @@ Hash: SHA512
     "image/variable-region-config.png": "d46215b565d2b851855fb48bf7ee73ef696e3b8cfc671a376743faa39b193f3c",
     "image/variable-panel-query.png": "e17f91280df34695d7be10b3e355b6c91d4b43404243529dc7e75d1f9a8605fa",
     "image/variable-cvm-dashboard.png": "f97220e1230b83b0110f7e11468538b44c48d8b70906509f5153f8895ed02653",
-    "plugin.json": "c11936a791ae3c4c9019529463d0d0f39d19910d5cc47c8183c33c459af681a9",
+    "plugin.json": "086c19ceb6d234dfbaf6b3d2dd2f51a759693cbeb6364a46aec2c4b09360fdaa",
     "README.md": "17c08932ea4b9a1d75217539c9c4876cb635b8cf1ad9e9631b1fa651468ec962",
     "img/tencent-cloud.svg": "572e1abf6d2a4be854845b55219e8d0661f79b325f0659b5439dddb37a304a8a",
     "components/config.js": "cf1b259cb3db9f912951166cbb13526748bc765b9362c5e82d0e136189ba0687",
@@ -60,9 +60,9 @@ Hash: SHA512
 Version: OpenPGP.js v4.10.1
 Comment: https://openpgpjs.org
 
-wqAEARMKAAYFAmGSC9YACgkQfk0ManCIZucMmQIIlhvLRx8j1TXqW/g2MHxt
-Ik0r/+dF5Lv3fCcJEM0w8Hmd+fk43hvgAnU1OFbhGHOiTzc0qNeWW6bTkr0N
-JawOF08CB3yY5DEzx9zK9H4bLixwmPyaXXjAXbA1uNc7ETuz7wywhaTH+nEj
-2eV/gejyR59Tm8CVj2QMyx+s3viPtJstQ/7p
-=8Vya
+wqEEARMKAAYFAmGSJYEACgkQfk0ManCIZueIQwIJAeuMuRGmn39NoMN2+chh
+bsgVRIz03fum3TFcoeQNLGuuP0NTRPa77sxwh/g/0Igs+HBu6fWQAQGxVZ+V
+9x1lWWUzAgdzyUm+3jB3DNtmcdm5fFdKtaM+RzP/onAXQus5/A1rrcNMLxFC
+lfjNzlf38eX4TExXunsYULzHdd0uRayVhjLnzg==
+=nHRM
 -----END PGP SIGNATURE-----

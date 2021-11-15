@@ -2,7 +2,6 @@
   "type": "app",
   "name": "Tencent Cloud Monitor",
   "id": "tencentcloud-monitor-app",
-  "autoEnabled": true,
   "executable": "datasource/tencentcloud-monitor-app-backend",
   "info": {
     "description": "Tencent Cloud Monitor App for Grafana",

@@ -5,7 +5,6 @@
   "backend": true,
   "metrics": true,
   "annotations": true,
-  "autoEnabled": true,
   "executable": "tencentcloud-monitor-app-backend",
   "queryOptions": {
     "maxDataPoints": true
