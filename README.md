@@ -55,7 +55,7 @@ $ grafana-cli plugins install tencentcloud-monitor-app
 
 感谢这些可爱的人对此项目的热爱 ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
 
-[![All Contributors](https://img.shields.io/badge/all_contributors-9-orange.svg?style=flat-square)](#contributors)
+[![All Contributors](https://img.shields.io/badge/all_contributors-10-orange.svg?style=flat-square)](#contributors)
 
 <table>
   <tr>
