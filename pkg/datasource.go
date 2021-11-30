@@ -4,13 +4,14 @@ import (
 	"context"
 	"encoding/json"
 	"net/http"
-	"sync"
+	"os"
+
+	"github.com/TencentCloud/tencentcloud-monitor-grafana-app/pkg/cam"
 
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	"github.com/grafana/grafana-plugin-sdk-go/backend/datasource"
 	"github.com/grafana/grafana-plugin-sdk-go/backend/instancemgmt"
 	"github.com/grafana/grafana-plugin-sdk-go/backend/log"
-	"github.com/grafana/grafana-plugin-sdk-go/data"
 )
 
 var logger = log.New()
@@ -26,14 +27,12 @@ func newDatasource() datasource.ServeOpts {
 	}
 
 	return datasource.ServeOpts{
-		QueryDataHandler:    ds,
 		CheckHealthHandler:  ds,
 		CallResourceHandler: newResourceHandler(ds),
 	}
 }
 
 var _ backend.CheckHealthHandler = (*cloudMonitorDatasource)(nil)
-var _ backend.QueryDataHandler = (*cloudMonitorDatasource)(nil)
 
 type cloudMonitorDatasource struct {
 	// The instance manager can help with lifecycle management
@@ -49,74 +48,11 @@ func (td *cloudMonitorDatasource) CheckHealth(ctx context.Context, req *backend.
 	}, nil
 }
 
-func (td *cloudMonitorDatasource) QueryData(ctx context.Context, req *backend.QueryDataRequest) (*backend.QueryDataResponse, error) {
-	response := backend.NewQueryDataResponse()
-
-	//b, _ := json.Marshal(req.PluginContext.DataSourceInstanceSettings)
-
-	//logger.Info("===> app settings: " + string(b))
-
-	apiOpts := getInsSetting(*req.PluginContext.DataSourceInstanceSettings)
-	var wg sync.WaitGroup
-	for _, query := range req.Queries {
-		wg.Add(1)
-		go func(q backend.DataQuery) {
-			response.Responses[q.RefID] = td.query(ctx, q, apiOpts)
-			wg.Done()
-		}(query)
-	}
-	wg.Wait()
-	return response, nil
-}
-
-type queryModel struct {
-	Query signOpts `json:"Query"`
-	// 解析使用字段
-	Format string `json:"format,omitempty"`
-	RefId  string `json:"refId"`
-	Signer string `json:"signer"`
-}
-
-func (td *cloudMonitorDatasource) query(ctx context.Context, query backend.DataQuery, apiOpts apiOpts) backend.DataResponse {
-	// Unmarshal the json into our queryModel
-	dataRes := backend.DataResponse{}
-
-	var model queryModel
-	dataRes.Error = json.Unmarshal(query.JSON, &model)
-
-	b, _ := json.Marshal(model.Query)
-	c, _ := json.Marshal(model)
-
-	if model.Query.Action == "DescribeEips" {
-		logger.Info("===> origin model: " + string(query.JSON))
-		logger.Info("===> mashed model: " + string(c))
-		logger.Info("===> mashaled model query: " + string(b))
-	}
-
-	if dataRes.Error != nil {
-		return dataRes
-	}
-
-	var signed interface{}
-	logger.Info("===> Signer: " + model.Signer)
-	if model.Signer == "v2" {
-		signed = signV2(model.Query, apiOpts)
-	} else {
-		signed = signV3(model.Query, apiOpts)
-	}
-
-	frame := data.NewFrame(query.RefID)
-	frame.Meta = &data.FrameMeta{
-		Custom: signed,
-	}
-	dataRes.Frames = []*data.Frame{frame}
-
-	return dataRes
-}
-
 type apiOpts struct {
 	SecretId  string `json:"secretId"`
 	SecretKey string `json:"secretKey"`
+	Token     string
+	Intranet  bool
 }
 
 func getInsSetting(instanceSettings backend.DataSourceInstanceSettings) (opts apiOpts) {
@@ -128,16 +64,28 @@ func getInsSetting(instanceSettings backend.DataSourceInstanceSettings) (opts ap
 		SecretId:  jsonData["secretId"].(string),
 		SecretKey: instanceSettings.DecryptedSecureJSONData["secretKey"],
 	}
-	if opts.SecretId == "" {
-		mp := map[string]interface{}{}
-		err := json.Unmarshal(instanceSettings.JSONData, &mp)
-		if err != nil {
-			return
-		}
-		opts.SecretId = mp["secretId"].(string)
-		opts.SecretKey = mp["secretKey"].(string)
 
+	if useRoleData, ok := jsonData["useRole"]; ok {
+		if useRole, ok := useRoleData.(bool); ok && useRole {
+			client := cam.NewCredential(os.Getenv("ROLE"))
+			id, key, token, err := client.GetSecret()
+			if err == nil {
+				logger.Debug("using eks credentials id: " + id)
+				logger.Debug("using eks credentials key: " + key)
+				logger.Debug("using eks credentials token: " + token)
+				opts.SecretId = id
+				opts.SecretKey = key
+				opts.Token = token
+			}
+		}
 	}
+
+	if intranet, ok := jsonData["intranet"]; ok {
+		if isIntranet, ok := intranet.(bool); ok {
+			opts.Intranet = isIntranet
+		}
+	}
+
 	return
 }
 

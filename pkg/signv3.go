@@ -32,6 +32,7 @@ type signOpts struct {
 	Query     string            `json:"Query"`
 	Body      string            `json:"Body"`
 	Headers   map[string]string `json:"Headers"`
+	Token     string            `json:"-"`
 }
 
 func signV3(opts signOpts, apiOpts apiOpts) string {
@@ -70,8 +71,6 @@ func signV3(opts signOpts, apiOpts apiOpts) string {
 	}
 
 	canonicalHeadersMap = append(canonicalHeadersMap, contentHeaders, hostHeaders)
-
-	//canonicalHeaders := fmt.Sprintf("content-type:%s\nhost:%s\n", headers["Content-Type"], headers["Host"])
 
 	canonicalHeaders = strings.Join(canonicalHeadersMap, "")
 	signedHeaders := "content-type;host"
@@ -116,20 +115,11 @@ func signV3(opts signOpts, apiOpts apiOpts) string {
  -H "X-TC-Timestamp: %d"\
  -H "X-TC-Version: %s"\
  -H "X-TC-Region: %s"\
- -d '%s'`, host, authorization, opts.Headers["content-type"], host, action, timestamp, version, region, payload)
+ -H "X-TC-Token: %s"\
+ -d '%s'`, host, authorization, opts.Headers["content-type"],
+		host, action, timestamp, version, region, opts.Token, payload)
 
-	if action == "DescribeEips" {
-		logger.Info("===> canonicalHeaders: " + canonicalHeaders)
-		logger.Info("===> canonicalRequest: " + canonicalRequest)
-		logger.Info("===> string2sign: " + string2sign)
-		logger.Info("===> signature: " + signature)
-		logger.Info("===> auth: " + authorization)
-		logger.Info("===> curl: \n", curl+"\n")
-	}
-
-	fmt.Println(curl)
-
-	//logger.Info("curl", curl, "\n\n")
+	logger.Debug("v3 string to curl: \n", curl+"\n")
 
 	return authorization
 }
