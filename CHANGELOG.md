@@ -1,6 +1,31 @@
 # TencentCloud Monitor Grafana App
 ---
 
+## [2.4.0] - 2021-12-01
+
+### Added
+- Support Intranet cloud API & service roles (#78)
+- Example dashboard support datasource variable (#79)
+
+See detailed guide in [README.md](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/README.md).
+
+---
+
+
+## [2.3.0] - 2021-11-15
+
+### Added
+- Optimized CLB dashboard and namespace. (#76)
+
+### Fixed
+- Monitor COS with HTTP. (#73)
+- Redirect README links to the official site. (#74)
+
+
+See detailed guide in [README.md](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/README.md).
+
+---
+
 ## [2.2.2] - 2021-08-27
 
 ### Fixed

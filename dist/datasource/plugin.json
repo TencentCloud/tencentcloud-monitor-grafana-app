@@ -11,284 +11,1124 @@
   },
   "routes": [
     {
+      "path": "api-internal",
+      "url": "https://api.internal.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
+    },
+    {
+      "path": "cmq-internal",
+      "url": "https://cmq.internal.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
+    },
+    {
+      "path": "fsi/cmq/shanghai-internal",
+      "url": "https://cmq.ap-shanghai-fsi.internal.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
+    },
+    {
+      "path": "fsi/cmq/shenzhen-internal",
+      "url": "https://cmq.ap-shenzhen-fsi.internal.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
+    },
+    {
+      "path": "emr-internal",
+      "url": "https://emr.internal.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
+    },
+    {
+      "path": "fsi/emr/shanghai-internal",
+      "url": "https://emr.ap-shanghai-fsi.internal.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
+    },
+    {
+      "path": "fsi/emr/shenzhen-internal",
+      "url": "https://emr.ap-shenzhen-fsi.internal.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
+    },
+    {
+      "path": "scf-internal",
+      "url": "https://scf.internal.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
+    },
+    {
+      "path": "fsi/scf/shanghai-internal",
+      "url": "https://scf.ap-shanghai-fsi.internal.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
+    },
+    {
+      "path": "fsi/scf/shenzhen-internal",
+      "url": "https://scf.ap-shenzhen-fsi.internal.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
+    },
+    {
+      "path": "cfs-internal",
+      "url": "https://cfs.internal.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
+    },
+    {
+      "path": "fsi/cfs/shanghai-internal",
+      "url": "https://cfs.ap-shanghai-fsi.internal.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
+    },
+    {
+      "path": "fsi/cfs/shenzhen-internal",
+      "url": "https://cfs.ap-shenzhen-fsi.internal.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
+    },
+    {
+      "path": "ckafka-internal",
+      "url": "https://ckafka.internal.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
+    },
+    {
+      "path": "fsi/ckafka/shanghai-internal",
+      "url": "https://ckafka.ap-shanghai-fsi.internal.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
+    },
+    {
+      "path": "fsi/ckafka/shenzhen-internal",
+      "url": "https://ckafka.ap-shenzhen-fsi.internal.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
+    },
+    {
+      "path": "clb-internal",
+      "url": "https://clb.internal.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
+    },
+    {
+      "path": "fsi/clb/shanghai-internal",
+      "url": "https://clb.ap-shanghai-fsi.internal.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
+    },
+    {
+      "path": "fsi/clb/shenzhen-internal",
+      "url": "https://clb.ap-shenzhen-fsi.internal.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
+    },
+    {
+      "path": "mongodb-internal",
+      "url": "https://mongodb.internal.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
+    },
+    {
+      "path": "fsi/mongodb/shanghai-internal",
+      "url": "https://mongodb.ap-shanghai-fsi.internal.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
+    },
+    {
+      "path": "fsi/mongodb/shenzhen-internal",
+      "url": "https://mongodb.ap-shenzhen-fsi.internal.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
+    },
+    {
+      "path": "vpc-internal",
+      "url": "https://vpc.internal.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
+    },
+    {
+      "path": "fsi/vpc/shanghai-internal",
+      "url": "https://vpc.ap-shanghai-fsi.internal.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
+    },
+    {
+      "path": "fsi/vpc/shenzhen-internal",
+      "url": "https://vpc.ap-shenzhen-fsi.internal.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
+    },
+    {
+      "path": "pcx-internal",
+      "url": "https://vpc.api.qcloud.com.internal.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/x-www-form-urlencoded"
+        }
+      ]
+    },
+    {
+      "path": "cvm-internal",
+      "url": "https://cvm.internal.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
+    },
+    {
+      "path": "fsi/cvm/shanghai-internal",
+      "url": "https://cvm.ap-shanghai-fsi.internal.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
+    },
+    {
+      "path": "fsi/cvm/shenzhen-internal",
+      "url": "https://cvm.ap-shenzhen-fsi.internal.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
+    },
+    {
+      "path": "monitor-internal",
+      "url": "https://monitor.internal.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
+    },
+    {
+      "path": "fsi/monitor/shanghai-internal",
+      "url": "https://monitor.ap-shanghai-fsi.internal.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
+    },
+    {
+      "path": "fsi/monitor/shenzhen-internal",
+      "url": "https://monitor.ap-shenzhen-fsi.internal.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
+    },
+    {
+      "path": "cdb-internal",
+      "url": "https://cdb.internal.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
+    },
+    {
+      "path": "fsi/cdb/shanghai-internal",
+      "url": "https://cdb.ap-shanghai-fsi.internal.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
+    },
+    {
+      "path": "fsi/cdb/shenzhen-internal",
+      "url": "https://cdb.ap-shenzhen-fsi.internal.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
+    },
+    {
+      "path": "postgres-internal",
+      "url": "https://postgres.internal.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
+    },
+    {
+      "path": "fsi/postgres/shanghai-internal",
+      "url": "https://postgres.ap-shanghai-fsi.internal.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
+    },
+    {
+      "path": "fsi/postgres/shenzhen-internal",
+      "url": "https://postgres.ap-shenzhen-fsi.internal.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
+    },
+    {
+      "path": "cdn-internal",
+      "url": "https://cdn.internal.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
+    },
+    {
+      "path": "redis-internal",
+      "url": "https://redis.internal.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
+    },
+    {
+      "path": "dcdb-internal",
+      "url": "https://dcdb.internal.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
+    },
+    {
+      "path": "dc-internal",
+      "url": "https://dc.internal.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
+    },
+    {
+      "path": "cynosdb-internal",
+      "url": "https://cynosdb.internal.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
+    },
+    {
+      "path": "sqlserver-internal",
+      "url": "https://sqlserver.internal.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
+    },
+    {
+      "path": "bmeip-internal",
+      "url": "https://bmeip.internal.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
+    },
+    {
+      "path": "bmvpc-internal",
+      "url": "https://bmvpc.internal.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
+    },
+    {
+      "path": "bmlb-internal",
+      "url": "https://bmlb.internal.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
+    },
+    {
+      "path": "bm-internal",
+      "url": "https://bm.internal.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
+    },
+    {
+      "path": "es-internal",
+      "url": "https://es.internal.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
+    },
+    {
+      "path": "cbs-internal",
+      "url": "https://cbs.internal.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
+    },
+    {
+      "path": "tcaplusdb-internal",
+      "url": "https://tcaplusdb.internal.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
+    },
+    {
+      "path": "apigateway-internal",
+      "url": "https://apigateway.internal.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
+    },
+    {
+      "path": "tdmq-internal",
+      "url": "https://tdmq.internal.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
+    },
+    {
+      "path": "gaap-internal",
+      "url": "https://gaap.internal.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
+    },
+    {
+      "path": "ecm-internal",
+      "url": "https://ecm.internal.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
+    },
+    {
+      "path": "gse-internal",
+      "url": "https://gse.internal.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
+    },
+    {
       "path": "api",
       "url": "https://api.tencentcloudapi.com",
-      "headers": [{ "name": "Content-Type", "content": "application/json" }]
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
     },
     {
       "path": "cmq",
       "url": "https://cmq.tencentcloudapi.com",
-      "headers": [{ "name": "Content-Type", "content": "application/json" }]
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
     },
     {
       "path": "fsi/cmq/shanghai",
       "url": "https://cmq.ap-shanghai-fsi.tencentcloudapi.com",
-      "headers": [{ "name": "Content-Type", "content": "application/json" }]
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
     },
     {
       "path": "fsi/cmq/shenzhen",
       "url": "https://cmq.ap-shenzhen-fsi.tencentcloudapi.com",
-      "headers": [{ "name": "Content-Type", "content": "application/json" }]
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
     },
     {
       "path": "emr",
       "url": "https://emr.tencentcloudapi.com",
-      "headers": [{ "name": "Content-Type", "content": "application/json" }]
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
     },
     {
       "path": "fsi/emr/shanghai",
       "url": "https://emr.ap-shanghai-fsi.tencentcloudapi.com",
-      "headers": [{ "name": "Content-Type", "content": "application/json" }]
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
     },
     {
       "path": "fsi/emr/shenzhen",
       "url": "https://emr.ap-shenzhen-fsi.tencentcloudapi.com",
-      "headers": [{ "name": "Content-Type", "content": "application/json" }]
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
     },
     {
       "path": "scf",
       "url": "https://scf.tencentcloudapi.com",
-      "headers": [{ "name": "Content-Type", "content": "application/json" }]
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
     },
     {
       "path": "fsi/scf/shanghai",
       "url": "https://scf.ap-shanghai-fsi.tencentcloudapi.com",
-      "headers": [{ "name": "Content-Type", "content": "application/json" }]
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
     },
     {
       "path": "fsi/scf/shenzhen",
       "url": "https://scf.ap-shenzhen-fsi.tencentcloudapi.com",
-      "headers": [{ "name": "Content-Type", "content": "application/json" }]
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
     },
     {
       "path": "cfs",
       "url": "https://cfs.tencentcloudapi.com",
-      "headers": [{ "name": "Content-Type", "content": "application/json" }]
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
     },
     {
       "path": "fsi/cfs/shanghai",
       "url": "https://cfs.ap-shanghai-fsi.tencentcloudapi.com",
-      "headers": [{ "name": "Content-Type", "content": "application/json" }]
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
     },
     {
       "path": "fsi/cfs/shenzhen",
       "url": "https://cfs.ap-shenzhen-fsi.tencentcloudapi.com",
-      "headers": [{ "name": "Content-Type", "content": "application/json" }]
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
     },
     {
       "path": "ckafka",
       "url": "https://ckafka.tencentcloudapi.com",
-      "headers": [{ "name": "Content-Type", "content": "application/json" }]
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
     },
     {
       "path": "fsi/ckafka/shanghai",
       "url": "https://ckafka.ap-shanghai-fsi.tencentcloudapi.com",
-      "headers": [{ "name": "Content-Type", "content": "application/json" }]
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
     },
     {
       "path": "fsi/ckafka/shenzhen",
       "url": "https://ckafka.ap-shenzhen-fsi.tencentcloudapi.com",
-      "headers": [{ "name": "Content-Type", "content": "application/json" }]
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
     },
     {
       "path": "clb",
       "url": "https://clb.tencentcloudapi.com",
-      "headers": [{ "name": "Content-Type", "content": "application/json" }]
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
     },
     {
       "path": "fsi/clb/shanghai",
       "url": "https://clb.ap-shanghai-fsi.tencentcloudapi.com",
-      "headers": [{ "name": "Content-Type", "content": "application/json" }]
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
     },
     {
       "path": "fsi/clb/shenzhen",
       "url": "https://clb.ap-shenzhen-fsi.tencentcloudapi.com",
-      "headers": [{ "name": "Content-Type", "content": "application/json" }]
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
     },
     {
       "path": "mongodb",
       "url": "https://mongodb.tencentcloudapi.com",
-      "headers": [{ "name": "Content-Type", "content": "application/json" }]
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
     },
     {
       "path": "fsi/mongodb/shanghai",
       "url": "https://mongodb.ap-shanghai-fsi.tencentcloudapi.com",
-      "headers": [{ "name": "Content-Type", "content": "application/json" }]
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
     },
     {
       "path": "fsi/mongodb/shenzhen",
       "url": "https://mongodb.ap-shenzhen-fsi.tencentcloudapi.com",
-      "headers": [{ "name": "Content-Type", "content": "application/json" }]
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
     },
     {
       "path": "vpc",
       "url": "https://vpc.tencentcloudapi.com",
-      "headers": [{ "name": "Content-Type", "content": "application/json" }]
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
     },
     {
       "path": "fsi/vpc/shanghai",
       "url": "https://vpc.ap-shanghai-fsi.tencentcloudapi.com",
-      "headers": [{ "name": "Content-Type", "content": "application/json" }]
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
     },
     {
       "path": "fsi/vpc/shenzhen",
       "url": "https://vpc.ap-shenzhen-fsi.tencentcloudapi.com",
-      "headers": [{ "name": "Content-Type", "content": "application/json" }]
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
     },
     {
       "path": "pcx",
       "url": "https://vpc.api.qcloud.com",
-      "headers": [{ "name": "Content-Type", "content": "application/x-www-form-urlencoded" }]
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/x-www-form-urlencoded"
+        }
+      ]
     },
     {
       "path": "cvm",
       "url": "https://cvm.tencentcloudapi.com",
-      "headers": [{ "name": "Content-Type", "content": "application/json" }]
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
     },
     {
       "path": "fsi/cvm/shanghai",
       "url": "https://cvm.ap-shanghai-fsi.tencentcloudapi.com",
-      "headers": [{ "name": "Content-Type", "content": "application/json" }]
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
     },
     {
       "path": "fsi/cvm/shenzhen",
       "url": "https://cvm.ap-shenzhen-fsi.tencentcloudapi.com",
-      "headers": [{ "name": "Content-Type", "content": "application/json" }]
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
     },
     {
       "path": "monitor",
       "url": "https://monitor.tencentcloudapi.com",
-      "headers": [{ "name": "Content-Type", "content": "application/json" }]
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
     },
     {
       "path": "fsi/monitor/shanghai",
       "url": "https://monitor.ap-shanghai-fsi.tencentcloudapi.com",
-      "headers": [{ "name": "Content-Type", "content": "application/json" }]
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
     },
     {
       "path": "fsi/monitor/shenzhen",
       "url": "https://monitor.ap-shenzhen-fsi.tencentcloudapi.com",
-      "headers": [{ "name": "Content-Type", "content": "application/json" }]
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
     },
     {
       "path": "cdb",
       "url": "https://cdb.tencentcloudapi.com",
-      "headers": [{ "name": "Content-Type", "content": "application/json" }]
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
     },
     {
       "path": "fsi/cdb/shanghai",
       "url": "https://cdb.ap-shanghai-fsi.tencentcloudapi.com",
-      "headers": [{ "name": "Content-Type", "content": "application/json" }]
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
     },
     {
       "path": "fsi/cdb/shenzhen",
       "url": "https://cdb.ap-shenzhen-fsi.tencentcloudapi.com",
-      "headers": [{ "name": "Content-Type", "content": "application/json" }]
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
     },
     {
       "path": "postgres",
       "url": "https://postgres.tencentcloudapi.com",
-      "headers": [{ "name": "Content-Type", "content": "application/json" }]
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
     },
     {
       "path": "fsi/postgres/shanghai",
       "url": "https://postgres.ap-shanghai-fsi.tencentcloudapi.com",
-      "headers": [{ "name": "Content-Type", "content": "application/json" }]
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
     },
     {
       "path": "fsi/postgres/shenzhen",
       "url": "https://postgres.ap-shenzhen-fsi.tencentcloudapi.com",
-      "headers": [{ "name": "Content-Type", "content": "application/json" }]
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
     },
     {
       "path": "cdn",
       "url": "https://cdn.tencentcloudapi.com",
-      "headers": [{ "name": "Content-Type", "content": "application/json" }]
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
     },
     {
       "path": "redis",
       "url": "https://redis.tencentcloudapi.com",
-      "headers": [{ "name": "Content-Type", "content": "application/json" }]
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
     },
     {
       "path": "dcdb",
       "url": "https://dcdb.tencentcloudapi.com",
-      "headers": [{ "name": "Content-Type", "content": "application/json" }]
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
     },
     {
       "path": "dc",
       "url": "https://dc.tencentcloudapi.com",
-      "headers": [{ "name": "Content-Type", "content": "application/json" }]
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
     },
     {
       "path": "cynosdb",
       "url": "https://cynosdb.tencentcloudapi.com",
-      "headers": [{ "name": "Content-Type", "content": "application/json" }]
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
     },
     {
       "path": "sqlserver",
       "url": "https://sqlserver.tencentcloudapi.com",
-      "headers": [{ "name": "Content-Type", "content": "application/json" }]
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
     },
     {
       "path": "bmeip",
       "url": "https://bmeip.tencentcloudapi.com",
-      "headers": [{ "name": "Content-Type", "content": "application/json" }]
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
     },
     {
       "path": "bmvpc",
       "url": "https://bmvpc.tencentcloudapi.com",
-      "headers": [{ "name": "Content-Type", "content": "application/json" }]
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
     },
     {
       "path": "bmlb",
       "url": "https://bmlb.tencentcloudapi.com",
-      "headers": [{ "name": "Content-Type", "content": "application/json" }]
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
     },
     {
       "path": "bm",
       "url": "https://bm.tencentcloudapi.com",
-      "headers": [{ "name": "Content-Type", "content": "application/json" }]
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
     },
     {
       "path": "es",
       "url": "https://es.tencentcloudapi.com",
-      "headers": [{ "name": "Content-Type", "content": "application/json" }]
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
     },
     {
       "path": "cbs",
       "url": "https://cbs.tencentcloudapi.com",
-      "headers": [{ "name": "Content-Type", "content": "application/json" }]
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
     },
     {
       "path": "tcaplusdb",
       "url": "https://tcaplusdb.tencentcloudapi.com",
-      "headers": [{ "name": "Content-Type", "content": "application/json" }]
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
     },
     {
       "path": "apigateway",
       "url": "https://apigateway.tencentcloudapi.com",
-      "headers": [{ "name": "Content-Type", "content": "application/json" }]
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
     },
     {
       "path": "tdmq",
       "url": "https://tdmq.tencentcloudapi.com",
-      "headers": [{ "name": "Content-Type", "content": "application/json" }]
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
     },
     {
       "path": "gaap",
       "url": "https://gaap.tencentcloudapi.com",
-      "headers": [{ "name": "Content-Type", "content": "application/json" }]
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
     },
     {
       "path": "ecm",
       "url": "https://ecm.tencentcloudapi.com",
-      "headers": [{ "name": "Content-Type", "content": "application/json" }]
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
     },
     {
       "path": "gse",
       "url": "https://gse.tencentcloudapi.com",
-      "headers": [{ "name": "Content-Type", "content": "application/json" }]
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
     }
   ],
   "info": {
