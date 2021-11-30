@@ -25,7 +25,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitoring",
+      "datasource": "${datasource}",
       "fieldConfig": {
         "defaults": {
           "custom": {}
@@ -85,7 +85,9 @@
             "metricUnit": "Mbps",
             "period": 300,
             "queries": {
-              "BandwidthPackageIds": [""],
+              "BandwidthPackageIds": [
+                ""
+              ],
               "Filters": {
                 "bandwidth-package-name": [],
                 "bandwidth-package_id": [],
@@ -147,7 +149,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitoring",
+      "datasource": "${datasource}",
       "fieldConfig": {
         "defaults": {
           "custom": {}
@@ -207,7 +209,9 @@
             "metricUnit": "Mbps",
             "period": 300,
             "queries": {
-              "BandwidthPackageIds": [""],
+              "BandwidthPackageIds": [
+                ""
+              ],
               "Filters": {
                 "bandwidth-package-name": [],
                 "bandwidth-package_id": [],
@@ -269,7 +273,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitoring",
+      "datasource": "${datasource}",
       "fieldConfig": {
         "defaults": {
           "custom": {}
@@ -329,7 +333,9 @@
             "metricUnit": "count/s",
             "period": 300,
             "queries": {
-              "BandwidthPackageIds": [""],
+              "BandwidthPackageIds": [
+                ""
+              ],
               "Filters": {
                 "bandwidth-package-name": [],
                 "bandwidth-package_id": [],
@@ -391,7 +397,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitoring",
+      "datasource": "${datasource}",
       "fieldConfig": {
         "defaults": {
           "custom": {}
@@ -451,7 +457,9 @@
             "metricUnit": "count/s",
             "period": 300,
             "queries": {
-              "BandwidthPackageIds": [""],
+              "BandwidthPackageIds": [
+                ""
+              ],
               "Filters": {
                 "bandwidth-package-name": [],
                 "bandwidth-package_id": [],
@@ -515,9 +523,25 @@
   "templating": {
     "list": [
       {
+        "description": null,
+        "error": null,
+        "hide": 0,
+        "includeAll": false,
+        "label": "数据源",
+        "multi": false,
+        "name": "datasource",
+        "options": [],
+        "query": "tencentcloud-monitor-datasource",
+        "queryValue": "",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      },
+      {
         "allValue": null,
         "current": {},
-        "datasource": "Tencent Cloud Monitoring",
+        "datasource": "${datasource}",
         "definition": "Namespace=QCE/BWP&Action=DescribeRegions",
         "error": null,
         "hide": 0,
@@ -540,7 +564,7 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": "Tencent Cloud Monitoring",
+        "datasource": "${datasource}",
         "definition": "Namespace=QCE/BWP&Region=$region&Action=DescribeInstances",
         "error": null,
         "hide": 0,
