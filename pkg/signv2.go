@@ -24,12 +24,13 @@ func signV2(opts signOpts, apiOpts apiOpts) signerV2Result {
 		Host:      opts.Host,
 		Region:    opts.Region,
 		Version:   opts.Version,
+		Token:     apiOpts.Token,
 	}
 
 	res := newSignerV2(opt).generateQueryString()
 
 	b, _ := json.Marshal(res)
-	logger.Info("===> here: " + string(b))
+	logger.Debug("sign v2 result: " + string(b))
 
 	return res
 }
@@ -43,6 +44,7 @@ type signerV2Opt struct {
 	Timestamp       int64
 	Region          string
 	Version         string `json:"-"`
+	Token           string `json:",omitempty"`
 	SignatureMethod string
 	Nonce           int64
 	Host            string                 `json:"-"`
@@ -81,6 +83,7 @@ func newSignerV2(defaults signerV2Opt) *signerV2 {
 	ins.opt.Host = defaults.Host
 	ins.opt.SecretKey = defaults.SecretKey
 	ins.opt.Version = defaults.Version
+	ins.opt.Token = defaults.Token
 
 	b, _ := json.Marshal(ins.opt)
 
@@ -108,7 +111,7 @@ func (s *signerV2) generateQueryString() signerV2Result {
 func (s *signerV2) generateSignature() string {
 	params := s.params
 
-	keys := []string{}
+	var keys []string
 	for k, v := range params {
 		if slice, ok := v.([]interface{}); ok {
 			for i := range slice {
@@ -120,7 +123,7 @@ func (s *signerV2) generateSignature() string {
 	}
 
 	sort.Strings(keys)
-	querySlice := []string{}
+	var querySlice []string
 
 	for _, key := range keys {
 		val, ok := params[key]
@@ -160,7 +163,7 @@ func (s *signerV2) generateSignature() string {
 	queryStr := s.opt.Method + s.opt.Host + s.opt.Path + "?" +
 		strings.Join(querySlice, "&")
 
-	logger.Info("===> v2 string to be signed: " + queryStr)
+	logger.Debug("v2 string to be signed: " + queryStr)
 
 	return s.sign(queryStr)
 }
