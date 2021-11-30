@@ -22,7 +22,7 @@
   "panels": [
     {
       "collapsed": false,
-      "datasource": "Tencent Cloud Monitoring",
+      "datasource": "${datasource}",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -40,7 +40,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitoring",
+      "datasource": "${datasource}",
       "fieldConfig": {
         "defaults": {
           "custom": {}
@@ -171,7 +171,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitoring",
+      "datasource": "${datasource}",
       "fieldConfig": {
         "defaults": {
           "custom": {}
@@ -302,7 +302,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitoring",
+      "datasource": "${datasource}",
       "fieldConfig": {
         "defaults": {
           "custom": {}
@@ -433,7 +433,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitoring",
+      "datasource": "${datasource}",
       "fieldConfig": {
         "defaults": {
           "custom": {}
@@ -564,7 +564,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitoring",
+      "datasource": "${datasource}",
       "fieldConfig": {
         "defaults": {
           "custom": {}
@@ -692,7 +692,7 @@
     },
     {
       "collapsed": false,
-      "datasource": "Tencent Cloud Monitoring",
+      "datasource": "${datasource}",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -710,7 +710,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitoring",
+      "datasource": "${datasource}",
       "fieldConfig": {
         "defaults": {
           "custom": {}
@@ -841,7 +841,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitoring",
+      "datasource": "${datasource}",
       "fieldConfig": {
         "defaults": {
           "custom": {}
@@ -972,7 +972,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitoring",
+      "datasource": "${datasource}",
       "fieldConfig": {
         "defaults": {
           "custom": {}
@@ -1103,7 +1103,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitoring",
+      "datasource": "${datasource}",
       "fieldConfig": {
         "defaults": {
           "custom": {}
@@ -1234,7 +1234,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitoring",
+      "datasource": "${datasource}",
       "fieldConfig": {
         "defaults": {
           "custom": {}
@@ -1365,7 +1365,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitoring",
+      "datasource": "${datasource}",
       "fieldConfig": {
         "defaults": {
           "custom": {}
@@ -1493,7 +1493,7 @@
     },
     {
       "collapsed": false,
-      "datasource": "Tencent Cloud Monitoring",
+      "datasource": "${datasource}",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -1511,7 +1511,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitoring",
+      "datasource": "${datasource}",
       "fieldConfig": {
         "defaults": {
           "custom": {}
@@ -1642,7 +1642,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitoring",
+      "datasource": "${datasource}",
       "fieldConfig": {
         "defaults": {
           "custom": {}
@@ -1773,7 +1773,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitoring",
+      "datasource": "${datasource}",
       "fieldConfig": {
         "defaults": {
           "custom": {}
@@ -1904,7 +1904,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitoring",
+      "datasource": "${datasource}",
       "fieldConfig": {
         "defaults": {
           "custom": {}
@@ -2035,7 +2035,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitoring",
+      "datasource": "${datasource}",
       "fieldConfig": {
         "defaults": {
           "custom": {}
@@ -2166,7 +2166,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitoring",
+      "datasource": "${datasource}",
       "fieldConfig": {
         "defaults": {
           "custom": {}
@@ -2297,7 +2297,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitoring",
+      "datasource": "${datasource}",
       "fieldConfig": {
         "defaults": {
           "custom": {}
@@ -2428,7 +2428,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitoring",
+      "datasource": "${datasource}",
       "fieldConfig": {
         "defaults": {
           "custom": {}
@@ -2561,9 +2561,25 @@
   "templating": {
     "list": [
       {
+        "description": null,
+        "error": null,
+        "hide": 0,
+        "includeAll": false,
+        "label": "数据源",
+        "multi": false,
+        "name": "datasource",
+        "options": [],
+        "query": "tencentcloud-monitor-datasource",
+        "queryValue": "",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      },
+      {
         "allValue": null,
         "current": {},
-        "datasource": "Tencent Cloud Monitoring",
+        "datasource": "${datasource}",
         "definition": "Namespace=QCE/SCF_V2&Action=DescribeRegions",
         "error": null,
         "hide": 0,
@@ -2586,7 +2602,7 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": "Tencent Cloud Monitoring",
+        "datasource": "${datasource}",
         "definition": "Namespace=QCE/SCF_V2&Region=$region&Action=DescribeInstances&payload={\"Namespace\":\"default\"}",
         "error": null,
         "hide": 0,
@@ -2609,7 +2625,7 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": "Tencent Cloud Monitoring",
+        "datasource": "${datasource}",
         "definition": "Namespace=QCE/SCF_V2&Region=$region&Action=ListVersionByFunction&instance=$instance",
         "error": null,
         "hide": 0,
