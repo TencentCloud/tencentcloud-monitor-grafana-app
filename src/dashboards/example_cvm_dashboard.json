@@ -24,8 +24,12 @@
       "cacheTimeout": null,
       "colorBackground": false,
       "colorValue": false,
-      "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
-      "datasource": "Tencent Cloud Monitoring",
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "datasource": "${datasource}",
       "format": "percent",
       "gauge": {
         "maxValue": 100,
@@ -107,7 +111,9 @@
                 "vpc-id": [],
                 "zone": []
               },
-              "InstanceIds": [""],
+              "InstanceIds": [
+                ""
+              ],
               "Limit": 20,
               "Offset": 0,
               "filtersChecked": false,
@@ -136,8 +142,12 @@
       "cacheTimeout": null,
       "colorBackground": false,
       "colorValue": false,
-      "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
-      "datasource": "Tencent Cloud Monitoring",
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "datasource": "${datasource}",
       "format": "percent",
       "gauge": {
         "maxValue": 100,
@@ -218,7 +228,9 @@
                 "vpc-id": [],
                 "zone": []
               },
-              "InstanceIds": [""],
+              "InstanceIds": [
+                ""
+              ],
               "Limit": 20,
               "Offset": 0,
               "filtersChecked": false,
@@ -249,8 +261,12 @@
       "colorPostfix": false,
       "colorPrefix": false,
       "colorValue": false,
-      "colors": ["#37872D", "#FF9830", "#d44a3a"],
-      "datasource": "Tencent Cloud Monitoring",
+      "colors": [
+        "#37872D",
+        "#FF9830",
+        "#d44a3a"
+      ],
+      "datasource": "${datasource}",
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -331,7 +347,9 @@
                 "vpc-id": [],
                 "zone": []
               },
-              "InstanceIds": [""],
+              "InstanceIds": [
+                ""
+              ],
               "Limit": 20,
               "Offset": 0,
               "filtersChecked": false,
@@ -362,8 +380,12 @@
       "colorPostfix": false,
       "colorPrefix": false,
       "colorValue": false,
-      "colors": ["#37872D", "#FF9830", "#d44a3a"],
-      "datasource": "Tencent Cloud Monitoring",
+      "colors": [
+        "#37872D",
+        "#FF9830",
+        "#d44a3a"
+      ],
+      "datasource": "${datasource}",
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -444,7 +466,9 @@
                 "vpc-id": [],
                 "zone": []
               },
-              "InstanceIds": [""],
+              "InstanceIds": [
+                ""
+              ],
               "Limit": 20,
               "Offset": 0,
               "filtersChecked": false,
@@ -489,7 +513,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitoring",
+      "datasource": "${datasource}",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -563,7 +587,9 @@
                 "vpc-id": [],
                 "zone": []
               },
-              "InstanceIds": [""],
+              "InstanceIds": [
+                ""
+              ],
               "Limit": 20,
               "Offset": 0,
               "filtersChecked": false,
@@ -602,7 +628,9 @@
                 "vpc-id": [],
                 "zone": []
               },
-              "InstanceIds": [""],
+              "InstanceIds": [
+                ""
+              ],
               "Limit": 20,
               "Offset": 0,
               "filtersChecked": false,
@@ -658,7 +686,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitoring",
+      "datasource": "${datasource}",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -732,7 +760,9 @@
                 "vpc-id": [],
                 "zone": []
               },
-              "InstanceIds": [""],
+              "InstanceIds": [
+                ""
+              ],
               "Limit": 20,
               "Offset": 0,
               "filtersChecked": false,
@@ -771,7 +801,9 @@
                 "vpc-id": [],
                 "zone": []
               },
-              "InstanceIds": [""],
+              "InstanceIds": [
+                ""
+              ],
               "Limit": 20,
               "Offset": 0,
               "filtersChecked": false,
@@ -827,7 +859,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitoring",
+      "datasource": "${datasource}",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -906,7 +938,9 @@
                 "vpc-id": [],
                 "zone": []
               },
-              "InstanceIds": [""],
+              "InstanceIds": [
+                ""
+              ],
               "Limit": 20,
               "Offset": 0,
               "filtersChecked": false,
@@ -945,7 +979,9 @@
                 "vpc-id": [],
                 "zone": []
               },
-              "InstanceIds": [""],
+              "InstanceIds": [
+                ""
+              ],
               "Limit": 20,
               "Offset": 0,
               "filtersChecked": false,
@@ -1001,7 +1037,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitoring",
+      "datasource": "${datasource}",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -1080,7 +1116,9 @@
                 "vpc-id": [],
                 "zone": []
               },
-              "InstanceIds": [""],
+              "InstanceIds": [
+                ""
+              ],
               "Limit": 20,
               "Offset": 0,
               "filtersChecked": false,
@@ -1119,7 +1157,9 @@
                 "vpc-id": [],
                 "zone": []
               },
-              "InstanceIds": [""],
+              "InstanceIds": [
+                ""
+              ],
               "Limit": 20,
               "Offset": 0,
               "filtersChecked": false,
@@ -1175,7 +1215,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitoring",
+      "datasource": "${datasource}",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -1249,7 +1289,9 @@
                 "vpc-id": [],
                 "zone": []
               },
-              "InstanceIds": [""],
+              "InstanceIds": [
+                ""
+              ],
               "Limit": 20,
               "Offset": 0,
               "filtersChecked": false,
@@ -1320,7 +1362,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitoring",
+      "datasource": "${datasource}",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -1393,7 +1435,9 @@
                 "vpc-id": [],
                 "zone": []
               },
-              "InstanceIds": [""],
+              "InstanceIds": [
+                ""
+              ],
               "Limit": 20,
               "Offset": 0,
               "filtersChecked": false,
@@ -1449,7 +1493,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitoring",
+      "datasource": "${datasource}",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -1522,7 +1566,9 @@
                 "vpc-id": [],
                 "zone": []
               },
-              "InstanceIds": [""],
+              "InstanceIds": [
+                ""
+              ],
               "Limit": 20,
               "Offset": 0,
               "filtersChecked": false,
@@ -1578,7 +1624,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitoring",
+      "datasource": "${datasource}",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -1655,7 +1701,9 @@
                 "vpc-id": [],
                 "zone": []
               },
-              "InstanceIds": [""],
+              "InstanceIds": [
+                ""
+              ],
               "Limit": 20,
               "Offset": 0,
               "filtersChecked": false,
@@ -1694,7 +1742,9 @@
                 "vpc-id": [],
                 "zone": []
               },
-              "InstanceIds": [""],
+              "InstanceIds": [
+                ""
+              ],
               "Limit": 20,
               "Offset": 0,
               "filtersChecked": false,
@@ -1750,7 +1800,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Tencent Cloud Monitoring",
+      "datasource": "${datasource}",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -1823,7 +1873,9 @@
                 "vpc-id": [],
                 "zone": []
               },
-              "InstanceIds": [""],
+              "InstanceIds": [
+                ""
+              ],
               "Limit": 20,
               "Offset": 0,
               "filtersChecked": false,
@@ -1881,9 +1933,25 @@
   "templating": {
     "list": [
       {
+        "description": null,
+        "error": null,
+        "hide": 0,
+        "includeAll": false,
+        "label": "数据源",
+        "multi": false,
+        "name": "datasource",
+        "options": [],
+        "query": "tencentcloud-monitor-datasource",
+        "queryValue": "",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      },
+      {
         "allValue": null,
         "current": {},
-        "datasource": "Tencent Cloud Monitoring",
+        "datasource": "${datasource}",
         "definition": "Namespace=QCE/CVM&Action=DescribeRegions",
         "hide": 0,
         "includeAll": false,
@@ -1906,7 +1974,7 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": "Tencent Cloud Monitoring",
+        "datasource": "${datasource}",
         "definition": "Namespace=QCE/CVM&Action=DescribeInstances&Region=$region&InstanceAlias=InstanceId",
         "hide": 0,
         "includeAll": false,
@@ -1933,8 +2001,29 @@
     "to": "now"
   },
   "timepicker": {
-    "refresh_intervals": ["5s", "10s", "30s", "1m", "5m", "15m", "30m", "1h", "2h", "1d"],
-    "time_options": ["5m", "15m", "1h", "6h", "12h", "24h", "2d", "7d", "30d"]
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ],
+    "time_options": [
+      "5m",
+      "15m",
+      "1h",
+      "6h",
+      "12h",
+      "24h",
+      "2d",
+      "7d",
+      "30d"
+    ]
   },
   "timezone": "",
   "title": "【预设】CVM 单机监控",
