@@ -1,4 +1,4 @@
-import { InstanceQueryDescriptor } from './query_def';
+import { InstanceQueryDescriptor, templateQueryIdMap } from './query_def';
 import coreModule from 'grafana/app/core/core_module';
 
 const ExtraFields = [
@@ -56,7 +56,14 @@ export class MrQueryCtrl {
         if (!data) {
           const region = $scope.datasource.getServiceFn('mrHDFS', 'getVariable')(target.region);
           const fetcher = $scope.datasource.getServiceFn('mrHDFS', 'fetchAllNodes');
-          data = await fetcher(region, { InstanceId, NodeFlag: 'all' });
+          const dataT = await fetcher(region, { InstanceId, NodeFlag: 'all' });
+          data = dataT.map((item) => {
+            item._InstanceAliasValue = item[templateQueryIdMap.node];
+            return {
+              text: item[templateQueryIdMap.node],
+              value: JSON.stringify(item),
+            };
+          });
         }
 
         // 缓存

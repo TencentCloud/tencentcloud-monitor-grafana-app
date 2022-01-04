@@ -99,7 +99,7 @@ export const InvalidDemensions = new Proxy(
     get(target, k, receiver) {
       if (typeof k === 'string') {
         if (k.startsWith('id4')) return 'ClusterId'; // id4****
-        if (k.startsWith('host4')) return 'nodeIP'; // host4***
+        if (k.startsWith('host4')) return 'Ip'; // host4***
       }
       return Reflect.get(target, k, receiver);
     },
@@ -111,11 +111,40 @@ export const InvalidDemensions = new Proxy(
 
 export const templateQueryIdMap = {
   instance: 'ClusterId',
+  node: 'Ip',
+};
+
+// 需要缓存到storage的内容的key列表
+const keyInStorage = {
+  node: 'nodeIP',
+};
+
+/**
+ * 如果有InstanceId额外的维度，原则上都需要传入此map结构配置
+ *
+ * `key` 的含义：
+ *   经过InvalidDemensions处理后的string。topicId => TopicId。
+ *   否则认为指标中维度正确，和指标中维度字段保持一致，即topicId
+ *
+ * `value` 的含义：
+ *   @param {1} dim_KeyInStorage  指标中维度dimension对应的storage中的key，获取缓存列表，sourceMapList、
+ *   @param {2} dim_KeyInTarget   通过getVariable方法获取变量中选中项。比如ListnerId为Lis-xxxx；即：STATE中的key。
+ *                                  默认取通过InvalidDemsion处理后的key
+ *   @param {3} dim_KeyInMap      保存在模板变量value比如（监听器ID）源自sourceMapList（接口返回内容）的哪个key（ListenerId）。
+ *                                  即：templateQueryIdMap中内容。
+ *                                  联合上面 2 的内容筛选出原始sourceMap
+ */
+const queryMonitorExtraConfg = {
+  Ip: {
+    dim_KeyInStorage: keyInStorage.node,
+    dim_KeyInTarget: 'nodeIP',
+    dim_KeyInMap: templateQueryIdMap.node,
+  },
 };
 
 // 与名称挂钩的变量
 const InstanceAliasList = ['ClusterId', 'ClusterName'];
-export { InstanceAliasList, GetInstanceQueryParams };
+export { InstanceAliasList, GetInstanceQueryParams, queryMonitorExtraConfg, keyInStorage };
 
 // 界面状态模型，default
 export default {
