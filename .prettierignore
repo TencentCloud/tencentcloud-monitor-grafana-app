@@ -1,5 +1,12 @@
+# Dependency directories
 node_modules
+
+# Build directories
 dist
+
+# personal IDE config files
 .idea/
 .vscode/
+
+# documents
 **/*.md

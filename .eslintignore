@@ -1,8 +1,11 @@
+# Dependency directories
 node_modules
+
+# Build directories
 dist
+
+# personal IDE config files
 .vscode
 .idea
+
 *.test.*
-*.css
-*.html
-components
