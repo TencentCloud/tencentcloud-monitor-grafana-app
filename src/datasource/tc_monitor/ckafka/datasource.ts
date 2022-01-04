@@ -25,7 +25,7 @@ export default class CKFKADatasource extends BaseDatasource {
     responseField: 'InstanceList',
   };
   extraMetricDims = ['topicId'];
-  extrasAlias = ['topicId', 'consumerGroup', 'partition'];
+  // extrasAlias = ['topicId', 'consumerGroup', 'partition'];
   keyInStorage = keyInStorage;
   queryMonitorExtraConfg = queryMonitorExtraConfg;
 
