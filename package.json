@@ -23,8 +23,8 @@
     "test": "grafana-toolkit plugin:test",
     "dev": "grafana-toolkit plugin:dev",
     "watch": "grafana-toolkit plugin:dev --watch",
-    "prettier": "prettier --config .prettierrc.js --write 'src/**/*.{tsx,ts,jsx,js,css,vue,json}'",
-    "eslint": "eslint -c .eslintrc --fix 'src/**/*.{tsx,ts,jsx,js,css,vue,json}'",
+    "prettier": "prettier --config .prettierrc.js --write 'src/**/*.{js,jsx,ts,tsx}'",
+    "eslint": "eslint -c .eslintrc --fix 'src/**/*.{js,jsx,ts,tsx}'",
     "sign": "grafana-toolkit plugin:sign"
   },
   "bugs": {
@@ -74,7 +74,7 @@
     }
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx,html,css}": [
+    "*.{js,jsx,ts,tsx}": [
       "eslint -c .eslintrc --fix",
       "prettier --config .prettierrc.js --write"
     ]
