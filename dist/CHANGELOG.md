@@ -1,6 +1,18 @@
 # TencentCloud Monitor Grafana App
 ---
 
+## [2.4.1] - 2022-01-04
+
+### Added
+- Support `nodeIp` template variable and legend display for MapReduce HDFS. (#84)(#85)
+
+### Fixed
+- No data if listener not selected on `CLB`. (#83)(#85)
+
+See detailed guide in [README.md](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/README.md).
+
+---
+
 ## [2.4.0] - 2021-12-01
 
 ### Added
