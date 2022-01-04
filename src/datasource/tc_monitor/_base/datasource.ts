@@ -209,7 +209,7 @@ export abstract class BaseDatasource implements DatasourceInterface {
           if (_.isArray(extraIns)) extraIns = extraIns[0]; // 如果多个，取第一个。除了实例ID 暂不支持其他纬度多选
           const extraStorage = await instanceStorage.getExtraStorage(this.service, dim_KeyInStorage);
           // console.log({ extraStorage });
-          extraSourceMap = extraStorage.find((item) => item[dim_KeyInMap] === extraIns) ?? {};
+          extraSourceMap = extraStorage?.find((item) => item[dim_KeyInMap] === extraIns) ?? {};
         }
         // 增加ins实例之外的alias，填入到ins._InstanceAliasValue
         const insAlias = ins._InstanceAliasValue;
@@ -426,7 +426,7 @@ export abstract class BaseDatasource implements DatasourceInterface {
       { region, action }
     ).then((response) => {
       result = _.get(response, field) ?? _.get(response, `Result.${field}`) ?? [];
-      const total = response.TotalCount ?? response.TotalCnt ?? 0;
+      const total = response.TotalCount ?? response.TotalCnt ?? _.get(response, `Result.TotalCount`) ?? 0;
       if (result.length >= total) {
         return result;
       } else {
