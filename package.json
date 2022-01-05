@@ -20,6 +20,7 @@
   "license": "Apache-2.0",
   "scripts": {
     "build": "./bin/build-prod.sh",
+    "build:ci": "grafana-toolkit plugin:build",
     "test": "grafana-toolkit plugin:test",
     "dev": "grafana-toolkit plugin:dev",
     "watch": "grafana-toolkit plugin:dev --watch",
