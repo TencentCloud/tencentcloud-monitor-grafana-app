@@ -1,3 +1,4 @@
+import * as _ from 'lodash';
 import {
   DataQueryRequest,
   DataQueryResponse,
@@ -5,15 +6,14 @@ import {
   LoadingState,
   MetricFindValue,
 } from '@grafana/data';
-import { DataSourceWithBackend, getBackendSrv, getTemplateSrv } from '@grafana/runtime';
-import { TCMonitorDatasource } from './tc_monitor/MonitorDatasource';
 import { combineLatest, Observable, of, from } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { DataSourceWithBackend, getBackendSrv, getTemplateSrv } from '@grafana/runtime';
+import { LogRowModel } from '@grafana/data/types/logs';
+import { TCMonitorDatasource } from './tc_monitor/MonitorDatasource';
 import { MyDataSourceOptions, QueryInfo, ServiceType, VariableQuery } from './types';
 import { LogServiceDataSource } from './log-service/LogServiceDataSource';
-import * as _ from 'lodash';
 import { IS_DEVELOPMENT_ENVIRONMENT } from './common/constants';
-import { LogRowModel } from '@grafana/data/types/logs';
 
 /** 顶层数据源，内部根据配置与请求情况，请求具体的业务（monitor or logService） */
 export class DataSource extends DataSourceWithBackend<QueryInfo, MyDataSourceOptions> {
