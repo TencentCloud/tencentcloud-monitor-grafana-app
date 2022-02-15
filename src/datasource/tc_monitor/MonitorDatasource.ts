@@ -1,7 +1,8 @@
 import _ from 'lodash';
-import { Datasources, SERVICES } from './tc_monitor';
-import { GetServiceFromNamespace, ParseMetricQuery } from './common/constants';
-import { serviceGroupBy } from './common/utils';
+import { Datasources, SERVICES } from './index';
+import { GetServiceFromNamespace, ParseMetricQuery } from '../common/constants';
+import { serviceGroupBy } from '../common/utils';
+import { LoadingState } from '@grafana/data';
 
 export default interface DatasourceInterface {
   instanceSettings: any;
@@ -107,7 +108,7 @@ export class TCMonitorDatasource implements DatasourceInterface {
    *   ]
    * }
    */
-  query(options: any): Record<string, any> {
+  query(options: any) {
     const promises: any[] = [];
     const services = this.getSelectedServices();
     _.forEach(services, (service) => {
@@ -122,10 +123,10 @@ export class TCMonitorDatasource implements DatasourceInterface {
       }
     });
     if (promises.length === 0) {
-      return Promise.resolve({ data: [] });
+      return Promise.resolve({ data: [], state: LoadingState.Done });
     }
     return Promise.all(promises).then((results) => {
-      return { data: _.flatten(results) };
+      return { data: _.flatten(results), state: LoadingState.Done };
     });
   }
 
@@ -238,15 +239,12 @@ export class TCMonitorDatasource implements DatasourceInterface {
       promises.push(this[`${_.toUpper(service)}Datasource`].testDatasource());
     });
     if (promises.length === 0) {
-      return Promise.resolve({
-        status: 'error',
-        message: `Nothing configured. At least one of the API's services must be configured.`,
-        title: 'Error',
-      });
+      return Promise.resolve(null);
     }
+
     return Promise.all(promises).then((results) => {
       let status = 'success';
-      let message = 'Datsource Connection OK';
+      let message = 'DataSource Connection OK';
 
       const errorMsg = _.reduce(
         results,

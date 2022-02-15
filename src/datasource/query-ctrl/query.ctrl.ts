@@ -1,8 +1,8 @@
 import { QueryCtrl } from 'grafana/app/plugins/sdk';
 import _ from 'lodash';
 
-import { GetServiceFromNamespace, ReplaceVariable, isVariable } from './common/constants';
-import { InitServiceState, InstanceAliasList, GetInstanceQueryParams, SERVICES } from './tc_monitor';
+import { GetServiceFromNamespace, ReplaceVariable, isVariable } from '../common/constants';
+import { InitServiceState, InstanceAliasList, GetInstanceQueryParams, SERVICES } from '../tc_monitor';
 
 import './components/multi_condition';
 import './components/custom_select_dropdown';

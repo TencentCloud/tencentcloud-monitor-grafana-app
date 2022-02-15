@@ -1,6 +1,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "jsx": "react",
     "types": ["jest", "node"],
     "typeRoots": ["./node_modules/@types"],
     "target": "es5",
@@ -19,8 +20,10 @@
     "noImplicitUseStrict": false,
     "noImplicitAny": false,
     "noUnusedLocals": true,
-    "strictNullChecks": true,
-    "moduleResolution": "node"
+    "strictNullChecks": false,
+    "moduleResolution": "node",
+    "preserveConstEnums": true,
+    "resolveJsonModule": true
   },
   "include": ["src/**/*"]
 }

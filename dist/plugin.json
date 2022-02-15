@@ -13,8 +13,8 @@
       "small": "img/tencent-cloud.svg",
       "large": "img/tencent-cloud.svg"
     },
-    "version": "2.4.1",
-    "updated": "2022-01-04",
+    "version": "2.5.0",
+    "updated": "2022-02-15",
     "links": [
       { "name": "GitHub", "url": "https://github.com/TencentCloud/tencentcloud-monitor-grafana-app" },
       { "name": "Docs", "url": "https://cloud.tencent.com/document/product/248/48529" },
@@ -105,6 +105,11 @@
       "type": "dashboard",
       "name": "【预设】专线接入",
       "path": "dashboards/example_dcx_dashboard.json"
+    },
+    {
+      "type": "dashboard",
+      "name": "【预设-日志】CLB Demo访问日志",
+      "path": "dashboards/logService_example_clb_demo.json"
     },
     {
       "type": "datasource",

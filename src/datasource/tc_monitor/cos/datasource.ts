@@ -28,7 +28,7 @@ export default class CosDatasource extends BaseDatasource {
       })
       .then((res) => {
         let { data }: { data: BucketListResult } = res;
-        data = data || {};
+        data = data || ({} as any);
         let { Buckets } = data;
         Buckets = Buckets || [];
 

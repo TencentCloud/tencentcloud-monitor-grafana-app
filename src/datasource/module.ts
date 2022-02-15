@@ -1,9 +1,18 @@
-import { TCMonitorDatasource } from './datasource';
-import { TCMonitorDatasourceQueryCtrl } from './query.ctrl';
-import { TCMonitorDatasourceConfigCtrl } from './config.ctrl';
+import { DataSourcePlugin } from '@grafana/data';
+import { QueryEditor } from './QueryEditor';
+import { VariableQueryEditor } from './VariableQueryEditor';
+import { DataSource } from './DataSource';
+import { ConfigEditor } from './config-editor/ConfigEditor';
+import { IS_DEVELOPMENT_ENVIRONMENT } from './common/constants';
+import { getBackendSrv, getTemplateSrv } from '@grafana/runtime';
 
-export {
-  TCMonitorDatasource as Datasource,
-  TCMonitorDatasourceConfigCtrl as ConfigCtrl,
-  TCMonitorDatasourceQueryCtrl as QueryCtrl,
-};
+export const plugin = new DataSourcePlugin<any>(DataSource)
+  .setQueryEditor(QueryEditor)
+  .setConfigEditor(ConfigEditor)
+  .setVariableQueryEditor(VariableQueryEditor);
+
+if (IS_DEVELOPMENT_ENVIRONMENT) {
+  (window as any).tcPlugin = plugin;
+  (window as any).tcBackendSvr = getBackendSrv();
+  (window as any).tcTemplateSrv = getTemplateSrv();
+}

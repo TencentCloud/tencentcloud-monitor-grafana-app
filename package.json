@@ -1,7 +1,7 @@
 {
   "name": "tencentcloud-monitor-grafana-app",
   "private": false,
-  "version": "2.4.1",
+  "version": "2.5.0",
   "description": "Tencent Cloud Monitor plugin for Grafana",
   "engines": {
     "node": ">=14"
@@ -55,7 +55,7 @@
     "jest": "^24.8.0",
     "lint-staged": "^10.5.4",
     "prettier": "^2.2.1",
-    "typescript": "^4.2.3",
+    "typescript": "^4.5.4",
     "webpack": "^4.29.6"
   },
   "dependencies": {
@@ -66,7 +66,8 @@
     "lodash": "^4.17.11",
     "moment": "^2.24.0",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "react-use": "^17.3.2"
   },
   "husky": {
     "hooks": {

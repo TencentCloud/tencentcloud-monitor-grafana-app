@@ -5,6 +5,9 @@ import Sign from './sign';
 import SignV2 from './signV2';
 import { toDataQueryResponse } from '@grafana/runtime';
 
+import packageInfo from '../plugin.json';
+export const TcDataSourceId = packageInfo.id;
+
 // the services of tencentcloud monitor api
 const FINACE_REGIONS = ['ap-shanghai-fsi', 'ap-shenzhen-fsi'];
 const SERVICES_API_INFO = {
@@ -20,6 +23,13 @@ const SERVICES_API_INFO = {
     version: '2018-07-24',
     path: '/monitor',
     host: 'monitor.tencentcloudapi.com',
+  },
+  // cls api info
+  cls: {
+    service: 'cls',
+    version: '2020-10-16',
+    path: '/cls',
+    host: 'cls.tencentcloudapi.com',
   },
   // cvm api info
   cvm: {
@@ -630,3 +640,6 @@ export function parseDataFromBackendPlugin(res) {
     authorization: _.get(data, '[0].meta.custom', ''),
   };
 }
+
+/** 当前环境是否为非生产环境 */
+export const IS_DEVELOPMENT_ENVIRONMENT = !(process.env.NODE_ENV === 'production');

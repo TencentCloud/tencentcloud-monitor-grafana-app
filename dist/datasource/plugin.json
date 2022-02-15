@@ -3,6 +3,7 @@
   "name": "Tencent Cloud Monitoring",
   "id": "tencentcloud-monitor-datasource",
   "backend": true,
+  "logs": true,
   "metrics": true,
   "annotations": true,
   "executable": "tencentcloud-monitor-app-backend",
@@ -10,6 +11,26 @@
     "maxDataPoints": true
   },
   "routes": [
+    {
+      "path": "cls",
+      "url": "https://cls.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
+    },
+    {
+      "path": "cls-internal",
+      "url": "https://cls.internal.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
+    },
     {
       "path": "api-internal",
       "url": "https://api.internal.tencentcloudapi.com",

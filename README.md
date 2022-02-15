@@ -12,7 +12,7 @@
 简体中文 | [English](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/README.en-US.md)
 
 
-> 注意：该插件从 2.0.0 版本起的最低运行要求为 Grafana 7.3 或更高的版本上。请优先安装 Grafana 环境，详情参考 [Grafana 安装文档](https://grafana.com/grafana/download)。
+> 注意：该插件从 2.0.0 版本起的最低运行要求为 Grafana 7.3 或更高的版本上。请优先安装 Grafana 环境，详情参考 [Grafana 安装文档](https://grafana.com/grafana/download) 。
 
 
 # 简介
@@ -21,7 +21,7 @@
 
 该插件提供了云服务器、云数据库 MySQL、负载均衡 等具有代表性的 [Dashboard 预设模板](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/tree/master/src/dashboards)
 
-支持的云产品监控及文档请参见[文档](https://cloud.tencent.com/document/product/248/54505)，更多云产品的监控指标数据源在陆续完善中。
+支持的云产品监控及文档请参见[文档](https://cloud.tencent.com/document/product/248/54505) ，更多云产品的监控指标数据源在陆续完善中。
 
 # 入门指南
 
@@ -31,21 +31,21 @@
 $ grafana-cli plugins install tencentcloud-monitor-app
 ```
 
-更多安装方式与入门指南请参见[文档](https://cloud.tencent.com/document/product/248/54506)。
+更多安装方式与入门指南请参见[文档](https://cloud.tencent.com/document/product/248/54506) 。
 
 # 模板变量
 
 模板变量 [Variables](https://grafana.com/docs/reference/templating/) 是 Grafana 提供的一种 Dashboard 优化特性，用于创建高度可复用和交互式 Dashboard。模板变量的一般思想是允许 Grafana 从数据源获得不同的度量，并提供一种无需修改仪表板就可以动态更改它的方法。腾讯云监控应用目前提供了地域、云服务器实例、云数据库 MySQL 实例 等变量。
 
-详细文档与示例请参见[文档](https://cloud.tencent.com/document/product/248/54510)。
+详细文档与示例请参见 [文档](https://cloud.tencent.com/document/product/248/54510) 。
 
 # FAQs
 
-常见问题请参见 [FAQ](https://cloud.tencent.com/document/product/248/55171)。
+常见问题请参见 [FAQ](https://cloud.tencent.com/document/product/248/55171) 。
 
 # 联系我们
 
-若在使用过程中遇到任何问题，您可以在此[创建 issue](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/issues/new/choose)，或者扫码添加 云监控插件@Grafana 使用交流QQ群，我们将竭诚为您服务！
+若在使用过程中遇到任何问题，您可以在此[创建 issue](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/issues/new/choose) ，或者扫码添加 云监控插件@Grafana 使用交流QQ群，我们将竭诚为您服务！
 
 | QQ 群 (861359693) |
 | ----------- |

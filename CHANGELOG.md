@@ -1,6 +1,21 @@
 # TencentCloud Monitor Grafana App
 ---
 
+## [2.5.0] - 2022-02-15
+
+### Added
+
+插件新增 [日志服务](https://cloud.tencent.com/document/product/614) 数据源，[旧版本数据源](https://github.com/TencentCloud/cls-grafana-datasource/blob/master/README.md) 后续将不再维护。
+
+- 数据源设置页面新增`日志服务`数据源开关，支持与`云监控数据源`同时使用。
+- 日志服务支持同时查询不同日志主题ID的数据内容。
+- 日志检索分析
+   - 检索：用户可通过输入 lucene 语句，查询符合条件的日志内容。相关检索语法与样例见文档 [日志检索](https://cloud.tencent.com/document/product/614/47044) 。
+   - 分析：使用日志服务提供的 SQL 统计能力，可将采集的日志进行数据分析并以图表的形式展示分析结果。相关分析语法与样例见文档 [日志分析](https://cloud.tencent.com/document/product/614/44061) 。
+   - 分析场景无需输入字段使用定位，根据查询结果的数据类型进行自动推断。
+
+See detailed guide in [README.md](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/README.md) and [日志服务.md](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/日志服务.md).
+
 ## [2.4.1] - 2022-01-04
 
 ### Added
