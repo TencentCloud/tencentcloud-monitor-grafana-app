@@ -1,5 +1,5 @@
 import { Cascader } from '@grafana/ui';
-import { loadReactComponent } from '../common/react-loader';
+import { loadReactComponent } from '../../common/react-loader';
 
 loadReactComponent(Cascader, 'gfCascader', {
   separator: '@?',

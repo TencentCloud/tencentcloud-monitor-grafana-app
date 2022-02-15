@@ -1,5 +1,6 @@
 import { PluginMeta } from '@grafana/data';
 import { config, getBackendSrv } from '@grafana/runtime';
+import { TcDataSourceId } from '../datasource/common/constants';
 
 const backendSrv = getBackendSrv();
 
@@ -69,7 +70,7 @@ export class MonitorAppConfigCtrl {
     this.configured = false;
     if (this.appModel?.enabled) {
       const datasources = Object.values(config.datasources).filter((ds) => {
-        return ds.type === 'tencentcloud-monitor-datasource';
+        return ds.type === TcDataSourceId;
       });
       if (datasources.length > 0) {
         this.configured = true;
@@ -92,14 +93,18 @@ export class MonitorAppConfigCtrl {
   async reviseDashboard() {
     // 1. 生成腾讯云目录
     const folderId = await getFolderId();
-    // 2. 获取所有腾讯云插件下的dashbaord
+    // 2. 获取所有腾讯云插件下的dashboard
     const rs = await backendSrv.get(`/api/plugins/${this.appModel?.id}/dashboards`);
 
     // 3. 调用api更新dashboard
     const pmlist = rs.map((item) => {
       const { importedUrl } = item;
       const uid = importedUrl.split('/')[2];
-      return this.moveToFolder(uid, folderId);
+      if (uid) {
+        return this.moveToFolder(uid, folderId);
+      } else {
+        return Promise.resolve();
+      }
     });
 
     return Promise.all(pmlist);

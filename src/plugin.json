@@ -107,6 +107,11 @@
       "path": "dashboards/example_dcx_dashboard.json"
     },
     {
+      "type": "dashboard",
+      "name": "【预设-日志】CLB Demo访问日志",
+      "path": "dashboards/logService_example_clb_demo.json"
+    },
+    {
       "type": "datasource",
       "name": "Tencent Cloud Monitoring"
     }

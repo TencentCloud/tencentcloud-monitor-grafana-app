@@ -1,8 +1,10 @@
 import _ from 'lodash';
-import { SERVICES } from './tc_monitor';
+import { SERVICES } from '../tc_monitor';
+
+import configHtml from './config.html';
 
 export class TCMonitorDatasourceConfigCtrl {
-  static templateUrl = 'datasource/partials/config.html';
+  static template = configHtml;
   current: any;
 
   filterKey = '';

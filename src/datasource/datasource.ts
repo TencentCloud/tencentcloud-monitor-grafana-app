@@ -1,284 +1,120 @@
-import _ from 'lodash';
-import { Datasources, SERVICES } from './tc_monitor';
-import { GetServiceFromNamespace, ParseMetricQuery } from './common/constants';
-import { serviceGroupBy } from './common/utils';
+import {
+  DataQueryRequest,
+  DataQueryResponse,
+  DataSourceInstanceSettings,
+  LoadingState,
+  MetricFindValue,
+} from '@grafana/data';
+import { DataSourceWithBackend, getBackendSrv, getTemplateSrv } from '@grafana/runtime';
+import { TCMonitorDatasource } from './tc_monitor/MonitorDatasource';
+import { combineLatest, Observable, of, from } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { MyDataSourceOptions, QueryInfo, ServiceType, VariableQuery } from './types';
+import { LogServiceDataSource } from './log-service/LogServiceDataSource';
+import * as _ from 'lodash';
+import { IS_DEVELOPMENT_ENVIRONMENT } from './common/constants';
+import { LogRowModel } from '@grafana/data/types/logs';
 
-export default interface DatasourceInterface {
-  instanceSettings: any;
-  backendSrv: any;
-  templateSrv: any;
-  query: (options: any) => any;
-  testDatasource: () => any;
-  metricFindQuery: (query: any) => any;
-  getRegions?: (service: string) => any;
-  getMetrics: (service: string, region: string) => any;
-  getInstances: (service: string, region: string, params: any) => any;
-  getZones?: (service: string, region: string) => any;
-}
+/** 顶层数据源，内部根据配置与请求情况，请求具体的业务（monitor or logService） */
+export class DataSource extends DataSourceWithBackend<QueryInfo, MyDataSourceOptions> {
+  readonly instanceSettings: DataSourceInstanceSettings<MyDataSourceOptions>;
+  readonly monitorDataSource: TCMonitorDatasource;
+  readonly logServiceDataSource: LogServiceDataSource;
 
-export class TCMonitorDatasource implements DatasourceInterface {
-  instanceSettings: any;
-  backendSrv: any;
-  templateSrv: any;
-
-  /** @ngInject */
-  constructor(instanceSettings, backendSrv, templateSrv) {
+  constructor(instanceSettings: DataSourceInstanceSettings<MyDataSourceOptions>) {
+    super(instanceSettings);
     this.instanceSettings = instanceSettings;
-    this.backendSrv = backendSrv;
-    this.templateSrv = templateSrv;
-    _.forEach(Datasources, (_class: any, key) => {
-      this[key] = new _class(this.instanceSettings, this.backendSrv, this.templateSrv);
-    });
-  }
-
-  // 根据 Datasource Config 配置时勾选的监控服务项，获取相应的命名空间
-  getNamespaces() {
-    const namespaces: any[] = [];
-    _.forEach(SERVICES, (service) => {
-      if (this.instanceSettings.jsonData[service.service] === true) {
-        // namespaces.push(service.namespace);
-        namespaces.push(service);
-      }
-    });
-    return namespaces;
-  }
-
-  getCascaderNamespaces() {
-    const validServices = SERVICES.filter((service) => this.instanceSettings.jsonData[service.service]);
-    return serviceGroupBy(validServices);
-  }
-
-  getSelectedServices() {
-    const namespaces = this.getNamespaces();
-    return _.map(namespaces, ({ namespace }) => {
-      return GetServiceFromNamespace(namespace);
-    });
-  }
-
-  /**
-   * 根据 Panel 的配置项，获取相应的监控数据
-   *
-   * @param options Panel 的配置参数，示例如下
-   *  {
-   *     cacheTimeout: undefined,
-   *     dashboardId: 41,
-   *     interval: "30s",
-   *     intervalMs: 30000,
-   *     maxDataPoints: 554,
-   *     panelId: 2,
-   *     range: {
-   *        from: Moment,
-   *        to: Moment,
-   *        raw: {from: "now-6h", to: "now"}
-   *     },
-   *     rangeRaw: {from: "now-6h", to: "now"},
-   *     scopedVars: {__interval: {…}, __interval_ms: {…}}
-   *     targets: [
-   *       {
-   *          namespace: "QCE/CVM",
-   *          refId: "A",
-   *          service: "cvm",
-   *          showInstanceDetails: false,
-   *          cvm: {
-   *            dimensionObject: {InstanceId: {…}}
-   *            instance: "",
-   *            instanceAlias: "InstanceId",
-   *            metricName: "AccOuttraffic",
-   *            metricUnit: "MB",
-   *            period: 10,
-   *            queries: {Filters: {…}, InstanceIds: Array(1), Limit: 20, Offset: 0, filtersChecked: false, …},
-   *            region: "ap-beijing"
-   *          },
-   *          cdb: {},
-   *       },
-   *     ],
-   *     timezone: "browser"
-   *   }
-   * @return 返回数据对象，示例如下
-   * {
-   *   data: [
-   *     {
-   *       "target": "AccOuttraffic - ins-123",
-   *       "datapoints": [
-   *         [861, 1450754160000],
-   *         [767, 1450754220000]
-   *       ]
-   *     }
-   *   ]
-   * }
-   */
-  query(options: any): Record<string, any> {
-    const promises: any[] = [];
-    const services = this.getSelectedServices();
-    _.forEach(services, (service) => {
-      const optionsTemp = _.cloneDeep(options);
-      const targets = _.filter(optionsTemp.targets, (item) => item.service === service);
-      optionsTemp.targets = targets;
-      if (optionsTemp.targets.length > 0) {
-        const promiseTemp = this[`${_.toUpper(service)}Datasource`].query(optionsTemp);
-        if (promiseTemp) {
-          promises.push(promiseTemp);
-        }
-      }
-    });
-    if (promises.length === 0) {
-      return Promise.resolve({ data: [] });
+    if (IS_DEVELOPMENT_ENVIRONMENT) {
+      (window as any).tcDatasource = this;
     }
-    return Promise.all(promises).then((results) => {
-      return { data: _.flatten(results) };
-    });
+
+    this.monitorDataSource = new TCMonitorDatasource(this.instanceSettings, getBackendSrv(), getTemplateSrv()) as any;
+    (this.monitorDataSource as any).meta = this.meta;
+    this.logServiceDataSource = new LogServiceDataSource(this.instanceSettings);
+    (this.logServiceDataSource as any).meta = this.meta;
   }
 
-  /**
-   * 获取模板变量的选择项列表
-   *
-   * @param query 模板变量配置填写的 Query 参数字符串
-   */
-  metricFindQuery(query: string, options?: any) {
-    const queries = ParseMetricQuery(query);
-    const service = GetServiceFromNamespace(queries['namespace'] || '');
-
-    if (_.isEmpty(queries) || !queries['namespace'] || !queries['action'] || !service) {
-      return Promise.resolve([]);
-    }
-    if (this[`${_.toUpper(service)}Datasource`].metricFindQuery) {
-      const result = this[`${_.toUpper(service)}Datasource`].metricFindQuery(
-        queries,
-        _.get(options, 'variable.regex', undefined)
-      );
-      if (result) {
-        return result;
+  query(request: DataQueryRequest<QueryInfo>): Observable<DataQueryResponse> {
+    const monitorTargets: QueryInfo[] = [];
+    const logServiceTargets: QueryInfo[] = [];
+    for (const target of request.targets) {
+      if (target.serviceType === ServiceType.logService) {
+        logServiceTargets.push(target);
+      } else {
+        monitorTargets.push(target);
       }
     }
-    return Promise.resolve([]);
-  }
 
-  /**
-   * 获取地域列表
-   * @param service
-   */
-  getRegions(service) {
-    if (this[`${_.toUpper(service)}Datasource`].getRegions) {
-      return this[`${_.toUpper(service)}Datasource`].getRegions();
-    }
-    return [];
-  }
-
-  /**
-   * 获取监控指标列表
-   * @param service
-   * @param region
-   */
-  getMetrics(service, region) {
-    return this[`${_.toUpper(service)}Datasource`].getMetrics(region);
-  }
-
-  /**
-   * 获取可用区列表
-   * @param service
-   * @param region
-   */
-  getZones(service, region) {
-    if (this[`${_.toUpper(service)}Datasource`].getZones) {
-      return this[`${_.toUpper(service)}Datasource`].getZones(region);
-    }
-    return [];
-  }
-
-  /**
-   * 获取filter中dropdown列表
-   * @param service
-   * @param param
-   */
-  getFilterDropdown(service, param) {
-    if (this[`${_.toUpper(service)}Datasource`].getFilterDropdown) {
-      return this[`${_.toUpper(service)}Datasource`].getFilterDropdown(param);
-    }
-    return [];
-  }
-
-  /**
-   * 获取实例列表
-   * @param service
-   * @param region
-   * @param params
-   */
-  getInstances(service, region, params) {
-    return this[`${_.toUpper(service)}Datasource`].getInstances(region, params);
-  }
-
-  /**
-   * 获取监听器列表
-   * @param service
-   * @param region
-   * @param params
-   */
-  getListeners(service, region, instance) {
-    if (!this[`${_.toUpper(service)}Datasource`].getListeners) {
-      return [];
-    }
-    return this[`${_.toUpper(service)}Datasource`].getListeners(region, instance);
-  }
-
-  /**
-   * 获取 私有网络列表
-   * @param service
-   */
-  getVpcIds(service, region) {
-    if (this[`${_.toUpper(service)}Datasource`].getVpcIds) {
-      return this[`${_.toUpper(service)}Datasource`].getVpcIds(region);
-    }
-  }
-
-  // 在 Datasource Config 配置时，验证 SerectId、SerectKey 的有效性，并测试勾选的监控服务项的对应 API 连通性
-  testDatasource() {
-    const promises: any[] = [];
-    const services = this.getSelectedServices();
-    _.forEach(services, (service) => {
-      promises.push(this[`${_.toUpper(service)}Datasource`].testDatasource());
-    });
-    if (promises.length === 0) {
-      return Promise.resolve({
-        status: 'error',
-        message: `Nothing configured. At least one of the API's services must be configured.`,
-        title: 'Error',
-      });
-    }
-    return Promise.all(promises).then((results) => {
-      let status = 'success';
-      let message = 'Datsource Connection OK';
-
-      const errorMsg = _.reduce(
-        results,
-        (acc, cur) => {
-          if (cur.status === 'error') {
-            if (acc === '') acc += 'Oops! Found an error in: ';
-            acc += `${cur.service}: ${cur.message}; \n`;
+    const EmptyDataQueryResponse: DataQueryResponse = { data: [], state: LoadingState.Done };
+    return combineLatest<DataQueryResponse[]>([
+      monitorTargets.length
+        ? from(
+            this.monitorDataSource.query({
+              ..._.clone(_.omit(request, 'targets')),
+              targets: monitorTargets,
+            })
+          )
+        : of(EmptyDataQueryResponse),
+      logServiceTargets.length
+        ? this.logServiceDataSource.query({
+            ..._.clone(_.omit(request, 'targets')),
+            targets: logServiceTargets,
+          })
+        : of(EmptyDataQueryResponse),
+    ]).pipe(
+      map(
+        (responses: DataQueryResponse[]): DataQueryResponse => {
+          const errResponse = responses.find((item) => item.state === LoadingState.Error);
+          if (errResponse) {
+            return errResponse;
           }
-          return acc;
-        },
-        ''
-      );
+          if (!responses.every((item) => item.state === LoadingState.Done)) {
+            return { data: [], state: LoadingState.Loading };
+          }
+          return {
+            data: responses.map((item) => item.data).flat(1),
+            state: LoadingState.Done,
+          };
+        }
+      )
+    );
+  }
 
-      if (errorMsg) {
-        status = 'error';
-        message = errorMsg;
-      }
+  async testDatasource() {
+    // 如果子服务没有开启，则返回null
+    const serviceTestResults = (
+      await Promise.all([this.monitorDataSource.testDatasource(), this.logServiceDataSource.testDatasource()])
+    ).filter(Boolean);
 
+    if (serviceTestResults.length === 0) {
       return {
-        status,
-        message,
-        title: _.upperFirst(status),
+        status: 'error',
+        message: "Nothing configured. At least one of the API's services must be configured.",
       };
-    });
+    }
+
+    const failedResult = serviceTestResults.find((item) => item?.status !== 'success');
+    if (failedResult) {
+      return failedResult;
+    } else {
+      return serviceTestResults[0];
+    }
   }
 
-  getServiceFn(service, fnName) {
-    return (...argu) => {
-      if (!this[`${_.toUpper(service)}Datasource`][fnName]) {
-        return [];
-      }
-      return this[`${_.toUpper(service)}Datasource`][fnName](...argu);
-    };
+  async metricFindQuery(query: VariableQuery, options): Promise<MetricFindValue[]> {
+    if (typeof query === 'string') {
+      return this.monitorDataSource.metricFindQuery(query, options);
+    } else {
+      return this.logServiceDataSource.metricFindQuery(query, options);
+    }
   }
+
+  getLogRowContext = (row: LogRowModel, options) => {
+    return this.logServiceDataSource.getLogRowContext(row, options);
+  };
+
+  showContextToggle = (row: LogRowModel) => {
+    return false;
+    // return this.logServiceDataSource.showContextToggle(row);
+  };
 }

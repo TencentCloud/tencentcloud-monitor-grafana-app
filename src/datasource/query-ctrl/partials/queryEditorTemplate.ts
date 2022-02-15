@@ -1,5 +1,5 @@
 import editorHtmlTmp from './query.editor.html';
-import { SERVICES } from '../tc_monitor/index';
+import { SERVICES } from '../../tc_monitor';
 
 const hackModuleName = {
   loadBalance: 'clb',
