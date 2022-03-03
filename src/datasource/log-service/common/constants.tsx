@@ -161,6 +161,14 @@ const LOG_SERVICE_REGION_LIST = [
     oversea: true,
   },
   {
+    regionId: 6,
+    region: 'na-toronto',
+    regionName: '多伦多',
+    area: '北美地区',
+    regionShortName: 'ca',
+    oversea: true,
+  },
+  {
     regionId: 17,
     region: 'eu-frankfurt',
     regionName: '法兰克福',
@@ -182,3 +190,5 @@ export const LOG_SERVICE_REGION_OPTIONS = LOG_SERVICE_REGION_LIST.map((item) => 
   label: item.regionName,
   value: item.region,
 }));
+
+export const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$/i;

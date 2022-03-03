@@ -4,12 +4,12 @@ import {
   DataQueryResponse,
   DataSourceInstanceSettings,
   LoadingState,
+  LogRowModel,
   MetricFindValue,
 } from '@grafana/data';
 import { combineLatest, Observable, of, from } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { DataSourceWithBackend, getBackendSrv, getTemplateSrv } from '@grafana/runtime';
-import { LogRowModel } from '@grafana/data/types/logs';
 import { TCMonitorDatasource } from './tc_monitor/MonitorDatasource';
 import { MyDataSourceOptions, QueryInfo, ServiceType, VariableQuery } from './types';
 import { LogServiceDataSource } from './log-service/LogServiceDataSource';

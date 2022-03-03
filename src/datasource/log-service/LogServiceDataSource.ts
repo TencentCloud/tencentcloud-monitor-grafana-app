@@ -5,6 +5,7 @@ import {
   DataQueryResponse,
   DataSourceApi,
   DataSourceInstanceSettings,
+  FieldType,
   LoadingState,
   LogRowModel,
   MetricFindValue,
@@ -21,6 +22,7 @@ import {
 } from './common/format';
 import { RowContextOptions } from '@grafana/ui/components/Logs/LogRowContextProvider';
 import moment from 'moment';
+import { toTimeSeriesMany } from './common/format/prepareTimeSeries';
 
 export class LogServiceDataSource extends DataSourceApi<QueryInfo, MyDataSourceOptions> {
   private readonly instanceSettings: DataSourceInstanceSettings<MyDataSourceOptions>;
@@ -30,12 +32,14 @@ export class LogServiceDataSource extends DataSourceApi<QueryInfo, MyDataSourceO
   }
 
   query(request: DataQueryRequest<QueryInfo>) {
-    const { range, targets } = request;
+    const { range, targets, scopedVars } = request;
     const [from, to] = [range.from, range.to].map((item) => item.valueOf()) as number[];
     const requestTargets = targets.map<QueryInfo>((target) => {
       const region = target.logServiceParams?.region ? getTemplateSrv().replace(target.logServiceParams.region) : '';
       const TopicId = target.logServiceParams?.TopicId ? getTemplateSrv().replace(target.logServiceParams.TopicId) : '';
-      const Query = target.logServiceParams?.Query ? getTemplateSrv().replace(target.logServiceParams.Query) : '';
+      const Query = target.logServiceParams?.Query
+        ? getTemplateSrv().replace(target.logServiceParams.Query, scopedVars, 'lucene')
+        : '';
       return {
         ...target,
         logServiceParams: {
@@ -71,7 +75,34 @@ export class LogServiceDataSource extends DataSourceApi<QueryInfo, MyDataSourceO
 
       Promise.all(dataFramePromise)
         .then((frames) => {
-          subscriber.next({ data: frames, state: LoadingState.Done });
+          const processedFrames = [];
+          for (const frame of frames) {
+            // 如果是 Analysis 场景，且返回内容可转化为 TimeSeriesMany, 则进行处理以绘制时序图
+            if (!frame?.meta?.preferredVisualisationType) {
+              const fieldTypeSet = new Set();
+              frame.fields.forEach((field) => fieldTypeSet.add(field.type));
+              if (
+                fieldTypeSet.has(FieldType.time) &&
+                fieldTypeSet.has(FieldType.string) &&
+                fieldTypeSet.has(FieldType.number)
+              ) {
+                const timeSeriesMany = toTimeSeriesMany([frame]);
+                if (frame.fields.filter((item) => item.type === 'number')?.length === 1) {
+                  timeSeriesMany.forEach((item) => {
+                    item.fields.forEach((field) => {
+                      if (field.type === FieldType.number) {
+                        field.name = '';
+                      }
+                    });
+                  });
+                }
+                processedFrames.splice(frame.fields.length, 0, ...timeSeriesMany);
+                continue;
+              }
+            }
+            processedFrames.push(frame);
+          }
+          subscriber.next({ data: processedFrames, state: LoadingState.Done });
         })
         .catch((e) => {
           subscriber.next({
