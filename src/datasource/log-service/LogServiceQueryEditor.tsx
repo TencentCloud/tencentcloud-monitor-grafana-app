@@ -12,7 +12,7 @@ type Props = QueryEditorProps<DataSourceApi<any>, QueryInfo, MyDataSourceOptions
 
 export const LogServiceQueryEditor: FC<Props> = React.memo((props: Props) => {
   const propsRef = useLatest(props);
-  const { query, onRunQuery } = props;
+  const { query, datasource } = props;
   const logServiceParams = query.logServiceParams || _.clone(defaultQueryInfo.logServiceParams)!;
 
   const partialOnChange = useCallback(
@@ -31,11 +31,12 @@ export const LogServiceQueryEditor: FC<Props> = React.memo((props: Props) => {
         onChange={(v) => {
           partialOnChange({
             logServiceParams: {
-              ...logServiceParams,
+              ...(propsRef.current?.query?.logServiceParams || ({} as any)),
               ...v,
             },
           });
         }}
+        datasource={datasource}
       />
       <InlineField label="检索语句" labelWidth={20} grow>
         <QueryField
@@ -45,14 +46,14 @@ export const LogServiceQueryEditor: FC<Props> = React.memo((props: Props) => {
           onChange={(v) => {
             partialOnChange({
               logServiceParams: {
-                ...logServiceParams,
+                ...(propsRef.current?.query?.logServiceParams || ({} as any)),
                 Query: v,
               },
             });
           }}
-          onBlur={() => {
-            onRunQuery();
-          }}
+          // By default QueryField calls onChange if onBlur is not defined, this will trigger a rerender
+          // And slate will claim the focus, making it impossible to leave the field.
+          onBlur={() => {}}
         />
       </InlineField>
     </div>

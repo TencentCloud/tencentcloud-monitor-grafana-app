@@ -1,7 +1,7 @@
 import * as TYPES from './types';
 import { GetRequestParams, GetServiceAPIInfo } from '../../../common/constants';
 import { DataSourceInstanceSettings } from '@grafana/data';
-import { getBackendSrv } from '@grafana/runtime';
+import { getBackendSrv, getTemplateSrv } from '@grafana/runtime';
 import _ from 'lodash';
 import { IApiError } from './interface';
 
@@ -20,7 +20,7 @@ export interface ICapiRequestParam extends IRequestParam {
   serviceType: string;
 }
 
-/** 通用请求参数 */
+/** 通用请求参数。instanceSettings目前无法单例化，后续尝试优化API请求调用方法 */
 interface IRequestOpts {
   // 用于调用后端 Sign 方法
   instanceSettings: DataSourceInstanceSettings;
@@ -38,7 +38,7 @@ export async function capiRequest({ serviceType, region, action, data }: ICapiRe
     { url: instanceSettings.url + serviceInfo.path, data },
     serviceType,
     {
-      region,
+      region: getTemplateSrv().replace(region),
       action,
     },
     '', // 这个参数内部没有使用？
@@ -113,6 +113,22 @@ export async function DescribeLogContext(
   return clsCapiRequest(
     {
       action: 'DescribeLogContext',
+      data,
+      region,
+    },
+    opts
+  );
+}
+
+/**  本接口用于获取日志主题列表，支持分页 */
+export async function DescribeTopics(
+  data: TYPES.DescribeTopicsParams,
+  region: string,
+  opts: IRequestOpts
+): Promise<TYPES.DescribeTopicsResult> {
+  return clsCapiRequest(
+    {
+      action: 'DescribeTopics',
       data,
       region,
     },

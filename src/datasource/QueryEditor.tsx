@@ -34,7 +34,7 @@ export class QueryEditor extends PureComponent<Props> {
   get enabledServices() {
     const { datasource } = this.props;
     const monitorEnabled = datasource?.monitorDataSource.getNamespaces().length > 0;
-    const logServiceEnabled = datasource?.instanceSettings.jsonData['logServiceEnabled'];
+    const logServiceEnabled = Boolean(datasource?.instanceSettings.jsonData['logServiceEnabled']);
     return [monitorEnabled && ServiceType.monitor, logServiceEnabled && ServiceType.logService].filter(Boolean);
   }
 
