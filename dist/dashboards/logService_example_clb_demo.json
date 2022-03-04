@@ -86,8 +86,8 @@
         {
           "logServiceParams": {
             "Query": "* | select count(*) as pv",
-            "TopicId": "$TopicId",
-            "region": "$region"
+            "TopicId": "${TopicId}",
+            "region": "${region}"
           },
           "refId": "A",
           "serviceType": "logService"
@@ -148,8 +148,8 @@
           },
           "logServiceParams": {
             "Query": "* | select count(*) as pv",
-            "TopicId": "$TopicId",
-            "region": "$region"
+            "TopicId": "${TopicId}",
+            "region": "${region}"
           },
           "refId": "A",
           "serviceType": "logService"
@@ -208,8 +208,8 @@
         {
           "logServiceParams": {
             "Query": "* | select round(sum(request_length) / 1024.0/1024.0, 2) as \"请求报文流量\"",
-            "TopicId": "$TopicId",
-            "region": "$region"
+            "TopicId": "${TopicId}",
+            "region": "${region}"
           },
           "refId": "A",
           "serviceType": "logService"
@@ -268,8 +268,8 @@
         {
           "logServiceParams": {
             "Query": "* | select round(sum(bytes_sent) / 1024.0/1024.0, 2) as \"返回客户端流量\"",
-            "TopicId": "$TopicId",
-            "region": "$region"
+            "TopicId": "${TopicId}",
+            "region": "${region}"
           },
           "refId": "A",
           "serviceType": "logService"
@@ -328,8 +328,8 @@
         {
           "logServiceParams": {
             "Query": "* | select round(avg(request_time)*1000, 2) as \"平均请求时间\"",
-            "TopicId": "$TopicId",
-            "region": "$region"
+            "TopicId": "${TopicId}",
+            "region": "${region}"
           },
           "refId": "A",
           "serviceType": "logService"
@@ -388,8 +388,8 @@
         {
           "logServiceParams": {
             "Query": "* | select round(avg(upstream_response_time) * 1000, 2)  as \"平均响应时间\"",
-            "TopicId": "$TopicId",
-            "region": "$region"
+            "TopicId": "${TopicId}",
+            "region": "${region}"
           },
           "refId": "A",
           "serviceType": "logService"
@@ -447,8 +447,8 @@
         {
           "logServiceParams": {
             "Query": "* | select cast(upstream_status as varchar) as upstream_status, count(*) as pv group by upstream_status",
-            "TopicId": "$TopicId",
-            "region": "$region"
+            "TopicId": "${TopicId}",
+            "region": "${region}"
           },
           "refId": "A",
           "serviceType": "logService"
@@ -506,8 +506,8 @@
         {
           "logServiceParams": {
             "Query": "* | select cast(status as varchar) as status, count(*) as pv group by status",
-            "TopicId": "$TopicId",
-            "region": "$region"
+            "TopicId": "${TopicId}",
+            "region": "${region}"
           },
           "refId": "A",
           "serviceType": "logService"
@@ -586,8 +586,8 @@
           "hide": false,
           "logServiceParams": {
             "Query": "* | select histogram( cast(__TIMESTAMP__ as timestamp),interval 1 minute) as time, count(*) as pv,count( distinct remote_addr) as uv group by time order by time desc limit 2000",
-            "TopicId": "$TopicId",
-            "region": "$region"
+            "TopicId": "${TopicId}",
+            "region": "${region}"
           },
           "refId": "A",
           "serviceType": "logService"
@@ -666,8 +666,8 @@
           "hide": false,
           "logServiceParams": {
             "Query": "* | select histogram( cast(__TIMESTAMP__ as timestamp),interval 1 minute) as time, round(sum(request_length) / 1024.0, 2) as \"请求报文流量(KB)\", round(sum(bytes_sent) / 1024.0, 2) as \"返回客户端流量(KB)\" group by time order by time desc limit 1000",
-            "TopicId": "$TopicId",
-            "region": "$region"
+            "TopicId": "${TopicId}",
+            "region": "${region}"
           },
           "refId": "A",
           "serviceType": "logService"
@@ -746,8 +746,8 @@
           "hide": false,
           "logServiceParams": {
             "Query": "* | select histogram( cast(__TIMESTAMP__ as timestamp),interval 1 minute) as time, round(avg(request_time)*1000,2) as \"平均请求时间\",round(percentile(request_time, 50) * 1000, 2) as \"P50延迟\",round(percentile(request_time, 90) * 1000, 2) as \"P90延迟\", round(percentile(request_time, 95) * 1000, 2) as \"P95延迟\", round(percentile(request_time, 99) * 1000, 2) as \"P99延迟\" group by time order by time desc limit 2000",
-            "TopicId": "$TopicId",
-            "region": "$region"
+            "TopicId": "${TopicId}",
+            "region": "${region}"
           },
           "refId": "A",
           "serviceType": "logService"
@@ -806,8 +806,8 @@
           "hide": false,
           "logServiceParams": {
             "Query": "* | select round(PERCENTILE(request_time,99)*1000,2) as \"访问时间\"",
-            "TopicId": "$TopicId",
-            "region": "$region"
+            "TopicId": "${TopicId}",
+            "region": "${region}"
           },
           "refId": "A",
           "serviceType": "logService"
@@ -866,8 +866,8 @@
           "hide": false,
           "logServiceParams": {
             "Query": "* | select round(PERCENTILE(request_time,95)*1000,2) as \"访问时间\"",
-            "TopicId": "$TopicId",
-            "region": "$region"
+            "TopicId": "${TopicId}",
+            "region": "${region}"
           },
           "refId": "A",
           "serviceType": "logService"
@@ -926,8 +926,8 @@
           "hide": false,
           "logServiceParams": {
             "Query": "* | select round(PERCENTILE(request_time,90)*1000,2) as \"访问时间\"",
-            "TopicId": "$TopicId",
-            "region": "$region"
+            "TopicId": "${TopicId}",
+            "region": "${region}"
           },
           "refId": "A",
           "serviceType": "logService"
@@ -986,8 +986,8 @@
           "hide": false,
           "logServiceParams": {
             "Query": "* | select round(PERCENTILE(request_time,50)*1000,2) as \"访问时间\"",
-            "TopicId": "$TopicId",
-            "region": "$region"
+            "TopicId": "${TopicId}",
+            "region": "${region}"
           },
           "refId": "A",
           "serviceType": "logService"
@@ -1066,8 +1066,8 @@
           "hide": false,
           "logServiceParams": {
             "Query": "* | select histogram( cast(__TIMESTAMP__ as timestamp),interval 1 minute) as time, round(sum(request_length) / 1024.0, 2) as \"请求报文流量(KB)\", round(sum(bytes_sent) / 1024.0, 2) as \"返回客户端流量(KB)\" group by time order by time desc limit 1000",
-            "TopicId": "$TopicId",
-            "region": "$region"
+            "TopicId": "${TopicId}",
+            "region": "${region}"
           },
           "refId": "A",
           "serviceType": "logService"
@@ -1124,8 +1124,8 @@
           "hide": false,
           "logServiceParams": {
             "Query": "NOT server_addr:\"\" AND NOT server_addr:\"-\" | select server_addr as server, round(sum(request_length) / 1024.0, 2) as \"入流量(KB)\", round(sum(bytes_sent) / 1024.0, 2) as \"出流量(KB)\", round((sum(bytes_sent)+sum(request_length)) / 1024.0/1024.0, 2) as \"总流量(MB)\" group by server ORDER by \"总流量(MB)\" desc limit 10",
-            "TopicId": "$TopicId",
-            "region": "$region"
+            "TopicId": "${TopicId}",
+            "region": "${region}"
           },
           "refId": "A",
           "serviceType": "logService"
@@ -1182,8 +1182,8 @@
           "hide": false,
           "logServiceParams": {
             "Query": "NOT server_addr:\"\"  | select server_addr as server, count(*) as pv group by server ORDER by pv desc limit 10",
-            "TopicId": "$TopicId",
-            "region": "$region"
+            "TopicId": "${TopicId}",
+            "region": "${region}"
           },
           "refId": "A",
           "serviceType": "logService"
@@ -1241,8 +1241,8 @@
           "hide": false,
           "logServiceParams": {
             "Query": "NOT server_addr:\"\" AND NOT server_addr:\"-\" | select server_addr as server, round(sum(case when status>=400 then 1.00 else 0.00 end)/cast(count(*) as double)*100,3) as \"失败率\"  group by server ORDER by \"失败率\" desc limit 10",
-            "TopicId": "$TopicId",
-            "region": "$region"
+            "TopicId": "${TopicId}",
+            "region": "${region}"
           },
           "refId": "A",
           "serviceType": "logService"
@@ -1300,8 +1300,8 @@
           "hide": false,
           "logServiceParams": {
             "Query": "NOT server_addr:\"\" AND NOT server_addr:\"-\" | select server_addr as server, round(avg(request_time)*1000, 2) as \"平均访问延时\"  group by server ORDER by \"平均访问延时\"desc limit 10",
-            "TopicId": "$TopicId",
-            "region": "$region"
+            "TopicId": "${TopicId}",
+            "region": "${region}"
           },
           "refId": "A",
           "serviceType": "logService"
@@ -1359,8 +1359,8 @@
           "hide": false,
           "logServiceParams": {
             "Query": "NOT server_addr:\"\" AND NOT server_addr:\"-\" | select server_addr as server, round(sum(request_length) / 1024.0, 2) as \"入流量(KB)\", round(sum(bytes_sent) / 1024.0, 2) as \"出流量(KB)\", round((sum(bytes_sent)+sum(request_length)) / 1024.0/1024.0, 2) as \"总流量(MB)\" group by server ORDER by \"总流量(MB)\" desc limit 10",
-            "TopicId": "$TopicId",
-            "region": "$region"
+            "TopicId": "${TopicId}",
+            "region": "${region}"
           },
           "refId": "A",
           "serviceType": "logService"
@@ -1417,8 +1417,8 @@
           "hide": false,
           "logServiceParams": {
             "Query": "* | select server_addr, server_name,count(*) as pv, count(distinct(remote_addr)) as uv, round(avg(request_time), 2)  *1000 as \"平均访问延时(ms)\",round(sum(request_length) / 1024.0, 2) as \"请求报文流量(KB)\",  round(sum(bytes_sent) / 1024.0, 2) as \"返回客户端流量(KB)\" group by server_name, server_addr order by pv desc limit 100",
-            "TopicId": "$TopicId",
-            "region": "$region"
+            "TopicId": "${TopicId}",
+            "region": "${region}"
           },
           "refId": "A",
           "serviceType": "logService"
@@ -1475,8 +1475,8 @@
           "hide": false,
           "logServiceParams": {
             "Query": "* | select http_host, count(*) as pv, count(distinct(remote_addr)) as uv, round(avg(request_time)*1000, 2) as \"平均访问延时(ms)\",round(sum(request_length) / 1024.0, 2) as \"请求报文流量(KB)\",  round(sum(bytes_sent) / 1024.0, 2) as \"返回客户端流量(KB)\" group by http_host order by pv desc limit 100",
-            "TopicId": "$TopicId",
-            "region": "$region"
+            "TopicId": "${TopicId}",
+            "region": "${region}"
           },
           "refId": "A",
           "serviceType": "logService"
@@ -1533,8 +1533,8 @@
           "hide": false,
           "logServiceParams": {
             "Query": "NOT uri : \"-\"  | select uri, count(*) as pv, count(distinct(remote_addr)) as uv, round(sum(case when status<400 then 1.00 else 0.00 end)/cast(count(*) as double)*100,3) as \"请求成功率(%)\" ,round(avg(request_time)*1000, 2) as \"平均访问延时(ms)\",round(sum(request_length) / 1024.0) as \"入流量(KB)\",  round(sum(bytes_sent) / 1024.0, 2) as \"出流量(KB)\" group by uri order by pv desc limit 100",
-            "TopicId": "$TopicId",
-            "region": "$region"
+            "TopicId": "${TopicId}",
+            "region": "${region}"
           },
           "refId": "A",
           "serviceType": "logService"
