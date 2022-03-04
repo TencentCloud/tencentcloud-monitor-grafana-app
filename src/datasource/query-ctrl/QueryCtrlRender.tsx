@@ -71,12 +71,12 @@ export class QueryCtrlRender<TQuery extends DataQuery> extends PureComponent<Que
       QueryCtrl: queryCtrl,
     };
 
-    const panel = ({ scopedVars: {}, targets: queries || [] } as unknown) as PanelModel; // new PanelModel({ targets: queries });
-    const dashboard = ({} as unknown) as DashboardModel;
+    const panel = { scopedVars: {}, targets: queries || [] } as unknown as PanelModel; // new PanelModel({ targets: queries });
+    const dashboard = {} as unknown as DashboardModel;
 
     return {
       datasource: datasource,
-      target: (query as unknown) as TQuery,
+      target: query as unknown as TQuery,
       panel: panel,
       dashboard: dashboard,
       refresh: () => {

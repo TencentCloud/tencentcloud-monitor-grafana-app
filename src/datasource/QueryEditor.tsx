@@ -28,7 +28,7 @@ export class QueryEditor extends PureComponent<Props> {
 
   partialOnChange = (queryInfo: Partial<QueryInfo>) => {
     const { onChange, query: oldQuery } = this.props;
-    onChange(({ ...oldQuery, ...queryInfo } as unknown) as QueryInfo);
+    onChange({ ...oldQuery, ...queryInfo } as unknown as QueryInfo);
   };
 
   get enabledServices() {
