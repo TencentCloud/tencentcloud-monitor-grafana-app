@@ -107,16 +107,23 @@ const templateQueryIdMap = {
   instance: 'InstanceId',
   topicId: 'TopicId',
   groupName: 'GroupName',
-  partition: 'Partition',
-};
-// 向实例里面塞dimensions对应的值，dimension中的key对应到实例中的key
-const CKAFKAInvalidDemensions = {
-  instanceId: 'InstanceId',
-  topicId: 'TopicId',
-  topicName: 'TopicName',
-  consumerGroup: 'GroupName',
   partition: 'PartitionId',
 };
+// 向实例里面塞dimensions对应的值，dimension中的key对应到实例中的key
+const CKAFKAInvalidDemensions = new Proxy(
+  {
+    topicId: 'TopicId',
+    topicName: 'TopicName',
+    consumerGroup: 'GroupName',
+    partition: 'PartitionId',
+  },
+  {
+    get: (obj, prop) => {
+      if (String(prop).toLocaleLowerCase() === 'instanceid') return 'InstanceId';
+      return obj[prop];
+    },
+  }
+);
 // 需要缓存到storage的内容的key列表
 const keyInStorage = {
   TopicList: 'TopicList',
@@ -154,7 +161,7 @@ const queryMonitorExtraConfg = {
     dim_KeyInTarget: 'consumerGroup',
     dim_KeyInMap: templateQueryIdMap.groupName,
   },
-  Partition: {
+  PartitionId: {
     dim_KeyInStorage: keyInStorage.PartitionList,
     dim_KeyInTarget: 'partition',
     dim_KeyInMap: templateQueryIdMap.partition,

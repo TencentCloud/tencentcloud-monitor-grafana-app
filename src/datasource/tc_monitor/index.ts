@@ -1,5 +1,13 @@
 // name (产品名称), service（对应的真实service）
-const SERVICES = [
+interface ServiceType {
+  service: string;
+  label: string;
+  namespace: string;
+  href: string;
+  groupName?: string;
+  hideRegion?: boolean;
+}
+const SERVICES: ServiceType[] = [
   {
     service: 'cvm',
     label: '云服务器(CVM)',

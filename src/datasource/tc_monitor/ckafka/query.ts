@@ -1,14 +1,14 @@
 import coreModule from 'grafana/app/core/core_module';
-import { CKAFKAQueryDescriptor } from './query_def';
+import { CKAFKAQueryDescriptor, templateQueryIdMap } from './query_def';
 
 const ExtraFields = [
   {
-    label: 'TopicId',
-    field: 'topicId',
-  },
-  {
     label: 'ConsumerGroup',
     field: 'consumerGroup',
+  },
+  {
+    label: 'TopicId',
+    field: 'topicId',
   },
   {
     label: 'Partition',
@@ -29,10 +29,12 @@ export class CKAFKAQueryCtrl {
           return [];
       }
     };
-
-    // 各个实例下的消费分组信息，由于不想每次都重复发请求，所以这里做了一层缓存，数据结构为{ [instanceId]: { TopicList, GroupList  } }
-    $scope.consumerGroupCacheMap = {};
-
+    $scope.onInstanceChange = () => {
+      $scope.target.consumerGroup = '';
+      $scope.target.topicId = '';
+      $scope.target.topicName = '';
+      $scope.target.partition = '';
+    };
     $scope.getExtraFields = () => {
       return ExtraFields.filter((item) => item.field in ($scope.dims ?? {}));
     };
@@ -54,48 +56,41 @@ export class CKAFKAQueryCtrl {
 
     $scope.getExtraDropdown = async (target, field) => {
       const InstanceId = $scope.getInstanceId();
-      let data = $scope.consumerGroupCacheMap[InstanceId];
+      const fetcher = $scope.datasource.getServiceFn('ckafka', 'getConsumerGroups');
+      const region = $scope.datasource.getServiceFn('ckafka', 'getVariable')(target.region);
+      const res = await fetcher(region, { InstanceId, groupname: target.consumerGroup, topicid: target.topicId });
 
-      if (!data) {
-        const fetcher = $scope.datasource.getServiceFn('ckafka', 'getConsumerGroups');
-        const region = $scope.datasource.getServiceFn('ckafka', 'getVariable')(target.region);
-        const res = await fetcher(region, { InstanceId });
-
-        const { TopicList, GroupList, PartitionList } = res;
-        data = {
-          TopicList: TopicList.map((topic) => {
-            topic._InstanceAliasValue = topic.TopicId;
-            return {
-              text: topic.TopicId,
-              value: JSON.stringify(topic), // 为了获取多维度的值，这里完全可以使用JSON.stringify()将整个对象放进去
-            };
-          }),
-          GroupList: GroupList.map((group) => {
-            group._InstanceAliasValue = group.GroupName;
-            return {
-              text: group.GroupName,
-              value: JSON.stringify(group),
-            };
-          }),
-          PartitionList: PartitionList.map((par) => {
-            par._InstanceAliasValue = par.Partition;
-            return {
-              text: par.Partition,
-              value: JSON.stringify(par),
-            };
-          }),
-        };
-      }
-      // 缓存
-      $scope.consumerGroupCacheMap[InstanceId] = data;
-
-      // console.log(data, field, 'daata--');
+      const { TopicList, GroupList, PartitionList } = res;
+      const data = {
+        GroupList: GroupList.map((group) => {
+          group._InstanceAliasValue = group.GroupName;
+          return {
+            text: group.GroupName,
+            value: JSON.stringify(group),
+          };
+        }),
+        TopicList: TopicList.map((topic) => {
+          topic._InstanceAliasValue = topic[templateQueryIdMap.topicId];
+          return {
+            text: topic[templateQueryIdMap.topicId],
+            value: JSON.stringify(topic), // 为了获取多维度的值，这里完全可以使用JSON.stringify()将整个对象放进去
+          };
+        }),
+        PartitionList: PartitionList.map((par) => {
+          par._InstanceAliasValue = par[templateQueryIdMap.partition];
+          return {
+            text: String(par[templateQueryIdMap.partition]),
+            value: JSON.stringify(par),
+          };
+        }),
+      };
+      console.log(data, field, 'daata--');
 
       switch (field) {
-        case 'topicId':
-          return data.TopicList;
         case 'consumerGroup':
           return data.GroupList;
+        case 'topicId':
+          return data.TopicList;
         case 'partition':
           return data.PartitionList;
       }
@@ -194,6 +189,12 @@ export function scfQuery() {
       onChange: '&',
       onRefresh: '&',
       dims: '=',
+      instance: '=',
+    },
+    link: (scope, element, attrs) => {
+      scope.$watch('target.instance', (newValue, oldValue) => {
+        scope.onInstanceChange?.();
+      });
     },
   };
 }
