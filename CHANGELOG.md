@@ -6,11 +6,16 @@
 
 - CLS 日志主题ID (TopicId) 支持下拉选择 (#103)
 - lucene 支持多 options 变量值 (#103)
+- CLB 支持后台服务器维度和后台服务器端口维度 (#107)
+- 云监控接入 CLS (#107)
 
 ### Fixed
 
 - 修复 Explorer 下 onBlur 反复执行问题 (#103)
 - Bump up dependencies version to fix critical vulnerabilities. (#104)
+- ckafka 中 grpu 和 topic 之间联动处理 (#107)
+- CDB 检查指标有效性需兼容 `InstanceId` 和 `InstanceType` (#107)
+- tdsql用新的接口获取地域信息, 查看[文档](https://cloud.tencent.com/document/product/557/16141) (#107)
 
 See detailed guide in [README.md](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/README.md) and [日志服务.md](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/日志服务.md).
 

@@ -1150,6 +1150,16 @@
           "content": "application/json"
         }
       ]
+    },
+    {
+      "path": "cls",
+      "url": "https://cls.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
     }
   ],
   "info": {
