@@ -3,7 +3,6 @@ import {
   DCDBInvalidDemensions,
   namespace,
   templateQueryIdMap,
-  regionSupported,
   modifyDimensons,
   keyInStorage,
   queryMonitorExtraConfg,
@@ -44,9 +43,23 @@ export default class DCDatasource extends BaseDatasource {
   constructor(instanceSettings, backendSrv, templateSrv) {
     super(instanceSettings, backendSrv, templateSrv);
   }
-  // 重写getRegion,无接口，用本地config
+  // 重写getRegion, 入参的region用广州
   getRegions() {
-    return Promise.resolve(regionSupported);
+    return this.doRequest(
+      {
+        url: this.url + '/dcdb',
+      },
+      'dcdb',
+      { action: 'DescribeDCDBSaleInfo', region: 'ap-guangzhou' }
+    ).then((response) => {
+      return _.map(response.RegionList || [], (item) => {
+        return {
+          text: item.RegionName,
+          value: item.Region,
+          RegionState: item.RegionState,
+        };
+      });
+    });
   }
 
   async getMetrics(region = 'ap-guangzhou') {
