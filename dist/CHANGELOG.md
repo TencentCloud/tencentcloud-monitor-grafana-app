@@ -1,6 +1,19 @@
 # TencentCloud Monitor Grafana App
 ---
 
+## [2.6.0] - 2022-03-04
+### Added
+
+- CLS 日志主题ID (TopicId) 支持下拉选择 (#103)
+- lucene 支持多 options 变量值 (#103)
+
+### Fixed
+
+- 修复 Explorer 下 onBlur 反复执行问题 (#103)
+- Bump up dependencies version to fix critical vulnerabilities. (#104)
+
+See detailed guide in [README.md](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/README.md) and [日志服务.md](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/日志服务.md).
+
 ## [2.5.0] - 2022-02-15
 
 ### Added

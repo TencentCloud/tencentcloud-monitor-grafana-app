@@ -1,7 +1,7 @@
 {
   "name": "tencentcloud-monitor-grafana-app",
   "private": false,
-  "version": "2.5.0",
+  "version": "2.6.0",
   "description": "Tencent Cloud Monitor plugin for Grafana",
   "engines": {
     "node": ">=14"
@@ -36,7 +36,7 @@
     "@commitlint/config-conventional": "^12.0.1",
     "@grafana/data": "^7.4.5",
     "@grafana/runtime": "^7.4.5",
-    "@grafana/toolkit": "^7.4.5",
+    "@grafana/toolkit": "^8.4.3",
     "@types/angular": "^1.6.6",
     "@types/grafana": "https://git@github.com/CorpGlory/types-grafana.git",
     "@types/jest": "^24.0.12",
