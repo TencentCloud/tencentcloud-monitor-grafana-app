@@ -62,21 +62,19 @@ export class DataSource extends DataSourceWithBackend<QueryInfo, MyDataSourceOpt
           })
         : of(EmptyDataQueryResponse),
     ]).pipe(
-      map(
-        (responses: DataQueryResponse[]): DataQueryResponse => {
-          const errResponse = responses.find((item) => item.state === LoadingState.Error);
-          if (errResponse) {
-            return errResponse;
-          }
-          if (!responses.every((item) => item.state === LoadingState.Done)) {
-            return { data: [], state: LoadingState.Loading };
-          }
-          return {
-            data: responses.map((item) => item.data).flat(1),
-            state: LoadingState.Done,
-          };
+      map((responses: DataQueryResponse[]): DataQueryResponse => {
+        const errResponse = responses.find((item) => item.state === LoadingState.Error);
+        if (errResponse) {
+          return errResponse;
         }
-      )
+        if (!responses.every((item) => item.state === LoadingState.Done)) {
+          return { data: [], state: LoadingState.Loading };
+        }
+        return {
+          data: responses.map((item) => item.data).flat(1),
+          state: LoadingState.Done,
+        };
+      })
     );
   }
 

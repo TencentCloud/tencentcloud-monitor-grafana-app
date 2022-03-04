@@ -57,7 +57,7 @@ export const VariableQueryEditor: React.FC<VariableQueryProps> = (props) => {
           {/* 复用编辑模式的日志主题输入组件 */}
           <LogServiceQueryEditor
             datasource={datasource}
-            query={(query as unknown) as any}
+            query={query as unknown as any}
             onRunQuery={() => {}}
             onChange={(v) => {
               onQueryChange({
@@ -74,7 +74,7 @@ export const VariableQueryEditor: React.FC<VariableQueryProps> = (props) => {
               name="query"
               required
               onChange={(e) => onQueryChange(e.currentTarget.value)}
-              value={(query as unknown) as string}
+              value={query as unknown as string}
             />
           </InlineField>
         </InlineFieldRow>
