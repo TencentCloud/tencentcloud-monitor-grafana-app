@@ -21,6 +21,7 @@ export interface TemplateQueryIdType {
 interface queryConfigType {
   dim_KeyInStorage: string;
   dim_KeyInTarget?: string;
+  dim_KeyInIns?: string;
   dim_KeyInMap: string;
 }
 
@@ -189,10 +190,11 @@ export abstract class BaseDatasource implements DatasourceInterface {
    * ]
    */
   async dimensionsFormat(dimKeys, ins, dimensionObject, target, service, options) {
+    console.log({ dimKeys });
     for (let key of dimKeys) {
       let keyTmp = key;
-      const invalidDim = this.InvalidDimensions || this.getInvalidDimensions(this);
-      if (key in invalidDim) {
+      const invalidDim = this.InvalidDimensions || this.getInvalidDimensions(this, target[service]);
+      if (invalidDim[key]) {
         // 从【维度中】的字段到【实例中】字段的映射。 { functionName: FunctionName }
         keyTmp = invalidDim[key];
         ins[key] = ins[keyTmp];
@@ -200,7 +202,12 @@ export abstract class BaseDatasource implements DatasourceInterface {
       // console.log('dimensionObject2', dimensionObject, {key, keyTmp}, invalidDim);
       let extraDimValue = this.getVariable(target[service][keyTmp]);
       if (this.queryMonitorExtraConfg[keyTmp]) {
-        const { dim_KeyInStorage, dim_KeyInTarget = keyTmp, dim_KeyInMap } = this.queryMonitorExtraConfg[keyTmp];
+        const {
+          dim_KeyInStorage,
+          dim_KeyInTarget = keyTmp,
+          dim_KeyInMap,
+          dim_KeyInIns,
+        } = this.queryMonitorExtraConfg[keyTmp];
         let extraIns = ReplaceVariable(this.templateSrv, options.scopedVars, target[service][dim_KeyInTarget], true);
         let extraSourceMap: any = {};
         try {
@@ -209,16 +216,23 @@ export abstract class BaseDatasource implements DatasourceInterface {
           if (_.isArray(extraIns)) extraIns = extraIns[0]; // 如果多个，取第一个。除了实例ID 暂不支持其他纬度多选
           const extraStorage = await instanceStorage.getExtraStorage(this.service, dim_KeyInStorage);
           // console.log({ extraStorage });
-          extraSourceMap = extraStorage?.find((item) => item[dim_KeyInMap] === extraIns) ?? {};
+          extraSourceMap =
+            extraStorage?.find((item) => {
+              if (_.isArray(item[dim_KeyInMap])) {
+                return item[dim_KeyInMap][0] === extraIns;
+              }
+              return item[dim_KeyInMap] === extraIns;
+            }) ?? {};
         }
+        const isStringOrNumber = _.isString(extraSourceMap) || _.isNumber(extraSourceMap);
         // 增加ins实例之外的alias，填入到ins._InstanceAliasValue
         const insAlias = ins._InstanceAliasValue;
-        const otherAlias = extraSourceMap._InstanceAliasValue;
+        const otherAlias = isStringOrNumber ? extraSourceMap : extraSourceMap._InstanceAliasValue;
         if (otherAlias && insAlias.indexOf(otherAlias) === -1) {
           ins._InstanceAliasValue += ` - ${otherAlias}`;
         }
 
-        extraDimValue = extraSourceMap?.[keyTmp];
+        extraDimValue = isStringOrNumber ? extraSourceMap : extraSourceMap?.[dim_KeyInIns || keyTmp];
       } else {
         ins._InstanceAliasValue += this.getOtherAlias(ins, target);
       }
@@ -297,7 +311,7 @@ export abstract class BaseDatasource implements DatasourceInterface {
   getInstanceReqConfig(selfIns: any) {
     return {} as any;
   }
-  getInvalidDimensions(selfIns: any) {
+  getInvalidDimensions(selfIns: any, target?: any) {
     return {} as any;
   }
   // 获取某个变量的实际值，this.templateSrv.replace() 函数返回实际值的字符串
@@ -377,8 +391,12 @@ export abstract class BaseDatasource implements DatasourceInterface {
   }
 
   getInstances(region, params = {}) {
-    const { service = this.service, action, responseField: field, interceptor } =
-      this.InstanceReqConfig || this.getInstanceReqConfig(this);
+    const {
+      service = this.service,
+      action,
+      responseField: field,
+      interceptor,
+    } = this.InstanceReqConfig || this.getInstanceReqConfig(this);
     params = { Offset: 0, Limit: 100, ...params };
     const serviceInfo = GetServiceAPIInfo(region, service);
     return this.doRequest(
@@ -413,8 +431,12 @@ export abstract class BaseDatasource implements DatasourceInterface {
     let result: any[] = [];
     const params = { ...query, ...{ Offset: 0, Limit: 100 } };
 
-    const { service = this.service, action, responseField: field, interceptor } =
-      this.InstanceReqConfig || this.getInstanceReqConfig(this);
+    const {
+      service = this.service,
+      action,
+      responseField: field,
+      interceptor,
+    } = this.InstanceReqConfig || this.getInstanceReqConfig(this);
 
     const serviceInfo = GetServiceAPIInfo(region, service);
     return this.doRequest(
