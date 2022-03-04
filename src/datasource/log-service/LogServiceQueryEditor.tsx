@@ -20,7 +20,7 @@ export const LogServiceQueryEditor: FC<Props> = React.memo((props: Props) => {
       const { onChange, query } = propsRef.current;
       // 使用queryInfoRuntime作为配置模板，清除其他不存在的配置字段。
       const oldQuery = _.pick(query, Object.keys(queryInfoRuntime));
-      onChange(({ ...oldQuery, ...queryInfo } as unknown) as QueryInfo);
+      onChange({ ...oldQuery, ...queryInfo } as unknown as QueryInfo);
     },
     [propsRef]
   );

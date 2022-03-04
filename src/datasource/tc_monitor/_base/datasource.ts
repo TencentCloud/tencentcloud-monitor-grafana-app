@@ -377,8 +377,12 @@ export abstract class BaseDatasource implements DatasourceInterface {
   }
 
   getInstances(region, params = {}) {
-    const { service = this.service, action, responseField: field, interceptor } =
-      this.InstanceReqConfig || this.getInstanceReqConfig(this);
+    const {
+      service = this.service,
+      action,
+      responseField: field,
+      interceptor,
+    } = this.InstanceReqConfig || this.getInstanceReqConfig(this);
     params = { Offset: 0, Limit: 100, ...params };
     const serviceInfo = GetServiceAPIInfo(region, service);
     return this.doRequest(
@@ -413,8 +417,12 @@ export abstract class BaseDatasource implements DatasourceInterface {
     let result: any[] = [];
     const params = { ...query, ...{ Offset: 0, Limit: 100 } };
 
-    const { service = this.service, action, responseField: field, interceptor } =
-      this.InstanceReqConfig || this.getInstanceReqConfig(this);
+    const {
+      service = this.service,
+      action,
+      responseField: field,
+      interceptor,
+    } = this.InstanceReqConfig || this.getInstanceReqConfig(this);
 
     const serviceInfo = GetServiceAPIInfo(region, service);
     return this.doRequest(
