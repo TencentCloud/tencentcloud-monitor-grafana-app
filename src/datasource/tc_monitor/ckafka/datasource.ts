@@ -28,55 +28,61 @@ export default class CKFKADatasource extends BaseDatasource {
   // extrasAlias = ['topicId', 'consumerGroup', 'partition'];
   keyInStorage = keyInStorage;
   queryMonitorExtraConfg = queryMonitorExtraConfg;
-
+  consumerGroupCache = {};
   constructor(instanceSettings, backendSrv, templateSrv) {
     super(instanceSettings, backendSrv, templateSrv);
   }
 
   async getConsumerGroups(region, params) {
     const serviceInfo = GetServiceAPIInfo(region, 'ckafka');
+    let { InstanceId, groupname = '', topicid = '' } = params;
+    groupname = this.getVariable(groupname); // 将模板转换为真实值
+    topicid = this.getVariable(topicid); // 将模板转换为真实值
+    try {
+      groupname = JSON.parse(groupname)[templateQueryIdMap.groupName];
+      topicid = JSON.parse(topicid)[templateQueryIdMap.topicId];
+    } catch (e) {}
+    let consumerGoup = this.consumerGroupCache[InstanceId];
+    if (!consumerGoup) {
+      // 从分页数据，获取全量数据
+      consumerGoup = await fetchAllFactory(
+        (data) => {
+          return this.doRequest(
+            {
+              url: this.url + serviceInfo.path,
+              data,
+            },
+            serviceInfo.service,
+            { region, action: 'DescribeConsumerGroup' }
+          );
+        },
+        _.pick(params, 'InstanceId'),
+        ['GroupListForMonitor', 'TopicListForMonitor', 'PartitionListForMonitor', 'GroupList']
+      );
+      this.consumerGroupCache[InstanceId] = consumerGoup;
+    }
 
-    // 从分页数据，获取全量数据
-    const rs = await fetchAllFactory(
-      (data) => {
-        return this.doRequest(
-          {
-            url: this.url + serviceInfo.path,
-            data,
-          },
-          serviceInfo.service,
-          { region, action: 'DescribeConsumerGroup' }
-        );
-      },
-      params,
-      ['GroupListForMonitor', 'TopicListForMonitor', 'PartitionListForMonitor']
-    );
-
-    let [GroupList, TopicList, PartitionList] = rs;
+    let [GroupList, TopicList, PartitionList, GroupDetailList] = consumerGoup;
     // 无重复数组
     TopicList = _.uniqBy(TopicList, (item) => (item as any).TopicId);
     GroupList = _.uniqBy(GroupList, (item) => (item as any).GroupName);
-    PartitionList = _.uniqBy(PartitionList, (item) => (item as any).Partition);
+    PartitionList = _.uniqBy(PartitionList, (item) => (item as any).PartitionId);
+    GroupDetailList = _.uniqBy(GroupDetailList, (item) => (item as any).ConsumerGroupName);
+    // 如果传入消费者信息，consumergroupname，获取该用户的订阅信息列表
+    const SubscribedInfos = GroupDetailList.find((d) => d.ConsumerGroupName === groupname)?.SubscribedInfo || [];
+    // 这里为了兼容PartitonList格式，最后转化为数组对象的方式
+    const partitions =
+      SubscribedInfos.find((sub) => sub.TopicId === topicid)?.Partition?.map((p) => ({
+        [templateQueryIdMap.partition]: p,
+      })) || [];
     return {
-      TopicList,
       GroupList,
-      PartitionList,
+      TopicList:
+        SubscribedInfos.length > 0
+          ? SubscribedInfos.map(({ TopicId, TopicName }) => ({ TopicId, TopicName }))
+          : TopicList,
+      PartitionList: partitions.length > 0 ? partitions : PartitionList,
     };
-    // return {
-    //   TopicList: TopicList.map((topic) => ({
-    //     text: topic.TopicId,
-    //     value: topic.TopicId, // 为了获取多维度的值，这里完全可以使用JSON.stringify()将整个对象放进去
-    //     TopicName: topic.TopicName,
-    //   })),
-    //   GroupList: GroupList.map((group) => ({
-    //     text: group.GroupName,
-    //     value: group.GroupName,
-    //   })),
-    //   PartitionList: PartitionList.map((par) => ({
-    //     text: par.Partition,
-    //     value: par.Partition,
-    //   })),
-    // };
   }
   formatTopicVarDisplay(topic: Record<string, any>, displayTpl: string | undefined, topicAlias: string) {
     if (displayTpl) {
@@ -91,28 +97,17 @@ export default class CKFKADatasource extends BaseDatasource {
   }
   // 查询指标下的数据
   async fetchMetricData(action: string, region: string, instance: any, query: any) {
+    let { topicalias, groupname, topicid } = query;
     const result = await this.getConsumerGroups(region, {
       InstanceId: instance.InstanceId,
+      groupname,
+      topicid,
     });
-    const { display } = query;
+    let { display } = query;
     const { TopicList, GroupList, PartitionList } = result;
-    let { topicalias } = query;
     topicalias = this.TopicAliasList.includes(topicalias) ? topicalias : this.templateQueryIdMap.topicId;
-    // console.log({ TopicList, GroupList, PartitionList });
-    // const res1 = await instanceStorage.setExtraStorage(this.service, this.keyInStorage.TopicList, TopicList);
-    // const res2 = await instanceStorage.setExtraStorage(this.service, this.keyInStorage.GroupList, GroupList);
-    // const res3 = await instanceStorage.setExtraStorage(this.service, this.keyInStorage.PartitionList, PartitionList);
-    // console.log({ res1, res2, res3 });
+
     const rs = {
-      TopicList: TopicList.map((topic) => {
-        const topicAlias = this.formatTopicVarDisplay(topic, display, topicalias);
-        topic._InstanceAliasValue = topicAlias || topic.TopicId;
-        return {
-          text: topicAlias || topic.TopicId,
-          value: topic[templateQueryIdMap.topicId], // 为了获取多维度的值，这里完全可以使用JSON.stringify()将整个对象放进去
-          TopicName: topic.TopicName,
-        };
-      }),
       GroupList: GroupList.map((group) => {
         group._InstanceAliasValue = group.GroupName;
         return {
@@ -120,10 +115,19 @@ export default class CKFKADatasource extends BaseDatasource {
           value: group[templateQueryIdMap.groupName],
         };
       }),
-      PartitionList: PartitionList.map((par) => {
-        par._InstanceAliasValue = par.Partition;
+      TopicList: TopicList.map((topic) => {
+        const topicAlias = this.formatTopicVarDisplay(topic, display, topicalias);
+        topic._InstanceAliasValue = topicAlias || topic[templateQueryIdMap.topicId];
         return {
-          text: par.Partition,
+          text: topicAlias || topic[templateQueryIdMap.topicId],
+          value: topic[templateQueryIdMap.topicId], // 为了获取多维度的值，这里完全可以使用JSON.stringify()将整个对象放进去
+          TopicName: topic.TopicName,
+        };
+      }),
+      PartitionList: PartitionList.map((par) => {
+        par._InstanceAliasValue = par[templateQueryIdMap.partition];
+        return {
+          text: par[templateQueryIdMap.partition],
           value: par[templateQueryIdMap.partition],
         };
       }),

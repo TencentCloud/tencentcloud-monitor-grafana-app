@@ -187,6 +187,8 @@ const LOADBALANCE_STATE = {
   Port: '',
   Protocol: '',
   listener: '',
+  servers: '',
+  serverPort: '',
   // listenerAlias: 'ListenerId',
   queries: LBFields,
 };
@@ -220,11 +222,14 @@ function GetInstanceQueryParams(queries: any = {}) {
 }
 const InstanceAliasList = ['LoadBalancerId', 'LoadBalancerName', 'LoadBalancerVips'];
 const LOADBALANCEListenerAliasList = ['ListenerId', 'ListenerName', 'Port'];
+const LOADBALANCEServerAliasList = ['PrivateIpAddresses', 'InstanceId'];
 const LOADBALANCEVALIDDIMENSIONS = {
   vip: 'LoadBalancerVips',
   // vpcId: 'NumericalVpcId',
   loadBalancerPort: 'Port',
   protocol: 'Protocol',
+  lanIp: 'PrivateIpAddresses',
+  port: 'ServerPort',
 };
 // dimensionObject[item] = { Name: item, Value: '' };
 // const LOADBALANCE_INSTANCE_DIMENSIONOBJECTS = {
@@ -238,10 +243,13 @@ const LOADBALANCEVALIDDIMENSIONS = {
 const templateQueryIdMap = {
   instance: 'LoadBalancerId',
   listener: 'ListenerId',
+  servers: 'PrivateIpAddresses',
+  port: 'Port',
 };
 // 需要缓存到storage的内容的key列表
 const keyInStorage = {
   listener: 'ListenerList',
+  servers: 'ServersList',
 };
 /*
 如果有InstanceId额外的维度，原则上都需要传入此map结构配置
@@ -267,12 +275,24 @@ const queryMonitorExtraConfg = {
     dim_KeyInTarget: 'listener',
     dim_KeyInMap: templateQueryIdMap.listener,
   },
+  PrivateIpAddresses: {
+    dim_KeyInStorage: keyInStorage.servers,
+    dim_KeyInTarget: 'servers',
+    dim_KeyInMap: templateQueryIdMap.servers,
+  },
+  ServerPort: {
+    dim_KeyInStorage: keyInStorage.servers,
+    dim_KeyInTarget: 'serverPort',
+    dim_KeyInIns: 'Port',
+    dim_KeyInMap: templateQueryIdMap.port,
+  },
 };
 export default LOADBALANCE_STATE;
 export {
   LOADBALANCEFieldsDescriptor,
   InstanceAliasList,
   LOADBALANCEListenerAliasList,
+  LOADBALANCEServerAliasList,
   LOADBALANCEVALIDDIMENSIONS,
   templateQueryIdMap,
   // LOADBALANCE_LISTENER_DIMENSIONOBJECTS,

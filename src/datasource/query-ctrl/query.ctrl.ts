@@ -306,10 +306,16 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
       .catch(this.handleQueryCtrlError.bind(this));
   }
   onInstanceChange(v) {
-    const service = this.target.service;
-    if (this.target[service].listener) {
-      this.target[service].listener = '';
-    }
+    // const service = this.target.service;
+    // if (this.target[service].listener) {
+    //   this.target[service].listener = '';
+    // }
+    // if (this.target[service].servers) {
+    //   this.target[service].servers = '';
+    // }
+    // if (this.target[service].serverPort) {
+    //   this.target[service].serverPort = '';
+    // }
     this.refresh();
   }
 

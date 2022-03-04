@@ -282,7 +282,11 @@ function GetInstanceQueryParams(queries: any = {}) {
 }
 function isValidMetric(metricObj: any = {}) {
   const dimension = _.get(metricObj, 'Dimensions[0].Dimensions');
-  return dimension.length === 2 && _.indexOf(dimension, 'instanceid') !== -1 && _.indexOf(dimension, 'insttype') !== -1;
+  return (
+    dimension.length === 2 &&
+    ((_.indexOf(dimension, 'instanceid') !== -1 && _.indexOf(dimension, 'insttype') !== -1) ||
+      (_.indexOf(dimension, 'InstanceId') !== -1 && _.indexOf(dimension, 'InstanceType') !== -1))
+  );
 }
 function modifyDimensons(metricItem: any) {
   const metricTmp = _.cloneDeep(metricItem);

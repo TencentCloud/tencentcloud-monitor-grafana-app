@@ -1,5 +1,13 @@
 // name (产品名称), service（对应的真实service）
-const SERVICES = [
+interface ServiceType {
+  service: string;
+  label: string;
+  namespace: string;
+  href: string;
+  groupName?: string;
+  hideRegion?: boolean;
+}
+const SERVICES: ServiceType[] = [
   {
     service: 'cvm',
     label: '云服务器(CVM)',
@@ -386,6 +394,12 @@ const SERVICES = [
     label: '游戏服务器伸缩监控指标(GSE))',
     namespace: 'QCE/GSE',
     href: 'https://cloud.tencent.com/document/product/1165',
+  },
+  {
+    service: 'cls',
+    label: '日志服务监控指标(CLS)',
+    namespace: 'QCE/CLS',
+    href: 'https://cloud.tencent.com/document/product/614',
   },
   // {
   //   service: 'waf',

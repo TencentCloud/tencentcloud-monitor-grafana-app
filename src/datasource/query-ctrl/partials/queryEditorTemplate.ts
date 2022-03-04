@@ -25,6 +25,7 @@ export const editorHtml = (function () {
     str += `<${serviceSwitch}-query
       ng-if="ctrl.target.service==='${service}'"
       target="ctrl.target.${service}"
+      namespace="ctrl.target.namespace"
       show-detail="ctrl.checkShowDetail('instance')"
       datasource="ctrl.datasource"
       on-change="ctrl.onInstanceQueryChange()"

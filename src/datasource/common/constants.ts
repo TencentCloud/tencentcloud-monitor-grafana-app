@@ -367,6 +367,16 @@ const FINACE_HOST = {
       host: 'cmq.ap-shenzhen-fsi.tencentcloudapi.com',
     },
   },
+  cls: {
+    'ap-shanghai-fsi': {
+      path: '/fsi/cls/shanghai',
+      host: 'cls.ap-shanghai-fsi.tencentcloudapi.com',
+    },
+    'ap-shenzhen-fsi': {
+      path: '/fsi/cls/shenzhen',
+      host: 'cls.ap-shenzhen-fsi.tencentcloudapi.com',
+    },
+  },
 };
 
 // 获取对应业务的 API 接口信息
