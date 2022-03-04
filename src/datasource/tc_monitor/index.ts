@@ -387,6 +387,12 @@ const SERVICES = [
     namespace: 'QCE/GSE',
     href: 'https://cloud.tencent.com/document/product/1165',
   },
+  {
+    service: 'cls',
+    label: '日志服务监控指标(CLS)',
+    namespace: 'QCE/CLS',
+    href: 'https://cloud.tencent.com/document/product/614',
+  },
   // {
   //   service: 'waf',
   //   label: 'Web 应用防火墙(WAF)',
