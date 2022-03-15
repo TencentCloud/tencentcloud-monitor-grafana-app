@@ -1,6 +1,14 @@
 # TencentCloud Monitor Grafana App
 ---
 
+## [2.6.1] - 2022-03-15
+### Fixed
+
+- CLS 检索条件变量替换优化, 预设模板使用云监控变量 (#109)
+- API 网关 代理路由匹配问题修复 (#109)
+
+See detailed guide in [README.md](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/README.md) and [日志服务.md](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/日志服务.md).
+
 ## [2.6.0] - 2022-03-04
 ### Added
 
