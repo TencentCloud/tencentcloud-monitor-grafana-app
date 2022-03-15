@@ -592,6 +592,16 @@
       ]
     },
     {
+      "path": "apigateway",
+      "url": "https://apigateway.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
+    },
+    {
       "path": "api",
       "url": "https://api.tencentcloudapi.com",
       "headers": [
@@ -1094,16 +1104,6 @@
     {
       "path": "tcaplusdb",
       "url": "https://tcaplusdb.tencentcloudapi.com",
-      "headers": [
-        {
-          "name": "Content-Type",
-          "content": "application/json"
-        }
-      ]
-    },
-    {
-      "path": "apigateway",
-      "url": "https://apigateway.tencentcloudapi.com",
       "headers": [
         {
           "name": "Content-Type",

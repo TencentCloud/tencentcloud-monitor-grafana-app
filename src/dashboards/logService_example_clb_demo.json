@@ -1603,21 +1603,19 @@
           "text": "",
           "value": ""
         },
-        "description": null,
-        "error": null,
+        "datasource": "$datasource",
+        "definition": "Namespace=QCE/CLS&Action=DescribeInstances&Region=$region&payload={\"Filters\":[{\"Key\":\"topicName\",\"Values\":[\"CLB DEMO访问日志\"]}]}&display=${TopicName} (${TopicId})",
         "hide": 0,
-        "label": null,
+        "includeAll": false,
+        "multi": false,
         "name": "TopicId",
-        "options": [
-          {
-            "selected": true,
-            "text": "",
-            "value": ""
-          }
-        ],
-        "query": "",
+        "options": [],
+        "query": "Namespace=QCE/CLS&Action=DescribeInstances&Region=$region&payload={\"Filters\":[{\"Key\":\"topicName\",\"Values\":[\"CLB DEMO访问日志\"]}]}&display=${TopicName} (${TopicId})",
+        "refresh": 1,
+        "regex": "",
         "skipUrlSync": false,
-        "type": "textbox"
+        "sort": 0,
+        "type": "query"
       }
     ]
   },
