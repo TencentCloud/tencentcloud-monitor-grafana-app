@@ -585,7 +585,7 @@
         {
           "hide": false,
           "logServiceParams": {
-            "Query": "* | select histogram( cast(__TIMESTAMP__ as timestamp),interval 1 minute) as time, count(*) as pv,count( distinct remote_addr) as uv group by time order by time desc limit 2000",
+            "Query": "* | select histogram( cast(__TIMESTAMP__ as timestamp),interval 1 minute) as time, count(*) as pv,count( distinct remote_addr) as uv group by time order by time asc limit 10000",
             "TopicId": "${TopicId}",
             "region": "${region}"
           },
@@ -665,7 +665,7 @@
         {
           "hide": false,
           "logServiceParams": {
-            "Query": "* | select histogram( cast(__TIMESTAMP__ as timestamp),interval 1 minute) as time, round(sum(request_length) / 1024.0, 2) as \"请求报文流量(KB)\", round(sum(bytes_sent) / 1024.0, 2) as \"返回客户端流量(KB)\" group by time order by time desc limit 1000",
+            "Query": "* | select histogram( cast(__TIMESTAMP__ as timestamp),interval 1 minute) as time, round(sum(request_length) / 1024.0, 2) as \"请求报文流量(KB)\", round(sum(bytes_sent) / 1024.0, 2) as \"返回客户端流量(KB)\" group by time order by time asc limit 10000",
             "TopicId": "${TopicId}",
             "region": "${region}"
           },
@@ -745,7 +745,7 @@
         {
           "hide": false,
           "logServiceParams": {
-            "Query": "* | select histogram( cast(__TIMESTAMP__ as timestamp),interval 1 minute) as time, round(avg(request_time)*1000,2) as \"平均请求时间\",round(percentile(request_time, 50) * 1000, 2) as \"P50延迟\",round(percentile(request_time, 90) * 1000, 2) as \"P90延迟\", round(percentile(request_time, 95) * 1000, 2) as \"P95延迟\", round(percentile(request_time, 99) * 1000, 2) as \"P99延迟\" group by time order by time desc limit 2000",
+            "Query": "* | select histogram( cast(__TIMESTAMP__ as timestamp),interval 1 minute) as time, round(avg(request_time)*1000,2) as \"平均请求时间\",round(percentile(request_time, 50) * 1000, 2) as \"P50延迟\",round(percentile(request_time, 90) * 1000, 2) as \"P90延迟\", round(percentile(request_time, 95) * 1000, 2) as \"P95延迟\", round(percentile(request_time, 99) * 1000, 2) as \"P99延迟\" group by time order by time asc limit 10000",
             "TopicId": "${TopicId}",
             "region": "${region}"
           },
@@ -1065,7 +1065,7 @@
         {
           "hide": false,
           "logServiceParams": {
-            "Query": "* | select histogram( cast(__TIMESTAMP__ as timestamp),interval 1 minute) as time, round(sum(request_length) / 1024.0, 2) as \"请求报文流量(KB)\", round(sum(bytes_sent) / 1024.0, 2) as \"返回客户端流量(KB)\" group by time order by time desc limit 1000",
+            "Query": "* | select histogram( cast(__TIMESTAMP__ as timestamp),interval 1 minute) as time, round(sum(request_length) / 1024.0, 2) as \"请求报文流量(KB)\", round(sum(bytes_sent) / 1024.0, 2) as \"返回客户端流量(KB)\" group by time order by time asc limit 10000",
             "TopicId": "${TopicId}",
             "region": "${region}"
           },
@@ -1299,7 +1299,7 @@
         {
           "hide": false,
           "logServiceParams": {
-            "Query": "NOT server_addr:\"\" AND NOT server_addr:\"-\" | select server_addr as server, round(avg(request_time)*1000, 2) as \"平均访问延时\"  group by server ORDER by \"平均访问延时\"desc limit 10",
+            "Query": "NOT server_addr:\"\" AND NOT server_addr:\"-\" | select server_addr as server, round(avg(request_time)*1000, 2) as \"平均访问延时\"  group by server ORDER by \"平均访问延时\" desc limit 10",
             "TopicId": "${TopicId}",
             "region": "${region}"
           },
