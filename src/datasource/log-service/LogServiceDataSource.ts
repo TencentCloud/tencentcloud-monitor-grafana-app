@@ -23,6 +23,7 @@ import {
 import { RowContextOptions } from '@grafana/ui/components/Logs/LogRowContextProvider';
 import moment from 'moment';
 import { toTimeSeriesMany } from './common/format/prepareTimeSeries';
+import { replaceClsQueryWithTemplateSrv } from './common/utils/query';
 
 export class LogServiceDataSource extends DataSourceApi<QueryInfo, MyDataSourceOptions> {
   private readonly instanceSettings: DataSourceInstanceSettings<MyDataSourceOptions>;
@@ -37,9 +38,7 @@ export class LogServiceDataSource extends DataSourceApi<QueryInfo, MyDataSourceO
     const requestTargets = targets.map<QueryInfo>((target) => {
       const region = target.logServiceParams?.region ? getTemplateSrv().replace(target.logServiceParams.region) : '';
       const TopicId = target.logServiceParams?.TopicId ? getTemplateSrv().replace(target.logServiceParams.TopicId) : '';
-      const Query = target.logServiceParams?.Query
-        ? getTemplateSrv().replace(target.logServiceParams.Query, scopedVars, 'lucene')
-        : '';
+      const Query = replaceClsQueryWithTemplateSrv(target.logServiceParams.Query, scopedVars);
       return {
         ...target,
         logServiceParams: {
@@ -122,7 +121,7 @@ export class LogServiceDataSource extends DataSourceApi<QueryInfo, MyDataSourceO
     const { logServiceParams } = query;
     const region = logServiceParams?.region ? getTemplateSrv().replace(logServiceParams.region) : '';
     const TopicId = logServiceParams?.TopicId ? getTemplateSrv().replace(logServiceParams.TopicId) : '';
-    const Query = logServiceParams?.Query ? getTemplateSrv().replace(logServiceParams.Query) : '';
+    const Query = replaceClsQueryWithTemplateSrv(logServiceParams.Query);
     if (region && TopicId && Query) {
       const { analysisColumns, analysisRecords } = formatSearchLog(
         await SearchLog(
