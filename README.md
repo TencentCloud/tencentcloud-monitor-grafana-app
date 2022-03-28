@@ -17,11 +17,16 @@
 
 # 简介
 
-[腾讯云监控](https://cloud.tencent.com/product/cm) 为用户提供云服务器、云数据库等多个云产品的负载和性能监控指标，用户可以使用云监控控制台、云监控 API 等方式获取相关监控数据。腾讯云监控应用插件 Tencent Cloud Monitor App，是一款适配开源软件 Grafana 的应用插件，通过调用 [腾讯云监控 API 3.0](https://cloud.tencent.com/document/product/248/30342) 的方式获取监控数据，并对数据进行自定义 Dashboard 展示。
+[腾讯云监控](https://cloud.tencent.com/product/cm) 为用户提供云服务器、云数据库等多个云产品的负载和性能监控指标，用户可以使用云监控控制台、云监控 API 等方式获取相关监控数据。
 
-该插件提供了云服务器、云数据库 MySQL、负载均衡 等具有代表性的 [Dashboard 预设模板](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/tree/master/src/dashboards)
+[腾讯云日志服务](https://cloud.tencent.com/product/cls) 是腾讯云提供的一站式日志服务平台，提供了从日志采集、日志存储到日志检索，图表分析、监控告警、日志投递等多项服务，协助用户通过日志来解决业务运维、服务监控、日志审计等场景问题。
 
-支持的云产品监控及文档请参见[文档](https://cloud.tencent.com/document/product/248/54505) ，更多云产品的监控指标数据源在陆续完善中。
+腾讯云监控与日志插件 Tencent Cloud Monitor App，是一款适配开源软件 Grafana 的应用插件，通过调用 [腾讯云监控 API 3.0](https://cloud.tencent.com/document/product/248/30342) 和 [腾讯云日志服务 API 3.0](https://cloud.tencent.com/document/product/614/56479) 的方式获取监控与日志数据，并对数据进行自定义 Dashboard 展示。
+
+该插件监控能力支持的云产品请参见[监控Grafana文档简介](https://cloud.tencent.com/document/product/248/54505) ，该插件支持日志服务的[检索分析能力](https://cloud.tencent.com/document/product/614/47044) 能力。
+
+该插件提供了云服务器、云数据库 MySQL、负载均衡 和 云产品日志数据 等具有代表性的 [Dashboard 预设模板](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/tree/master/src/dashboards)
+
 
 # 入门指南
 
@@ -31,7 +36,7 @@
 $ grafana-cli plugins install tencentcloud-monitor-app
 ```
 
-更多安装方式与入门指南请参见[文档](https://cloud.tencent.com/document/product/248/54506) 。
+更多安装方式与入门指南请参见[云监控文档](https://cloud.tencent.com/document/product/248/54506) 和 [日志服务文档](https://cloud.tencent.com/document/product/614/52102) 。
 
 # 模板变量
 
