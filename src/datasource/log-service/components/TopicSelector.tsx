@@ -71,7 +71,7 @@ export const TopicSelector: FC<Props> = React.memo((props) => {
           className="log-service-monospaced-font-family"
         />
       </InlineField>
-      <InlineField label="日志主题ID" labelWidth={20}>
+      <InlineField label="日志主题" labelWidth={20}>
         <AsyncSelect<string>
           // 地域变更时，自动重新出发请求
           key={value.region}

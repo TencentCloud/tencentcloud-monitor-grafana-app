@@ -38,7 +38,7 @@ export class LogServiceDataSource extends DataSourceApi<QueryInfo, MyDataSourceO
     const requestTargets = targets.map<QueryInfo>((target) => {
       const region = target.logServiceParams?.region ? getTemplateSrv().replace(target.logServiceParams.region) : '';
       const TopicId = target.logServiceParams?.TopicId ? getTemplateSrv().replace(target.logServiceParams.TopicId) : '';
-      const Query = replaceClsQueryWithTemplateSrv(target.logServiceParams.Query, scopedVars);
+      const Query = replaceClsQueryWithTemplateSrv(target.logServiceParams?.Query || '', scopedVars);
       return {
         ...target,
         logServiceParams: {
