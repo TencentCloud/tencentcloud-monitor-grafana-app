@@ -15,11 +15,15 @@ English | [简体中文](https://github.com/TencentCloud/tencentcloud-monitor-gr
 
 # Introduction
 
-[Tencent Cloud Monitoring](https://intl.cloud.tencent.com/product/cm) provides users with load and performance monitoring metrics of multiple cloud products such as Cloud Virtual Machine (CVM) and Cloud Databases (CDB). Users can use cloud monitoring consoles, cloud monitoring APIs, and other methods to retrieve relevant monitoring data. Tencent Cloud Monitor Grafana App is an application plugin that adapts to the open-source software Grafana. It retrieves monitoring data by calling [Tencent Cloud Monitoring API 3.0](https://intl.cloud.tencent.com/document/product/248/33873), and displays the data on a custom Dashboard.
+[Tencent Cloud Monitoring](https://intl.cloud.tencent.com/product/cm) provides users with load and performance monitoring metrics of multiple cloud products such as Cloud Virtual Machine (CVM) and Cloud Databases (CDB). Users can use cloud monitoring consoles, cloud monitoring APIs, and other methods to retrieve relevant monitoring data.
 
-This plugin provides representative [Dashboard templates](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/tree/master/src/dashboards) for **CVM Monitoring**, **TencentDB for MySQL Monitoring** and **Cloud Load Balancer** etc.
+[Tencent Cloud Log Service](https://intl.cloud.tencent.com/product/cls) is a one-stop solution that offers real-time log collection, storage, search, analysis, consuming and shipping, enabling businesses to meet their operational, security, regulatory and analytical needs. Requiring just five minutes to deploy, this reliable logging service overcomes the traditional headaches of resource provisioning and scaling.
+
+Tencent Cloud Monitor Grafana App is an application plugin that adapts to the open-source software Grafana. It retrieves monitoring and log data by calling [Tencent Cloud Monitoring API 3.0](https://intl.cloud.tencent.com/document/product/248/33873) and [Tencent Cloud Log Service API 3.0](https://intl.cloud.tencent.com/document/product/614/42757), and displays the data on a custom Dashboard.
 
 For supported cloud products monitoring, please read this [document](https://intl.cloud.tencent.com/document/product/248/40019). More cloud product metrics are being improved.
+
+This plugin provides representative [Dashboard templates](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/tree/master/src/dashboards) for **CVM Monitoring**, **TencentDB for MySQL Monitoring** and **Cloud Load Balancer** etc.
 
 # Get Started
 
@@ -29,7 +33,8 @@ Install the latest plugin using Grafana CLI:
 $ grafana-cli plugins install tencentcloud-monitor-app
 ```
 
-Read more about plugins installation and configuration in this [document](https://intl.cloud.tencent.com/document/product/248/40020).
+Read more about plugins installation and configuration in this [monitor document](https://intl.cloud.tencent.com/document/product/248/40020) and [log service document](https://cloud.tencent.com/document/product/614/52102).
+
 
 # Template Variables
 Template Variables is a Dashboard optimization feature provided by Grafana to create highly reusable and interactive Dashboards. The general idea of template variables is to allow Grafana to obtain different metrics from the data source and provide a way to dynamically change it without modifying the dashboard. Tencent Cloud Monitor Grafana App currently provides variables such as region, CVM, and TencentDB for MySQL instances.
