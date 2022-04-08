@@ -153,6 +153,19 @@ export class ConfigEditor extends PureComponent<Props, State> {
               }}
             />
           </InlineFieldRow>
+          <InlineFieldRow style={{ marginTop: '10px' }}>
+            <InlineField label="开启内网API模式" labelWidth={20}>
+              <InlineSwitch
+                value={jsonData.intranet}
+                onChange={(e) => {
+                  // onIntranetChange
+                  this.patchJsonData({
+                    intranet: e.currentTarget.checked,
+                  });
+                }}
+              />
+            </InlineField>
+          </InlineFieldRow>
         </div>
 
         {this.renderLogServiceConfig()}

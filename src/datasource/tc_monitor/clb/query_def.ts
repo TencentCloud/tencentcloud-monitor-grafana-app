@@ -231,6 +231,10 @@ const LOADBALANCEVALIDDIMENSIONS = {
   lanIp: 'PrivateIpAddresses',
   port: 'ServerPort',
 };
+// 对于ipv6类型，vip应该取AddressIPv6。
+const CANDIATEDIMENSIONS = {
+  LoadBalancerVips: 'AddressIPv6',
+};
 // dimensionObject[item] = { Name: item, Value: '' };
 // const LOADBALANCE_INSTANCE_DIMENSIONOBJECTS = {
 //   vip: { Name: 'vip', Value: '' },
@@ -295,6 +299,7 @@ export {
   LOADBALANCEServerAliasList,
   LOADBALANCEVALIDDIMENSIONS,
   templateQueryIdMap,
+  CANDIATEDIMENSIONS,
   // LOADBALANCE_LISTENER_DIMENSIONOBJECTS,
   // LOADBALANCE_INSTANCE_DIMENSIONOBJECTS,
   queryMonitorExtraConfg,

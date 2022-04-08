@@ -1,11 +1,18 @@
 import coreModule from 'grafana/app/core/core_module';
-import { RedisMemFieldsDescriptor } from './query_def';
+import { map } from 'lodash';
+import { RedisMemFieldsDescriptor, templateQueryIdMap, NodeType, namespace } from './query_def';
+import { GetServiceFromNamespace } from '../../common/constants';
 
 export class RedisMemQueryCtrl {
   /** @ngInject */
   constructor($scope, $rootScope) {
     $scope.init = () => {
       $scope.RedisMemFieldsDescriptor = RedisMemFieldsDescriptor;
+    };
+
+    $scope.clearExtrasAlias = () => {
+      $scope.target.rnodeid = '';
+      $scope.target.pnodeid = '';
     };
 
     $scope.onChecked = (srcField, dstField) => {
@@ -20,6 +27,31 @@ export class RedisMemQueryCtrl {
         default:
           return [];
       }
+    };
+
+    $scope.getVariableId = (data, type) => {
+      let variableData = data;
+      const service = GetServiceFromNamespace(namespace);
+
+      variableData = $scope.datasource.getServiceFn(service, 'getVariable')(variableData);
+      if (!variableData) {
+        return '';
+      }
+      try {
+        variableData = JSON.parse(variableData)[templateQueryIdMap[type]];
+      } catch (error) {}
+      return variableData;
+    };
+
+    $scope.getExtraDropdown = async (target, nodetype) => {
+      const { instance } = $scope.target;
+      const service = GetServiceFromNamespace(namespace);
+      const instanceId = $scope.getVariableId(instance, 'instance');
+      const region = $scope.datasource.getServiceFn(service, 'getVariable')(target.region);
+      const rs = await $scope.datasource.getServiceFn(service, 'getInstanceNodeInfo')({ region, instanceId });
+
+      const ndoeTypeIndex = NodeType.indexOf(nodetype);
+      return ndoeTypeIndex === -1 ? [] : map(rs[ndoeTypeIndex], (item) => ({ text: item.NodeId, value: item.NodeId }));
     };
 
     $scope.init();
@@ -92,6 +124,31 @@ const template = `
   </div>
 
 </div>
+
+<div class="gf-form-inline" ng-if="target.instance && dims.rnodeid">
+  <div class="gf-form">
+    <label class="gf-form-label query-keyword width-9">
+      RedisNode
+    </label>
+    <div class="gf-form-select-wrapper gf-form-select-wrapper--caret-indent">
+      <gf-form-dropdown model="target.rnodeid" allow-custom="true" lookup-text="true" get-options="getExtraDropdown(target, 'Redis')"
+        on-change="onRefresh()" css-class="min-width-10">
+      </gf-form-dropdown>
+    </div>
+  </div>
+</div>
+<div class="gf-form-inline" ng-if="target.instance && dims.pnodeid">
+  <div class="gf-form">
+    <label class="gf-form-label query-keyword width-9">
+      ProxyNode
+    </label>
+    <div class="gf-form-select-wrapper gf-form-select-wrapper--caret-indent">
+      <gf-form-dropdown model="target.pnodeid" allow-custom="true" lookup-text="true" get-options="getExtraDropdown(target, 'Proxy')"
+        on-change="onRefresh()" css-class="min-width-10">
+      </gf-form-dropdown>
+    </div>
+  </div>
+</div>
 `;
 
 export function redisMemQuery() {
@@ -105,6 +162,16 @@ export function redisMemQuery() {
       region: '=',
       datasource: '=',
       onChange: '&',
+      onRefresh: '&',
+      dims: '=',
+    },
+    link: (scope, element, attrs) => {
+      scope.$watch('target.instance', () => {
+        scope.clearExtrasAlias?.();
+      });
+      scope.$watch('target.metricName', () => {
+        scope.clearExtrasAlias?.();
+      });
     },
   };
 }

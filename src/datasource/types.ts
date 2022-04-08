@@ -60,6 +60,7 @@ export interface MyDataSourceOptions extends DataSourceJsonData {
   logServiceEnabled?: boolean;
   /** 根据 product.service 字段，判断云监控功能是否开启。字段混杂，不写入类型声明中 */
   // [product.service]?: boolean
+  intranet?: boolean;
 }
 
 /**
