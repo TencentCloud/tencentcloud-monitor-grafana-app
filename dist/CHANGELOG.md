@@ -1,6 +1,18 @@
 # TencentCloud Monitor Grafana App
 ---
 
+## [2.6.3] - 2022-04-08
+### Fixed
+
+- Redis 支持节点和proxy维度 (#114)
+- CLB 的 vip 支持 ipv6 (#114)
+- 模板变量填写提示气泡，链接到 https://cloud.tencent.com/document/product/248/54510。(#114)
+- 插件端支持内网 API 设置 (#114)
+
+See detailed guide in [README.md](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/README.md) and [日志服务.md](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/日志服务.md).
+
+---
+
 ## [2.6.2] - 2022-03-31
 ### Fixed
 

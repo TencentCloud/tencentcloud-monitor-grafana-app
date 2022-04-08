@@ -12,16 +12,6 @@
   },
   "routes": [
     {
-      "path": "cls",
-      "url": "https://cls.tencentcloudapi.com",
-      "headers": [
-        {
-          "name": "Content-Type",
-          "content": "application/json"
-        }
-      ]
-    },
-    {
       "path": "cls-internal",
       "url": "https://cls.internal.tencentcloudapi.com",
       "headers": [
@@ -1154,6 +1144,26 @@
     {
       "path": "cls",
       "url": "https://cls.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
+    },
+    {
+      "path": "lighthouse",
+      "url": "https://lighthouse.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
+    },
+    {
+      "path": "tsf",
+      "url": "https://tsf.tencentcloudapi.com",
       "headers": [
         {
           "name": "Content-Type",
