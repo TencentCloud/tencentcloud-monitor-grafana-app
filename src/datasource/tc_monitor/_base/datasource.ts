@@ -48,6 +48,7 @@ export abstract class BaseDatasource implements DatasourceInterface {
   4 通过这个dim和sourceMap获取维度值。即sourceMap[dim]
   */
   queryMonitorExtraConfg: Record<string, queryConfigType> = {};
+  CandiateDimensions?: Record<string, string> = {};
 
   InstanceReqConfig?: {
     service?: string;
@@ -83,7 +84,7 @@ export abstract class BaseDatasource implements DatasourceInterface {
     let result = '';
     const alias = instance._InstanceAliasValue;
     this.extrasAlias?.forEach((extra) => {
-      const extraAlia = target[extra];
+      const extraAlia = this.getVariable(target[extra]);
       if (extraAlia && alias.indexOf(extraAlia) === -1) {
         result += ` - ${extraAlia}`;
       }
@@ -190,7 +191,6 @@ export abstract class BaseDatasource implements DatasourceInterface {
    * ]
    */
   async dimensionsFormat(dimKeys, ins, dimensionObject, target, service, options) {
-    console.log({ dimKeys });
     for (let key of dimKeys) {
       let keyTmp = key;
       const invalidDim = this.InvalidDimensions || this.getInvalidDimensions(this, target[service]);
@@ -199,7 +199,7 @@ export abstract class BaseDatasource implements DatasourceInterface {
         keyTmp = invalidDim[key];
         ins[key] = ins[keyTmp];
       }
-      // console.log('dimensionObject2', dimensionObject, {key, keyTmp}, invalidDim);
+
       let extraDimValue = this.getVariable(target[service][keyTmp]);
       if (this.queryMonitorExtraConfg[keyTmp]) {
         const {
@@ -234,11 +234,11 @@ export abstract class BaseDatasource implements DatasourceInterface {
 
         extraDimValue = isStringOrNumber ? extraSourceMap : extraSourceMap?.[dim_KeyInIns || keyTmp];
       } else {
-        ins._InstanceAliasValue += this.getOtherAlias(ins, target);
+        ins._InstanceAliasValue += this.getOtherAlias(ins, target[service]);
       }
       // 设置instance，针对额外的维度，需要注意模板变量的值
-      // ins[key] = (ins[keyTmp]) ?? this.getVariable(target[service][keyTmp]);
-      ins[key] = ins[keyTmp] ?? extraDimValue;
+      // ins[key] = ins[keyTmp] ?? extraDimValue;
+      ins[key] = this.getDimensionsVal(ins, keyTmp, extraDimValue);
       // cynosdb产品接口返回维度和入参不一致
       if (this.checkKeys.length > 0) {
         this.checkKeys.forEach((Ekey) => {
@@ -248,6 +248,13 @@ export abstract class BaseDatasource implements DatasourceInterface {
       dimensionObject[key] = { Name: key, Value: ins[key] };
     }
     return dimensionObject;
+  }
+  getDimensionsVal(ins: Record<string, any>, key: string, extraDimValue: string) {
+    let dimVal = ins[key];
+    if (_.isEmpty(dimVal) && this.CandiateDimensions[key]) {
+      dimVal = ins[this.CandiateDimensions[key]];
+    }
+    return dimVal ?? extraDimValue;
   }
   query(options: any) {
     const service = this.service!; // 强制声明非空

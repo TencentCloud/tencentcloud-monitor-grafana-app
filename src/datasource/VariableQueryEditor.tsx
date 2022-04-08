@@ -12,6 +12,13 @@ interface VariableQueryProps {
   datasource: DataSource;
 }
 
+const InfoPopver: React.FC<any> = () => {
+  return (
+    <a target="_blank" href="https://cloud.tencent.com/document/product/248/54510">
+      Click here for more information of query
+    </a>
+  );
+};
 export const VariableQueryEditor: React.FC<VariableQueryProps> = (props) => {
   const propsRef = useLatest(props);
   const { query, datasource } = props;
@@ -69,7 +76,7 @@ export const VariableQueryEditor: React.FC<VariableQueryProps> = (props) => {
         </>
       ) : (
         <InlineFieldRow>
-          <InlineField label="查询语句" labelWidth={20} grow>
+          <InlineField label="查询语句" labelWidth={20} grow tooltip={InfoPopver}>
             <Input
               name="query"
               required
@@ -82,5 +89,4 @@ export const VariableQueryEditor: React.FC<VariableQueryProps> = (props) => {
     </>
   );
 };
-
 VariableQueryEditor.displayName = 'VariableQueryEditor';

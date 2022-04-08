@@ -230,6 +230,18 @@ const SERVICES_API_INFO = {
     path: '/gse',
     host: 'gse.tencentcloudapi.com',
   },
+  lighthouse: {
+    service: 'lighthouse',
+    version: '2020-03-24',
+    path: '/lighthouse',
+    host: 'lighthouse.tencentcloudapi.com',
+  },
+  tsf: {
+    service: 'tsf',
+    version: '2018-03-26',
+    path: '/tsf',
+    host: 'tsf.tencentcloudapi.com',
+  },
   // 不单独定义lb，因为lb同样用的是vpc的配置，同上
   // lb: {
   //   service: 'lb',

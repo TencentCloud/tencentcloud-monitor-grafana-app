@@ -51,7 +51,6 @@ export default class DCDatasource extends BaseDatasource {
       serviceInfo.service,
       { region, action: 'DescribeBaseMetrics' }
     );
-    console.log({ private_metrics, public_metrics });
     const res = Object.values(_.keyBy(_.concat(private_metrics, public_metrics), 'MetricName'));
     return res.map((t) => modifyDimensons(t));
   }

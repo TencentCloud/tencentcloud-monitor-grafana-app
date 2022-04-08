@@ -216,6 +216,8 @@ const REDISMEM_STATE = {
   instance: '',
   instanceAlias: 'InstanceId',
   queries: { ...RedisFields },
+  rnodeid: '',
+  pnodeid: '',
 };
 
 function GetInstanceQueryParams(queries: any = {}) {
@@ -243,20 +245,21 @@ function GetInstanceQueryParams(queries: any = {}) {
   return params;
 }
 
-function isValidMetric(metricObj: any = {}) {
-  const dimension = _.get(metricObj, 'Dimensions[0].Dimensions');
-  return dimension.length === 1 && _.indexOf(dimension, 'pnodeid') === -1 && _.indexOf(dimension, 'rnodeid') === -1;
-}
-
 const REDISMEMInstanceAliasList = ['InstanceId', 'InstanceName', 'WanIp'];
 
 const RedisMemInvalidDemensions = {
   instanceid: 'InstanceId',
+  rnodeid: 'rnodeid',
+  pnodeid: 'pnodeid',
 };
 
 const templateQueryIdMap = {
   instance: 'InstanceId',
+  rnodeid: 'rnodeid',
+  pnodeid: 'pnodeid',
 };
+
+const NodeType = ['Redis', 'Proxy'];
 
 export default REDISMEM_STATE;
 export {
@@ -265,6 +268,6 @@ export {
   REDISMEMInstanceAliasList,
   templateQueryIdMap,
   namespace,
-  isValidMetric,
+  NodeType,
   GetInstanceQueryParams as REDISMEMGetInstanceQueryParams,
 };

@@ -402,6 +402,18 @@ const SERVICES: ServiceType[] = [
     href: 'https://cloud.tencent.com/document/product/614',
   },
   // {
+  //   service: 'lighthouse',
+  //   label: '轻量应用服务器(LIGHTHOUSE)',
+  //   namespace: 'QCE/LIGHTHOUSE',
+  //   href: 'https://cloud.tencent.com/document/product/1207',
+  // },
+  // {
+  //   service: 'tsf',
+  //   label: ' 微服务平台(TSF)',
+  //   namespace: 'QCE/TSF',
+  //   href: 'https://cloud.tencent.com/document/product/649',
+  // },
+  // {
   //   service: 'waf',
   //   label: 'Web 应用防火墙(WAF)',
   //   hideRegion: true,
