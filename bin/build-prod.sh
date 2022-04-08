@@ -2,6 +2,9 @@
 
 set -eu
 
+# route validation
+npm run validate
+
 # build front end
 grafana-toolkit plugin:build
 
