@@ -1,6 +1,15 @@
 # TencentCloud Monitor Grafana App
 ---
 
+## [2.6.4] - 2022-05-11
+### Modify
+
+- 模板变量query中payload支持引入其他模板变量。
+
+See detailed guide in [README.md](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/README.md) and [日志服务.md](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/日志服务.md).
+
+---
+
 ## [2.6.3] - 2022-04-08
 ### Fixed
 
