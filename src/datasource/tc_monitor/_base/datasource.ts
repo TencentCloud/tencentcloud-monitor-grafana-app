@@ -119,6 +119,12 @@ export abstract class BaseDatasource implements DatasourceInterface {
     if (!action || !namespace) {
       return [];
     }
+    // 支持payload里传入模板变量
+    if (_.isObject(payload)) {
+      _.forEach(payload, (value, key) => {
+        payload[key] = _.isString(value) ? this.getVariable(value) : value;
+      })
+    }
 
     // 查询地域列表
     const regionQuery = action.match(/^DescribeRegions$/i);
