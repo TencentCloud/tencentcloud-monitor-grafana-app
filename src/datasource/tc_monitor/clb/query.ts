@@ -21,7 +21,7 @@ export class QueryCtrl {
     $scope.getVariableId = (data, type) => {
       let variableData = data;
       const service = GetServiceFromNamespace(namespace);
-      // console.log({namespace, service});
+
       variableData = $scope.datasource.getServiceFn(service, 'getVariable')(variableData);
       if (!variableData) {
         return '';

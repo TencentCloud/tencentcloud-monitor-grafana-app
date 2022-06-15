@@ -1,14 +1,17 @@
 /** 此文件放置通用业务的配置项，用于区分业务类型 */
 import { DataQuery, DataSourceJsonData } from '@grafana/data';
+import { RUMQuery } from './rum-service/types';
 
 export const enum ServiceType {
   monitor = 'monitor',
   logService = 'logService',
+  RUMService = 'RUMService'
 }
 
 export const ServiceTypeOptions = [
   { value: ServiceType.monitor, label: '云监控' },
   { value: ServiceType.logService, label: '日志服务' },
+  { value: ServiceType.RUMService, label: '前端性能监控' },
 ];
 
 export interface QueryInfo extends DataQuery {
@@ -19,6 +22,7 @@ export interface QueryInfo extends DataQuery {
     TopicId: string;
     Query: string;
   };
+  RUMServiceParams?: RUMQuery 
 }
 
 export const defaultQueryInfo: Omit<QueryInfo, 'refId'> = {
@@ -28,6 +32,34 @@ export const defaultQueryInfo: Omit<QueryInfo, 'refId'> = {
     TopicId: '',
     Query: '',
   },
+  RUMServiceParams: {
+    policy: "default",
+    resultFormat: "time_series",
+    orderByTime: "ASC",
+    tags: [],
+    groupBy: [
+      {
+        type: "time",
+        params: ["$__interval"]
+      },
+      {
+        type: "fill",
+        params: ["null"]
+      }
+    ],
+    select: [
+      [
+        {
+          type: "field",
+          params: ["value"]
+        },
+        {
+          type: "mean",
+          params: []
+        }
+      ]
+    ]
+  }
 };
 
 /** QueryInfo的运行时版本，用于将query中的不合法字段进去移除，保证query是个QueryInfo类型的数据 */
@@ -41,15 +73,15 @@ export const queryInfoRuntime: Required<QueryInfo> = {
 
   serviceType: defaultQueryInfo.serviceType,
   logServiceParams: defaultQueryInfo.logServiceParams,
+  RUMServiceParams: defaultQueryInfo.RUMServiceParams,
 };
 
 /** 变量数据类型。字符场景为云监控配置，对象场景由内部字段决定 */
-export type VariableQuery = string | VariableLogServiceQuery;
-export interface VariableLogServiceQuery {
-  /** 使用日志数据源获取options数据 */
-  serviceType: ServiceType.logService;
+export interface VariableQuery {
+  serviceType: ServiceType;
+  queryString: string;
   logServiceParams?: QueryInfo['logServiceParams'];
-}
+};
 
 /**
  * These are options configured for each DataSource instance.
@@ -58,6 +90,8 @@ export interface MyDataSourceOptions extends DataSourceJsonData {
   secretId?: string;
   /** 控制是否开启日志服务功能 */
   logServiceEnabled?: boolean;
+  /** 控制是否开启前端性能监控 */
+  RUMServiceEnabled?: boolean;
   /** 根据 product.service 字段，判断云监控功能是否开启。字段混杂，不写入类型声明中 */
   // [product.service]?: boolean
   intranet?: boolean;

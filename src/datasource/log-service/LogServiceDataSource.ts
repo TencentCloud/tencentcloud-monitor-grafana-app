@@ -1,4 +1,4 @@
-import { MyDataSourceOptions, QueryInfo, VariableLogServiceQuery } from '../types';
+import { MyDataSourceOptions, QueryInfo } from '../types';
 import {
   DataFrame,
   DataQueryRequest,
@@ -117,11 +117,14 @@ export class LogServiceDataSource extends DataSourceApi<QueryInfo, MyDataSourceO
     return output$;
   }
 
-  async metricFindQuery(query: VariableLogServiceQuery, options): Promise<MetricFindValue[]> {
-    const { logServiceParams } = query;
+  async metricFindQuery(query: QueryInfo['logServiceParams'], options): Promise<MetricFindValue[]> {
+    const logServiceParams = query;
     const region = logServiceParams?.region ? getTemplateSrv().replace(logServiceParams.region) : '';
     const TopicId = logServiceParams?.TopicId ? getTemplateSrv().replace(logServiceParams.TopicId) : '';
     const Query = replaceClsQueryWithTemplateSrv(logServiceParams.Query);
+    if (!options.range) {
+      return []
+    }
     if (region && TopicId && Query) {
       const { analysisColumns, analysisRecords } = formatSearchLog(
         await SearchLog(

@@ -1,6 +1,17 @@
 # TencentCloud Monitor Grafana App
 ---
 
+## [2.7.0] - 2022-06-07
+### Modify
+
+- 增加云监控-性能监控RUM产品。
+- GPU维度组合问题修复。
+- 全球应用加速产品名称修改。
+
+See detailed guide in [README.md](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/README.md) and [日志服务.md](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/日志服务.md).
+
+---
+
 ## [2.6.4] - 2022-05-11
 ### Modify
 

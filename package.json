@@ -1,7 +1,7 @@
 {
   "name": "tencentcloud-monitor-grafana-app",
   "private": false,
-  "version": "2.6.4",
+  "version": "2.7.0",
   "description": "Tencent Cloud Monitor plugin for Grafana",
   "engines": {
     "node": ">=14"
@@ -66,7 +66,7 @@
     "crypto-js": "^3.1.9-1",
     "dot-qs": "^0.2.0",
     "lodash": "^4.17.11",
-    "moment": "^2.29.2",
+    "moment": "^2.24.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-use": "^17.3.2"

@@ -4,7 +4,7 @@ import { defaultQueryInfo, ServiceType, ServiceTypeOptions, VariableQuery } from
 import { DataSource } from './DataSource';
 import { LogServiceQueryEditor } from './log-service/LogServiceQueryEditor';
 import { useLatest } from 'react-use';
-import { clone } from 'lodash';
+import { clone, isString } from 'lodash';
 
 interface VariableQueryProps {
   query: VariableQuery;
@@ -27,39 +27,47 @@ export const VariableQueryEditor: React.FC<VariableQueryProps> = (props) => {
     (newQuery: VariableQuery) => {
       const { onChange } = propsRef.current;
       let definition;
-      if (typeof newQuery === 'string') {
-        definition = newQuery;
-      } else {
+      if (newQuery.serviceType === ServiceType.logService) {
         definition = `SQL:  ${newQuery.logServiceParams?.Query}`;
+      } else {
+        definition = newQuery.queryString;
       }
       onChange?.(newQuery, definition);
     },
     [propsRef]
   );
-
-  const currentServiceType = typeof query === 'string' ? ServiceType.monitor : ServiceType.logService;
-
   return (
     <>
       <InlineFieldRow>
         <InlineField label="服务类型" labelWidth={20}>
           <RadioButtonGroup
             options={ServiceTypeOptions}
-            value={currentServiceType}
+            value={isString(query) ? ServiceType.monitor : query.serviceType}
             onChange={(type) => {
               if (type === ServiceType.monitor) {
-                onQueryChange('');
-              } else {
                 onQueryChange({
-                  serviceType: ServiceType.logService,
+                  serviceType: type,
+                  queryString: '',
+                });
+              }
+              if (type === ServiceType.logService){
+                onQueryChange({
+                  serviceType: type,
+                  queryString: '',
                   logServiceParams: clone(defaultQueryInfo.logServiceParams),
+                });
+              }
+              if (type === ServiceType.RUMService) {
+                onQueryChange({
+                  serviceType: type,
+                  queryString: '',
                 });
               }
             }}
           />
         </InlineField>
       </InlineFieldRow>
-      {currentServiceType === ServiceType.logService ? (
+      {query.serviceType === ServiceType.logService && (
         <>
           {/* 复用编辑模式的日志主题输入组件 */}
           <LogServiceQueryEditor
@@ -69,19 +77,40 @@ export const VariableQueryEditor: React.FC<VariableQueryProps> = (props) => {
             onChange={(v) => {
               onQueryChange({
                 serviceType: ServiceType.logService,
+                queryString: '',
                 logServiceParams: v.logServiceParams,
               });
             }}
           />
         </>
-      ) : (
+      )}
+      {query.serviceType === ServiceType.RUMService && (
         <InlineFieldRow>
           <InlineField label="查询语句" labelWidth={20} grow tooltip={InfoPopver}>
             <Input
               name="query"
               required
-              onChange={(e) => onQueryChange(e.currentTarget.value)}
-              value={query as unknown as string}
+              placeholder="metric name or tags query"
+              onChange={(e) => onQueryChange({
+                serviceType: ServiceType.RUMService,
+                queryString: e.currentTarget.value
+              })}
+              value={isString(query) ? query : query.queryString}
+            />
+          </InlineField>
+        </InlineFieldRow>
+      )}
+      {(isString(query) || query.serviceType === ServiceType.monitor) && (
+        <InlineFieldRow>
+          <InlineField label="查询语句" labelWidth={20} grow tooltip={InfoPopver}>
+            <Input
+              name="query"
+              required
+              onChange={(e) => onQueryChange({
+                serviceType: ServiceType.monitor,
+                queryString: e.currentTarget.value
+              })}
+              value={isString(query) ? query : query.queryString}
             />
           </InlineField>
         </InlineFieldRow>
