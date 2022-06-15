@@ -5,7 +5,7 @@
   "backend": true,
   "logs": true,
   "metrics": true,
-  "annotations": true,
+  "annotations": false,
   "executable": "tencentcloud-monitor-app-backend",
   "queryOptions": {
     "maxDataPoints": true
@@ -1164,6 +1164,16 @@
     {
       "path": "tsf",
       "url": "https://tsf.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
+    },
+    {
+      "path": "rum",
+      "url": "https://rum.tencentcloudapi.com",
       "headers": [
         {
           "name": "Content-Type",

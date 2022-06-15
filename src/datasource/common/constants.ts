@@ -242,6 +242,12 @@ const SERVICES_API_INFO = {
     path: '/tsf',
     host: 'tsf.tencentcloudapi.com',
   },
+  rum: {
+    service: 'rum',
+    version: '2021-06-22',
+    path: '/rum',
+    host: 'rum.tencentcloudapi.com',
+  },
   // 不单独定义lb，因为lb同样用的是vpc的配置，同上
   // lb: {
   //   service: 'lb',
@@ -556,7 +562,7 @@ function isInstanceMatch(instance, dimensions) {
   let match = true;
   // eslint-disable-next-line @typescript-eslint/prefer-for-of
   for (let i = 0; i < dimensions.length; i++) {
-    if (_.get(instance, dimensions[i].Name).toString() !== dimensions[i].Value.toString()) {
+    if (_.get(instance, dimensions[i].Name, '').toString() !== dimensions[i].Value.toString()) {
       match = false;
       break;
     }

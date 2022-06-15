@@ -184,6 +184,22 @@ const MONGODBInvalidDemensions = {
 
 const templateQueryIdMap = {
   instance: 'InstanceId',
+  replica: 'ReplicaSetId',
+};
+
+const queryMonitorExtraConfg = {
+  Replica: {
+    dim_KeyInStorage: 'ReplicaSets',
+    dim_KeyInTarget: 'replica',
+    dim_KeyInMap: 'ReplicaSetId',
+    dim_KeyInIns: 'ReplicaSetId',
+  },
+  Node: {
+    dim_KeyInStorage: 'ReplicaNodeSets',
+    dim_KeyInTarget: 'node',
+    dim_KeyInMap: 'NodeId',
+    dim_KeyInIns: 'NodeId',
+  },
 };
 export default MONGODB_STATE;
 export {
@@ -191,5 +207,6 @@ export {
   MONGODBInvalidDemensions,
   MONGODBInstanceAliasList,
   templateQueryIdMap,
+  queryMonitorExtraConfg,
   GetInstanceQueryParams as MONGODBGetInstanceQueryParams,
 };

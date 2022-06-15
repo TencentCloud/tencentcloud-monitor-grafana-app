@@ -361,7 +361,7 @@ const SERVICES: ServiceType[] = [
   },
   {
     service: 'qaap',
-    label: '全球应用加速(QAAP)',
+    label: '全球应用加速(GAAP)',
     namespace: 'QCE/QAAP',
     href: 'https://cloud.tencent.com/document/product/608',
   },

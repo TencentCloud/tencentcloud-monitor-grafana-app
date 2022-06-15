@@ -1,5 +1,7 @@
 import coreModule from 'grafana/app/core/core_module';
-import { MONGODBFieldsDescriptor } from './query_def';
+import { map, get, find, times } from 'lodash';
+import { MONGODBFieldsDescriptor, templateQueryIdMap } from './query_def';
+import { GetServiceFromNamespace } from '../../common/constants';
 
 export class MongoDBQueryCtrl {
   /** @ngInject */
@@ -20,6 +22,68 @@ export class MongoDBQueryCtrl {
         default:
           return [];
       }
+    };
+
+    $scope.onInstanceChange = (n, o) => {
+      if (n === o) {
+        return;
+      }
+      $scope.target.replica = '';
+      $scope.target.node = '';
+    };
+
+    $scope.getVariableId = (data, type) => {
+      let variableData = data;
+      const service = GetServiceFromNamespace('QCE/CMONGO');
+
+      variableData = $scope.datasource.getServiceFn(service, 'getVariable')(variableData);
+      if (!variableData) {
+        return '';
+      }
+      try {
+        variableData = JSON.parse(variableData)[templateQueryIdMap[type]];
+      } catch (error) {
+        // console.log();
+      }
+      return variableData;
+    };
+
+    $scope.getExtraDropdown = async (target, type) => {
+      const { instance, replica } = $scope.target;
+      const service = GetServiceFromNamespace('QCE/CMONGO');
+      const instanceId = $scope.getVariableId(instance, 'instance');
+      const region = $scope.datasource.getServiceFn(service, 'getVariable')(target.region);
+      const [res] = await $scope.datasource.getServiceFn(service, 'getInstances')(region, {
+        InstanceIds: [instanceId],
+      });
+      if (type === 'replica') {
+        return map(get(res, 'ReplicaSets', []), (item) => {
+          item._InstanceAliasValue = item.ReplicaSetId;
+          return { text: item.ReplicaSetId, value: JSON.stringify(item) };
+        });
+      }
+      if (type === 'node' && replica !== '') {
+        const replicaId = $scope.getVariableId(replica, 'replica');
+        const targetReplica = find(get(res, 'ReplicaSets', []), { ReplicaSetId: replicaId });
+        const options = times(targetReplica.SecondaryNum, (index) => {
+          const nodeId = `${targetReplica.ReplicaSetId}-node-slave${index}`;
+          return {
+            text: nodeId,
+            value: JSON.stringify({ NodeId: nodeId, _InstanceAliasValue: `${targetReplica.ReplicaSetId} - ${nodeId}` }),
+          };
+        });
+        return [
+          {
+            text: `${targetReplica.ReplicaSetId}-node-primary`,
+            value: JSON.stringify({
+              NodeId: `${targetReplica.ReplicaSetId}-node-primary`,
+              _InstanceAliasValue: `${targetReplica.ReplicaSetId} - ${`${targetReplica.ReplicaSetId}-node-primary`}`,
+            }),
+          },
+          ...options,
+        ];
+      }
+      return [];
     };
 
     $scope.init();
@@ -90,7 +154,32 @@ const template = `
       ></custom-select-dropdown>
     </div>
   </div>
+</div>
 
+<div class="gf-form-inline" ng-if="target.instance">
+  <div class="gf-form">
+    <label class="gf-form-label query-keyword width-9">
+      Replica
+    </label>
+    <div class="gf-form-select-wrapper gf-form-select-wrapper--caret-indent">
+      <gf-form-dropdown model="target.replica" allow-custom="true" lookup-text="true" get-options="getExtraDropdown(target, 'replica')"
+        on-change="onRefresh()" css-class="min-width-10">
+      </gf-form-dropdown>
+    </div>
+  </div>
+</div>
+
+<div class="gf-form-inline" ng-if="target.replica">
+  <div class="gf-form">
+    <label class="gf-form-label query-keyword width-9">
+      Node
+    </label>
+    <div class="gf-form-select-wrapper gf-form-select-wrapper--caret-indent">
+      <gf-form-dropdown model="target.node" allow-custom="true" lookup-text="true" get-options="getExtraDropdown(target, 'node')"
+        on-change="onRefresh()" css-class="min-width-10">
+      </gf-form-dropdown>
+    </div>
+  </div>
 </div>
 `;
 
@@ -104,7 +193,13 @@ export function mongodbQuery() {
       showDetail: '=',
       region: '=',
       datasource: '=',
+      onRefresh: '&',
       onChange: '&',
+    },
+    link: (scope, element, attrs) => {
+      scope.$watch('target.instance', (newValue, oldValue) => {
+        scope.onInstanceChange?.(newValue, oldValue);
+      });
     },
   };
 }

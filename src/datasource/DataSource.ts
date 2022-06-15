@@ -13,6 +13,7 @@ import { DataSourceWithBackend, getBackendSrv, getTemplateSrv } from '@grafana/r
 import { TCMonitorDatasource } from './tc_monitor/MonitorDatasource';
 import { MyDataSourceOptions, QueryInfo, ServiceType, VariableQuery } from './types';
 import { LogServiceDataSource } from './log-service/LogServiceDataSource';
+import RUMServiceDataSource from './rum-service/RUMServiceDataSource';
 import { IS_DEVELOPMENT_ENVIRONMENT } from './common/constants';
 
 /** 顶层数据源，内部根据配置与请求情况，请求具体的业务（monitor or logService） */
@@ -20,6 +21,7 @@ export class DataSource extends DataSourceWithBackend<QueryInfo, MyDataSourceOpt
   readonly instanceSettings: DataSourceInstanceSettings<MyDataSourceOptions>;
   readonly monitorDataSource: TCMonitorDatasource;
   readonly logServiceDataSource: LogServiceDataSource;
+  readonly RUMServiceDataSource: RUMServiceDataSource;
 
   constructor(instanceSettings: DataSourceInstanceSettings<MyDataSourceOptions>) {
     super(instanceSettings);
@@ -32,14 +34,19 @@ export class DataSource extends DataSourceWithBackend<QueryInfo, MyDataSourceOpt
     (this.monitorDataSource as any).meta = this.meta;
     this.logServiceDataSource = new LogServiceDataSource(this.instanceSettings);
     (this.logServiceDataSource as any).meta = this.meta;
+    this.RUMServiceDataSource = new RUMServiceDataSource(this.instanceSettings);
+    (this.RUMServiceDataSource as any).meta = this.meta;
   }
 
   query(request: DataQueryRequest<QueryInfo>): Observable<DataQueryResponse> {
     const monitorTargets: QueryInfo[] = [];
     const logServiceTargets: QueryInfo[] = [];
+    const RUMServiceTargets: QueryInfo[] = [];
     for (const target of request.targets) {
       if (target.serviceType === ServiceType.logService) {
         logServiceTargets.push(target);
+      } else if (target.serviceType === ServiceType.RUMService) {
+        RUMServiceTargets.push(target);
       } else {
         monitorTargets.push(target);
       }
@@ -59,6 +66,12 @@ export class DataSource extends DataSourceWithBackend<QueryInfo, MyDataSourceOpt
         ? this.logServiceDataSource.query({
             ..._.clone(_.omit(request, 'targets')),
             targets: logServiceTargets,
+          })
+        : of(EmptyDataQueryResponse),
+      RUMServiceTargets.length
+        ? this.RUMServiceDataSource.query({
+            ..._.clone(_.omit(request, 'targets')),
+            targets: RUMServiceTargets,
           })
         : of(EmptyDataQueryResponse),
     ]).pipe(
@@ -81,7 +94,7 @@ export class DataSource extends DataSourceWithBackend<QueryInfo, MyDataSourceOpt
   async testDatasource() {
     // 如果子服务没有开启，则返回null
     const serviceTestResults = (
-      await Promise.all([this.monitorDataSource.testDatasource(), this.logServiceDataSource.testDatasource()])
+      await Promise.all([this.monitorDataSource.testDatasource(), this.logServiceDataSource.testDatasource(), this.RUMServiceDataSource.testDatasource()])
     ).filter(Boolean);
 
     if (serviceTestResults.length === 0) {
@@ -99,12 +112,17 @@ export class DataSource extends DataSourceWithBackend<QueryInfo, MyDataSourceOpt
     }
   }
 
-  async metricFindQuery(query: VariableQuery, options): Promise<MetricFindValue[]> {
-    if (typeof query === 'string') {
-      return this.monitorDataSource.metricFindQuery(query, options);
-    } else {
-      return this.logServiceDataSource.metricFindQuery(query, options);
+  async metricFindQuery(query: string | VariableQuery, options): Promise<MetricFindValue[]> {
+    if (_.isString(query) || query.serviceType === ServiceType.monitor) {
+      return this.monitorDataSource.metricFindQuery(_.isString(query) ? query : query.queryString, options);
     }
+    if (query.serviceType === ServiceType.logService){
+      return this.logServiceDataSource.metricFindQuery(query.logServiceParams, options);
+    }
+    if (query.serviceType === ServiceType.RUMService){
+      return this.RUMServiceDataSource.metricFindQuery(query.queryString, options);
+    }
+    return [];
   }
 
   getLogRowContext = (row: LogRowModel, options) => {

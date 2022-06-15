@@ -5,6 +5,7 @@ import { QueryCtrlRender } from './query-ctrl/QueryCtrlRender';
 import { MyDataSourceOptions, QueryInfo, ServiceType, ServiceTypeOptions } from './types';
 import { Tab, TabContent, TabsBar } from '@grafana/ui';
 import { LogServiceQueryEditor } from './log-service/LogServiceQueryEditor';
+import { RUMServiceQueryEditor } from './rum-service/RUMServiceQueryEditor'
 import { DataSource } from './DataSource';
 
 type Props = QueryEditorProps<DataSource, QueryInfo, MyDataSourceOptions>;
@@ -35,7 +36,12 @@ export class QueryEditor extends PureComponent<Props> {
     const { datasource } = this.props;
     const monitorEnabled = datasource?.monitorDataSource.getNamespaces().length > 0;
     const logServiceEnabled = Boolean(datasource?.instanceSettings.jsonData['logServiceEnabled']);
-    return [monitorEnabled && ServiceType.monitor, logServiceEnabled && ServiceType.logService].filter(Boolean);
+    const RUMServiceEnabled = Boolean(datasource?.instanceSettings.jsonData['RUMServiceEnabled']);
+    return [
+      monitorEnabled && ServiceType.monitor,
+      logServiceEnabled && ServiceType.logService,
+      RUMServiceEnabled && ServiceType.RUMService,
+    ].filter(Boolean);
   }
 
   render() {
@@ -43,7 +49,6 @@ export class QueryEditor extends PureComponent<Props> {
     if (!datasource) {
       return <div>loading</div>;
     }
-
     return (
       <div>
         {this.enabledServices.length > 1 && (
@@ -65,6 +70,7 @@ export class QueryEditor extends PureComponent<Props> {
         <TabContent>
           {queryInfo.serviceType === ServiceType.monitor && this.renderMonitorQueryEditor()}
           {queryInfo.serviceType === ServiceType.logService && this.renderLogServiceQueryEditor()}
+          {queryInfo.serviceType === ServiceType.RUMService && this.renderRUMServiceQueryEditor()}
         </TabContent>
       </div>
     );
@@ -82,4 +88,10 @@ export class QueryEditor extends PureComponent<Props> {
   renderLogServiceQueryEditor() {
     return <LogServiceQueryEditor {...this.props} />;
   }
+
+  renderRUMServiceQueryEditor() {
+    const { query, onChange, onRunQuery, datasource } = this.props
+    return <RUMServiceQueryEditor query={query} onChange={onChange} onRunQuery={onRunQuery} datasource={datasource as any} />
+  }
+
 }

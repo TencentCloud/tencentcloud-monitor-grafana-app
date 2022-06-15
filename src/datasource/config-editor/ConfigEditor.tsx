@@ -168,10 +168,33 @@ export class ConfigEditor extends PureComponent<Props, State> {
           </InlineFieldRow>
         </div>
 
+        {this.renderRUMConfig()}
         {this.renderLogServiceConfig()}
         {this.renderMonitorConfig()}
       </>
     );
+  }
+
+  renderRUMConfig() {
+    const { options } = this.props;
+    const { jsonData } = options;
+    return (
+      <div style={{ marginTop: 30 }}>
+        <h3 className="page-heading">Real User Monitoring</h3>
+        <InlineFieldRow>
+          <InlineField labelWidth={40} label="前端性能监控（RUM）">
+            <InlineSwitch
+              value={jsonData.RUMServiceEnabled}
+              onChange={(e) => {
+                this.patchJsonData({
+                  RUMServiceEnabled: e.currentTarget.checked,
+                });
+              }}
+            />
+          </InlineField>
+        </InlineFieldRow>
+      </div>
+    )
   }
 
   renderLogServiceConfig() {

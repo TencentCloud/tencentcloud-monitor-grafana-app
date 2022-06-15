@@ -123,7 +123,7 @@ export abstract class BaseDatasource implements DatasourceInterface {
     if (_.isObject(payload)) {
       _.forEach(payload, (value, key) => {
         payload[key] = _.isString(value) ? this.getVariable(value) : value;
-      })
+      });
     }
 
     // 查询地域列表
@@ -166,7 +166,6 @@ export abstract class BaseDatasource implements DatasourceInterface {
       try {
         // instance = JSON.parse(instance);
         const instanceCache = await instanceStorage.getInstance(this.service);
-        // console.log({ instanceCache });
 
         instance = _.cloneDeep(instanceCache.find((item) => item[this.templateQueryIdMap.instance] === instance)) ?? {};
         // eslint-disable-next-line no-empty
