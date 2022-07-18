@@ -1,4 +1,4 @@
-import React, { useMemo, FC } from 'react';
+import React, { useMemo, FC, useEffect } from 'react';
 import { css } from 'emotion';
 import { QueryEditorProps, GrafanaTheme } from '@grafana/data';
 import { InlineLabel, useStyles } from '@grafana/ui';
@@ -62,9 +62,15 @@ export const RUMServiceQueryEditor: FC<Props> = React.memo((props: Props) => {
 
   const styles = useStyles(getStyles);
 
-  const query = normalizeQuery(props.query.RUMServiceParams || clone(defaultQueryInfo.RUMServiceParams));
-  const { datasource } = props;
+  const { datasource, onChange, query: queryInfo  } = props;
+  const query = normalizeQuery(queryInfo.RUMServiceParams || clone(defaultQueryInfo.RUMServiceParams));
   const { measurement, policy } = query;
+
+  useEffect(() => {
+    if (!queryInfo.RUMServiceParams) {
+      onChange({ ...queryInfo, RUMServiceParams: clone(defaultQueryInfo.RUMServiceParams) })
+    }
+  }, [onChange, queryInfo]);
 
   const allTagKeys = useMemo(() => {
     return getTagKeysForMeasurementAndTags(measurement, policy, [], datasource)

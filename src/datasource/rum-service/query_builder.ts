@@ -89,6 +89,9 @@ export class RUMQueryBuilder {
       const whereConditions = reduce(
         this.target.tags,
         (memo, tag) => {
+          if (type === 'MEASUREMENTS' && tag.key === 'id') {
+            return memo;
+          }
           // do not add a condition for the key we want to explore for
           if (tag.key === withKey) {
             return memo;

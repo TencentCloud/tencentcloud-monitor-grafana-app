@@ -84,7 +84,6 @@ export class CKAFKAQueryCtrl {
           };
         }),
       };
-      console.log(data, field, 'daata--');
 
       switch (field) {
         case 'consumerGroup':

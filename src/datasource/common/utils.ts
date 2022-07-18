@@ -29,10 +29,7 @@ export async function fetchAllFactory(fetcher: (args: any) => Promise<any>, _par
   // 批量请求
   const delta = TotalCount - firstLists[0].length;
   const batchCount = Math.ceil(delta / PageSize);
-  const pmList = new Array(batchCount).fill(0).map((_, index) => {
-    params.Offset = 1 + index; // 忽略offset为0的情况，从1开始
-    return fetcher(params);
-  });
+  const pmList = new Array(batchCount).fill(0).map((_, index) => fetcher({ ...params, Offset: (1 + index) * params.Limit }));
 
   // 合并
   const resultList = await Promise.all(pmList); // [ {a: [], b[] }, { a: [], b:[] }]

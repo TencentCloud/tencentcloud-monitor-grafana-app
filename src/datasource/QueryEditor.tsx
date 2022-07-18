@@ -17,15 +17,11 @@ export class QueryEditor extends PureComponent<Props> {
 
   componentDidMount() {
     const { query } = this.props;
-    if (!query.serviceType) {
-      const firstEnabledService = this.enabledServices[0];
-      if (firstEnabledService) {
+    const firstEnabledService = this.enabledServices[0];
+    if (!query.serviceType && firstEnabledService) {
         this.partialOnChange({ serviceType: firstEnabledService });
-      }
     }
   }
-
-  componentDidUpdate(prevProps) {}
 
   partialOnChange = (queryInfo: Partial<QueryInfo>) => {
     const { onChange, query: oldQuery } = this.props;
@@ -53,8 +49,9 @@ export class QueryEditor extends PureComponent<Props> {
       <div>
         {this.enabledServices.length > 1 && (
           <TabsBar>
-            {ServiceTypeOptions.map((item) => {
-              return (
+            {ServiceTypeOptions
+              .filter(item => this.enabledServices.includes(item.value))
+              .map((item) => (
                 <Tab
                   key={item.value}
                   label={item.label}
@@ -63,8 +60,8 @@ export class QueryEditor extends PureComponent<Props> {
                     this.partialOnChange({ serviceType: item.value });
                   }}
                 />
-              );
-            })}
+              )
+            )}
           </TabsBar>
         )}
         <TabContent>
