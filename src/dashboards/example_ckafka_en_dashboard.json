@@ -1,0 +1,2111 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "description": "Preset Dashboard Template - Message Queue CKafka",
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "id": null,
+  "iteration": 1617094751236,
+  "links": [],
+  "panels": [
+    {
+      "collapsed": false,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 66,
+      "panels": [],
+      "title": "System",
+      "type": "row"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "${datasource}",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 1
+      },
+      "hiddenSeries": false,
+      "id": 20,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.3.6",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "namespace": "QCE/CKAFKA",
+          "refId": "A",
+          "service": "ckafka",
+          "showInstanceDetails": false,
+          "ckafka": {
+            "consumerGroup": "",
+            "dimensionObject": {
+              "instanceId": {
+                "Name": "instanceId",
+                "Value": ""
+              }
+            },
+            "instance": "$instance",
+            "instanceAlias": "InstanceId",
+            "metricName": "InstanceDiskUsage",
+            "metricUnit": "%",
+            "partition": "",
+            "period": 300,
+            "queries": {
+              "InstanceId": "",
+              "Limit": 10,
+              "Offset": 0,
+              "SearchWord": "",
+              "Status": [],
+              "TagKey": ""
+            },
+            "region": "$region",
+            "topicId": "",
+            "topicName": ""
+          }
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Disk utilization",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "percent",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "collapsed": false,
+      "datasource": "${datasource}",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 9
+      },
+      "id": 16,
+      "panels": [],
+      "title": "Performance",
+      "type": "row"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "${datasource}",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 10
+      },
+      "hiddenSeries": false,
+      "id": 14,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.3.6",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "namespace": "QCE/CKAFKA",
+          "refId": "A",
+          "service": "ckafka",
+          "showInstanceDetails": false,
+          "ckafka": {
+            "consumerGroup": "",
+            "dimensionObject": {
+              "instanceId": {
+                "Name": "instanceId",
+                "Value": ""
+              }
+            },
+            "instance": "$instance",
+            "instanceAlias": "InstanceId",
+            "metricName": "InstanceProCount",
+            "metricUnit": "count",
+            "partition": "",
+            "period": 300,
+            "queries": {
+              "InstanceId": "",
+              "Limit": 10,
+              "Offset": 0,
+              "SearchWord": "",
+              "Status": [],
+              "TagKey": ""
+            },
+            "region": "$region",
+            "topicId": "",
+            "topicName": ""
+          }
+        },
+        {
+          "namespace": "QCE/CKAFKA",
+          "refId": "B",
+          "service": "ckafka",
+          "showInstanceDetails": false,
+          "ckafka": {
+            "consumerGroup": "",
+            "dimensionObject": {
+              "instanceId": {
+                "Name": "instanceId",
+                "Value": ""
+              }
+            },
+            "instance": "$instance",
+            "instanceAlias": "InstanceId",
+            "metricName": "InstanceConCount",
+            "metricUnit": "count",
+            "partition": "",
+            "period": 300,
+            "queries": {
+              "InstanceId": "",
+              "Limit": 10,
+              "Offset": 0,
+              "SearchWord": "",
+              "Status": [],
+              "TagKey": ""
+            },
+            "region": "$region",
+            "topicId": "",
+            "topicName": ""
+          }
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Messages produced / consumed in instance",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "${datasource}",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 10
+      },
+      "hiddenSeries": false,
+      "id": 18,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.3.6",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "namespace": "QCE/CKAFKA",
+          "refId": "A",
+          "service": "ckafka",
+          "showInstanceDetails": false,
+          "ckafka": {
+            "consumerGroup": "",
+            "dimensionObject": {
+              "instanceId": {
+                "Name": "instanceId",
+                "Value": ""
+              }
+            },
+            "instance": "$instance",
+            "instanceAlias": "InstanceId",
+            "metricName": "InstanceConReqCount",
+            "metricUnit": "count",
+            "partition": "",
+            "period": 300,
+            "queries": {
+              "InstanceId": "",
+              "Limit": 10,
+              "Offset": 0,
+              "SearchWord": "",
+              "Status": [],
+              "TagKey": ""
+            },
+            "region": "$region",
+            "topicId": "",
+            "topicName": ""
+          }
+        },
+        {
+          "namespace": "QCE/CKAFKA",
+          "refId": "B",
+          "service": "ckafka",
+          "showInstanceDetails": false,
+          "ckafka": {
+            "consumerGroup": "",
+            "dimensionObject": {
+              "instanceId": {
+                "Name": "instanceId",
+                "Value": ""
+              }
+            },
+            "instance": "$instance",
+            "instanceAlias": "InstanceId",
+            "metricName": "InstanceProReqCount",
+            "metricUnit": "count",
+            "partition": "",
+            "period": 300,
+            "queries": {
+              "InstanceId": "",
+              "Limit": 10,
+              "Offset": 0,
+              "SearchWord": "",
+              "Status": [],
+              "TagKey": ""
+            },
+            "region": "$region",
+            "topicId": "",
+            "topicName": ""
+          }
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Instance production / consumption requests",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "collapsed": false,
+      "datasource": "${datasource}",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 18
+      },
+      "id": 62,
+      "panels": [],
+      "title": "Cumulative usage",
+      "type": "row"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "${datasource}",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 19
+      },
+      "hiddenSeries": false,
+      "id": 46,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.3.6",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "namespace": "QCE/CKAFKA",
+          "refId": "A",
+          "service": "ckafka",
+          "showInstanceDetails": false,
+          "ckafka": {
+            "consumerGroup": "",
+            "dimensionObject": {
+              "instanceId": {
+                "Name": "instanceId",
+                "Value": ""
+              }
+            },
+            "instance": "$instance",
+            "instanceAlias": "InstanceId",
+            "metricName": "InstanceConsumeThrottle",
+            "metricUnit": "Count",
+            "partition": "",
+            "period": 300,
+            "queries": {
+              "InstanceId": "",
+              "Limit": 10,
+              "Offset": 0,
+              "SearchWord": "",
+              "Status": [],
+              "TagKey": ""
+            },
+            "region": "$region",
+            "topicId": "",
+            "topicName": ""
+          }
+        },
+        {
+          "namespace": "QCE/CKAFKA",
+          "refId": "B",
+          "service": "ckafka",
+          "showInstanceDetails": false,
+          "ckafka": {
+            "consumerGroup": "",
+            "dimensionObject": {
+              "instanceId": {
+                "Name": "instanceId",
+                "Value": ""
+              }
+            },
+            "instance": "$instance",
+            "instanceAlias": "InstanceId",
+            "metricName": "InstanceProduceThrottle",
+            "metricUnit": "Count",
+            "partition": "",
+            "period": 300,
+            "queries": {
+              "InstanceId": "",
+              "Limit": 10,
+              "Offset": 0,
+              "SearchWord": "",
+              "Status": [],
+              "TagKey": ""
+            },
+            "region": "$region",
+            "topicId": "",
+            "topicName": ""
+          }
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Instance production / consumption throttling occurrences",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "decimals": null,
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "${datasource}",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 19
+      },
+      "hiddenSeries": false,
+      "id": 50,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.3.6",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [
+        {
+          "alias": "/^InstancePartitionPercentage/",
+          "yaxis": 1
+        },
+        {
+          "alias": "/^InstancePartitionNum/",
+          "yaxis": 2
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "namespace": "QCE/CKAFKA",
+          "refId": "A",
+          "service": "ckafka",
+          "showInstanceDetails": false,
+          "ckafka": {
+            "consumerGroup": "",
+            "dimensionObject": {
+              "instanceId": {
+                "Name": "instanceId",
+                "Value": ""
+              }
+            },
+            "instance": "$instance",
+            "instanceAlias": "InstanceId",
+            "metricName": "InstancePartitionPercentage",
+            "metricUnit": "%",
+            "partition": "",
+            "period": 300,
+            "queries": {
+              "InstanceId": "",
+              "Limit": 10,
+              "Offset": 0,
+              "SearchWord": "",
+              "Status": [],
+              "TagKey": ""
+            },
+            "region": "$region",
+            "topicId": "",
+            "topicName": ""
+          }
+        },
+        {
+          "namespace": "QCE/CKAFKA",
+          "refId": "B",
+          "service": "ckafka",
+          "showInstanceDetails": false,
+          "ckafka": {
+            "consumerGroup": "",
+            "dimensionObject": {
+              "instanceId": {
+                "Name": "instanceId",
+                "Value": ""
+              }
+            },
+            "instance": "$instance",
+            "instanceAlias": "InstanceId",
+            "metricName": "InstancePartitionNum",
+            "metricUnit": "None",
+            "partition": "",
+            "period": 300,
+            "queries": {
+              "InstanceId": "",
+              "Limit": 10,
+              "Offset": 0,
+              "SearchWord": "",
+              "Status": [],
+              "TagKey": ""
+            },
+            "region": "$region",
+            "topicId": "",
+            "topicName": ""
+          }
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Instance partitions",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "percent",
+          "label": "Instance Partition Percentage",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": "Instance Partition Num",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "${datasource}",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 27
+      },
+      "hiddenSeries": false,
+      "id": 60,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.3.6",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [
+        {
+          "alias": "/^InstanceTopicPercentage/",
+          "yaxis": 1
+        },
+        {
+          "alias": "/^InstanceTopicNum/",
+          "yaxis": 2
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "namespace": "QCE/CKAFKA",
+          "refId": "A",
+          "service": "ckafka",
+          "showInstanceDetails": false,
+          "ckafka": {
+            "consumerGroup": "",
+            "dimensionObject": {
+              "instanceId": {
+                "Name": "instanceId",
+                "Value": ""
+              }
+            },
+            "instance": "$instance",
+            "instanceAlias": "InstanceId",
+            "metricName": "InstanceTopicPercentage",
+            "metricUnit": "%",
+            "partition": "",
+            "period": 300,
+            "queries": {
+              "InstanceId": "",
+              "Limit": 10,
+              "Offset": 0,
+              "SearchWord": "",
+              "Status": [],
+              "TagKey": ""
+            },
+            "region": "$region",
+            "topicId": "",
+            "topicName": ""
+          }
+        },
+        {
+          "namespace": "QCE/CKAFKA",
+          "refId": "B",
+          "service": "ckafka",
+          "showInstanceDetails": false,
+          "ckafka": {
+            "consumerGroup": "",
+            "dimensionObject": {
+              "instanceId": {
+                "Name": "instanceId",
+                "Value": ""
+              }
+            },
+            "instance": "$instance",
+            "instanceAlias": "InstanceId",
+            "metricName": "InstanceTopicNum",
+            "metricUnit": "None",
+            "partition": "",
+            "period": 300,
+            "queries": {
+              "InstanceId": "",
+              "Limit": 10,
+              "Offset": 0,
+              "SearchWord": "",
+              "Status": [],
+              "TagKey": ""
+            },
+            "region": "$region",
+            "topicId": "",
+            "topicName": ""
+          }
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Instance topics",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "percent",
+          "label": "Instance Topic Percentage",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": "Instance Topic Number",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "${datasource}",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 27
+      },
+      "hiddenSeries": false,
+      "id": 38,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.3.6",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [
+        {
+          "alias": "/^InstanceConnectPercentage/",
+          "yaxis": 2
+        },
+        {
+          "alias": "/^InstanceConnectCount/",
+          "yaxis": 1
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "namespace": "QCE/CKAFKA",
+          "refId": "A",
+          "service": "ckafka",
+          "showInstanceDetails": false,
+          "ckafka": {
+            "consumerGroup": "",
+            "dimensionObject": {
+              "instanceId": {
+                "Name": "instanceId",
+                "Value": ""
+              }
+            },
+            "instance": "$instance",
+            "instanceAlias": "InstanceId",
+            "metricName": "InstanceConnectPercentage",
+            "metricUnit": "%",
+            "partition": "",
+            "period": 300,
+            "queries": {
+              "InstanceId": "",
+              "Limit": 10,
+              "Offset": 0,
+              "SearchWord": "",
+              "Status": [],
+              "TagKey": ""
+            },
+            "region": "$region",
+            "topicId": "",
+            "topicName": ""
+          }
+        },
+        {
+          "namespace": "QCE/CKAFKA",
+          "refId": "B",
+          "service": "ckafka",
+          "showInstanceDetails": false,
+          "ckafka": {
+            "consumerGroup": "",
+            "dimensionObject": {
+              "instanceId": {
+                "Name": "instanceId",
+                "Value": ""
+              }
+            },
+            "instance": "$instance",
+            "instanceAlias": "InstanceId",
+            "metricName": "InstanceConnectCount",
+            "metricUnit": "count",
+            "partition": "",
+            "period": 300,
+            "queries": {
+              "InstanceId": "",
+              "Limit": 10,
+              "Offset": 0,
+              "SearchWord": "",
+              "Status": [],
+              "TagKey": ""
+            },
+            "region": "$region",
+            "topicId": "",
+            "topicName": ""
+          }
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Instance connections",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "percent",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "${datasource}",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 35
+      },
+      "hiddenSeries": false,
+      "id": 44,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.3.6",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [
+        {
+          "alias": "/^InstanceConsumeGroupPercentage/",
+          "yaxis": 1
+        },
+        {
+          "alias": "/^InstanceConsumeGroupNum/",
+          "yaxis": 2
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "namespace": "QCE/CKAFKA",
+          "refId": "A",
+          "service": "ckafka",
+          "showInstanceDetails": false,
+          "ckafka": {
+            "consumerGroup": "",
+            "dimensionObject": {
+              "instanceId": {
+                "Name": "instanceId",
+                "Value": ""
+              }
+            },
+            "instance": "$instance",
+            "instanceAlias": "InstanceId",
+            "metricName": "InstanceConsumeGroupPercentage",
+            "metricUnit": "%",
+            "partition": "",
+            "period": 300,
+            "queries": {
+              "InstanceId": "",
+              "Limit": 10,
+              "Offset": 0,
+              "SearchWord": "",
+              "Status": [],
+              "TagKey": ""
+            },
+            "region": "$region",
+            "topicId": "",
+            "topicName": ""
+          }
+        },
+        {
+          "namespace": "QCE/CKAFKA",
+          "refId": "B",
+          "service": "ckafka",
+          "showInstanceDetails": false,
+          "ckafka": {
+            "consumerGroup": "",
+            "dimensionObject": {
+              "instanceId": {
+                "Name": "instanceId",
+                "Value": ""
+              }
+            },
+            "instance": "$instance",
+            "instanceAlias": "InstanceId",
+            "metricName": "InstanceConsumeGroupNum",
+            "metricUnit": "None",
+            "partition": "",
+            "period": 300,
+            "queries": {
+              "InstanceId": "",
+              "Limit": 10,
+              "Offset": 0,
+              "SearchWord": "",
+              "Status": [],
+              "TagKey": ""
+            },
+            "region": "$region",
+            "topicId": "",
+            "topicName": ""
+          }
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Consumer groups in instance",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "percent",
+          "label": "Instance ConsumeGroup Percentage",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": "Instance ConsumeGroup Number",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "${datasource}",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 35
+      },
+      "hiddenSeries": false,
+      "id": 34,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.3.6",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [
+        {
+          "alias": "/^InstanceMsgHeap/",
+          "yaxis": 2
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "namespace": "QCE/CKAFKA",
+          "refId": "A",
+          "service": "ckafka",
+          "showInstanceDetails": false,
+          "ckafka": {
+            "consumerGroup": "",
+            "dimensionObject": {
+              "instanceId": {
+                "Name": "instanceId",
+                "Value": ""
+              }
+            },
+            "instance": "$instance",
+            "instanceAlias": "InstanceId",
+            "metricName": "InstanceMsgHeap",
+            "metricUnit": "MB",
+            "partition": "",
+            "period": 300,
+            "queries": {
+              "InstanceId": "",
+              "Limit": 10,
+              "Offset": 0,
+              "SearchWord": "",
+              "Status": [],
+              "TagKey": ""
+            },
+            "region": "$region",
+            "topicId": "",
+            "topicName": ""
+          }
+        },
+        {
+          "namespace": "QCE/CKAFKA",
+          "refId": "B",
+          "service": "ckafka",
+          "showInstanceDetails": false,
+          "ckafka": {
+            "consumerGroup": "",
+            "dimensionObject": {
+              "instanceId": {
+                "Name": "instanceId",
+                "Value": ""
+              }
+            },
+            "instance": "$instance",
+            "instanceAlias": "InstanceId",
+            "metricName": "InstanceMsgCount",
+            "metricUnit": "count",
+            "partition": "",
+            "period": 300,
+            "queries": {
+              "InstanceId": "",
+              "Limit": 10,
+              "Offset": 0,
+              "SearchWord": "",
+              "Status": [],
+              "TagKey": ""
+            },
+            "region": "$region",
+            "topicId": "",
+            "topicName": ""
+          }
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Messages stored in instance",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "decmbytes",
+          "label": "",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "${datasource}",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 43
+      },
+      "hiddenSeries": false,
+      "id": 28,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.3.6",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "namespace": "QCE/CKAFKA",
+          "refId": "A",
+          "service": "ckafka",
+          "showInstanceDetails": false,
+          "ckafka": {
+            "consumerGroup": "",
+            "dimensionObject": {
+              "instanceId": {
+                "Name": "instanceId",
+                "Value": ""
+              }
+            },
+            "instance": "$instance",
+            "instanceAlias": "InstanceId",
+            "metricName": "InstanceMaxConFlow",
+            "metricUnit": "MBytes",
+            "partition": "",
+            "period": 300,
+            "queries": {
+              "InstanceId": "",
+              "Limit": 10,
+              "Offset": 0,
+              "SearchWord": "",
+              "Status": [],
+              "TagKey": ""
+            },
+            "region": "$region",
+            "topicId": "",
+            "topicName": ""
+          }
+        },
+        {
+          "namespace": "QCE/CKAFKA",
+          "refId": "B",
+          "service": "ckafka",
+          "showInstanceDetails": false,
+          "ckafka": {
+            "consumerGroup": "",
+            "dimensionObject": {
+              "instanceId": {
+                "Name": "instanceId",
+                "Value": ""
+              }
+            },
+            "instance": "$instance",
+            "instanceAlias": "InstanceId",
+            "metricName": "InstanceMaxProFlow",
+            "metricUnit": "MBytes",
+            "partition": "",
+            "period": 300,
+            "queries": {
+              "InstanceId": "",
+              "Limit": 10,
+              "Offset": 0,
+              "SearchWord": "",
+              "Status": [],
+              "TagKey": ""
+            },
+            "region": "$region",
+            "topicId": "",
+            "topicName": ""
+          }
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Instance message production / consumption peak bandwidth",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "decmbytes",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "${datasource}",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 43
+      },
+      "hiddenSeries": false,
+      "id": 26,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.3.6",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "namespace": "QCE/CKAFKA",
+          "refId": "A",
+          "service": "ckafka",
+          "showInstanceDetails": false,
+          "ckafka": {
+            "consumerGroup": "",
+            "dimensionObject": {
+              "instanceId": {
+                "Name": "instanceId",
+                "Value": ""
+              }
+            },
+            "instance": "$instance",
+            "instanceAlias": "InstanceId",
+            "metricName": "InstanceConFlow",
+            "metricUnit": "MB",
+            "partition": "",
+            "period": 300,
+            "queries": {
+              "InstanceId": "",
+              "Limit": 10,
+              "Offset": 0,
+              "SearchWord": "",
+              "Status": [],
+              "TagKey": ""
+            },
+            "region": "$region",
+            "topicId": "",
+            "topicName": ""
+          }
+        },
+        {
+          "namespace": "QCE/CKAFKA",
+          "refId": "B",
+          "service": "ckafka",
+          "showInstanceDetails": false,
+          "ckafka": {
+            "consumerGroup": "",
+            "dimensionObject": {
+              "instanceId": {
+                "Name": "instanceId",
+                "Value": ""
+              }
+            },
+            "instance": "$instance",
+            "instanceAlias": "InstanceId",
+            "metricName": "InstanceProFlow",
+            "metricUnit": "MB",
+            "partition": "",
+            "period": 300,
+            "queries": {
+              "InstanceId": "",
+              "Limit": 10,
+              "Offset": 0,
+              "SearchWord": "",
+              "Status": [],
+              "TagKey": ""
+            },
+            "region": "$region",
+            "topicId": "",
+            "topicName": ""
+          }
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Instance production / consumption bandwidth",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "decmbytes",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "${datasource}",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 51
+      },
+      "hiddenSeries": false,
+      "id": 52,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.3.6",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "namespace": "QCE/CKAFKA",
+          "refId": "A",
+          "service": "ckafka",
+          "showInstanceDetails": false,
+          "ckafka": {
+            "consumerGroup": "",
+            "dimensionObject": {
+              "instanceId": {
+                "Name": "instanceId",
+                "Value": ""
+              }
+            },
+            "instance": "$instance",
+            "instanceAlias": "InstanceId",
+            "metricName": "InstanceProduceBandwidthPercentage",
+            "metricUnit": "%",
+            "partition": "",
+            "period": 300,
+            "queries": {
+              "InstanceId": "",
+              "Limit": 10,
+              "Offset": 0,
+              "SearchWord": "",
+              "Status": [],
+              "TagKey": ""
+            },
+            "region": "$region",
+            "topicId": "",
+            "topicName": ""
+          }
+        },
+        {
+          "namespace": "QCE/CKAFKA",
+          "refId": "B",
+          "service": "ckafka",
+          "showInstanceDetails": false,
+          "ckafka": {
+            "consumerGroup": "",
+            "dimensionObject": {
+              "instanceId": {
+                "Name": "instanceId",
+                "Value": ""
+              }
+            },
+            "instance": "$instance",
+            "instanceAlias": "InstanceId",
+            "metricName": "InstanceConsumeBandwidthPercentage",
+            "metricUnit": "%",
+            "partition": "",
+            "period": 300,
+            "queries": {
+              "InstanceId": "",
+              "Limit": 10,
+              "Offset": 0,
+              "SearchWord": "",
+              "Status": [],
+              "TagKey": ""
+            },
+            "region": "$region",
+            "topicId": "",
+            "topicName": ""
+          }
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Instance production / consumption bandwidth percentage",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "percent",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "${datasource}",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 51
+      },
+      "hiddenSeries": false,
+      "id": 56,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.3.6",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "namespace": "QCE/CKAFKA",
+          "refId": "A",
+          "service": "ckafka",
+          "showInstanceDetails": false,
+          "ckafka": {
+            "consumerGroup": "",
+            "dimensionObject": {
+              "instanceId": {
+                "Name": "instanceId",
+                "Value": ""
+              }
+            },
+            "instance": "$instance",
+            "instanceAlias": "InstanceId",
+            "metricName": "InstanceReplicaProduceFlow",
+            "metricUnit": "MBytes",
+            "partition": "",
+            "period": 300,
+            "queries": {
+              "InstanceId": "",
+              "Limit": 10,
+              "Offset": 0,
+              "SearchWord": "",
+              "Status": [],
+              "TagKey": ""
+            },
+            "region": "$region",
+            "topicId": "",
+            "topicName": ""
+          }
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Instance message production bandwidth peak",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "decmbytes",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    }
+  ],
+  "schemaVersion": 26,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "description": null,
+        "error": null,
+        "hide": 0,
+        "includeAll": false,
+        "label": "Datasource",
+        "multi": false,
+        "name": "datasource",
+        "options": [],
+        "query": "tencentcloud-monitor-datasource",
+        "queryValue": "",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      },
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "${datasource}",
+        "definition": "Namespace=QCE/CKAFKA&Action=DescribeRegions",
+        "error": null,
+        "hide": 0,
+        "includeAll": false,
+        "label": null,
+        "multi": false,
+        "name": "region",
+        "options": [],
+        "query": "Namespace=QCE/CKAFKA&Action=DescribeRegions",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "${datasource}",
+        "definition": "Namespace=QCE/CKAFKA&Region=$region&Action=DescribeInstances",
+        "error": null,
+        "hide": 0,
+        "includeAll": false,
+        "label": null,
+        "multi": false,
+        "name": "instance",
+        "options": [],
+        "query": "Namespace=QCE/CKAFKA&Region=$region&Action=DescribeInstances",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      }
+    ]
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "【Preset】Message Queue CKafka",
+  "uid": "",
+  "version": 1
+}

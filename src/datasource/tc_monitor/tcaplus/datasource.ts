@@ -3,10 +3,10 @@ import {
   TCAPLUSInvalidDemensions,
   namespace,
   templateQueryIdMap,
-  regonsMap,
 } from './query_def';
 import { BaseDatasource } from '../_base/datasource';
 import _ from 'lodash';
+import { t } from '../../../locale';
 
 export default class DCDatasource extends BaseDatasource {
   Namespace = namespace;
@@ -33,7 +33,7 @@ export default class DCDatasource extends BaseDatasource {
     ).then((response) => {
       return _.map(response.RegionInfos || [], (item) => {
         return {
-          text: regonsMap[item.RegionName],
+          text: t(item.RegionName),
           value: item.RegionName,
         };
       });

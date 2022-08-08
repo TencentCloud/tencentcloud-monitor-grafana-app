@@ -12,6 +12,7 @@ import _ from 'lodash';
 import { GetServiceAPIInfo } from '../../common/constants';
 import { fetchAllFactory } from '../../common/utils';
 import instanceStorage from '../../common/datasourceStorage';
+import { t } from '../../../locale';
 
 export default class DCDatasource extends BaseDatasource {
   Namespace = namespace;
@@ -54,7 +55,7 @@ export default class DCDatasource extends BaseDatasource {
     ).then((response) => {
       return _.map(response.RegionList || [], (item) => {
         return {
-          text: item.RegionName,
+          text: t(item.Region),
           value: item.Region,
           RegionState: item.RegionState,
         };

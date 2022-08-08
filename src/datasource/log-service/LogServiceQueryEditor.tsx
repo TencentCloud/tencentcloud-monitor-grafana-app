@@ -5,6 +5,7 @@ import { useLatest } from 'react-use';
 import { InlineLabel, QueryField } from '@grafana/ui';
 import { TopicSelector } from './components/TopicSelector';
 import { TcDataSourceId } from '../common/constants';
+import { t } from '../../locale';
 import _ from 'lodash';
 import './index.less';
 
@@ -39,7 +40,7 @@ export const LogServiceQueryEditor: FC<Props> = React.memo((props: Props) => {
         datasource={datasource}
       />
       <div style={{ display: 'flex' }}>
-        <InlineLabel width={20}>检索语句</InlineLabel>
+        <InlineLabel width={20}>{t('search_statement')}</InlineLabel>
         <div style={{ flexGrow: 1 }}>
           <QueryField
             portalOrigin={TcDataSourceId}

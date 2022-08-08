@@ -13,8 +13,8 @@
       "small": "img/tencent-cloud.svg",
       "large": "img/tencent-cloud.svg"
     },
-    "version": "2.7.0",
-    "updated": "2022-07-18",
+    "version": "2.7.1",
+    "updated": "2022-08-08",
     "links": [
       { "name": "GitHub", "url": "https://github.com/TencentCloud/tencentcloud-monitor-grafana-app" },
       { "name": "Docs", "url": "https://cloud.tencent.com/document/product/248/48529" },
@@ -38,8 +38,18 @@
     },
     {
       "type": "dashboard",
+      "name": "【Preset】CDB Monitor",
+      "path": "dashboards/example_cdb_en_dashboard.json"
+    },
+    {
+      "type": "dashboard",
       "name": "【预设】CVM 单机监控",
       "path": "dashboards/example_cvm_dashboard.json"
+    },
+    {
+      "type": "dashboard",
+      "name": "【Preset】CVM Monitor",
+      "path": "dashboards/example_cvm_en_dashboard.json"
     },
     {
       "type": "dashboard",
@@ -48,8 +58,18 @@
     },
     {
       "type": "dashboard",
+      "name": "【Preset】Cloud Load Balancer(Multi-Scene)",
+      "path": "dashboards/example_clb_en_dashboard.json"
+    },
+    {
+      "type": "dashboard",
       "name": "【预设】CLB 负载均衡-精简版",
       "path": "dashboards/example_v_clb_dashboard.json"
+    },
+    {
+      "type": "dashboard",
+      "name": "【Preset】Cloud Load Balancer(Lite)",
+      "path": "dashboards/example_v_clb_en_dashboard.json"
     },
     {
       "type": "dashboard",
@@ -58,8 +78,18 @@
     },
     {
       "type": "dashboard",
+      "name": "【Preset】Content Delivery Network",
+      "path": "dashboards/example_cdn_en_dashboard.json"
+    },
+    {
+      "type": "dashboard",
       "name": "【预设】云数据库MONGODB",
       "path": "dashboards/example_mongodb_dashboard.json"
+    },
+    {
+      "type": "dashboard",
+      "name": "【Preset】TencentDB for MongoDB",
+      "path": "dashboards/example_mongodb_en_dashboard.json"
     },
     {
       "type": "dashboard",
@@ -68,8 +98,18 @@
     },
     {
       "type": "dashboard",
+      "name": "【Preset】TencentDB for Redis",
+      "path": "dashboards/example_redis_en_dashboard.json"
+    },
+    {
+      "type": "dashboard",
       "name": "【预设】云数据库REDIS-5s内存版",
       "path": "dashboards/example_redis_mem_dashboard.json"
+    },
+    {
+      "type": "dashboard",
+      "name": "【Preset】TencentDB for Redis(Memory Edition, 5-Second)",
+      "path": "dashboards/example_redis_mem_en_dashboard.json"
     },
     {
       "type": "dashboard",
@@ -78,8 +118,18 @@
     },
     {
       "type": "dashboard",
+      "name": "【Preset】Message Queue CKafka",
+      "path": "dashboards/example_ckafka_en_dashboard.json"
+    },
+    {
+      "type": "dashboard",
       "name": "【预设】弹性公网IP LB",
       "path": "dashboards/example_lb_dashboard.json"
+    },
+    {
+      "type": "dashboard",
+      "name": "【Preset】Elastic IP",
+      "path": "dashboards/example_lb_en_dashboard.json"
     },
     {
       "type": "dashboard",
@@ -88,8 +138,18 @@
     },
     {
       "type": "dashboard",
+      "name": "【Preset】Cloud File Storage",
+      "path": "dashboards/example_cfs_en_dashboard.json"
+    },
+    {
+      "type": "dashboard",
       "name": "【预设】云函数SCF",
       "path": "dashboards/example_scf_dashboard.json"
+    },
+    {
+      "type": "dashboard",
+      "name": "【Preset】Serverless Cloud Function",
+      "path": "dashboards/example_scf_en_dashboard.json"
     },
     {
       "type": "dashboard",
@@ -98,8 +158,18 @@
     },
     {
       "type": "dashboard",
+      "name": "【Preset】Bandwidth Packet",
+      "path": "dashboards/example_bwp_en_dashboard.json"
+    },
+    {
+      "type": "dashboard",
       "name": "【预设】消息队列CMQ",
       "path": "dashboards/example_cmq_dashboard.json"
+    },
+    {
+      "type": "dashboard",
+      "name": "【Preset】Message Queue",
+      "path": "dashboards/example_cmq_en_dashboard.json"
     },
     {
       "type": "dashboard",
@@ -108,8 +178,18 @@
     },
     {
       "type": "dashboard",
+      "name": "【Preset】Direct Connect",
+      "path": "dashboards/example_dcx_en_dashboard.json"
+    },
+    {
+      "type": "dashboard",
       "name": "【预设-日志】CLB Demo访问日志",
-      "path": "dashboards/logService_example_clb_demo.json"
+      "path": "dashboards/example_logService_clb_dashboard.json"
+    },
+    {
+      "type": "dashboard",
+      "name": "【Preset】CLB Analysis Scenario Experience Demo",
+      "path": "dashboards/example_logService_clb_en_dashboard.json"
     },
     {
       "type": "datasource",

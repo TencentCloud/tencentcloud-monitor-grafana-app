@@ -1,3 +1,4 @@
+import { t } from '../../locale'
 // name (产品名称), service（对应的真实service）
 interface ServiceType {
   service: string;
@@ -10,394 +11,601 @@ interface ServiceType {
 const SERVICES: ServiceType[] = [
   {
     service: 'cvm',
-    label: '云服务器(CVM)',
+    get label() {
+      return t('CVM')
+    },
     namespace: 'QCE/CVM',
     href: 'https://cloud.tencent.com/document/api/213/15688',
   },
   {
     service: 'cdb',
-    label: '云数据库 MySQL(CDB)',
+    get label() {
+      return t('CDB')
+    },
     namespace: 'QCE/CDB',
     href: 'https://cloud.tencent.com/document/api/236/15829',
-    groupName: '云数据库',
+    get groupName() {
+      return t('cloud_database')
+    },
   },
   {
     service: 'mongoDB',
-    label: '云数据库 MongoDB(CMONGO)',
+    get label() {
+      return t('CMONGO')
+    },
     namespace: 'QCE/CMONGO',
     href: 'https://cloud.tencent.com/document/api/240/38568',
-    groupName: '云数据库',
+    get groupName() {
+      return t('cloud_database')
+    },
   },
   {
     service: 'postgres',
-    label: '云数据库 PostgreSQL',
+    get label() {
+      return t('POSTGRES')
+    },
     namespace: 'QCE/POSTGRES',
     href: 'https://cloud.tencent.com/document/product/248/45105',
-    groupName: '云数据库',
+    get groupName() {
+      return t('cloud_database')
+    },
   },
   {
     service: 'redis',
-    label: '云数据库 redis(REDIS)',
+    get label() {
+      return t('REDIS')
+    },
     namespace: 'QCE/REDIS',
     href: 'https://cloud.tencent.com/document/product/248/45110',
-    groupName: '云数据库',
+    get groupName() {
+      return t('cloud_database')
+    },
   },
   {
     service: 'redisMem',
-    label: '云数据库redis内存版（5s）(REDIS_MEM)',
+    get label() {
+      return t('REDIS_MEM')
+    },
     namespace: 'QCE/REDIS_MEM',
     href: 'https://cloud.tencent.com/document/product/248/49729',
-    groupName: '云数据库',
+    get groupName() {
+      return t('cloud_database')
+    },
   },
   {
     service: 'sqlserver',
-    label: '云数据库sqlserver(SQLSERVER)',
+    get label() {
+      return t('SQLSERVER')
+    },
     namespace: 'QCE/SQLSERVER',
     href: 'https://cloud.tencent.com/document/product/248/45146',
-    groupName: '云数据库',
+    get groupName() {
+      return t('cloud_database')
+    },
   },
   {
     service: 'cynosdbMysql',
-    label: '云数据库 CYNOSDB(CYNOSDB_MYSQL)',
+    get label() {
+      return t('CYNOSDB_MYSQL')
+    },
     namespace: 'QCE/CYNOSDB_MYSQL',
     href: 'https://cloud.tencent.com/document/product/248/45106',
-    groupName: '云数据库',
+    get groupName() {
+      return t('cloud_database')
+    },
   },
   {
     service: 'tcaplus',
-    label: '云数据库 TcaplusDB(TCAPLUS)',
+    get label() {
+      return t('TCAPLUS')
+    },
     namespace: 'QCE/TCAPLUS',
     href: 'https://cloud.tencent.com/document/product/248/45107',
-    groupName: '云数据库',
+    get groupName() {
+      return t('cloud_database')
+    },
   },
   {
     service: 'dcdb',
-    label: '分布式数据库 TDSQL MySQL(TDMYSQL)',
+    get label() {
+      return t('TDMYSQL')
+    },
     namespace: 'QCE/TDMYSQL',
     href: 'https://cloud.tencent.com/document/product/248/45108',
   },
   {
     service: 'pcx',
-    label: '私有网络对等连接(PCX)',
+    get label() {
+      return t('PCX')
+    },
     namespace: 'QCE/PCX',
     href: 'https://cloud.tencent.com/document/product/215/5181',
-    groupName: '私有网络',
+    get groupName() {
+      return t('virtual_private_cloud')
+    },
   },
   {
     service: 'bwp',
-    label: '私有网络带宽包(BWP)',
+    get label() {
+      return t('BWP')
+    },
     namespace: 'QCE/BWP',
     href: 'https://cloud.tencent.com/document/api/215/19209',
-    groupName: '私有网络',
+    get groupName() {
+      return t('virtual_private_cloud')
+    },
   },
   {
     service: 'natGateway',
-    label: '私有网络NAT网关(NAT_GATEWAY)',
+    get label() {
+      return t('NAT_GATEWAY')
+    },
     namespace: 'QCE/NAT_GATEWAY',
     href: 'https://cloud.tencent.com/document/api/215/36034',
-    groupName: '私有网络',
+    get groupName() {
+      return t('virtual_private_cloud')
+    },
   },
   {
     service: 'vpngw',
-    label: '私有网络-VPN 网关(VPNGW)',
+    get label() {
+      return t('VPNGW')
+    },
     namespace: 'QCE/VPNGW',
     href: 'https://cloud.tencent.com/document/product/248/45070',
-    groupName: '私有网络',
+    get groupName() {
+      return t('virtual_private_cloud')
+    },
   },
   {
     service: 'vpnx',
-    label: '私有网络-VPN 通道(VPNX)',
+    get label() {
+      return t('VPNX')
+    },
     namespace: 'QCE/VPNX',
     href: 'https://cloud.tencent.com/document/product/248/45071',
-    groupName: '私有网络',
+    get groupName() {
+      return t('virtual_private_cloud')
+    },
   },
   {
     service: 'dcg',
-    label: '私有网络-专线网关(DCG)',
+    get label() {
+      return t('DCG')
+    },
     namespace: 'QCE/DCG',
     href: 'https://cloud.tencent.com/document/product/248/45072',
-    groupName: '私有网络',
+    get groupName() {
+      return t('virtual_private_cloud')
+    },
   },
   {
     service: 'ceipSummary',
-    label: '私有网络-Anycast弹性公网IP(CEIP_SUMMARY)',
+    get label() {
+      return t('CEIP_SUMMARY')
+    },
     namespace: 'QCE/CEIP_SUMMARY',
     href: 'https://cloud.tencent.com/document/product/248/50381',
-    groupName: '私有网络',
+    get groupName() {
+      return t('virtual_private_cloud')
+    },
   },
   {
     service: 'vpcNetDetect',
-    label: '私有网络-网络探测(VPC_NET_DETECT)',
+    get label() {
+      return t('VPC_NET_DETECT')
+    },
     namespace: 'QCE/VPC_NET_DETECT',
     href: 'https://cloud.tencent.com/document/product/248/50384',
-    groupName: '私有网络',
+    get groupName() {
+      return t('virtual_private_cloud')
+    },
   },
   {
     service: 'vbc',
-    label: '私有网络云联网(VBC)',
+    get label() {
+      return t('VBC')
+    },
     namespace: 'QCE/VBC',
     href: 'https://cloud.tencent.com/document/product/248/45073',
-    groupName: '私有网络',
+    get groupName() {
+      return t('virtual_private_cloud')
+    },
   },
   {
     service: 'lb',
-    label: '私有网络弹性公网IP(LB)',
+    get label() {
+      return t('LB')
+    },
     namespace: 'QCE/LB',
     href: 'https://cloud.tencent.com/document/product/248/45099',
-    groupName: '私有网络',
+    get groupName() {
+      return t('virtual_private_cloud')
+    },
   },
   {
     service: 'lbPublic',
-    label: '公网负载均衡监控指标(LB_PUBLIC)',
+    get label() {
+      return t('LB_PUBLIC')
+    },
     namespace: 'QCE/LB_PUBLIC',
     href: 'https://cloud.tencent.com/document/product/248/51898',
-    groupName: '负载均衡（多场景版）',
+    get groupName() {
+      return `${t('cloud_load_balancer')}(${t('multi_scene')})`
+    },
   },
   {
     service: 'lbPrivate',
-    label: '内网负载均衡四层协议监控指标(LB_PRIVATE)',
+    get label() {
+      return t('LB_PRIVATE')
+    },
     namespace: 'QCE/LB_PRIVATE',
     href: 'https://cloud.tencent.com/document/product/248/51899',
-    groupName: '负载均衡（多场景版）',
+    get groupName() {
+      return `${t('cloud_load_balancer')}(${t('multi_scene')})`
+    },
   },
   {
     service: 'loadBalance',
-    label: '内网负载均衡七层协议监控指标(LOADBALANCE)',
+    get label() {
+      return t('LOADBALANCE')
+    },
     namespace: 'QCE/LOADBALANCE',
     href: 'https://cloud.tencent.com/document/product/248/51901',
-    groupName: '负载均衡（多场景版）',
+    get groupName() {
+      return `${t('cloud_load_balancer')}(${t('multi_scene')})`
+    },
   },
   {
     service: 'vClb',
-    label: '负载均衡（精简版）',
+    get label() {
+      return `${t('cloud_load_balancer')}(${t('lite')})`
+    },
     namespace: 'QCE/V_CLB',
     href: 'https://cloud.tencent.com/document/product/248/51901',
-    groupName: '负载均衡（精简版）',
+    get groupName() {
+      return `${t('cloud_load_balancer')}(${t('lite')})`
+    },
   },
   {
     service: 'cdn',
-    label: '国内域名(CDN)',
+    get label() {
+      return t('CDN')
+    },
     namespace: 'QCE/CDN',
     hideRegion: true,
     href: 'https://cloud.tencent.com/document/product/248/50386',
-    groupName: 'CDN',
+    get groupName() {
+      return t('content_delivery_network')
+    },
   },
   {
     service: 'cdnProvince',
-    label: '省份域名(CDN_LOG_DATA)',
+    get label() {
+      return t('CDN_LOG_DATA')
+    },
     namespace: 'QCE/CDN_LOG_DATA',
     hideRegion: true,
     href: 'https://cloud.tencent.com/document/product/248/50388',
-    groupName: 'CDN',
+    get groupName() {
+      return t('content_delivery_network')
+    },
   },
   {
     service: 'ovCdn',
-    label: '国外域名(OV_CDN)',
+    get label() {
+      return t('OV_CDN')
+    },
     namespace: 'QCE/OV_CDN',
     hideRegion: true,
     href: 'https://cloud.tencent.com/document/product/248/50387',
-    groupName: 'CDN',
+    get groupName() {
+      return t('content_delivery_network')
+    },
   },
   {
     service: 'scf',
-    label: '云函数(SCF)',
+    get label() {
+      return t('SCF_V2')
+    },
     namespace: 'QCE/SCF_V2',
     href: 'https://cloud.tencent.com/document/product/248/45130',
   },
   {
     service: 'cfs',
-    label: '文件存储(CFS)',
+    get label() {
+      return t('CFS')
+    },
     namespace: 'QCE/CFS',
     href: 'https://cloud.tencent.com/document/product/248/45143',
   },
   {
     service: 'cos',
-    label: '对象存储(COS)',
+    get label() {
+      return t('COS')
+    },
     namespace: 'QCE/COS',
     href: 'https://cloud.tencent.com/document/product/248/45140',
   },
   {
     service: 'ckafka',
-    label: '消息队列(CKAFKA)',
+    get label() {
+      return t('CKAFKA')
+    },
     namespace: 'QCE/CKAFKA',
     href: 'https://cloud.tencent.com/document/product/248/45121',
-    groupName: '消息队列',
+    get groupName() {
+      return t('message_queue')
+    },
   },
   {
     service: 'cmq',
-    label: '消息队列CMQ(队列服务监控CMQ)',
+    get label() {
+      return t('CMQ')
+    },
     namespace: 'QCE/CMQ',
     href: 'https://cloud.tencent.com/document/product/248/45114',
-    groupName: '消息队列',
+    get groupName() {
+      return t('message_queue')
+    },
   },
   {
     service: 'cmqTopic',
-    label: '消息队列CMQTOPIC(主题订阅监控)',
+    get label() {
+      return t('CMQTOPIC')
+    },
     namespace: 'QCE/CMQTOPIC',
     href: 'https://cloud.tencent.com/document/product/248/45113',
-    groupName: '消息队列',
+    get groupName() {
+      return t('message_queue')
+    },
   },
   {
     service: 'tdmq',
-    label: '消息队列 TDMQ(TDMQ)',
+    get label() {
+      return t('TDMQ')
+    },
     namespace: 'QCE/TDMQ',
     href: 'https://cloud.tencent.com/document/product/248/51450',
-    groupName: '消息队列',
+    get groupName() {
+      return t('message_queue')
+    },
   },
   {
     service: 'dcx',
-    label: '专线接入-专用通道(DCX)',
+    get label() {
+      return t('DCX')
+    },
     namespace: 'QCE/DCX',
     href: 'https://cloud.tencent.com/document/product/248/45101',
-    groupName: '专线接入',
+    get groupName() {
+      return t('direct_connect')
+    },
   },
   {
     service: 'dc',
-    label: '专线接入-物理专线(DC)',
+    get label() {
+      return t('DC')
+    },
     namespace: 'QCE/DC',
     href: 'https://cloud.tencent.com/document/product/248/45102',
-    groupName: '专线接入',
+    get groupName() {
+      return t('direct_connect')
+    },
   },
   {
     service: 'cpm',
-    label: '黑石物理服务器(CPM)',
+    get label() {
+      return t('CPM')
+    },
     namespace: 'QCE/CPM',
     href: 'https://cloud.tencent.com/document/product/248/45881',
-    groupName: '黑石物理服务器',
+    get groupName() {
+      return t('cloud_physical_machine')
+    },
   },
   {
     service: 'bmPcx',
-    label: '黑石对等连接(BM_PCX)',
+    get label() {
+      return t('BM_PCX')
+    },
     namespace: 'QCE/BM_PCX',
     href: 'https://cloud.tencent.com/document/product/248/45884',
-    groupName: '黑石物理服务器',
+    get groupName() {
+      return t('cloud_physical_machine')
+    },
   },
   {
     service: 'bmLb',
-    label: '黑石外网负载均衡(BM_LB)',
+    get label() {
+      return t('BM_LB')
+    },
     namespace: 'QCE/BM_LB',
     href: 'https://cloud.tencent.com/document/product/248/45886',
+    get groupName() {
+      return t('cloud_physical_machine')
+    },
   },
   {
     service: 'bmIntraLb',
-    label: '黑石内网负载均衡(BM_INTRA_LB)',
+    get label() {
+      return t('BM_INTRA_LB')
+    },
     namespace: 'QCE/BM_INTRA_LB',
     href: 'https://cloud.tencent.com/document/product/248/45885',
-    groupName: '黑石物理服务器',
+    get groupName() {
+      return t('cloud_physical_machine')
+    },
   },
   {
     service: 'ces',
-    label: 'Elasticsearch指标(CES)',
+    get label() {
+      return t('CES')
+    },
     namespace: 'QCE/CES',
     href: 'https://cloud.tencent.com/document/product/248/45129',
   },
   {
     service: 'mrHDFS',
-    label: '弹性MapReduce(HDFS)',
+    get label() {
+      return `${t('elastic_mapReduce')}(HDFS)`
+    },
     namespace: 'QCE/TXMR_HDFS',
     href: 'https://cloud.tencent.com/document/product/248/44797',
-    groupName: '弹性MapReduce',
+    get groupName() {
+      return t('elastic_mapReduce')
+    },
   },
   {
     service: 'mrHBASE',
-    label: '弹性MapReduce(HBASE)',
+    get label() {
+      return `${t('elastic_mapReduce')}(HBASE)`
+    },
     namespace: 'QCE/TXMR_HBASE',
     href: 'https://cloud.tencent.com/document/product/248/45567',
-    groupName: '弹性MapReduce',
+    get groupName() {
+      return t('elastic_mapReduce')
+    },
   },
   {
     service: 'mrHIVE',
-    label: '弹性MapReduce(HIVE)',
+    get label() {
+      return `${t('elastic_mapReduce')}(HIVE)`
+    },
     namespace: 'QCE/TXMR_HIVE',
     href: 'https://cloud.tencent.com/document/product/248/45569',
-    groupName: '弹性MapReduce',
+    get groupName() {
+      return t('elastic_mapReduce')
+    },
   },
   {
     service: 'mrNODE',
-    label: '弹性MapReduce(NODE)',
+    get label() {
+      return `${t('elastic_mapReduce')}(NODE)`
+    },
     namespace: 'QCE/TXMR_NODE',
     href: 'https://cloud.tencent.com/document/product/248/45570',
-    groupName: '弹性MapReduce',
+    get groupName() {
+      return t('elastic_mapReduce')
+    },
   },
   {
     service: 'mrPRESTO',
-    label: '弹性MapReduce(PRESTO)',
+    get label() {
+      return `${t('elastic_mapReduce')}(PRESTO)`
+    },
     namespace: 'QCE/TXMR_PRESTO',
     href: 'https://cloud.tencent.com/document/product/248/45571',
-    groupName: '弹性MapReduce',
+    get groupName() {
+      return t('elastic_mapReduce')
+    },
   },
   {
     service: 'mrSPARK',
-    label: '弹性MapReduce(SPARK)',
+    get label() {
+      return `${t('elastic_mapReduce')}(SPARK)`
+    },
     namespace: 'QCE/TXMR_SPARK',
     href: 'https://cloud.tencent.com/document/product/248/45572',
-    groupName: '弹性MapReduce',
+    get groupName() {
+      return t('elastic_mapReduce')
+    },
   },
   {
     service: 'mrYARN',
-    label: '弹性MapReduce(YARN)',
+    get label() {
+      return `${t('elastic_mapReduce')}(YARN)`
+    },
     namespace: 'QCE/TXMR_YARN',
     href: 'https://cloud.tencent.com/document/product/248/45573',
-    groupName: '弹性MapReduce',
+    get groupName() {
+      return t('elastic_mapReduce')
+    },
   },
   {
     service: 'mrZOOKEEPER',
-    label: '弹性MapReduce(ZOOKEEPER)',
+    get label() {
+      return `${t('elastic_mapReduce')}(ZOOKEEPER)`
+    },
     namespace: 'QCE/TXMR_ZOOKEEPER',
     href: 'https://cloud.tencent.com/document/product/248/45574',
-    groupName: '弹性MapReduce',
+    get groupName() {
+      return t('elastic_mapReduce')
+    },
   },
   {
     service: 'cbs',
-    label: '云硬盘(BLOCK_STORAGE)',
+    get label() {
+      return t('BLOCK_STORAGE')
+    },
     namespace: 'QCE/BLOCK_STORAGE',
     href: 'https://cloud.tencent.com/document/product/362/2345',
   },
   {
     service: 'apigateway',
-    label: 'API 网关(APIGATEWAY)',
+    get label() {
+      return t('APIGATEWAY')
+    },
     namespace: 'QCE/APIGATEWAY',
     href: 'https://cloud.tencent.com/document/product/248/45127',
   },
   {
     service: 'qaap',
-    label: '全球应用加速(GAAP)',
+    get label() {
+      return t('QAAP')
+    },
     namespace: 'QCE/QAAP',
     href: 'https://cloud.tencent.com/document/product/608',
   },
   {
     service: 'ecm',
-    label: '边缘计算和网络监控(ECM)',
+    get label() {
+      return t('ECM')
+    },
     hideRegion: true,
     namespace: 'QCE/ECM',
     href: 'https://cloud.tencent.com/document/product/1108',
-    groupName: '边缘计算机器',
+    get groupName() {
+      return t('edge_computing_machine')
+    },
   },
   {
     service: 'ecmBlockStorage',
-    label: '边缘计算存储监控(ECM_BLOCK_STORAGE)',
+    get label() {
+      return t('ECM_BLOCK_STORAGE')
+    },
     hideRegion: true,
     namespace: 'QCE/ECM_BLOCK_STORAGE',
     href: 'https://cloud.tencent.com/document/product/1108',
-    groupName: '边缘计算机器',
+    get groupName() {
+      return t('edge_computing_machine')
+    },
   },
   {
     service: 'ecmLb',
-    label: '边缘计算负载均衡(ECM_LB)',
+    get label() {
+      return t('ECM_LB')
+    },
     hideRegion: true,
     namespace: 'QCE/ECM_LB',
     href: 'https://cloud.tencent.com/document/product/1108',
-    groupName: '边缘计算机器',
+    get groupName() {
+      return t('edge_computing_machine')
+    },
   },
   {
     service: 'gse',
-    label: '游戏服务器伸缩监控指标(GSE))',
+    get label() {
+      return t('GSE')
+    },
     namespace: 'QCE/GSE',
     href: 'https://cloud.tencent.com/document/product/1165',
   },
   {
     service: 'cls',
-    label: '日志服务监控指标(CLS)',
+    get label() {
+      return t('CLS')
+    },
     namespace: 'QCE/CLS',
     href: 'https://cloud.tencent.com/document/product/614',
   },

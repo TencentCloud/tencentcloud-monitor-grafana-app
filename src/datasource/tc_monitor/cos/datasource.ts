@@ -45,10 +45,4 @@ export default class CosDatasource extends BaseDatasource {
   async getVariableInstances(region) {
     return this.getInstances(region);
   }
-
-  async getRegions() {
-    const regionList = await super.getRegions();
-    regionList.splice(11, 0, { value: 'ap-beijing-fsi', text: '华北地区(北京金融)', RegionState: 'AVAILABLE' });
-    return regionList;
-  }
 }

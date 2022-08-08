@@ -13,6 +13,7 @@ import _ from 'lodash';
 import { GetServiceAPIInfo } from '../../common/constants';
 import { fetchAllFactory } from '../../common/utils';
 import instanceStorage from '../../common/datasourceStorage';
+import { t } from '../../../locale';
 
 export default class DCDatasource extends BaseDatasource {
   Namespace = namespace;
@@ -48,7 +49,7 @@ export default class DCDatasource extends BaseDatasource {
   //   return super.getRegions();
   // }
   getRegions() {
-    return Promise.resolve(regionSupported);
+    return Promise.resolve(regionSupported.map(({ value }) => ({ value, text: t(value) })));
   }
 
   async getMetrics(region = 'ap-guangzhou') {

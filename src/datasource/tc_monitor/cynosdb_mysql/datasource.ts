@@ -8,6 +8,7 @@ import {
   checkKeys,
 } from './query_def';
 import { BaseDatasource } from '../_base/datasource';
+import { t } from '../../../locale';
 
 export default class CYNOSDBMYSQLDatasource extends BaseDatasource {
   Namespace = namespace;
@@ -29,6 +30,6 @@ export default class CYNOSDBMYSQLDatasource extends BaseDatasource {
     return rawSet.map((item) => modifyDimensons(item));
   }
   getRegions() {
-    return Promise.resolve(regionSupported);
+    return Promise.resolve(regionSupported.map(({ value }) => ({ value, text: t(value) })));
   }
 }

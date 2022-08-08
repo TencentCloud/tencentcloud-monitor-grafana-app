@@ -1,6 +1,7 @@
 /** 此文件放置通用业务的配置项，用于区分业务类型 */
 import { DataQuery, DataSourceJsonData } from '@grafana/data';
 import { RUMQuery } from './rum-service/types';
+import { t, Language } from '../locale'
 
 export const enum ServiceType {
   monitor = 'monitor',
@@ -9,9 +10,9 @@ export const enum ServiceType {
 }
 
 export const ServiceTypeOptions = [
-  { value: ServiceType.monitor, label: '云监控' },
-  { value: ServiceType.logService, label: '日志服务' },
-  { value: ServiceType.RUMService, label: '前端性能监控' },
+  { value: ServiceType.monitor, get label() { return t('cloud_monitor') } },
+  { value: ServiceType.logService, get label() { return t('cloud_log_service') }  },
+  { value: ServiceType.RUMService, get label() { return t('real_user_monitoring') }  },
 ];
 
 export interface QueryInfo extends DataQuery {
@@ -95,6 +96,7 @@ export interface MyDataSourceOptions extends DataSourceJsonData {
   /** 根据 product.service 字段，判断云监控功能是否开启。字段混杂，不写入类型声明中 */
   // [product.service]?: boolean
   intranet?: boolean;
+  language?: Language;
 }
 
 /**

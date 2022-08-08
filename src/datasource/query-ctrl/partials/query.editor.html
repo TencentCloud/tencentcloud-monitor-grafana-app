@@ -75,7 +75,7 @@
         ></select>
       </div>
     </div>
-    <span style="margin-left: 8px; font-size: 12px">(时间单位：秒)</span>
+    <span style="margin-left: 8px; font-size: 12px">({{ctrl.getTimeDesc()}})</span>
   </div>
 
   <div class="gf-form-inline">
@@ -112,7 +112,7 @@
     </div>
     <div class="gf-form gf-form-label--grow">
       <!-- this is explain how much items will display to user -->
-      <label class="gf-form-label gf-form-label--grow">(按照具体的查询条件搜索实例，默认拉取前 20 条实例)</label>
+      <label class="gf-form-label gf-form-label--grow">({{ctrl.getSearchDesc()}})</label>
     </div>
   </div>
 </query-editor-row>

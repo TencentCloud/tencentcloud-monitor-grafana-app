@@ -1,10 +1,11 @@
 import React, { FC, useCallback, useRef } from 'react';
 import { DescribeTopics, Filter, ITopicIdentifier } from '../common/model';
 import { InlineField, InlineFieldRow, Select, AsyncSelect } from '@grafana/ui';
-import { LOG_SERVICE_REGION_OPTIONS, uuidRegex } from '../common/constants';
+import { LOG_SERVICE_REGION_LIST, uuidRegex } from '../common/constants';
 import { useEffectOnce } from 'react-use';
 import { DataSourceApi, SelectableValue } from '@grafana/data';
 import { getStringVariableNameOptions } from '../common/utils';
+import { t } from '../../../locale'
 
 interface Props {
   value: ITopicIdentifier;
@@ -41,7 +42,7 @@ export const TopicSelector: FC<Props> = React.memo((props) => {
 
   return (
     <InlineFieldRow>
-      <InlineField label="地域" labelWidth={20}>
+      <InlineField label={t('region')} labelWidth={20}>
         <Select
           value={value.region}
           onChange={(option) => {
@@ -65,13 +66,18 @@ export const TopicSelector: FC<Props> = React.memo((props) => {
               });
           }}
           menuPlacement="bottom"
-          options={[...LOG_SERVICE_REGION_OPTIONS, ...getStringVariableNameOptions()]}
+          options={[
+            ...LOG_SERVICE_REGION_LIST.map((item) => ({
+              label: item.regionName,
+              value: item.region,
+            })),
+            ...getStringVariableNameOptions()
+          ]}
           width={25}
-          placeholder="请选择"
           className="log-service-monospaced-font-family"
         />
       </InlineField>
-      <InlineField label="日志主题" labelWidth={20}>
+      <InlineField label={t('log_topic')} labelWidth={20}>
         <AsyncSelect<string>
           // 地域变更时，自动重新出发请求
           key={value.region}

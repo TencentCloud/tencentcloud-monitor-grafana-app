@@ -9,6 +9,7 @@ import './components/custom_select_dropdown';
 import './components/cascader';
 import './css/query_editor.css';
 import { editorHtml } from './partials/queryEditorTemplate';
+import { t, getLanguage, Language } from '../../locale'
 export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
   // static templateUrl = 'datasource/partials/query.editor.html';
   static template = editorHtml;
@@ -219,7 +220,10 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
   getMetricNameDesc() {
     const service = this.target.service;
     const index = _.findIndex(this.metricList, (item) => item.MetricName === this.target[service].metricName);
-    return index !== -1 ? this.metricList[index].Meaning.Zh : '';
+    if (index === -1) {
+      return '';
+    }
+    return getLanguage() === Language.Chinese ? this.metricList[index].Meaning.Zh : this.metricList[index].Meaning.En;
   }
 
   getMetrics(query) {
@@ -401,5 +405,11 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
   }
   checkShowDetail(field) {
     return !this.isVariable(field) && this.target.showInstanceDetails;
+  }
+  getTimeDesc() {
+    return `${t('time_unit')}: ${t('seconds')}`
+  }
+  getSearchDesc() {
+    return t('search_description')
   }
 }

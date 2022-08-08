@@ -4,6 +4,7 @@ import { SERVICES } from '../tc_monitor';
 import Sign from './sign';
 import SignV2 from './signV2';
 import { toDataQueryResponse } from '@grafana/runtime';
+import { getLanguage } from '../../locale'
 
 import packageInfo from '../plugin.json';
 export const TcDataSourceId = packageInfo.id;
@@ -601,7 +602,9 @@ export async function GetRequestParams(options, service, signObj: any = {}, secr
   };
   const sign = new Sign(signParams);
   const { intranet, ...headerSigned } = await sign.getHeader();
-  options.headers = Object.assign(options.headers || {}, { ...headerSigned });
+  // 传入x-tc-language实现国际化
+  // zh-CN en-US ko-KR ja-JP
+  options.headers = Object.assign(options.headers || {}, { ...headerSigned }, { 'x-tc-language': getLanguage() });
   options.method = 'POST';
   if (intranet) {
     options.url += '-internal';

@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { BaseDatasource } from '../_base/datasource';
 import { CFSInstanceAliasList, CFSInvalidDemensions, regionSupported } from './query_def';
-
+import { t } from '../../../locale'
 export default class CFSDatasource extends BaseDatasource {
   InstanceKey: string;
   Namespace: string;
@@ -26,6 +26,6 @@ export default class CFSDatasource extends BaseDatasource {
     };
   }
   getRegions() {
-    return Promise.resolve(regionSupported);
+    return Promise.resolve(regionSupported.map(({ value }) => ({ value, text: t(value) })));
   }
 }

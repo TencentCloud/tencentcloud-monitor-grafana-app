@@ -8,6 +8,7 @@ import {
 } from './query_def';
 import { BaseDatasource } from '../_base/datasource';
 import _ from 'lodash';
+import { t } from '../../../locale';
 
 export default class DCDatasource extends BaseDatasource {
   Namespace = namespace;
@@ -28,7 +29,7 @@ export default class DCDatasource extends BaseDatasource {
   //   return super.getRegions();
   // }
   getRegions() {
-    return Promise.resolve(regionSupported);
+    return Promise.resolve(regionSupported.map(({ value }) => ({ value, text: t(value) })));
   }
   // async getInstances(region, params = {}) {
   //   const superRes = await super.getInstances(region, params);

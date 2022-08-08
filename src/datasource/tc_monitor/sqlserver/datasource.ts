@@ -9,6 +9,7 @@ import {
 import { BaseDatasource } from '../_base/datasource';
 import { GetServiceAPIInfo } from '../../common/constants';
 import _ from 'lodash';
+import { t } from '../../../locale';
 
 export default class DCDatasource extends BaseDatasource {
   Namespace = namespace;
@@ -30,7 +31,7 @@ export default class DCDatasource extends BaseDatasource {
     return _.compact(rawSet.map((item) => modifyDimensons(item)));
   }
   getRegions() {
-    return Promise.resolve(regionSupported);
+    return Promise.resolve(regionSupported.map(({ value }) => ({ value, text: t(value) })));
   }
   getFilterDropdown({ field, region }) {
     if (field === 'Zone') {

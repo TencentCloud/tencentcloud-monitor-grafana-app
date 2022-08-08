@@ -1,6 +1,19 @@
 # TencentCloud Monitor Grafana App
 ---
 
+## [2.7.1] - 2022-07-27
+### Added
+
+- 增加英文版支持，可在创建数据源中切换。
+
+### Modify
+
+- 其他已知问题bug修复。
+
+See detailed guide in [README.md](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/README.md) and [日志服务.md](https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/blob/master/日志服务.md).
+
+---
+
 ## [2.7.0] - 2022-06-07
 ### Modify
 

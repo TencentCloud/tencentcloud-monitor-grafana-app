@@ -8,6 +8,7 @@ import {
 import { BaseDatasource } from '../_base/datasource';
 import { GetServiceAPIInfo } from '../../common/constants';
 import _ from 'lodash';
+import { t } from '../../../locale';
 
 export default class DCDatasource extends BaseDatasource {
   Namespace = namespace;
@@ -37,7 +38,7 @@ export default class DCDatasource extends BaseDatasource {
       this.RegionMap = _.keyBy(response.RegionInfoSet, 'Region');
       return _.map(response.RegionInfoSet || [], (item) => {
         return {
-          text: item.RegionDescription,
+          text: t(item.Region),
           value: item.Region,
         };
       });

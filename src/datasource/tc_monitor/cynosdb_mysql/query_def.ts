@@ -85,10 +85,10 @@ const cynosdbMysqlFilterFieldsDescriptor: FildDescriptorType = [
 ];
 // regions for dropdown
 const regionSupported = [
-  { text: '华北地区(北京)', value: 'ap-beijing' },
-  { text: '华南地区(广州)', value: 'ap-guangzhou' },
-  { text: '华东地区(南京)', value: 'ap-nanjing' },
-  { text: '华东地区(上海)', value: 'ap-shanghai' },
+  { value: 'ap-beijing' },
+  { value: 'ap-guangzhou' },
+  { value: 'ap-nanjing' },
+  { value: 'ap-shanghai' },
 ];
 const queryEditorConfig: DetailQueryConfig = {
   instanceDocUrl: 'https://cloud.tencent.com/document/api/1003/48334',

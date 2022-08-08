@@ -7,19 +7,21 @@ import { Tab, TabContent, TabsBar } from '@grafana/ui';
 import { LogServiceQueryEditor } from './log-service/LogServiceQueryEditor';
 import { RUMServiceQueryEditor } from './rum-service/RUMServiceQueryEditor'
 import { DataSource } from './DataSource';
+import { setLanguage, Language } from '../locale'
 
 type Props = QueryEditorProps<DataSource, QueryInfo, MyDataSourceOptions>;
 
 export class QueryEditor extends PureComponent<Props> {
   constructor(props) {
     super(props);
+    setLanguage(props.datasource.instanceSettings.jsonData.language || Language.Chinese)
   }
 
   componentDidMount() {
     const { query } = this.props;
     const firstEnabledService = this.enabledServices[0];
     if (!query.serviceType && firstEnabledService) {
-        this.partialOnChange({ serviceType: firstEnabledService });
+      this.partialOnChange({ serviceType: firstEnabledService });
     }
   }
 

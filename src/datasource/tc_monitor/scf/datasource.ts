@@ -10,6 +10,7 @@ import {
   templateQueryIdMap,
 } from './query_def';
 import instanceStorage from '../../common/datasourceStorage';
+import { t } from '../../../locale';
 
 export default class SCFDatasource extends BaseDatasource {
   InstanceKey: string;
@@ -35,7 +36,7 @@ export default class SCFDatasource extends BaseDatasource {
   }
 
   getRegions() {
-    return Promise.resolve(regionSupported);
+    return Promise.resolve(regionSupported.map(({ value }) => ({ value, text: t(value) })));
   }
 
   async getMetrics(region = 'ap-guangzhou') {

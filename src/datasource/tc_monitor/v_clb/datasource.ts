@@ -10,6 +10,7 @@ import {
 import { BaseDatasource } from '../_base/datasource';
 import _ from 'lodash';
 import { GetServiceAPIInfo } from '../../common/constants';
+import { t } from '../../../locale';
 
 export default class DCDatasource extends BaseDatasource {
   Namespace = namespace;
@@ -27,7 +28,7 @@ export default class DCDatasource extends BaseDatasource {
   }
 
   getRegions() {
-    return Promise.resolve(regionSupported);
+    return Promise.resolve(regionSupported.map(({ value }) => ({ value, text: t(value) })));
   }
   async getAllMetrics(region: string) {
     const serviceInfo = GetServiceAPIInfo(region, 'monitor');

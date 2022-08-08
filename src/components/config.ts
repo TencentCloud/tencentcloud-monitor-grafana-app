@@ -10,22 +10,34 @@ const tcFolder = {
   folderId: null,
 };
 
+const tcFolder_EN = {
+  uid: 'tencent-cloud-monitor-english',
+  title: 'Tencent Cloud Monitor',
+  folderId: null,
+};
+
 /**
  * 生成腾讯云专用目录
  * @returns
  */
 async function getFolderId() {
-  if (tcFolder.folderId) {
-    return tcFolder.folderId;
+  if (tcFolder.folderId && tcFolder_EN.folderId) {
+    return [tcFolder.folderId, tcFolder_EN.folderId];
   }
   const folders: any[] = await backendSrv.get('/api/folders');
   let folderId = folders.find((item) => item.uid === tcFolder.uid)?.id;
+  let folderEnId = folders.find((item) => item.uid === tcFolder_EN.uid)?.id;
   if (!folderId) {
     const folder = await backendSrv.post('/api/folders', tcFolder);
     folderId = folder?.id || 0;
   }
+  if (!folderEnId) {
+    const folderEn = await backendSrv.post('/api/folders', tcFolder_EN);
+    folderEnId = folderEn?.id || 0;
+  }
   tcFolder.folderId = folderId;
-  return folderId;
+  tcFolder_EN.folderId = folderEnId;
+  return [folderId, folderEnId];
 }
 
 /**
@@ -37,7 +49,8 @@ function backendInterceptor() {
   backendSrv.post = async (url, data) => {
     // 拦截判断：拦截指定接口
     if (url === '/api/dashboards/import' && data.pluginId === pluginId) {
-      data.folderId = await getFolderId();
+      const [folderId, folderEnId] = await getFolderId();
+      data.folderId = data.path.endsWith('_en_dashboard.json') ? folderEnId : folderId;
     }
     return oldPost(url, data);
   };
@@ -92,16 +105,16 @@ export class MonitorAppConfigCtrl {
 
   async reviseDashboard() {
     // 1. 生成腾讯云目录
-    const folderId = await getFolderId();
+    const [folderId, folderEnId] = await getFolderId();
     // 2. 获取所有腾讯云插件下的dashboard
     const rs = await backendSrv.get(`/api/plugins/${this.appModel?.id}/dashboards`);
 
     // 3. 调用api更新dashboard
     const pmlist = rs.map((item) => {
-      const { importedUrl } = item;
+      const { importedUrl, path } = item;
       const uid = importedUrl.split('/')[2];
       if (uid) {
-        return this.moveToFolder(uid, folderId);
+        return this.moveToFolder(uid, path.endsWith('_en_dashboard.json') ? folderEnId : folderId);
       } else {
         return Promise.resolve();
       }

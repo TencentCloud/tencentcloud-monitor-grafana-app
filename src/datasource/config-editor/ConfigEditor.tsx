@@ -1,8 +1,9 @@
 import React, { FormEvent, PureComponent } from 'react';
-import { LegacyForms, InlineFieldRow, InlineField, Input, Switch } from '@grafana/ui';
-import { DataSourcePluginOptionsEditorProps } from '@grafana/data';
+import { LegacyForms, InlineFieldRow, InlineField, Input, Switch, Select } from '@grafana/ui';
+import { DataSourcePluginOptionsEditorProps, SelectableValue } from '@grafana/data';
 import { MyDataSourceOptions, MySecureJsonData } from '../types';
 import { SERVICES } from '../tc_monitor';
+import { t, setLanguage, Language } from '../../locale'
 const { SecretFormField } = LegacyForms;
 
 type Props = DataSourcePluginOptionsEditorProps<MyDataSourceOptions, MySecureJsonData>;
@@ -17,6 +18,7 @@ export class ConfigEditor extends PureComponent<Props, State> {
     this.state = {
       monitorFilter: '',
     };
+    setLanguage(props.options.jsonData.language || Language.Chinese)
   }
 
   patchJsonData = (kv: Record<string, any>) => {
@@ -154,7 +156,22 @@ export class ConfigEditor extends PureComponent<Props, State> {
             />
           </InlineFieldRow>
           <InlineFieldRow style={{ marginTop: '10px' }}>
-            <InlineField label="开启内网API模式" labelWidth={20}>
+            <InlineField label={t('language')} labelWidth={20}>
+              <Select
+                value={jsonData.language || Language.Chinese}
+                className="width-10"
+                options={[{ value: Language.English, label: 'English' }, { value: Language.Chinese, label: '简体中文' }]}
+                onChange={(option: SelectableValue<Language>) => {
+                  setLanguage(option.value)
+                  this.patchJsonData({
+                    language: option.value,
+                  });
+                }}
+              />
+            </InlineField>
+          </InlineFieldRow>
+          <InlineFieldRow style={{ marginTop: '10px' }}>
+            <InlineField label={t('enable_intranet_API_mode')} labelWidth={20}>
               <InlineSwitch
                 value={jsonData.intranet}
                 onChange={(e) => {
@@ -182,7 +199,7 @@ export class ConfigEditor extends PureComponent<Props, State> {
       <div style={{ marginTop: 30 }}>
         <h3 className="page-heading">Real User Monitoring</h3>
         <InlineFieldRow>
-          <InlineField labelWidth={40} label="前端性能监控（RUM）">
+          <InlineField labelWidth={40} label={t('RUM')}>
             <InlineSwitch
               value={jsonData.RUMServiceEnabled}
               onChange={(e) => {
@@ -204,7 +221,7 @@ export class ConfigEditor extends PureComponent<Props, State> {
       <div style={{ marginTop: 30 }}>
         <h3 className="page-heading">Log Service</h3>
         <InlineFieldRow>
-          <InlineField labelWidth={40} label="日志服务（CLS）">
+          <InlineField labelWidth={40} label={t('CLS')}>
             <InlineSwitch
               value={jsonData.logServiceEnabled}
               onChange={(e) => {
@@ -259,7 +276,7 @@ export class ConfigEditor extends PureComponent<Props, State> {
           return (
             <InlineFieldRow key={product.service}>
               <InlineField
-                labelWidth={40}
+                labelWidth={55}
                 label={product.label}
                 tooltip={
                   <a target="_blank" href={product.href}>
