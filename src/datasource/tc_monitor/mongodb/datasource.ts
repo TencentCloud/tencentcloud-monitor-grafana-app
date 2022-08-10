@@ -25,10 +25,10 @@ export default class MONGODBDatasource extends BaseDatasource {
     super(instanceSettings, backendSrv, templateSrv);
   }
   getInvalidDimensions(selfIns: any, target: any) {
-    if (target.node !== '') {
+    if (target.node && target.node !== '') {
       return { target: 'Node' };
     }
-    if (target.replica !== '') {
+    if (target.replica && target.replica !== '') {
       return { target: 'Replica' };
     }
     return MONGODBInvalidDemensions;
