@@ -1,6 +1,13 @@
 # TencentCloud Monitor Grafana App
 ---
 
+## [2.7.3] - 2022-07-27
+### Fixed
+
+- bufix。
+
+---
+
 ## [2.7.1] - 2022-07-27
 ### Added
 
