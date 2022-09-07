@@ -1,5 +1,6 @@
 import coreModule from 'grafana/app/core/core_module';
 import { CKAFKAQueryDescriptor, templateQueryIdMap } from './query_def';
+import { isTargetEqual } from '../../common/utils';
 
 const ExtraFields = [
   {
@@ -29,7 +30,8 @@ export class CKAFKAQueryCtrl {
           return [];
       }
     };
-    $scope.onInstanceChange = () => {
+    $scope.onInstanceChange = (n, o) => {
+      if(isTargetEqual(n,o,'LoadBalancerId')) return;
       $scope.target.consumerGroup = '';
       $scope.target.topicId = '';
       $scope.target.topicName = '';
@@ -192,7 +194,7 @@ export function scfQuery() {
     },
     link: (scope, element, attrs) => {
       scope.$watch('target.instance', (newValue, oldValue) => {
-        scope.onInstanceChange?.();
+        scope.onInstanceChange?.(newValue, oldValue);
       });
     },
   };

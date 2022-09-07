@@ -118,3 +118,13 @@ export function serviceGroupBy(
   );
   return rs;
 }
+
+export const isTargetEqual = (newTargetString: string, oldTargetString: string, key: string) => {
+  try{
+    const newTarget = JSON.parse(newTargetString);
+    const oldTarget = JSON.parse(oldTargetString);
+    return newTarget[key] === oldTarget[key];
+  }catch(e){
+    return newTargetString === oldTargetString;
+  }
+}
