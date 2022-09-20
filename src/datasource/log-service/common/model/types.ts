@@ -1,4 +1,21 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
+/** **AddMachineGroupInfo入参**
+ 用于添加机器组信息  */
+export interface AddMachineGroupInfoParams {
+  /** 机器组ID */
+  GroupId: string;
+  /** 机器组类型
+   目前type支持 ip 和 label */
+  MachineGroupType: MachineGroupTypeInfo;
+  /** 接口版本 */
+  Version?: string;
+}
+/** **AddMachineGroupInfo出参**
+ 用于添加机器组信息 */
+export interface AddMachineGroupInfoResult {
+  /** 任意字段 */
+  [props: string]: any;
+}
 /** **ApplyConfigToMachineGroup入参**
  应用采集配置到指定机器组  */
 export interface ApplyConfigToMachineGroupParams {
@@ -12,6 +29,22 @@ export interface ApplyConfigToMachineGroupParams {
 /** **ApplyConfigToMachineGroup出参**
  应用采集配置到指定机器组 */
 export interface ApplyConfigToMachineGroupResult {
+  /** 任意字段 */
+  [props: string]: any;
+}
+/** **CancelRebuildIndexTask入参**
+ 取消重建索引任务  */
+export interface CancelRebuildIndexTaskParams {
+  /** 日志主题ID */
+  TopicId: string;
+  /** 索引重建任务ID */
+  TaskId: string;
+  /** 接口版本 */
+  Version?: string;
+}
+/** **CancelRebuildIndexTask出参**
+ 取消重建索引任务 */
+export interface CancelRebuildIndexTaskResult {
   /** 任意字段 */
   [props: string]: any;
 }
@@ -99,6 +132,20 @@ export interface CloseKafkaConsumeResult {
   /** 任意字段 */
   [props: string]: any;
 }
+/** **CloseKafkaConsumer入参**
+ 关闭Kafka协议消费  */
+export interface CloseKafkaConsumerParams {
+  /** CLS对应的topic标识 */
+  FromTopicId: string;
+  /** 接口版本 */
+  Version?: string;
+}
+/** **CloseKafkaConsumer出参**
+ 关闭Kafka协议消费 */
+export interface CloseKafkaConsumerResult {
+  /** 任意字段 */
+  [props: string]: any;
+}
 /** **CreateAlarm入参**
  本接口用于创建告警策略。  */
 export interface CreateAlarmParams {
@@ -136,24 +183,24 @@ export interface CreateAlarmResult {
   AlarmId?: string;
 }
 /** **CreateAlarmNotice入参**
- 该接口用户创建通知渠道组。  */
+ 该接口用于创建通知渠道组。  */
 export interface CreateAlarmNoticeParams {
-  /** 告警模板名称。 */
+  /** 通知渠道组名称。 */
   Name: string;
-  /** 告警模板的类型。可选值：
-   <br><li> Trigger - 告警触发
-   <br><li> Recovery - 告警恢复
-   <br><li> All - 告警触发和告警恢复 */
+  /** 通知类型。可选值：
+   <li> Trigger - 告警触发
+   <li> Recovery - 告警恢复
+   <li> All - 告警触发和告警恢复 */
   Type: string;
-  /** 告警模板接收者信息。 */
+  /** 通知接收对象。 */
   NoticeReceivers?: NoticeReceiver[];
-  /** 告警模板回调信息。 */
+  /** 接口回调信息（包括企业微信）。 */
   WebCallbacks?: WebCallback[];
   /** 接口版本 */
   Version?: string;
 }
 /** **CreateAlarmNotice出参**
- 该接口用户创建通知渠道组。 */
+ 该接口用于创建通知渠道组。 */
 export interface CreateAlarmNoticeResult {
   /** 告警模板ID */
   AlarmNoticeId?: string;
@@ -297,6 +344,8 @@ export interface CreateConsumerParams {
   Content?: ConsumerContent;
   /** CKafka的描述 */
   Ckafka?: Ckafka;
+  /** 投递时压缩方式，取值0，2，3。[0:NONE；2:SNAPPY；3:LZ4] */
+  Compression?: number;
   /** 接口版本 */
   Version?: string;
 }
@@ -375,6 +424,34 @@ export interface CreateDashboardResult {
   /** 仪表盘id */
   DashboardId?: string;
 }
+/** **CreateDashboardSubscribe入参**
+ 此接口用于创建仪表盘订阅  */
+export interface CreateDashboardSubscribeParams {
+  /** 仪表盘订阅名称。 */
+  Name: string;
+  /** 仪表盘id。 */
+  DashboardId: string;
+  /** 订阅时间cron表达式，格式为：{秒数} {分钟} {小时} {日期} {月份} {星期}；（有效数据为：{分钟} {小时} {日期} {月份} {星期}）。
+   <br><li>{秒数} 取值范围： 0 ~ 59
+   <br
+   ><li>{分钟} 取值范围： 0 ~ 59
+   <br><li>{小时} 取值范围： 0 ~ 23
+   <br><li>{日期} 取值范围： 1 ~ 31 AND (dayOfMonth最后一天： L)
+   <br><l
+   i>{月份} 取值范围： 1 ~ 12
+   <br><li>{星期} 取值范围： 0 ~ 6 【0:星期日， 6星期六】 */
+  Cron: string;
+  /** 仪表盘订阅数据。 */
+  SubscribeData: DashboardSubscribeData;
+  /** 接口版本 */
+  Version?: string;
+}
+/** **CreateDashboardSubscribe出参**
+ 此接口用于创建仪表盘订阅 */
+export interface CreateDashboardSubscribeResult {
+  /** 仪表盘订阅记录Id */
+  Id?: number;
+}
 /** **CreateDataTransform入参**
  本接口用于创建数据加工任务。  */
 export interface CreateDataTransformParams {
@@ -430,10 +507,8 @@ export interface CreateDeliverCloudFunctionResult {
 /** **CreateDemonstration入参**
  本接口用于创建演示示例  */
 export interface CreateDemonstrationParams {
-  /** 演示示例类型：'CLB' */
+  /** 演示示例类型：'CLB', 'NGINX' */
   Type: string;
-  /** 日志主题ID */
-  TopicId?: string;
   /** 接口版本 */
   Version?: string;
 }
@@ -443,15 +518,34 @@ export interface CreateDemonstrationResult {
   /** 任意字段 */
   [props: string]: any;
 }
+/** **CreateDemonstrations入参**
+ 本接口用于批量创建演示示例  */
+export interface CreateDemonstrationsParams {
+  /** 演示示例类型：'CLB', 'NGINX' */
+  Type: string;
+  /** 日志主题ID。传入表示对已有日志主题生成演示示例资源，如仪表盘、监控告警；不传入表示生成包括日志集、日志主题在内的演示示例资源。只支持新建时传入，不支持与DemonstrationIds同时传入。 */
+  TopicIds?: string[];
+  /** 演示示例ID，重置时传入。不支持与TopicIds同时传入。 */
+  DemonstrationIds?: string[];
+  /** 接口版本 */
+  Version?: string;
+}
+/** **CreateDemonstrations出参**
+ 本接口用于批量创建演示示例 */
+export interface CreateDemonstrationsResult {
+  /** 任意字段 */
+  [props: string]: any;
+}
 /** **CreateExport入参**
- 本接口用于创建日志下载任务  */
+ 本接口仅创建下载任务，任务返回的下载地址，请用户调用DescribeExports查看任务列表。其中有下载地址CosPath参数。参考文档https:\/\/cloud.tencen
+ t.com\/document\/product\/614\/56449  */
 export interface CreateExportParams {
-  /** 日志主题 */
+  /** 日志主题ID */
   TopicId: string;
-  /** 日志导出检索语句 */
-  Query: string;
-  /** 日志导出数量,  最大值1000万 */
+  /** 日志导出数量,  最大值5000万 */
   Count: number;
+  /** 日志导出检索语句，不支持<a href="https:\/\/cloud.tencent.com\/document\/product\/614\/44061" target="_blank">[SQL语句]<\/a> */
+  Query: string;
   /** 日志导出时间排序。desc，asc，默认为desc */
   Order?: string;
   /** 日志导出数据格式。json，csv，默认为json */
@@ -464,7 +558,8 @@ export interface CreateExportParams {
   Version?: string;
 }
 /** **CreateExport出参**
- 本接口用于创建日志下载任务 */
+ 本接口仅创建下载任务，任务返回的下载地址，请用户调用DescribeExports查看任务列表。其中有下载地址CosPath参数。参考文档https:\/\/cloud.tencen
+ t.com\/document\/product\/614\/56449 */
 export interface CreateExportResult {
   /** 日志导出ID。 */
   ExportId?: string;
@@ -478,6 +573,12 @@ export interface CreateIndexParams {
   Status?: boolean;
   /** 索引规则 */
   Rule: RuleInfo;
+  /** 全文索引系统预置字段标记，默认false。  false:不包含系统预置字段， true:包含系统预置字段 */
+  IncludeInternalFields?: boolean;
+  /** 元数据相关标志位，默认为0。 0：全文索引包括开启键值索引的元数据字段， 1：全文索引包括所有元数据字段，2：全文索引不包括元数据字段。 */
+  MetadataFlag?: number;
+  /** 自定义日志解析异常存储字段。 */
+  CoverageField?: string;
   /** 接口版本 */
   Version?: string;
 }
@@ -561,7 +662,7 @@ export interface CreateMachineGroupResult {
 export interface CreateNonBillingParams {
   /** 日志主题ID */
   TopicId: string;
-  /** 地域ID */
+  /** 地域ID - 访问链接查看详情：https:\/\/iwiki.woa.com\/pages\/viewpage.action?pageId=780556968#id-地域码表-一.region大区（标准地域） */
   RegionId: number;
   /** 类型含义， 2：topic_region， 目前只支持2 */
   Type: number;
@@ -574,8 +675,63 @@ export interface CreateNonBillingResult {
   /** 任意字段 */
   [props: string]: any;
 }
+/** **CreateRebuildIndexTask入参**
+ 创建重建索引任务  */
+export interface CreateRebuildIndexTaskParams {
+  /** 日志主题ID */
+  TopicId: string;
+  /** 重建起始时间戳，毫秒 */
+  StartTime: number;
+  /** 重建结束时间戳，毫秒 */
+  EndTime: number;
+  /** 接口版本 */
+  Version?: string;
+}
+/** **CreateRebuildIndexTask出参**
+ 创建重建索引任务 */
+export interface CreateRebuildIndexTaskResult {
+  /** 索引重建任务ID */
+  TaskId?: string;
+}
+/** **CreateScheduledSql入参**
+ 本接口用于创建ScheduledSql任务  */
+export interface CreateScheduledSqlParams {
+  /** 源日志主题 */
+  SrcTopicId: string;
+  /** 任务名称 */
+  Name: string;
+  /** 任务启动状态.  1正常开启,  2关闭 */
+  EnableFlag: number;
+  /** 加工任务目的topic_id以及别名 */
+  DstResource: ScheduledSqlResouceInfo;
+  /** ScheduledSQL语句 */
+  ScheduledSqlContent: string;
+  /** 调度开始时间,Unix时间戳，单位ms */
+  ProcessStartTime: number;
+  /** 调度类型，1:持续运行 2:指定调度结束时间 */
+  ProcessType: number;
+  /** 调度结束时间，当ProcessType=2时为必传字段, Unix时间戳，单位ms */
+  ProcessEndTime?: number;
+  /** 调度周期(分钟) */
+  ProcessPeriod: number;
+  /** 调度时间窗口 */
+  ProcessTimeWindow: string;
+  /** 执行延迟(秒) */
+  ProcessDelay: number;
+  /** 源topicId的地域信息 */
+  SrcTopicRegion: string;
+  /** 接口版本 */
+  Version?: string;
+}
+/** **CreateScheduledSql出参**
+ 本接口用于创建ScheduledSql任务 */
+export interface CreateScheduledSqlResult {
+  /** 任务id */
+  TaskId?: string;
+}
 /** **CreateShipper入参**
- 创建新的投递规则，客户如果使用此接口，需要自行处理CLS对指定bucket的写权限。  */
+ 创建新的投递规则，【！！！注意】使用此接口，需要检查是否配置了投递COS的角色和权限。如果没有配置，请参考文档投递权限查看和配置https:\/\/cloud.tencent.co
+ m\/document\/product\/614\/71623。  */
 export interface CreateShipperParams {
   /** 创建的投递规则所属的日志主题ID */
   TopicId: string;
@@ -597,11 +753,14 @@ export interface CreateShipperParams {
   Compress?: CompressInfo;
   /** 投递日志的内容格式配置 */
   Content?: ContentInfo;
+  /** 投递文件命名配置，0：随机数命名，1：投递时间命名，默认0（随机数命名） */
+  FilenameMode?: number;
   /** 接口版本 */
   Version?: string;
 }
 /** **CreateShipper出参**
- 创建新的投递规则，客户如果使用此接口，需要自行处理CLS对指定bucket的写权限。 */
+ 创建新的投递规则，【！！！注意】使用此接口，需要检查是否配置了投递COS的角色和权限。如果没有配置，请参考文档投递权限查看和配置https:\/\/cloud.tencent.co
+ m\/document\/product\/614\/71623。 */
 export interface CreateShipperResult {
   /** 投递规则ID */
   ShipperId?: string;
@@ -621,12 +780,14 @@ export interface CreateTopicParams {
   AutoSplit?: boolean;
   /** 开启自动分裂后，每个主题能够允许的最大分区数，默认值为50 */
   MaxSplitPartitions?: number;
-  /** 日志主题的存储类型，可选值 hot（实时存储），cold（离线存储）；默认为hot。若传入cold，请先联系客服进行开白。 */
+  /** 日志主题的存储类型，可选值 hot（标准存储），cold（低频存储）；默认为hot。 */
   StorageType?: string;
-  /** 生命周期，单位天；可取值范围1~366。默认30天 */
+  /** 生命周期，单位天，标准存储取值范围1~3600，低频存储取值范围7~3600天。取值为3640时代表永久保存 */
   Period?: number;
   /** 二级产品标识 */
   SubAssumerName?: string;
+  /** 日志主题描述 */
+  Describes?: string;
   /** 接口版本 */
   Version?: string;
 }
@@ -635,6 +796,20 @@ export interface CreateTopicParams {
 export interface CreateTopicResult {
   /** 日志主题ID */
   TopicId?: string;
+}
+/** **CreateTopicExtendConfig入参**
+ 创建采集配置, 不包含临时密钥信息(clb专用)。  */
+export interface CreateTopicExtendConfigParams {
+  /** clb的topic业务配置,数组大小不可以超过100 */
+  ClbTopicExtendConfigs: ClbTopicExtendConfig[];
+  /** 接口版本 */
+  Version?: string;
+}
+/** **CreateTopicExtendConfig出参**
+ 创建采集配置, 不包含临时密钥信息(clb专用)。 */
+export interface CreateTopicExtendConfigResult {
+  /** 任意字段 */
+  [props: string]: any;
 }
 /** **DeleteAlarm入参**
  本接口用于删除告警策略。  */
@@ -653,7 +828,7 @@ export interface DeleteAlarmResult {
 /** **DeleteAlarmNotice入参**
  该接口用于删除通知渠道组  */
 export interface DeleteAlarmNoticeParams {
-  /** 告警通知模板 */
+  /** 通知渠道组ID */
   AlarmNoticeId: string;
   /** 接口版本 */
   Version?: string;
@@ -784,11 +959,27 @@ export interface DeleteDashboardResult {
   /** 任意字段 */
   [props: string]: any;
 }
+/** **DeleteDashboardSubscribe入参**
+ 此接口用于删除仪表盘订阅  */
+export interface DeleteDashboardSubscribeParams {
+  /** 仪表盘订阅记录id。 */
+  Id: number;
+  /** 接口版本 */
+  Version?: string;
+}
+/** **DeleteDashboardSubscribe出参**
+ 此接口用于删除仪表盘订阅 */
+export interface DeleteDashboardSubscribeResult {
+  /** 任意字段 */
+  [props: string]: any;
+}
 /** **DeleteDataTransform入参**
  本接口用于删除数据加工任务  */
 export interface DeleteDataTransformParams {
   /** 数据加工任务id */
   TaskId: string;
+  /** 加工任务源topicId */
+  SrcTopicId?: string;
   /** 接口版本 */
   Version?: string;
 }
@@ -855,7 +1046,7 @@ export interface DeleteExportResult {
   [props: string]: any;
 }
 /** **DeleteIndex入参**
- 本接口用于日志主题的索引配置  */
+ 本接口用于删除日志主题的索引配置，删除索引配置后将无法检索和查询采集到的日志。  */
 export interface DeleteIndexParams {
   /** 日志主题ID */
   TopicId: string;
@@ -863,7 +1054,7 @@ export interface DeleteIndexParams {
   Version?: string;
 }
 /** **DeleteIndex出参**
- 本接口用于日志主题的索引配置 */
+ 本接口用于删除日志主题的索引配置，删除索引配置后将无法检索和查询采集到的日志。 */
 export interface DeleteIndexResult {
   /** 任意字段 */
   [props: string]: any;
@@ -910,6 +1101,39 @@ export interface DeleteMachineGroupResult {
   /** 任意字段 */
   [props: string]: any;
 }
+/** **DeleteMachineGroupInfo入参**
+ 用于删除机器组信息  */
+export interface DeleteMachineGroupInfoParams {
+  /** 机器组ID */
+  GroupId: string;
+  /** 机器组类型
+   目前type支持 ip 和 label */
+  MachineGroupType: MachineGroupTypeInfo;
+  /** 接口版本 */
+  Version?: string;
+}
+/** **DeleteMachineGroupInfo出参**
+ 用于删除机器组信息 */
+export interface DeleteMachineGroupInfoResult {
+  /** 任意字段 */
+  [props: string]: any;
+}
+/** **DeleteScheduledSql入参**
+ 本接口用于删除ScheduledSql任务  */
+export interface DeleteScheduledSqlParams {
+  /** 任务ID */
+  TaskId: string;
+  /** 源日志主题ID */
+  SrcTopicId: string;
+  /** 接口版本 */
+  Version?: string;
+}
+/** **DeleteScheduledSql出参**
+ 本接口用于删除ScheduledSql任务 */
+export interface DeleteScheduledSqlResult {
+  /** 任意字段 */
+  [props: string]: any;
+}
 /** **DeleteShipper入参**
  删除投递规则  */
 export interface DeleteShipperParams {
@@ -935,6 +1159,20 @@ export interface DeleteTopicParams {
 /** **DeleteTopic出参**
  本接口用于删除日志主题。 */
 export interface DeleteTopicResult {
+  /** 任意字段 */
+  [props: string]: any;
+}
+/** **DeleteTopicExtendConfig入参**
+ 删除采集配置(clb专用)。  */
+export interface DeleteTopicExtendConfigParams {
+  /** clb的业务配置 */
+  LbKeys: string[];
+  /** 接口版本 */
+  Version?: string;
+}
+/** **DeleteTopicExtendConfig出参**
+ 删除采集配置(clb专用)。 */
+export interface DeleteTopicExtendConfigResult {
   /** 任意字段 */
   [props: string]: any;
 }
@@ -964,6 +1202,18 @@ export interface DescribeAccountResult {
   /** 账户状态，0:未开通，1:正常，2: 欠费， 3: 销毁 */
   Status?: number;
 }
+/** **DescribeAccountInfo入参**
+ 本接口用于获取腾讯云用户信息  */
+export interface DescribeAccountInfoParams {
+  /** 接口版本 */
+  Version?: string;
+}
+/** **DescribeAccountInfo出参**
+ 本接口用于获取腾讯云用户信息 */
+export interface DescribeAccountInfoResult {
+  /** 用户类型。 */
+  UinType?: string;
+}
 /** **DescribeAgentConfigs入参**
  获取agent对应的采集配置  */
 export interface DescribeAgentConfigsParams {
@@ -975,57 +1225,47 @@ export interface DescribeAgentConfigsParams {
   Labels?: string[];
   /** agent的instance id */
   InstanceId?: string;
-  /** agent请求序列号 */
-  AgentSeq?: string;
   /** 接口版本 */
   Version?: string;
 }
 /** **DescribeAgentConfigs出参**
  获取agent对应的采集配置 */
 export interface DescribeAgentConfigsResult {
-  /** 采集日志配置 */
+  /** 采集配置 */
   LogConfigs?: LogConfigInfo[];
-  /** 服务日志配置信息 */
+  /** 服务日志的配置信息 */
   ServiceLogConfigs?: ServiceLogConfigInfo[];
-  /** request请求的序列号 */
-  RequestSeq?: string;
+  /** 弃用 */
+  LastVersion?: string;
+  /** 弃用 */
+  NeedUpdate?: boolean;
+  /** 弃用 */
+  URL?: string;
+  /** 弃用 */
+  FileMd5?: string;
 }
 /** **DescribeAlarmNotices入参**
  该接口用于获取通知渠道组列表  */
 export interface DescribeAlarmNoticesParams {
-  /** <br><li> name
-
-   按照【告警通知模板名称】进行过滤。
+  /** <li> name
+   按照【通知渠道组名称】进行过滤。
    类型：String
-
+   必选：否
+   <li> alarmNoticeId
+   按照【通知渠道组ID】进行过滤。
+   类型：String
+   必选：否
+   <li> uid
+   按照【接收用户I
+   D】进行过滤。
+   类型：String
+   必选：否
+   <li> groupId
+   按照【接收用户组ID】进行过滤。
+   类型：String
    必选：否
 
-   <br><li> alarmNoticeId
-
-   按照【告警通知模板ID】进行过滤。
-   类型：String
-
-   必选：否
-
-   <
-   br><li> uid
-
-   按照【接收用户ID】进行过滤。
-
-   类型：String
-
-   必选：否
-
-   <br><li> groupId
-
-   按照【用户组ID】进行过滤。
-
-   类型：String
-
-   必选：否
-
-   每次请求的Filters
-   的上限为10，Filter.Values的上限为5。 */
+   每次请求的Filters的上限为10，Filter.Values的上限为5。 */
   Filters?: Filter[];
   /** 分页的偏移量，默认值为0。 */
   Offset?: number;
@@ -1245,6 +1485,78 @@ export interface DescribeAsyncSearchTasksResult {
   /** 异步检索任务的总数 */
   TotalCount?: number;
 }
+/** **DescribeClsPrePayDeductFactor入参**
+ 本接口用于获取cls预付费抵扣信息  */
+export interface DescribeClsPrePayDeductFactorParams {
+  /** 地域ID。 */
+  RegionId: number;
+  /** 接口版本 */
+  Version?: string;
+}
+/** **DescribeClsPrePayDeductFactor出参**
+ 本接口用于获取cls预付费抵扣信息 */
+export interface DescribeClsPrePayDeductFactorResult {
+  /** 抵扣因子信息。 */
+  DeductFactor?: PrePayDeductFactorInfo;
+}
+/** **DescribeClsPrePayDetails入参**
+ 本接口用于获取cls预付费资源包使用详情  */
+export interface DescribeClsPrePayDetailsParams {
+  /** 分页的偏移量，默认值为0。 */
+  Offset?: number;
+  /** 分页单页限制数目，默认值为20，最大值100。 */
+  Limit?: number;
+  /** 资源id。 */
+  ResourceId: string;
+  /** 检索范围的开始时间, 秒级时间戳。 */
+  StartTime: number;
+  /** 检索范围的结束时间, 秒级时间戳。 */
+  EndTime: number;
+  /** 接口版本 */
+  Version?: string;
+}
+/** **DescribeClsPrePayDetails出参**
+ 本接口用于获取cls预付费资源包使用详情 */
+export interface DescribeClsPrePayDetailsResult {
+  /** 资源包的数量。 */
+  TotalCount?: number;
+  /** 预付费资源包使用明细。 */
+  Data?: ClsPrePayDeductRecord[];
+  /** 资源包每月的固定额度。 */
+  Quota?: number;
+  /** 请求检索返回资源包扣减额度的总额度。 */
+  DeductQuota?: number;
+}
+/** **DescribeClsPrePayInfos入参**
+ 本接口用于获取cls预付费资源包信息列表  */
+export interface DescribeClsPrePayInfosParams {
+  /** 分页的偏移量，默认值为0。 */
+  Offset?: number;
+  /** 分页单页限制数目，默认值为20，最大值100。 */
+  Limit?: number;
+  /** <br><li> resourceId
+
+   按照【资源id】进行过滤。
+   类型：String
+
+   必选：否
+
+
+   每次请求的Filters的上限为10，Filter.Values的上限为100。 */
+  Filters?: Filter[];
+  /** 资源包类型：0不区分资源包是否有效，1无效资源包，2有效资源包。 */
+  Type: number;
+  /** 接口版本 */
+  Version?: string;
+}
+/** **DescribeClsPrePayInfos出参**
+ 本接口用于获取cls预付费资源包信息列表 */
+export interface DescribeClsPrePayInfosResult {
+  /** 资源包的数量。 */
+  TotalCount?: number;
+  /** 预付费资源包信息列表。 */
+  Data?: PrePayInfo[];
+}
 /** **DescribeConfigExtras入参**
  本接口用于获取特殊采集配置  */
 export interface DescribeConfigExtrasParams {
@@ -1341,6 +1653,8 @@ export interface DescribeConsumerResult {
   Content?: ConsumerContent;
   /** CKafka的描述 */
   Ckafka?: Ckafka;
+  /** 压缩方式[0:NONE；2:SNAPPY；3:LZ4] */
+  Compression?: number;
 }
 /** **DescribeConsumerGroup入参**
  本接口用于获取消费组  */
@@ -1443,6 +1757,8 @@ export interface DescribeDashboardsParams {
 
    每次请求的Filters的上限为10，Filter.Values的上限为100。 */
   Filters?: Filter[];
+  /** 按照topicId和regionId过滤。 */
+  TopicIdRegionFilter?: TopicIdAndRegion[];
   /** 接口版本 */
   Version?: string;
 }
@@ -1453,6 +1769,26 @@ export interface DescribeDashboardsResult {
   TotalCount?: number;
   /** 仪表盘详细明细 */
   DashboardInfos?: DashboardInfo[];
+}
+/** **DescribeDashboardSubscribes入参**
+ 本接口用于获取仪表盘订阅列表，支持分页  */
+export interface DescribeDashboardSubscribesParams {
+  /** <br><li> dashboardId：按照【仪表盘id】进行过滤。类型：String必选：否<br><br><li> 每次请求的Filters的上限为10，Filter.Values的上限为100。 */
+  Filters?: Filter[];
+  /** 分页的偏移量，默认值为0。 */
+  Offset?: number;
+  /** 分页单页限制数目，默认值为20，最大值100。 */
+  Limit?: number;
+  /** 接口版本 */
+  Version?: string;
+}
+/** **DescribeDashboardSubscribes出参**
+ 本接口用于获取仪表盘订阅列表，支持分页 */
+export interface DescribeDashboardSubscribesResult {
+  /** 仪表盘订阅列表 */
+  DashboardSubscribeInfos?: DashboardSubscribeInfo[];
+  /** 总数目 */
+  TotalCount?: number;
 }
 /** **DescribeDataTransformFailLogInfo入参**
  本接口用于获取数据加工任务失败日志详请  */
@@ -1465,6 +1801,8 @@ export interface DescribeDataTransformFailLogInfoParams {
   To: number;
   /** 目标日志主题id */
   DstTopicId: string;
+  /** 加工任务源topicId */
+  SrcTopicId?: string;
   /** 接口版本 */
   Version?: string;
 }
@@ -1491,8 +1829,15 @@ export interface DescribeDataTransformInfoParams {
 
    必选：否
 
-   每次请求的Fil
-   ters的上限为10，Filter.Values的上限为100。 */
+   <br><li>
+   srctopicId
+
+   按照【源topicId】进行过滤。
+   类型：String
+
+   必选：否
+
+   每次请求的Filters的上限为10，Filter.Values的上限为100。 */
   Filters?: Filter[];
   /** 分页的偏移量，默认值为0。 */
   Offset?: number;
@@ -1502,6 +1847,8 @@ export interface DescribeDataTransformInfoParams {
   Type?: number;
   /** Type为1， 此参数必填 */
   TaskId?: string;
+  /** Type为1，此参数必填 */
+  SrcTopicId?: string;
   /** 接口版本 */
   Version?: string;
 }
@@ -1536,6 +1883,8 @@ export interface DescribeDataTransformPreviewDataInfoResult {
 export interface DescribeDataTransformPreviewInfoParams {
   /** 任务id */
   TaskId: string;
+  /** 加工任务源topicId */
+  SrcTopicId?: string;
   /** 接口版本 */
   Version?: string;
 }
@@ -1558,6 +1907,8 @@ export interface DescribeDataTransformProcessInfoParams {
   To: number;
   /** 是否需要分成多个时间段获取 */
   NeedMultTimePeriod?: boolean;
+  /** 加工任务源topicId */
+  SrcTopicId?: string;
   /** 接口版本 */
   Version?: string;
 }
@@ -1566,6 +1917,14 @@ export interface DescribeDataTransformProcessInfoParams {
 export interface DescribeDataTransformProcessInfoResult {
   /** 数据加工任务进度详请 */
   TaskLogStatistics?: TaskLogStatistic[];
+  /** 读取的源日志主题的总行数 */
+  ReadLineSum?: number;
+  /** 加工后的总行数 */
+  WriteLineSum?: number;
+  /** 加工失败的总行数 */
+  FailedLineSum?: number;
+  /** 加工过滤的总行数 */
+  FilterLineSum?: number;
 }
 /** **DescribeDeliverCloudFunction入参**
  本接口用于获取投递SCF任务  */
@@ -1596,6 +1955,42 @@ export interface DescribeDeliverCloudFunctionResult {
 /** **DescribeDemonstrations入参**
  本接口用于获取日志服务演示示例列表  */
 export interface DescribeDemonstrationsParams {
+  /** 分页的偏移量，默认值为0。 */
+  Offset?: number;
+  /** 分页单页限制数目，默认值为20，最大值100。 */
+  Limit?: number;
+  /** <br><li> DemonstrationId
+
+   按照【演示示例ID】进行过滤。
+   类型：String
+
+   必选：否
+
+   <br><li> Region
+
+   按照【地域】进行过滤。
+   类型：String
+
+   必选：否
+
+   <br><
+   li> Type
+
+   按照【演示示例类型】进行过滤。
+   类型：String
+
+   必选：否
+
+   <br><li> Status
+
+   按照【演示示例状态】进行过滤。
+   类型：String
+
+   必选：否
+
+   每次请求的Filters的上限为1
+   0，Filter.Values的上限为100。 */
+  Filters?: Filter[];
   /** 接口版本 */
   Version?: string;
 }
@@ -1604,6 +1999,8 @@ export interface DescribeDemonstrationsParams {
 export interface DescribeDemonstrationsResult {
   /** 演示示例数组 */
   Demonstrations?: Demonstration[];
+  /** 符合条件的演示示例数目 */
+  TotalCount?: number;
 }
 /** **DescribeExports入参**
  本接口用于获取日志下载任务列表  */
@@ -1656,6 +2053,12 @@ export interface DescribeIndexResult {
   Rule?: RuleInfo;
   /** 索引修改时间，初始值为索引创建时间。 */
   ModifyTime?: string;
+  /** 全文索引系统预置字段标记，默认false。  false:不包含系统预置字段， true:包含系统预置字段 */
+  IncludeInternalFields?: boolean;
+  /** 元数据相关标志位，默认为0。 0：全文索引包括开启键值索引的元数据字段， 1：全文索引包括所有元数据字段，2：全文索引不包括元数据字段。 */
+  MetadataFlag?: number;
+  /** 自定义日志解析异常存储字段。 */
+  CoverageField?: string;
 }
 /** **DescribeIndexs入参**
  本接口用于获取索引配置列表  */
@@ -1692,6 +2095,24 @@ export interface DescribeKafkaConsumeParams {
 export interface DescribeKafkaConsumeResult {
   /** Kafka消费信息 */
   Kafka?: KafkaInfo;
+}
+/** **DescribeKafkaConsumer入参**
+ 获取Kafka协议消费信息  */
+export interface DescribeKafkaConsumerParams {
+  /** CLS对应topic标识 */
+  FromTopicId: string;
+  /** 接口版本 */
+  Version?: string;
+}
+/** **DescribeKafkaConsumer出参**
+ 获取Kafka协议消费信息 */
+export interface DescribeKafkaConsumerResult {
+  /** Kafka协议消费打开状态 */
+  Status?: boolean;
+  /** 待消费TopicId */
+  TopicID?: string;
+  /** 压缩方式[0:NONE；2:SNAPPY；3:LZ4] */
+  Compression?: number;
 }
 /** **DescribeKafkaProduce入参**
  本接口用于获取kafka生产信息  */
@@ -1746,7 +2167,7 @@ export interface DescribeLatestJsonLogResult {
 export interface DescribeLogContextParams {
   /** 要查询的日志主题ID */
   TopicId: string;
-  /** 日志时间,  格式: YYYY-mm-dd HH:MM:SS */
+  /** 日志时间,  格式: YYYY-mm-dd HH:MM:SS.FFF */
   BTime: string;
   /** 日志包序号 */
   PkgId: string;
@@ -1794,7 +2215,7 @@ export interface DescribeLogFastAnalysisResult {
   FieldValueRatioInfos?: FieldValueRatioInfos[];
 }
 /** **DescribeLogHistogram入参**
- 本接口用于构建直方图  */
+ 本接口用于构建日志数量直方图  */
 export interface DescribeLogHistogramParams {
   /** 要查询的日志主题ID */
   TopicId: string;
@@ -1804,13 +2225,15 @@ export interface DescribeLogHistogramParams {
   To: number;
   /** 查询语句 */
   Query: string;
-  /** 时间间隔: 单位ms */
+  /** 时间间隔: 单位ms  限制性条件：(To-From) \/ interval <= 200 */
   Interval?: number;
+  /** 0（默认值）：不执行语法优化；1：执行语法优化。 */
+  QueryOptimize?: number;
   /** 接口版本 */
   Version?: string;
 }
 /** **DescribeLogHistogram出参**
- 本接口用于构建直方图 */
+ 本接口用于构建日志数量直方图 */
 export interface DescribeLogHistogramResult {
   /** 统计周期： 单位ms */
   Interval?: number;
@@ -1818,6 +2241,8 @@ export interface DescribeLogHistogramResult {
   TotalCount?: number;
   /** 周期内统计结果详情 */
   HistogramInfos?: HistogramInfo[];
+  /** 返回语法优化后的语句（QueryOptimize 为 1 时返回，其他情况返回空字符串） */
+  Query?: string;
 }
 /** **DescribeLogsets入参**
  本接口用于获取日志集信息列表。  */
@@ -1956,7 +2381,7 @@ export interface DescribeMachinesResult {
   UpdateStartTime?: string;
   /** 机器组自动升级功能预设结束时间 */
   UpdateEndTime?: string;
-  /** 当前用户可用最新的Loglistener版本 */
+  /** 当前用户可用最新的Loglistener版本 */
   LatestAgentVersion?: string;
   /** 是否开启服务日志 */
   ServiceLogging?: boolean;
@@ -1995,6 +2420,74 @@ export interface DescribePullLogCursorResult {
   /** 日志游标 */
   Cursor?: string;
 }
+/** **DescribeRainbowTables入参**
+ 本接口用于获取七彩石表格配置列表  */
+export interface DescribeRainbowTablesParams {
+  /** 七彩石表格配置Id
+
+   按照【演示示例ID】进行过滤。
+   类型：String
+
+   必选：否
+
+   <br><li> Region
+
+   按照【地域】进行过滤。
+   类型：String
+
+   必选：否
+
+   <br><li> Type
+
+   按照【演示
+   示例类型】进行过滤。
+   类型：String
+
+   必选：否
+
+   <br><li> Status
+
+   按照【演示示例状态】进行过滤。
+   类型：String
+
+   必选：否
+
+   每次请求的Filters的上限为10，Filter.Values
+   的上限为100。 */
+  GroupIds: string[];
+  /** 接口版本 */
+  Version?: string;
+}
+/** **DescribeRainbowTables出参**
+ 本接口用于获取七彩石表格配置列表 */
+export interface DescribeRainbowTablesResult {
+  /** 演示示例数组 */
+  RainbowTables?: RainbowTables[];
+  /** 符合条件的演示示例数目 */
+  TotalCount?: number;
+}
+/** **DescribeRebuildIndexTasks入参**
+ 获取重建索引任务列表  */
+export interface DescribeRebuildIndexTasksParams {
+  /** 日志主题ID */
+  TopicId: string;
+  /** 索引重建任务ID */
+  TaskId?: string;
+  /** 索引重建任务状态，不填返回所有状态任务列表，多种状态之间用逗号分隔，0:索引重建任务已创建，1:已创建索引重建资源，2:重建中，3:重建完成，4:重建成功（可检索），5:任务取消，6:元数据和索引已删除 */
+  Status?: string;
+  /** 分页的偏移量，默认值为0。 */
+  Offset?: number;
+  /** 分页单页限制数目，默认值为10，最大值20。 */
+  Limit?: number;
+  /** 接口版本 */
+  Version?: string;
+}
+/** **DescribeRebuildIndexTasks出参**
+ 获取重建索引任务列表 */
+export interface DescribeRebuildIndexTasksResult {
+  /** 索引重建任务列表 */
+  RebuildTasks?: RebuildIndexTaskInfo[];
+}
 /** **DescribeResources入参**
  获取全局或指定地域指标资源  */
 export interface DescribeResourcesParams {
@@ -2008,6 +2501,68 @@ export interface DescribeResourcesParams {
 export interface DescribeResourcesResult {
   /** 资源列表 */
   Resources?: ResourcesInfo[];
+}
+/** **DescribeScheduledSqlInfo入参**
+ 本接口用于获取ScheduledSql任务列表  */
+export interface DescribeScheduledSqlInfoParams {
+  /** 分页的偏移量，默认值为0。 */
+  Offset?: number;
+  /** 分页单页限制数目，默认值为20，最大值100。 */
+  Limit?: number;
+  /** 任务名称 */
+  Name?: string;
+  /** 任务id */
+  TaskId?: string;
+  /** 接口版本 */
+  Version?: string;
+}
+/** **DescribeScheduledSqlInfo出参**
+ 本接口用于获取ScheduledSql任务列表 */
+export interface DescribeScheduledSqlInfoResult {
+  /** ScheduledSQL任务列表信息 */
+  ScheduledSqlTaskInfos?: ScheduledSqlTaskInfo[];
+  /** 任务总次数 */
+  TotalCount?: number;
+}
+/** **DescribeScheduledSqlProcessInfo入参**
+ 本接口用于获取ScheduledSql任务进度信息  */
+export interface DescribeScheduledSqlProcessInfoParams {
+  /** 任务ID */
+  TaskId: string;
+  /** 源日志主题ID */
+  SrcTopicId: string;
+  /** 实例ID */
+  ProcessId?: string;
+  /** 执行时间-开始时间 */
+  ProcessStartTime: number;
+  /** 执行时间-结束时间 */
+  ProcessEndTime: number;
+  /** 分页单页限制数目，默认值为20，最大值100。 */
+  Limit?: number;
+  /** 分页的偏移量，默认值为0。 */
+  Offset?: number;
+  /** 调度结果，1:运行中 2:成功 3:失败.   默认为0不做过滤 */
+  Status?: number;
+  /** 排序字段，可选字段为：process_start_time | time_window_start_time。  默认为process_start_time */
+  OrderBy?: string;
+  /** 排序顺序，DESC | ASC。 默认DESC */
+  OrderDirection?: string;
+  /** 接口版本 */
+  Version?: string;
+}
+/** **DescribeScheduledSqlProcessInfo出参**
+ 本接口用于获取ScheduledSql任务进度信息 */
+export interface DescribeScheduledSqlProcessInfoResult {
+  /** ScheduledSQL任务进度信息列表 */
+  ScheduledSqlTaskProcessInfos?: ScheduledSqlTaskProcessInfo[];
+  /** 任务总次数 */
+  TotalCount?: number;
+  /** 执行成功数 */
+  TotalSuccess?: number;
+  /** 执行失败数 */
+  TotalFailed?: number;
+  /** 执行运行中 */
+  TotalRunning?: number;
 }
 /** **DescribeShippers入参**
  获取投递规则信息列表  */
@@ -2070,18 +2625,83 @@ export interface DescribeShipperTasksResult {
   /** 投递任务列表 */
   Tasks?: ShipperTaskInfo[];
 }
+/** **DescribeTemplates入参**
+ 获取模版列表  */
+export interface DescribeTemplatesParams {
+  /** <br><li> Type
+
+   按照【演示示例类型】进行过滤。
+   类型：String
+
+   必选：否
+
+   <br><li> SubType
+
+   按照【演示示例子类型】进行过滤。
+   类型：String
+
+   必选：否
+
+   <br><li> T
+   emplateId
+
+   按照【模版项ID】进行过滤。
+   类型：String
+
+   必选：否
+
+   <br><li> ResourceType
+
+   按照【资源类型】进行过滤。
+   类型：String
+
+   必选：否
+
+   每次请求的Filters的
+   上限为10，Filter.Values的上限为100。 */
+  Filters?: Filter[];
+  /** 接口版本 */
+  Version?: string;
+}
+/** **DescribeTemplates出参**
+ 获取模版列表 */
+export interface DescribeTemplatesResult {
+  /** 模版数组 */
+  Templates?: Template[];
+  /** 演示示例地域 */
+  DemonstrationRegion?: string;
+}
+/** **DescribeTopicExtendConfig入参**
+ 获取采集配置(clb专用)。  */
+export interface DescribeTopicExtendConfigParams {
+  /** cls的业务标识字段 */
+  LbKeys: string[];
+  /** 接口版本 */
+  Version?: string;
+}
+/** **DescribeTopicExtendConfig出参**
+ 获取采集配置(clb专用)。 */
+export interface DescribeTopicExtendConfigResult {
+  /** clb的topic业务配置 */
+  ClbTopicExtendConfigs?: ClbTopicExtendConfig[];
+  /** 总数 */
+  TotalCount?: number;
+}
 /** **DescribeTopics入参**
  本接口用于获取日志主题列表，支持分页  */
 export interface DescribeTopicsParams {
-  /** <br><li> topicName按照【日志主题名称】进行过滤。类型：String必选：否<br><li> topicId按照【日志主题ID】进行过滤。类型：String必选：否<br><li> logsetId按照【
-   日志集ID】进行过滤，可通过调用DescribeLogsets查询已创建的日志集列表或登录控制台进行查看；也可以调用CreateLogset创建新的日志集。类型：String必选：否<br><li> tagKey按照【标
-   签键】进行过滤。类型：String必选：否<br><li> tag:tagKey按照【标签键值对】进行过滤。tag-key使用具体的标签键进行替换。使用请参考示例2。类型：String必选：否<br><li> stora
-   geType按照【日志主题的存储类型】进行过滤。可选值 hot（实时存储），cold（离线存储）类型：String必选：否每次请求的Filters的上限为10，Filter.Values的上限为100。 */
+  /** <br><li> topicName按照【日志主题名称】进行过滤。类型：String必选：否<br><li> logsetName按照【日志集名称】进行过滤。类型：String必选：否<br><li> topicId按照
+   【日志主题ID】进行过滤。类型：String必选：否<br><li> logsetId按照【日志集ID】进行过滤，可通过调用DescribeLogsets查询已创建的日志集列表或登录控制台进行查看；也可以调用Create
+   Logset创建新的日志集。类型：String必选：否<br><li> tagKey按照【标签键】进行过滤。类型：String必选：否<br><li> tag:tagKey按照【标签键值对】进行过滤。tagKey使用具体
+   的标签键进行替换，例如tag:exampleKey。类型：String必选：否<br><li> storageType按照【日志主题的存储类型】进行过滤。可选值 hot（标准存储），cold（低频存储）类型：String
+   必选：否每次请求的Filters的上限为10，Filter.Values的上限为100。 */
   Filters?: Filter[];
   /** 分页的偏移量，默认值为0。 */
   Offset?: number;
   /** 分页单页限制数目，默认值为20，最大值100。 */
   Limit?: number;
+  /** 控制filter相关字段是否精确查询。默认（0）模糊查询, 1: topicName精确查询, 2:logsetName精确查询, 3：topicName和logsetName都精确查询 */
+  PreciseSearch?: number;
   /** 接口版本 */
   Version?: string;
 }
@@ -2106,6 +2726,26 @@ export interface DescribeUserConfigParams {
 export interface DescribeUserConfigResult {
   /** 用户配置数据 */
   Data?: UserConfigInfo[];
+}
+/** **EstimateRebuildIndexTask入参**
+ 预估重建索引任务  */
+export interface EstimateRebuildIndexTaskParams {
+  /** 日志主题ID */
+  TopicId: string;
+  /** 预估任务起始时间，毫秒 */
+  StartTime: number;
+  /** 预估任务结束时间，毫秒 */
+  EndTime: number;
+  /** 接口版本 */
+  Version?: string;
+}
+/** **EstimateRebuildIndexTask出参**
+ 预估重建索引任务 */
+export interface EstimateRebuildIndexTaskResult {
+  /** 预估索引重建需要时间，单位秒 */
+  RemainTime?: number;
+  /** 预估写流量大小，单位MB */
+  WriteTraffic?: number;
 }
 /** **GenBeginRegex入参**
  生成首行正则表达式  */
@@ -2148,7 +2788,7 @@ export interface GetAlarmLogParams {
   To: number;
   /** 查询语句，语句长度最大为1024 */
   Query: string;
-  /** 单次查询返回的日志条数，最大值为100 */
+  /** 单次查询返回的日志条数，最大值为1000 */
   Limit?: number;
   /** 加载更多日志时使用，透传上次返回的Context值，获取后续的日志内容 */
   Context?: string;
@@ -2178,6 +2818,10 @@ export interface GetAlarmLogResult {
   AnalysisRecords?: string[];
   /** 日志分析的列属性; UseNewAnalysis为true有效 */
   Columns?: Column[];
+  /** 返回语法优化后的语句（入参如有QueryOptimize 且为 1 时返回，其他情况返回空字符串） */
+  Query?: string;
+  /** 当前系统使用的采样率，入参如有SamplingRate时生效（主要是当客户输入0时，返回真实后台的AutoSamplingRate值） */
+  SamplingRate?: number;
 }
 /** **GetAlertRecordHistory入参**
  告警历史记录  */
@@ -2230,8 +2874,6 @@ export interface HeartBeatParams {
 export interface HeartBeatResult {
   /** agent升级任务信息 */
   UpdateInfo?: AgentUpdateInfo;
-  /** request请求的序列号 */
-  RequestSeq?: string;
 }
 /** **MergePartition入参**
  本接口用于合并一个读写态的主题分区，合并时指定一个主题分区 ID，日志服务会自动合并范围右相邻的分区。  */
@@ -2290,18 +2932,18 @@ export interface ModifyAlarmResult {
 /** **ModifyAlarmNotice入参**
  该接口用于修改通知渠道组  */
 export interface ModifyAlarmNoticeParams {
-  /** 告警模板名称。 */
+  /** 通知渠道组名称。 */
   Name?: string;
-  /** 告警模板的类型。可选值：
-   <br><li> Trigger - 告警触发
-   <br><li> Recovery - 告警恢复
-   <br><li> All - 告警触发和告警恢复 */
+  /** 通知类型。可选值：
+   <li> Trigger - 告警触发
+   <li> Recovery - 告警恢复
+   <li> All - 告警触发和告警恢复 */
   Type?: string;
-  /** 告警模板接收者信息。 */
+  /** 通知接收对象。 */
   NoticeReceivers?: NoticeReceiver[];
-  /** 告警模板回调信息。 */
+  /** 接口回调信息（包括企业微信）。 */
   WebCallbacks?: WebCallback[];
-  /** 告警通知模板ID。 */
+  /** 通知渠道组ID。 */
   AlarmNoticeId: string;
   /** 接口版本 */
   Version?: string;
@@ -2399,7 +3041,7 @@ export interface ModifyConfigExtraResult {
 export interface ModifyConsumerParams {
   /** 投递任务绑定的日志主题 ID */
   TopicId: string;
-  /** 投递任务是否生效 */
+  /** 投递任务是否生效，默认不生效 */
   Effective?: boolean;
   /** 是否投递日志的元数据信息，默认为 false */
   NeedContent?: boolean;
@@ -2407,6 +3049,8 @@ export interface ModifyConsumerParams {
   Content?: ConsumerContent;
   /** CKafka的描述 */
   Ckafka?: Ckafka;
+  /** 投递时压缩方式，取值0，2，3。[0:NONE；2:SNAPPY；3:LZ4] */
+  Compression?: number;
   /** 接口版本 */
   Version?: string;
 }
@@ -2496,6 +3140,46 @@ export interface ModifyDashboardResult {
   /** 任意字段 */
   [props: string]: any;
 }
+/** **ModifyDashboardSubscribe入参**
+ 此接口用于修改仪表盘订阅  */
+export interface ModifyDashboardSubscribeParams {
+  /** 仪表盘订阅id。 */
+  Id: number;
+  /** 仪表盘id。 */
+  DashboardId?: string;
+  /** 仪表盘订阅名称。 */
+  Name?: string;
+  /** 订阅时间cron表达式，格式为：{秒数} {分钟} {小时} {日期} {月份} {星期}；（有效数据为：{分钟} {小时} {日期} {月份} {星期}）。 */
+  Cron?: string;
+  /** 仪表盘订阅数据。 */
+  SubscribeData?: DashboardSubscribeData;
+  /** 接口版本 */
+  Version?: string;
+}
+/** **ModifyDashboardSubscribe出参**
+ 此接口用于修改仪表盘订阅 */
+export interface ModifyDashboardSubscribeResult {
+  /** 仪表盘订阅id。 */
+  Id?: number;
+}
+/** **ModifyDashboardSubscribeAck入参**
+ 此接口用于确认仪表盘订阅发送成功  */
+export interface ModifyDashboardSubscribeAckParams {
+  /** 仪表盘订阅id。 */
+  Id: number;
+  /** 仪表盘订阅发送成功时间。 */
+  LastTime: string;
+  /** 仪表盘订阅发送的状态。success：全部发送成功，fail：未发送， partialSuccess：部分发送成功。 */
+  LastStatus: string;
+  /** 接口版本 */
+  Version?: string;
+}
+/** **ModifyDashboardSubscribeAck出参**
+ 此接口用于确认仪表盘订阅发送成功 */
+export interface ModifyDashboardSubscribeAckResult {
+  /** 任意字段 */
+  [props: string]: any;
+}
 /** **ModifyDataTransform入参**
  本接口用于修改数据加工任务  */
 export interface ModifyDataTransformParams {
@@ -2509,6 +3193,8 @@ export interface ModifyDataTransformParams {
   EnableFlag?: number;
   /** 加工任务目的topic_id以及别名 */
   DstResources?: DataTransformResouceInfo[];
+  /** 加工任务源topicId */
+  SrcTopicId?: string;
   /** 接口版本 */
   Version?: string;
 }
@@ -2556,8 +3242,14 @@ export interface ModifyIndexParams {
   TopicId: string;
   /** 默认不生效 */
   Status?: boolean;
-  /** 索引规则，Rule和Effective两个必须有一个参数存在 */
+  /** 索引规则 */
   Rule?: RuleInfo;
+  /** 全文索引系统预置字段标记，默认false。  false:不包含系统预置字段， true:包含系统预置字段 */
+  IncludeInternalFields?: boolean;
+  /** 元数据相关标志位，默认为0。 0：全文索引包括开启键值索引的元数据字段， 1：全文索引包括所有元数据字段，2：全文索引不包括元数据字段。 */
+  MetadataFlag?: number;
+  /** 自定义日志解析异常存储字段。 */
+  CoverageField?: string;
   /** 接口版本 */
   Version?: string;
 }
@@ -2565,6 +3257,22 @@ export interface ModifyIndexParams {
  本接口用于修改索引配置
  */
 export interface ModifyIndexResult {
+  /** 任意字段 */
+  [props: string]: any;
+}
+/** **ModifyKafkaConsumer入参**
+ 修改Kafka协议消费信息  */
+export interface ModifyKafkaConsumerParams {
+  /** CLS控制台创建的TopicId */
+  FromTopicId: string;
+  /** 压缩方式[0:NONE；2:SNAPPY；3:LZ4] */
+  Compression?: number;
+  /** 接口版本 */
+  Version?: string;
+}
+/** **ModifyKafkaConsumer出参**
+ 修改Kafka协议消费信息 */
+export interface ModifyKafkaConsumerResult {
   /** 任意字段 */
   [props: string]: any;
 }
@@ -2641,6 +3349,44 @@ export interface ModifyMachineGroupResult {
   /** 任意字段 */
   [props: string]: any;
 }
+/** **ModifyScheduledSql入参**
+ 本接口用于修改ScheduledSql任务  */
+export interface ModifyScheduledSqlParams {
+  /** 源日志主题 */
+  SrcTopicId?: string;
+  /** 任务启动状态.   1正常开启,  2关闭 */
+  EnableFlag?: number;
+  /** 加工任务目的topic_id以及别名 */
+  DstResource?: ScheduledSqlResouceInfo;
+  /** ScheduledSQL语句 */
+  ScheduledSqlContent?: string;
+  /** 调度开始时间, 单位ms */
+  ProcessStartTime?: number;
+  /** 调度类型，1:持续运行 2:指定调度结束时间 */
+  ProcessType?: number;
+  /** 调度结束时间，当ProcessType=2时为必传字段 */
+  ProcessEndTime?: number;
+  /** 调度周期(分钟) */
+  ProcessPeriod?: number;
+  /** 调度时间窗口. 例如-15m@m, 10m@m， 意思是以调度开始时间为基准，向后推15分钟作为区间的开始时间，向前推10分钟作为区间的截止时间。 */
+  ProcessTimeWindow?: string;
+  /** 执行延迟(秒) */
+  ProcessDelay?: number;
+  /** 任务ID */
+  TaskId: string;
+  /** 源topicId的地域信息 */
+  SrcTopicRegion?: string;
+  /** 任务名称 */
+  Name?: string;
+  /** 接口版本 */
+  Version?: string;
+}
+/** **ModifyScheduledSql出参**
+ 本接口用于修改ScheduledSql任务 */
+export interface ModifyScheduledSqlResult {
+  /** 任意字段 */
+  [props: string]: any;
+}
 /** **ModifyShipper入参**
  修改现有的投递规则，客户如果使用此接口，需要自行处理CLS对指定bucket的写权限。  */
 export interface ModifyShipperParams {
@@ -2666,6 +3412,8 @@ export interface ModifyShipperParams {
   Compress?: CompressInfo;
   /** 投递日志的内容格式配置 */
   Content?: ContentInfo;
+  /** 投递文件命名配置，0：随机数命名，1：投递时间命名，默认0（随机数命名） */
+  FilenameMode?: number;
   /** 接口版本 */
   Version?: string;
 }
@@ -2690,14 +3438,38 @@ export interface ModifyTopicParams {
   AutoSplit?: boolean;
   /** 若开启最大分裂，该主题能够能够允许的最大分区数 */
   MaxSplitPartitions?: number;
-  /** 生命周期，单位天；可取值范围1~366 */
+  /** 生命周期，单位天，标准存储取值范围1~3600，低频存储取值范围7~3600。取值为3640时代表永久保存 */
   Period?: number;
+  /** 用户自定义抽样配置 */
+  UserSample?: string;
+  /** 用户抽样配置开关：默认关闭 */
+  UserSampleStatus?: boolean;
+  /** 存储类型：low 低频 */
+  StorageType?: string;
+  /** 日志主题描述 */
+  Describes?: string;
   /** 接口版本 */
   Version?: string;
 }
 /** **ModifyTopic出参**
  本接口用于修改日志主题。 */
 export interface ModifyTopicResult {
+  /** 任意字段 */
+  [props: string]: any;
+}
+/** **ModifyTopicExtendConfig入参**
+ 修改采集配置(clb专用)。  */
+export interface ModifyTopicExtendConfigParams {
+  /** clb的topic业务配置 */
+  ClbTopicExtendConfigs: ClbTopicExtendConfig[];
+  /** 修改模式。 mode取值为1：则用lbkey更新ClbTopicExtendConfig；取值为2：则用user_uin更新FederationToken */
+  Mode: number;
+  /** 接口版本 */
+  Version?: string;
+}
+/** **ModifyTopicExtendConfig出参**
+ 修改采集配置(clb专用)。 */
+export interface ModifyTopicExtendConfigResult {
   /** 任意字段 */
   [props: string]: any;
 }
@@ -2728,6 +3500,22 @@ export interface OpenKafkaConsumeParams {
 export interface OpenKafkaConsumeResult {
   /** 待消费kafka信息 */
   Kafka?: KafkaInfo;
+}
+/** **OpenKafkaConsumer入参**
+ 打开Kafka协议消费功能  */
+export interface OpenKafkaConsumerParams {
+  /** CLS控制台创建的TopicId */
+  FromTopicId: string;
+  /** 压缩方式[0:NONE；2:SNAPPY；3:LZ4] */
+  Compression?: number;
+  /** 接口版本 */
+  Version?: string;
+}
+/** **OpenKafkaConsumer出参**
+ 打开Kafka协议消费功能 */
+export interface OpenKafkaConsumerResult {
+  /** 待消费TopicId */
+  TopicID?: string;
 }
 /** **PullLog入参**
  本接口用于实时拉取日志
@@ -2797,6 +3585,24 @@ export interface RemoveMachineResult {
   /** 任意字段 */
   [props: string]: any;
 }
+/** **RetryScheduledSqlTask入参**
+ 重试失败的ScheduledSql任务  */
+export interface RetryScheduledSqlTaskParams {
+  /** 源日志主题ID */
+  SrcTopicId: string;
+  /** 任务ID */
+  TaskId: string;
+  /** 实例ID */
+  ProcessId: string;
+  /** 接口版本 */
+  Version?: string;
+}
+/** **RetryScheduledSqlTask出参**
+ 重试失败的ScheduledSql任务 */
+export interface RetryScheduledSqlTaskResult {
+  /** 调度结果，1:运行中 2:成功 3:失败 */
+  Status?: number;
+}
 /** **RetryShipperTask入参**
  重试失败的投递任务  */
 export interface RetryShipperTaskParams {
@@ -2847,50 +3653,104 @@ export interface SearchCosRechargeInfoResult {
   /** 状态 */
   Status?: number;
 }
+/** **SearchDashboardSubscribe入参**
+ 此接口用于预览仪表盘订阅  */
+export interface SearchDashboardSubscribeParams {
+  /** 仪表盘订阅Id。 */
+  Id?: number;
+  /** 仪表盘id。 */
+  DashboardId: string;
+  /** 仪表盘订阅名称。 */
+  Name?: string;
+  /** 仪表盘订阅数据。 */
+  SubscribeData: DashboardSubscribeData;
+  /** 接口版本 */
+  Version?: string;
+}
+/** **SearchDashboardSubscribe出参**
+ 此接口用于预览仪表盘订阅 */
+export interface SearchDashboardSubscribeResult {
+  /** 任意字段 */
+  [props: string]: any;
+}
 /** **SearchLog入参**
- 本接口用于搜索日志, 该接口除受默认接口请求频率限制外，针对单个日志主题，并发数不能超过15  */
+ 本接口用于检索分析日志, 该接口除受默认接口请求频率限制外，针对单个日志主题，查询并发数不能超过15。  */
 export interface SearchLogParams {
-  /** 要查询的日志主题ID */
+  /** 要检索分析的日志主题ID */
   TopicId: string;
-  /** 要查询的日志的起始时间，Unix时间戳，单位ms */
+  /** 要检索分析的日志的起始时间，Unix时间戳（毫秒） */
   From: number;
-  /** 要查询的日志的结束时间，Unix时间戳，单位ms */
+  /** 要检索分析的日志的结束时间，Unix时间戳（毫秒） */
   To: number;
-  /** 查询语句，语句长度最大为4096 */
+  /** 检索分析语句，最大长度为12KB
+   语句由 <a href="https:\/\/cloud.tencent.com\/document\/product\/614\/47044" target="_blank">[检索条
+   件]<\/a> | <a href="https:\/\/cloud.tencent.com\/document\/product\/614\/44061" target="_blank">[SQL语句]<\/a>构成，
+   无需对日志进行统计分析时，可省略其中的管道符<code> | <\/code>及SQL语句 */
   Query: string;
-  /** 单次查询返回的原始日志条数，最大值为100。查询语句(Query)包含SQL时，针对SQL的结果条数需在Query中指定，参考https:\/\/cloud.tencent.com\/document\/product\
-   /614\/58977 */
+  /** 表示单次查询返回的原始日志条数，最大值为1000，获取后续日志需使用Context参数
+   注意：
+   * 仅当检索分析语句(Query)不包含SQL时有效
+   * SQL结果条数指定方式参考<a href="https:\/\/c
+   loud.tencent.com\/document\/product\/614\/58977" target="_blank">SQL LIMIT语法<\/a> */
   Limit?: number;
-  /** 加载更多日志时使用，透传上次返回的Context值，获取后续的日志内容，总计最多可获取1万条原始日志。过期时间1小时 */
+  /** 透传上次接口返回的Context值，可获取后续更多日志，总计最多可获取1万条原始日志，过期时间1小时
+   注意：
+   * 透传该参数时，请勿修改除该参数外的其它参数
+   * 仅当检索分析语句(Query)不包含SQL时有效
+   * SQ
+   L获取后续结果参考<a href="https:\/\/cloud.tencent.com\/document\/product\/614\/58977" target="_blank">SQL LIMIT语法<\/a>
+   */
   Context?: string;
-  /** 日志接口是否按时间排序返回；可选值：asc(升序)、desc(降序)，默认为 desc */
+  /** 原始日志是否按时间排序返回；可选值：asc(升序)、desc(降序)，默认为 desc
+   注意：
+   * 仅当检索分析语句(Query)不包含SQL时有效
+   * SQL结果排序方式参考<a href="https:\/\/clo
+   ud.tencent.com\/document\/product\/614\/58978" target="_blank">SQL ORDER BY语法<\/a> */
   Sort?: string;
-  /** 是否返回检索的高亮结果 */
+  /** 是否返回符合检索条件的关键词，一般用于高亮显示匹配的关键词，仅支持键值检索 */
   HighLight?: boolean;
-  /** 为true代表使用新检索,响应参数AnalysisRecords和Columns有效， 为false时代表使用老检索方式, AnalysisResults和ColNames有效 */
+  /** 为true代表使用新的检索结果返回方式，输出参数AnalysisRecords和Columns有效
+   为false时代表使用老的检索结果返回方式, 输出AnalysisResults和ColNames有效
+   两种返回方式在编
+   码格式上有少量区别，建议使用true */
   UseNewAnalysis?: boolean;
+  /** 0：不执行语法优化；1：执行语法优化 */
+  QueryOptimize?: number;
+  /** 0：表示客户选择auto自动采样率;
+   0～1之间：表示客户指定的采样率（例如0.02;
+   1（默认值）：表示不采样。 */
+  SamplingRate?: number;
   /** 接口版本 */
   Version?: string;
 }
 /** **SearchLog出参**
- 本接口用于搜索日志, 该接口除受默认接口请求频率限制外，针对单个日志主题，并发数不能超过15 */
+ 本接口用于检索分析日志, 该接口除受默认接口请求频率限制外，针对单个日志主题，查询并发数不能超过15。 */
 export interface SearchLogResult {
-  /** 加载后续内容的Context，过期时间1小时 */
+  /** 透传本次接口返回的Context值，可获取后续更多日志，过期时间1小时 */
   Context?: string;
-  /** 原始日志查询结果是否全部返回。查询语句(Query)包含SQL时该参数无意义 */
+  /** 符合检索条件的日志是否已全部返回，如未全部返回可使用Context参数获取后续更多日志
+   注意：仅当检索分析语句(Query)不包含SQL时有效 */
   ListOver?: boolean;
-  /** 返回的是否为分析结果 */
+  /** 返回的是否为统计分析（即SQL）结果 */
   Analysis?: boolean;
-  /** 如果Analysis为True，则返回分析结果的列名，否则为空 */
-  ColNames?: string[];
-  /** 日志查询结果；当Analysis为True时，可能返回为null */
+  /** 匹配检索条件的原始日志 */
   Results?: LogInfo[];
-  /** 日志分析结果；当Analysis为False时，可能返回为null */
+  /** 日志统计分析结果的列名
+   当UseNewAnalysis为false时生效 */
+  ColNames?: string[];
+  /** 日志统计分析结果
+   当UseNewAnalysis为false时生效 */
   AnalysisResults?: LogItems[];
-  /** 新的日志分析结果; UseNewAnalysis为true有效 */
+  /** 日志统计分析结果
+   当UseNewAnalysis为true时生效 */
   AnalysisRecords?: string[];
-  /** 日志分析的列属性; UseNewAnalysis为true有效 */
+  /** 日志统计分析结果的列属性
+   当UseNewAnalysis为true时生效 */
   Columns?: Column[];
+  /** 返回语法优化后的语句（QueryOptimize 为 1 时返回，其他情况返回空字符串） */
+  Query?: string;
+  /** 当前系统使用的采样率SamplingRate（主要是当客户输入0时，返回真实后台的AutoSamplingRate值） */
+  SamplingRate?: number;
 }
 /** **SplitPartition入参**
  本接口用于分裂主题分区  */
@@ -2947,19 +3807,19 @@ export interface UpdateAgentStatusParams {
 /** **UpdateAgentStatus出参**
  上报采集机器Agent的升级状态 */
 export interface UpdateAgentStatusResult {
-  /** request请求的序列号 */
-  RequestSeq?: string;
+  /** 任意字段 */
+  [props: string]: any;
 }
 /** **UpgradeAgentNormal入参**
- 基于Agent粒度的升级任务发起  */
+ 基于Agent粒度的单次升级任务启动  */
 export interface UpgradeAgentNormalParams {
   /** 需要升级的机器IP列表 */
   AgentIps: string[];
-  /** 升级类型 */
+  /** 升级类型:0-disable,1-manual,2-auto */
   UpdateMode: number;
-  /** 升级开始时间 */
+  /** 升级开始时间，如：22:00:00，晚上10点开始 */
   UpdateStart?: string;
-  /** 升级结束时间 */
+  /** 升级结束时间，如：23:00:00，晚上11点结束 */
   UpdateStop?: string;
   /** 升级目标版本 */
   TargetVersion: string;
@@ -2967,7 +3827,7 @@ export interface UpgradeAgentNormalParams {
   Version?: string;
 }
 /** **UpgradeAgentNormal出参**
- 基于Agent粒度的升级任务发起 */
+ 基于Agent粒度的单次升级任务启动 */
 export interface UpgradeAgentNormalResult {
   /** 任意字段 */
   [props: string]: any;
@@ -2991,7 +3851,17 @@ export interface UploadConsumerGroupHeartBeatResult {
   [props: string]: any;
 }
 /** **UploadLog入参**
- ## 功能描述
+ ## 提示
+ 为了保障您日志数据的可靠性以及更高效地使用日志服务，建议您使用CLS优化后的接口[上传结构化日志](https:\/\/cloud.tencent.com\/document\
+ /api\/614\/16873)上传日志。
+
+ 同时我们给此接口专门优化定制了多个语言版本的SDK供您选择，SDK提供统一的异步发送、资源控制、自动重试、优雅关闭、感知上报等功能，使上报日志功能更完善，详情请参考[SDK
+ 采集](https:\/\/cloud.tencent.com\/document\/product\/614\/67157)。
+
+ 同时云API上传日志接口也支持同步上传日志数据，如果您选继续使用此接口请参考下文。
+
+ #
+ # 功能描述
 
  本接口用于将日志写入到指定的日志主题。
 
@@ -2999,188 +3869,203 @@ export interface UploadConsumerGroupHeartBeatResult {
 
  #### 负载均衡模式
 
- 系统根据当前日志主题下所有可读写的分区，遵循负载均衡原则自动分配写入的目
- 标分区。该模式适合消费不保序的场景。
+ 系统根据当前日志主题下所有可读写的分区，遵循负载均衡原则自动分配写入的目标分区。该模式适合消费不保序的场景
+ 。
 
  #### 哈希路由模式
 
- 系统根据携带的哈希值（X-CLS-HashKey）将数据写入到符合范围要求的目标分区。例如，可以将某个日志源端通过 hashkey 与某个主题分区强绑定，
- 这样可以保证数据在该分区上写入和消费是严格保序的。
+ 系统根据携带的哈希值（X-CLS-HashKey）将数据写入到符合范围要求的目标分区。例如，可以将某个日志源端通过 hashkey 与某个主题分区强绑定，这样可以保证数据在该分区上写入和消
+ 费是严格保序的。
 
- 此外日志服务还为用户提供以下两种不同的日志上传模式：
+
 
 
  #### 输入参数(pb二进制流，位于body中)
 
- | 字段名
- | 类型    | 位置 | 必须 | 含义                                                         |
- | ------------ | ------- |
- ---- | ---- | ------------------------------------------------------------ |
- | logGroupList | message | pb   |
- 是   | logGroup 列表，封装好的日志组列表内容，建议 logGroup 数量不要超过5个 |
+ <<<<<<< HEAD
+ | 字段名       | 类型    | 位置 | 必须 | 含义
+ |
+ ------------------------------ |
+ | logGroupList | message | pb   | 是   | logGroup 列表，封装好的日志组列表内容，建议 logGroup 数
+ 量不要超过5个 |
+ >>>>>>> feat: cos detial
 
  LogGroup 说明：
-
- | 字段名      | 是否必选 | 含义
+ | 字段名      | 是否必选 | 含义                                                         |
+ | --
+ --------- | -------- | ------------------------------------------------------------ |
+ | logs        | 是
+ | 日志数组，表示有多个 Log 组成的集合，一个 Log 表示一条日志，一个 LogGroup 中 Log 个数不能超过10000 |
+ | contextFlow | 否       | LogGroup 的唯一ID，
+ 需要使用上下文功能时传入。格式："{上下文ID}-{LogGroupID}"。<br>上下文ID：唯一标识一个上下文（连续滚动的一系列日志文件，或者是需要保序的一系列日志），16进制64位整型字符串。<br>LogGro
+ upID：连续递增的一串整型，16进制64位整型字符串。样例："102700A66102516A-59F59"。                        |
+ | filename    | 否       | 日志
+ 文件名                                                   |
+ | source      | 否       | 日志来源，一般使用机器 IP 作为标识
  |
- | ----------- | -------- | -------------------------------------------
- ----------------- |
- | logs        | 是       | 日志数组，表示有多个 Log 组成的集合，一个 Log 表示一条日志，一个 LogGroup 中 Log 个数不能超过10000
- |
- | contextFlow | 否       | LogGroup 的唯一ID，需要使用上下文功能时传入。格式："{上下文ID}-{LogGroupID}"。<br>上下文ID：唯一标识一个上下文（连续滚动的一系
- 列日志文件，或者是需要保序的一系列日志），16进制64位整型字符串。<br>LogGroupID：连续递增的一串整型，16进制64位整型字符串。样例："102700A66102516A-59F59"。
- |
- | filename    | 否       | 日志文件名                                                   |
- | source
- | 否       | 日志来源，一般使用机器 IP 作为标识                           |
- | logTags     | 否       | 日志的标签列表
- |
+ | logTags     | 否       | 日志的标签列表                                               |
 
  Log 说明：
 
- | 字段名   | 是否必选 | 含义
+
+ | 字段名   | 是否必选 | 含义                                                         |
+ | -------- | -------- | ------
+ ------------------------------------------------------ |
+ | time     | 是       | 日志时间（Unix 格式时间戳），支持秒、毫秒，建议采用毫秒
  |
- | -------- | -------- | ------------------------------------------------------------ |
- | time
- | 是       | 日志时间（Unix 格式时间戳），支持秒、毫秒，建议采用毫秒      |
- | contents | 否       | key-value 格式的日志内容，表示一条日志里的多个 key-va
- lue 组合 |
+ | contents | 否       | key-value 格式的日志内容，表示一条日志里的多个 key-value 组合 |
 
- Content 说明：
-
- | 字段名 | 是否必选 | 含义                                                         |
- | ------ |
- -------- | ------------------------------------------------------------ |
- | key    | 是       | 单条日志里某个字段组的 key
- 值，不能以`_`开头                 |
- | value  | 是       | 单条日志某个字段组的 value 值，单条日志 value 不能超过1MB，LogGroup 中所有 value 总和
- 不能超过5MB |
+ | value  | 是
+ | 单条日志某个字段组的 value 值，单条日志 value 不能超过1MB，LogGroup 中所有 value 总和不能超过5MB |
+ =======
+ | 字段名 | 是否必选 | 含义
+ |
+ | ------ | -------- | ---------------------------------
+ | key    | 是       | 单条日志里某个字段组的 key 值，不能以`_`开头                 |
+ | value  | 是
+ | 单条日志某个字段组的 value 值，单条日志 value 不能超过1MB，LogGroup 中所有 value 总和不能超过5MB |
+ >>>>>>> feat: cos detial
 
  LogTag 说明：
 
- | 字段名 | 是否必选 | 含义                             |
- | ------ | -------- | -----------------
- --------------- |
- | key    | 是       | 自定义的标签 key                 |
- | value  | 是       | 自定义的标签 key 对应的 value
- 值 |
+ | 字段名 | 是否必选 | 含义
+ |
+ | ------ | -------- | -------------------------------- |
+ | key    | 是       | 自定义的标
+ 签 key                 |
+ | value  | 是       | 自定义的标签 key 对应的 value 值 |
 
  ## PB 编译示例
 
- 本示例将说明如何使用官方 protoc 编译工具将 PB 描述文件 编译生成为 C++ 语言可调用的上传日志接口。
+ 本示例将说明如何使用官方 protoc 编译工具将 P
+ B 描述文件 编译生成为 C++ 语言可调用的上传日志接口。
 
- > ?目前 protoc 官方支持 Java、C++、Python
- 等语言的编译，详情请参见 [protoc](https:\/\/github.com\/protocolbuffers\/protobuf)。
+ > ?目前 protoc 官方支持 Java、C++、Python 等语言的编译，详情请参见 [protoc](https:\/\/github.com\/
+ protocolbuffers\/protobuf)。
 
  #### 1. 安装 Protocol Buffer
 
- 下载 [Proto
- col Buffer](https:\/\/main.qcloudimg.com\/raw\/d7810aaf8b3073fbbc9d4049c21532aa\/protobuf-2.6.1.tar.gz) ，解压并安装
- 。示例版本为 protobuf 2.6.1，环境为 Centos 7.3 系统。 解压`protobuf-2.6.1.tar.gz`压缩包至`\/usr\/local`目录并进入该目录，执行命令如下：
+ 下载 [Protocol Buffer](https:\/\/main.qcloudimg.com\/ra
+ w\/d7810aaf8b3073fbbc9d4049c21532aa\/protobuf-2.6.1.tar.gz) ，解压并安装。示例版本为 protobuf 2.6.1，环境为 Centos 7.3 系统。 解压`
+ protobuf-2.6.1.tar.gz`压缩包至`\/usr\/local`目录并进入该目录，执行命令如下：
 
  ```
- tar
- -zxvf protobuf-2.6.1.tar.gz -C \/usr\/local\/ && cd \/usr\/local\/protobuf-2.6.1
+ tar -zxvf protobuf-2.6.1.tar.gz -C \/usr\/local\
+ / && cd \/usr\/local\/protobuf-2.6.1
  ```
 
  开始编译和安装，配置环境变量，执行命令如下：
 
+ ```
+ [root@VM_0_8_centos protobuf-2.6.1]# .\/
+ configure
+ [root@VM_0_8_centos protobuf-2.6.1]# make && make install
+ [root@VM_0_8_centos protobuf-2.6.1]# expo
+ rt PATH=$PATH:\/usr\/local\/protobuf-2.6.1\/bin
+ ```
+
+ 编译成功后，您可以使用以下命令查看版本：
 
  ```
- [root@VM_0_8_centos protobuf-2.6.1]# .\/configure
- [root@VM_0_8_centos protobuf-2.6.1]# make && make insta
- ll
- [root@VM_0_8_centos protobuf-2.6.1]# export PATH=$PATH:\/usr\/local\/protobuf-2.6.1\/bin
- ```
-
- 编译成功后，您可以使用以下
- 命令查看版本：
-
- ```
- [root@VM_0_8_centos protobuf-2.6.1]# protoc --version
+ [root@VM_0_8_centos protobuf-2.
+ 6.1]# protoc --version
  liprotoc 2.6.1
  ```
 
  #### 2. 创建 PB 描述文件
 
- PB
- 描述文件是通信双方约定的数据交换格式，上传日志时须将规定的协议格式编译成对应语言版本的调用接口，然后添加到工程代码里，详情请参见 [protoc](https:\/\/github.com\/protocolbuffer
- s\/protobuf) 。
+ PB 描述文件是通信双方约定的数据交换格式，上传日志时须将规定的协议格式编译成对应语言版本的调
+ 用接口，然后添加到工程代码里，详情请参见 [protoc](https:\/\/github.com\/protocolbuffers\/protobuf) 。
 
- 以日志服务所规定的 PB 数据格式内容为准， 在本地创建 PB 消息描述文件 cls.proto。
+ 以日志服务所规定的 PB 数据格式内容为准， 在本地创建
+ PB 消息描述文件 cls.proto。
 
  > !PB 描述文件内容不可更改，且文件名须以`.proto`结尾。
 
- cls.pro
- to 内容（PB 描述文件）如下：
+ cls.proto 内容（PB 描述文件）如下：
 
  ```
  package cls;
 
- message Log
+ <<<<<<< HEAD
+ message
+ Log
  {
-    message Content
-    {
-        required string key   = 1
-; \/\/ 每组字段的 key
-        required string value = 2; \/\/ 每组字段的 value
-    }
-    required int64   time     = 1;
-\/\/ 时间戳，UNIX时间格式
-    repeated Content contents = 2; \/\/ 一条日志里的多个kv组合
+=======
+  {
+      required string key   = 1; \/\/ 每组字段的 key
+      required string val
+  }
+  required int64   time     = 1; \/\/ 时间戳，UNIX时间格式
+  repeated Content conte
+nts = 2; \/\/ 一条日志里的多个kv组合
 }
 
+ <<<<<<< HEAD
  message LogTag
  {
-    required string
- key       = 1;
-    required string value     = 2;
+=======
+message LogTag
+{
+>>>>>>> feat: cos detial
+  required string key       = 1;
+  required string value
+= 2;
 }
 
+<<<<<<< HEAD
  message LogGroup
  {
-    repeated Log    logs        = 1;
-\/\/ 多条日志合成的日志数组
-    optional string contextFlow = 2; \/\/ 目前暂无效用
-    optional string filename    = 3; \/\/ 日志
-文件名
-    optional string source      = 4; \/\/ 日志来源，一般使用机器IP
-    repeated LogTag logTags     = 5;
+=======
+message LogGroup
+{
+>>>>>>> feat: cos detial
+  repeated Log    logs        = 1; \/\/ 多条日志合成的日志数组
+  optional string context
+Flow = 2; \/\/ 目前暂无效用
+  optional string filename    = 3; \/\/ 日志文件名
+  optional string source      = 4; \/\
+/ 日志来源，一般使用机器IP
+  repeated LogTag logTags     = 5;
 }
 
- message Lo
- gGroupList
+<<<<<<< HEAD
+ message LogGroupList
  {
-    repeated LogGroup logGroupList = 1; \/\/ 日志组列表
+=======
+message LogGroupList
+{
+>>>>>>> feat: cos detial
+  repeated LogGroup logGroupL
+ist = 1; \/\/ 日志组列表
 }
  ```
 
  #### 3. 编译生成
 
- 此例中，使用 proto 编译器生成 C++ 语言
- 的文件，在 cls.proto 文件的同一目录下，执行如下编译命令：
+ 此例中，使用 proto 编译器生成 C++ 语言的文件，在 cls.proto 文件的同一目录下，执行如下编译命令：
 
  ```
- protoc --cpp_out=.\/ .\/cls.proto
+ prot
+ oc --cpp_out=.\/ .\/cls.proto
  ```
 
- > ?`--cpp_out=.\/`表示编译成 cpp 格式
- 并输出当前目录下，`.\/cls.proto`表示位于当前目录下的 cls.proto 描述文件。
+ > ?`--cpp_out=.\/`表示编译成 cpp 格式并输出当前目录下，`.\/cls.proto`表示位于当前目录下的 cls.proto
+ 描述文件。
 
- 编译成功后，会输出对应语言的代码文件。此例会生成 cls.pb.h 头文件和 [cls.pb.cc](http:\/\
- /cls.pb.cc) 代码实现文件，如下所示：
+ 编译成功后，会输出对应语言的代码文件。此例会生成 cls.pb.h 头文件和 [cls.pb.cc](http:\/\/cls.pb.cc) 代码实现文件，如下所示：
 
  ```
- [root@VM_0_8_centos protobuf-2.6.1]# protoc --cpp_out=.\/ .\/cls.proto
- [root@VM_
- 0_8_centos protobuf-2.6.1]# ls
- cls.pb.cc cls.pb.h cls.proto
+ [root@VM_0_8_c
+ entos protobuf-2.6.1]# protoc --cpp_out=.\/ .\/cls.proto
+ [root@VM_0_8_centos protobuf-2.6.1]# ls
+ cls.pb.cc cls
+ .pb.h cls.proto
  ```
 
  #### 4. 调用
 
- 将生成的 cls.pb.h 头文件引入代码中，调用接口进行数据格式
- 封装。  */
+ 将生成的 cls.pb.h 头文件引入代码中，调用接口进行数据格式封装。  */
 export interface UploadLogParams {
   /** 根据 hashkey 写入相应范围的主题分区 */
   HashKey?: string;
@@ -3200,7 +4085,17 @@ export interface UploadLogParams {
   Version?: string;
 }
 /** **UploadLog出参**
- ## 功能描述
+ ## 提示
+ 为了保障您日志数据的可靠性以及更高效地使用日志服务，建议您使用CLS优化后的接口[上传结构化日志](https:\/\/cloud.tencent.com\/document\
+ /api\/614\/16873)上传日志。
+
+ 同时我们给此接口专门优化定制了多个语言版本的SDK供您选择，SDK提供统一的异步发送、资源控制、自动重试、优雅关闭、感知上报等功能，使上报日志功能更完善，详情请参考[SDK
+ 采集](https:\/\/cloud.tencent.com\/document\/product\/614\/67157)。
+
+ 同时云API上传日志接口也支持同步上传日志数据，如果您选继续使用此接口请参考下文。
+
+ #
+ # 功能描述
 
  本接口用于将日志写入到指定的日志主题。
 
@@ -3208,191 +4103,272 @@ export interface UploadLogParams {
 
  #### 负载均衡模式
 
- 系统根据当前日志主题下所有可读写的分区，遵循负载均衡原则自动分配写入的目
- 标分区。该模式适合消费不保序的场景。
+ 系统根据当前日志主题下所有可读写的分区，遵循负载均衡原则自动分配写入的目标分区。该模式适合消费不保序的场景
+ 。
 
  #### 哈希路由模式
 
- 系统根据携带的哈希值（X-CLS-HashKey）将数据写入到符合范围要求的目标分区。例如，可以将某个日志源端通过 hashkey 与某个主题分区强绑定，
- 这样可以保证数据在该分区上写入和消费是严格保序的。
+ 系统根据携带的哈希值（X-CLS-HashKey）将数据写入到符合范围要求的目标分区。例如，可以将某个日志源端通过 hashkey 与某个主题分区强绑定，这样可以保证数据在该分区上写入和消
+ 费是严格保序的。
 
- 此外日志服务还为用户提供以下两种不同的日志上传模式：
 
+ <<<<<<< HEAD
+ =======
+
+ >>>>>>> feat: cos detial
 
  #### 输入参数(pb二进制流，位于body中)
 
- | 字段名
- | 类型    | 位置 | 必须 | 含义                                                         |
- | ------------ | ------- |
- ---- | ---- | ------------------------------------------------------------ |
- | logGroupList | message | pb   |
- 是   | logGroup 列表，封装好的日志组列表内容，建议 logGroup 数量不要超过5个 |
+ <<<<<<< HEAD
+ | 字段名       | 类型    | 位置 | 必须 | 含义
+ |
+ | ------------ | ------- | ---- | ---- | ------------------------------
+ ------------------------------ |
+ | logGroupList | message | pb   | 是   | logGroup 列表，封装好的日志组列表内容，建议 logGroup 数
+ 量不要超过5个 |
+ =======
+ | 字段名       | 类型    | 位置 | 必须 | 含义
+ |
+ | ------------ | ------- | ---- | ---- | ------------------------------
+ ------------------------------ |
+ | logGroupList | message | pb   | 是   | logGroup 列表，封装好的日志组列表内容，建议 logGroup 数
+ 量不要超过5个 |
+ >>>>>>> feat: cos detial
 
  LogGroup 说明：
 
- | 字段名      | 是否必选 | 含义
+ <<<<<<< HEAD
+ | 字段名      | 是否必选 | 含义                                                         |
+ | --
+ --------- | -------- | ------------------------------------------------------------ |
+ | logs        | 是
+ | 日志数组，表示有多个 Log 组成的集合，一个 Log 表示一条日志，一个 LogGroup 中 Log 个数不能超过10000 |
+ | contextFlow | 否       | LogGroup 的唯一ID，
+ 需要使用上下文功能时传入。格式："{上下文ID}-{LogGroupID}"。<br>上下文ID：唯一标识一个上下文（连续滚动的一系列日志文件，或者是需要保序的一系列日志），16进制64位整型字符串。<br>LogGro
+ upID：连续递增的一串整型，16进制64位整型字符串。样例："102700A66102516A-59F59"。                        |
+ | filename    | 否       | 日志
+ 文件名                                                   |
+ | source      | 否       | 日志来源，一般使用机器 IP 作为标识
  |
- | ----------- | -------- | -------------------------------------------
- ----------------- |
- | logs        | 是       | 日志数组，表示有多个 Log 组成的集合，一个 Log 表示一条日志，一个 LogGroup 中 Log 个数不能超过10000
+ | logTags     | 否       | 日志的标签列表                                               |
+ =======
+ | 字段名      | 是否必选 | 含义                                                         |
+ | --
+ --------- | -------- | ------------------------------------------------------------ |
+ | logs        | 是
+ | 日志数组，表示有多个 Log 组成的集合，一个 Log 表示一条日志，一个 LogGroup 中 Log 个数不能超过10000 |
+ | contextFlow | 否       | LogGroup 的唯一ID，
+ 需要使用上下文功能时传入。格式："{上下文ID}-{LogGroupID}"。<br>上下文ID：唯一标识一个上下文（连续滚动的一系列日志文件，或者是需要保序的一系列日志），16进制64位整型字符串。<br>LogGro
+ upID：连续递增的一串整型，16进制64位整型字符串。样例："102700A66102516A-59F59"。                        |
+ | filename    | 否       | 日志
+ 文件名                                                   |
+ | source      | 否       | 日志来源，一般使用机器 IP 作为标识
  |
- | contextFlow | 否       | LogGroup 的唯一ID，需要使用上下文功能时传入。格式："{上下文ID}-{LogGroupID}"。<br>上下文ID：唯一标识一个上下文（连续滚动的一系
- 列日志文件，或者是需要保序的一系列日志），16进制64位整型字符串。<br>LogGroupID：连续递增的一串整型，16进制64位整型字符串。样例："102700A66102516A-59F59"。
- |
- | filename    | 否       | 日志文件名                                                   |
- | source
- | 否       | 日志来源，一般使用机器 IP 作为标识                           |
- | logTags     | 否       | 日志的标签列表
- |
+ | logTags     | 否       | 日志的标签列表                                               |
+ >>>>>>> feat: cos detial
 
  Log 说明：
 
- | 字段名   | 是否必选 | 含义
+
+ <<<<<<< HEAD
+ | 字段名   | 是否必选 | 含义                                                         |
+ | -------- | -------- | ------
+ ------------------------------------------------------ |
+ | time     | 是       | 日志时间（Unix 格式时间戳），支持秒、毫秒，建议采用毫秒
  |
- | -------- | -------- | ------------------------------------------------------------ |
- | time
- | 是       | 日志时间（Unix 格式时间戳），支持秒、毫秒，建议采用毫秒      |
- | contents | 否       | key-value 格式的日志内容，表示一条日志里的多个 key-va
- lue 组合 |
+ | contents | 否       | key-value 格式的日志内容，表示一条日志里的多个 key-value 组合 |
+ =======
+ | 字段名   | 是否必选 | 含义                                                         |
+ | -------- | -------- | ------
+ ------------------------------------------------------ |
+ | time     | 是       | 日志时间（Unix 格式时间戳），支持秒、毫秒，建议采用毫秒
+ |
+ | contents | 否       | key-value 格式的日志内容，表示一条日志里的多个 key-value 组合 |
+ >>>>>>> feat: cos detial
 
  Content 说明：
 
- | 字段名 | 是否必选 | 含义                                                         |
- | ------ |
- -------- | ------------------------------------------------------------ |
- | key    | 是       | 单条日志里某个字段组的 key
- 值，不能以`_`开头                 |
- | value  | 是       | 单条日志某个字段组的 value 值，单条日志 value 不能超过1MB，LogGroup 中所有 value 总和
- 不能超过5MB |
+ <<<<<<< HEAD
+ | 字段名 | 是否必选 | 含义
+ |
+ | ------ | -------- | ---------------------------------
+ --------------------------- |
+ | key    | 是       | 单条日志里某个字段组的 key 值，不能以`_`开头                 |
+ | value  | 是
+ | 单条日志某个字段组的 value 值，单条日志 value 不能超过1MB，LogGroup 中所有 value 总和不能超过5MB |
+ =======
+ | 字段名 | 是否必选 | 含义
+ |
+ | ------ | -------- | ---------------------------------
+ --------------------------- |
+ | key    | 是       | 单条日志里某个字段组的 key 值，不能以`_`开头                 |
+ | value  | 是
+ | 单条日志某个字段组的 value 值，单条日志 value 不能超过1MB，LogGroup 中所有 value 总和不能超过5MB |
+ >>>>>>> feat: cos detial
 
  LogTag 说明：
 
- | 字段名 | 是否必选 | 含义                             |
- | ------ | -------- | -----------------
- --------------- |
- | key    | 是       | 自定义的标签 key                 |
- | value  | 是       | 自定义的标签 key 对应的 value
- 值 |
+ <<<<<<< HEAD
+ | 字段名 | 是否必选 | 含义
+ |
+ | ------ | -------- | -------------------------------- |
+ | key    | 是       | 自定义的标
+ 签 key                 |
+ | value  | 是       | 自定义的标签 key 对应的 value 值 |
+ =======
+ | 字段名 | 是否必选 | 含义
+ |
+ | ------ | -------- | -------------------------------- |
+ | key    | 是       | 自定义的标
+ 签 key                 |
+ | value  | 是       | 自定义的标签 key 对应的 value 值 |
+ >>>>>>> feat: cos detial
 
  ## PB 编译示例
 
- 本示例将说明如何使用官方 protoc 编译工具将 PB 描述文件 编译生成为 C++ 语言可调用的上传日志接口。
+ 本示例将说明如何使用官方 protoc 编译工具将 P
+ B 描述文件 编译生成为 C++ 语言可调用的上传日志接口。
 
- > ?目前 protoc 官方支持 Java、C++、Python
- 等语言的编译，详情请参见 [protoc](https:\/\/github.com\/protocolbuffers\/protobuf)。
+ > ?目前 protoc 官方支持 Java、C++、Python 等语言的编译，详情请参见 [protoc](https:\/\/github.com\/
+ protocolbuffers\/protobuf)。
 
  #### 1. 安装 Protocol Buffer
 
- 下载 [Proto
- col Buffer](https:\/\/main.qcloudimg.com\/raw\/d7810aaf8b3073fbbc9d4049c21532aa\/protobuf-2.6.1.tar.gz) ，解压并安装
- 。示例版本为 protobuf 2.6.1，环境为 Centos 7.3 系统。 解压`protobuf-2.6.1.tar.gz`压缩包至`\/usr\/local`目录并进入该目录，执行命令如下：
+ 下载 [Protocol Buffer](https:\/\/main.qcloudimg.com\/ra
+ w\/d7810aaf8b3073fbbc9d4049c21532aa\/protobuf-2.6.1.tar.gz) ，解压并安装。示例版本为 protobuf 2.6.1，环境为 Centos 7.3 系统。 解压`
+ protobuf-2.6.1.tar.gz`压缩包至`\/usr\/local`目录并进入该目录，执行命令如下：
 
  ```
- tar
- -zxvf protobuf-2.6.1.tar.gz -C \/usr\/local\/ && cd \/usr\/local\/protobuf-2.6.1
+ tar -zxvf protobuf-2.6.1.tar.gz -C \/usr\/local\
+ / && cd \/usr\/local\/protobuf-2.6.1
  ```
 
  开始编译和安装，配置环境变量，执行命令如下：
 
+ ```
+ [root@VM_0_8_centos protobuf-2.6.1]# .\/
+ configure
+ [root@VM_0_8_centos protobuf-2.6.1]# make && make install
+ [root@VM_0_8_centos protobuf-2.6.1]# expo
+ rt PATH=$PATH:\/usr\/local\/protobuf-2.6.1\/bin
+ ```
+
+ 编译成功后，您可以使用以下命令查看版本：
 
  ```
- [root@VM_0_8_centos protobuf-2.6.1]# .\/configure
- [root@VM_0_8_centos protobuf-2.6.1]# make && make insta
- ll
- [root@VM_0_8_centos protobuf-2.6.1]# export PATH=$PATH:\/usr\/local\/protobuf-2.6.1\/bin
- ```
-
- 编译成功后，您可以使用以下
- 命令查看版本：
-
- ```
- [root@VM_0_8_centos protobuf-2.6.1]# protoc --version
+ [root@VM_0_8_centos protobuf-2.
+ 6.1]# protoc --version
  liprotoc 2.6.1
  ```
 
  #### 2. 创建 PB 描述文件
 
- PB
- 描述文件是通信双方约定的数据交换格式，上传日志时须将规定的协议格式编译成对应语言版本的调用接口，然后添加到工程代码里，详情请参见 [protoc](https:\/\/github.com\/protocolbuffer
- s\/protobuf) 。
+ PB 描述文件是通信双方约定的数据交换格式，上传日志时须将规定的协议格式编译成对应语言版本的调
+ 用接口，然后添加到工程代码里，详情请参见 [protoc](https:\/\/github.com\/protocolbuffers\/protobuf) 。
 
- 以日志服务所规定的 PB 数据格式内容为准， 在本地创建 PB 消息描述文件 cls.proto。
+ <<<<<<< HEAD
+ 以日志服务所规定的 PB 数据格式内容为准， 在本地创建
+ PB 消息描述文件 cls.proto。
+ =======
+ 以日志服务所规定的 PB 数据格式内容为准， 在本地创建
+ PB 消息描述文件 cls.proto。
+ >>>>>>> feat: cos detial
 
  > !PB 描述文件内容不可更改，且文件名须以`.proto`结尾。
 
- cls.pro
- to 内容（PB 描述文件）如下：
+ cls.proto 内容（PB 描述文件）如下：
 
  ```
  package cls;
 
- message Log
+ <<<<<<< HEAD
+ message
+ Log
  {
-    message Content
-    {
-        required string key   = 1
-; \/\/ 每组字段的 key
-        required string value = 2; \/\/ 每组字段的 value
-    }
-    required int64   time     = 1;
-\/\/ 时间戳，UNIX时间格式
-    repeated Content contents = 2; \/\/ 一条日志里的多个kv组合
+=======
+message
+Log
+{
+>>>>>>> feat: cos detial
+  message Content
+  {
+      required string key   = 1; \/\/ 每组字段的 key
+      required string val
+ue = 2; \/\/ 每组字段的 value
+  }
+  required int64   time     = 1; \/\/ 时间戳，UNIX时间格式
+  repeated Content conte
+nts = 2; \/\/ 一条日志里的多个kv组合
 }
 
+<<<<<<< HEAD
  message LogTag
  {
-    required string
- key       = 1;
-    required string value     = 2;
+=======
+message LogTag
+{
+>>>>>>> feat: cos detial
+  required string key       = 1;
+  required string value
+= 2;
 }
 
+<<<<<<< HEAD
  message LogGroup
  {
-    repeated Log    logs        = 1;
-\/\/ 多条日志合成的日志数组
-    optional string contextFlow = 2; \/\/ 目前暂无效用
-    optional string filename    = 3; \/\/ 日志
-文件名
-    optional string source      = 4; \/\/ 日志来源，一般使用机器IP
-    repeated LogTag logTags     = 5;
+=======
+message LogGroup
+{
+>>>>>>> feat: cos detial
+  repeated Log    logs        = 1; \/\/ 多条日志合成的日志数组
+  optional string context
+Flow = 2; \/\/ 目前暂无效用
+  optional string filename    = 3; \/\/ 日志文件名
+  optional string source      = 4; \/\
+/ 日志来源，一般使用机器IP
+  repeated LogTag logTags     = 5;
 }
 
- message Lo
- gGroupList
+<<<<<<< HEAD
+ message LogGroupList
  {
-    repeated LogGroup logGroupList = 1; \/\/ 日志组列表
+=======
+message LogGroupList
+{
+>>>>>>> feat: cos detial
+  repeated LogGroup logGroupL
+ist = 1; \/\/ 日志组列表
 }
  ```
 
  #### 3. 编译生成
 
- 此例中，使用 proto 编译器生成 C++ 语言
- 的文件，在 cls.proto 文件的同一目录下，执行如下编译命令：
+ 此例中，使用 proto 编译器生成 C++ 语言的文件，在 cls.proto 文件的同一目录下，执行如下编译命令：
 
  ```
- protoc --cpp_out=.\/ .\/cls.proto
+ prot
+ oc --cpp_out=.\/ .\/cls.proto
  ```
 
- > ?`--cpp_out=.\/`表示编译成 cpp 格式
- 并输出当前目录下，`.\/cls.proto`表示位于当前目录下的 cls.proto 描述文件。
+ > ?`--cpp_out=.\/`表示编译成 cpp 格式并输出当前目录下，`.\/cls.proto`表示位于当前目录下的 cls.proto
+ 描述文件。
 
- 编译成功后，会输出对应语言的代码文件。此例会生成 cls.pb.h 头文件和 [cls.pb.cc](http:\/\
- /cls.pb.cc) 代码实现文件，如下所示：
+ 编译成功后，会输出对应语言的代码文件。此例会生成 cls.pb.h 头文件和 [cls.pb.cc](http:\/\/cls.pb.cc) 代码实现文件，如下所示：
 
  ```
- [root@VM_0_8_centos protobuf-2.6.1]# protoc --cpp_out=.\/ .\/cls.proto
- [root@VM_
- 0_8_centos protobuf-2.6.1]# ls
- cls.pb.cc cls.pb.h cls.proto
+ [root@VM_0_8_c
+ entos protobuf-2.6.1]# protoc --cpp_out=.\/ .\/cls.proto
+ [root@VM_0_8_centos protobuf-2.6.1]# ls
+ cls.pb.cc cls
+ .pb.h cls.proto
  ```
 
  #### 4. 调用
 
- 将生成的 cls.pb.h 头文件引入代码中，调用接口进行数据格式
- 封装。 */
+ 将生成的 cls.pb.h 头文件引入代码中，调用接口进行数据格式封装。 */
 export interface UploadLogResult {
-  /** request请求的序列号 */
-  RequestSeq?: string;
+  /** 任意字段 */
+  [props: string]: any;
 }
 /** **UploadServiceLog入参**
  ## 功能描述
@@ -3402,6 +4378,7 @@ export interface UploadLogResult {
  服务日志不计费，由CLS采集器agent进行采集上报。
 
  */
+
 export interface UploadServiceLogParams {
   /** 主题id */
   TopicId?: string;
@@ -3433,22 +4410,27 @@ export interface UploadServiceLogParams {
 
  本接口用于将Agent服务日志写入到用户名下的服务日志Topic。
 
+ <<<<<<< HEAD
  服务日志不计费，由CLS采集器agent进行采集上报。
 
+ =======
+ 服务日志不计费，由CLS采集器agent进行采集上报。
+
+ >>>>>>> feat: cos detial
  */
 export interface UploadServiceLogResult {
-  /** request请求的序列号 */
-  RequestSeq?: string;
+  /** 任意字段 */
+  [props: string]: any;
 }
 /** Agent自动升级任务信息 */
 export interface AgentUpdateInfo {
   /** 是否需要升级 */
   NeedUpdate: boolean;
-  /** 升级类型 */
+  /** 升级类型:0-null,1-manual,2-auto,3-force */
   UpdateType: number;
-  /** 升级动作 */
+  /** 升级动作:0-null,1-update,2-revert */
   UpdateAction: number;
-  /** 重试次数 */
+  /** 重试次数,最大3次 */
   RetryCount: number;
   /** 目标版本 */
   TargetVersion: string;
@@ -3461,18 +4443,25 @@ export interface AgentUpdateInfo {
 }
 /** Agent自动升级状态信息 */
 export interface AgentUpdateStatus {
-  /** Agent升级类型 */
+  /** 升级类型:0-null,1-manual,2-auto,3-force */
   UpdateType?: number;
-  /** Agent升级动作 */
+  /** 升级动作:0-null,1-update,2-revert */
   UpdateAction?: number;
-  /** 重试次数 */
+  /** 重试次数,最大三次 */
   RetryCount?: number;
-  /** Agent升级状态 */
+  /** Agent升级状态:0-querying,1-updating,2-reverting,-1-updatefail,-2-revertfail, -10-notsupport */
   UpdateStatus?: number;
   /** 错误码 */
   ErrCode: number;
   /** 错误信息 */
   ErrMsg: string;
+}
+/** 告警多维分析一些配置信息 */
+export interface AlarmAnalysisConfig {
+  /** 键 */
+  Key: string;
+  /** 值 */
+  Value: string;
 }
 /** 告警策略描述 */
 export interface AlarmInfo {
@@ -3544,14 +4533,14 @@ export interface AlarmTarget {
   Query: string;
   /** 告警对象序号；从1开始递增。 */
   Number: number;
-  /** 查询范围起始时间相对当前的历史时间，单位非分钟，取值为非正，最大值为0，最小值为-1440。 */
+  /** 查询范围起始时间相对于告警执行时间的偏移，单位为分钟，取值为非正，最大值为0，最小值为-1440。 */
   StartTimeOffset: number;
-  /** 查询范围终止时间相对当前的历史时间，单位非分钟，取值为非正，须大于StartTimeOffset，最大值为0，最小值为-1440。 */
+  /** 查询范围终止时间相对于告警执行时间的偏移，单位为分钟，取值为非正，须大于StartTimeOffset，最大值为0，最小值为-1440。 */
   EndTimeOffset: number;
   /** 日志集ID。 */
   LogsetId: string;
 }
-/** 日志告警监控对线 */
+/** 告警对象 */
 export interface AlarmTargetInfo {
   /** 日志集ID。 */
   LogsetId: string;
@@ -3565,9 +4554,9 @@ export interface AlarmTargetInfo {
   Query: string;
   /** 告警对象序号。 */
   Number: number;
-  /** 查询范围起始时间相对当前的历史时间，取值为非正，最大值为0，最小值为-1440。 */
+  /** 查询范围起始时间相对于告警执行时间的偏移，单位为分钟，取值为非正，最大值为0，最小值为-1440。 */
   StartTimeOffset: number;
-  /** 查询范围终止时间相对当前的历史时间，取值为非正，须大于StartTimeOffset，最大值为0，最小值为-1440。 */
+  /** 查询范围终止时间相对于告警执行时间的偏移，单位为分钟，取值为非正，须大于StartTimeOffset，最大值为0，最小值为-1440。 */
   EndTimeOffset: number;
 }
 /** 告警历史的通知对象结构 */
@@ -3610,10 +4599,12 @@ export interface AlertHistoryRecord {
 export interface AnalysisDimensional {
   /** 分析名称 */
   Name: string;
-  /** 分析类型：query，field */
+  /** 分析类型：query，field ，original */
   Type: string;
   /** 分析内容 */
   Content: string;
+  /** 配置 */
+  ConfigInfo?: AlarmAnalysisConfig[];
 }
 /** 异步上下文任务 */
 export interface AsyncContextTask {
@@ -3706,16 +4697,69 @@ export interface Ckafka {
   /** Ckafka 的 TopicName */
   TopicName: string;
 }
+/** clb定制化的业务配置 */
+export interface ClbTopicExtendConfig {
+  /** LB关键信息，VIP */
+  Vip?: string;
+  /** LB关键信息，VpcId */
+  VpcId?: number;
+  /** clb服务端的公共topic */
+  TopicId?: string;
+  /** clb用户的topic */
+  UserTopicId?: string;
+  /** clb用户的uin信息 */
+  UserUin?: number;
+  /** clb用户的appid信息 */
+  UserAppId?: number;
+  /** 临时证书加密密钥ID。最长不超过1024字节。 */
+  UserTmpSecretId?: string;
+  /** 临时证书加密密钥Key。最长不超过1024字节。 */
+  UserTmpSecretKey?: string;
+  /** token, 最长不超过4096字节。 */
+  UserToken?: string;
+  /** 临时证书有效的时间，返回 Unix 时间戳，精确到秒 */
+  TmpKeyExpired?: number;
+  /** 唯一标识clb的一种业务 */
+  LbKey?: string;
+  /** 公共topic的采样比 */
+  LogSample?: string;
+  /** 用户topic的采样比 */
+  UserSample?: string;
+  /** LB健康检查日志 Topic ID, 和topicId属于另外一种公共的topic */
+  UserHealthTopicId?: string;
+  /** topic的采集配置是否生效,true为生效 */
+  UserSampleStatus?: boolean;
+  /** 1代表用户topic已删除，0代表用户topic未删除。
+   在已删除状态下，clb对账的时候需要重制usertopic为空， 最终会投递到大账号下 */
+  UserTopicStatus?: number;
+  /** lbkey是否要采集到公共topic, true为要采集， false为不采集，默认为false */
+  Collection?: boolean;
+}
+/** cls预付费资源包抵扣信息 */
+export interface ClsPrePayDeductRecord {
+  /** 主键Id。 */
+  Id: number;
+  /** 抵扣日期。 */
+  DeductTime: string;
+  /** 地域Id。 */
+  RegionId: number;
+  /** 抵扣额度。 */
+  DeductQuota: number;
+  /** 计费项明细。 */
+  DeductRecordDetail: PrePayDeductRecordDetail[];
+  /** 地域。 */
+  Region: string;
+}
 /** 日志分析的列属性 */
 export interface Column {
   /** 列的名字 */
-  Name: string;
+  Name?: string;
   /** 列的属性 */
-  Type: string;
+  Type?: string;
 }
 /** 投递日志的压缩配置 */
 export interface CompressInfo {
-  /** 压缩格式，支持gzip、lzop和none不压缩 */
+  /** 压缩格式，支持gzip、lzop、snappy和none不压缩 */
   Format: string;
 }
 /** 触发条件测试结果 */
@@ -3801,8 +4845,12 @@ export interface ConfigInfo {
 export interface ConsumerContent {
   /** 是否投递 TAG 信息 */
   EnableTag: boolean;
-  /** 需要投递的元数据列表，目前仅支持：__SOURCE__，__FILENAME__和__TIMESTAMP__ */
+  /** 需要投递的元数据列表，目前仅支持：\_\_SOURCE\_\_，\_\_FILENAME\_\_，\_\_TIMESTAMP\_\_，\_\_HOSTNAME\_\_和\_\_PKGID\_\_ */
   MetaFields: string[];
+  /** 当EnableTag为true时，必须填写TagJsonNotTiled字段，TagJsonNotTiled用于标识tag信息是否json平铺，TagJsonNotTiled为true时不平铺，false时平铺 */
+  TagJsonNotTiled?: boolean;
+  /** 投递时间戳精度，可选项 [1:秒；2:毫秒] ，默认是秒 */
+  TimestampAccuracy?: number;
 }
 /** 消费组信息 */
 export interface ConsumerGroupInfo {
@@ -3827,6 +4875,10 @@ export interface ContainerFileInfo {
   IncludeLabels?: string[];
   /** 工作负载信息 */
   WorkLoad?: ContainerWorkLoadInfo;
+  /** 需要排除的namespace可以多个，用分隔号分割,例如A,B */
+  ExcludeNamespace?: string;
+  /** 需要排除的pod标签信息 */
+  ExcludeLabels?: string[];
 }
 /** 自建k8s-容器标准输出信息 */
 export interface ContainerStdoutInfo {
@@ -3840,6 +4892,10 @@ export interface ContainerStdoutInfo {
   IncludeLabels?: string[];
   /** 工作负载信息 */
   WorkLoads?: ContainerWorkLoadInfo[];
+  /** 需要排除的namespace可以多个，用分隔号分割,例如A,B */
+  ExcludeNamespace?: string;
+  /** 需要排除的pod标签信息 */
+  ExcludeLabels?: string[];
 }
 /** 自建k8s-工作负载信息 */
 export interface ContainerWorkLoadInfo {
@@ -3860,6 +4916,8 @@ export interface ContentInfo {
   Csv?: CsvInfo;
   /** json格式内容描述 */
   Json?: JsonInfo;
+  /** parquet格式内容描述 */
+  Parquet?: ParquetInfo;
 }
 /** cos导入配置信息 */
 export interface CosRechargeInfo {
@@ -3939,6 +4997,69 @@ export interface DashboardInfo {
   Tags: Tag[];
   /** 仪表盘所在地域： 为了兼容老的地域。 */
   DashboardRegion: string;
+  /** 修改仪表盘的时间 */
+  UpdateTime: string;
+  /** 仪表盘对应的topic相关信息 */
+  DashboardTopicInfos: DashboardTopicInfo[];
+}
+/** 仪表盘订阅通知方式 */
+export interface DashboardNoticeMode {
+  /** 仪表盘通知方式。Uin：腾讯云用户, Group：腾讯云用户组, Email：自定义Email */
+  ReceiverType: string;
+  /** 仪表盘通知方式对应的值。Type为0，代表的是用户id；Type为1，代表的是用户组；Type是2，代表的是Email */
+  Values: string[];
+  /** 仪表盘通知渠道。["Email","Sms","WeChat","Phone"]。 */
+  ReceiverChannels: string[];
+}
+/** 仪表盘订阅相关数据 */
+export interface DashboardSubscribeData {
+  /** 仪表盘订阅时间，为空标识取仪表盘默认的时间。 */
+  DashboardTime?: string[];
+  /** 仪表盘样式布局。0：网格布局，1：单列布局。 */
+  StyleLayout?: number;
+  /** 仪表盘订阅模板变量。 */
+  TemplateVariables?: DashboardTemplateVariable[];
+  /** 仪表盘订阅通知方式。 */
+  NoticeModes: DashboardNoticeMode[];
+}
+/** 仪表盘订阅信息 */
+export interface DashboardSubscribeInfo {
+  /** 仪表盘订阅id。 */
+  Id: number;
+  /** 仪表盘订阅名称。 */
+  Name: string;
+  /** 仪表盘id。 */
+  DashboardId: string;
+  /** 仪表盘订阅时间。 */
+  Cron: string;
+  /** 仪表盘订阅数据。 */
+  SubscribeData: DashboardSubscribeData;
+  /** 仪表盘订阅记录创建时间。 */
+  CreateTime: string;
+  /** 仪表盘订阅记录更新时间。 */
+  UpdateTime: string;
+  /** 仪表盘订阅记录最后一次发送成功时间。 */
+  LastTime: string;
+  /** 腾讯云主账号Id。 */
+  Uin: number;
+  /** 腾讯云主账号下的子账号Id。 */
+  SubUin: number;
+  /** 仪表盘订阅记录最后一次发送的状态。success：全部发送成功，fail：未发送， partialSuccess：部分发送成功。 */
+  LastStatus: string;
+}
+/** 仪表盘订阅模板变量 */
+export interface DashboardTemplateVariable {
+  /** key的值 */
+  Key: string;
+  /** key对应的values取值values */
+  Values: string[];
+}
+/** 仪表盘关联的topic信息 */
+export interface DashboardTopicInfo {
+  /** 主题id */
+  TopicId: string;
+  /** topic所在的地域 */
+  Region: string;
 }
 /** 数据加工日志失败信息 */
 export interface DataTransformFailureInfo {
@@ -3999,6 +5120,10 @@ export interface Demonstration {
   Status: string;
   /** 演示示例ID */
   DemonstrationId: string;
+  /** 是否包含演示示例日志主题 */
+  HasDemonstrationTopic: boolean;
+  /** 演示示例子类型 */
+  SubType: string;
 }
 /** 演示示例资源 */
 export interface DemonstrationResource {
@@ -4014,6 +5139,10 @@ export interface DemonstrationResource {
   SubType: string;
   /** 资源类型为TOPIC的上传状态：'INITIAL' | 'UPLOADING' | 'UPLOAD_FAILED' | 'STOPPED' */
   UploadStatus?: string;
+  /** 模版项ID */
+  TemplateItemId?: string;
+  /** 创建者：CLS, USER */
+  Creator?: string;
 }
 /** 黑名单path信息 */
 export interface ExcludePathInfo {
@@ -4040,7 +5169,7 @@ export interface ExportInfo {
   Format: string;
   /** 日志导出数量 */
   Count: number;
-  /** 日志下载状态。Processing:导出正在进行中，Complete:导出完成，Failed:导出失败，Expired:日志导出已过期（三天有效期）。 */
+  /** 日志下载状态。Processing:导出正在进行中，Completed:导出完成，Failed:导出失败，Expired:日志导出已过期(三天有效期), Queuing 排队中 */
   Status: string;
   /** 日志导出起始时间 */
   From: number;
@@ -4073,6 +5202,10 @@ export interface ExtractRuleInfo {
   UnMatchLogKey?: string;
   /** 增量采集模式下的回溯数据量，默认-1（全量采集） */
   Backtracking?: number;
+  /** 是否为Gbk编码.   0: 否, 1: 是 */
+  IsGBK?: number;
+  /** 是否为标准json.   0: 否, 1: 是 */
+  JsonStandard?: number;
 }
 /** 描述字段值的占比情况 */
 export interface FieldValueRatioInfos {
@@ -4103,7 +5236,9 @@ export interface FilterRuleInfo {
 export interface FullTextInfo {
   /** 是否大小写敏感 */
   CaseSensitive: boolean;
-  /** 全文索引的分词符，字符串中每个字符代表一个分词符 */
+  /** 全文索引的分词符，其中的每个字符代表一个分词符；
+   仅支持英文符号及\n\t\r；
+   推荐使用 @&?|#()='",;:<>[]{}\/ \n\t\r\ 作为分词符； */
   Tokenizer: string;
   /** 是否包含中文 */
   ContainZH?: boolean;
@@ -4181,7 +5316,7 @@ export interface HostFileInfo {
 export interface JsonInfo {
   /** 启用标志 */
   EnableTag: boolean;
-  /** 元数据信息列表 */
+  /** 元数据信息列表, 可选值为 __SOURCE__、__FILENAME__、__TIMESTAMP__。 */
   MetaFields: string[];
 }
 /** json格式日志内容 */
@@ -4235,7 +5370,7 @@ export interface KeyRegexInfo {
 }
 /** 键值或者元字段索引的字段信息 */
 export interface KeyValueInfo {
-  /** 需要配置键值或者元字段索引的字段 */
+  /** 需要配置键值或者元字段索引的字段，元字段Key无需额外添加`__TAG__.`前缀，与上传日志时对应的字段Key一致即可，腾讯云控制台展示时将自动添加`__TAG__.`前缀 */
   Key: string;
   /** 字段的索引描述信息 */
   Value: ValueInfo;
@@ -4271,6 +5406,8 @@ export interface LogContextInfo {
   PkgLogId: number;
   /** 日志时间戳 */
   BTime: number;
+  /** 日志来源主机名称 */
+  HostName: string;
 }
 /** 日志结果信息 */
 export interface LogInfo {
@@ -4294,6 +5431,8 @@ export interface LogInfo {
   HighLights: HighLightItem[];
   /** 日志内容的Json序列化字符串 */
   LogJson: string;
+  /** 日志来源主机名称 */
+  HostName: string;
 }
 /** 日志中的KV对 */
 export interface LogItem {
@@ -4331,6 +5470,8 @@ export interface LogsetInfo {
   Period: number;
   /** 若AssumerUin非空，则表示非改服务方的调用者对于日志集的删除权限 */
   LogsetDelACL: number;
+  /** 若AssumerUin非空，则表示非改服务方的调用者对于日志集的查询权限 */
+  LogsetShowAcl: number;
 }
 /** 机器组信息 */
 export interface MachineGroupInfo {
@@ -4413,6 +5554,20 @@ export interface NoticeReceiver {
   /** 位序 */
   Index?: number;
 }
+/** Parquet内容 */
+export interface ParquetInfo {
+  /** ParquetKeyInfo数组 */
+  ParquetKeyInfo: ParquetKeyInfo[];
+}
+/** Parquet内容描述 */
+export interface ParquetKeyInfo {
+  /** 键值名称 */
+  KeyName: string;
+  /** 数据类型，目前支持6种类型：string、boolean、int32、int64、float、double */
+  KeyType: string;
+  /** 解析失败赋值信息 */
+  KeyNonExistingField: string;
+}
 /** 日志主题分区信息 */
 export interface PartitionInfo {
   /** 分区ID */
@@ -4428,6 +5583,74 @@ export interface PartitionInfo {
   /** 只读分区数据停止写入时间 */
   LastWriteTime: string;
 }
+/** 预付费抵扣信息。 */
+export interface PrePayDeductFactorInfo {
+  /** 自增主键。 */
+  Id: number;
+  /** 地域_id。 */
+  RegionId: number;
+  /** 地域。 */
+  Region: string;
+  /** 预付费包优先级。 */
+  Priority: number;
+  /** 内网读流量抵扣系数。 */
+  ReadTrafficLan: number;
+  /** 外网读流量抵扣系数。 */
+  ReadTrafficWan: number;
+  /** 写流量抵扣系数。 */
+  WriteTraffic: number;
+  /** 索引流量抵扣系数。 */
+  IndexTraffic: number;
+  /** 接口调用次数抵扣系数。 */
+  InterfaceCall: number;
+  /** 日志存储抵扣系数。 */
+  StorageCos: number;
+  /** 索引存储抵扣系数。 */
+  StorageIndex: number;
+  /** 分区存储抵扣系数。 */
+  PartitionCount: number;
+  /** 低频日志存储抵扣系数。 */
+  ColdStorageCos: number;
+  /** 低频索引存储抵扣系数。 */
+  ColdStorageIndex: number;
+  /** 低频索引流量抵扣系数。 */
+  ColdIndexTraffic: number;
+  /** 数据加工流量抵扣系数。 */
+  EtlProcessingTraffic: number;
+  /** 索引重建索引流量抵扣系数。 */
+  RebuildIndexTraffic: number;
+}
+/** cls预付费抵扣明细 */
+export interface PrePayDeductRecordDetail {
+  /** 计费项。 */
+  BillingName: string;
+  /** 使用量, 单位byte。 */
+  Usage: number;
+  /** 抵扣因子。 */
+  Factor: number;
+  /** 抵扣额度。 */
+  DeductQuota: number;
+}
+/** cls预付费资源包信息 */
+export interface PrePayInfo {
+  /** 主键id。 */
+  Id: number;
+  /** 资源id。 */
+  ResourceId: string;
+  /** 生效地域：1、国内站 2、国际站。 */
+  ZoneId: number;
+  /** 资源包生效时间。 */
+  StartTime: string;
+  /** 资源包过期时间。 */
+  EndTime: string;
+  /** 续费类型。0表示默认状态(用户未设置，即初始状态，有特权的用户对0也会进行自动续费)；
+   1表示自动续费，2表示明确不自动续费(用户设置)。 */
+  AutoRenewFlag: number;
+  /** 资源包额度。 */
+  Quota: number;
+  /** 资源包剩余额度。 */
+  RemainQuota: number;
+}
 /** 预览数据详情 */
 export interface PreviewLogStatistic {
   /** 目标日志主题 */
@@ -4442,6 +5665,39 @@ export interface PreviewLogStatistic {
   Time?: string;
   /** 目标topic-name */
   DstTopicName?: string;
+}
+/** 检索语句模版 */
+export interface QueryTemplateItem {
+  /** 检索语句 */
+  Query: string;
+  /** 检索语句名称 */
+  Name: string;
+}
+/** 七彩石表格配置 */
+export interface RainbowTables {
+  /** 七彩石表格配置 */
+  Table: string[];
+}
+/** 索引重建任务信息 */
+export interface RebuildIndexTaskInfo {
+  /** 索引重建任务ID */
+  TaskId: string;
+  /** 索引重建任务当前状态，0:索引重建任务已创建，1:创建索引重建资源，2:索引重建资源创建完成，3:重建中，4:暂停，5:重建索引成功，6:重建成功（可检索），7:重建失败，8:撤销，9:删除元数据和索引 */
+  Status: number;
+  /** 重建任务开始时间戳 */
+  StartTime: number;
+  /** 重建任务结束时间戳 */
+  EndTime: number;
+  /** 重投预估剩余时间，单位秒 */
+  RemainTime: number;
+  /** 重建任务创建时间戳 */
+  CreateTime: number;
+  /** 重投完成度，百分比 */
+  Progress: number;
+  /** 重建任务更新时间 */
+  UpdateTime: number;
+  /** 附加状态描述信息（目前仅描述失败时失败原因） */
+  StatusMessage: string;
 }
 /** 获取K-V正则索引信息 */
 export interface RegexIndexInfo {
@@ -4465,13 +5721,14 @@ export interface ResourcesInfo {
   /** 心跳正常机器数 */
   HeartMachines: number;
 }
-/** 索引规则，FullText、KeyValue、Tag参数必须输入一个有效参数 */
+/** 索引规则，FullText、KeyValue、Tag参数必须输入一个有效参数
+ */
 export interface RuleInfo {
-  /** 全文索引配置 */
+  /** 全文索引配置, 如果为空时代表未开启全文索引 */
   FullText?: FullTextInfo;
-  /** 键值索引配置 */
+  /** 键值索引配置，如果为空时代表未开启键值索引 */
   KeyValue?: RuleKeyValueInfo;
-  /** 元字段索引配置 */
+  /** 元字段索引配置，如果为空时代表未开启元字段索引 */
   Tag?: RuleTagInfo;
 }
 /** 键值索引配置 */
@@ -4483,12 +5740,91 @@ export interface RuleKeyValueInfo {
   /** 索引是否开启动态模板；若开启，则会根据上报的键值对配置索引，但是所有字段类型都是text，大小写敏感，不支持分析，采用默认分词符 */
   TemplateType?: string;
 }
-/** 标签索引配置信息 */
+/** 元字段索引配置 */
 export interface RuleTagInfo {
   /** 是否大小写敏感 */
   CaseSensitive: boolean;
-  /** 标签索引配置中的字段信息 */
+  /** 元字段索引配置中的字段信息 */
   KeyValues: KeyValueInfo[];
+}
+/** ScheduledSql的资源信息 */
+export interface ScheduledSqlResouceInfo {
+  /** 目标主题id */
+  TopicId: string;
+  /** 日志集id */
+  LogsetId?: string;
+  /** 主账号Uin */
+  Uin?: number;
+  /** topic的地域信息 */
+  Region?: string;
+}
+/** ScheduledSql任务详情 */
+export interface ScheduledSqlTaskInfo {
+  /** ScheduledSql任务id */
+  TaskId: string;
+  /** ScheduledSql任务名称 */
+  Name: string;
+  /** 源日志主题id */
+  SrcTopicId: string;
+  /** 源日志主题名称 */
+  SrcTopicName: string;
+  /** 加工任务目的topic_id以及别名 */
+  DstResource: ScheduledSqlResouceInfo;
+  /** 任务创建时间 */
+  CreateTime: string;
+  /** 任务更新时间 */
+  UpdateTime: string;
+  /** 任务状态，1:运行 2:停止 3:异常-找不到源日志主题 4:异常-找不到目标主题
+
+   5: 访问权限问题 6:内部故障 7:其他故障 */
+  Status: number;
+  /** 任务启用状态，1开启,  2关闭 */
+  EnableFlag: number;
+  /** ScheduledSQL语句 */
+  ScheduledSqlContent: string;
+  /** 调度开始时间 */
+  ProcessStartTime: string;
+  /** 调度类型，1:持续运行 2:指定调度结束时间 */
+  ProcessType: number;
+  /** 调度结束时间，当process_type=2时为必传字段 */
+  ProcessEndTime: string;
+  /** 调度周期(分钟) */
+  ProcessPeriod: number;
+  /** 调度时间窗口. 例如-15m@m, 10m@m， 意思是以调度开始时间为基准，向后推15分钟作为区间的开始时间，向前推10分钟作为区间的截止时间。 */
+  ProcessTimeWindow: string;
+  /** 执行延迟(秒) */
+  ProcessDelay: number;
+  /** 源topicId的地域信息 */
+  SrcTopicRegion: string;
+}
+/** ScheduledSql任务执行详情 */
+export interface ScheduledSqlTaskProcessInfo {
+  /** 任务ID */
+  TaskId: string;
+  /** 实例ID */
+  ProcessId: string;
+  /** 加工语句 */
+  ScheduledSqlContent: string;
+  /** 执行时间-开始时间 */
+  ProcessStartTime: string;
+  /** 执行时间-结束时间 */
+  ProcessEndTime: string;
+  /** 执行时间-耗时 */
+  ProcessDuration: number;
+  /** SQL时间窗口-开始时间 */
+  TimeWindowStartTime: string;
+  /** SQL时间窗口-结束时间 */
+  TimeWindowEndTime: string;
+  /** 处理数据量-输入行数 */
+  ReadLogCount: number;
+  /** 处理数据量-输出行数 */
+  WriteLogCount: number;
+  /** 调度结果，1:运行中 2:成功 3:失败 */
+  Status: number;
+  /** 源topicid */
+  SrcTopicId: string;
+  /** 失败原因字段 */
+  StatusFailedMsg: string;
 }
 /** 渠道检测发送详情 */
 export interface SendDetail {
@@ -4515,7 +5851,7 @@ export interface SendDetailItem {
 /** 服务日志topic信息 */
 export interface ServiceLogConfigInfo {
   /** 服务日志的logset信息 */
-  LogSetId: string;
+  LogsetId: string;
   /** 服务日志的Topic ID */
   TopicId: string;
   /** 服务日志的Topic Name */
@@ -4549,6 +5885,8 @@ export interface ShipperInfo {
   Content: ContentInfo;
   /** 投递日志的创建时间 */
   CreateTime: string;
+  /** 投递文件命名配置，0：随机数命名，1：投递时间命名，默认0（随机数命名） */
+  FilenameMode: number;
 }
 /** 投递任务信息 */
 export interface ShipperTaskInfo {
@@ -4571,6 +5909,15 @@ export interface ShipperTaskInfo {
   /** 结果的详细信息 */
   Message: string;
 }
+/** 模版子类型信息 */
+export interface SubTypeItem {
+  /** 演示示例子类型 */
+  SubType: string;
+  /** 检索语句模版 */
+  Queries: QueryTemplateItem[];
+  /** 模版项 */
+  TemplateItems: TemplateItem[];
+}
 /** 创建资源实例时同时绑定的标签对说明 */
 export interface Tag {
   /** 标签键 */
@@ -4592,6 +5939,35 @@ export interface TaskLogStatistic {
   FailedLines: number;
   /** 输出到目标日志主题的总体统计数据 */
   DstTopicLogStatistics: TopicIdLogStatistic[];
+  /** 加工过滤的行数 */
+  FilterLines: number;
+}
+/** 模版 */
+export interface Template {
+  /** 演示示例类型 */
+  Type: string;
+  /** 模版子类型信息 */
+  SubTypes: SubTypeItem[];
+}
+/** 模版项 */
+export interface TemplateItem {
+  /** 模版项ID */
+  TemplateItemId: string;
+  /** 模版项名称 */
+  Name: string;
+  /** 资源类型：'LOGSET' | 'TOPIC' | 'DASHBOARD' | 'ALARM' | 'ALARM_NOTICE' */
+  ResourceType: string;
+  /** 模版数据 */
+  Value: string;
+}
+/** 仪表盘 topic与地域信息 */
+export interface TopicIdAndRegion {
+  /** 日志主题id */
+  TopicId: string;
+  /** 日志主题id 所在的地域id
+   地域ID - 访问链接查看详情：https:\/\/iwiki.woa.com\/pages\/viewpage.action?pageId=780556968#id-地域码表-一.regi
+   on大区（标准地域） */
+  RegionId: number;
 }
 /** 数据加工日志主题统计数据详情 */
 export interface TopicIdLogStatistic {
@@ -4603,6 +5979,8 @@ export interface TopicIdLogStatistic {
   WriteLines: number;
   /** 加工失败的行数 */
   FailedLines: number;
+  /** 加工过滤的行数 */
+  FilterLines: number;
 }
 /** topic的索引配置明细 */
 export interface TopicIndexInfo {
@@ -4620,6 +5998,12 @@ export interface TopicIndexInfo {
   LogsetId: string;
   /** 日志集名称 */
   LogsetName: string;
+  /** 全文索引系统预置字段标记，默认false。  false:不包含系统预置字段， true:包含系统预置字段 */
+  IncludeInternalFields: boolean;
+  /** 元数据相关标志位，默认为0。 0：全文索引包括开启键值索引的元数据字段， 1：全文索引包括所有元数据字段，2：全文索引不包括元数据字段。 */
+  MetadataFlag: number;
+  /** 自定义日志解析异常存储字段。 */
+  CoverageField: string;
 }
 /** 日志主题信息 */
 export interface TopicInfo {
@@ -4655,10 +6039,20 @@ export interface TopicInfo {
   MaxSplitPartitions: number;
   /** 日主题的存储类型 */
   StorageType: string;
-  /** 生命周期，单位为天 */
+  /** 生命周期，单位天，可取值范围1~3600。取值为3640时代表永久保存 */
   Period: number;
   /** 二级产品标识 */
   SubAssumerName: string;
+  /** topic对应的日志集信息 */
+  LogsetInfo: LogsetInfo;
+  /** 日志主题描述 */
+  Describes: string;
+  /** 子用户。 */
+  SubUin: number;
+  /** 用户采样率。 */
+  UserSample: string;
+  /** 用户采样率状态。 */
+  UserSampleStatus: boolean;
 }
 /** 附加配置信息 */
 export interface UserConfigInfo {
@@ -4671,7 +6065,10 @@ export interface UserConfigInfo {
 export interface ValueInfo {
   /** 字段类型，目前支持的类型有：long、text、double */
   Type: string;
-  /** 字段的分词符，只有当字段类型为text时才有意义；输入字符串中的每个字符代表一个分词符 */
+  /** 字段的分词符，其中的每个字符代表一个分词符；
+   仅支持英文符号及\n\t\r；
+   long及double类型字段需为空；
+   text类型字段推荐使用 @&?|#()='",;:<>[]{}\/ \n\t\r\\ 作为分词符； */
   Tokenizer?: string;
   /** 字段是否开启分析功能 */
   SqlFlag?: boolean;
@@ -4683,17 +6080,21 @@ export interface WebCallback {
   /** 回调地址。 */
   Url: string;
   /** 回调方法。可选值：
-   <br><li> POST
-   <br><li> PUT
+   <li> POST
+   <li> PUT
    默认值为POST。CallbackType为Http时为必选。 */
   Method?: string;
-  /** 请求头。 */
+  /** 请求头。
+   注意：该参数已废弃，请在<a href="https:\/\/cloud.tencent.com\/document\/product\/614\/56466">创建告警策略<\/a>接口CallBack参数中
+   指定请求头。 */
   Headers?: string[];
-  /** 请求内容。CallbackType为Http时为必选。 */
+  /** 请求内容。
+   注意：该参数已废弃，请在<a href="https:\/\/cloud.tencent.com\/document\/product\/614\/56466">创建告警策略<\/a>接口CallBack参数
+   中指定请求内容。 */
   Body?: string;
   /** 回调的类型。可选值：
-   <br><li> WeCom
-   <br><li> Http */
+   <li> WeCom
+   <li> Http */
   CallbackType: string;
   /** 序号 */
   Index?: number;

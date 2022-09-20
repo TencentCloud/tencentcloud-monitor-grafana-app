@@ -123,7 +123,7 @@ export class LogServiceDataSource extends DataSourceApi<QueryInfo, MyDataSourceO
     const TopicId = logServiceParams?.TopicId ? getTemplateSrv().replace(logServiceParams.TopicId) : '';
     const Query = replaceClsQueryWithTemplateSrv(logServiceParams.Query);
     if (!options.range) {
-      return []
+      return [];
     }
     if (region && TopicId && Query) {
       const { analysisColumns, analysisRecords } = formatSearchLog(
@@ -192,7 +192,7 @@ export class LogServiceDataSource extends DataSourceApi<QueryInfo, MyDataSourceO
   }
 
   /** histogram support
-   * @link https://github.com/grafana/grafana/blob/34f757ba5a970cc5fcffa92f47c5a0d41928f150/public/app/plugins/datasource/elasticsearch/datasource.ts#L569
+   * @link https://github.com/grafana/grafana/blob/942be4215afaea27757fb3a034126452aaf3fab2/public/app/plugins/datasource/loki/datasource.ts#L115-L115
    */
   getLogsVolumeDataProvider(request: DataQueryRequest<QueryInfo>): Observable<DataQueryResponse> | undefined {
     return undefined;
@@ -204,9 +204,7 @@ export class LogServiceDataSource extends DataSourceApi<QueryInfo, MyDataSourceO
     const metaField = row.dataFrame.fields.find((item) => item.name === LogFieldReservedName.META);
     try {
       if (metaField?.labels?.region && metaField?.labels.TopicId) {
-        const metaValue: Pick<LogInfo, 'Source' | 'FileName' | 'PkgId' | 'PkgLogId'> = JSON.parse(
-          metaField.values.get(row.rowIndex)
-        );
+        const metaValue: Pick<LogInfo, 'PkgId' | 'PkgLogId'> = JSON.parse(metaField.values.get(row.rowIndex));
         if (metaValue?.PkgId && metaValue?.PkgLogId) {
           return true;
         }
@@ -221,15 +219,13 @@ export class LogServiceDataSource extends DataSourceApi<QueryInfo, MyDataSourceO
     const { limit = 10, direction = 'BACKWARD' } = options;
     const timeField = row.dataFrame.fields.find((item) => item.name === LogFieldReservedName.TIMESTAMP);
     const metaField = row.dataFrame.fields.find((item) => item.name === LogFieldReservedName.META);
-    if (!timeField || !metaField?.labels) {
+    if (!timeField || !metaField?.labels || !limit) {
       return { data: [], state: LoadingState.Done };
     }
 
     try {
-      const metaValue: Pick<LogInfo, 'Source' | 'FileName' | 'PkgId' | 'PkgLogId'> = JSON.parse(
-        metaField.values.get(row.rowIndex)
-      );
-      const bTime = moment(timeField.values.get(row.rowIndex)).format('YYYY-MM-DD HH:MM:SS');
+      const metaValue: Pick<LogInfo, 'PkgId' | 'PkgLogId'> = JSON.parse(metaField.values.get(row.rowIndex));
+      const bTime = moment(timeField.values.get(row.rowIndex)).format('YYYY-MM-DD HH:MM:SS.SSS');
       const logContext = await DescribeLogContext(
         {
           TopicId: metaField?.labels.TopicId,

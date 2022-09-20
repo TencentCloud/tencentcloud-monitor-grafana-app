@@ -3,15 +3,16 @@ package main
 import (
 	"context"
 	"encoding/json"
-	"net/http"
-	"os"
-
 	"github.com/TencentCloud/tencentcloud-monitor-grafana-app/pkg/cam"
-
+	"github.com/TencentCloud/tencentcloud-monitor-grafana-app/pkg/cls"
+	"github.com/TencentCloud/tencentcloud-monitor-grafana-app/pkg/common"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	"github.com/grafana/grafana-plugin-sdk-go/backend/datasource"
 	"github.com/grafana/grafana-plugin-sdk-go/backend/instancemgmt"
 	"github.com/grafana/grafana-plugin-sdk-go/backend/log"
+	"net/http"
+	"os"
+	"sync"
 )
 
 var logger = log.New()
@@ -28,6 +29,7 @@ func newDatasource() datasource.ServeOpts {
 
 	return datasource.ServeOpts{
 		CheckHealthHandler:  ds,
+		QueryDataHandler:    ds,
 		CallResourceHandler: newResourceHandler(ds),
 	}
 }
@@ -48,19 +50,49 @@ func (td *cloudMonitorDatasource) CheckHealth(ctx context.Context, req *backend.
 	}, nil
 }
 
-type apiOpts struct {
-	SecretId  string `json:"secretId"`
-	SecretKey string `json:"secretKey"`
-	Token     string
-	Intranet  bool
+func (td *cloudMonitorDatasource) QueryData(ctx context.Context, req *backend.QueryDataRequest) (*backend.QueryDataResponse, error) {
+	//log.DefaultLogger.Info("QueryData called", "request", req)
+
+	response := backend.NewQueryDataResponse()
+
+	opts := getInsSetting(*req.PluginContext.DataSourceInstanceSettings)
+
+	var wg sync.WaitGroup
+	for _, query := range req.Queries {
+		wg.Add(1)
+		go func(q backend.DataQuery) {
+			defer wg.Done()
+			response.Responses[q.RefID] = td.query(ctx, q, opts)
+		}(query)
+	}
+	wg.Wait()
+	return response, nil
 }
 
-func getInsSetting(instanceSettings backend.DataSourceInstanceSettings) (opts apiOpts) {
+func (td *cloudMonitorDatasource) query(ctx context.Context, query backend.DataQuery, opts common.ApiOpts) backend.DataResponse {
+	response := backend.DataResponse{}
+	// Unmarshal the JSON into our queryModel.
+	var qm common.QueryModel
+
+	response.Error = json.Unmarshal(query.JSON, &qm)
+	if response.Error != nil {
+		return response
+	}
+
+	switch qm.ServiceType {
+	case common.ServiceTypeLogService:
+		return cls.Query(ctx, qm.LogServiceParams, query, opts)
+	}
+	return response
+
+}
+
+func getInsSetting(instanceSettings backend.DataSourceInstanceSettings) (opts common.ApiOpts) {
 
 	jsonData := map[string]interface{}{}
 	_ = json.Unmarshal(instanceSettings.JSONData, &jsonData)
 
-	opts = apiOpts{
+	opts = common.ApiOpts{
 		SecretId:  jsonData["secretId"].(string),
 		SecretKey: instanceSettings.DecryptedSecureJSONData["secretKey"],
 	}

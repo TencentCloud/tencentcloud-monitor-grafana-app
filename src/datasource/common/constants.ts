@@ -4,7 +4,7 @@ import { SERVICES } from '../tc_monitor';
 import Sign from './sign';
 import SignV2 from './signV2';
 import { toDataQueryResponse } from '@grafana/runtime';
-import { getLanguage } from '../../locale'
+import { getLanguage } from '../../locale';
 
 import packageInfo from '../plugin.json';
 export const TcDataSourceId = packageInfo.id;
@@ -674,3 +674,16 @@ export function parseDataFromBackendPlugin(res) {
 
 /** 当前环境是否为非生产环境 */
 export const IS_DEVELOPMENT_ENVIRONMENT = !(process.env.NODE_ENV === 'production');
+
+/**
+ * @link https://github.com/grafana/grafana/blob/3c6e0e8ef85048af952367751e478c08342e17b4/packages/grafana-data/src/types/app.ts#L12
+ */
+export enum CoreApp {
+  CloudAlerting = 'cloud-alerting',
+  UnifiedAlerting = 'unified-alerting',
+  Dashboard = 'dashboard',
+  Explore = 'explore',
+  Unknown = 'unknown',
+  PanelEditor = 'panel-editor',
+  PanelViewer = 'panel-viewer',
+}

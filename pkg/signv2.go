@@ -4,6 +4,7 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
+	"github.com/TencentCloud/tencentcloud-monitor-grafana-app/pkg/common"
 	"math/rand"
 	"sort"
 	"strconv"
@@ -11,7 +12,7 @@ import (
 	"time"
 )
 
-func signV2(opts signOpts, apiOpts apiOpts) signerV2Result {
+func signV2(opts signOpts, apiOpts common.ApiOpts) signerV2Result {
 
 	data := map[string]interface{}{}
 	_ = json.Unmarshal([]byte(opts.Body), &data)

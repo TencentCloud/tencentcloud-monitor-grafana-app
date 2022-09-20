@@ -1,2 +1,3 @@
 export * from './formatSearchLog';
-export * from './formatLogContext';
+export * from './ConvertSearchResultsToDataFrame';
+export * from './ConvertLogContextToDataFrame';

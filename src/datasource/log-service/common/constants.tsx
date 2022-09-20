@@ -1,12 +1,11 @@
-import { t } from '../../../locale'
+import { t } from '../../../locale';
 /** CLS当前服务地域列表 */
 export const LOG_SERVICE_REGION_LIST = [
   {
     regionId: 1,
     region: 'ap-guangzhou',
     get regionName() {
-      console.log('ap-guangzhou',  t('ap-guangzhou'))
-      return t('ap-guangzhou')
+      return t('ap-guangzhou');
     },
     area: '华南地区',
     regionShortName: 'gz',
@@ -16,7 +15,7 @@ export const LOG_SERVICE_REGION_LIST = [
     regionId: 12,
     region: 'ap-guangzhou-open',
     get regionName() {
-      return t('ap-guangzhou-open')
+      return t('ap-guangzhou-open');
     },
     area: '华南地区',
     regionShortName: 'gzopen',
@@ -26,7 +25,7 @@ export const LOG_SERVICE_REGION_LIST = [
     regionId: 11,
     region: 'ap-shenzhen-fsi',
     get regionName() {
-      return t('ap-shenzhen-fsi')
+      return t('ap-shenzhen-fsi');
     },
     area: '华南地区',
     regionShortName: 'szjr',
@@ -36,7 +35,7 @@ export const LOG_SERVICE_REGION_LIST = [
     regionId: 4,
     region: 'ap-shanghai',
     get regionName() {
-      return t('ap-shanghai')
+      return t('ap-shanghai');
     },
     area: '华东地区',
     regionShortName: 'sh',
@@ -46,7 +45,7 @@ export const LOG_SERVICE_REGION_LIST = [
     regionId: 7,
     region: 'ap-shanghai-fsi',
     get regionName() {
-      return t('ap-shanghai-fsi')
+      return t('ap-shanghai-fsi');
     },
     area: '华东地区',
     regionShortName: 'shjr',
@@ -56,7 +55,7 @@ export const LOG_SERVICE_REGION_LIST = [
     regionId: 33,
     region: 'ap-nanjing',
     get regionName() {
-      return t('ap-nanjing')
+      return t('ap-nanjing');
     },
     area: '华东地区',
     regionShortName: 'nj',
@@ -66,7 +65,7 @@ export const LOG_SERVICE_REGION_LIST = [
     regionId: 8,
     region: 'ap-beijing',
     get regionName() {
-      return t('ap-beijing')
+      return t('ap-beijing');
     },
     area: '华北地区',
     regionShortName: 'bj',
@@ -76,7 +75,7 @@ export const LOG_SERVICE_REGION_LIST = [
     regionId: 46,
     region: 'ap-beijing-fsi',
     get regionName() {
-      return t('ap-beijing-fsi')
+      return t('ap-beijing-fsi');
     },
     area: '华北地区',
     regionShortName: 'bjjr',
@@ -86,7 +85,7 @@ export const LOG_SERVICE_REGION_LIST = [
     regionId: 16,
     region: 'ap-chengdu',
     get regionName() {
-      return t('ap-chengdu')
+      return t('ap-chengdu');
     },
     area: '西南地区',
     regionShortName: 'cd',
@@ -96,7 +95,7 @@ export const LOG_SERVICE_REGION_LIST = [
     regionId: 19,
     region: 'ap-chongqing',
     get regionName() {
-      return t('ap-chongqing')
+      return t('ap-chongqing');
     },
     area: '西南地区',
     regionShortName: 'cq',
@@ -106,7 +105,7 @@ export const LOG_SERVICE_REGION_LIST = [
     regionId: 39,
     region: 'ap-taipei',
     get regionName() {
-      return t('ap-taipei')
+      return t('ap-taipei');
     },
     area: '港澳台地区',
     regionShortName: 'tpe',
@@ -116,7 +115,7 @@ export const LOG_SERVICE_REGION_LIST = [
     regionId: 5,
     region: 'ap-hongkong',
     get regionName() {
-      return t('ap-hongkong')
+      return t('ap-hongkong');
     },
     area: '港澳台地区',
     regionShortName: 'hk',
@@ -126,7 +125,7 @@ export const LOG_SERVICE_REGION_LIST = [
     regionId: 9,
     region: 'ap-singapore',
     get regionName() {
-      return t('ap-singapore')
+      return t('ap-singapore');
     },
     area: '亚太东南',
     regionShortName: 'sg',
@@ -136,7 +135,7 @@ export const LOG_SERVICE_REGION_LIST = [
     regionId: 23,
     region: 'ap-bangkok',
     get regionName() {
-      return t('ap-bangkok')
+      return t('ap-bangkok');
     },
     area: '亚太东南',
     regionShortName: 'th',
@@ -146,7 +145,7 @@ export const LOG_SERVICE_REGION_LIST = [
     regionId: 72,
     region: 'ap-jakarta',
     get regionName() {
-      return t('ap-jakarta')
+      return t('ap-jakarta');
     },
     area: '亚太东南',
     regionShortName: 'jkt',
@@ -156,7 +155,7 @@ export const LOG_SERVICE_REGION_LIST = [
     regionId: 21,
     region: 'ap-mumbai',
     get regionName() {
-      return t('ap-mumbai')
+      return t('ap-mumbai');
     },
     area: '亚太南部',
     regionShortName: 'in',
@@ -166,7 +165,7 @@ export const LOG_SERVICE_REGION_LIST = [
     regionId: 18,
     region: 'ap-seoul',
     get regionName() {
-      return t('ap-seoul')
+      return t('ap-seoul');
     },
     area: '亚太东北',
     regionShortName: 'kr',
@@ -176,7 +175,7 @@ export const LOG_SERVICE_REGION_LIST = [
     regionId: 25,
     region: 'ap-tokyo',
     get regionName() {
-      return t('ap-tokyo')
+      return t('ap-tokyo');
     },
     area: '亚太东北',
     regionShortName: 'jp',
@@ -186,7 +185,7 @@ export const LOG_SERVICE_REGION_LIST = [
     regionId: 15,
     region: 'na-siliconvalley',
     get regionName() {
-      return t('na-siliconvalley')
+      return t('na-siliconvalley');
     },
     area: '美国西部',
     regionShortName: 'usw',
@@ -196,7 +195,7 @@ export const LOG_SERVICE_REGION_LIST = [
     regionId: 22,
     region: 'na-ashburn',
     get regionName() {
-      return t('na-ashburn')
+      return t('na-ashburn');
     },
     area: '美国东部',
     regionShortName: 'use',
@@ -206,7 +205,7 @@ export const LOG_SERVICE_REGION_LIST = [
     regionId: 6,
     region: 'na-toronto',
     get regionName() {
-      return t('na-toronto')
+      return t('na-toronto');
     },
     area: '北美地区',
     regionShortName: 'ca',
@@ -216,7 +215,7 @@ export const LOG_SERVICE_REGION_LIST = [
     regionId: 17,
     region: 'eu-frankfurt',
     get regionName() {
-      return t('eu-frankfurt')
+      return t('eu-frankfurt');
     },
     area: '欧洲地区',
     regionShortName: 'de',
@@ -226,7 +225,7 @@ export const LOG_SERVICE_REGION_LIST = [
     regionId: 24,
     region: 'eu-moscow',
     get regionName() {
-      return t('eu-moscow')
+      return t('eu-moscow');
     },
     area: '欧洲地区',
     regionShortName: 'ru',

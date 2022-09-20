@@ -44,6 +44,9 @@ $ grafana-cli plugins install tencentcloud-monitor-app
 
 详细文档与示例请参见 [文档](https://cloud.tencent.com/document/product/248/54510) 。
 
+# 告警
+注意: 目前仅 CLS数据源 支持告警，其他数据源暂不支持。并且 Grafana 告警功能不支持模板变量。
+
 # FAQs
 
 常见问题请参见 [FAQ](https://cloud.tencent.com/document/product/248/55171) 。

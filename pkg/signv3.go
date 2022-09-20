@@ -5,6 +5,7 @@ import (
 	"crypto/sha256"
 	"encoding/hex"
 	"fmt"
+	"github.com/TencentCloud/tencentcloud-monitor-grafana-app/pkg/common"
 	"strings"
 	"time"
 )
@@ -35,7 +36,7 @@ type signOpts struct {
 	Token     string            `json:"-"`
 }
 
-func signV3(opts signOpts, apiOpts apiOpts) string {
+func signV3(opts signOpts, apiOpts common.ApiOpts) string {
 	secretId := apiOpts.SecretId
 	secretKey := apiOpts.SecretKey
 	host := opts.Host

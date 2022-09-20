@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { CDBInstanceAliasList, CDBInvalidDemensions, isValidMetric, modifyDimensons } from './query_def';
+import { CDBInstanceAliasList, CDBInvalidDemensions, isValidMetric, modifyDimensons, templateQueryIdMap } from './query_def';
 import { GetServiceAPIInfo } from '../../common/constants';
 import { BaseDatasource } from '../_base/datasource';
 
@@ -49,5 +49,12 @@ export default class CDBDatasource extends BaseDatasource {
         (item) => item.ZoneState === 'AVAILABLE'
       );
     });
+  }
+  // 仅对维度组合是InstanceId和InstanceType的指标，其他指标不支持
+  getDefaultInsObj(ins: string) {
+    return {
+      [templateQueryIdMap.instance]: ins,
+      InstanceType: 1,
+    }
   }
 }

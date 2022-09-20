@@ -59,7 +59,6 @@ export abstract class BaseDatasource implements DatasourceInterface {
       response?: (data: unknown) => unknown;
     };
   };
-
   InvalidDimensions?: Record<string, string>;
 
   abstract InstanceAliasList: string[];
@@ -284,6 +283,8 @@ export abstract class BaseDatasource implements DatasourceInterface {
         try {
           return JSON.parse(inst); // 兼容json字符串的 形式
         } catch (error) {
+          // 如果没拿到缓存，取默认实例组
+          if(!instanceCache) return this.getDefaultInsObj?.(inst);
           return _.cloneDeep(instanceCache.find((item) => item[this.templateQueryIdMap.instance] === inst)) ?? {};
         }
       });
@@ -319,6 +320,9 @@ export abstract class BaseDatasource implements DatasourceInterface {
       .catch((error) => {
         return [];
       });
+  }
+  getDefaultInsObj(ins: string) {
+    return {} as any;
   }
   getInstanceReqConfig(selfIns: any) {
     return {} as any;

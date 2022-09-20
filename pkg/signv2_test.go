@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/TencentCloud/tencentcloud-monitor-grafana-app/pkg/common"
 	"testing"
 )
 
@@ -19,7 +20,7 @@ func TestSignerV2(t *testing.T) {
 		Body:      "{\"limit\":[0, 1],\"offset\":0}",
 		Headers:   nil,
 	}
-	apiOpts := apiOpts{
+	apiOpts := common.ApiOpts{
 		SecretId:  "",
 		SecretKey: "",
 	}

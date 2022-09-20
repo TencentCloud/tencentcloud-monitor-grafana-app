@@ -1,7 +1,16 @@
-# TencentCloud Monitor Grafana App
+# TencentCloud Monitor Grafana App---
+
+## [2.7.4] - 2022-09-20
+### Fixed
+- adaptation CDB and CYNOSDB_MYSQL when has no cache
+
+### Modify
+- 优化log场景下的tag字段展示
+- cls 支持告警功能
+
 ---
 
-## [2.7.3] - 2022-07-27
+## [2.7.3] - 2022-08-27
 ### Fixed
 
 - bufix。

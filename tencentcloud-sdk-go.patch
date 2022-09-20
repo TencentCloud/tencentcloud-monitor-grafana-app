@@ -1,0 +1,16 @@
+Index: vendor/github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common/http/request.go
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/vendor/github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common/http/request.go b/vendor/github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common/http/request.go
+--- a/vendor/github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common/http/request.go	(revision 75ada60cb186d0d6838140db08d8d6e17d8abc10)
++++ b/vendor/github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common/http/request.go	(date 1663156015913)
+@@ -265,7 +265,6 @@
+ 	params["Action"] = request.GetAction()
+ 	params["Timestamp"] = strconv.FormatInt(time.Now().Unix(), 10)
+ 	params["Nonce"] = strconv.Itoa(rand.Int())
+-	params["RequestClient"] = "SDK_GO_1.0.496"
+ }
+ 
+ func ConstructParams(req Request) (err error) {

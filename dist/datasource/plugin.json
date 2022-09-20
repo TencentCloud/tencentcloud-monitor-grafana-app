@@ -3,6 +3,7 @@
   "name": "Tencent Cloud Monitoring",
   "id": "tencentcloud-monitor-datasource",
   "backend": true,
+  "alerting": true,
   "logs": true,
   "metrics": true,
   "annotations": false,

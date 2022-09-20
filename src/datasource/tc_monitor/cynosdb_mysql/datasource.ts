@@ -32,4 +32,10 @@ export default class CYNOSDBMYSQLDatasource extends BaseDatasource {
   getRegions() {
     return Promise.resolve(regionSupported.map(({ value }) => ({ value, text: t(value) })));
   }
+  // 仅对维度组合是InstanceId的指标，其他指标不支持
+  getDefaultInsObj(ins: string) {
+    return {
+      [templateQueryIdMap.instance]: ins,
+    }
+  }
 }
