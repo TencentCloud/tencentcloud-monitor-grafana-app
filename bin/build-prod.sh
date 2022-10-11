@@ -9,7 +9,7 @@ npm run validate
 grafana-toolkit plugin:build
 
 # build back end
-go mod vendor & mage -v
+mage -v
 
 # remove images not used in plugin.json
 used_screenshots_arr=(`echo $(jq -r '.info.screenshots[].path' 'dist/plugin.json' | sed -En 's/(.*)/dist\/\1/p')`)

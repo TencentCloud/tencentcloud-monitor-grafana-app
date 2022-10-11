@@ -85,6 +85,16 @@
     },
     {
       "type": "dashboard",
+      "name": "【预设】云数据库CYNOSDB_MYSQL",
+      "path": "dashboards/example_cynosdbmysql_dashboard.json"
+    },
+    {
+      "type": "dashboard",
+      "name": "【Preset】TencentDB for CYNOSDB_MYSQL",
+      "path": "dashboards/example_cynosdbmysql_en_dashboard.json"
+    },
+    {
+      "type": "dashboard",
       "name": "【预设】云数据库MONGODB",
       "path": "dashboards/example_mongodb_dashboard.json"
     },

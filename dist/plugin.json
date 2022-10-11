@@ -16,7 +16,7 @@
       "large": "img/tencent-cloud.svg"
     },
     "version": "2.7.4",
-    "updated": "2022-09-20",
+    "updated": "2022-10-11",
     "links": [
       { "name": "GitHub", "url": "https://github.com/TencentCloud/tencentcloud-monitor-grafana-app" },
       { "name": "Docs", "url": "https://cloud.tencent.com/document/product/248/48529" },
@@ -82,6 +82,16 @@
       "type": "dashboard",
       "name": "【Preset】Content Delivery Network",
       "path": "dashboards/example_cdn_en_dashboard.json"
+    },
+    {
+      "type": "dashboard",
+      "name": "【预设】云数据库CYNOSDB_MYSQL",
+      "path": "dashboards/example_cynosdbmysql_dashboard.json"
+    },
+    {
+      "type": "dashboard",
+      "name": "【Preset】TencentDB for CYNOSDB_MYSQL",
+      "path": "dashboards/example_cynosdbmysql_en_dashboard.json"
     },
     {
       "type": "dashboard",

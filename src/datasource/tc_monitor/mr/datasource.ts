@@ -46,7 +46,7 @@ export default class MrHdfsDatasource extends BaseDatasource {
           { region, action: 'DescribeClusterNodes' }
         );
       },
-      params,
+      { ...params, isOffsetPage: true },
       'NodeList'
     );
 

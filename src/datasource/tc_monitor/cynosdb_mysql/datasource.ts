@@ -3,12 +3,12 @@ import {
   CYNOSDBInvalidDemensions,
   namespace,
   templateQueryIdMap,
-  regionSupported,
   modifyDimensons,
   checkKeys,
 } from './query_def';
+import _ from 'lodash';
 import { BaseDatasource } from '../_base/datasource';
-import { t } from '../../../locale';
+// import { t } from '../../../locale';
 
 export default class CYNOSDBMYSQLDatasource extends BaseDatasource {
   Namespace = namespace;
@@ -29,8 +29,29 @@ export default class CYNOSDBMYSQLDatasource extends BaseDatasource {
     const rawSet = await super.getMetrics(region);
     return rawSet.map((item) => modifyDimensons(item));
   }
+  // getRegions() {
+  //   return Promise.resolve(regionSupported.map(({ value }) => ({ value, text: t(value) })));
+  // }
   getRegions() {
-    return Promise.resolve(regionSupported.map(({ value }) => ({ value, text: t(value) })));
+    return this.doRequest(
+      {
+        url: this.url + '/api',
+        data: { Product: 'cynosdbmysql' },
+      },
+      'api',
+      { action: 'DescribeRegions' }
+    ).then((response) => {
+      return _.filter(
+        _.map(response.RegionSet || [], (item) => {
+          return {
+            text: item.RegionName,
+            value: item.Region,
+            RegionState: item.RegionState,
+          };
+        }),
+        (item) => item.RegionState === 'AVAILABLE'
+      );
+    });
   }
   // 仅对维度组合是InstanceId的指标，其他指标不支持
   getDefaultInsObj(ins: string) {

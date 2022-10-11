@@ -8,7 +8,7 @@ function getFieldsValue(value, fields) {
 }
 
 export async function fetchAllFactory(fetcher: (args: any) => Promise<any>, _params: any, field: string | string[]) {
-  const params = { ..._params };
+  const params = { ..._.omit(_params, ['isOffsetPage']) };
   params.Limit = params.Limit || PageSize; // 默认给个Limit大小为50
   params.Offset = params.Offset ?? 0; // 默认给个Offset为0
 
@@ -29,7 +29,10 @@ export async function fetchAllFactory(fetcher: (args: any) => Promise<any>, _par
   // 批量请求
   const delta = TotalCount - firstLists[0].length;
   const batchCount = Math.ceil(delta / PageSize);
-  const pmList = new Array(batchCount).fill(0).map((_, index) => fetcher({ ...params, Offset: (1 + index) * params.Limit }));
+  const pmList = new Array(batchCount).fill(0).map((_, index) => {
+    params.Offset = _params.isOffsetPage ? 1 + index : (1 + index) * params.Limit;
+    return fetcher(params);
+  });
 
   // 合并
   const resultList = await Promise.all(pmList); // [ {a: [], b[] }, { a: [], b:[] }]
