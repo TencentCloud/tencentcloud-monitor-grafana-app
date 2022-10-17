@@ -78,6 +78,17 @@
     <span style="margin-left: 8px; font-size: 12px">({{ctrl.getTimeDesc()}})</span>
   </div>
 
+  <div class="gf-form-inline" style="align-items: center">
+    <div class="gf-form">
+      <label class="gf-form-label query-keyword width-9">Timeshift</label>
+      <input
+        class="gf-form-input width-10"
+        ng-model="ctrl.target[ctrl.target.service].timeshift"
+        ng-blur="ctrl.refresh()"
+      ></input>
+    </div>
+  </div>
+
   <div class="gf-form-inline">
     <div class="gf-form">
       <label class="gf-form-label query-keyword width-9">Instance</label>

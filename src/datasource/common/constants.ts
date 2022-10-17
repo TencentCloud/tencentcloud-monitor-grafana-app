@@ -527,9 +527,9 @@ export function GetDimensions(obj) {
 }
 
 // parse query data result for panel
-export function ParseQueryResult(response, instances: any[] = []) {
+export function ParseQueryResult(response, instances: any[] = [], timeshift = 0) {
   const instanceList = _.cloneDeep(instances);
-  // console.log('parseQueryResult:', response, instances, instanceList);
+
   const dataPoints = _.get(response, 'DataPoints', []);
   return _.map(dataPoints, (dataPoint) => {
     let instanceAliasValue = _.get(dataPoint, 'Dimensions[0].Value');
@@ -542,17 +542,17 @@ export function ParseQueryResult(response, instances: any[] = []) {
     }
     return {
       target: `${response.MetricName} - ${instanceAliasValue}`,
-      datapoints: parseDataPoint(dataPoint),
+      datapoints: parseDataPoint(dataPoint, timeshift),
     };
   });
 }
 
 // parse tencent cloud monitor response data to grafana panel data
-function parseDataPoint(dataPoint) {
+function parseDataPoint(dataPoint, timeshift = 0) {
   const timestamps = _.get(dataPoint, 'Timestamps', []);
   const values = _.get(dataPoint, 'Values', []);
   const result = timestamps.map((timestamp, index) => {
-    return [values[index], timestamp * 1000];
+    return [values[index], timestamp * 1000 + timeshift];
   });
 
   return result;

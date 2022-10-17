@@ -1,5 +1,15 @@
 # TencentCloud Monitor Grafana App---
 
+## [2.7.5] - 2022-10-17
+### Modify
+- 更新CYNOSDB_MYSQL地域接口
+
+### Added
+- 增加CYNOSDB_MYSQL预设面板
+- 增加timeshift对比功能
+
+---
+
 ## [2.7.4] - 2022-09-20
 ### Fixed
 - adaptation CDB and CYNOSDB_MYSQL when has no cache
