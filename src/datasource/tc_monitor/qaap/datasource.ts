@@ -1,3 +1,4 @@
+import { get } from 'lodash';
 import { QAAPInstanceAliasList, QAAPInvalidDemensions, namespace, templateQueryIdMap } from './query_def';
 import { BaseDatasource } from '../_base/datasource';
 
@@ -24,5 +25,15 @@ export default class QAAPDatasource extends BaseDatasource {
   // };
   constructor(instanceSettings, backendSrv, templateSrv) {
     super(instanceSettings, backendSrv, templateSrv);
+  }
+
+  async getMetrics(region = 'ap-guangzhou') {
+    const rawSet = await super.getMetrics(region);
+    return rawSet.filter(
+      (item) =>
+        get(item, 'Dimensions.length') === 1 &&
+        get(item, 'Dimensions[0].Dimensions.length') === 1 &&
+        get(item, 'Dimensions[0].Dimensions[0]') === 'channelId'
+    );
   }
 }
