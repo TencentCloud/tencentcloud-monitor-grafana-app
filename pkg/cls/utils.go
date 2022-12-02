@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/TencentCloud/tencentcloud-monitor-grafana-app/pkg/common"
+	"strings"
 )
 
 func Stringify(v interface{}) string {
@@ -24,5 +25,5 @@ func StringifyAll(args ...interface{}) []string {
 }
 
 func GetRequestClient() string {
-	return fmt.Sprint("GF_", common.GrafanaVersion, "_BE_PL_CLS_", common.PluginVersion)
+	return strings.Replace(fmt.Sprint("GF_", common.GrafanaVersion, "_BE_PL_CLS_", common.PluginVersion), ".", "_", -1)
 }

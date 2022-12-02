@@ -138,7 +138,7 @@ const template = `
   </div>
 
 <!-- 起始区域 目的区域等 -->
-  <div">
+  <div>
     <div class="gf-form-inline" ng-repeat="extra in getExtraFields()">
       <div class="gf-form">
         <label class="gf-form-label query-keyword width-9">{{extra.label}}</label>

@@ -213,6 +213,18 @@ const SERVICES_API_INFO = {
     path: '/tdmq',
     host: 'tdmq.tencentcloudapi.com',
   },
+  tdmq_rabbitmq: {
+    service: 'tdmq',
+    version: '2020-02-17',
+    path: '/tdmq',
+    host: 'tdmq.tencentcloudapi.com',
+  },
+  tdmq_rocketmq: {
+    service: 'tdmq',
+    version: '2020-02-17',
+    path: '/tdmq',
+    host: 'tdmq.tencentcloudapi.com',
+  },
   gaap: {
     service: 'gaap',
     version: '2018-05-29',
@@ -248,6 +260,18 @@ const SERVICES_API_INFO = {
     version: '2021-06-22',
     path: '/rum',
     host: 'rum.tencentcloudapi.com',
+  },
+  tke: {
+    service: 'tke',
+    version: '2018-05-25',
+    path: '/tke',
+    host: 'tke.tencentcloudapi.com',
+  },
+  ecdn: {
+    service: 'ecdn',
+    version: '2019-10-12',
+    path: '/ecdn',
+    host: 'ecdn.tencentcloudapi.com',
   },
   // 不单独定义lb，因为lb同样用的是vpc的配置，同上
   // lb: {

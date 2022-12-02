@@ -1,5 +1,15 @@
 # TencentCloud Monitor Grafana App---
 
+## [2.8.0] - 2022-12-02
+### Modify
+- 去除依赖 patch 逻辑，原生支持 reqestclient
+
+### Added
+- tdmq产品实例支持展示名称
+- 容器服务(TKE)
+- 新增全站加速网络ECDN
+
+
 ## [2.7.5] - 2022-10-17
 ### Modify
 - 更新CYNOSDB_MYSQL地域接口

@@ -15,7 +15,7 @@ import { fetchAllFactory } from '../../common/utils';
 import instanceStorage from '../../common/datasourceStorage';
 import { t } from '../../../locale';
 
-export default class DCDatasource extends BaseDatasource {
+export default class TDMQDatasource extends BaseDatasource {
   Namespace = namespace;
   InstanceAliasList = TDMQInstanceAliasList;
   InvalidDimensions = TDMQInvalidDemensions;

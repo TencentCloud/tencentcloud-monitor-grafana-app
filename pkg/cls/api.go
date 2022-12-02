@@ -5,7 +5,6 @@ import (
 	pluginCommon "github.com/TencentCloud/tencentcloud-monitor-grafana-app/pkg/common"
 	clsAPI "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/cls/v20201016"
 	"github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common"
-	tchttp "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common/http"
 	"github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common/profile"
 	"golang.org/x/time/rate"
 )
@@ -32,6 +31,7 @@ func SearchLog(ctx context.Context, param *clsAPI.SearchLogRequest, region strin
 	if opts.Intranet {
 		client, _ = clsAPI.NewClient(credential, region, intranetCpf)
 	}
+	injectRequestClientHeader(client)
 
 	// 实例化一个请求对象，根据调用的接口和实际情况，可以进一步设置请求参数
 	request := clsAPI.NewSearchLogRequest()
@@ -43,8 +43,6 @@ func SearchLog(ctx context.Context, param *clsAPI.SearchLogRequest, region strin
 	request.Context = param.Context
 	request.UseNewAnalysis = param.UseNewAnalysis
 
-	injectRequestClientHeader(request)
-
 	// 通过 client 对象调用想要访问的接口，需要传入请求对象
 	response, err = client.SearchLog(request)
 	//log.DefaultLogger.Info("SearchLog response line58", "response", *response) //  此行有时打印不出来，需要考虑是否是响应太大了
@@ -52,7 +50,6 @@ func SearchLog(ctx context.Context, param *clsAPI.SearchLogRequest, region strin
 }
 
 // 统计插件用户量
-func injectRequestClientHeader(request tchttp.Request) {
-	params := request.GetParams()
-	params["RequestClient"] = GetRequestClient()
+func injectRequestClientHeader(client *clsAPI.Client) {
+	client.WithRequestClient(GetRequestClient())
 }

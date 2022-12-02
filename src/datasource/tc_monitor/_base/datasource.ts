@@ -243,7 +243,7 @@ export abstract class BaseDatasource implements DatasourceInterface {
       }
 
       if (getTimeShiftInMs(target[service].timeshift) > 0) {
-        ins._InstanceAliasValue += `_${target[service].timeshift}`
+        ins._InstanceAliasValue += `_${target[service].timeshift}`;
       }
       // 设置instance，针对额外的维度，需要注意模板变量的值
       // ins[key] = ins[keyTmp] ?? extraDimValue;
@@ -278,54 +278,50 @@ export abstract class BaseDatasource implements DatasourceInterface {
         !_.isEmpty(ReplaceVariable(this.templateSrv, options.scopedVars, item[service].instance, true))
       );
     })
-    .reduce((prev, target) => {
-      if (getTimeShiftInMs(target[service].timeshift) > 0) {
-        const cloneTarget = _.cloneDeep(target)
-        cloneTarget[service].timeshift = ''
-        return [
-          ...prev,
-          cloneTarget,
-          target,
-        ]
-      }
-      return [...prev, target]
-    }, [])
-    .map(async (target) => {
-      // 实例 instances 可能为模板变量，需先获取实际值
-      // 针对JSON字符串和id的形式，分开做处理
-      let instances = ReplaceVariable(this.templateSrv, options.scopedVars, target[service].instance, true);
-      const instanceCache = await instanceStorage.getInstance(this.service);
-      const timeshift = getTimeShiftInMs(target[service].timeshift)
-
-      instances = [].concat(instances).map((inst) => {
-        try {
-          return JSON.parse(inst); // 兼容json字符串的 形式
-        } catch (error) {
-          // 如果没拿到缓存，取默认实例组
-          if(!instanceCache) return this.getDefaultInsObj?.(inst);
-          return _.cloneDeep(instanceCache.find((item) => item[this.templateQueryIdMap.instance] === inst)) ?? {};
+      .reduce((prev, target) => {
+        if (getTimeShiftInMs(target[service].timeshift) > 0) {
+          const cloneTarget = _.cloneDeep(target);
+          cloneTarget[service].timeshift = '';
+          return [...prev, cloneTarget, target];
         }
-      });
-      const region = ReplaceVariable(this.templateSrv, options.scopedVars, target[service].region, false);
-      const insInReq: any = [];
-      for (let ins of instances) {
-        const dimensionObject = target[service].dimensionObject;
-        // 处理dimensions的值
-        const dimKeys = Object.keys(dimensionObject);
-        const dimResult = await this.dimensionsFormat(dimKeys, ins, dimensionObject, target, service, options);
+        return [...prev, target];
+      }, [])
+      .map(async (target) => {
+        // 实例 instances 可能为模板变量，需先获取实际值
+        // 针对JSON字符串和id的形式，分开做处理
+        let instances = ReplaceVariable(this.templateSrv, options.scopedVars, target[service].instance, true);
+        const instanceCache = await instanceStorage.getInstance(this.service);
+        const timeshift = getTimeShiftInMs(target[service].timeshift);
 
-        insInReq.push([{ Dimensions: GetDimensions(dimResult) }]);
-      }
-      const data = {
-        StartTime: moment(options.range.from).subtract(timeshift).format(),
-        EndTime: moment(options.range.to).subtract(timeshift).format(),
-        Period: target[service].period || 300,
-        Instances: _.flatMap(insInReq),
-        Namespace: target.namespace,
-        MetricName: target[service].metricName,
-      };
-      return this.getMonitorData(data, region, instances, timeshift);
-    });
+        instances = [].concat(instances).map((inst) => {
+          try {
+            return JSON.parse(inst); // 兼容json字符串的 形式
+          } catch (error) {
+            // 如果没拿到缓存，取默认实例组
+            if (!instanceCache) return this.getDefaultInsObj?.(inst);
+            return _.cloneDeep(instanceCache.find((item) => item[this.templateQueryIdMap.instance] === inst)) ?? {};
+          }
+        });
+        const region = ReplaceVariable(this.templateSrv, options.scopedVars, target[service].region, false);
+        const insInReq: any = [];
+        for (let ins of instances) {
+          const dimensionObject = target[service].dimensionObject;
+          // 处理dimensions的值
+          const dimKeys = Object.keys(dimensionObject);
+          const dimResult = await this.dimensionsFormat(dimKeys, ins, dimensionObject, target, service, options);
+
+          insInReq.push([{ Dimensions: GetDimensions(dimResult) }]);
+        }
+        const data = {
+          StartTime: moment(options.range.from).subtract(timeshift).format(),
+          EndTime: moment(options.range.to).subtract(timeshift).format(),
+          Period: target[service].period || 300,
+          Instances: _.flatMap(insInReq),
+          Namespace: target.namespace,
+          MetricName: target[service].metricName,
+        };
+        return this.getMonitorData(data, region, instances, target[service], options);
+      });
 
     if (queries.length === 0) {
       return [];
@@ -365,8 +361,9 @@ export abstract class BaseDatasource implements DatasourceInterface {
    * @param region 地域信息
    * @param instances 实例列表，用于对返回结果的匹配解析
    */
-  getMonitorData(params, region, instances, timeshift = 0) {
+  getMonitorData(params, region, instances, target, options) {
     const serviceInfo = GetServiceAPIInfo(region, 'monitor');
+    const timeshift = getTimeShiftInMs(target.timeshift);
     return this.doRequest(
       {
         url: this.url + serviceInfo.path,
@@ -483,7 +480,7 @@ export abstract class BaseDatasource implements DatasourceInterface {
       result = _.get(response, field) ?? _.get(response, `Result.${field}`) ?? [];
       const total = response.TotalCount ?? response.TotalCnt ?? _.get(response, `Result.TotalCount`) ?? 0;
       if (result.length >= total) {
-        return result;
+        return interceptor?.response ? interceptor.response(result) : result;
       } else {
         const param = SliceLength(total, 100);
         const promises: any[] = [];
@@ -495,10 +492,10 @@ export abstract class BaseDatasource implements DatasourceInterface {
             _.forEach(responses, (item) => {
               result = _.concat(result, item);
             });
-            return result;
+            return interceptor?.response ? interceptor.response(result) : result;
           })
           .catch((error) => {
-            return result;
+            return interceptor?.response ? interceptor.response(result) : result;
           });
       }
     });

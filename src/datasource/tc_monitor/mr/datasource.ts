@@ -27,7 +27,7 @@ export default class MrHdfsDatasource extends BaseDatasource {
         DisplayStrategy: params.DisplayStrategy || 'monitorManage',
         ProjectId: params.ProjectId || -1,
       }), // 设置一些请求参数的 默认值
-      response: (data: unknown[]) => data.map(({ ClusterId, ClusterName }) => ({ ClusterId, ClusterName })),
+      response: (data: any[]) => data.map(({ ClusterId, ClusterName }) => ({ ClusterId, ClusterName })),
     },
   };
 

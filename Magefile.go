@@ -10,7 +10,6 @@ import (
 	"fmt"
 	// mage:import
 	build "github.com/grafana/grafana-plugin-sdk-go/build"
-	"github.com/magefile/mage/sh"
 )
 
 // Hello prints a message (shows that you can define custom Mage targets).
@@ -41,10 +40,6 @@ func getValueFromJSON(fpath string, key string) (string, error) {
 }
 
 func init() {
-	//  执行应用补丁命令，以更改 reqcli 字段
-	if err := sh.Run("git", "apply", "tencentcloud-sdk-go.patch"); err != nil {
-		panic(err)
-	}
 	pluginVersion, err := getValueFromJSON("package.json", "version")
 	if err != nil || len(pluginVersion) == 0 {
 		fmt.Println("build failed: get pluginVersion error", err)

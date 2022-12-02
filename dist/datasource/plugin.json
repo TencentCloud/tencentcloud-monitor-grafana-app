@@ -1181,6 +1181,26 @@
           "content": "application/json"
         }
       ]
+    },
+    {
+      "path": "tke",
+      "url": "https://tke.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
+    },
+    {
+      "path": "ecdn",
+      "url": "https://ecdn.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
     }
   ],
   "info": {
