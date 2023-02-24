@@ -36,9 +36,9 @@
   "devDependencies": {
     "@commitlint/cli": "^12.0.1",
     "@commitlint/config-conventional": "^12.0.1",
-    "@grafana/data": "^7.4.5",
-    "@grafana/runtime": "^7.4.5",
-    "@grafana/toolkit": "^8.4.3",
+    "@grafana/data": "^9.3.6",
+    "@grafana/runtime": "^9.3.6",
+    "@grafana/toolkit": "^8.5.20",
     "@types/angular": "^1.6.6",
     "@types/grafana": "https://git@github.com/CorpGlory/types-grafana.git",
     "@types/jest": "^24.0.12",
@@ -61,7 +61,7 @@
     "webpack": "^4.29.6"
   },
   "dependencies": {
-    "@grafana/ui": "^7.5.3",
+    "@grafana/ui": "^9.3.6",
     "angular": "^1.8.2",
     "crypto-js": "^3.1.9-1",
     "dot-qs": "^0.2.0",
