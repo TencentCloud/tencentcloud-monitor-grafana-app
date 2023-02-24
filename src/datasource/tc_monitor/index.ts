@@ -659,13 +659,15 @@ const SERVICES: ServiceType[] = [
   //   namespace: 'QCE/TSF',
   //   href: 'https://cloud.tencent.com/document/product/649',
   // },
-  // {
-  //   service: 'waf',
-  //   label: 'Web 应用防火墙(WAF)',
-  //   hideRegion: true,
-  //   namespace: 'QCE/WAF',
-  //   href: 'https://cloud.tencent.com/document/product/627',
-  // },
+  {
+    service: 'waf',
+    get label() {
+      return t('WAF');
+    },
+    hideRegion: true,
+    namespace: 'QCE/WAF',
+    href: 'https://cloud.tencent.com/document/product/627',
+  },
 ];
 const Datasources = {};
 const InitStates = {};

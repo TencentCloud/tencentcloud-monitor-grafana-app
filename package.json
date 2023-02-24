@@ -1,7 +1,7 @@
 {
   "name": "tencentcloud-monitor-grafana-app",
   "private": false,
-  "version": "2.8.0",
+  "version": "2.8.1",
   "description": "Tencent Cloud Monitor plugin for Grafana",
   "engines": {
     "node": ">=14"

@@ -1,5 +1,11 @@
 # TencentCloud Monitor Grafana App---
 
+
+## [2.8.1] - 2023-02-20
+### Modify
+- web应用防火墙
+- 部分云产品支持内网API
+
 ## [2.8.0] - 2022-12-02
 ### Modify
 - 去除依赖 patch 逻辑，原生支持 reqestclient

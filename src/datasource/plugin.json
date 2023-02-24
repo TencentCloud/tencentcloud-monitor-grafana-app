@@ -583,6 +583,66 @@
       ]
     },
     {
+      "path": "lighthouse-internal",
+      "url": "https://lighthouse.internal.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
+    },
+    {
+      "path": "tsf-internal",
+      "url": "https://tsf.internal.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
+    },
+    {
+      "path": "rum-internal",
+      "url": "https://rum.internal.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
+    },
+    {
+      "path": "tke-internal",
+      "url": "https://tke.internal.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
+    },
+    {
+      "path": "ecdn-internal",
+      "url": "https://ecdn.internal.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
+    },
+    {
+      "path": "waf-internal",
+      "url": "https://waf.internal.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
+    },
+    {
       "path": "apigateway",
       "url": "https://apigateway.tencentcloudapi.com",
       "headers": [
@@ -1195,6 +1255,16 @@
     {
       "path": "ecdn",
       "url": "https://ecdn.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
+    },
+    {
+      "path": "waf",
+      "url": "https://waf.tencentcloudapi.com",
       "headers": [
         {
           "name": "Content-Type",

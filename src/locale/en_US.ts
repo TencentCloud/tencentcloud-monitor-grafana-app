@@ -64,6 +64,7 @@ const en_US = {
   GSE: 'Game Server Elastic-scaling(GSE)',
   TKE: 'Tencent Kubernetes Engine(TKE)',
   ECDN: 'Enterprise Content Delivery Network(ECDN)',
+  WAF: 'Web Application Firewall(WAF)',
   // others
   multi_scene: 'Multi-Scene',
   lite: 'Lite',

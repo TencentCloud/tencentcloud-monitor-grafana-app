@@ -64,6 +64,7 @@ const zh_CN = {
   GSE: '游戏服务器伸缩(GSE)',
   TKE: '容器服务(TKE)',
   ECDN: '全站加速网络(ECDN)',
+  WAF: 'Web 应用防火墙(WAF)',
   // others
   multi_scene: '多场景版',
   lite: '精简版',
