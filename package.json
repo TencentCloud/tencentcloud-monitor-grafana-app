@@ -38,7 +38,7 @@
     "@commitlint/config-conventional": "^12.0.1",
     "@grafana/data": "^7.4.5",
     "@grafana/runtime": "^7.4.5",
-    "@grafana/toolkit": "^8.4.3",
+    "@grafana/toolkit": "^9.3.2",
     "@types/angular": "^1.6.6",
     "@types/grafana": "https://git@github.com/CorpGlory/types-grafana.git",
     "@types/jest": "^24.0.12",
@@ -46,7 +46,7 @@
     "@typescript-eslint/eslint-plugin": "^4.19.0",
     "@typescript-eslint/parser": "^4.19.0",
     "clean-webpack-plugin": "^3.0.0",
-    "copy-webpack-plugin": "5.1.2",
+    "copy-webpack-plugin": "11.0.0",
     "eslint": "^7.21.0",
     "eslint-config-alloy": "^3.10.0",
     "eslint-config-prettier": "^8.1.0",
@@ -58,7 +58,7 @@
     "lint-staged": "^12.3.7",
     "prettier": "^2.2.1",
     "typescript": "^4.5.4",
-    "webpack": "^4.29.6"
+    "webpack": "^5.75.0"
   },
   "dependencies": {
     "@grafana/ui": "^7.5.3",
