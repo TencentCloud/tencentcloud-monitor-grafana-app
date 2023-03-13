@@ -1,6 +1,10 @@
 # TencentCloud Monitor Grafana App---
 
 
+## [2.8.2] - 2023-03-13
+### Modify
+- 负载均衡timeshift后图例展示问题修复
+
 ## [2.8.1] - 2023-02-20
 ### Modify
 - web应用防火墙

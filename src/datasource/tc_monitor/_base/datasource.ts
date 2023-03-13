@@ -242,7 +242,10 @@ export abstract class BaseDatasource implements DatasourceInterface {
         ins._InstanceAliasValue += this.getOtherAlias(ins, target[service]);
       }
 
-      if (getTimeShiftInMs(target[service].timeshift) > 0) {
+      if (
+        getTimeShiftInMs(target[service].timeshift) > 0 &&
+        ins._InstanceAliasValue.indexOf(target[service].timeshift) === -1
+      ) {
         ins._InstanceAliasValue += `_${target[service].timeshift}`;
       }
       // 设置instance，针对额外的维度，需要注意模板变量的值
