@@ -99,7 +99,7 @@ func getInsSetting(instanceSettings backend.DataSourceInstanceSettings) (opts co
 
 	if useRoleData, ok := jsonData["useRole"]; ok {
 		if useRole, ok := useRoleData.(bool); ok && useRole {
-			client := cam.NewCredential(os.Getenv("ROLE"))
+			client := cam.NewCredential(os.Getenv("GF_PLUGIN_TENCENTCLOUD_MONITOR_DATASOURCE_ROLE"))
 			id, key, token, err := client.GetSecret()
 			if err == nil {
 				logger.Debug("using eks credentials id: " + id)

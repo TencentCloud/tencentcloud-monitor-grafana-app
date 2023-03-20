@@ -10,6 +10,7 @@ const queryEditorName = 'tdmqQuery';
 
 const TDMQInvalidDemensions = {
   tenantId: 'ClusterId',
+  tenant: 'ClusterId',
   topicName: 'TopicName',
   environmentId: 'EnvironmentId',
 };
