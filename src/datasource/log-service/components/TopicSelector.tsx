@@ -1,11 +1,11 @@
-import React, { FC, useCallback, useRef } from 'react';
-import { DescribeTopics, Filter, ITopicIdentifier } from '../common/model';
+import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
+import { DescribeRegions, DescribeTopics, Filter, IRegionItem, ITopicIdentifier } from '../common/model';
 import { InlineField, InlineFieldRow, Select, AsyncSelect } from '@grafana/ui';
-import { LOG_SERVICE_REGION_LIST, uuidRegex } from '../common/constants';
+import {  uuidRegex } from '../common/constants';
 import { useEffectOnce } from 'react-use';
 import { DataSourceApi, SelectableValue } from '@grafana/data';
 import { getStringVariableNameOptions } from '../common/utils';
-import { t } from '../../../locale'
+import { t } from '../../../locale';
 
 interface Props {
   value: ITopicIdentifier;
@@ -39,6 +39,17 @@ export const TopicSelector: FC<Props> = React.memo((props) => {
     }
   });
   const topicSelectOptionsRef = useRef<SelectableValue<string>>([]);
+  const [regionList, setRegionList] = useState<IRegionItem[]>([]);
+  useEffect(() => {
+    fetchRegions();
+  }, []);
+
+  const fetchRegions = useCallback(async () => {
+    try {
+      const { regionList } = await DescribeRegions({ instanceSettings: (datasource as any).instanceSettings });
+      setRegionList(regionList);
+    } catch (e) {}
+  }, []);
 
   return (
     <InlineFieldRow>
@@ -67,8 +78,8 @@ export const TopicSelector: FC<Props> = React.memo((props) => {
           }}
           menuPlacement="bottom"
           options={[
-            ...LOG_SERVICE_REGION_LIST.map((item) => ({
-              label: item.regionName,
+            ...regionList.map((item) => ({
+              label: `${item.area}(${item.regionName})`,
               value: item.region,
             })),
             ...getStringVariableNameOptions()

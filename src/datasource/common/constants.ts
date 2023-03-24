@@ -279,6 +279,12 @@ const SERVICES_API_INFO = {
     path: '/waf',
     host: 'waf.tencentcloudapi.com',
   },
+  region: {
+    service: 'region',
+    version: '2022-06-27',
+    path: '/region',
+    host: 'region.tencentcloudapi.com',
+  },
   // 不单独定义lb，因为lb同样用的是vpc的配置，同上
   // lb: {
   //   service: 'lb',

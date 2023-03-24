@@ -3,7 +3,7 @@ import { GetRequestParams, GetServiceAPIInfo } from '../../../common/constants';
 import { DataSourceInstanceSettings } from '@grafana/data';
 import { getBackendSrv, getTemplateSrv } from '@grafana/runtime';
 import _ from 'lodash';
-import { IApiError } from './interface';
+import { IApiError, IRegionItem, IResourceRegionInfo } from './interface';
 
 /**
  * 云API请求
@@ -85,6 +85,23 @@ export async function clsCapiRequest({ action, region, data = {} }: IRequestPara
   );
 }
 
+/**
+ * REGION 云api v3 请求
+ */
+export async function regionCapiRequest({ action, region, data = {} }: IRequestParam, opts: IRequestOpts) {
+  return capiRequest(
+    {
+      serviceType: 'region',
+      region,
+      action,
+      data: data,
+    },
+    {
+      ...opts,
+    }
+  );
+}
+
 /** 本接口用于搜索日志, 该接口除受默认接口请求频率限制外，针对单个日志主题，并发数不能超过15 */
 export async function SearchLog(
   data: TYPES.SearchLogParams,
@@ -134,4 +151,33 @@ export async function DescribeTopics(
     },
     opts
   );
+}
+
+/**
+ * @description 请求当前用户支持cls所有地域，已做白名单过滤
+ */
+async function DescribeRegionsAndZonesRequest(product: string, opts?: IRequestOpts): Promise<IResourceRegionInfo[]> {
+  return regionCapiRequest(
+    { action: 'DescribeRegionsAndZones', data: { Product: product }, region: 'ap-guangzhou' },
+    opts
+  ).then((data) => data.ResourceRegionSet);
+}
+
+export async function DescribeRegions(opts?: IRequestOpts): Promise<{ regionList: IRegionItem[] }> {
+  return DescribeRegionsAndZonesRequest('cls', opts).then((clsRegions) => ({
+    regionList: (clsRegions || []).map(
+      ({ Region, RegionId, RegionName, RegionShortName, RegionTypeMC, RegionType, Location }) => {
+        const regionItem: IRegionItem = {
+          region: Region,
+          regionId: Number(RegionId),
+          regionName: RegionName,
+          regionShortName: RegionShortName,
+
+          oversea: typeof RegionTypeMC === 'number' ? Boolean(RegionTypeMC) : RegionType === '海外',
+          area: Location,
+        };
+        return regionItem;
+      }
+    ),
+  }));
 }
