@@ -664,7 +664,7 @@ const SERVICES: ServiceType[] = [
     get label() {
       return t('WAF');
     },
-    hideRegion: true,
+    // hideRegion: true,
     namespace: 'QCE/WAF',
     href: 'https://cloud.tencent.com/document/product/627',
   },

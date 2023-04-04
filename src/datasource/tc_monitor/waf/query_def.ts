@@ -22,6 +22,23 @@ const WAFFilterFields = {
 
 const WAFFilterFieldsDescriptor: FildDescriptorType = [
   {
+    key: 'Offset',
+    enDescriptor: 'Offset',
+    cnDescriptor: '偏移量, 例如Offset=20&Limit=20 返回第 20 到 40 项',
+    link: '',
+    type: 'inputNumber',
+    min: 0,
+  },
+  {
+    key: 'Limit',
+    enDescriptor: 'Limit',
+    cnDescriptor: '单次请求返回的数量，默认为20，最小值为1，最大值为100',
+    link: '',
+    type: 'inputNumber',
+    min: 1,
+    max: 100,
+  },
+  {
     key: 'origin',
     enDescriptor: 'origin',
     cnDescriptor: '主源站',
@@ -144,7 +161,18 @@ const WAF_STATE = {
   instanceAlias: 'Domain',
   queries: WAFFilterFields,
 };
-
+const regionSupported = [
+  { value: 'ap-beijing' },
+  { value: 'ap-chengdu' },
+  { value: 'ap-chongqing' },
+  { value: 'ap-guangzhou' },
+  { value: 'ap-hongkong' },
+  { value: 'ap-nanjing' },
+  { value: 'ap-shanghai' },
+  { value: 'ap-shanghai-fsi' },
+  { value: 'ap-seoul' },
+  { value: 'ap-singapore' },
+];
 function GetInstanceQueryParams(queries: any = {}) {
   return instanceQueryParamsBaseParse(queries, true);
 }
@@ -165,6 +193,7 @@ export {
   WAFInstanceAliasList,
   WAFInvalidDemensions,
   namespace,
+  regionSupported,
   queryEditorName,
   queryEditorConfig,
   GetInstanceQueryParams as WAFGetInstanceQueryParams,

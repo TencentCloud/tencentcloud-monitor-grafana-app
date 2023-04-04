@@ -1,6 +1,12 @@
 # TencentCloud Monitor Grafana App---
 
 
+## [2.8.4] - 2023-04-04
+### Modify
+- waf查询实例接口问题修复
+- 其他已知问题修复
+
+
 ## [2.8.3] - 2023-03-24
 ### Modify
 - cls地域数据迭代
