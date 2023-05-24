@@ -259,7 +259,13 @@ export abstract class BaseDatasource implements DatasourceInterface {
       }
       dimensionObject[key] = { Name: key, Value: ins[key] };
     }
+    // waf特殊处理-客户需求
+    const tt = this.getOwnDimenion(dimensionObject);
+    if (tt) return tt;
     return dimensionObject;
+  }
+  getOwnDimenion(dimensionObject: any) {
+    return null;
   }
   getDimensionsVal(ins: Record<string, any>, key: string, extraDimValue: string) {
     let dimVal = ins[key];
@@ -312,7 +318,6 @@ export abstract class BaseDatasource implements DatasourceInterface {
           // 处理dimensions的值
           const dimKeys = Object.keys(dimensionObject);
           const dimResult = await this.dimensionsFormat(dimKeys, ins, dimensionObject, target, service, options);
-
           insInReq.push([{ Dimensions: GetDimensions(dimResult) }]);
         }
         const data = {

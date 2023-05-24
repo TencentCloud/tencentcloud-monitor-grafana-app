@@ -28,4 +28,14 @@ export default class CDNDatasource extends BaseDatasource {
   async metricFindQuery(query: any, regex?: string) {
     return super.metricFindQuery({ ...query, ...{ region: 'ap-guangzhou' } }, regex);
   }
+
+  getOwnDimenion(dimensionObject: any) {
+    return {
+      ...dimensionObject,
+      edition: {
+        Name: 'edition',
+        Value: 0,
+      },
+    };
+  }
 }
