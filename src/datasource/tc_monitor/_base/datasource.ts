@@ -462,7 +462,7 @@ export abstract class BaseDatasource implements DatasourceInterface {
 
   getVariableInstances(region, query = {}): Promise<any[]> {
     let result: any[] = [];
-    const params = { ...query, ...{ Offset: 0, Limit: 100 } };
+    const params = { ...{ Offset: 0, Limit: 100 }, ...query };
 
     const {
       service = this.service,
@@ -481,11 +481,12 @@ export abstract class BaseDatasource implements DatasourceInterface {
       { region, action }
     ).then((response) => {
       result = _.get(response, field) ?? _.get(response, `Result.${field}`) ?? [];
-      const total = response.TotalCount ?? response.TotalCnt ?? _.get(response, `Result.TotalCount`) ?? 0;
+      const total =
+        response.TotalCount ?? response.TotalCnt ?? response.TotalNumber ?? _.get(response, `Result.TotalCount`) ?? 0;
       if (result.length >= total) {
         return interceptor?.response ? interceptor.response(result) : result;
       } else {
-        const param = SliceLength(total, 100);
+        const param = SliceLength(total, params?.Limit || 100);
         const promises: any[] = [];
         _.forEach(param, (item) => {
           promises.push(this.getInstances(region, { ...item, ...query }));
