@@ -33,7 +33,7 @@
 使用 Grafana CLI 安装：
 
 ```bash
-$ grafana-cli plugins install tencentcloud-monitor-app
+$ grafana-cli --pluginUrl https://github.com/TencentCloud/tencentcloud-monitor-grafana-app/releases/download/2.8.6/tencentcloud-monitor-app-2.8.6.zip plugins install tencentcloud-monitor-app
 ```
 
 更多安装方式与入门指南请参见[云监控文档](https://cloud.tencent.com/document/product/248/54506) 和 [日志服务文档](https://cloud.tencent.com/document/product/614/52102) 。

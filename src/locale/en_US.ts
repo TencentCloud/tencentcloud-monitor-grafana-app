@@ -73,6 +73,8 @@ const en_US = {
   real_user_monitoring: 'Real User Monitoring',
   region: 'Region',
   log_topic: 'Log Topic',
+  syntax_rule: 'Syntax Rule',
+  max_result_num: 'Maximum result number',
   search_statement: 'Search Statement',
   time_unit: 'Time unit',
   seconds: 'seconds',

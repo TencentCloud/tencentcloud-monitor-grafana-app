@@ -1,5 +1,5 @@
 import React, { FormEvent, PureComponent } from 'react';
-import { LegacyForms, InlineFieldRow, InlineField, Input, Switch, Select } from '@grafana/ui';
+import {LegacyForms, InlineFieldRow, InlineField, Input, Switch, Select, Alert} from '@grafana/ui';
 import { DataSourcePluginOptionsEditorProps, SelectableValue } from '@grafana/data';
 import { MyDataSourceOptions, MySecureJsonData } from '../types';
 import { SERVICES } from '../tc_monitor';
@@ -10,6 +10,7 @@ type Props = DataSourcePluginOptionsEditorProps<MyDataSourceOptions, MySecureJso
 
 interface State {
   monitorFilter: string;
+  isClsAlertVisiable: boolean,
 }
 
 export class ConfigEditor extends PureComponent<Props, State> {
@@ -17,6 +18,7 @@ export class ConfigEditor extends PureComponent<Props, State> {
     super(props);
     this.state = {
       monitorFilter: '',
+      isClsAlertVisiable: false,
     };
     setLanguage(props.options.jsonData.language || Language.Chinese)
   }
@@ -217,6 +219,7 @@ export class ConfigEditor extends PureComponent<Props, State> {
   renderLogServiceConfig() {
     const { options } = this.props;
     const { jsonData } = options;
+    const { isClsAlertVisiable}  = this.state
     return (
       <div style={{ marginTop: 30 }}>
         <h3 className="page-heading">Log Service</h3>
@@ -225,13 +228,18 @@ export class ConfigEditor extends PureComponent<Props, State> {
             <InlineSwitch
               value={jsonData.logServiceEnabled}
               onChange={(e) => {
+                const logServiceEnabled = e.currentTarget.checked
                 this.patchJsonData({
-                  logServiceEnabled: e.currentTarget.checked,
+                  logServiceEnabled,
                 });
+                if(logServiceEnabled) this.setState({
+                  isClsAlertVisiable: true
+                })
               }}
             />
           </InlineField>
         </InlineFieldRow>
+        {isClsAlertVisiable && <Alert severity="info" title="如果是第一次开启 CLS 数据源，请保存后重启 Grafana" />}
       </div>
     );
   }

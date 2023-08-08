@@ -73,6 +73,8 @@ const zh_CN = {
   real_user_monitoring: '前端性能监控',
   region: '地域',
   log_topic: '日志主题',
+  syntax_rule: '语法规则',
+  max_result_num: '最大结果条数',
   search_statement: '检索语句',
   time_unit: 'Time unit',
   seconds: 'seconds',
