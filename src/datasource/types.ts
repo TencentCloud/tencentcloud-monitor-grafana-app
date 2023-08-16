@@ -2,6 +2,7 @@
 import { DataQuery, DataSourceJsonData } from '@grafana/data';
 import { RUMQuery } from './rum-service/types';
 import { t, Language } from '../locale'
+import {SearchSyntaxRule} from "./log-service/common/constants";
 
 export const enum ServiceType {
   monitor = 'monitor',
@@ -22,8 +23,10 @@ export interface QueryInfo extends DataQuery {
     region: string;
     TopicId: string;
     Query: string;
+    SyntaxRule: number;
+    MaxResultNum?: number;
   };
-  RUMServiceParams?: RUMQuery 
+  RUMServiceParams?: RUMQuery
 }
 
 export const defaultQueryInfo: Omit<QueryInfo, 'refId'> = {
@@ -32,6 +35,7 @@ export const defaultQueryInfo: Omit<QueryInfo, 'refId'> = {
     region: '',
     TopicId: '',
     Query: '',
+    SyntaxRule: SearchSyntaxRule.CQL,
   },
   RUMServiceParams: {
     policy: "default",

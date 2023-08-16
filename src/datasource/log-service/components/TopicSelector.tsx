@@ -1,6 +1,6 @@
 import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { DescribeRegions, DescribeTopics, Filter, IRegionItem, ITopicIdentifier } from '../common/model';
-import { InlineField, InlineFieldRow, Select, AsyncSelect } from '@grafana/ui';
+import { InlineField,   Select, AsyncSelect } from '@grafana/ui';
 import {  uuidRegex } from '../common/constants';
 import { useEffectOnce } from 'react-use';
 import { DataSourceApi, SelectableValue } from '@grafana/data';
@@ -52,7 +52,7 @@ export const TopicSelector: FC<Props> = React.memo((props) => {
   }, []);
 
   return (
-    <InlineFieldRow>
+    <>
       <InlineField label={t('region')} labelWidth={20}>
         <Select
           value={value.region}
@@ -134,7 +134,7 @@ export const TopicSelector: FC<Props> = React.memo((props) => {
           className="log-service-monospaced-font-family"
         />
       </InlineField>
-    </InlineFieldRow>
+    </>
   );
 });
 

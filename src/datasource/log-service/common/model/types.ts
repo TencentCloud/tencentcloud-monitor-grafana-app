@@ -3720,6 +3720,14 @@ export interface SearchLogParams {
    0～1之间：表示客户指定的采样率（例如0.02;
    1（默认值）：表示不采样。 */
   SamplingRate?: number;
+  /**
+   * 检索语法规则，默认值为0。
+   *
+   * 0：Lucene语法，1：CQL语法。
+   *
+   * 详细说明参见<a href="https://cloud.tencent.com/document/product/614/47044#RetrievesConditionalRules" target="_blank">检索条件语法规则</a>
+   */
+  SyntaxRule?: number;
   /** 接口版本 */
   Version?: string;
 }

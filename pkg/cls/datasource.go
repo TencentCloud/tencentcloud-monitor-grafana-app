@@ -43,12 +43,12 @@ func QueryLog(ctx context.Context, logServiceParams pluginCommon.LogServiceParam
 	}
 	searchLogResponse, searchLogErr := SearchLog(ctx, &requestParam, logServiceParams.Region, opts)
 
-	log.DefaultLogger.Info("CLS_SEARCHLOG_SUCCESS", Stringify(query), searchLogResponse.Response.RequestId) //云 api 不保存入参
 	if searchLogErr != nil {
 		log.DefaultLogger.Error("CLS_SEARCHLOG_ERROR", Stringify(query), Stringify(searchLogErr))
 		dataRes.Error = searchLogErr
 		return dataRes
 	}
+	log.DefaultLogger.Info("CLS_SEARCHLOG_SUCCESS", Stringify(query), searchLogResponse.Response.RequestId) //云 api 不保存入参
 	searchLogResult := *searchLogResponse.Response
 
 	if *searchLogResult.Analysis {
