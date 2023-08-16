@@ -1,19 +1,34 @@
 /** 此文件放置通用业务的配置项，用于区分业务类型 */
 import { DataQuery, DataSourceJsonData } from '@grafana/data';
 import { RUMQuery } from './rum-service/types';
-import { t, Language } from '../locale'
-import {SearchSyntaxRule} from "./log-service/common/constants";
+import { t, Language } from '../locale';
+import { SearchSyntaxRule } from './log-service/common/constants';
 
 export const enum ServiceType {
   monitor = 'monitor',
   logService = 'logService',
-  RUMService = 'RUMService'
+  RUMService = 'RUMService',
 }
 
 export const ServiceTypeOptions = [
-  { value: ServiceType.monitor, get label() { return t('cloud_monitor') } },
-  { value: ServiceType.logService, get label() { return t('cloud_log_service') }  },
-  { value: ServiceType.RUMService, get label() { return t('real_user_monitoring') }  },
+  {
+    value: ServiceType.monitor,
+    get label() {
+      return t('cloud_monitor');
+    },
+  },
+  {
+    value: ServiceType.logService,
+    get label() {
+      return t('cloud_log_service');
+    },
+  },
+  {
+    value: ServiceType.RUMService,
+    get label() {
+      return t('real_user_monitoring');
+    },
+  },
 ];
 
 export interface QueryInfo extends DataQuery {
@@ -26,7 +41,7 @@ export interface QueryInfo extends DataQuery {
     SyntaxRule: number;
     MaxResultNum?: number;
   };
-  RUMServiceParams?: RUMQuery
+  RUMServiceParams?: RUMQuery;
 }
 
 export const defaultQueryInfo: Omit<QueryInfo, 'refId'> = {
@@ -38,33 +53,33 @@ export const defaultQueryInfo: Omit<QueryInfo, 'refId'> = {
     SyntaxRule: SearchSyntaxRule.CQL,
   },
   RUMServiceParams: {
-    policy: "default",
-    resultFormat: "time_series",
-    orderByTime: "ASC",
+    policy: 'default',
+    resultFormat: 'time_series',
+    orderByTime: 'ASC',
     tags: [],
     groupBy: [
       {
-        type: "time",
-        params: ["$__interval"]
+        type: 'time',
+        params: ['$__interval'],
       },
       {
-        type: "fill",
-        params: ["null"]
-      }
+        type: 'fill',
+        params: ['null'],
+      },
     ],
     select: [
       [
         {
-          type: "field",
-          params: ["value"]
+          type: 'field',
+          params: ['value'],
         },
         {
-          type: "mean",
-          params: []
-        }
-      ]
-    ]
-  }
+          type: 'mean',
+          params: [],
+        },
+      ],
+    ],
+  },
 };
 
 /** QueryInfo的运行时版本，用于将query中的不合法字段进去移除，保证query是个QueryInfo类型的数据 */
@@ -86,7 +101,7 @@ export interface VariableQuery {
   serviceType: ServiceType;
   queryString: string;
   logServiceParams?: QueryInfo['logServiceParams'];
-};
+}
 
 /**
  * These are options configured for each DataSource instance.

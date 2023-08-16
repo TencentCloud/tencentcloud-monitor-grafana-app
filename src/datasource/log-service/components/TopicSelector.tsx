@@ -1,7 +1,7 @@
 import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { DescribeRegions, DescribeTopics, Filter, IRegionItem, ITopicIdentifier } from '../common/model';
-import { InlineField,   Select, AsyncSelect } from '@grafana/ui';
-import {  uuidRegex } from '../common/constants';
+import { InlineField, Select, AsyncSelect } from '@grafana/ui';
+import { uuidRegex } from '../common/constants';
 import { useEffectOnce } from 'react-use';
 import { DataSourceApi, SelectableValue } from '@grafana/data';
 import { getStringVariableNameOptions } from '../common/utils';
@@ -82,7 +82,7 @@ export const TopicSelector: FC<Props> = React.memo((props) => {
               label: `${item.area}(${item.regionName})`,
               value: item.region,
             })),
-            ...getStringVariableNameOptions()
+            ...getStringVariableNameOptions(),
           ]}
           width={25}
           className="log-service-monospaced-font-family"

@@ -23,7 +23,7 @@ import {
 import { RowContextOptions } from '@grafana/ui/components/Logs/LogRowContextProvider';
 import moment from 'moment';
 import { toTimeSeriesMany } from './common/format/prepareTimeSeries';
-import {addQueryResultLimit, replaceClsQueryWithTemplateSrv} from './common/utils/query';
+import { addQueryResultLimit, replaceClsQueryWithTemplateSrv } from './common/utils/query';
 
 export class LogServiceDataSource extends DataSourceApi<QueryInfo, MyDataSourceOptions> {
   private readonly instanceSettings: DataSourceInstanceSettings<MyDataSourceOptions>;
@@ -38,7 +38,10 @@ export class LogServiceDataSource extends DataSourceApi<QueryInfo, MyDataSourceO
     const requestTargets = targets.map<QueryInfo>((target) => {
       const region = target.logServiceParams?.region ? getTemplateSrv().replace(target.logServiceParams.region) : '';
       const TopicId = target.logServiceParams?.TopicId ? getTemplateSrv().replace(target.logServiceParams.TopicId) : '';
-      const Query =  addQueryResultLimit(replaceClsQueryWithTemplateSrv(target.logServiceParams?.Query || '', scopedVars),target.logServiceParams);
+      const Query = addQueryResultLimit(
+        replaceClsQueryWithTemplateSrv(target.logServiceParams?.Query || '', scopedVars),
+        target.logServiceParams
+      );
 
       return {
         ...target,
@@ -61,7 +64,7 @@ export class LogServiceDataSource extends DataSourceApi<QueryInfo, MyDataSourceO
             From: from,
             To: to,
             SyntaxRule: target.logServiceParams.SyntaxRule,
-            Limit: target.logServiceParams.MaxResultNum
+            Limit: target.logServiceParams.MaxResultNum,
           },
           target.logServiceParams.region,
           { instanceSettings: this.instanceSettings }
@@ -125,7 +128,7 @@ export class LogServiceDataSource extends DataSourceApi<QueryInfo, MyDataSourceO
     const logServiceParams = query;
     const region = logServiceParams?.region ? getTemplateSrv().replace(logServiceParams.region) : '';
     const TopicId = logServiceParams?.TopicId ? getTemplateSrv().replace(logServiceParams.TopicId) : '';
-    const Query =  addQueryResultLimit(replaceClsQueryWithTemplateSrv(logServiceParams.Query),logServiceParams);
+    const Query = addQueryResultLimit(replaceClsQueryWithTemplateSrv(logServiceParams.Query), logServiceParams);
 
     if (!options.range) {
       return [];
@@ -138,7 +141,7 @@ export class LogServiceDataSource extends DataSourceApi<QueryInfo, MyDataSourceO
             Query: Query,
             From: options.range!.from.valueOf(),
             To: options.range!.to.valueOf(),
-            Limit: logServiceParams?.MaxResultNum
+            Limit: logServiceParams?.MaxResultNum,
           },
           region,
           {

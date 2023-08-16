@@ -1,5 +1,5 @@
 import { getTemplateSrv } from '@grafana/runtime';
-import {QueryInfo} from "../../../types";
+import { QueryInfo } from '../../../types';
 
 /**
  * 检索语法切割正则
@@ -41,19 +41,19 @@ export function replaceClsQueryWithTemplateSrv(queryString: string, scopedVars: 
   return Query;
 }
 
-export  function addQueryResultLimit(queryString:string,logServiceParams: QueryInfo['logServiceParams']) {
+export function addQueryResultLimit(queryString: string, logServiceParams: QueryInfo['logServiceParams']) {
   const luceneQuery = getQueryLucene(queryString ?? '');
   const sqlQuery = (queryString ?? '').slice(luceneQuery.length);
-  const resultLimit = logServiceParams.MaxResultNum
+  const resultLimit = logServiceParams.MaxResultNum;
 
-  if(!resultLimit || !sqlQuery) {
+  if (!resultLimit || !sqlQuery) {
     //  不包含 sql 或resultLimit取值有误 直接返回
-    return queryString
+    return queryString;
   }
-  if(/limit/.test(sqlQuery)){
+  if (/limit/.test(sqlQuery)) {
     //  已有 limit 关键字，直接返回
-    return queryString
-  }else {
-    return queryString  + ' limit ' + resultLimit
+    return queryString;
+  } else {
+    return queryString + ' limit ' + resultLimit;
   }
 }

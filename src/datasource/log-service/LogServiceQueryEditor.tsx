@@ -2,13 +2,13 @@ import { DataSourceApi, QueryEditorProps } from '@grafana/data';
 import { defaultQueryInfo, MyDataSourceOptions, QueryInfo, queryInfoRuntime } from '../types';
 import React, { FC, useCallback } from 'react';
 import { useLatest } from 'react-use';
-import {InlineField, InlineLabel, QueryField, Select, InlineFieldRow, Input} from '@grafana/ui';
+import { InlineField, InlineLabel, QueryField, Select, InlineFieldRow, Input } from '@grafana/ui';
 import { TopicSelector } from './components/TopicSelector';
 import { TcDataSourceId } from '../common/constants';
 import { t } from '../../locale';
 import _ from 'lodash';
 import './index.less';
-import {SearchSyntaxRule} from "./common/constants";
+import { SearchSyntaxRule } from './common/constants';
 
 type Props = QueryEditorProps<DataSourceApi<any>, QueryInfo, MyDataSourceOptions>;
 
@@ -27,49 +27,47 @@ export const LogServiceQueryEditor: FC<Props> = React.memo((props: Props) => {
     [propsRef]
   );
 
-
   return (
     <div>
       <InlineFieldRow>
-      <TopicSelector
-        value={{ region: logServiceParams.region, TopicId: logServiceParams.TopicId }}
-        onChange={(v) => {
-          partialOnChange({
-            logServiceParams: {
-              ...(propsRef.current?.query?.logServiceParams || ({} as any)),
-              ...v,
-            },
-          });
-        }}
-        datasource={datasource}
-      />
-      <InlineField label={t('syntax_rule')} labelWidth={20}>
-        <Select
-          value={logServiceParams.SyntaxRule}
+        <TopicSelector
+          value={{ region: logServiceParams.region, TopicId: logServiceParams.TopicId }}
           onChange={(v) => {
             partialOnChange({
               logServiceParams: {
                 ...(propsRef.current?.query?.logServiceParams || ({} as any)),
-                SyntaxRule: v.value,
+                ...v,
               },
             });
-          }
-        }
-          menuPlacement="bottom"
-          options={[
-            {
-              label: 'Lucene',
-              value: SearchSyntaxRule.LUCENE
-            },
-            {
-              label: 'CQL',
-              value: SearchSyntaxRule.CQL
-            },
-          ]}
-          width={25}
-          className="log-service-monospaced-font-family"
+          }}
+          datasource={datasource}
         />
-      </InlineField>
+        <InlineField label={t('syntax_rule')} labelWidth={20}>
+          <Select
+            value={logServiceParams.SyntaxRule}
+            onChange={(v) => {
+              partialOnChange({
+                logServiceParams: {
+                  ...(propsRef.current?.query?.logServiceParams || ({} as any)),
+                  SyntaxRule: v.value,
+                },
+              });
+            }}
+            menuPlacement="bottom"
+            options={[
+              {
+                label: 'Lucene',
+                value: SearchSyntaxRule.LUCENE,
+              },
+              {
+                label: 'CQL',
+                value: SearchSyntaxRule.CQL,
+              },
+            ]}
+            width={25}
+            className="log-service-monospaced-font-family"
+          />
+        </InlineField>
       </InlineFieldRow>
 
       <MaxResultNumInput
@@ -78,9 +76,9 @@ export const LogServiceQueryEditor: FC<Props> = React.memo((props: Props) => {
           partialOnChange({
             logServiceParams: {
               ...(propsRef.current?.query?.logServiceParams || ({} as any)),
-              MaxResultNum: val
+              MaxResultNum: val,
             },
-          })
+          });
         }}
       />
 
@@ -111,28 +109,34 @@ export const LogServiceQueryEditor: FC<Props> = React.memo((props: Props) => {
 
 LogServiceQueryEditor.displayName = 'LogServiceQueryEditor';
 
-interface MaxResultNumInputProps  {
+interface MaxResultNumInputProps {
   value: string | number;
-  onChange: (value: number | undefined) => void
+  onChange: (value: number | undefined) => void;
 }
 
-
 const MaxResultNumInput: FC<MaxResultNumInputProps> = React.memo((props) => {
-  const min = 1
-  const max = 1000
-  const { value,onChange:onChangeFromProps } = props
+  const min = 1;
+  const max = 1000;
+  const { value, onChange: onChangeFromProps } = props;
 
-  const onInputChange = useCallback((e)=>{
-    const currVal = Number(e.currentTarget.value) || undefined
-    onChangeFromProps(currVal)
-
-  },[onChangeFromProps]);
+  const onInputChange = useCallback(
+    (e) => {
+      const currVal = Number(e.currentTarget.value) || undefined;
+      onChangeFromProps(currVal);
+    },
+    [onChangeFromProps]
+  );
 
   return (
     // @ts-ignore  这里报error属性不存在，但应该是存在的。
-    <InlineField label={t('max_result_num')} labelWidth={20} invalid={value < min || value > max} error='仅支持返回1～1000条日志'>
+    <InlineField
+      label={t('max_result_num')}
+      labelWidth={20}
+      invalid={value < min || value > max}
+      error="仅支持返回1～1000条日志"
+    >
       <Input
-        type='number'
+        type="number"
         min={min}
         max={max}
         value={value}
@@ -141,5 +145,5 @@ const MaxResultNumInput: FC<MaxResultNumInputProps> = React.memo((props) => {
         className="log-service-monospaced-font-family"
       />
     </InlineField>
-  )
-})
+  );
+});

@@ -1,16 +1,16 @@
 import React, { FormEvent, PureComponent } from 'react';
-import {LegacyForms, InlineFieldRow, InlineField, Input, Switch, Select, Alert} from '@grafana/ui';
+import { LegacyForms, InlineFieldRow, InlineField, Input, Switch, Select, Alert } from '@grafana/ui';
 import { DataSourcePluginOptionsEditorProps, SelectableValue } from '@grafana/data';
 import { MyDataSourceOptions, MySecureJsonData } from '../types';
 import { SERVICES } from '../tc_monitor';
-import { t, setLanguage, Language } from '../../locale'
+import { t, setLanguage, Language } from '../../locale';
 const { SecretFormField } = LegacyForms;
 
 type Props = DataSourcePluginOptionsEditorProps<MyDataSourceOptions, MySecureJsonData>;
 
 interface State {
   monitorFilter: string;
-  isClsAlertVisiable: boolean,
+  isClsAlertVisiable: boolean;
 }
 
 export class ConfigEditor extends PureComponent<Props, State> {
@@ -20,7 +20,7 @@ export class ConfigEditor extends PureComponent<Props, State> {
       monitorFilter: '',
       isClsAlertVisiable: false,
     };
-    setLanguage(props.options.jsonData.language || Language.Chinese)
+    setLanguage(props.options.jsonData.language || Language.Chinese);
   }
 
   patchJsonData = (kv: Record<string, any>) => {
@@ -162,9 +162,12 @@ export class ConfigEditor extends PureComponent<Props, State> {
               <Select
                 value={jsonData.language || Language.Chinese}
                 className="width-10"
-                options={[{ value: Language.English, label: 'English' }, { value: Language.Chinese, label: '简体中文' }]}
+                options={[
+                  { value: Language.English, label: 'English' },
+                  { value: Language.Chinese, label: '简体中文' },
+                ]}
                 onChange={(option: SelectableValue<Language>) => {
-                  setLanguage(option.value)
+                  setLanguage(option.value);
                   this.patchJsonData({
                     language: option.value,
                   });
@@ -213,13 +216,13 @@ export class ConfigEditor extends PureComponent<Props, State> {
           </InlineField>
         </InlineFieldRow>
       </div>
-    )
+    );
   }
 
   renderLogServiceConfig() {
     const { options } = this.props;
     const { jsonData } = options;
-    const { isClsAlertVisiable}  = this.state
+    const { isClsAlertVisiable } = this.state;
     return (
       <div style={{ marginTop: 30 }}>
         <h3 className="page-heading">Log Service</h3>
@@ -228,13 +231,14 @@ export class ConfigEditor extends PureComponent<Props, State> {
             <InlineSwitch
               value={jsonData.logServiceEnabled}
               onChange={(e) => {
-                const logServiceEnabled = e.currentTarget.checked
+                const logServiceEnabled = e.currentTarget.checked;
                 this.patchJsonData({
                   logServiceEnabled,
                 });
-                if(logServiceEnabled) this.setState({
-                  isClsAlertVisiable: true
-                })
+                if (logServiceEnabled)
+                  this.setState({
+                    isClsAlertVisiable: true,
+                  });
               }}
             />
           </InlineField>
