@@ -9,37 +9,37 @@ Hash: SHA512
   "signedByOrgName": "Tencent",
   "rootUrls": [],
   "plugin": "tencentcloud-monitor-app",
-  "version": "2.8.6",
-  "time": 1692173526048,
+  "version": "2.8.7",
+  "time": 1695630740058,
   "keyId": "7e4d0c6a708866e7",
   "files": {
     "datasource/config-editor/config.html": "110380b35165fcfcffa797ab6841e9621bf5135881fa5e94f5f316a0600b5796",
-    "datasource/tencentcloud-monitor-app-backend_darwin_amd64": "014b102aadb81e4883d70160a97cf47d0bc8144278a572c5400e6562f44b764c",
+    "datasource/tencentcloud-monitor-app-backend_darwin_amd64": "1acfc794655dce033facd533cb7d8107370be5aeee9fee8bfbdbe7305390a73a",
     "datasource/module.js.LICENSE.txt": "0d8f66cd4afb566cb5b7e1540c68f43b939d3eba12ace290f18abc4f4cb53ed0",
-    "datasource/tencentcloud-monitor-app-backend_linux_arm64": "b294c146e720b3b32c31a29f7f050289bbca4f5040a1ce82f3d4cb20171c312a",
-    "datasource/module.js.map": "00a4bb7b195676932d809bc380cc9f63d4b1655814c27390c0ca6967297a21fa",
+    "datasource/tencentcloud-monitor-app-backend_linux_arm64": "f3748d6fe745355586f11e75b439ce57fe7c67b94902e1937c76cbc91adc9115",
+    "datasource/module.js.map": "b900dc0862418817a2feb5102509595248ff4c2ae8d112bae7a318a5d9a955da",
     "datasource/plugin.json": "674e6482bf2c91afe44591bcbee6341bdf7a90d795186f7d58140b4a40a44c48",
     "datasource/img/tencent-cloud.svg": "572e1abf6d2a4be854845b55219e8d0661f79b325f0659b5439dddb37a304a8a",
-    "datasource/tencentcloud-monitor-app-backend_linux_arm": "d67866228c1dcdadbf537c5020579f95881f310ee48215e718925454fa773cdf",
+    "datasource/tencentcloud-monitor-app-backend_linux_arm": "a19847772ee084343404075ffd87221cb75efd53cfadf480724bffa2574e499e",
     "datasource/query-ctrl/partials/query.editor.html": "443d863f1d1c9295467da9a4290d16e9211699d034502b76605ebf41b61a4011",
-    "datasource/module.js": "aeeac3d0e129dae5cd13b881df63c23b02c9a86dcc78061112250ff40ba8a282",
-    "datasource/tencentcloud-monitor-app-backend_windows_amd64.exe": "73109bc2e2a20a5e4f00c1bd600310d86f866b25d306edb27c19290ec55ab82f",
-    "datasource/tencentcloud-monitor-app-backend_linux_amd64": "fca39eeca93cc713bf258acd8913d6294a14c520a7aa0d29b55575cf31f24d75",
-    "datasource/tencentcloud-monitor-app-backend_darwin_arm64": "436f0c75d79736b104007be1dce5b51707542518d079e4974b65c435c3b2071f",
+    "datasource/module.js": "16b20b44020a1be46f4bdf394d015b98126656e956c8a7d75a078f900265ff9b",
+    "datasource/tencentcloud-monitor-app-backend_windows_amd64.exe": "9195b39419d78ee0a04f9a52029975cc8a80b17cead65dcaa51b0954ba064da0",
+    "datasource/tencentcloud-monitor-app-backend_linux_amd64": "3d4b7c8d7f1444656201b9fea660a789f7e9191733646b18ef545360d430e234",
+    "datasource/tencentcloud-monitor-app-backend_darwin_arm64": "318d31c06d805696cfef3e68526f818b5c13260f5459de9af441f9b2f33f09cd",
     "LICENSE": "7d90d87fbfbc9369eb627fd38811e01dfd955d72269d5039e7c6119372baa1e3",
     "CHANGELOG.md": "0596a172e06ba90b28ef8887553a6e97320a3bd01f77d81e8b3face21c848163",
-    "module.js.map": "d52f6db4e8d4f2fbb82ebf1cdeed76adef4ea6b20c26dbf978488f3bbbf6644b",
+    "module.js.map": "54f2176724b36e6df30816e9e9450da8f564bc57f9a6ee4b22bbaa25a92a8a50",
     "image/datasource-config.png": "e31ceec33c6454f6335850791f9b35fc2be56a4e43dfc11a75435e16f025dc0f",
     "image/variable-region-config.png": "d46215b565d2b851855fb48bf7ee73ef696e3b8cfc671a376743faa39b193f3c",
     "image/variable-panel-query.png": "e17f91280df34695d7be10b3e355b6c91d4b43404243529dc7e75d1f9a8605fa",
     "image/variable-cvm-dashboard.png": "f97220e1230b83b0110f7e11468538b44c48d8b70906509f5153f8895ed02653",
-    "plugin.json": "530642075f5ddbc6f59c81e70ea5f9a0b3ffc1f6895710b6c16de54537f9f725",
+    "plugin.json": "e966862f3990a8417e105249d33737a199f623991558b336fe172eb1ba08b368",
     "README.md": "6510f9156c1d9198895cb8dcce1f137ac88292d0ce922c5f31bbb19af76e78c6",
     "img/tencent-cloud.svg": "572e1abf6d2a4be854845b55219e8d0661f79b325f0659b5439dddb37a304a8a",
-    "components/config.js": "9b7fa378e0e995486f5d1ee55ed108c412438f750a98ec82592df1e8d0177507",
-    "components/config.js.map": "b82ac49248b25a97ad9fb0d9e67856da5f5e6e430d7d7ef301fdd09a057955e9",
+    "components/config.js": "04a3f1169172cc254e0c8c7ed69a93dd79aa2a29b7259cf20d72b51e8188a18b",
+    "components/config.js.map": "eee23389086e4295ec2227034c2478fb750cca144cc88ccf5878168bdd420c05",
     "components/config.html": "851e7cf915df590befbe6a56bf9bf4a17083de46ef93246a0bc6214d7be13464",
-    "module.js": "7f5fa045df7d48411a191e9a0a24a088595ca652897572635486df4c44e5c867",
+    "module.js": "468a0dfa51bc464453f925eec60a869ecb8338529c2342c05a5ce7d037eaae2f",
     "dashboards/example_redis_mem_en_dashboard.json": "66bde7943e04a3a42048535206d273c303e345a6bf5d57e6a1bc818e8799d360",
     "dashboards/example_logService_clb_en_dashboard.json": "c6545c6b884ed84851d0e933badcd79a55fc85c2baf8487135f63b1105083fa2",
     "dashboards/example_lb_dashboard.json": "9884b63f52a1564a57edf79626dfee97f0e0e80bcaa321cffcf747054204ca43",
@@ -80,10 +80,10 @@ Hash: SHA512
 Version: OpenPGP.js v4.10.10
 Comment: https://openpgpjs.org
 
-wrkEARMKAAYFAmTchNYAIQkQfk0ManCIZucWIQTzOyW2kQdOhGNlcPN+TQxq
-cIhm5/4/AgkBEuoIpWKevOiLARbyrzLDa4eztImvglb9WNLJbnUhFmPrL40n
-qijUSzoCoPwEyfb5xhVf5w9gq9k4YFP2tjmvq7ACCQHHY9ju7c1Y2JNLNc/+
-nnqfX8lHyrll/1kX4ZUozf4pyz01fJe0mBC2J8wlYtHXsowThqYsNzuCeUIm
-IS2zEV91xA==
-=pH9Q
+wrgEARMKAAYFAmURRZQAIQkQfk0ManCIZucWIQTzOyW2kQdOhGNlcPN+TQxq
+cIhm5+5oAgiNvWPoDc6wZuZxZJeo/1W4AEj/zBn84WuCh+QbYJB8FjOpZ9Ht
+JTLNpIbVPwUfclviiatuJSvJC2EwHF8dsaUbHwIJAZVZksguc7H0A28TbX3F
+L7PGNVzn2hGRaXOFeNZB4ZHKFPV7Kj9I8hjRLbXl5ytgobsnl4q5APc7SAmG
+XnM2PEDT
+=86Xb
 -----END PGP SIGNATURE-----

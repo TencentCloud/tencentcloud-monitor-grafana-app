@@ -1,6 +1,11 @@
 # TencentCloud Monitor Grafana App---
 
 
+## [2.8.7] - 2023-09-25
+### Modify
+- ckafaka获取topic接口修正&tdmq接口返回字段调整
+- 其他已知问题修复
+
 ## [2.8.4] - 2023-04-04
 ### Modify
 - waf查询实例接口问题修复

@@ -59,6 +59,23 @@ export default class CKFKADatasource extends BaseDatasource {
         _.pick(params, 'InstanceId'),
         ['GroupListForMonitor', 'TopicListForMonitor', 'PartitionListForMonitor', 'GroupList']
       );
+      // topick数据从DescribeTopic
+      const topicList = await fetchAllFactory(
+        (data) => {
+          return this.doRequest(
+            {
+              url: this.url + serviceInfo.path,
+              data,
+            },
+            serviceInfo.service,
+            { region, action: 'DescribeTopic' }
+          );
+        },
+        _.pick(params, 'InstanceId'),
+        ['TopicList']
+      );
+      consumerGoup[1] = topicList;
+      console.log({ consumerGoup, topicList });
       this.consumerGroupCache[InstanceId] = consumerGoup;
     }
 

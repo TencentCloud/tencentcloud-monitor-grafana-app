@@ -33,13 +33,13 @@ export default class TDMQDatasource extends BaseDatasource {
       service: 'tdmq',
       action: 'DescribeTopics',
       responseField: 'TopicSets',
-      pickKey: 'topicName',
+      pickKey: 'TopicName',
     },
     DescribeEnvironments: {
       service: 'tdmq',
       action: 'DescribeEnvironments',
       responseField: 'EnvironmentSet',
-      pickKey: 'environmentId',
+      pickKey: 'EnvironmentId',
     },
   };
   constructor(instanceSettings, backendSrv, templateSrv) {

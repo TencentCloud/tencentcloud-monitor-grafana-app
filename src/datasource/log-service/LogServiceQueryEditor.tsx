@@ -128,11 +128,11 @@ const MaxResultNumInput: FC<MaxResultNumInputProps> = React.memo((props) => {
   );
 
   return (
-    // @ts-ignore  这里报error属性不存在，但应该是存在的。
     <InlineField
       label={t('max_result_num')}
       labelWidth={20}
       invalid={value < min || value > max}
+      // @ts-ignore  这里报error属性不存在，但应该是存在的。
       error="仅支持返回1～1000条日志"
     >
       <Input
