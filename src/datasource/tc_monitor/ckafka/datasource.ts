@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import _, { flattenDeep } from 'lodash';
 import { GetServiceAPIInfo } from '../../common/constants';
 import { fetchAllFactory } from '../../common/utils';
 import { BaseDatasource } from '../_base/datasource';
@@ -74,7 +74,7 @@ export default class CKFKADatasource extends BaseDatasource {
         _.pick(params, 'InstanceId'),
         ['TopicList']
       );
-      consumerGoup[1] = topicList;
+      consumerGoup[1] = flattenDeep(topicList);
       console.log({ consumerGoup, topicList });
       this.consumerGroupCache[InstanceId] = consumerGoup;
     }
