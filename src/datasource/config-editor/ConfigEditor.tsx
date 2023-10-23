@@ -191,6 +191,7 @@ export class ConfigEditor extends PureComponent<Props, State> {
         </div>
 
         {this.renderRUMConfig()}
+        {this.renderAPMConfig()}
         {this.renderLogServiceConfig()}
         {this.renderMonitorConfig()}
       </>
@@ -210,6 +211,28 @@ export class ConfigEditor extends PureComponent<Props, State> {
               onChange={(e) => {
                 this.patchJsonData({
                   RUMServiceEnabled: e.currentTarget.checked,
+                });
+              }}
+            />
+          </InlineField>
+        </InlineFieldRow>
+      </div>
+    );
+  }
+
+  renderAPMConfig() {
+    const { options } = this.props;
+    const { jsonData } = options;
+    return (
+      <div style={{ marginTop: 30 }}>
+        <h3 className="page-heading">APM Monitoring</h3>
+        <InlineFieldRow>
+          <InlineField labelWidth={40} label={t('APM')}>
+            <InlineSwitch
+              value={jsonData.APMServiceEnabled}
+              onChange={(e) => {
+                this.patchJsonData({
+                  APMServiceEnabled: e.currentTarget.checked,
                 });
               }}
             />

@@ -1,13 +1,13 @@
 import React from 'react';
 import { SelectableValue } from '@grafana/data';
 import { Seg } from './Seg';
-import { RUMQueryTag } from '../types';
+import { APMQueryTag } from '../types';
 import { toSelectableValue } from '../common/toSelectableValue';
 import { adjustOperatorIfNeeded, getCondition, getOperator } from '../common/tagUtils';
 import { AddButton } from './AddButton';
 
-type KnownOperator = '=' | '!=' | '<>' | '<' | '>' | '=~' | '!~';
-const knownOperators: KnownOperator[] = ['=', '!=', '<>', '<', '>', '=~', '!~'];
+type KnownOperator = '=' | '!=' | '<>' | '<' | '>' | '=~' | '!~' | 'in';
+const knownOperators: KnownOperator[] = ['=', '!=', '<>', '<', '>', '=~', '!~', 'in'];
 
 type KnownCondition = 'AND' | 'OR';
 const knownConditions: KnownCondition[] = ['AND', 'OR'];
@@ -16,17 +16,17 @@ const operatorOptions: Array<SelectableValue<KnownOperator>> = knownOperators.ma
 const condititonOptions: Array<SelectableValue<KnownCondition>> = knownConditions.map(toSelectableValue);
 
 interface Props {
-  tags: RUMQueryTag[];
-  onChange: (tags: RUMQueryTag[]) => void;
+  tags: APMQueryTag[];
+  onChange: (tags: APMQueryTag[]) => void;
   getTagKeyOptions: () => Promise<string[]>;
   getTagValueOptions: (key: string) => Promise<string[]>;
 }
 
 interface TagProps {
-  tag: RUMQueryTag;
+  tag: APMQueryTag;
   isFirst: boolean;
   onRemove: () => void;
-  onChange: (tag: RUMQueryTag) => void;
+  onChange: (tag: APMQueryTag) => void;
   getTagKeyOptions: () => Promise<string[]>;
   getTagValueOptions: (key: string) => Promise<string[]>;
 }
@@ -106,7 +106,7 @@ const Tag = ({ tag, isFirst, onRemove, onChange, getTagKeyOptions, getTagValueOp
 };
 
 export const TagsSection = ({ tags, onChange, getTagKeyOptions, getTagValueOptions }: Props): JSX.Element => {
-  const onTagChange = (newTag: RUMQueryTag, index: number) => {
+  const onTagChange = (newTag: APMQueryTag, index: number) => {
     const newTags = tags.map((tag, i) => {
       return index === i ? newTag : tag;
     });
@@ -123,12 +123,12 @@ export const TagsSection = ({ tags, onChange, getTagKeyOptions, getTagValueOptio
   };
 
   const addNewTag = (tagKey: string, isFirst: boolean) => {
-    const minimalTag: RUMQueryTag = {
+    const minimalTag: APMQueryTag = {
       key: tagKey,
       value: 'select tag value',
     };
 
-    const newTag: RUMQueryTag = {
+    const newTag: APMQueryTag = {
       key: minimalTag.key,
       value: minimalTag.value,
       operator: getOperator(minimalTag),

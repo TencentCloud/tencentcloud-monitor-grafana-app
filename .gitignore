@@ -20,3 +20,5 @@ coverage/
 
 # Grafana plugin files
 tencentcloud-monitor-app-*.zip
+
+dist

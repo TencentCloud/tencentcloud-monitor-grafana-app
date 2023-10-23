@@ -12,6 +12,7 @@ const zh_CN = {
   edge_computing_machine: '边缘计算机器',
   // namespace
   RUM: '前端性能监控(RUM)',
+  APM: '应用性能监控(APM)',
   CLS: '日志服务(CLS)',
   CVM: '云服务器(CVM)',
   CDB: '云数据库 MySQL(CDB)',
@@ -71,6 +72,7 @@ const zh_CN = {
   cloud_monitor: '云监控',
   cloud_log_service: '日志服务',
   real_user_monitoring: '前端性能监控',
+  apm_monitoring: '应用性能监控',
   region: '地域',
   log_topic: '日志主题',
   syntax_rule: '语法规则',

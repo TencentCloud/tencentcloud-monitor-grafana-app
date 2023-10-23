@@ -285,6 +285,12 @@ const SERVICES_API_INFO = {
     path: '/region',
     host: 'region.tencentcloudapi.com',
   },
+  apm: {
+    service: 'apm',
+    version: '2021-06-22',
+    path: '/apm',
+    host: 'apm.tencentcloudapi.com',
+  },
   // 不单独定义lb，因为lb同样用的是vpc的配置，同上
   // lb: {
   //   service: 'lb',
@@ -635,6 +641,7 @@ export async function GetRequestParams(options, service, signObj: any = {}, secr
     ...(_.pick(GetServiceAPIInfo(signObj.region || '', service), ['service', 'host', 'version']) || {}),
     backendSrv,
     datasourceId,
+    region: 'ap-guangzhou',
   };
   const sign = new Sign(signParams);
   const { intranet, ...headerSigned } = await sign.getHeader();

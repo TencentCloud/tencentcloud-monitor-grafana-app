@@ -1,6 +1,6 @@
 import { DataSourceJsonData } from '@grafana/data';
 
-export interface RUMOptions extends DataSourceJsonData {
+export interface APMOptions extends DataSourceJsonData {
   timeInterval?: string;
   httpMode?: string;
 
@@ -11,27 +11,27 @@ export interface RUMOptions extends DataSourceJsonData {
 
 export type ResultFormat = 'time_series' | 'table' | 'logs';
 
-export interface RUMQueryPart {
+export interface APMQueryPart {
   type: string;
   params?: Array<string | number>;
   interval?: string;
 }
 
-export interface RUMQueryTag {
+export interface APMQueryTag {
   key: string;
   operator?: string;
   condition?: string;
   value: string;
 }
 
-export interface RUMQuery {
+export interface APMQuery {
   policy?: string;
   measurement?: string;
   resultFormat?: ResultFormat;
   orderByTime?: string;
-  tags?: RUMQueryTag[];
-  groupBy?: RUMQueryPart[];
-  select?: RUMQueryPart[][];
+  tags?: APMQueryTag[];
+  groupBy?: APMQueryPart[];
+  select?: APMQueryPart[][];
   limit?: string | number;
   slimit?: string | number;
   tz?: string;
@@ -42,4 +42,7 @@ export interface RUMQuery {
   rawQuery?: boolean;
   query?: string;
   alias?: string;
+  custom?: string;
+  orderBy?: string;
+  orderType?: string;
 }

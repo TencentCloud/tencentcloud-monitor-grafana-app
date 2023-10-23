@@ -6,6 +6,7 @@ const (
 	ServiceTypeMonitor    ServiceType = "monitor"
 	ServiceTypeLogService ServiceType = "logService"
 	ServiceTypeRUMService ServiceType = "RUMService"
+  ServiceTypeAPMService ServiceType = "APMService"
 )
 
 type QueryModel struct {

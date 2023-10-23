@@ -15,7 +15,7 @@ export class QueryCtrl {
       $scope.onRefresh();
     };
     $scope.onInstanceChange = (n, o) => {
-      if(isTargetEqual(n,o,'InstanceId')) return;
+      if (isTargetEqual(n, o, 'InstanceId')) return;
       $scope.target.listener = '';
       $scope.target.servers = '';
       $scope.target.serverPort = '';

@@ -62,13 +62,13 @@ export const RUMServiceQueryEditor: FC<Props> = React.memo((props: Props) => {
 
   const styles = useStyles(getStyles);
 
-  const { datasource, onChange, query: queryInfo  } = props;
+  const { datasource, onChange, query: queryInfo } = props;
   const query = normalizeQuery(queryInfo.RUMServiceParams || clone(defaultQueryInfo.RUMServiceParams));
   const { measurement, policy } = query;
 
   useEffect(() => {
     if (!queryInfo.RUMServiceParams) {
-      onChange({ ...queryInfo, RUMServiceParams: clone(defaultQueryInfo.RUMServiceParams) })
+      onChange({ ...queryInfo, RUMServiceParams: clone(defaultQueryInfo.RUMServiceParams) });
     }
   }, [onChange, queryInfo]);
 

@@ -1,5 +1,11 @@
 import _ from 'lodash';
-import { CDBInstanceAliasList, CDBInvalidDemensions, isValidMetric, modifyDimensons, templateQueryIdMap } from './query_def';
+import {
+  CDBInstanceAliasList,
+  CDBInvalidDemensions,
+  isValidMetric,
+  modifyDimensons,
+  templateQueryIdMap,
+} from './query_def';
 import { GetServiceAPIInfo } from '../../common/constants';
 import { BaseDatasource } from '../_base/datasource';
 
@@ -55,6 +61,6 @@ export default class CDBDatasource extends BaseDatasource {
     return {
       [templateQueryIdMap.instance]: ins,
       InstanceType: 1,
-    }
+    };
   }
 }

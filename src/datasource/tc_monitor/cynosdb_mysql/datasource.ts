@@ -57,6 +57,6 @@ export default class CYNOSDBMYSQLDatasource extends BaseDatasource {
   getDefaultInsObj(ins: string) {
     return {
       [templateQueryIdMap.instance]: ins,
-    }
+    };
   }
 }

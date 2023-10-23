@@ -1,9 +1,4 @@
-import {
-  TCAPLUSInstanceAliasList,
-  TCAPLUSInvalidDemensions,
-  namespace,
-  templateQueryIdMap,
-} from './query_def';
+import { TCAPLUSInstanceAliasList, TCAPLUSInvalidDemensions, namespace, templateQueryIdMap } from './query_def';
 import { BaseDatasource } from '../_base/datasource';
 import _ from 'lodash';
 import { t } from '../../../locale';

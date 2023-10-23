@@ -26,7 +26,7 @@ export const ENABLE_MEASUREMENTS: Array<string> = [
   'performance_project_statistics',
   'static_url_source',
   'static_resource_statistics',
-  'static_project_statistics', 
+  'static_project_statistics',
   'webvitals_page_statistics',
   'webvitals_project_statistics',
-]
+];

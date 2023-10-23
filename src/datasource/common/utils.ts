@@ -123,14 +123,14 @@ export function serviceGroupBy(
 }
 
 export const isTargetEqual = (newTargetString: string, oldTargetString: string, key: string) => {
-  try{
+  try {
     const newTarget = JSON.parse(newTargetString);
     const oldTarget = JSON.parse(oldTargetString);
     return newTarget[key] === oldTarget[key];
-  }catch(e){
+  } catch (e) {
     return newTargetString === oldTargetString;
   }
-}
+};
 
 export const getTimeShiftInMs = (timeShift: any) => {
   const parts = /^(\d+)([d|h|m|s])$/.exec(timeShift);
@@ -150,4 +150,4 @@ export const getTimeShiftInMs = (timeShift: any) => {
       return amount * 1000;
   }
   return 0;
-}
+};

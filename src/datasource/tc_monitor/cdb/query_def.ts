@@ -235,7 +235,7 @@ const CDBFieldsDescriptor = [
     link: 'https://cloud.tencent.com/document/product/378/4400',
     type: 'input',
   },
-  { 
+  {
     key: 'SecurityGroupId',
     enDescriptor: 'Security Group ID',
     cnDescriptor: '安全组ID',

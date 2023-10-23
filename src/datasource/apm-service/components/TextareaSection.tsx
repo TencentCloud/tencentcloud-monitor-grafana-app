@@ -1,17 +1,16 @@
 import React from 'react';
 import { cx } from 'emotion';
-import { Input } from '@grafana/ui';
+import { TextArea } from '@grafana/ui';
 import { useShadowedState } from '../common/useShadowedState';
 import { paddingRightClass } from './styles';
 
 interface Props {
   value: string | undefined;
   onChange: (value: string | undefined) => void;
-  isWide?: boolean;
   placeholder?: string;
 }
 
-export const InputSection = ({ value, onChange, isWide, placeholder }: Props): JSX.Element => {
+export const TextareaSection = ({ value, onChange, placeholder }: Props): JSX.Element => {
   const [currentValue, setCurrentValue] = useShadowedState(value);
 
   const onBlur = () => {
@@ -21,9 +20,9 @@ export const InputSection = ({ value, onChange, isWide, placeholder }: Props): J
   };
 
   return (
-    <Input
+    <TextArea
       placeholder={placeholder}
-      className={cx(isWide ?? false ? 'width-14' : 'width-8', paddingRightClass)}
+      className={cx(paddingRightClass)}
       type="text"
       spellCheck={false}
       onBlur={onBlur}

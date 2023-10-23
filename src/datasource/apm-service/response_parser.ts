@@ -3,7 +3,7 @@ import { toDataQueryResponse } from '@grafana/runtime';
 import TableModel from 'grafana/app/core/table_model';
 import { each, flatten, groupBy, isArray } from 'lodash';
 import { ENABLE_MEASUREMENTS } from './common/constants';
-import { RUMQuery } from './types';
+import { APMQuery } from './types';
 
 export default class ResponseParser {
   parse(query: string, results: { results: any }) {
@@ -11,8 +11,8 @@ export default class ResponseParser {
       return [];
     }
 
-    const RUMResults = results.results[0];
-    if (!RUMResults.series) {
+    const APMResults = results.results[0];
+    if (!APMResults.series) {
       return [];
     }
 
@@ -22,7 +22,7 @@ export default class ResponseParser {
     const isShowMeasurements = normalizedQuery.indexOf('show measurements') >= 0;
 
     const res = new Set<string>();
-    each(RUMResults.series, (serie) => {
+    each(APMResults.series, (serie) => {
       each(serie.values, (value) => {
         if (isArray(value)) {
           // In general, there are 2 possible shapes for the returned value.
@@ -59,7 +59,7 @@ export default class ResponseParser {
     return Array.from(res).map((v) => ({ text: v }));
   }
 
-  getTable(dfs: DataFrame[], target: RUMQuery, meta: QueryResultMeta): TableModel {
+  getTable(dfs: DataFrame[], target: APMQuery, meta: QueryResultMeta): TableModel {
     let table = new TableModel();
 
     if (dfs.length > 0) {
@@ -91,7 +91,7 @@ export default class ResponseParser {
     return table;
   }
 
-  async transformAnnotationResponse(options: any, data: any, target: RUMQuery): Promise<AnnotationEvent[]> {
+  async transformAnnotationResponse(options: any, data: any, target: APMQuery): Promise<AnnotationEvent[]> {
     const rsp = toDataQueryResponse(data, [target] as DataQuery[]);
 
     if (rsp) {
@@ -168,7 +168,7 @@ function colContainsTag(colText: string, tagsColumn: string): boolean {
   return false;
 }
 
-function getTableCols(dfs: DataFrame[], table: TableModel, target: RUMQuery): TableModel {
+function getTableCols(dfs: DataFrame[], table: TableModel, target: APMQuery): TableModel {
   const selectedParams = getSelectedParams(target);
 
   dfs[0].fields.forEach((field) => {
@@ -220,7 +220,7 @@ function getTableRows(dfs: DataFrame[], table: TableModel, labels: string[]): Ta
   return table;
 }
 
-export function getSelectedParams(target: RUMQuery): string[] {
+export function getSelectedParams(target: APMQuery): string[] {
   let allParams: string[] = [];
   target.select?.forEach((select) => {
     const selector = select.filter((x) => x.type !== 'field');

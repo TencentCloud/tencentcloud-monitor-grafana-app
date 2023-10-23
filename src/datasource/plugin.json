@@ -1283,6 +1283,16 @@
       ]
     },
     {
+      "path": "apm",
+      "url": "https://apm.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
+    },
+    {
       "path": "tke",
       "url": "https://tke.tencentcloudapi.com",
       "headers": [

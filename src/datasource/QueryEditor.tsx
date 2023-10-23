@@ -6,6 +6,7 @@ import { MyDataSourceOptions, QueryInfo, ServiceType, ServiceTypeOptions } from 
 import { Alert, Tab, TabContent, TabsBar } from '@grafana/ui';
 import { LogServiceQueryEditor } from './log-service/LogServiceQueryEditor';
 import { RUMServiceQueryEditor } from './rum-service/RUMServiceQueryEditor';
+import { APMServiceQueryEditor } from './apm-service/APMServiceQueryEditor';
 import { DataSource } from './DataSource';
 import { setLanguage, Language } from '../locale';
 import { CoreApp } from './common/constants';
@@ -63,10 +64,12 @@ export class QueryEditor extends PureComponent<Props> {
     const monitorEnabled = datasource?.monitorDataSource.getNamespaces().length > 0;
     const logServiceEnabled = Boolean(datasource?.instanceSettings.jsonData['logServiceEnabled']);
     const RUMServiceEnabled = Boolean(datasource?.instanceSettings.jsonData['RUMServiceEnabled']);
+    const APMServiceEnabled = Boolean(datasource?.instanceSettings.jsonData['APMServiceEnabled']);
     return [
       monitorEnabled && ServiceType.monitor,
       logServiceEnabled && ServiceType.logService,
       RUMServiceEnabled && ServiceType.RUMService,
+      APMServiceEnabled && ServiceType.APMService,
     ].filter(Boolean);
   }
 
@@ -96,6 +99,7 @@ export class QueryEditor extends PureComponent<Props> {
           {queryInfo.serviceType === ServiceType.monitor && this.renderMonitorQueryEditor()}
           {queryInfo.serviceType === ServiceType.logService && this.renderLogServiceQueryEditor()}
           {queryInfo.serviceType === ServiceType.RUMService && this.renderRUMServiceQueryEditor()}
+          {queryInfo.serviceType === ServiceType.APMService && this.renderAPMServiceQueryEditor()}
         </TabContent>
         {isAlertVisiable && <Alert title="目前仅 CLS日志服务 数据源支持告警" />}
       </div>
@@ -119,6 +123,12 @@ export class QueryEditor extends PureComponent<Props> {
     const { query, onChange, onRunQuery, datasource } = this.props;
     return (
       <RUMServiceQueryEditor query={query} onChange={onChange} onRunQuery={onRunQuery} datasource={datasource as any} />
+    );
+  }
+  renderAPMServiceQueryEditor() {
+    const { query, onChange, onRunQuery, datasource } = this.props;
+    return (
+      <APMServiceQueryEditor query={query} onChange={onChange} onRunQuery={onRunQuery} datasource={datasource as any} />
     );
   }
 }

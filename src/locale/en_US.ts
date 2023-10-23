@@ -71,6 +71,7 @@ const en_US = {
   cloud_monitor: 'Cloud Monitor',
   cloud_log_service: 'Cloud Log Service',
   real_user_monitoring: 'Real User Monitoring',
+  apm_monitoring: 'Application Monitoring',
   region: 'Region',
   log_topic: 'Log Topic',
   syntax_rule: 'Syntax Rule',

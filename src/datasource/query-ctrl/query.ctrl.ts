@@ -9,7 +9,7 @@ import './components/custom_select_dropdown';
 import './components/cascader';
 import './css/query_editor.css';
 import { editorHtml } from './partials/queryEditorTemplate';
-import { t, getLanguage, Language } from '../../locale'
+import { t, getLanguage, Language } from '../../locale';
 export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
   // static templateUrl = 'datasource/partials/query.editor.html';
   static template = editorHtml;
@@ -407,9 +407,9 @@ export class TCMonitorDatasourceQueryCtrl extends QueryCtrl {
     return !this.isVariable(field) && this.target.showInstanceDetails;
   }
   getTimeDesc() {
-    return `${t('time_unit')}: ${t('seconds')}`
+    return `${t('time_unit')}: ${t('seconds')}`;
   }
   getSearchDesc() {
-    return t('search_description')
+    return t('search_description');
   }
 }

@@ -1,7 +1,7 @@
-import { RUMQuery, RUMQueryPart } from '../types';
+import { APMQuery, APMQueryPart } from '../types';
 import { SelectableValue } from '@grafana/data';
 import { PartParams } from '../components/PartListSection';
-import RUMQueryModel from '../RUM_query_model';
+import APMQueryModel from '../APM_query_model';
 import { unwrap } from './unwrap';
 import queryPart, { QueryPartDef } from '../query_part';
 import { toSelectableValue } from './toSelectableValue';
@@ -27,12 +27,12 @@ export function getNewSelectPartOptions(): SelectableValue[] {
 }
 
 export async function getNewGroupByPartOptions(
-  query: RUMQuery,
+  query: APMQuery,
   getTagKeys: () => Promise<string[]>
 ): Promise<Array<SelectableValue<string>>> {
   const tagKeys = await getTagKeys();
   const queryCopy = { ...query }; // the query-model mutates the query
-  const model = new RUMQueryModel(queryCopy);
+  const model = new APMQueryModel(queryCopy);
   const options: Array<SelectableValue<string>> = [];
   if (!model.hasFill()) {
     options.push(toSelectableValue('fill(null)'));
@@ -51,7 +51,7 @@ interface Part {
   params: PartParams;
 }
 
-function getPartParams(part: RUMQueryPart, dynamicParamOptions: Map<string, () => Promise<string[]>>): PartParams {
+function getPartParams(part: APMQueryPart, dynamicParamOptions: Map<string, () => Promise<string[]>>): PartParams {
   // NOTE: the way the system is constructed,
   // there always can only be one possible dynamic-lookup
   // field. in case of select it is the field,
@@ -90,7 +90,7 @@ function getPartParams(part: RUMQueryPart, dynamicParamOptions: Map<string, () =
 }
 
 export function makePartList(
-  queryParts: RUMQueryPart[],
+  queryParts: APMQueryPart[],
   dynamicParamOptions: Map<string, () => Promise<string[]>>
 ): Part[] {
   return queryParts.map((qp) => {

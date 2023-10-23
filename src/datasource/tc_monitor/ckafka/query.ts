@@ -31,7 +31,7 @@ export class CKAFKAQueryCtrl {
       }
     };
     $scope.onInstanceChange = (n, o) => {
-      if(isTargetEqual(n,o,'LoadBalancerId')) return;
+      if (isTargetEqual(n, o, 'LoadBalancerId')) return;
       $scope.target.consumerGroup = '';
       $scope.target.topicId = '';
       $scope.target.topicName = '';

@@ -1,13 +1,13 @@
 import { map, find, filter, indexOf, cloneDeep } from 'lodash';
 import queryPart from './query_part';
 import kbn from 'grafana/app/core/utils/kbn';
-import { RUMQuery, RUMQueryTag } from './types';
+import { APMQuery, APMQueryTag } from './types';
 import { ScopedVars } from '@grafana/data';
 import { TemplateSrv } from '@grafana/runtime';
 import { defaultQueryInfo } from '../types';
 
-export default class RUMQueryModel {
-  target: RUMQuery;
+export default class APMQueryModel {
+  target: APMQuery;
   selectModels: any[] = [];
   queryBuilder: any;
   groupByParts: any;
@@ -16,17 +16,18 @@ export default class RUMQueryModel {
   refId?: string;
 
   /** @ngInject */
-  constructor(target: RUMQuery, templateSrv?: TemplateSrv, scopedVars?: ScopedVars) {
+  constructor(target: APMQuery, templateSrv?: TemplateSrv, scopedVars?: ScopedVars) {
     this.target = target;
     this.templateSrv = templateSrv;
     this.scopedVars = scopedVars;
 
-    target.policy = target.policy || defaultQueryInfo.RUMServiceParams.policy;
-    target.resultFormat = target.resultFormat || defaultQueryInfo.RUMServiceParams.resultFormat;
-    target.orderByTime = target.orderByTime || defaultQueryInfo.RUMServiceParams.orderByTime;
-    target.tags = target.tags || cloneDeep(defaultQueryInfo.RUMServiceParams.tags);
-    target.groupBy = target.groupBy || cloneDeep(defaultQueryInfo.RUMServiceParams.groupBy);
-    target.select = target.select || cloneDeep(defaultQueryInfo.RUMServiceParams.select);
+    target.policy = target.policy || defaultQueryInfo.APMServiceParams.policy;
+    target.resultFormat = target.resultFormat || defaultQueryInfo.APMServiceParams.resultFormat;
+    target.orderBy = target.orderBy || defaultQueryInfo.APMServiceParams.orderBy;
+    target.orderType = target.orderType || defaultQueryInfo.APMServiceParams.orderType;
+    target.tags = target.tags || cloneDeep(defaultQueryInfo.APMServiceParams.tags);
+    target.groupBy = target.groupBy || cloneDeep(defaultQueryInfo.APMServiceParams.groupBy);
+    target.select = target.select || cloneDeep(defaultQueryInfo.APMServiceParams.select);
 
     this.updateProjection();
   }
@@ -181,18 +182,23 @@ export default class RUMQueryModel {
     let query = 'select ';
     let i;
     let y;
-    for (i = 0; i < this.selectModels.length; i++) {
-      const parts = this.selectModels[i];
-      let selectText = '';
-      for (y = 0; y < parts.length; y++) {
-        const part = parts[y];
-        selectText = part.render(selectText);
-      }
+    // 自定义特殊处理
+    if (this.selectModels[0][1]?.part.type === 'custom') {
+      query += this.selectModels[0][0].params[0];
+    } else {
+      for (i = 0; i < this.selectModels?.length; i++) {
+        const parts = this.selectModels[i];
+        let selectText = '';
+        for (y = 0; y < parts.length; y++) {
+          const part = parts[y];
+          selectText = part.render(selectText);
+        }
 
-      if (i > 0) {
-        query += ', ';
+        if (i > 0) {
+          query += ', ';
+        }
+        query += selectText;
       }
-      query += selectText;
     }
 
     query += ' from ' + this.getMeasurementAndPolicy(interpolate) + ' where ';
@@ -207,8 +213,13 @@ export default class RUMQueryModel {
     query += '$timeFilter';
 
     let groupBySection = '';
-    for (i = 0; i < this.groupByParts.length; i++) {
-      const part = this.groupByParts[i];
+    const len = this.groupByParts.length;
+    let groupByParts = this.groupByParts;
+    if (len > 2) {
+      groupByParts = this.groupByParts.filter((item) => item.def.type !== 'time');
+    }
+    for (i = 0; i < groupByParts.length; i++) {
+      const part = groupByParts[i];
       if (i > 0) {
         // for some reason fill has no separator
         groupBySection += part.def.type === 'fill' ? ' ' : ', ';
@@ -223,9 +234,11 @@ export default class RUMQueryModel {
     if (target.fill) {
       query += ' fill(' + target.fill + ')';
     }
-
-    if (target.orderByTime === 'DESC') {
-      query += ' order by time desc';
+    if (target.orderType) {
+      query += ' order by ' + target.orderType;
+    }
+    if (target.orderBy) {
+      query += ' ' + target.orderBy;
     }
 
     if (target.limit) {
@@ -250,7 +263,7 @@ export default class RUMQueryModel {
     return conditions.join(' ');
   }
 
-  private renderTagCondition(tag: RUMQueryTag, index: number, interpolate?: boolean) {
+  private renderTagCondition(tag: APMQueryTag, index: number, interpolate?: boolean) {
     // FIXME: merge this function with query_builder/renderTagCondition
     let str = '';
     let operator = tag.operator;
@@ -274,6 +287,9 @@ export default class RUMQueryModel {
       }
       if (operator !== '>' && operator !== '<') {
         value = "'" + value.replace(/\\/g, '\\\\').replace(/\'/g, "\\'") + "'";
+      }
+      if (operator === 'in') {
+        value = '(' + value + ')';
       }
     } else if (interpolate) {
       value = this.templateSrv.replace(value, this.scopedVars, 'regex');

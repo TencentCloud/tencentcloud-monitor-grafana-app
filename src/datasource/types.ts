@@ -1,6 +1,7 @@
 /** 此文件放置通用业务的配置项，用于区分业务类型 */
 import { DataQuery, DataSourceJsonData } from '@grafana/data';
 import { RUMQuery } from './rum-service/types';
+import { APMQuery } from './apm-service/types';
 import { t, Language } from '../locale';
 import { SearchSyntaxRule } from './log-service/common/constants';
 
@@ -8,6 +9,7 @@ export const enum ServiceType {
   monitor = 'monitor',
   logService = 'logService',
   RUMService = 'RUMService',
+  APMService = 'APMService',
 }
 
 export const ServiceTypeOptions = [
@@ -29,6 +31,12 @@ export const ServiceTypeOptions = [
       return t('real_user_monitoring');
     },
   },
+  {
+    value: ServiceType.APMService,
+    get label() {
+      return t('apm_monitoring');
+    },
+  },
 ];
 
 export interface QueryInfo extends DataQuery {
@@ -42,6 +50,7 @@ export interface QueryInfo extends DataQuery {
     MaxResultNum?: number;
   };
   RUMServiceParams?: RUMQuery;
+  APMServiceParams?: APMQuery;
 }
 
 export const defaultQueryInfo: Omit<QueryInfo, 'refId'> = {
@@ -80,6 +89,35 @@ export const defaultQueryInfo: Omit<QueryInfo, 'refId'> = {
       ],
     ],
   },
+  APMServiceParams: {
+    policy: 'default',
+    resultFormat: 'time_series',
+    orderType: 'time',
+    orderBy: 'ASC',
+    tags: [],
+    groupBy: [
+      {
+        type: 'time',
+        params: ['$__interval'],
+      },
+      {
+        type: 'fill',
+        params: ['null'],
+      },
+    ],
+    select: [
+      [
+        {
+          type: 'field',
+          params: ['value'],
+        },
+        {
+          type: 'mean',
+          params: [],
+        },
+      ],
+    ],
+  },
 };
 
 /** QueryInfo的运行时版本，用于将query中的不合法字段进去移除，保证query是个QueryInfo类型的数据 */
@@ -94,6 +132,7 @@ export const queryInfoRuntime: Required<QueryInfo> = {
   serviceType: defaultQueryInfo.serviceType,
   logServiceParams: defaultQueryInfo.logServiceParams,
   RUMServiceParams: defaultQueryInfo.RUMServiceParams,
+  APMServiceParams: defaultQueryInfo.APMServiceParams,
 };
 
 /** 变量数据类型。字符场景为云监控配置，对象场景由内部字段决定 */
@@ -116,6 +155,8 @@ export interface MyDataSourceOptions extends DataSourceJsonData {
   // [product.service]?: boolean
   intranet?: boolean;
   language?: Language;
+  /** 控制是否开启APM监控 */
+  APMServiceEnabled?: boolean;
 }
 
 /**

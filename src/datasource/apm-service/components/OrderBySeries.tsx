@@ -5,9 +5,9 @@ import { unwrap } from '../common/unwrap';
 import { Select } from '@grafana/ui';
 import { paddingRightClass } from './styles';
 
-type Mode = 'ASC' | 'DESC';
+// type Mode = 'string';
 
-const OPTIONS: Array<SelectableValue<Mode>> = [
+const OPTIONS: Array<SelectableValue<string>> = [
   { label: 'ascending', value: 'ASC' },
   { label: 'descending', value: 'DESC' },
 ];
@@ -15,14 +15,14 @@ const OPTIONS: Array<SelectableValue<Mode>> = [
 const className = cx('width-9', paddingRightClass);
 
 interface Props {
-  value: Mode;
-  onChange: (value: Mode) => void;
+  value: string;
+  onChange: (value: string) => void;
   inputId?: string;
 }
 
-export const OrderByTimeSection = ({ value, onChange, inputId }: Props): JSX.Element => {
+export const OrderBySeries = ({ value, onChange, inputId }: Props): JSX.Element => {
   return (
-    <Select<Mode>
+    <Select<string>
       inputId={inputId}
       className={className}
       onChange={(v) => {

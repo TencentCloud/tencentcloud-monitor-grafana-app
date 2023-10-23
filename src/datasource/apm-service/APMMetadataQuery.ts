@@ -1,5 +1,5 @@
-import { RUMQueryTag } from './types';
-import { RUMQueryBuilder } from './query_builder';
+import { APMQueryTag } from './types';
+import { APMQueryBuilder } from './query_builder';
 import { ServiceType } from '../types';
 import { DataSource } from '../DataSource';
 
@@ -7,14 +7,14 @@ const runExploreQuery = (
   type: string,
   withKey: string | undefined,
   withMeasurementFilter: string | undefined,
-  target: { measurement: string | undefined; tags: RUMQueryTag[]; policy: string | undefined },
+  target: { measurement: string | undefined; tags: APMQueryTag[]; policy: string | undefined },
   datasource: DataSource
 ): Promise<Array<{ text: string }>> => {
-  const builder = new RUMQueryBuilder(target);
+  const builder = new APMQueryBuilder(target);
   const q = builder.buildExploreQuery(type, withKey, withMeasurementFilter);
   return datasource.metricFindQuery(
     {
-      serviceType: ServiceType.RUMService,
+      serviceType: ServiceType.APMService,
       queryString: q,
     },
     undefined
@@ -29,7 +29,7 @@ export async function getAllPolicies(datasource: DataSource): Promise<string[]> 
 
 export async function getAllMeasurementsForTags(
   measurementFilter: string | undefined,
-  tags: RUMQueryTag[],
+  tags: APMQueryTag[],
   datasource: DataSource
 ): Promise<string[]> {
   const target = { tags, measurement: undefined, policy: undefined };
@@ -40,7 +40,7 @@ export async function getAllMeasurementsForTags(
 export async function getTagKeysForMeasurementAndTags(
   measurement: string | undefined,
   policy: string | undefined,
-  tags: RUMQueryTag[],
+  tags: APMQueryTag[],
   datasource: DataSource
 ): Promise<string[]> {
   const target = { tags, measurement, policy };
@@ -52,7 +52,7 @@ export async function getTagValues(
   tagKey: string,
   measurement: string | undefined,
   policy: string | undefined,
-  tags: RUMQueryTag[],
+  tags: APMQueryTag[],
   datasource: DataSource
 ): Promise<string[]> {
   const target = { tags, measurement, policy };

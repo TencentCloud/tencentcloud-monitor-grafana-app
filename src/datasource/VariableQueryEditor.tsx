@@ -50,7 +50,7 @@ export const VariableQueryEditor: React.FC<VariableQueryProps> = (props) => {
                   queryString: '',
                 });
               }
-              if (type === ServiceType.logService){
+              if (type === ServiceType.logService) {
                 onQueryChange({
                   serviceType: type,
                   queryString: '',
@@ -58,6 +58,12 @@ export const VariableQueryEditor: React.FC<VariableQueryProps> = (props) => {
                 });
               }
               if (type === ServiceType.RUMService) {
+                onQueryChange({
+                  serviceType: type,
+                  queryString: '',
+                });
+              }
+              if (type === ServiceType.APMService) {
                 onQueryChange({
                   serviceType: type,
                   queryString: '',
@@ -91,10 +97,30 @@ export const VariableQueryEditor: React.FC<VariableQueryProps> = (props) => {
               name="query"
               required
               placeholder="metric name or tags query"
-              onChange={(e) => onQueryChange({
-                serviceType: ServiceType.RUMService,
-                queryString: e.currentTarget.value
-              })}
+              onChange={(e) =>
+                onQueryChange({
+                  serviceType: ServiceType.RUMService,
+                  queryString: e.currentTarget.value,
+                })
+              }
+              value={isString(query) ? query : query.queryString}
+            />
+          </InlineField>
+        </InlineFieldRow>
+      )}
+      {query.serviceType === ServiceType.APMService && (
+        <InlineFieldRow>
+          <InlineField label="查询语句" labelWidth={20} grow tooltip={InfoPopver}>
+            <Input
+              name="query"
+              required
+              placeholder="metric name or tags query"
+              onChange={(e) =>
+                onQueryChange({
+                  serviceType: ServiceType.APMService,
+                  queryString: e.currentTarget.value,
+                })
+              }
               value={isString(query) ? query : query.queryString}
             />
           </InlineField>
@@ -106,10 +132,12 @@ export const VariableQueryEditor: React.FC<VariableQueryProps> = (props) => {
             <Input
               name="query"
               required
-              onChange={(e) => onQueryChange({
-                serviceType: ServiceType.monitor,
-                queryString: e.currentTarget.value
-              })}
+              onChange={(e) =>
+                onQueryChange({
+                  serviceType: ServiceType.monitor,
+                  queryString: e.currentTarget.value,
+                })
+              }
               value={isString(query) ? query : query.queryString}
             />
           </InlineField>
