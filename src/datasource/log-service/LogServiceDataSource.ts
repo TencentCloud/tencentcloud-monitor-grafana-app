@@ -109,6 +109,7 @@ export class LogServiceDataSource extends DataSourceApi<QueryInfo, MyDataSourceO
             processedFrames.push(frame);
           }
           subscriber.next({ data: processedFrames, state: LoadingState.Done });
+          subscriber.complete();
         })
         .catch((e) => {
           subscriber.next({
@@ -119,6 +120,7 @@ export class LogServiceDataSource extends DataSourceApi<QueryInfo, MyDataSourceO
               message: e?.message || e?.data?.message,
             },
           });
+          subscriber.complete();
         });
     }).pipe(share());
     return output$;
