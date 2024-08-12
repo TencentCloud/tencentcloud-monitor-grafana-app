@@ -15,8 +15,9 @@ export default class CDNDatasource extends BaseDatasource {
   InvalidDimensions = WAFInvalidDemensions;
   templateQueryIdMap = templateQueryIdMap;
   InstanceReqConfig = {
-    // service: 'waf',
-    action: 'DescribeDomains',
+    service: 'waf',
+    // action: 'DescribeDomains', // DescribeMonitorDomains
+    action: 'DescribeMonitorDomains', //
     responseField: 'Domains',
   };
   constructor(instanceSettings, backendSrv, templateSrv) {
@@ -27,5 +28,16 @@ export default class CDNDatasource extends BaseDatasource {
   }
   async metricFindQuery(query: any, regex?: string) {
     return super.metricFindQuery({ ...query, ...{ region: 'ap-guangzhou' } }, regex);
+  }
+
+  getOwnDimension(dimensionObject: any, ins: any) {
+    const { Edition = '' } = ins;
+    return {
+      ...dimensionObject,
+      edition: {
+        Name: 'edition',
+        Value: Edition,
+      },
+    };
   }
 }
