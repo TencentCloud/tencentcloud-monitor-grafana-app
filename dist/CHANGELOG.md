@@ -1,6 +1,17 @@
 # TencentCloud Monitor Grafana App---
 
 
+## [2.9.2] - 2024-08-12
+### Modify
+- waf获取参数edition参数问题修复
+- 其他已知问题修复
+
+## [2.9.1] - 2023-12-05
+### Modify
+- 增加apm数据源
+- 修复 cls 数据源在 mixed 模式下无法展示数据
+- 其他已知问题修复
+
 ## [2.8.4] - 2023-04-04
 ### Modify
 - waf查询实例接口问题修复
