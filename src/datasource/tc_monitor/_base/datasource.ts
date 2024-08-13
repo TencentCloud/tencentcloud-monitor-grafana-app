@@ -259,7 +259,15 @@ export abstract class BaseDatasource implements DatasourceInterface {
       }
       dimensionObject[key] = { Name: key, Value: ins[key] };
     }
+    // 处理waf逻辑
+    const tt = this.getOwnDimension(dimensionObject, ins);
+    if (tt) {
+      return tt;
+    }
     return dimensionObject;
+  }
+  getOwnDimension(dimensionObject: any, ins: any) {
+    return null;
   }
   getDimensionsVal(ins: Record<string, any>, key: string, extraDimValue: string) {
     let dimVal = ins[key];
@@ -430,7 +438,10 @@ export abstract class BaseDatasource implements DatasourceInterface {
       responseField: field,
       interceptor,
     } = this.InstanceReqConfig || this.getInstanceReqConfig(this);
-    params = { Offset: 0, Limit: 100, ...params };
+    params =
+      service === 'waf'
+        ? { Offset: 0, Limit: 100, Edition: 'sparta-waf', ...params }
+        : { Offset: 0, Limit: 100, ...params };
     const serviceInfo = GetServiceAPIInfo(region, service);
     return this.doRequest(
       {
