@@ -635,13 +635,13 @@ export function isVariable(value) {
  */
 export async function GetRequestParams(options, service, signObj: any = {}, secretId, datasourceId, backendSrv) {
   const signParams = {
+    region: 'ap-guangzhou', // apm参数覆盖，这里先做兼容处理，后期重写apm时公共函数不写死值
     secretId,
     payload: options.data || '',
     ...signObj,
     ...(_.pick(GetServiceAPIInfo(signObj.region || '', service), ['service', 'host', 'version']) || {}),
     backendSrv,
     datasourceId,
-    region: 'ap-guangzhou',
   };
   const sign = new Sign(signParams);
   const { intranet, ...headerSigned } = await sign.getHeader();

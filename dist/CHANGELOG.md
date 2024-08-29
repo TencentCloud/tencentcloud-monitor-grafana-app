@@ -1,5 +1,9 @@
 # TencentCloud Monitor Grafana App---
 
+## [2.9.3] - 2024-08-29
+### Modify
+- 地域参数选择问题修复
+- 其他已知问题修复
 
 ## [2.9.2] - 2024-08-12
 ### Modify
