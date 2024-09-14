@@ -16,7 +16,7 @@
       "large": "img/tencent-cloud.svg"
     },
     "version": "2.9.3",
-    "updated": "2024-08-29",
+    "updated": "2024-09-14",
     "links": [
       { "name": "GitHub", "url": "https://github.com/TencentCloud/tencentcloud-monitor-grafana-app" },
       { "name": "Docs", "url": "https://cloud.tencent.com/document/product/248/48529" },
@@ -33,6 +33,16 @@
     ]
   },
   "includes": [
+    {
+      "type": "dashboard",
+      "name": "【预设】APM",
+      "path": "dashboards/example_apm_dashboard.json"
+    },
+    {
+      "type": "dashboard",
+      "name": "【Preset】APM",
+      "path": "dashboards/example_apm_en_dashboard.json"
+    },
     {
       "type": "dashboard",
       "name": "【预设】CDB 单机监控",

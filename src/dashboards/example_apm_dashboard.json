@@ -1,0 +1,1880 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": null,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": "${datasource}",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "个"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 4,
+        "x": 0,
+        "y": 0
+      },
+      "id": 4,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": ["sum"],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.1.5",
+      "targets": [
+        {
+          "APMServiceParams": {
+            "groupBy": [
+              {
+                "params": ["$__interval"],
+                "type": "time"
+              },
+              {
+                "params": ["null"],
+                "type": "fill"
+              }
+            ],
+            "measurement": "service_metric",
+            "orderBy": "ASC",
+            "orderByTime": "ASC",
+            "orderType": "time",
+            "policy": "default",
+            "resultFormat": "time_series",
+            "select": [
+              [
+                {
+                  "params": ["request_count"],
+                  "type": "field"
+                },
+                {
+                  "params": [],
+                  "type": "sum"
+                }
+              ]
+            ],
+            "tags": [
+              {
+                "key": "tapm.instance.key",
+                "operator": "=~",
+                "value": "/^$instanceKey$/"
+              },
+              {
+                "condition": "AND",
+                "key": "service.name",
+                "operator": "=~",
+                "value": "/^$serviceName/"
+              },
+              {
+                "condition": "AND",
+                "key": "span.kind",
+                "operator": "=",
+                "value": "server"
+              }
+            ]
+          },
+          "datasource": "${datasource}",
+          "refId": "A",
+          "serviceType": "APMService"
+        }
+      ],
+      "title": "总请求量",
+      "type": "stat"
+    },
+    {
+      "datasource": "${datasource}",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "个"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 4,
+        "x": 4,
+        "y": 0
+      },
+      "id": 14,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": ["sum"],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.1.5",
+      "targets": [
+        {
+          "APMServiceParams": {
+            "groupBy": [
+              {
+                "params": ["$__interval"],
+                "type": "time"
+              },
+              {
+                "params": ["null"],
+                "type": "fill"
+              }
+            ],
+            "measurement": "service_metric",
+            "orderBy": "ASC",
+            "orderByTime": "ASC",
+            "orderType": "time",
+            "policy": "default",
+            "resultFormat": "time_series",
+            "select": [
+              [
+                {
+                  "params": ["slow_request_count"],
+                  "type": "field"
+                },
+                {
+                  "params": [],
+                  "type": "sum"
+                }
+              ]
+            ],
+            "tags": [
+              {
+                "key": "tapm.instance.key",
+                "operator": "=~",
+                "value": "/^$instanceKey$/"
+              },
+              {
+                "condition": "AND",
+                "key": "service.name",
+                "operator": "=~",
+                "value": "/^$serviceName/"
+              }
+            ]
+          },
+          "datasource": "${datasource}",
+          "hide": false,
+          "refId": "A",
+          "serviceType": "APMService"
+        }
+      ],
+      "title": "慢请求",
+      "type": "stat"
+    },
+    {
+      "datasource": "${datasource}",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "个"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 4,
+        "x": 8,
+        "y": 0
+      },
+      "id": 17,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": ["sum"],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.1.5",
+      "targets": [
+        {
+          "APMServiceParams": {
+            "groupBy": [
+              {
+                "params": ["$__interval"],
+                "type": "time"
+              },
+              {
+                "params": ["null"],
+                "type": "fill"
+              }
+            ],
+            "measurement": "sql_metric",
+            "orderBy": "ASC",
+            "orderByTime": "ASC",
+            "orderType": "time",
+            "policy": "default",
+            "resultFormat": "time_series",
+            "select": [
+              [
+                {
+                  "params": ["slow_sql_count"],
+                  "type": "field"
+                },
+                {
+                  "params": [],
+                  "type": "sum"
+                }
+              ]
+            ],
+            "tags": [
+              {
+                "key": "tapm.instance.key",
+                "operator": "=~",
+                "value": "/^$instanceKey$/"
+              },
+              {
+                "condition": "AND",
+                "key": "service.name",
+                "operator": "=~",
+                "value": "/^$serviceName/"
+              }
+            ]
+          },
+          "datasource": "${datasource}",
+          "refId": "A",
+          "serviceType": "APMService"
+        }
+      ],
+      "title": "慢SQL",
+      "type": "stat"
+    },
+    {
+      "datasource": "${datasource}",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "个"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 4,
+        "x": 12,
+        "y": 0
+      },
+      "id": 10,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": ["sum"],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.1.5",
+      "targets": [
+        {
+          "APMServiceParams": {
+            "groupBy": [
+              {
+                "params": ["$__interval"],
+                "type": "time"
+              },
+              {
+                "params": ["null"],
+                "type": "fill"
+              }
+            ],
+            "measurement": "error_metric",
+            "orderBy": "ASC",
+            "orderByTime": "ASC",
+            "orderType": "time",
+            "policy": "default",
+            "resultFormat": "time_series",
+            "select": [
+              [
+                {
+                  "params": ["error_request_count"],
+                  "type": "field"
+                },
+                {
+                  "params": [],
+                  "type": "sum"
+                }
+              ]
+            ],
+            "tags": [
+              {
+                "key": "tapm.instance.key",
+                "operator": "=~",
+                "value": "/^$instanceKey$/"
+              },
+              {
+                "condition": "AND",
+                "key": "service.name",
+                "operator": "=~",
+                "value": "/^$serviceName/"
+              }
+            ]
+          },
+          "datasource": "${datasource}",
+          "hide": false,
+          "refId": "A",
+          "serviceType": "APMService"
+        }
+      ],
+      "title": "异常数量",
+      "type": "stat"
+    },
+    {
+      "datasource": "${datasource}",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "#EAB839",
+                "value": 2000
+              }
+            ]
+          },
+          "unit": "ms"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 4,
+        "x": 16,
+        "y": 0
+      },
+      "id": 12,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": ["mean"],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
+      },
+      "pluginVersion": "9.1.5",
+      "targets": [
+        {
+          "APMServiceParams": {
+            "groupBy": [
+              {
+                "params": ["$__interval"],
+                "type": "time"
+              },
+              {
+                "params": ["null"],
+                "type": "fill"
+              }
+            ],
+            "measurement": "service_metric",
+            "orderBy": "ASC",
+            "orderByTime": "ASC",
+            "orderType": "time",
+            "policy": "default",
+            "resultFormat": "time_series",
+            "select": [
+              [
+                {
+                  "params": ["duration_avg"],
+                  "type": "field"
+                },
+                {
+                  "params": [],
+                  "type": "mean"
+                }
+              ]
+            ],
+            "tags": [
+              {
+                "key": "tapm.instance.key",
+                "operator": "=~",
+                "value": "/^$instanceKey$/"
+              },
+              {
+                "condition": "AND",
+                "key": "service.name",
+                "operator": "=~",
+                "value": "/^$serviceName/"
+              }
+            ]
+          },
+          "datasource": "${datasource}",
+          "refId": "A",
+          "serviceType": "APMService"
+        }
+      ],
+      "title": "平均响应时间",
+      "type": "gauge"
+    },
+    {
+      "datasource": "${datasource}",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "noValue": "0",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "dark-red",
+                "value": 0.05
+              }
+            ]
+          },
+          "unit": "percentunit"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 4,
+        "x": 20,
+        "y": 0
+      },
+      "id": 6,
+      "maxDataPoints": 1,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": ["mean"],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
+      },
+      "pluginVersion": "9.1.5",
+      "targets": [
+        {
+          "APMServiceParams": {
+            "alias": "a",
+            "groupBy": [
+              {
+                "params": ["$__interval"],
+                "type": "time"
+              },
+              {
+                "params": ["0"],
+                "type": "fill"
+              }
+            ],
+            "measurement": "service_metric",
+            "orderBy": "ASC",
+            "orderByTime": "ASC",
+            "orderType": "time",
+            "policy": "default",
+            "resultFormat": "time_series",
+            "select": [
+              [
+                {
+                  "params": ["sum(error_request_count)/sum(request_count)"],
+                  "type": "field"
+                },
+                {
+                  "params": [],
+                  "type": "custom"
+                }
+              ]
+            ],
+            "tags": [
+              {
+                "key": "tapm.instance.key",
+                "operator": "=~",
+                "value": "/^$instanceKey$/"
+              },
+              {
+                "condition": "AND",
+                "key": "service.name",
+                "operator": "=~",
+                "value": "/^$serviceName/"
+              }
+            ]
+          },
+          "datasource": "${datasource}",
+          "hide": false,
+          "refId": "B",
+          "serviceType": "APMService"
+        }
+      ],
+      "title": "平均错误率",
+      "transformations": [
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "c",
+            "binary": {
+              "left": "a",
+              "operator": "/",
+              "reducer": "sum",
+              "right": "b"
+            },
+            "mode": "binary",
+            "reduce": {
+              "include": ["service_metric.sum(error_request_count)", "service_metric.sum(request_count)"],
+              "reducer": "allValues"
+            },
+            "replaceFields": true
+          }
+        }
+      ],
+      "type": "gauge"
+    },
+    {
+      "datasource": "${datasource}",
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "displayMode": "auto",
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "locale"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Time"
+            },
+            "properties": [
+              {
+                "id": "custom.hidden",
+                "value": true
+              },
+              {
+                "id": "displayName",
+                "value": "接口"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "operation"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "接口"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "error_req_rate_avg"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "错误率(100%)"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 15,
+        "w": 6,
+        "x": 0,
+        "y": 9
+      },
+      "id": 8,
+      "options": {
+        "footer": {
+          "fields": "",
+          "reducer": ["sum"],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "9.1.5",
+      "targets": [
+        {
+          "APMServiceParams": {
+            "groupBy": [
+              {
+                "params": ["$__interval"],
+                "type": "time"
+              },
+              {
+                "params": ["operation"],
+                "type": "tag"
+              },
+              {
+                "params": ["null"],
+                "type": "fill"
+              }
+            ],
+            "measurement": "service_metric",
+            "orderBy": "DESC",
+            "orderType": "error_req_rate_avg",
+            "policy": "default",
+            "resultFormat": "table",
+            "select": [
+              [
+                {
+                  "params": ["sum(error_request_count)/sum(request_count)*100 as error_req_rate_avg"],
+                  "type": "field"
+                },
+                {
+                  "params": [],
+                  "type": "custom"
+                }
+              ]
+            ],
+            "tags": [
+              {
+                "key": "tapm.instance.key",
+                "operator": "=~",
+                "value": "/^$instanceKey$/"
+              },
+              {
+                "condition": "AND",
+                "key": "span.kind",
+                "operator": "=",
+                "value": "server"
+              },
+              {
+                "condition": "AND",
+                "key": "service.name",
+                "operator": "=~",
+                "value": "/^$serviceName/"
+              }
+            ]
+          },
+          "datasource": "${datasource}",
+          "hide": false,
+          "refId": "A",
+          "serviceType": "APMService"
+        }
+      ],
+      "title": "Top 错误率",
+      "transformations": [
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "错误率",
+            "binary": {
+              "left": "error_metric.sum(error_request_count)",
+              "operator": "/",
+              "reducer": "sum",
+              "right": "service_metric.sum(request_count)"
+            },
+            "mode": "binary",
+            "reduce": {
+              "reducer": "sum"
+            },
+            "replaceFields": false
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": "${datasource}",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "displayMode": "auto",
+            "inspect": false
+          },
+          "mappings": [],
+          "min": 0,
+          "noValue": "0",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "ms"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Time"
+            },
+            "properties": [
+              {
+                "id": "custom.filterable",
+                "value": false
+              },
+              {
+                "id": "custom.hidden",
+                "value": true
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "operation"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "接口"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "mean(duration_avg)"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "耗时(ms)"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 15,
+        "w": 6,
+        "x": 6,
+        "y": 9
+      },
+      "id": 16,
+      "options": {
+        "footer": {
+          "fields": "",
+          "reducer": ["sum"],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "9.1.5",
+      "targets": [
+        {
+          "APMServiceParams": {
+            "groupBy": [
+              {
+                "params": ["$__interval"],
+                "type": "time"
+              },
+              {
+                "params": ["operation"],
+                "type": "tag"
+              },
+              {
+                "params": ["null"],
+                "type": "fill"
+              }
+            ],
+            "measurement": "service_metric",
+            "orderBy": "DESC",
+            "orderByTime": "ASC",
+            "orderType": "mean(duration_avg)",
+            "policy": "default",
+            "resultFormat": "table",
+            "select": [
+              [
+                {
+                  "params": ["duration_avg"],
+                  "type": "field"
+                },
+                {
+                  "params": [],
+                  "type": "mean"
+                }
+              ]
+            ],
+            "tags": [
+              {
+                "key": "tapm.instance.key",
+                "operator": "=~",
+                "value": "/^$instanceKey$/"
+              },
+              {
+                "condition": "AND",
+                "key": "span.kind",
+                "operator": "in",
+                "value": "server"
+              },
+              {
+                "condition": "AND",
+                "key": "service.name",
+                "operator": "=~",
+                "value": "/^$serviceName/"
+              }
+            ]
+          },
+          "datasource": "${datasource}",
+          "hide": false,
+          "refId": "A",
+          "serviceType": "APMService"
+        }
+      ],
+      "title": "Top 慢响应",
+      "type": "table"
+    },
+    {
+      "datasource": "${datasource}",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "displayMode": "auto",
+            "inspect": false
+          },
+          "mappings": [],
+          "min": 0,
+          "noValue": "0",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "个"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Time"
+            },
+            "properties": [
+              {
+                "id": "custom.filterable",
+                "value": false
+              },
+              {
+                "id": "custom.hidden",
+                "value": true
+              },
+              {
+                "id": "displayName"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "sum(error_request_count)"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "错误个数"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "error.object"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "错误类型"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "operation"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "接口"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 15,
+        "w": 6,
+        "x": 12,
+        "y": 9
+      },
+      "id": 21,
+      "options": {
+        "footer": {
+          "fields": "",
+          "reducer": ["sum"],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "9.1.5",
+      "targets": [
+        {
+          "APMServiceParams": {
+            "groupBy": [
+              {
+                "params": ["$__interval"],
+                "type": "time"
+              },
+              {
+                "params": ["error.object"],
+                "type": "tag"
+              },
+              {
+                "params": ["operation"],
+                "type": "tag"
+              },
+              {
+                "params": ["null"],
+                "type": "fill"
+              }
+            ],
+            "measurement": "error_metric",
+            "orderBy": "ASC",
+            "orderType": "time",
+            "policy": "default",
+            "resultFormat": "table",
+            "select": [
+              [
+                {
+                  "params": ["error_request_count"],
+                  "type": "field"
+                },
+                {
+                  "params": [],
+                  "type": "sum"
+                }
+              ]
+            ],
+            "tags": [
+              {
+                "key": "tapm.instance.key",
+                "operator": "=~",
+                "value": "/^$instanceKey$/"
+              },
+              {
+                "condition": "AND",
+                "key": "service.name",
+                "operator": "=~",
+                "value": "/^$serviceName/"
+              },
+              {
+                "condition": "AND",
+                "key": "span.kind",
+                "operator": "=",
+                "value": "server"
+              }
+            ]
+          },
+          "datasource": "${datasource}",
+          "hide": false,
+          "refId": "A",
+          "serviceType": "APMService"
+        }
+      ],
+      "title": "错误类型",
+      "type": "table"
+    },
+    {
+      "datasource": "${datasource}",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "displayMode": "auto",
+            "inspect": false
+          },
+          "mappings": [],
+          "min": 0,
+          "noValue": "0",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "ms"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Time"
+            },
+            "properties": [
+              {
+                "id": "custom.filterable",
+                "value": false
+              },
+              {
+                "id": "custom.hidden",
+                "value": true
+              },
+              {
+                "id": "displayName"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "db.statement"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "调用语句"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "mean(duration_avg)"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "平均耗时(ms)"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 15,
+        "w": 6,
+        "x": 18,
+        "y": 9
+      },
+      "id": 23,
+      "options": {
+        "footer": {
+          "fields": "",
+          "reducer": ["sum"],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "9.1.5",
+      "targets": [
+        {
+          "APMServiceParams": {
+            "groupBy": [
+              {
+                "params": ["$__interval"],
+                "type": "time"
+              },
+              {
+                "params": ["db.statement"],
+                "type": "tag"
+              },
+              {
+                "params": ["null"],
+                "type": "fill"
+              }
+            ],
+            "measurement": "sql_metric",
+            "orderBy": "DESC",
+            "orderType": "mean(duration_avg)",
+            "policy": "default",
+            "resultFormat": "table",
+            "select": [
+              [
+                {
+                  "params": ["duration_avg"],
+                  "type": "field"
+                },
+                {
+                  "params": [],
+                  "type": "mean"
+                }
+              ]
+            ],
+            "tags": [
+              {
+                "key": "tapm.instance.key",
+                "operator": "=~",
+                "value": "/^$instanceKey$/"
+              },
+              {
+                "condition": "AND",
+                "key": "service.name",
+                "operator": "=~",
+                "value": "/^$serviceName$/"
+              },
+              {
+                "condition": "AND",
+                "key": "service.component",
+                "operator": "=",
+                "value": "mysql"
+              }
+            ]
+          },
+          "datasource": {
+            "type": "tencentcloud-monitor-datasource",
+            "uid": "${datasource}"
+          },
+          "hide": false,
+          "refId": "B",
+          "serviceType": "APMService"
+        }
+      ],
+      "title": "Top5 MySQL慢sql",
+      "type": "table"
+    },
+    {
+      "datasource": "${datasource}",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "ms"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "service_metric.mean(duration_avg)"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "平均响应时间"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 17,
+        "w": 8,
+        "x": 0,
+        "y": 24
+      },
+      "id": 19,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "APMServiceParams": {
+            "groupBy": [
+              {
+                "params": ["1m"],
+                "type": "time"
+              },
+              {
+                "params": ["null"],
+                "type": "fill"
+              }
+            ],
+            "measurement": "service_metric",
+            "orderBy": "ASC",
+            "orderType": "time",
+            "policy": "default",
+            "resultFormat": "time_series",
+            "select": [
+              [
+                {
+                  "params": ["duration_avg"],
+                  "type": "field"
+                },
+                {
+                  "params": [],
+                  "type": "mean"
+                }
+              ]
+            ],
+            "tags": [
+              {
+                "key": "tapm.instance.key",
+                "operator": "=~",
+                "value": "/^$instanceKey$/"
+              },
+              {
+                "condition": "AND",
+                "key": "service.name",
+                "operator": "=~",
+                "value": "/^$serviceName/"
+              },
+              {
+                "condition": "AND",
+                "key": "span.kind",
+                "operator": "=",
+                "value": "server"
+              }
+            ]
+          },
+          "datasource": "${datasource}",
+          "refId": "A",
+          "serviceType": "APMService"
+        }
+      ],
+      "title": "平均响应时间",
+      "type": "timeseries"
+    },
+    {
+      "datasource": "${datasource}",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "service_metric.sum(request_count) / 60"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "平均QPS"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 17,
+        "w": 8,
+        "x": 8,
+        "y": 24
+      },
+      "id": 20,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "APMServiceParams": {
+            "groupBy": [
+              {
+                "params": ["1m"],
+                "type": "time"
+              },
+              {
+                "params": ["null"],
+                "type": "fill"
+              }
+            ],
+            "measurement": "service_metric",
+            "orderBy": "ASC",
+            "orderType": "time",
+            "policy": "default",
+            "resultFormat": "time_series",
+            "select": [
+              [
+                {
+                  "params": ["sum(request_count)/60"],
+                  "type": "field"
+                },
+                {
+                  "params": [],
+                  "type": "custom"
+                }
+              ]
+            ],
+            "tags": [
+              {
+                "key": "tapm.instance.key",
+                "operator": "=~",
+                "value": "/^$instanceKey$/"
+              },
+              {
+                "condition": "AND",
+                "key": "service.name",
+                "operator": "=~",
+                "value": "/^$serviceName/"
+              },
+              {
+                "condition": "AND",
+                "key": "span.kind",
+                "operator": "=",
+                "value": "server"
+              }
+            ]
+          },
+          "datasource": "${datasource}",
+          "refId": "A",
+          "serviceType": "APMService"
+        }
+      ],
+      "title": "QPS 走势",
+      "type": "timeseries"
+    },
+    {
+      "datasource": "${datasource}",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "ms"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "service_metric.sum(request_count) / 60"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "平均QPS"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 17,
+        "w": 8,
+        "x": 16,
+        "y": 24
+      },
+      "id": 24,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "APMServiceParams": {
+            "alias": "p95",
+            "groupBy": [
+              {
+                "params": ["$__interval"],
+                "type": "time"
+              },
+              {
+                "params": ["null"],
+                "type": "fill"
+              }
+            ],
+            "measurement": "service_metric",
+            "orderBy": "ASC",
+            "orderType": "time",
+            "policy": "default",
+            "resultFormat": "time_series",
+            "select": [
+              [
+                {
+                  "params": ["range_count_duration"],
+                  "type": "field"
+                },
+                {
+                  "params": [95],
+                  "type": "percentile"
+                }
+              ]
+            ],
+            "tags": [
+              {
+                "key": "tapm.instance.key",
+                "operator": "=~",
+                "value": "/^$instanceKey$/"
+              },
+              {
+                "condition": "AND",
+                "key": "service.name",
+                "operator": "=~",
+                "value": "/^$serviceName/"
+              },
+              {
+                "condition": "AND",
+                "key": "span.kind",
+                "operator": "=",
+                "value": "server"
+              }
+            ]
+          },
+          "datasource": "${datasource}",
+          "refId": "A",
+          "serviceType": "APMService"
+        },
+        {
+          "APMServiceParams": {
+            "alias": "p99",
+            "groupBy": [
+              {
+                "params": ["$__interval"],
+                "type": "time"
+              },
+              {
+                "params": ["null"],
+                "type": "fill"
+              }
+            ],
+            "measurement": "service_metric",
+            "orderBy": "ASC",
+            "orderType": "time",
+            "policy": "default",
+            "resultFormat": "time_series",
+            "select": [
+              [
+                {
+                  "params": ["range_count_duration"],
+                  "type": "field"
+                },
+                {
+                  "params": ["99"],
+                  "type": "percentile"
+                }
+              ]
+            ],
+            "tags": [
+              {
+                "key": "tapm.instance.key",
+                "operator": "=~",
+                "value": "/^$instanceKey$/"
+              },
+              {
+                "condition": "AND",
+                "key": "service.name",
+                "operator": "=~",
+                "value": "/^$serviceName/"
+              },
+              {
+                "condition": "AND",
+                "key": "span.kind",
+                "operator": "=",
+                "value": "server"
+              }
+            ]
+          },
+          "datasource": "${datasource}",
+          "hide": false,
+          "refId": "B",
+          "serviceType": "APMService"
+        },
+        {
+          "APMServiceParams": {
+            "alias": "p50",
+            "groupBy": [
+              {
+                "params": ["$__interval"],
+                "type": "time"
+              },
+              {
+                "params": ["null"],
+                "type": "fill"
+              }
+            ],
+            "measurement": "service_metric",
+            "orderBy": "ASC",
+            "orderType": "time",
+            "policy": "default",
+            "resultFormat": "time_series",
+            "select": [
+              [
+                {
+                  "params": ["range_count_duration"],
+                  "type": "field"
+                },
+                {
+                  "params": ["50"],
+                  "type": "percentile"
+                }
+              ]
+            ],
+            "tags": [
+              {
+                "key": "tapm.instance.key",
+                "operator": "=~",
+                "value": "/^$instanceKey$/"
+              },
+              {
+                "condition": "AND",
+                "key": "service.name",
+                "operator": "=~",
+                "value": "/^$serviceName/"
+              },
+              {
+                "condition": "AND",
+                "key": "span.kind",
+                "operator": "=",
+                "value": "server"
+              }
+            ]
+          },
+          "datasource": "${datasource}",
+          "hide": false,
+          "refId": "C",
+          "serviceType": "APMService"
+        }
+      ],
+      "title": "耗时分位数",
+      "type": "timeseries"
+    }
+  ],
+  "schemaVersion": 37,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "description": null,
+        "error": null,
+        "hide": 0,
+        "includeAll": false,
+        "label": "Datasource",
+        "multi": false,
+        "name": "datasource",
+        "options": [],
+        "query": "tencentcloud-monitor-datasource",
+        "queryValue": "",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      },
+      {
+        "current": {},
+        "datasource": "${datasource}",
+        "definition": "show tag values  from service_metric with key  =\"tapm.instance.key\"",
+        "hide": 0,
+        "includeAll": false,
+        "label": "实例",
+        "multi": false,
+        "name": "instanceKey",
+        "options": [],
+        "query": {
+          "queryString": "show tag values  from service_metric with key  =\"tapm.instance.key\"",
+          "serviceType": "APMService"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {},
+        "datasource": "${datasource}",
+        "definition": "show tag values  from service_metric with key  =\"service.name\"",
+        "hide": 0,
+        "includeAll": false,
+        "label": "服务名",
+        "multi": false,
+        "name": "serviceName",
+        "options": [],
+        "query": {
+          "queryString": "show tag values  from service_metric with key  =\"service.name\"",
+          "serviceType": "APMService"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "【预设】APM",
+  "uid": "",
+  "version": 2,
+  "weekStart": ""
+}

@@ -35,6 +35,16 @@
   "includes": [
     {
       "type": "dashboard",
+      "name": "【预设】APM",
+      "path": "dashboards/example_apm_dashboard.json"
+    },
+    {
+      "type": "dashboard",
+      "name": "【Preset】APM",
+      "path": "dashboards/example_apm_en_dashboard.json"
+    },
+    {
+      "type": "dashboard",
       "name": "【预设】CDB 单机监控",
       "path": "dashboards/example_cdb_dashboard.json"
     },

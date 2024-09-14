@@ -4,6 +4,7 @@ import { DataSourcePluginOptionsEditorProps, SelectableValue } from '@grafana/da
 import { MyDataSourceOptions, MySecureJsonData } from '../types';
 import { SERVICES } from '../tc_monitor';
 import { t, setLanguage, Language } from '../../locale';
+import { Region, RegionOptions } from '../../regin';
 const { SecretFormField } = LegacyForms;
 
 type Props = DataSourcePluginOptionsEditorProps<MyDataSourceOptions, MySecureJsonData>;
@@ -192,7 +193,8 @@ export class ConfigEditor extends PureComponent<Props, State> {
 
         {this.renderRUMConfig()}
         {this.renderAPMConfig()}
-        {this.renderLogServiceConfig()}
+        {this.renderRegionConfig()}
+        {/* {this.renderLogServiceConfig()} */}
         {this.renderMonitorConfig()}
       </>
     );
@@ -331,6 +333,33 @@ export class ConfigEditor extends PureComponent<Props, State> {
             </InlineFieldRow>
           );
         })}
+      </div>
+    );
+  }
+
+  renderRegionConfig() {
+    const { options } = this.props;
+    const { jsonData } = options;
+    if (!jsonData.APMServiceEnabled) {
+      return null;
+    }
+    return (
+      <div style={{ marginTop: 30 }}>
+        <h3 className="page-heading">Region</h3>
+        <InlineFieldRow>
+          <InlineField labelWidth={20} label={t('region')}>
+            <Select
+              value={jsonData.defaultRegion || Region.Guangzhou}
+              className="width-10"
+              options={RegionOptions.map((item) => ({ value: item, label: t(item) }))}
+              onChange={(option: SelectableValue<Region>) => {
+                this.patchJsonData({
+                  defaultRegion: option.value,
+                });
+              }}
+            />
+          </InlineField>
+        </InlineFieldRow>
       </div>
     );
   }
