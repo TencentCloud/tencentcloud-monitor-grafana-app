@@ -31434,7 +31434,7 @@ function (_super) {
           intranet: e.currentTarget.checked
         });
       }
-    })))), this.renderRUMConfig(), this.renderAPMConfig(), this.renderRegionConfig());
+    })))), this.renderRUMConfig(), this.renderAPMConfig(), this.renderRegionConfig(), this.renderMonitorConfig());
   };
 
   ConfigEditor.prototype.renderRUMConfig = function () {
@@ -31466,7 +31466,6 @@ function (_super) {
 
     var options = this.props.options;
     var jsonData = options.jsonData;
-    console.log('@@===>230', jsonData, jsonData.APMServiceEnabled);
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       style: {
         marginTop: 30

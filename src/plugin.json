@@ -45,6 +45,16 @@
     },
     {
       "type": "dashboard",
+      "name": "【预设】RUM",
+      "path": "dashboards/example_rum_dashboard.json"
+    },
+    {
+      "type": "dashboard",
+      "name": "【Preset】RUM",
+      "path": "dashboards/example_rum_en_dashboard.json"
+    },
+    {
+      "type": "dashboard",
       "name": "【预设】CDB 单机监控",
       "path": "dashboards/example_cdb_dashboard.json"
     },
