@@ -1,5 +1,10 @@
 # TencentCloud Monitor Grafana App---
 
+## [2.9.4] - 2024-08-29
+### Modify
+- 新增RUM预设模板
+- 其他已知问题修复
+
 ## [2.9.3] - 2024-08-29
 ### Modify
 - 地域参数选择问题修复
