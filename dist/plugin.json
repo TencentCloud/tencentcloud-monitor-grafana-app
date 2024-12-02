@@ -15,8 +15,8 @@
       "small": "img/tencent-cloud.svg",
       "large": "img/tencent-cloud.svg"
     },
-    "version": "2.9.4",
-    "updated": "2024-09-25",
+    "version": "2.9.5",
+    "updated": "2024-12-02",
     "links": [
       { "name": "GitHub", "url": "https://github.com/TencentCloud/tencentcloud-monitor-grafana-app" },
       { "name": "Docs", "url": "https://cloud.tencent.com/document/product/248/48529" },
