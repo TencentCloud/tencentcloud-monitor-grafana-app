@@ -1321,6 +1321,16 @@
           "content": "application/json"
         }
       ]
+    }, 
+    {
+      "path": "ah",
+      "url": "https://monitor.tencentcloudapi.com",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "content": "application/json"
+        }
+      ]
     }
   ],
   "info": {

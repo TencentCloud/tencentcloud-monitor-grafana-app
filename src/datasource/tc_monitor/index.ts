@@ -668,6 +668,24 @@ const SERVICES: ServiceType[] = [
     namespace: 'QCE/WAF',
     href: 'https://cloud.tencent.com/document/product/627',
   },
+  {
+    service: 'ah',
+    get label() {
+      return t('AH');
+    },
+    // hideRegion: true,
+    namespace: 'QCE/AH',
+    href: 'https://cloud.tencent.com/document/product/248/6126',
+  },
+  {
+    service: 'monitor',
+    get label() {
+      return t('AH');
+    },
+    // hideRegion: true,
+    namespace: 'QCE/AH',
+    href: 'https://cloud.tencent.com/document/product/248/6126',
+  },
 ];
 const Datasources = {};
 const InitStates = {};

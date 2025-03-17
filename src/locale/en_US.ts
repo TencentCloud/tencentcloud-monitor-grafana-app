@@ -65,6 +65,7 @@ const en_US = {
   TKE: 'Tencent Kubernetes Engine(TKE)',
   ECDN: 'Enterprise Content Delivery Network(ECDN)',
   WAF: 'Web Application Firewall(WAF)',
+  AH: 'alarm history(AH)',
   // others
   multi_scene: 'Multi-Scene',
   lite: 'Lite',

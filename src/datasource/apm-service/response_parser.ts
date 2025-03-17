@@ -55,7 +55,7 @@ export default class ResponseParser {
         .filter((item) => ENABLE_MEASUREMENTS.includes(item))
         .map((v) => ({ text: v }));
     }
-
+    console.log('@@===>处理data', )
     return Array.from(res).map((v) => ({ text: v }));
   }
 
